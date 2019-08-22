@@ -1,0 +1,191 @@
+<html><head><TITLE>NSCoder.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSCoder </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSObject (NSObject)
+<p>
+<b>Declared In:	</b>Foundation/NSCoder.h<p>
+Foundation/NSGeometry.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSCoder is an abstract class that declares the interface used by subclasses to
+take objects from dynamic memory and code them into and out of some other
+format. This capability provides the basis for archiving (where objects and
+other structures are stored on disk) and distribution (where objects are copied
+to different address spaces). See the NSArchiver and NSUnarchiver class
+specifications for more information on archiving.<p>
+<p>
+NSCoder operates on the basic C and Objective C types<b>int</b>,
+<b>float</b>, <b>id</b>, and so on (but excluding <b>void *</b> and
+<b>union</b>)as well as on user-defined structures and pointers to these
+types. <p>
+<p>
+NSCoder declares methods that a subclass can override if it wants:<p>
+<p>
+.	To encode or decode an object only under certain conditions, such as it being
+an intrinsic part of a larger structure (<b>encodeRootObject:</b> and
+<b>encodeConditionalObject:</b>). <p>
+<p>
+.	To allow decoded objects to be allocated from a specific memory zone
+(<b>setObjectZone:</b>).<p>
+<p>
+.	To allow system versioning (<b>systemVersion</b>).<p>
+<p>
+NSCoder differs from the NSSerializer and NSDeserializer classes in that
+NSCoders aren't restricted to operating on property list objects (objects of
+the NSData, NSString, NSArray, and NSDictionary classes). Also, unlike
+NSSerializers, NSCoders store type information along with the data. Thus, an
+object decoded from a stream of bytes will be of the same class as the object
+that was originally encoded into the stream.<p>
+<p>
+
+<b>Encoding and Decoding Objects</b><p>
+
+In OpenStep, coding is facilitated by methods declared in several places, most
+notably the NSCoder class, the NSObject class, and the NSCoding protocol.<p>
+<p>
+The NSCoding protocol declares the two methods (<b>encodeWithCoder:</b> and<b>
+initWithCoder:</b>) that a class must implement so that objects of that class
+can be encoded and decoded. When an object receives an <b>encodeWithCoder:</b>
+message, it should send a message to <b>super</b> to encode inherited instance
+variables before it encodes the instance variables that it's class declares.
+For example, a fictitious MapView class that displays a legend and a map at
+various magnifications, might implement <b>encodeWithCoder:</b> like this:<p>
+<p>
+<tt>- (void)encodeWithCoder:(NSCoder *)coder</tt><p>
+<tt>{</tt><p>
+<tt>    [super encodeWithCoder:coder];</tt><p>
+<tt>    [coder encodeValuesOfObjCTypes:"si@", &amp;mapName, &amp;magnification,
+&amp;legendView];</tt><p>
+<tt>}</tt><p>
+<tt></tt><p>
+Objects are decoded in two steps. First, an object of the appropriate class is
+allocated and then it's sent an <b>initWithCoder:</b> messages to allow it to
+initialize its instance variables. Again, the object should first send a
+message to <b>super</b> to initialized inherited instance variables, and then
+it should initialize its own. MapView's implementation of this method looks
+like this:<p>
+<p>
+<tt>- (id)initWithCoder:(NSCoder *)coder</tt><p>
+<tt>{</tt><p>
+<tt>    self = [super initWithCoder:coder];</tt><p>
+<tt>    [coder decodeValuesOfObjCTypes:"si@", &amp;mapName, &amp;magnification,
+&amp;legendView];</tt><p>
+<tt>    return self;</tt><p>
+<tt>}</tt><p>
+<tt></tt><p>
+Note the assignment of the return value of <b>initWithCoder:</b> to <b>self</b>
+in the example above. This is done in the subclass because the superclass, in
+its implementation of <b>initWithCoder:</b>, may decide to return a object
+other than itself.<p>
+<p>
+There are other methods that allow an object to customize its response to
+encoding or decoding. NSObject declares these methods:<p>
+<p>
+<b>Method	Typical Use</b><p>
+
+
+classForCoder:	Allows an object, when being encoded, to substitute a class
+other than its own. For example, the private subclasses of a class cluster
+substitute the name of their public superclass when being archived.<p>
+<p>
+replacementObjectForCoder:	Allows an object, when being encoded, to substitute
+another object for itself. For example, an object might encode itself into an
+archive, but encode a proxy for itself if it's being encoded for
+distribution.<p>
+<p>
+awakeAfterUsingCoder:	Allows an object, when being decoded, to substitute
+another object for itself. For example, an object that represents a font might,
+upon being decoded, release itself and return an existing object having the
+same font description as itself. In this way, redundant objects can be
+eliminated.<p>
+<p>
+See the NSObject class specification for more information.<p>
+<p>
+
+<b>Encoding Data</b><p>
+
+<UL><LI> - (void)<b>encodeArrayOfObjCType:</b>(const char *)<i>types</i>	
+<b>count:</b>(unsigned int)<i>count</i>	Encodes data of Objective C types
+listed in <i>types</i> having 
+<b>at:</b>(const void *)<i>array</i>	<i>	count</i> elements residing at address
+<i>array</i>.
+</LI><LI> -  (void)<b>encodeBycopyObject:</b>(id)<i>anObject</i>	Overridden by subclasses
+to encode the supplied Objective C object so that a copy rather than a proxy of
+<i>anObject</i> is created upon decoding. NSCoder's implementation simply
+invokes <b>encodeObject:</b>.
+</LI><LI> -  (void)<b>encodeConditionalObject:</b>(id)<i>anObject</i>	Overridden by
+subclasses to conditionally encode the supplied Objective C object. The object
+should be encoded only if it is an intrinsic member of the larger data
+structure. NSCoder's implementation simply invokes <b>encodeObject:</b>.
+</LI><LI> -  (void)<b>encodeDataObject:</b>(NSData *)<i>data</i>	Encodes the NSData object
+<i>data</i>.
+</LI><LI> -  (void)<b>encodeObject:</b>(id)<i>anObject</i>	Encodes the supplied Objective
+C object.
+</LI><LI> -  (void)<b>encodePropertyList:</b>(id)<i>aPropertyList</i>	Encodes the supplied
+property list (NSData, NSArray, NSDictionary, or NSString objects).
+</LI><LI> -  (void)<b>encodePoint:</b>(NSPoint)<i>point</i>	Encodes the supplied point
+structure.
+</LI><LI> -  (void)<b>encodeRect:</b>(NSRect)<i>rect</i>	Encodes the supplied rectangle
+structure.
+</LI><LI> -  (void)<b>encodeRootObject:</b>(id)<i>rootObject</i>	Overridden by subclasses
+to start encoding an interconnected group of Objective C objects, starting with
+<i>rootObject</i>. NSCoder's implementation simply invokes
+<b>encodeObject:</b>.
+</LI><LI> -  (void)<b>encodeSize:</b>(NSSize)<i>size</i>	Encodes the supplied size
+structure.
+</LI><LI> -  (void)<b>encodeValueOfObjCType:</b>(const char *)<i>type</i>	Encodes data of
+the specified Objective C type
+<b>at:</b>(const void *)<i>addr</i>ess		residing at <i>address</i>.
+</LI><LI> -  (void)<b>encodeValuesOfObjCTypes:</b>(const char *)<i>types,..</i>.
+	Encodes values corresponding to the Objective C types listed in <i>types</i>
+argument list.</LI></UL>
+<b>Decoding Data</b><p>
+
+<UL><LI> - (void)<b>decodeArrayOfObjCType:</b>(const char *)<i>types</i>
+<i></i><b>count:</b>(unsigned)<i>count</i>	Decodes data of Objective C types
+listed in <i>type</i> having
+<b>at:</b>(void *)<i>address</i>	<i>	count</i> elements residing at
+<i>address</i>.
+</LI><LI> -  (NSData *)<b>decodeDataObject</b>	Decodes and returns an NSData object.
+</LI><LI> -  (id)<b>decodeObject</b>	Decodes an Objective C object.
+</LI><LI> -  (id)<b>decodePropertyList</b>	Decodes a property list (NSData, NSArray,
+NSDictionary, or NSString objects).
+</LI><LI> -  (NSPoint)<b>decodePoint</b>	Decodes a point structure.
+</LI><LI> -  (NSRect)<b>decodeRect</b>	Decodes a rectangle structure.
+</LI><LI> -  (NSSize)<b>decodeSize</b>	Decodes a size structure.
+</LI><LI> -  (void)<b>decodeValueOfObjCType:</b>(const char *)<i>type</i>
+<i></i><b>at:</b>(void *)<i>address</i>	Decodes data of the specified Objective
+C <i>type</i> residing at <i>address</i>. You are responsible for releasing the
+resulting objects.
+</LI><LI> -  (void)<b>decodeValuesOfObjCTypes:</b>(const char *)<i>types,...</i>
+<i></i>	Decodes values corresponding to the Objective C types listed in
+<i>types</i> argument list. You are responsible for releasing the resulting
+objects.</LI></UL>
+<b>Managing Zones</b><p>
+
+<UL><LI> - (NSZone *)<b>objectZone</b>	Returns the memory zone used by decoded objects.
+For instances of NSCoder, this is the default memory zone, the one returned by
+<b>NSDefaultMallocZone()</b>.
+</LI><LI> -  (void)<b>setObjectZone:</b>(NSZone *)<i>zone</i>	Sets the memory zone used by
+decoded objects. Instances of NSCoder always use the default memory zone, the
+one returned by <b>NSDefaultMallocZone()</b>, and so ignore this method.</LI></UL>
+<b>Getting a Version</b><p>
+
+<UL><LI> - (unsigned int)<b>systemVersion	</b>Returns the system version number as of
+the time the archive was created.
+</LI><LI> -  (unsigned int)<b>versionForClassName:</b>(NSString *)<i>className</i>	
+	Returns the version number of the class <i>className</i> as of the time it was
+archived.
+</body></html>

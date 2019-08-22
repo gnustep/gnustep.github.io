@@ -1,0 +1,137 @@
+<html><head><TITLE>NSDataLink.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSDataLink</b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding, NSCopying
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSDataLink.h<p>
+<p>
+
+<b>Class Description</b><p>
+
+
+An NSDataLink object (or <i>data link</i>) defines a single link between a
+selection in a source document and a dependent, dynamically updated selection
+in a destination document.<p>
+<p>
+A data link is typically created when linkable data is copied to the
+pasteboard. First, an NSSelection object describing the data is created. Then a
+link to that selection is created using
+<b>initLinkedToSourceSelection:managedBy:supportingTypes:</b>. The link can
+then be written to the pasteboard using <b>writeToPasteboard:</b>. Usually,
+after the link has been written to the pasteboard (or saved to a file using
+<b>writeToFile:</b>) the link is freed because it's generally of no further use
+to the source application. <p>
+<p>
+Once the data and link have been written to the pasteboard, they can be added
+to a destination document by an object that can respond to a message to Paste
+and Link. The object responding to this message will paste the data as usual.
+The destination application will then read the link from the pasteboard using
+<b>initWithPasteboard:</b>, create an NSSelection describing the linked data
+within the destination document, and will add the link by sending
+<b>addLink:at:</b> to the document's NSDataLinkManager object (also known as a
+<i>data link manager</i> or simply <i>link manager</i>).<p>
+<p>
+When the link is added to the destination document's link manager, it becomes a
+<i>destination link</i>. At that time, the data link's object establishes a
+connection with the source document's link manager, which automatically creates
+a <i>source link</i> in the source application; the source link refers to the
+source selection. <p>
+<p>
+A link that isn't managed by a link manager is a <i>broken link</i>. (Both
+source and destination links have link managers.) All links are broken links
+when they are created. Links can be explicitly broken (ensuring that they cause
+no updates) using the <b>break</b> method. Broken links (that aren't former
+source links) can be hooked up as destination links with the <b>addLink:at:</b>
+method. The disposition of a link (destination, source, or broken) can be
+retrieved with the <b>disposition</b> method. Most of the messages defined by
+the NSDataLink class can be sent to a link of any disposition, but some only
+make sense when sent to a link with a specific disposition; these are so noted
+in their method descriptions. <p>
+<p>
+Links of all dispositions (except links to files) maintain an NSSelection
+object referring to the link's selection in the source document; this selection
+is returned by the <b>sourceSelection</b> method. Links directly to files
+represent entire files rather than selections in a document; these links are
+created with <b>initLinkedToFile:</b> and have no source selection.<p>
+<p>
+Source and destination links also maintain an NSSelection describing the
+location of the data in the destination document; this selection is returned by
+the <b>destinationSelection</b> method.<p>
+<p>
+See the NSSelection class description for more information on NSSelection
+objects.<p>
+<p>
+
+<b>Initializing a Link</b><p>
+
+<UL><LI> - (id)<b>initLinkedToFile:</b>(NSString *)<i>filename</i>	Initializes a new
+instance corresponding to <i>filename</i>.
+</LI><LI> -  (id)<b>initLinkedToSourceSelection:</b>(NSSelection *)<i>selection</i>
+<i></i><b>managedBy:</b><i>(NSDataLinkManager *)linkManager</i>
+<i></i><b>supportingTypes:</b>(NSArray *)<i>newTypes</i>	Initializes a newly
+allocated instance corresponding to a selection in the source document
+<i>selection</i>. <i>linkManager</i> is the source document's link manager.
+<i>newTypes</i> is a set of types that <i>linkManager</i>'s delegate is willing
+to provide when a destination of the link requests the data described by
+<i>selection</i>.
+</LI><LI> -  (id)<b>initWithContentsOfFile</b>:(NSString *)<i>filename</i>	Initializes a
+new instance from <i>filename</i>.
+</LI><LI> -  (id)<b>initWithPasteboard:</b>(NSPasteboard *)<i>pasteboard</i>	
+	Initializes a new instance from <i>pasteboard</i>.</LI></UL>
+<b>Exporting a Link</b><p>
+
+<UL><LI> - (BOOL)<b>saveLinkIn:</b>(NSString *)<i>directoryName</i>	Saves the link in a
+filename provided by the user; the NSSavePanel's initial directory is in
+<i>directoryName</i>.
+</LI><LI> -  (BOOL)<b>writeToFile:</b>(NSString *)<i>filename</i>	Writes the link into the
+file <i>filename</i>, returning NO if the file can't be written.
+</LI><LI> -  (void)<b>writeToPasteboard:</b>(NSPasteboard *)<i>pasteboard</i>
+<i></i>	Writes the link onto the pasteboard <i>pasteboard</i>.</LI></UL>
+<b>Information about the Link</b><p>
+
+<UL><LI> - (NSDataLinkDisposition)<b>disposition</b>	Identifies the link's type.
+</LI><LI> -  (NSDataLinkNumber)<b>linkNumber</b>	Returns the link's number.
+</LI><LI> -  (NSDataLinkManager *)<b>manager</b>	Returns the link's manager.</LI></UL>
+<b>Information about the Link's Source</b><p>
+
+<UL><LI> - (NSDate *)<b>lastUpdateTime</b>	Returns the last time the link was updated.
+</LI><LI> -  (BOOL)<b>openSource</b>	Opens the source document of the link and makes the
+source selection visible.
+</LI><LI> -  (NSString *)<b>sourceApplicationName</b>	Returns the name of the application
+that owns the source document.
+</LI><LI> -  (NSString *)<b>sourceFilename</b>	Returns the file name of the source
+document.
+</LI><LI> -  (NSSelection *)<b>sourceSelection</b>	Returns the source selection.
+</LI><LI> -  (NSArray *)<b>types</b>	Returns the types that the source document can
+provide.</LI></UL>
+<b>Information about the Link's Destination</b><p>
+
+<UL><LI> - (NSString *)<b>destinationApplicationName</b>	Returns the name of the
+application that owns the destination document.
+</LI><LI> -  (NSString *)<b>destinationFilename</b>	Returns the file name of the
+destination document.
+</LI><LI> -  (NSSelection *)<b>destinationSelection</b>	Returns the destination
+selection.</LI></UL>
+<b>Changing the Link</b><p>
+
+<UL><LI> - (BOOL)<b>break</b>	Breaks the link 
+</LI><LI> -  (void)<b>noteSourceEdited</b>	Informs a source link that the data referred to
+by its source selection has changed.
+</LI><LI> -  (void)<b>setUpdateMode:</b>(NSDataLinkUpdateMode)<i>mode</i>
+<i></i>	Sets the link's update mode to <i>mode</i>.
+</LI><LI> -  (BOOL)<b>updateDestination</b>	Updates the data referred to by the link's
+destination selection with the contents referred to by the source selection.
+</LI><LI> -  (NSDataLinkUpdateMode)<b>updateMode</b>	Returns the link's update mode.
+
+
+</body></html>

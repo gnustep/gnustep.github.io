@@ -1,0 +1,76 @@
+<html><head><TITLE>NSColorPicker.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSColorPicker </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSColorPickingDefault
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSColorPicker.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSColorPicker is an abstract superclass that implements the
+NSColorPickingDefault protocol. The NSColorPickingDefault and
+NSColorPickingCustom protocols define a way to add color pickers (custom user
+interfaces for color selection) to the NSColorPanel. The simplest way to
+implement a color picker is to create a subclass of NSColorPicker, instead of
+implementing the NSColorPickingDefault protocol in another kind of object. (To
+add functionality, implement the NSColorPickingCustom methods in your
+subclass.)<p>
+<p>
+The NSColorPickingDefault protocol specification describes the details of
+implementing a color picker and adding it to your application's NSColorPanel;
+you should look there first for an overview of how NSColorPicker works. This
+specification is provided to document the specific behavior of NSColorPicker's
+methods. <p>
+<p>
+
+<b>Initializing an NSColorPicker </b><p>
+
+<UL><LI> - (id)<b>initWithPickerMask:</b>(int)<i>aMask</i>	 Initializes the receiver for
+the specified mask and color
+<b>colorPanel:</b>(NSColorPanel *)<i>colorPanel</i>		panel, caching the
+<i>colorPanel </i>value so it can later be returned by the <b>colorPanel
+</b>method.</LI></UL>
+<b>Getting the Color Panel </b><p>
+
+<UL><LI> - (NSColorPanel *)<b>colorPanel</b>	Returns the NSColorPanel that owns this
+NSColorPicker.</LI></UL>
+<b>Adding Button Images </b><p>
+
+<UL><LI> - (void)<b>insertNewButtonImage:</b>(NSImage *)<i>newImage</i>	 
+<b>in:</b>(NSButtonCell *)<i>newButtonCell</i>	Called by the color panel to
+insert a new image<i> </i>into the specified cell. Override this method to
+customize <i>newImage</i> before insertion in <i>newButtonCell</i>. 
+</LI><LI> -  (NSImage *)<b>provideNewButtonImage</b>	Returns the button image for the
+color picker. The color panel will place this image in the mode button that the
+user uses to select this picker. (This is the same image that the color panel
+uses as an argument when sending the <b>insertNewButtonImage:in:
+</b>message.)<b> </b>The default implementation looks in the color picker's
+bundle for a TIFF file named after the color picker's class, with the extension
+".tiff".</LI></UL>
+<b>Setting the Mode </b><p>
+
+<UL><LI> - (void)<b>setMode:</b>(int)<i>mode</i>	Does nothing. Override to set the color
+picker's mode. </LI></UL>
+<b>Using Color Lists </b><p>
+
+<UL><LI> - (void)<b>attachColorList:</b>(NSColorList *)<i>colorList</i>	Does nothing.
+Override to attach a color list to a color picker. 
+</LI><LI> -  (void)<b>detachColorList:</b>(NSColorList *)<i>colorList</i>	Does nothing.
+Override to detach a color list from a color picker. </LI></UL>
+<b>Responding to a Resized View </b><p>
+
+<UL><LI> - (void)<b>viewSizeChanged:</b>(id)<i>sender</i>	Does nothing. Override to
+respond to a size change. 
+</body></html>

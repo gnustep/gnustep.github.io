@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on December 24, 2013 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Coding Standards for GNUstep Libraries: 7. Variable Declaration</title>
+
+<meta name="description" content="Coding Standards for GNUstep Libraries: 7. Variable Declaration">
+<meta name="keywords" content="Coding Standards for GNUstep Libraries: 7. Variable Declaration">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Variable-Declaration"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="coding-standards_6.html#Error-Handling" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="coding-standards_8.html#Naming-Conventions" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="coding-standards_6.html#Error-Handling" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="coding-standards.html#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="coding-standards_8.html#Naming-Conventions" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="coding-standards.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="coding-standards_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Variable-Declaration-1"></a>
+<h2 class="section">7. Variable Declaration</h2>
+
+<p>All variables should be declared at the beginning of a block. The new
+C99 standard (and gcc 3.X) allow variables to be declared anywhere in 
+a block, including after executable code. However, in order to be compatible
+with older compilers, all GNUstep programs should keep the old behaviour.
+</p>
+<p>Certainly we would consider it a bug to introduce code into the
+GNUstep libraries which stopped them compiling with one of the
+commonly used compilers.
+</p>
+<p>Instance variables in public APIs should generally be limited to those
+which are explicitly declared to be public and which will never change
+(we want to avoid breaking ABI between releases by changing instance
+variable layouts).  Eventually compilers supporting a non-fragile ABI
+will be available and this will no longer be an issue, but until then
+we need to deal with the fragile API instance variable problem.
+</p>
+<p>The standard mechanism to support this is to provide a single private
+pointer variable (void *_internal;) which will be used to point to an
+area of memory containing the actual instance variables used internally.
+The internal implementation is then free to change without any change
+to the size of instances of the class.
+</p>
+<p>The GNUstep-base library has a standardised set of macros for writing
+code which deals with use of an _internal pointer to instance variables
+at the same time as allowing the instance variables to be used directly
+in the class if the code is built using the non-fragile ABI.
+</p>
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="coding-standards_6.html#Error-Handling" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="coding-standards_8.html#Naming-Conventions" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="coding-standards.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="coding-standards_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>Adam Fedor</em> on <em>December 24, 2013</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

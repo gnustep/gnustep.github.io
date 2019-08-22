@@ -1,0 +1,454 @@
+<html><head><TITLE>NSString.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSString </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding, NSCopying, NSMutableCopying
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>Foundation/NSString.h <p>
+Foundation/NSPathUtilities.h<p>
+Foundation/NSUtilities.h<p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSString declares the programmatic interface for objects that create and manage
+immutable character strings in a <i>representation-independent</i> format.<p>
+<p>
+NSString (and NSMutableString) are abstract classes for string manipulation.
+NSString provides methods for read-only access, while NSMutableString allows
+for changing the contents of the string. NSString and NSMutableString provide
+factory methods that return autoreleased instances of unspecified subclasses of
+strings.<p>
+<p>
+While the actual representation of character strings stored in NSString and
+NSMutableString is independent of any particular implementation, you can in
+general think of the contents of NSString and NSMutableString objects as being,
+canonically, <b>Unicode</b> characters (defined by the <b>unichar</b> data
+type). Methods that use the terms character,
+range, and
+length, refer to strings of <b>unichar</b>s and
+ranges and lengths of <b>unichar</b> stringsthis is important, because
+conversion between <b>unichar</b>s and other character encodings is not
+necessarily one-to-one. For instance, an ISO Latin1 encoded string of a given
+length might contain fewer or more characters when encoded as <b>unichar</b>s.
+Another important point is that <b>unichar</b>s don't necessarily correspond
+one-to-one with what is normally thought of as
+letters in a string; if you need to go through a
+string in terms of letters, use
+<b>rangeOfComposedCharacterSequenceAtIndex:</b>.<p>
+<p>
+Methods that take CString arguments deal with
+the default eight-bit encoding of the environment, which could be, for
+instance, EUC or ISOLatin1. You can also explicitly convert to and from any
+encoding by using methods such as <b>initWithData:usingEncoding:</b> and
+<b>dataUsingEncoding:</b>.<p>
+<p>
+Constant NSStrings can be created with the @"..." optionsuch strings
+should contain only ASCII characters, and nothing more.<p>
+<p>
+Strings are provided with generic coding behavior when used for storage or
+distribution. This behavior is to copy the contents and provide a generic
+NSString implementation, losing class but preserving mutability.<p>
+<p>
+In general, you instantiate NSString objects sending one of the
+<b>stringWith</b>1/4 methods or the <b>localizedStringWithFormat:</b> method to
+the NSString class object. For NSString objects that were allocated
+manually, use any of the <b>initWith</b>1/4
+methods to initialize the contents of the string object.<p>
+<p>
+The primitive methods to NSString are <b>length</b> and
+<b>characterAtIndex:</b>.<p>
+<p>
+UNIX-style file system path names can be manipulated using the collection of
+<b>stringBy</b>1/4 methods described under Manipulating File
+System Paths below.<p>
+<p>
+<p>
+<p>
+
+<b>Creating Temporary Strings</b><p>
+
+<UL><LI> + (NSString *)<b>localizedStringWithFormat:</b>(NSString *)<i>format,...</i>
+<i></i>	Returns a string created by using <i>format</i> as a <b>printf()</b>
+style format string, and the following arguments as values to be substituted
+into the format string. The user's default locale is used for format
+information.
+</LI><LI> +  (NSString *)<b>stringWithCString:</b>(const char *)<i>byteString</i>
+<i></i>	Returns a string containing the characters in <i>byteString</i>, which
+must be null-terminated. <i>byteString</i> should contain characters in the
+default C string encoding.
+</LI><LI> +  (NSString *)<b>stringWithCString:</b>(const char *)<i>byteString</i>	
+<b>length:</b>(unsigned int)<i>length</i>	Returns a string containing
+characters from <i>byteString</i>. <i>byteString</i> should contain characters
+in the default C string encoding. <i>length</i> bytes are copied into the
+string, regardless of whether a null byte exists in <i>byteString</i>. Raises
+NSInvalidArgumentException if <i>byteString</i> is NULL
+</LI><LI> +  (NSString *)<b>stringWithCharacters:</b>(const unichar *)<i>cha</i>rs
+<b>length:</b>(unsigned int)<i>length</i>	Returns a string containing
+<i>chars</i>. <i>length</i> characters are copied into the string, regardless
+of whether a null character exists in <i>chars</i>. 
+</LI><LI> +  (NSString *)<b>stringWithContentsOfFile:</b>(NSString *)<i>path</i>
+<i></i>	Returns a string containing the contents of the file specified by
+<i>path</i>. This method attempts to determine the encoding for the file. The
+string is assumed to be in Unicode encoding, but if the encoding is determined
+not to be Unicode, the default C string encoding is used instead.
+</LI><LI> +  (NSString *)<b>stringWithFormat:</b>(NSString *)<i>format,...</i>
+<i></i>	Returns a string created by using <i>format</i> as a <b>printf()</b>
+style format string, and the following arguments as values to be substituted
+into the format string. </LI></UL>
+<b>Initializing Newly Allocated Strings</b><p>
+
+<UL><LI> - (id)<b>init</b>	Initializes the receiver, a newly allocated NSString, to
+contain no characters. This is the only initialization method that a subclass
+of NSString should invoke.
+</LI><LI> -  (id)<b>initWithCString:</b>(const char *)<i>byteString</i>	Initializes the
+receiver, a newly allocated NSString, by converting the one-byte characters in
+<i>byteString</i> into Unicode characters. <i>byteString</i> must be a
+null-terminated C string in the default C string encoding.
+</LI><LI> -  (id)<b>initWithCString:</b>(const char *)<i>byteString</i>	Initializes the
+receiver, a newly allocated NSString, by
+<b>length:</b>(unsigned int)<i>length</i>	 	converting <i>length</i> one-byte
+characters in <i>byteString</i> into Unicode characters. This method doesn't
+stop at a null byte. 
+</LI><LI> -  (id)<b>initWithCStringNoCopy:</b>(char *)<i>byteString</i>	Initializes the
+receiver, a newly allocated NSString, by
+<b>length:</b>(unsigned int)<i>length</i>	 	converting <i>length</i> one-byte
+characters in <i>byteString</i> into
+<b>freeWhenDone:</b>(BOOL)<i>flag</i>	 	Unicode characters. This method doesn't
+stop at a null byte. The receiver becomes the owner of <i>byteString;</i> if
+<i>flag</i> is YES it will free the memory when it no longer needs it, but if
+<i>flag</i> is NO it won't.
+</LI><LI> -  (id)<b>initWithCharacters:</b>(const unichar *)<i>chars</i>	Initializes the
+receiver, a newly allocated NSString, by
+<b>length:</b>(unsigned int)<i>length</i>	 	copying <i>length</i> characters
+from <i>chars</i>. This method doesn't stop at a null character.
+</LI><LI> -  (id)<b>initWithCharactersNoCopy:</b>(unichar *)<i>chars</i>	Initializes the
+receiver, a newly allocated NSString, to
+<b>length:</b>(unsigned int)<i>length</i>		contain <i>length</i> characters
+from <i>chars</i>. This method 
+<b>freeWhenDone:</b>(BOOL)<i>flag</i>	 	doesn't stop at a null character. The
+receiver becomes the owner of <i>chars;</i> if <i>flag</i> is YES the receiver
+will free the memory when it no longer needs them, but if <i>flag</i> is NO it
+won't. Note that the NO case could be dangerous if used with memory that could
+be freed. The NO flag should be used only when the provided backing store is
+permanent.
+</LI><LI> -  (id)<b>initWithContentsOfFile:</b>(NSString *)<i>path</i>	Initializes the
+receiver, a newly allocated NSString, by reading characters from the file whose
+name is given by <i>path</i>. This method attempts to determine the encoding
+for the file. The string is assumed to be in Unicode encoding, but if the
+encoding is determined not to be Unicode, the default C string encoding is used
+instead. Also see <b>writeToFile:atomically:</b> in Storing the
+String.
+</LI><LI> -  (id)<b>initWithData:</b>(NSData *)<i>data</i>	Initializes the receiver, a
+newly allocated NSString, by
+<b>encoding:</b>(NSStringEncoding)<i>encoding</i>	 	converting the bytes in
+<i>data</i> into Unicode characters. <i>data</i> must be an NSData object
+containing bytes in <i>encoding</i> and in the default plain
+text format for that encoding.
+</LI><LI> -  (id)<b>initWithFormat:</b>(NSString *)<i>format,...</i>	Initializes the
+receiver, a newly allocated NSString, by constructing a string from
+<i>format</i> and following string objects in the manner of <b>printf()</b>.
+</LI><LI> -  (id)<b>initWithFormat:</b>(NSString *)<i>format</i>	Initializes the receiver,
+a newly allocated NSString, by
+<b>arguments:</b>(va_list)<i>argList</i>	 	constructing a string from
+<i>format</i> and <i>argList</i> in the manner of <b>vprintf()</b>.
+</LI><LI> -  (id)<b>initWithFormat:</b>(NSString *)<i>format</i>	Initializes the receiver,
+a newly allocated NSString, by
+<b>locale:</b>(NSDictionary *)<i>dictionary</i>,...		constructing a string from
+<i>format</i> and the formatting information in the dictionary in the manner of
+<b>printf()</b>. 
+</LI><LI> -  (id)<b>initWithFormat:</b>(NSString *)<i>format</i>	Initializes the receiver,
+a newly allocated NSString, by
+<b>locale:</b>(NSDictionary *)<i>dictionary</i>		constructing a string from
+<i>format</i> and format 
+<b>arguments:</b>(va_list)<i>argList</i>	 	information in <i>dictionary</i> and
+<i>argList</i> in the manner of <b>vprintf()</b>.
+</LI><LI> -  (id)<b>initWithString:</b>(NSString *)<i>string</i>	Initializes the receiver,
+a newly allocated NSString, by copying the characters from <i>string</i>.</LI></UL>
+<b>Getting a String's Length</b><p>
+
+<UL><LI> - (unsigned int)<b>length</b>	Returns the number of characters in the receiver.
+This number includes the individual characters of composed character
+sequences.</LI></UL>
+<b>Accessing Characters</b><p>
+
+<UL><LI> - (unichar)<b>characterAtIndex:</b>(unsigned int)<i>index</i>	Returns the
+character at the array position given by <i>index</i>. This method raises an
+<b>NSStringBoundsError</b> exception if <i>index</i> lies beyond the end of the
+string.
+</LI><LI> -  (void)<b>getCharacters:</b>(unichar *)<i>buffer</i>	Invokes
+<b>getCharacters:range:</b> with the provided <i>buffer</i> and the entire
+extent of the receiver as the range.
+</LI><LI> -  (void)<b>getCharacters:</b>(unichar *)<i>buffer</i>	Copies characters from
+<i>aRange</i> in the receiver into <i>buffer</i>,
+<b>range:</b>(NSRange)<i>aRange</i>	 	which must be large enough to contain
+them. This method does <i>not</i> add a null character. This method raises an
+<b>NSStringBoundsError</b> exception if any part of <i>aRange</i> lies beyond
+the end of the string.</LI></UL>
+<b>Combining Strings</b><p>
+
+<UL><LI> - (NSString *)<b>stringByAppendingFormat:</b>(NSString *)<i>format,...</i>
+<i></i>	Returns a string made by using <i>format</i> as a <b>printf()</b> style
+format string, and the following arguments as values to be substituted into the
+format string.
+</LI><LI> -  (NSString *)<b>stringByAppendingString:</b>(NSString *)<i>aString</i>
+<i></i>	Returns a string made by appending <i>aString</i> and the receiver.</LI></UL>
+<b>Dividing Strings into Substrings</b><p>
+
+<UL><LI> - (NSArray *)<b>componentsSeparatedByString:</b>(NSString *)<i>separator</i>
+<i></i>	Finds the substrings in the receiver that are delimited by
+<i>separator</i> and returns them as the elements of an NSArray. The strings in
+the array appear in the order they did in the receiver.
+</LI><LI> -  (NSString *)<b>substringFromIndex:</b>(unsigned int)<i>index</i>
+<i></i>	Returns a string object containing the characters of the receiver
+starting from the one at <i>index</i> to the end. This method raises an
+<b>NSStringBoundsError</b> exception if <i>index</i> lies beyond the end of the
+string.
+</LI><LI> -  (NSString *)<b>substringFromRange:</b>(NSRange)<i>aRange</i>
+<i></i>	Returns a string object containing the characters of the receiver which
+lie within <i>aRange</i>. This method raises an <b>NSStringBoundsError</b>
+exception if any part of <i>aRange</i> lies beyond the end of the string.
+</LI><LI> -  (NSString *)<b>substringToIndex:</b>(unsigned int)<i>index</i>
+<i></i>	Returns a string object containing the characters of the receiver up
+to, but not including, the one at <i>index</i>. This method raises an
+<b>NSStringBoundsError</b> exception if <i>index</i> lies beyond the end of the
+string.</LI></UL>
+<b>Finding Ranges of Characters and Substrings</b><p>
+
+<UL><LI> - (NSRange)<b>rangeOfCharacterFromSet:</b>(NSCharacterSet *)<i>aSet</i>
+<i></i>	Invokes <b>rangeOfCharacterFromSet:options:</b> with no options.
+</LI><LI> -  (NSRange)<b>rangeOfCharacterFromSet:</b>(NSCharacterSet *)<i>aSet</i>
+<i></i><b>options:</b>(unsigned int)<i>mask</i>	Invokes
+<b>rangeOfCharacterFromSet:options:range:</b> with <i>mask</i> and the entire
+extent of the receiver as the range.
+</LI><LI> -  (NSRange)<b>rangeOfCharacterFromSet:</b>(NSCharacterSet *)<i>aSet</i>
+<i></i><b>options:</b>(unsigned int)<i>mask</i>	Returns the range of the first
+character found from <i>aSet</i>.
+<b>range:</b>(NSRange)<i>aRange</i>	 	The search is restricted to <i>aRange</i>
+with <i>mask</i> options. <i>mask</i> can be any combination (using the C
+bitwise OR operator |) of NSCaseInsensitiveSearch, NSLiteralSearch, and
+NSBackwardsSearch.
+</LI><LI> -  (NSRange)<b>rangeOfString:</b>(NSString *)<i>string</i>	Invokes
+<b>rangeOfString:options:</b> with no options.
+</LI><LI> -  (NSRange)<b>rangeOfString:</b>(NSString *)<i>string</i>	Invokes
+<b>rangeOfString:options:range:</b> with <i>mask</i>
+<i></i><b>options:</b>(unsigned int)<i>mask</i>	 	options and the entire extent
+of the receiver as the range.
+</LI><LI> -  (NSRange)<b>rangeOfString:</b>(NSString *)<i>aString</i>	Returns the range
+giving the location and length in the
+<b>options:</b>(unsigned int)<i>mask</i>		receiver of <i>aString</i>. The
+search is restricted to <i>aRange</i>
+<i></i><b>range:</b>(NSRange)<i>aRange</i>	 	with <i>mask</i> options.
+<i>mask</i> can be any combination (using the C bitwise OR operator |) of
+NSCaseInsensitiveSearch, NSLiteralSearch, NSBackwardsSearch, and
+NSAnchoredSearch.</LI></UL>
+<b>Determining Composed Character Sequences</b><p>
+
+<UL><LI> - (NSRange)<b>rangeOfComposedCharacterSequenceAtIndex:</b>(unsigned
+int)<i>anIndex</i>
+<i></i>	Returns an NSRange giving the location and length in the receiver of
+the composed character sequence located at <i>anIndex</i>. This method raises
+an <b>NSStringBoundsError</b> exception if <i>anIndex</i> lies beyond the end
+of the string.</LI></UL>
+<b>Identifying and Comparing Strings</b><p>
+
+<UL><LI> - (NSComparisonResult)<b>caseInsensitiveCompare:</b>(NSString *)<i>aString</i>
+
+	Invokes <b>compare:options:</b> with the option NSCaseInsensitiveSearch.
+</LI><LI> -  (NSComparisonResult)<b>compare:</b>(NSString *)<i>aString</i>	
+	Invokes <b>compare:options:</b> with no options.
+</LI><LI> -  (NSComparisonResult)<b>compare:</b>(NSString *)<i>aString</i>	
+<b>options:</b>(unsigned int)<i>mask</i>	Invokes <b>compare:options:range:</b>
+with <i>mask</i> as the options and the receiver's full extent as the range.
+</LI><LI> -  (NSComparisonResult)<b>compare:</b>(NSString *)<i>aString</i>
+<i></i><b>options:</b>(unsigned int)<i>mask</i>	Compares <i>aString</i> to the
+receiver and returns their lexical 
+<b>range:</b>(NSRange)<i>aRange</i>		ordering. The comparison is restricted to
+<i>aRange</i> and uses <i>mask</i> options, which may be
+NSCaseInsensitiveSearch and NSLiteralSearch.
+</LI><LI> -  (BOOL)<b>hasPrefix:</b>(NSString *)<i>aString</i>	Returns YES if
+<i>aString</i> matches the beginning characters of the receiver, NO
+otherwise.
+</LI><LI> -  (BOOL)<b>hasSuffix:</b>(NSString *)<i>aString</i>	Returns YES if
+<i>aString</i> matches the ending characters of the receiver, NO otherwise.
+</LI><LI> -  (unsigned int)<b>hash</b>	Returns an unsigned integer that can be used as a
+table address in a hash table structure. If two string objects are equal (as
+determined by the <b>isEqual:</b> method), they must have the same hash
+value<b>.</b></LI></UL>
+- (BOOL)<b>isEqual:</b>(id)<i>anObject</i>	Returns YES if both the receiver and
+<i>anObject</i> have the same <b>id</b> or if they're both NSStrings that
+compare as <b>NSOrderedSame</b>, NO otherwise.<p>
+<p>
+- (BOOL)<b>isEqualToString:</b>(NSString *)<i>aString</i>	Returns YES if
+<i>aString</i> is equivalent to the receiver (if they have the same <b>id</b>
+or if they compare as <b>NSOrderedSame</b>), NO otherwise.<p>
+
+<b>Storing the String</b><p>
+
+<UL><LI> - (NSString *)<b>description</b>	Returns the string itself.
+</LI><LI> -  (BOOL)<b>writeToFile:</b>(NSString *)<i>filename</i>	Writes a textual
+description of the receiver to <i>filename.</i>
+<i></i><b>atomically:</b>(BOOL)<i>useAuxiliaryFile</i>		If<i>
+useAuxiliaryFile</i> is YES, the data is written to a backup file and then,
+assuming no errors occur, the backup file is renamed to the intended file name.
+The string is written in the default C string encoding if the contents can be
+converted to that encoding. If not, the string is stored in the Unicode
+encoding.</LI></UL>
+<b>Getting a Shared Prefix</b><p>
+
+<UL><LI> - (NSString *)<b>commonPrefixWithString:</b>(NSString *)<i>aString</i>
+<i></i><b>options:</b>(unsigned int)<i>mask</i>	Returns the substring of the
+receiver containing characters that the receiver and <i>aString</i> have in
+common. <i>mask</i> can be any combination (using the C bitwise OR operator |)
+of NSCaseInsensitiveSearch and NSLiteralSearch.</LI></UL>
+<b>Changing Case</b><p>
+
+<UL><LI> - (NSString *)<b>capitalizedString</b>	Returns a string with the first
+character of each word changed to its corresponding uppercase value.
+</LI><LI> -  (NSString *)<b>lowercaseString</b>	Returns a string with each character
+changed to its corresponding lowercase value.
+</LI><LI> -  (NSString *)<b>uppercaseString</b>	Returns a string with each character
+changed to its corresponding uppercase value.</LI></UL>
+<b>Getting C Strings</b><p>
+
+<UL><LI> - (const char *)<b>cString</b>	Returns a representation of the receiver as a C
+string in the default C string encoding.
+</LI><LI> -  (unsigned int)<b>cStringLength</b>	Returns the length in bytes of the C
+string representation of the receiver.
+</LI><LI> -  (void)<b>getCString:</b>(char *)<i>buffer</i>	Invokes
+<b>getCString:maxLength:range:remainingRange:</b> with NSMaximumStringLength as
+the maximum length, the receiver's entire extent as the range, and NULL for the
+remaining range. <i>buffer</i> must be large enough to contain the resulting C
+string plus a terminating null character (which this method adds).
+</LI><LI> -  (void)<b>getCString:</b>(char *)<i>buffer</i>	Invokes
+<b>maxLength:</b>(unsigned int)<i>maxLength</i>	<b>
+getCString:maxLength:range:remainingRange:</b> with <i>maxLength</i> as the
+maximum length, the receiver's entire extent as the range, and NULL for the
+remaining range. <i>buffer</i> must be large enough to contain the resulting C
+string plus a terminating null character (which this method adds).
+</LI><LI> -  (void)<b>getCString:</b>(char *)<i>buffer</i>	Copies the receiver's
+characters (in the default C string 
+<b>maxLength:</b>(unsigned int)<i>maxLength</i>		encoding) as bytes into
+<i>buffer</i>. <i>buffer</i> must be
+<b>range:</b>(NSRange)<i>aRange</i>		 large enough to contain <i>maxLength</i>
+bytes plus a
+<b>remainingRange:</b>(NSRange *)<i>leftoverRange</i>	 	terminating null
+character (which this method adds). Characters are copied from <i>aRange</i>;
+if not all characters can be copied, the range of those not copied is put into
+<i>leftoverRange</i>.<i> </i>This method raises an <b>NSStringBoundsError</b>
+exception if any part of <i>aRange</i> lies beyond the end of the string.</LI></UL>
+<b>Getting Numeric Values</b><p>
+
+<UL><LI> - (double)<b>doubleValue</b>	Returns the double precision floating point value
+of the receiver's text. Whitespace at the beginning of the string is skipped.
+If the receiver begins with a valid text representation of a floating-point
+number, that number's value is returned, otherwise 0.0 is returned. HUGE_VAL or
+-HUGE_VAL is returned on overflow. 0.0 is returned on underflow. Characters
+following the number are ignored.
+</LI><LI> -  (float)<b>floatValue</b>	Returns the floating-point value of the receiver's
+text. Whitespace at the beginning of the string is skipped. If the receiver
+begins with a valid text representation of a floating-point number, that
+number's value is returned, otherwise 0.0 is returned. HUGE_VAL or -HUGE_VAL is
+returned on overflow. 0.0 is returned on underflow. Characters following the
+number are ignored.
+</LI><LI> -  (int)<b>intValue</b>	Returns the integer value of the receiver's text.
+Whitespace at the beginning of the string is skipped. If the receiver begins
+with a valid representation of an integer, that number's value is returned,
+otherwise 0 is returned. INT_MAX or INT_MIN is returned on overflow. Characters
+following the number are ignored.</LI></UL>
+<b>Working With Encodings</b><p>
+
+<UL><LI> + (NSStringEncoding *)<b>availableStringEncodings</b>	Returns a null terminated
+array of available string encodings..
+</LI><LI> +  (NSStringEncoding)<b>defaultCStringEncoding</b>	Returns the C string encoding
+assumed for any method accepting a C string as an argument.
+</LI><LI> + (NSString
+*)<b>localizedNameOfStringEncoding:</b>(NSStringEncoding)<i>encoding</i>
+<i></i>	Returns the localized name of the string encoding specified by
+<i>encoding</i>.
+</LI><LI> -  (BOOL)<b>canBeConvertedToEncoding:</b>(NSStringEncoding)<i>encoding</i>
+<i></i>	Returns YES if the receiver can be converted to <i>encoding</i> without
+loss of information, and NO otherwise. 
+</LI><LI> -  (NSData *)<b>dataUsingEncoding:</b>(NSStringEncoding)<i>encoding</i>
+<i></i>	Invokes <b>dataUsingEncoding:allowLossyConversion:</b> with NO as the
+argument to allow lossy conversion.
+</LI><LI> -  (NSData *)<b>dataUsingEncoding:</b>(NSStringEncoding)<i>encoding</i>
+<i></i><b>allowLossyConversion:</b>(BOOL)<i>flag</i>	Returns an NSData object
+containing a representation of the receiver in <i>encoding</i>. If <i>flag</i>
+is NO and the receiver can't be converted without losing some information (such
+as accents or case) this method returns <b>nil</b>. If <i>flag</i> is YES and
+the receiver can't be converted without losing some information, some
+characters may be removed or altered in conversion. 
+</LI><LI> -  (NSStringEncoding)<b>fastestEncoding</b>	 Encoding in which this string can
+be expressed (with lossless conversion) most quickly.
+</LI><LI> -  (NSStringEncoding)<b>smallestEncoding</b>	Encoding in which this string can
+be expressed (with lossless conversion) in the most space efficient manner</LI></UL>
+<b>Converting String Contents into a Property List</b><p>
+
+<UL><LI> - (id)<b>propertyList</b>	Depending on the format of the receiver's contents,
+returns a string, data, array, or dictionary object represention of those
+contents.
+</LI><LI> -  (NSDictionary *)<b>propertyListFromStringsFileFormat</b>
+<b></b>	Returns a dictionary object initialized with the keys and values found
+in the receiver. The receiver's format must be that used for
+.string files.</LI></UL>
+<b>Manipulating File System Paths</b><p>
+
+<UL><LI> - (unsigned int)<b>completePathIntoString:</b>(NSString **)<i>outputName</i>
+<i></i><b>caseSensitive:</b>(BOOL)<i>flag</i>	Regards the receiver as
+containing a partial filename and
+<b>matchesIntoArray:</b>(NSArray **)<i>outputArray</i>		returns in
+<i>outputName</i> the longest matching path name. 
+<b>filterTypes:</b>(NSArray *)<i>filterTypes</i>		Case is considered if
+<i>flag</i> is YES. If <i>outputArray</i> is given, all matching filenames are
+return in <i>outputArray</i>. If <i>filterTypes</i> is provided, this method
+considers only those paths that match one of the types. Returns 0 if no matches
+are found; otherwise, the return value is positive.
+</LI><LI> -  (NSString *)<b>lastPathComponent</b>	Returns the last component of the
+receiver's path representation. Given the path
+/Images/Bloggs.tiff, this method returns a
+string containing Bloggs.tiff.
+</LI><LI> -  (NSString *)<b>pathExtension</b>	Returns the extension of the receiver's path
+representation. Given the path
+/Images/Bloggs.tiff, this method returns a
+string containing tiff.
+</LI><LI> -  (NSString *)<b>stringByAbbreviatingWithTildeInPath</b>
+<b></b>	Returns a string in which the user's home directory path is replace by
+~.
+</LI><LI> -  (NSString *)<b>stringByAppendingPathComponent:</b>(NSString
+*)<i>aString</i>
+<i></i>	Returns a string representing the receiver's path with the addition of
+the path component <i>aString</i>.
+</LI><LI> -  (NSString *)<b>stringByAppendingPathExtension:</b>(NSString
+*)<i>aString</i>
+<i></i>	Returns a string representing the receiver's path with the addition of
+the extension <i>aString</i>.
+</LI><LI> -  (NSString *)<b>stringByDeletingLastPathComponent</b>
+<b></b>	Returns the receiver's path representation minus the last component.
+Given the path /Images/Bloggs.tiff, this method
+returns a string containing /Images.
+</LI><LI> -  (NSString *)<b>stringByDeletingPathExtension</b>	Returns the receiver's path
+representation minus the extension on the last component. Given the path
+/Images/Bloggs.tiff, this method returns a
+string containing /Images/Bloggs.
+</LI><LI> -  (NSString *)<b>stringByExpandingTildeInPath</b>	Returns a string in which a
+tilde is expanded to its full path equivalent.
+</LI><LI> -  (NSString *)<b>stringByResolvingSymlinksInPath</b>	Returns a string identical
+to the receiver's path except that any symbolic links have been resolved.
+</LI><LI> -  (NSString *)<b>stringByStandardizingPath</b>	Returns a string containing a
+standardized path, one in which tildes are
+expanded and redundant elements (for example //)
+eliminated.
+
+
+</body></html>

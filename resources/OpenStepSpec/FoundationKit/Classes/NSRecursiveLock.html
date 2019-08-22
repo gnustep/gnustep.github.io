@@ -1,0 +1,53 @@
+<html><head><TITLE>NSRecursiveLock.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSRecursiveLock </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSLocking
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>Foundation/NSLock.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSRecursiveLock is used for locks that need to be reacquired by the same
+thread.<p>
+<p>
+An NSRecursiveLock locks a critical section of code such that a single thread
+can reaquire the lock multiple times without deadlocking, while preventing
+access by other threads. (Note that this implies that a recursive lock will not
+protect a critical section from a signal handler interrupting the thread
+holding the lock.) Here is an example where a recursive lock functions properly
+but other lock types would deadlock:<p>
+<p>
+<tt>// create the lock only once!</tt><p>
+<tt>NSRecursiveLock  *theLock = [NSRecursiveLock new];</tt><p>
+<tt>/* ...other code... */</tt><p>
+<tt>[theLock lock];</tt><p>
+<tt></tt><p>
+<tt>/* ... possibly a long time of fussing with global data... */</tt><p>
+<tt>[theLock lock]; /* possibly invoked in a subroutine */</tt><p>
+<tt>[theLock unlock];</tt><p>
+<tt>    </tt><p>
+<tt>[theLock unlock];</tt><p>
+<tt></tt><p>
+The NSConditionLock, NSLock, and NSRecursiveLock classes all implement the
+NSLocking protocol with various features and performance characteristics; see
+the other class descriptions for more information.<p>
+<p>
+
+<b>Acquiring a Lock</b><p>
+
+<UL><LI> - (BOOL)<b>tryLock</b>	Attempts to acquire a lock. Returns YES if successful
+and NO otherwise. This method can be called repeatedly to produce nested
+locks.
+</body></html>

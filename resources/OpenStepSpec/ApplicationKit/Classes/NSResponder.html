@@ -1,0 +1,121 @@
+<html><head><TITLE>NSResponder.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSResponder </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSResponder.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSResponder is an abstract class that forms the basis of command and event
+processing in the Application Kit. Most Application Kit classes inherit from
+NSResponder. When an NSResponder receives an event or action message that it
+can't respond tothat it doesn't have a method forthe message is
+sent to its <i>next responder</i>. For an NSView, the next responder is usually
+its superview; the content view's next responder is the NSWindow. Each
+NSWindow, therefore, has its own <i>responder chain</i>. Messages are passed up
+the chain until they reach an object that can respond.<p>
+<p>
+Action messages and keyboard event messages are sent first to the <i>first
+responder</i>, the object that displays the current selection and is expected
+to handle most user actions within a window. Each NSWindow has its own first
+responder. Messages the first responder can't handle work their way up the
+responder chain.<p>
+<p>
+This class defines the methods that pass event and action messages along the
+responder chain.<p>
+<p>
+
+<b>Managing the Next Responder </b><p>
+
+<UL><LI> - (NSResponder *)<b>nextResponder</b>	Returns the receiver's next responder.
+</LI><LI> -  (void)<b>setNextResponder:</b>(NSResponder *)<i>aResponder</i>	
+	Makes <i>aResponder</i> the receiver's next responder.</LI></UL>
+<b>Determining the First Responder </b><p>
+
+<UL><LI> - (BOOL)<b>acceptsFirstResponder</b>	Subclasses override to accept or reject
+first responder status. NSResponder's implementation simply returns NO.
+</LI><LI> -  (BOOL)<b>becomeFirstResponder</b>	Notifies the receiver that it's the first
+responder.
+</LI><LI> -  (BOOL)<b>resignFirstResponder</b>	Notifies the receiver that it's not the
+first responder.</LI></UL>
+<b>Aiding Event Processing </b><p>
+
+<UL><LI> - (BOOL)<b>performKeyEquivalent:</b>(NSEvent *)<i>theEvent</i>
+<i></i>	Subclasses override to respond to keyboard input. NSResponder's
+implementation simply returns NO to indicate <i>theEvent</i> isn't handled.
+</LI><LI> -  (BOOL)<b>tryToPerform:</b>(SEL)<i>anAction</i>	Aids in dispatching action
+messages. Returns YES if an
+<b>with:</b>(id)<i>anObject</i> 		responder in the responder chain can perform
+the <i>anAction</i> method, which takes the single argument <i>anObject</i>.</LI></UL>
+<b>Forwarding Event Messages </b><p>
+
+<UL><LI> - (void)<b>flagsChanged:</b>(NSEvent *)<i>theEvent</i>	Subclasses override to
+handle flags-changed events. NSResponder's implementation passes the message to
+the receiver's next responder.
+</LI><LI> -  (void)<b>helpRequested:</b>(NSEvent *)<i>theEvent</i>	Causes the Help panel
+to display the help attached to the receiver. If there's no attached help,
+passes the message to the receiver's next responder.
+</LI><LI> -  (void)<b>keyDown:</b>(NSEvent *)<i>theEvent</i>	Subclasses override to handle
+key-down events. NSResponder's implementation passes the message to the
+receiver's next responder. If the first responder changes, this method posts
+the notification NSTextDidEndEditingNotification with the current object and,
+in the notification's dictionary, the key NSTextMovement to the default
+notification center.
+</LI><LI> -  (void)<b>keyUp:</b>(NSEvent *)<i>theEvent</i>	Subclasses override to handle
+key-up events. NSResponder's implementation passes the message to the
+receiver's next responder.
+</LI><LI> -  (void)<b>mouseDown:</b>(NSEvent *)<i>theEvent</i>	Subclasses override to
+handle mouse-down events. NSResponder's implementation passes the message to
+the receiver's next responder.
+</LI><LI> -  (void)<b>mouseDragged:</b>(NSEvent *)<i>theEvent</i>	Subclasses override to
+handle mouse-dragged events. NSResponder's implementation passes the message to
+the receiver's next responder.
+</LI><LI> -  (void)<b>mouseEntered:</b>(NSEvent *)<i>theEvent</i>	Subclasses override to
+handle mouse-entered events. NSResponder's implementation passes the message to
+the receiver's next responder.
+</LI><LI> -  (void)<b>mouseExited:</b>(NSEvent *)<i>theEvent</i>	Subclasses override to
+handle mouse-exited events. NSResponder's implementation passes the message to
+the receiver's next responder.
+</LI><LI> -  (void)<b>mouseMoved:</b>(NSEvent *)<i>theEvent</i>	Subclasses override to
+handle mouse-moved events. NSResponder's implementation passes the message to
+the receiver's next responder.
+</LI><LI> -  (void)<b>mouseUp:</b>(NSEvent *)<i>theEvent</i>	Subclasses override to handle
+mouse-up events. NSResponder's implementation passes the message to the
+receiver's next responder.
+</LI><LI> -  (void)<b>noResponderFor:</b>(SEL)<i>eventSelector</i>	Responds to an event
+message that has reached the end of the responder chain without finding an
+object that can respond. When the event is a key down, generates a beep.
+</LI><LI> -  (void)<b>rightMouseDown:</b>(NSEvent *)<i>theEvent</i>	Subclasses override to
+handle right mouse-down events. NSResponder's implementation passes the message
+to the receiver's next responder.
+</LI><LI> -  (void)<b>rightMouseDragged:</b>(NSEvent *)<i>theEvent</i>	Subclasses override
+to handle right mouse-dragged events. NSResponder's implementation passes the
+message to the receiver's next responder.
+</LI><LI> -  (void)<b>rightMouseUp:</b>(NSEvent *)<i>theEvent</i>	Subclasses override to
+handle right mouse-up events. NSResponder's implementation passes the message
+to the receiver's next responder.</LI></UL>
+<b>Services Menu Support </b><p>
+
+<UL><LI> - (id)<b>validRequestorForSendType:</b>(NSString *)<i>typeSent</i>	 
+<b>returnType:</b>(NSString *)<i>typeReturned</i>	Subclasses override to
+determine which Services menu items are enabled at a given time. Returning
+<b>self</b> enables services that can receive <i>typeSent</i> pasteboard types
+and can return <i>typeReturned</i> pasteboard types. Returning <b>nil</b>
+disables them. NSResponder's implementation passes the message to the
+receiver's next responder. 
+
+
+</body></html>

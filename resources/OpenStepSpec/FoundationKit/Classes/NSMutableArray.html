@@ -1,0 +1,129 @@
+<html><head><TITLE>NSMutableArray.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSMutableArray </b><p>
+
+<B>Inherits From: </B><A HREF="NSArray.html">NSArray</A> : <A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding, NSCopying, NSMutableCopying (NSArray)
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>Foundation/NSArray.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+The NSMutableArray class declares the programmatic interface to objects that
+manage a modifiable array of objects. This class adds insertion and deletion
+operations to the basic array-handling behavior it inherits from NSArray. <p>
+<p>
+The array operations that NSMutableArray declares are conceptually based on
+these three methods:<p>
+<p>
+addObject:<p>
+replaceObjectAtIndex:withObject:<p>
+removeLastObject<p>
+<p>
+<p>
+The other methods in its interface provide convenient ways of inserting an
+object into a specific slot in the array and of removing an object based on its
+identity or position in the array.<p>
+<p>
+When an object is removed from a mutable array it receives a <b>release</b>
+message, which can cause it to be deallocated. Note that if your program keeps
+a reference to such an object, the reference may become invalid unless you
+remember to send the object a <b>retain</b> message before it's removed from
+the array. For example, the third statement below could result in a run-time
+error, except for the <b>retain</b> message in the first statement:<p>
+<p>
+<tt>id anObject = [[anArray objectAtIndex:0] retain];</tt><p>
+<tt>[anArray removeObjectAtIndex:0];</tt><p>
+<tt>[anObject <i>someMessage</i>];</tt><p>
+<tt></tt>
+<b>Implementing Subclasses of NSMutableArray</b><p>
+
+Although conceptually the interface to the NSMutableArray class is based on the
+three methods listed above, for performance reasons two
+others<b>insertObject:atIndex:</b> and
+<b>removeObjectAtIndex:</b>also directly access the object's data. These
+two methods could be implemented using the methods listed above but in doing so
+would incur unnecessary overhead from the <b>retain</b> and <b>release</b>
+messages that objects would receive as they are shifted to accommodate the
+insertion or deletion of an element. Thus, if you create a subclass of
+NSMutableArray, you should override all five primitive methods so that the
+other methods in NSMutableArray's interface work properly.<p>
+<p>
+
+<b>Creating and Initializing an NSMutableArray</b><p>
+
+<UL><LI> + (id)<b>allocWithZone:</b>(NSZone *)<i>zone</i>	Creates and returns an
+uninitialized NSMutableArray in <i>zone.</i>
+<i></i></LI><LI> +  (id)<b>arrayWithCapacity:</b>(unsigned int)<i>aNumItems</i>	Creates and
+returns an NSMutableArray, giving it enough allocated memory to hold
+<i>numItems</i> objects.
+</LI><LI> -  (id)<b>initWithCapacity:</b>(unsigned int)<i>aNumItems</i>	Initializes a
+newly allocated NSMutableArray, giving it enough memory to hold <i>numItems</i>
+objects.</LI></UL>
+<b>Adding Objects	</b><p>
+
+<UL><LI> - (void)<b>addObject:</b>(id)<i>anObject</i>	Inserts <i>anObject</i> at the end
+of the array. Raises NSInvalidArgumentException if <i>anObject</i> is
+<b>nil</b>.
+</LI><LI> -  (void)<b>addObjectsFromArray:</b>(NSArray *)<i>anotherArray</i>
+<i></i>	Adds the objects contained in <i>anotherArray</i> to the end of the
+receiver's array.
+</LI><LI> -  (void)<b>insertObject:</b>(id)<i>anObject</i> <b>atIndex:</b>(unsigned
+int)<i>index</i>
+<i></i>	Inserts<i> </i>anObject into the array at <i>index</i>. Raises
+		NSInvalidArgumentException if <i>anObject</i> is <b>nil</b>. Raises
+NSRangeException if <i>index</i> is outside of the bounds of the array.	</LI></UL>
+<b>Removing Objects</b><p>
+
+<UL><LI> - (void)<b>removeAllObjects</b>	Empties the array of all its elements.
+</LI><LI> -  (void)<b>removeLastObject</b>	Removes the last object in the array and sends
+it a <b>release</b> message. Raises NSRangeException if there are no objects in
+the array.
+</LI><LI> -  (void)<b>removeObject:</b>(id)<i>anObject</i>	Removes all occurrences of
+<i>anObject</i>. <b>isEqual:</b> is used to test for <i>anObject</i>.
+</LI><LI> -  (void)<b>removeObjectAtIndex:</b>(unsigned int)<i>index</i>	Removes the
+object at <i>index</i> and moves all elements beyond <i>index</i> up one slot
+to fill the gap. Raises NSRangeException if <i>index</i> is outside of the
+bounds of the array.	
+</LI><LI> -  (void)<b>removeObjectIdenticalTo:</b>(id)<i>anObject</i>	Removes all elements
+having the same <b>id</b> as <i>anObject</i>.
+</LI><LI> -  (void)<b>removeObjectsFromIndices:</b>(unsigned int*)<i>indices</i>	
+<b>numIndices:</b>(unsigned int)<i>count</i>	Removes objects at the positions
+specified in the <i>indices</i> array, which has <i>count</i> elements. Raises
+NSRangeException if any of the <i>indices</i> is outside of the bounds of the
+array. This method is provided for efficiency reasons; it will not work if the
+receiver is a proxy to an array in another process.
+</LI><LI> -  (void)<b>removeObjectsInArray:</b>(NSArray *)<i>otherArray</i>
+<i></i>	Removes from the receiver the objects found in <i>otherArray</i>.</LI></UL>
+<b>Replacing Objects</b><p>
+
+<UL><LI> - (void)<b>replaceObjectAtIndex:</b>(unsigned int)<i>index</i>	Replaces the
+object at <i>index</i> with <i>anObject</i>. Raises
+ <b>withObject:</b>(id)<i>anObject</i>		NSInvalidArgumentException if
+<i>anObject</i> is <b>nil</b>. Raises NSRangeException if <i>index</i> is not
+within the bounds of the array.
+</LI><LI> -  (void)<b>setArray:</b>(NSArray *)<i>otherArray</i>	Sets the contents of the
+receiver to the elements in <i>otherArray</i>
+<i></i>
+Sorting Elements
+
+</LI><LI> -  (void)<b>sortUsingFunction:</b>(int (*)(id <i>element1</i>, id
+<i>element2</i>,void *<i>userData</i>))<i>comparator</i>
+<i></i><b>context:</b>(void *)<i>context</i>	Sorts the receiver's elements in
+ascending order as defined by the comparison function <i>comparator</i>.
+<i>context</i> is passed as the function's third argument.
+</LI><LI> -  (void)<b>sortUsingSelector:</b>(SEL)<i>comparator</i>	Sorts the receiver's
+elements in ascending order as defined by the comparison method
+<i>comparator</i>.
+
+</body></html>

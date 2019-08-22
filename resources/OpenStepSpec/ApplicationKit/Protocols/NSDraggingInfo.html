@@ -1,0 +1,75 @@
+<html><head><TITLE>NSDraggingInfo.html</TITLE><!-- This document was created from RTF source by rtftohtml version
+2.7.4 --></head><body><A HREF="../../OpenStepSpec.html">Return to the Main Index</A><br><A HREF="index.html">Return to the Alphabetic Index</A><br><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+<b></b><p>
+<b>NSDraggingInfo</b><p>
+<b></b><p>
+<b>Adopted By:	</b>no OpenStep classes<p>
+<p>
+<b>Declared In:	</b>AppKit/NSDragging.h<p>
+<p>
+<b></b><p>
+<b>Protocol Description</b><p>
+<b></b><p>
+<b></b><p>
+The NSDraggingInfo protocol declares methods that supply information about a
+dragging session (see the NSDraggingDestination protocol, an informal protocol
+of NSObject, for definitions of dragging terms). A view or window first
+registers dragging types; it may then send NSDraggingInfo protocol messages
+while dragging occurs to get details about that dragging session.<p>
+<p>
+NSDraggingInfo methods are designed to be invoked from within an object's
+implementation of the NSDraggingDestination protocol methods. An object that
+conforms to NSDraggingInfo is passed as the argument to each of the methods
+defined by NSDraggingDestination; NSDraggingInfo messages should be sent to
+this conforming object. The Application Kit supplies an NSDraggingInfo object
+automatically so that you never need to create a class that implements this
+protocol.<p>
+<p>
+<b></b><p>
+<b>Dragging-Session Information</b><p>
+<b></b><p>
+<b></b><p>
+- (NSWindow *)<b>draggingDestinationWindow	</b>Returns the destination's
+Window.<p>
+<p>
+- (NSPoint)<b>draggingLocation	</b>Returns the current location of the cursor's
+hot spot, reckoned in the base coordinate system of the destination object's
+Window.<p>
+<p>
+- (NSPasteboard *)<b>draggingPasteboard	</b>Returns the Pasteboard that holds
+the dragged data.<p>
+<p>
+- (int)<b>draggingSequenceNumber	</b>Returns a number that uniquely identifies
+the dragging session.<p>
+<p>
+- (id)<b>draggingSource	</b>Returns the source, or
+owner, of the dragged image. Returns <b>nil</b>
+if the source isn't in the same application as the destination.<p>
+<p>
+- (NSDragOperation)<b>draggingSourceOperationMask</b><p>
+<b></b>	Returns the operation mask declared by the source.<p>
+<b></b><p>
+<b>Image Information</b><p>
+<b></b><p>
+<b></b><p>
+- (NSImage *)<b>draggedImage	</b>Returns the image object that's being dragged.
+Don't invoke this method after the user has released the image, and don't
+release the object that this method returns.<p>
+<p>
+- (NSPoint)<b>draggedImageLocation	</b>Returns the current location of the
+dragged image's origin. The image moves in lockstep with the cursor (the
+position of which is given by <b>draggingLocation</b>) but may be positioned at
+some offset. The point that's returned is reckoned in the base coordinate
+system of the destination object's Window.<p>
+<b></b><p>
+<b>Sliding the Image</b><p>
+<b></b><p>
+<b></b><p>
+- (void)<b>slideDraggedImageTo:</b>(NSPoint)<i>screenPoint</i><p>
+<i>	</i>Slides the image to the given location in the screen coordinate system.
+This method should only be invoked after the user has released the image but
+before it's removed from the screen.<p>
+</body></html>

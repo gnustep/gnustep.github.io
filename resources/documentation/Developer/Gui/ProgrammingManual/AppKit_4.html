@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- C 2005-2006 Christopher Armstrong.
+
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2, as published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included in the section entitled "GNU Free Documentation License".
+
+This documentation is provided on an "AS IS" BASIS, WITHOUT WARRANTY
+OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED
+TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND USEFULNESS
+OF THE DOCUMENTATION IS WITH YOU (THE LICENSEE). IN NO EVENT WILL THE COPYRIGHT
+HOLDERS BE LIABLE FOR DAMAGES, INCLUDING ANY DIRECT, INDIRECT,
+SPECIAL, GENERAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF
+THE USE OR INABILITY TO USE THIS DOCUMENTATION (INCLUDING BUT NOT
+LIMITED TO LOSS OF DATA, USE, OR PROFITS; PROCUREMENT OF SUBSTITUTE
+GOODS AND SERVICES; OR BUSINESS INTERUPTION) HOWEVER CAUSED, EVEN
+IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ -->
+<!-- Created on December 24, 2013 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Using the GNUstep AppKit 0.1: 4. Application Makefiles</title>
+
+<meta name="description" content="Using the GNUstep AppKit 0.1: 4. Application Makefiles">
+<meta name="keywords" content="Using the GNUstep AppKit 0.1: 4. Application Makefiles">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="applicationmakefiles"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="AppKit_3.html#Code" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_5.html#interfacefiles" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit_3.html#gnustepapplications" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_5.html#interfacefiles" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="AppKit_16.html#conceptindex" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Application-Makefiles-1"></a>
+<h1 class="chapter">4. Application Makefiles</h1>
+<p><a name="Application-Makefiles"></a>
+<a name="index-makefiles-1"></a>
+</p>
+<p>Application makefiles are very similiar to those used to build Tools and Objective-C programmes, but allow extra specifications to build application wrappers and include their resource files. We assume you are already familiar with the GNUstep Makefile system.
+</p>
+<p>Below is a generic, but complete application makefile, followed by an explanation of the various parameters.
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">include $(GNUSTEP_MAKEFILES)/common.make
+
+APP_NAME = ExampleApplication
+PACKAGE_NAME = ExampleApplication
+VERSION = 1.0
+
+ExampleApplication_OBJC_FILES = main.m AppController.m \
+  ExampleClass.m
+
+ExampleApplication_C_FILES = regexp.c fun.c
+
+ExampleApplication_OBJC_LIBS = -lLibNumberOne -lPDFKit -lFunKit
+ExampleApplication_RESOURCE_FILES = \
+  ExampleApplication.gorm \
+  Info-gnustep.plist
+
+-include GNUmakefile.preamble
+include $(GNUSTEP_MAKEFILES)/application.make
+-include GNUmakefile.postamble
+
+</pre></td></tr></table>
+
+<p>&lsquo;<tt>common.make</tt>&rsquo; and &lsquo;<tt>application.make</tt>&rsquo; are necessary to build an application, and need to be at the beginning and end respectively to the Makefile to operate properly. The &lsquo;<tt>GNUmakefile.preamble</tt>&rsquo; and &lsquo;<tt>GNUmakefile.postamble</tt>&rsquo; are optional, and permit you to define extra rules for building your application. You can include those lines without those files containing anything. Templates for those files also exist with the source code for gnustep-gui, which can simply be copied into your project and modified accordingly.
+</p>
+<p>The table below describes the makefile variables that you can set to control the output of the make process. Note that <var>appname</var> refers to the application name that you set with <code>APP_NAME</code>. It is case sensistive and so are file names. Also, most of the variables listed below are optional if you wish to get a program to compile, but it is recommend you make use of them where appropriate. Where variables ask for flags and compiler options, they should be in the format that <code>gcc</code> expects, as it is the only compiler currently used with GNUstep. Many variables also take more than one parameter. They are usually separated by a space, and line breaks with a backslash. Please refer to the <cite>GNUstep Makefile Manual</cite> for more details.
+</p>
+<a name="index-makefiles_002c-components"></a>
+<dl compact="compact">
+<dt> <code>APP_NAME</code></dt>
+<dd><p>[Required] This is the name of your application, and will be used to generate the name of your application wrapper. 
+</p>
+</dd>
+<dt> <code>PACKAGE_NAME</code></dt>
+<dd><p>This is used to generate a rpm or deb package for distribution of your application. See the <cite>GNUstep Makefile Manual</cite> for more details.
+</p>
+</dd>
+<dt> <code>VERSION</code></dt>
+<dd><p>A version number for your application.
+</p>
+</dd>
+<dt> <code><var>appname</var>_OBJC_FILES</code></dt>
+<dd><p>[Required] Replacing <var>appname</var> with the name of your application, you list the Objective-C files (.m), separated by a space. As shown above, you can split it across one or more lines by placing a slash at the end of the line to indicate a split.
+</p>
+</dd>
+<dt> <code><var>appname</var>_APPLICATION_ICON</code></dt>
+<dd><p>[Optional] You can place the name of the image file that will be used as your application icon here. 
+</p>
+</dd>
+<dt> <code><var>appname</var>_MAIN_MODEL_FILE</code></dt>
+<dd><p>[Recommended] Put the name of your interface file (&lsquo;<tt>.gorm</tt>&rsquo;) here. It will then be placed in the property list of your application.
+</p>
+</dd>
+<dt> <code><var>appname</var>_PRINCIPAL_CLASS</code></dt>
+<dd><p>[Optional] If you subclass <code>NSApplication</code> with your own application class, you should place it&rsquo;s name here. By default, GNUstep uses <code>NSApplication</code> as the application class.
+</p>
+</dd>
+<dt> <code><var>appname</var>_C_FILES</code></dt>
+<dd><p>[Optional] This is where you list the C source code files (.c) to be compiled into your programme. It takes the same form as <code><var>appname</var>_OBJC_FILES</code>.
+</p>
+</dd>
+<dt> <code><var>appname</var>_CC_FILES</code></dt>
+<dd><p>[Optional] This is where you list your C++ files (*.cpp, *.cc) to be compiled into your programme. It takes the same form as <code><var>appname</var>_OBJC_FILES</code>.
+</p>
+</dd>
+<dt> <code><var>appname</var>_OBJCC_FILES</code></dt>
+<dd><p>[Optional] This is where you list your Objective-C++ files (*.mm) to be compiled into your programme. It takes the same form as the <code><var>appname</var>_OBJC_FILES</code>.<a name="DOCF3" href="AppKit_fot.html#FOOT3">(3)</a>
+</p>
+</dd>
+<dt> <code><var>appname</var>_RESOURCE_FILES</code></dt>
+<dd><p>[Recommended] Here you list the <em>resource files</em> that are to be included with your application, including your application property list, interface file(s) and other images, data, etc. You can also list directories here, which should be added recursively (e.g. &lsquo;<tt>.gorm</tt>&rsquo; files are actually a directory containing three files, used to describe your interface).
+</p>
+</dd>
+<dt> <code><var>appname</var>_RESOURCE_DIRS</code></dt>
+<dd><p>[Optional] Here you can list directories that will be copied into your application wrapper as resources.
+</p>
+</dd>
+<dt> <code><var>appname</var>_OBJC_LIBS</code></dt>
+<dd><p>Here you list the names of the libraries you need your application to link against. Each one is prefixed by &rsquo;-l&rsquo; e.g. <code>-lMyLib</code>, separated by a space. You do not need to list the gnustep-gui, gnustep-base and Objective-C runtime, as these are included for you.
+</p>
+</dd>
+<dt> <code><var>appname</var>_C_FLAGS</code></dt>
+<dt> <code><var>appname</var>_CC_FLAGS</code></dt>
+<dt> <code><var>appname</var>_OBJC_FLAGS</code></dt>
+<dt> <code><var>appname</var>_OBJCC_FLAGS</code></dt>
+<dd><p>Here you specify the flags to be passed to the compiler when processing this file type. These included warning flags and macro overrides.
+</p>
+</dd>
+</dl>
+
+
+<p><a name="Interface-Files"></a>
+</p><hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="AppKit_3.html#gnustepapplications" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_5.html#interfacefiles" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="AppKit_16.html#conceptindex" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>Adam Fedor</em> on <em>December 24, 2013</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<html><head><TITLE>NSDictionary.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSDictionary </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding, NSCopying, NSMutableCopying
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>Foundation/NSDictionary.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+The NSDictionary class declares the programmatic interface to objects that
+manage immutable associations of keys and values. You use this class when you
+need a convenient and efficient way to retrieve data associated with an
+arbitrary key.<p>
+<p>
+A key-value pair within an NSDictionary is called an <i>entry</i>. Each entry
+consists of an string object that represents the key and another object (of any
+class) that is that key's value. You establish the entries when the
+NSDictionary is created, and thereafter the entries can't be modified. (The
+complementary class NSMutableDictionary defines objects that manage modifiable
+collections of entries. See the NSMutableDictionary class specification for
+more information.)<p>
+<p>
+Internally, an NSDictionary uses a hash table to organize its storage and to
+provide rapid access to a value given the corresponding key. However, the
+methods defined for this class insulate you from the complexities of working
+with hash tables, hashing functions, or the hashed value of keys. These methods
+take key values directly, not their hashed form.<p>
+<p>
+Generally, you instantiate an NSDictionary by sending one of the
+<b>dictionary...</b> messages to the class object. These methods return an
+NSDictionary containing the associations specified as arguments to the method.
+Each key argument is copied and the copy is added to the NSDictionary. Each
+corresponding value object receives a <b>retain</b> message to ensure that it
+won't be deallocated prematurely.<p>
+<p>
+NSDictionary's three primitive methods<b>count</b> and
+<b>objectForKey:</b> and <b>keyEnumerator</b>provide the basis for all
+the other methods in its interface. The <b>count</b> method returns the number
+of entries in the object, <b>objectForKey: </b>returns the value associated
+with the given key, and <b>keyEnumerator</b> returns an object that lets you
+step through entries in the dictionary. <p>
+<p>
+The other methods declared here operate by invoking one or more of these
+primitives. The non-primitive methods provide convenient ways of accessing
+multiple entries at once. The <b>description... </b>methods and the
+<b>writeToFile:atomically:</b> method cause an NSDictionary to generate a
+description of itself and store it in a string object or a file.<p>
+<p>
+
+<b>Exceptions</b><p>
+
+
+NSSet implements the encodeWithCoder: method, which raises
+NSInternalInconsistencyException if the number of objects enumerated for
+encoding turns out to be unequal to the number of objects in the set. <p>
+<p>
+
+<b>Creating and Initializing an NSDictionary</b><p>
+
+<UL><LI> + (id)<b>allocWithZone:</b>(NSZone *)<i>zone</i>	Creates and returns an
+uninitialized NSDictionary in <i>zone</i>.
+</LI><LI> +  (id)<b>dictionary</b>	Creates and returns an empty NSDictionary.
+</LI><LI> +  (id)<b>dictionaryWithContentsOfFile:</b>(NSString *)<i>path</i>	  
+	Creates and returns an NSDictionary from the keys and values found in the file
+specified by <i>path</i>.
+</LI><LI> +  (id)<b>dictionaryWithObjects:</b>(NSArray *)<i>objects</i>	Creates and
+returns an NSDictionary that associates 
+<b>forKeys:</b>(NSArray *)<i>keys</i>		objects from the <i>objects</i> array
+with keys from the <i>keys</i> array. Keys must be strings. Raises
+NSInvalidArgumentException if the number of <i>objects</i> is not equal to the
+number of <i>keys</i>.
+</LI><LI> +  (id)<b>dictionaryWithObjects:</b>(id *)<i>objects</i>	Creates and returns an
+NSDictionary containing <i>count</i> 
+<b>forKeys:</b>(id *)<i>keys</i>		objects from the <i>objects</i> array. The
+objects are
+<b>count:</b>(unsigned int)<i>count</i>		associated with <i>count</i> keys
+taken from the <i>keys</i> array.
+</LI><LI> +  (id)<b>dictionaryWithObjectsAndKeys:</b>(id)<i>firstObject, ...</i>
+<i></i>	Creates and returns an NSDictionary that associates objects and keys
+from the argument list. The list must be in form: <i>object1</i>, <i>key1</i>,
+<i>object2</i>, <i>key2</i>, ..., <b>nil</b>. Raises NSInvalidArgumentException
+if any of the keys are nil, or if any of the keys are not of the NSString
+class.
+</LI><LI> -  (id)<b>initWithContentsOfFile:</b>(NSString *)<i>path</i>	Initializes a newly
+allocated NSDictionary using the keys and values found in <i>filename</i>.
+</LI><LI> -  (id)<b>initWithDictionary:</b>(NSDictionary *)<i>dictionary</i>
+<i></i>	Initializes a newly allocated NSDictionary by placing in it the keys
+and values contained in <i>otherDictionary</i>.
+</LI><LI> -  (id)<b>initWithObjectsAndKeys:</b>(id)<i>firstObject</i>,...	Initializes a
+newly allocated NSDictionary by placing in it the objects and keys from the
+argument list. The list must be in form: <i>object1</i>, <i>key1</i>,
+<i>object2</i>, <i>key2</i>, ..., <b>nil</b>. Raises NSInvalidArgumentException
+if any of the keys are nil, or if any of the keys are not of the NSString
+class.
+</LI><LI> -  (id)<b>initWithObjects:</b>(NSArray *)<i>objects</i>	Initializes a newly
+allocated NSDictionary by associating
+<b>forKeys:</b>(NSArray *)<i>keys</i>		objects from the <i>objects</i> array
+with keys from the <i>keys</i> array. Keys must be strings. Raises
+NSInvalidArgumentException if the number of objects is not equal to the number
+of keys.
+</LI><LI> -  (id)<b>initWithObjects:</b>(id *)<i>objects</i>	Initializes a newly allocated
+NSDictionary by associating
+<b>forKeys:</b>(id *)<i>keys</i>		<i>count</i> objects from the <i>objects</i>
+array with an equal
+<b>count:</b>(unsigned)<i>count</i>		number of keys from the <i>keys</i> array.
+Raises NSInvalidArgumentException if any of the <i>objects</i> or <i>keys</i>
+are <b>nil</b>.</LI></UL>
+<b>Accessing Keys and Values </b><p>
+
+<UL><LI> - (NSArray *)<b>allKeys</b>	Returns an NSArray containing the receiver's keys
+or an empty array if the receiver has no entries.
+</LI><LI> -  (NSArray *)<b>allKeysForObject:</b>(id)<i>object</i>	Finds all occurrences of
+the value <i>anObject</i> in the receiver and returns an array with the
+corresponding keys. 
+</LI><LI> -  (NSArray *)<b>allValues</b>	Returns an NSArray containing the dictionary's
+values, or an empty array if the dictionary has no entries.
+</LI><LI> -  (NSEnumerator *)<b>keyEnumerator</b>	Returns an NSEnumerator that lets you
+access each of the receiver's keys.
+</LI><LI> -  (NSEnumerator *)<b>objectEnumerator</b>	Returns an NSEnumerator that lets you
+access each the receiver's values.
+</LI><LI> -  (id)<b>objectForKey:</b>(id)<i>aKey</i>	Returns an entry's value given its
+key, or <b>nil</b> if no value is associated with <i>aKey</i>.</LI></UL>
+<b>Counting Entries </b><p>
+
+<UL><LI> - (unsigned)<b>count</b>	Returns the number of entries in the receiver.</LI></UL>
+<b>Comparing Dictionaries </b><p>
+
+<UL><LI> - (BOOL)<b>isEqualToDictionary:</b>(NSDictionary *)<i>other</i>	
+	Compares the receiver to <i>otherDictionary</i>. If the contents of
+<i>otherDictionary</i> are equal to the contents of the receiver, this method
+returns YES. If not, it returns NO.</LI></UL>
+<b>Storing Dictionaries </b><p>
+
+<UL><LI> - (NSString *)<b>description</b>	Returns a string that represents the contents
+of the receiver.
+</LI><LI> -  (NSString *)<b>descriptionInStringsFileFormat</b>	Returns a string that
+represents the contents of the receiver. Key-value pairs are represented in a
+appropriate for use in .strings files
+</LI><LI> -  (NSString *)<b>descriptionWithLocale:</b>(NSDictionary
+*)<i>localeDictionary</i>
+<i></i>	Returns a string representation of the NSDictionary object. Included
+are the key and values that represent the locale data from
+<i>localeDictionary</i>.
+</LI><LI> -  (NSString *)<b>descriptionWithLocale:</b>(NSDictionary
+*)<i>localeDictionary</i>
+<i></i><b>indent:</b>(unsigned int)<i>level</i>	Returns a string representation
+of the NSDictionary object. Included are the key and values that represent the
+locale data from <i>localeDictionary</i>. Elements are indented from the left
+margin by <i>level</i> + 1 multiples of four spaces, to make the output more
+readable.
+</LI><LI> -  (BOOL)<b>writeToFile:</b>(NSString *)<i>path</i>	Writes a textual description
+of the contents of the 
+<b>atomically:</b>(BOOL)<i>useAuxiliaryFile</i>		receiver to <i>filename</i>.
+If<i> useAuxiliaryFile</i> is YES, the data is written to a backup file and
+then, assuming no errors occur, the backup file is renamed to the intended file
+name.
+</body></html>

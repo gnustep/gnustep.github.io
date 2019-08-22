@@ -1,0 +1,218 @@
+<html><head><TITLE>NSObject.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSObject </b><p>
+
+<B>Inherits From: </B>none<i>(NSObject is the root class)</i><p>
+<i></i><p>
+<i></i>Conforms To:	NSObject<p>
+<p>
+<b>Declared In:	</b>Foundation/NSObject.h <p>
+Foundation/NSRunLoop.h<p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSObject is the root class of all ordinary Objective C inheritance hierarchies;
+it has no superclass. Its interface derives from two sources: the methods it
+declares directly and those declared in the NSObject protocol. Its interface is
+divided in this way so that objects inheriting from other root classes (notably
+NSProxy) can stand in for ordinary objects without having to inherit from
+NSObject. The following discussion makes no distinction between the methods
+declared in this class and those declared in the NSObject protocol. <p>
+<p>
+From NSObject, other classes inherit a basic interface to the run-time system
+for the Objective C language. It's through NSObject that instances of all
+classes obtain their ability to behave as objects. Among other things, the
+NSObject class provides inheriting classes with a framework for creating,
+initializing, deallocating, comparing, and archiving objects, for performing
+methods selected at run-time, for querying an object about its methods and its
+position in the inheritance hierarchy, and for forwarding messages to other
+objects. For example, to ask an object what class it belongs to, you'd send it
+a <b>class</b> message. To find out whether it implements a particular method,
+you'd send it a <b>respondsToSelector:</b> message<p>
+<p>
+The NSObject class is an abstract class; programs use instances of classes that
+inherit from NSObject, but never of NSObject itself.<p>
+<p>
+
+<b>Initializing an Object to Its Class</b><p>
+
+Every object is connected to the run-time system through its <b>isa</b>
+instance variable, inherited from the NSObject class. <b>isa</b> identifies the
+object's class; it points to a structure that's compiled from the class
+definition. Through <b>isa</b>, an object can find whatever information it
+needs at run timesuch as its place in the inheritance hierarchy, the
+size and structure of its instance variables, and the location of the method
+implementations it can perform in response to messages.<p>
+<p>
+Because all ordinary objects inherit directly or indirectly from the NSObject
+class, they all have this variable. The defining characteristic of an
+object is that its first instance variable is an
+<b>isa</b> pointer to a class structure.<p>
+<p>
+The installation of the class structurethe initialization of
+<b>isa</b>is one of the responsibilities of the <b>alloc</b> and
+<b>allocWithZone:</b> methods, the same methods that create (allocate memory
+for) new instances of a class. In other words, class initialization is part of
+the process of creating an object; it's not left to the methods, such as
+<b>init</b>, that initialize individual objects with their particular
+characteristics.<p>
+<p>
+
+<b>Instance and Class Methods</b><p>
+
+Every object requires an interface to the run-time system, whether it's an
+instance object or a class object. For example, it should be possible to ask
+either an instance or a class whether it can respond to a particular message.
+So that this won't mean implementing every NSObject method twice, once as an
+instance method and again as a class method, the run-time system treats methods
+defined in the root class in a special way:<p>
+<p>
+<i>Instance methods defined in the root class can be performed both by
+instances</i><p>
+<i>and by class objects.</i> <p>
+<p>
+A class object has access to class methodsthose defined in the class and
+those inherited from the classes above it in the inheritance
+hierarchybut generally not to instance methods. However, the run-time
+system gives all class objects access to the instance methods defined in the
+root class. Any class object can perform any root instance method, provided it
+doesn't have a class method with the same name.<p>
+<p>
+For example, a class object could be sent messages to perform NSObject's
+<b>respondsToSelector:</b> and <b>perform:withObject:</b> instance methods:<p>
+<p>
+<tt>SEL method = @selector(riskAll:);</tt><p>
+<tt></tt><p>
+<tt>if ( [MyClass respondsToSelector:method] )</tt><p>
+<tt>    [MyClass perform:method withObject:self];</tt><p>
+<tt></tt><p>
+When a class object receives a message, the run-time system looks first at the
+receiver's set of class methods. If it fails to find a class method that can
+respond to the message, it looks at the set of instance methods defined in the
+root class. If the root class has an instance method that can respond (as
+NSObject does for <b>respondsToSelector:</b> and <b>perform:withObject:</b>),
+the run-time system uses that implementation and the message succeeds.<p>
+<p>
+Note that the only instance methods available to a class object are those
+defined in the root class. If MyClass in the example above had reimplemented
+either <b>respondsToSelector:</b> or <b>perform:withObject:</b>, those new
+versions of the methods would be available only to instances. The class object
+for MyClass could perform only the versions defined in the NSObject class. (Of
+course, if MyClass had implemented <b>respondsToSelector:</b> or
+<b>perform:withObject:</b> as class methods rather than instance methods, the
+class would perform those new versions.)<p>
+<p>
+
+<b>Initializing the Class</b><p>
+
+<UL><LI> + (void)<b>initialize</b>	Initializes the class before it's used (before it
+receives its first message). </LI></UL>
+<b>Creating and Destroying Instances</b><p>
+
+<UL><LI> + (id)<b>alloc</b>	Returns a new, uninitialized instance of the receiving
+class. 
+</LI><LI> +  (id)<b>allocWithZone:</b>(NSZone *)<i>zone</i>	Returns a new, uninitialized
+instance of the receiving class in <i>zone</i>.
+</LI><LI> +  (id)<b>new</b>	Allocates a new instance of the receiving class, sends it an
+<b>init</b> message, and returns the initialized object returned by
+<b>init</b>. This method is simply a convenient cover for the <b>alloc</b> and
+<b>init</b> methods.
+</LI><LI> -  (id)<b>copy</b>	Invokes <b>copyWithZone:</b>. This method is implemented in
+NSObject as a convenience to subclasses. A subclass need override only
+<b>copyWithZone:</b> for both <b>copy</b> and <b>copyWithZone:</b> to operate
+correctly.
+</LI><LI> -  (void)<b>dealloc</b>	Deallocates the memory occupied by the receiver. 
+</LI><LI> -  (id)<b>init</b>	Implemented by subclasses to initialize a new object (the
+receiver) immediately after memory for it has been allocated.
+</LI><LI> -  (id)<b>mutableCopy</b>	Invokes <b>mutableCopyWithZone:</b>.  This method is
+implemented in NSObject as a convenience to subclasses. A subclass need
+override only <b>mutableCopyWithZone:</b> for both <b>mutableCopy</b> and
+<b>mutableCopyWithZone:</b> to operate correctly.</LI></UL>
+<b>Identifying Classes</b><p>
+
+<UL><LI> + (Class)<b>class</b>	Returns <b>self</b>. Since this is a class method, it
+returns the class object.
+</LI><LI> +  (Class)<b>superclass</b>	Returns the class object for the receiver's
+superclass.</LI></UL>
+<b>Testing Class Functionality</b><p>
+
+<UL><LI> + (BOOL)<b>instancesRespondToSelector:</b>(SEL)<i>aSelector</i>
+<i></i>	Returns YES if instances of the class are capable of responding to
+<i>aSelector</i> messages, and NO if they're not.</LI></UL>
+<b>Testing Protocol Conformance</b><p>
+
+<UL><LI> + (BOOL)<b>conformsToProtocol:</b>(Protocol *)<i>aProtocol</i>
+<i></i>	Returns YES if the receiving class conforms to <i>aProtocol</i>, and NO
+if it doesn't.</LI></UL>
+<b>Obtaining Method Information</b><p>
+
+<UL><LI> + (IMP)<b>instanceMethodForSelector:</b>(SEL)<i>aSelector</i>
+<i></i>	Locates and returns the address of the implementation of the
+<i>aSelector</i> instance method.
+</LI><LI> -  (IMP)<b>methodForSelector:</b>(SEL)<i>aSelector</i>	Locates and returns the
+address of the receiver's implementation of the <i>aSelector</i> method, so
+that it can be called as a function.
+</LI><LI> -  (NSMethodSignature
+*)<b>methodSignatureForSelector:</b>(SEL)<i>aSelector</i>
+<i></i>	Returns an object that contains a description of the <i>aSelector</i>
+method, or <b>nil</b> if the <i>aSelector</i> method can't be found.</LI></UL>
+<b>Describing Objects</b><p>
+
+<UL><LI> + (NSString *)<b>description</b>	Subclasses override this method to return a
+human-readable string representation of the contents of the receiver.
+NSObject's implementation simply prints the name of the receiver's class.</LI></UL>
+<b>Posing</b><p>
+
+<UL><LI> + (void)<b>poseAsClass:</b>(Class)<i>aClass</i>	Causes the receiving class to
+pose as its superclass.</LI></UL>
+<b>Error Handling</b><p>
+
+<UL><LI> - (void)<b>doesNotRecognizeSelector:</b>(SEL)<i>aSelector</i>
+<i></i>	Handles <i>aSelector</i> messages that the receiver doesn't recognize.
+</LI></UL>
+<b>Sending Deferred Messages</b><p>
+
+<UL><LI> + (void)<b>cancelPreviousPerformRequestsWithTarget:</b>(id)<i>aTarget</i>
+<i></i>selector:(SEL)<i>aSelector</i>	Cancels previous perform requests having
+the same target
+<b>object:</b>(id)<i>anObject		</i>and argument (as determined by
+<b>isEqual:</b>), and the same selector. This method removes timers only in the
+current run loop, not all run loops.
+</LI><LI> -  (void)<b>performSelector:</b>(SEL)<i>aSelector</i>	Sends an <i>aSelector</i>
+message to <i>anObject</i> after <i>delay</i>.  <b>self</b> 
+<b>object:</b>(id)<i>anObject</i>		and <i>anObject</i> are retained until after
+the action is 
+<b>afterDelay:</b>(NSTimeInterval)<i>delay</i>		executed.</LI></UL>
+<b>Forwarding Messages</b><p>
+
+<UL><LI> - (void)<b>forwardInvocation:</b>(NSInvocation *)<i>anInvocation</i>
+<i></i>	Implemented by subclasses to forward messages to other objects.</LI></UL>
+<b>Archiving</b><p>
+
+<UL><LI> - (id)<b>awakeAfterUsingCoder:</b>(NSCoder *)<i>aDecoder</i>
+<i></i>	Implemented by subclasses to reinitialize the receiver. The NSObject
+implementation of this method simply returns <b>self</b>.
+</LI><LI> -  (Class)<b>classForArchiver</b>	Identifies the class to be used during
+archiving. NSObject's implementation returns the object returned by<b>
+classForCoder:</b>.
+</LI><LI> -  (Class)<b>classForCoder</b>	Identifies the class to be used during
+serialization. An NSObject returns its own class by default.
+</LI><LI> -  (id)<b>replacementObjectForArchiver:</b>(NSArchiver *)<i>anArchiver</i>
+<i></i>	Allows an object to substitute another object for itself during
+archiving. NSObject's implementation returns the object returned by
+<b>replacementObjectForCoder:</b>.
+</LI><LI> -  (id)<b>replacementObjectForCoder:</b>(NSCoder *)<i>anEncoder</i>
+<i></i>	Allows an object to substitute another object for itself during
+serialization. NSObject's implementation returns <b>self</b>.
+</LI><LI> +  (void)<b>setVersion:</b>(int)<i>version</i>	Sets the class version number to
+<i>version</i>.
+</LI><LI> +  (int)<b>version</b>	Returns the version of the class definition.
+</body></html>

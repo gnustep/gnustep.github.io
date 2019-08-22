@@ -1,0 +1,65 @@
+<html><head><TITLE>NSByteStoreFile.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSByteStoreFile</b><p>
+
+<B>Inherits From: </B><A HREF="NSByteStore.html">NSByteStore</A> : <A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSObject (NSObject)
+<p>
+<b>Declared In:	</b>Foundation/NSByteStore.h<p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSByteStoreFile is a subclass of NSByteStore that keeps its storage in a file.
+NSByteStoreFile guarantees the integrity of stored data against process and
+system crashes when protected by transactions (described in the NSByteStore
+class specification), provided that the physical media remains intact. <p>
+<p>
+When you create an NSByteStoreFile, you specify a storage file and open it for
+reading only or for both reading and writing. The methods you use to access the
+contents of the file are implemented in NSByteStore. <p>
+<p>
+To support the use of preconfigured files, a process using an NSByteStoreFile
+opened for reading only may freely modify the NSByteStoreFile; all modified
+pages are reflected only in the address space of the process. The modifications
+are never written to the file and are discarded when the NSByteStoreFile is
+freed.<p>
+<p>
+
+<b>Creating and Initializing an NSByteStoreFile Instance </b><p>
+
+<UL><LI> + (NSByteStore *)<b>byteStoreFile:</b>(NSString*)<i>path</i>	Creates and
+initializes an NSByteStoreFile with <i>path</i> as its 
+<b>transactionsEnabled:</b>(BOOL)<i>enable</i> 		storage file. If <i>enable</i>
+is YES, transactions are enabled. 
+<b>create:</b>(BOOL)<i>create 		</i>If <i>create</i> is YES, the file
+<i>path</i> is created. If <i>readOnly</i> is 
+<b>readOnly:</b>(BOOL)<i>readOnly		</i>YES, <i>path</i> is opened for reading.
+If <i>readOnly</i> is NO, path is opened for reading and writing.
+</LI><LI> -  (id)<b>initWithPath:</b>(NSString*)<i>path</i>	Initializes a newly allocated
+NSByteStoreFile with <i>path</i> as 
+<b>transactionsEnabled:</b>(BOOL)<i>enable</i> 		its storage file. If
+<i>enable</i> is YES, transactions are 
+<b>create:</b>(BOOL)<i>create 		</i>enabled. If <i>create</i> is YES, the file
+<i>path</i> is created. If 
+<b>readOnly:</b>(BOOL)<i>readOnly		readOnly</i> is YES, <i>path</i> is opened
+for reading. If <i>readOnly</i> is NO, path is opened for reading and
+writing.</LI></UL>
+<b>Accessing the Storage File</b><p>
+
+<UL><LI> - (NSString *)<b>storePath</b>	Returns the path of the storage file.</LI></UL>
+<b>Reducing Memory Consumption</b><p>
+
+<UL><LI> - (void)<b>compactUntilDate:</b>(NSDate *)<i>limitDate</i>	Removes free space
+by relocating blocks toward the origin of the virtual address space defined by
+the NSByteStoreFile. <i>limitDate</i> sets a time limit on this operation. No
+<i>limitDate</i> allows the compaction to run to completion. 
+</body></html>

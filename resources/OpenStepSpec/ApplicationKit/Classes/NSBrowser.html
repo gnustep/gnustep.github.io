@@ -1,0 +1,323 @@
+<html><head><TITLE>NSBrowser.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSBrowser</b><p>
+
+<B>Inherits From: </B><A HREF="NSControl.html">NSControl</A> : <A HREF="NSView.html">NSView</A> : <A HREF="NSResponder.html">NSResponder</A> : <A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding (NSResponder)
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSBrowser.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSBrowser provides a user interface for displaying and selecting items from a
+list of data, or from hierarchically organized lists of data such as directory
+paths. When working with a hierarchy of data, the levels are displayed in
+columns, which are numbered from left to right, beginning with 0. Each column
+consists of an NSScrollView containing an NSMatrix filled with NSBrowserCells.
+NSBrowser relies on a delegate to provide the data in its NSBrowserCells. See
+the NSBrowserCell class description for more on its implementation.<p>
+<p>
+
+<b>Browser Selection</b><p>
+
+An entry in an NSBrowser's column can be either a branch node (such as a
+directory) or a leaf node (such as a file). When the user selects a single
+branch node entry in a column, the NSBrowser sends itself the <b>addColumn</b>
+message, which messages its delegate to load the next column. The user's
+selection can be represented as a character string; if the selection is
+hierarchical (for example, a filename within a directory), each component of
+the path to the selected node is separated by /.
+To use some other character as the delimiter, invoke
+<b>setPathSeparator:</b>.<p>
+<p>
+An NSBrowser can be set to allow selection of multiple entries in a column, or
+to limit selection to a single entry. When set for multiple selection, it can
+also be set to limit multiple selection to leaf nodes only, or to allow
+selection of both types of nodes together.<p>
+<p>
+As a subclass of NSControl, NSBrowser has a target object and action message.
+Each time the user selects one or more entries in a column, the action message
+is sent to the target. NSBrowser also adds an action to be sent when the user
+double-clicks on an entry, which allows the user to select items without any
+action being taken, and then double-click to invoke some useful action such as
+opening a file.<p>
+<p>
+
+<b>User Interface Features</b><p>
+
+The user interface features of an NSBrowser can be changed in a number of ways.
+The NSBrowser may or may not have a horizontal scroller. (The NSBrowser's
+columns, by contrast, always have vertical scrollersalthough a
+scroller's buttons and knob might be invisible if the column doesn't contain
+many entries.) You generally shouldn't create an NSBrowser without a horizontal
+scroller; if you do, you must make sure the bounds rectangle of the NSBrowser
+is wide enough that all the columns can be displayed. An NSBrowser's columns
+may be bordered and titled, bordered and untitled, or unbordered and untitled.
+A column's title may be taken from the selected entry in the column to its
+left, or may be provided explicitly by the NSBrowser or its delegate.<p>
+<p>
+
+<b>NSBrowser's Delegate</b><p>
+
+NSBrowser requires a delegate to provide it with data to display. The delegate
+is responsible for providing the data and for setting each item as a branch or
+leaf node, enabled or disabled. It can also receive notification of events like
+scrolling and requests for validation of columns that may have changed. <p>
+<p>
+You can implement one of two delegate types: active or passive. An active
+delegate creates a column's rows (that is, the NSBrowserCells) itself, while a
+passive one leaves that job to the NSBrowser. Normally, passive delegates are
+preferable, because they're easier to implement. An active delegate must
+implement <b>browser:createRowsForColumn:inMatrix:</b> to create the rows of
+the specified column. A passive delegate, on the other hand, must implement<b>
+browser:numberOfRowsInColumn:</b> to let the NSBrowser know how many rows to
+create. These two methods are mutually exclusive; you can implement one or the
+other, but not both. (The NSBrowser ascertains what type of delegate it has by
+which method the delegate responds to.)<p>
+<p>
+Both types of delegate implement <b>browser:willDisplayCell:atRow:column:</b>
+to set up state (such as the cell's string value and whether the cell is a leaf
+or a branch) before an individual cell is displayed. (This delegate method
+doesn't need to invoke NSBrowserCell's <b>setLoaded:</b> method, because the
+NSBrowser can determine that state by itself.) An active delegate can instead
+set all the cells' state at the time the cells are created, in which case it
+doesn't need to implement <b>browser:willDisplayCell:atRow:column:</b>.
+However, a passive delegate must always implement this method.<p>
+<p>
+
+<b>Setting the Delegate </b><p>
+
+<UL><LI> - (id)<b>delegate</b>	Returns the NSBrowser's delegate.
+</LI><LI> -  (void)<b>setDelegate:</b>(id)<i>anObject</i>	Sets the NSBrowser's delegate to
+<i>anObject</i>. Raises NSBrowserIllegalDelegateException if the delegate
+specified by <i>anObject</i> doesn't respond to
+<b>browser:willDisplayCell:atRow:column:</b> and either of the methods
+<b>browser:numberOfRowsInColumn:</b> or
+<b>browser:createRowsForColumn:inMatrix:</b></LI></UL>
+Target and Action <p>
+<p>
+<p>
+- (SEL)<b>doubleAction</b>	Returns the NSBrowser's double-click action
+method.<p>
+<p>
+- (BOOL)<b>sendAction</b>	Sends the action message to the target. Returns YES
+upon success, NO if no responder for the message could be found. <p>
+<p>
+- (void)<b>setDoubleAction:</b>(SEL)<i>aSelector</i>	Sets the NSBrowser's
+double-click action to <i>aSelector</i>.<p>
+
+<b>Setting Component Classes </b><p>
+
+<UL><LI> + (Class)<b>cellClass	</b>Returns the NSBrowserCell class (regardless of
+whether a <b>setCellClass:</b> message has been sent to a particular
+instance).
+</LI><LI> -  (id)<b>cellPrototype</b>	Returns the NSBrowser's prototype NSCell.
+</LI><LI> -  (Class)<b>matrixClass	</b>Returns the class of NSMatrix used in the
+NSBrowser's columns.
+</LI><LI> -  (void)<b>setCellClass:</b>(Class)<i>classId</i>	Sets the class of NSCell used
+in the columns of the NSBrowser.
+</LI><LI> -  (void)<b>setCellPrototype:</b>(NSCell *)<i>aCell</i>	Sets the NSCell instance
+copied to display items in the columns of NSBrowser.
+</LI><LI> -  (void)<b>setMatrixClass:</b>(Class)<i>classId</i>	Sets the class of NSMatrix
+used in the NSBrowser's columns.</LI></UL>
+<b>Setting NSBrowser Behavior </b><p>
+
+<UL><LI> - (BOOL)<b>reusesColumns</b>	Returns YES if NSMatrix objects aren't freed when
+their columns are unloaded. 
+</LI><LI> -  (void)<b>setReusesColumns:</b>(BOOL)<i>flag</i>	If <i>flag </i>is YES,
+prevents NSMatrix objects from being freed when their columns are unloaded, so
+they can be reused.
+</LI><LI> -  (void)<b>setTakesTitleFromPreviousColumn:</b>(BOOL)<i>flag</i>	
+	Sets whether the title of a column is set to the string value of the selected
+NSCell in the previous column.
+</LI><LI> -  (BOOL)<b>takesTitleFromPreviousColumn	</b>Returns YES if the title of a
+column is set to the string value of the selected NSCell in the previous
+column.</LI></UL>
+<b>Allowing Different Types of Selection </b><p>
+
+<UL><LI> - (BOOL)<b>allowsBranchSelection</b>	Returns whether the user can select branch
+items when multiple selection is enabled.
+</LI><LI> -  (BOOL)<b>allowsEmptySelection</b>	Returns whether there can be nothing
+selected.
+</LI><LI> -  (BOOL)<b>allowsMultipleSelection</b>	Returns whether the user can select
+multiple items.
+</LI><LI> -  (void)<b>setAllowsBranchSelection:</b>(BOOL)<i>flag</i>	Sets whether the user
+can select branch items when multiple selection is enabled.
+</LI><LI> -  (void)<b>setAllowsEmptySelection:</b>(BOOL)<i>flag</i>	Sets whether there can
+be nothing selected.
+</LI><LI> -  (void)<b>setAllowsMultipleSelection:</b>(BOOL)<i>flag</i>	Sets whether the
+user can select multiple items.</LI></UL>
+<b>Setting Arrow Key Behavior</b><p>
+
+<UL><LI> - (BOOL)<b>acceptsArrowKeys	</b>Returns YES if the arrow keys are enabled.	
+</LI><LI> -  (BOOL)<b>sendsActionOnArrowKeys	</b>Returns NO if pressing an arrow key only
+scrolls the browser, YES if it also sends the action message specified by
+<b>setAction:</b>.
+</LI><LI> -  (void)<b>setAcceptsArrowKeys:</b>(BOOL)<i>flag</i>	Enables or disables the
+arrow keys.
+</LI><LI> -  (void)<b>setSendsActionOnArrowKeys:</b>(BOOL)<i>flag</i>	Sets whether
+pressing an arrow key will cause the action message to be sent (in addition to
+causing scrolling). </LI></UL>
+<b>Showing a Horizontal Scroller </b><p>
+
+<UL><LI> - (void)<b>setHasHorizontalScroller:</b>(BOOL)<i>flag</i>	Sets whether an
+NSScroller is used to scroll horizontally.
+</LI><LI> -  (BOOL)<b>hasHorizontalScroller</b>	Returns whether an NSScroller is used to
+scroll horizontally.</LI></UL>
+<b>Setting the NSBrowser's Appearance </b><p>
+
+<UL><LI> - (int)<b>maxVisibleColumns</b>	Returns the maximum number of visible columns.
+
+</LI><LI> -  (int)<b>minColumnWidth</b>	Returns the minimum column width.
+</LI><LI> -  (BOOL)<b>separatesColumns</b>	Returns whether columns are separated by
+bezeled borders.
+</LI><LI> -  (void)<b>setMaxVisibleColumns:</b>(int)<i>columnCount</i>	Sets the maximum
+number of columns displayed.
+</LI><LI> -  (void)<b>setMinColumnWidth:</b>(int)<i>columnWidth</i>	Sets the minimum
+column width.
+</LI><LI> -  (void)<b>setSeparatesColumns:</b>(BOOL)<i>flag</i>	Sets whether to separate
+columns with bezeled borders.</LI></UL>
+<b>Manipulating Columns </b><p>
+
+<UL><LI> - (void)<b>addColumn</b>	Adds a column to the right of the last column.
+</LI><LI> -  (int)<b>columnOfMatrix:</b>(NSMatrix *)<i>matrix</i>	Returns the column
+number in which <i>matrix</i> is located.
+</LI><LI> -  (void)<b>displayAllColumns</b>	Updates the NSBrowser to display all loaded
+columns.
+</LI><LI> -  (void)<b>displayColumn:</b>(int)<i>column</i>	Updates the NSBrowser to
+display the column with the given index.
+</LI><LI> -  (int)<b>firstVisibleColumn</b>	Returns the index of the first visible
+column.
+</LI><LI> -  (BOOL)<b>isLoaded</b>	Returns whether column zero is loaded.
+</LI><LI> -  (int)<b>lastColumn</b>	Returns the index of the last column loaded.
+</LI><LI> -  (int)<b>lastVisibleColumn</b>	Returns the index of the last visible column.
+</LI><LI> -  (void)<b>loadColumnZero</b>	Loads column zero; unloads previously loaded
+columns.
+</LI><LI> -  (int)<b>numberOfVisibleColumns</b>	Returns the number of columns visible.
+</LI><LI> -  (void)<b>reloadColumn:</b>(int)<i>column</i>	Reloads <i>column</i> if it is
+loaded; sets it as the last column.
+</LI><LI> -  (void)<b>selectAll:</b>(id)<i>sender</i>	Selects all NSCells in the last
+column of the NSBrowser.
+</LI><LI> -  (int)<b>selectedColumn</b>	Returns the index of the last column with a
+selected item. 
+</LI><LI> -  (void)<b>setLastColumn:</b>(int)<i>column</i>	Sets the last column to
+<i>column</i>.
+</LI><LI> -  (void)<b>validateVisibleColumns</b>	Invokes delegate method
+<b>browser:isColumnValid: </b>for visible columns.</LI></UL>
+<b>Manipulating Column Titles </b><p>
+
+<UL><LI> - (void)<b>drawTitle:</b>(NSString *)<i>title	</i>Draws the title for the
+column at index <i>column</i>.
+<b>inRect:</b>(NSRect)<i>aRect</i>
+<i></i><b>ofColumn:</b>(int)<i>column</i>
+<i></i></LI><LI> -  (BOOL)<b>isTitled</b>	Returns whether columns display titles.
+</LI><LI> -  (void)<b>setTitled:</b>(BOOL)<i>flag</i>	Sets whether columns display
+titles.
+</LI><LI> -  (void)<b>setTitle:</b>(NSString *)<i>aString</i>	Sets the title of the column
+at index <i>column</i> to <i>aString</i>.	 
+<b>ofColumn:</b>(int)<i>column</i>
+<i></i></LI><LI> -  (NSRect)<b>titleFrameOfColumn:</b>(int)<i>column</i>	Returns the bounds of
+the title frame for the column at index <i>column</i>.
+</LI><LI> -  (float)<b>titleHeight</b>	Returns the height of column titles. 
+</LI><LI> -  (NSString *)<b>titleOfColumn:</b>(int)<i>column</i>	Returns the title
+displayed for the column at index <i>column</i>.</LI></UL>
+<b>Scrolling an NSBrowser </b><p>
+
+<UL><LI> - (void)<b>scrollColumnsLeftBy:</b>(int)<i>shiftAmount</i>	Scrolls columns left
+by <i>shiftAmount</i> columns.
+</LI><LI> -  (void)<b>scrollColumnsRightBy:</b>(int)<i>shiftAmount</i>	Scrolls columns
+right by <i>shiftAmount</i> columns. 
+</LI><LI> -  (void)<b>scrollColumnToVisible:</b>(int)<i>column</i>	Scrolls to make the
+column at index <i>column</i> visible.
+</LI><LI> -  (void)<b>scrollViaScroller:</b>(NSScroller *)<i>sender</i>	Scrolls columns
+left or right based on an NSScroller. 
+</LI><LI> -  (void)<b>updateScroller</b>	Updates the horizontal scroller to reflect column
+positions.</LI></UL>
+<b>Event Handling </b><p>
+
+<UL><LI> - (void)<b>doClick:</b>(id)<i>sender</i>	Responds to mouse clicks in a column
+of the NSBrowser.
+</LI><LI> -  (void)<b>doDoubleClick:</b>(id)<i>sender</i>	Responds to double-clicks in a
+column of the NSBrowser. </LI></UL>
+<b>Getting Matrices and Cells </b><p>
+
+<UL><LI> - (id)<b>loadedCellAtRow:</b>(int)<i>row</i>	Loads if necessary and returns the
+NSCell at <i>row</i> in	 
+<b>column:</b>(int)<i>column</i>		<i>column</i>.
+</LI><LI> -  (NSMatrix *)<b>matrixInColumn:</b>(int)<i>column</i>	Returns the matrix
+located in <i>column</i>.
+</LI><LI> -  (id)<b>selectedCell</b>	Returns the last (rightmost and lowest) selected
+NSCell.
+</LI><LI> -  (id)<b>selectedCellInColumn:</b>(int)<i>column</i>	Returns the last (lowest)
+NSCell that's selected in <i>column</i>.
+</LI><LI> -  (NSArray *)<b>selectedCells</b>	Returns all the rightmost selected NSCells.</LI></UL>
+<b>Getting Column Frames </b><p>
+
+<UL><LI> - (NSRect)<b>frameOfColumn:</b>(int)<i>column</i>	Returns the rectangle
+containing the column at index <i>column</i>.
+</LI><LI> -  (NSRect)<b>frameOfInsideOfColumn:</b>(int)<i>column</i>	Returns the rectangle
+containing the column at index <i>column</i>, not including borders.</LI></UL>
+<b>Manipulating Paths </b><p>
+
+<UL><LI> - (NSString *)<b>path	</b>Returns the browser's current path. 
+</LI><LI> -  (NSString *)<b>pathSeparator	</b>Returns the path separator. The default is
+/.
+</LI><LI> -  (NSString *)<b>pathToColumn:</b>(int)<i>column</i>	Returns a string
+representing the path from the first column to the column at index
+<i>column</i>.
+</LI><LI> -  (BOOL)<b>setPath:</b>(NSString *)<i>path</i>	Parses <i>path</i> and selects
+corresponding items in columns.
+</LI><LI> -  (void)<b>setPathSeparator:</b>(NSString *)<i>aString</i>	Sets the path
+separator to <i>aString</i>.</LI></UL>
+<b>Arranging an NSBrowser's Components </b><p>
+
+<UL><LI> - (void)<b>tile</b>	Adjusts the various subviews of NSBrowserscrollers,
+columns, titles, and so onwithout redrawing.  Your code shouldn't send
+this message.  It's invoked any time the appearance of the NSBrowser changes.</LI></UL>
+<b>Methods Implemented by the Delegate </b><p>
+
+<UL><LI> - (void)<b>browser:</b>(NSBrowser *)<i>sender</i> 	Creates a row in <i>matrix
+</i>for each row of data to be displayed
+<b>createRowsForColumn:</b>(int)<i>column</i> 		 in <i>column </i>of the
+browser. Either this method or 
+<b>inMatrix:</b>(NSMatrix *)<i>matrix</i>		<b>browser:numberOfRowsInColumn:</b>
+must be implemented, but not both (or an NSBrowserIllegalDelegateException will
+be raised).
+</LI><LI> -  (BOOL)<b>browser:</b>(NSBrowser *)<i>sender</i>	 
+<b>isColumnValid:</b>(int)<i>column</i>	Returns whether the contents of the
+specified column are valid.
+</LI><LI> -  (int)<b>browser:</b>(NSBrowser *)<i>sender</i>	Returns the number of rows of
+data in the column at index	 
+<b>numberOfRowsInColumn:</b>(int)<i>column</i>		<i>column</i>. Either this
+method or 
+		<b>browser:createRowsForColumn:inMatrix:</b> must be implemented, but not
+both.
+</LI><LI> -  (BOOL)<b>browser:</b>(NSBrowser *)<i>sender</i>	 Asks the delegate to select
+the NSCell with title <i>title</i> in 
+<b>selectCell:</b>(NSString *)<i>title</i>		 the column at index
+<i>column</i>.
+<b>inColumn:</b>(int)<i>column</i>	
+</LI><LI> -  (NSString *)<b>browser:</b>(NSBrowser *)<i>sender</i>	 Queries the delegate
+for the title to display above the 
+<b>titleOfColumn:</b>(int)<i>column</i>		column at index <i>column</i>.
+</LI><LI> -  (void)<b>browser:</b>(NSBrowser *)<i>sender</i> 	Notifies the delegate when
+the NSBrowser will display 
+<b>willDisplayCell:</b>(id)<i>cell</i> 		the specified cell. The delegate
+should set any state
+<b>atRow:</b>(int)<i>row</i> 		necessary for correct display of the cell.
+<b>column:</b>(int)<i>column</i>
+<i></i></LI><LI> -  (void)<b>browserDidScroll:</b>(NSBrowser *)<i>sender</i>	Notifies the
+delegate when the NSBrowser has scrolled.
+</LI><LI> -  (void)<b>browserWillScroll:</b>(NSBrowser *)<i>sender</i>	Notifies the
+delegate when the NSBrowser will scroll. 
+</body></html>

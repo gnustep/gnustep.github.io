@@ -1,0 +1,156 @@
+<html><head><TITLE>NSPrintInfo.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSPrintInfo </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding, NSCopying
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSPrintInfo.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+An NSPrintInfo object stores information that's used during printing. A shared
+NSPrintInfo object is automatically created for an application and is used by
+default for all printing jobs for that application. You can create any number
+of additional NSPrintInfo objects; however, only one can be
+active at a time, as set through the
+<b>setSharedPrintInfo:</b> class method. The shared NSPrintInfo object is
+returned through the <b>sharedPrintInfo</b> class method.<p>
+<p>
+An NSPrintInfo object is used by the NSPrintOperations class to control
+printing. If you create special instances of NSPrintInfo objects for a specific
+printing task, you must ensure that either the application's shared NSPrintInfo
+object is current, or you must instantiate an NSPrintOperations object using
+one of its methods that explicitly designate an NSPrintInfo object.<p>
+<p>
+Although you can set an NSPrintInfo's attributes through the methods it
+provides, this is usually the task of other objects, notably the NSPageLayout
+and NSPrintPanel objects. The NSView or NSWindow that's being printed may also
+supercede some NSPrintInfo settings. In particular, a NSView or NSWindow can
+supply the range of pages in the document and can provide its own pagination
+mechanism through the<b> knowsPagesFirst:last:</b> and <b>rect:forPage:</b>
+methods (see the documentation of these methods in the NSView class for
+details).<p>
+<p>
+If the printed NSView or NSWindow doesn't supply a pagination, the
+NSPrintInfo's vertical and horizontal pagination constants are used to trigger
+built-in pagination mechanisms:<p>
+<p>
+<b>Pagination Constant	Meaning</b><p>
+
+
+NSAutoPagination 	The image is diced into equal-sized rectangles and placed in
+one column of pages.<p>
+<p>
+NSFitPagination 	The image is scaled to produce one column or one row of
+pages.<p>
+<p>
+NSClipPagination	The image is clipped to produce one column or row of pages. <p>
+<p>
+Vertical and horizontal pagination needn't be the same. However, if either
+dimension is scaled (NSFitPagination), the other dimension is scaled by the
+same amount to avoid stretching the image. If both dimensions are scaled, the
+scaling factor that produces the smallest image is used. Note that
+NSPrintInfo's scaling factor is independent of the scaling that's imposed by
+pagination and is applied after the document has been paginated.<p>
+<p>
+NSPrintInfo uses points as the unit of measurement for paper size and margin
+width in the methods below. See the NSFont specification for a discussion of
+points.<p>
+<p>
+
+<b>Creating and Initializing an NSPrintInfo Instance </b><p>
+
+<UL><LI> - (id)<b>initWithDictionary:</b>(NSDictionary *)<i>aDict</i>	Initializes a
+newly allocated NSPrintInfo object by assigning it the parameters specified in
+<i>aDict</i>. This is the designated initializer for the class.</LI></UL>
+<b>Managing the Shared NSPrintInfo Object </b><p>
+
+<UL><LI> + (void)<b>setSharedPrintInfo:</b>(NSPrintInfo *)<i>printInfo</i>	Sets the
+shared NSPrintInfo object to <i>printInfo</i>.
+</LI><LI> +  (NSPrintInfo *)<b>sharedPrintInfo</b>	Returns the shared NSPrintInfo
+object.</LI></UL>
+<b>Managing the Printing Rectangle </b><p>
+
+<UL><LI> + (NSSize)<b>sizeForPaperName:</b>(NSString *)<i>name	</i>Returns the size for
+the specified type of paper<i>. name</i> identifies the type of paper, such as
+Letter or Legal.
+Paper names are implementation specific.
+</LI><LI> -  (float)<b>bottomMargin	</b>Returns the height of the bottom margin.
+</LI><LI> -  (float)<b>leftMargin	</b>Returns the width of the left margin.
+</LI><LI> -  (NSPrintingOrientation)<b>orientation</b>	Returns whether the orientation is
+Portrait or Landscape. 
+</LI><LI> -  (NSString *)<b>paperName</b>	Returns the paper type, such as
+Letter or Legal.
+Paper names are implementation specific.
+</LI><LI> -  (NSSize)<b>paperSize</b>	Returns the size of the paper.
+</LI><LI> -  (float)<b>rightMargin	</b>Returns the width of the right margin.
+</LI><LI> -  (void)<b>setBottomMargin:</b>(float)<i>value</i>	Sets the bottom margin to
+<i>value</i>.
+</LI><LI> -  (void)<b>setLeftMargin:</b>(float)<i>value</i>	Sets the left margin to
+<i>value</i>.
+</LI><LI> -  (void)<b>setOrientation:</b>(NSPrintingOrientation)<i>mode</i>	Sets the
+orientation as Portrait or Landscape.
+</LI><LI> -  (void)<b>setPaperName:</b>(NSString *)<i>name</i>	Sets the paper type.
+<i>name</i> identifies the type of paper, such as
+Letter or Legal.
+Paper names are implementation specific.
+</LI><LI> -  (void)<b>setPaperSize:</b>(NSSize)<i>size</i>	Sets the width and height of
+the paper.
+</LI><LI> -  (void)<b>setRightMargin:</b>(float)<i>value</i>	Sets the right margin to
+<i>value</i>.
+</LI><LI> -  (void)<b>setTopMargin:</b>(float)<i>value</i>	Sets the top margin to
+<i>value</i>.
+</LI><LI> -  (float)<b>topMargin	</b>Returns the height of the top margin.</LI></UL>
+<b>Pagination </b><p>
+
+<UL><LI> - (NSPrintingPaginationMode)<b>horizontalPagination</b>	Returns the horizontal
+pagination mode.
+</LI><LI> -  (void)<b>setHorizontalPagination:</b>(NSPrintingPaginationMode)<i>mode</i>
+<i></i>	Sets the horizontal pagination mode.
+</LI><LI> -  (void)<b>setVerticalPagination:</b>(NSPrintingPaginationMode)<i>mode</i>
+<i></i>	Sets the vertical pagination mode.
+</LI><LI> -  (NSPrintingPaginationMode)<b>verticalPagination</b>	Returns the vertical
+pagination mode.</LI></UL>
+<b>Positioning the Image on the Page </b><p>
+
+<UL><LI> - (BOOL)<b>isHorizontallyCentered</b>	Returns whether the image is centered
+horizontally.
+</LI><LI> -  (BOOL)<b>isVerticallyCentered</b>	Returns whether the image is centered
+vertically.
+</LI><LI> -  (void)<b>setHorizontallyCentered:</b>(BOOL)<i>flag</i>	Sets whether the image
+is centered horizontally.
+</LI><LI> -  (void)<b>setVerticallyCentered:</b>(BOOL)<i>flag</i>	Sets whether the image
+is centered vertically.</LI></UL>
+<b>Specifying the Printer </b><p>
+
+<UL><LI> + (NSPrinter *)<b>defaultPrinter</b>	Returns the user's default printer.
+</LI><LI> +  (void)<b>setDefaultPrinter:</b>(NSPrinter *)<i>printer</i>	Sets the user's
+default printer.
+</LI><LI> -  (NSPrinter *)<b>printer</b>	Returns the NSPrinter that's used for printing.
+</LI><LI> -  (void)<b>setPrinter:</b>(NSPrinter *)<i>aPrinter</i>	Sets the printer that's
+used in subsequent printing jobs.</LI></UL>
+<b>Controlling Printing</b><p>
+
+<UL><LI> - (NSString *)<b>jobDisposition</b>	Returns the action specified for the job:
+printing, faxing, previewing, etc. See <b>setJobDisposition:</b>.
+</LI><LI> -  (void)<b>setJobDisposition:</b>(NSString *)<i>disposition</i>	Sets the action
+specified for the job. <i>disposition</i> can be one of NSPrintSpoolJob,
+NSPrintFaxJob, NSPrintPreviewJob, NSPrintSaveJob, NSPrintCancelJob.
+</LI><LI> -  (void)<b>setUpPrintOperationDefaultValues	</b>Allows the receiver to set any
+attribute that hasn't been previously set. </LI></UL>
+<b>Accessing the NSPrintInfo Object's Dictionary </b><p>
+
+<UL><LI> - (NSMutableDictionary *)<b>dictionary</b>	Returns the NSPrintInfo object's
+dictionary.
+</body></html>

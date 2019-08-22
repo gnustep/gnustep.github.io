@@ -1,0 +1,146 @@
+<html><head><TITLE>NSConnection.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSConnection </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSObject (NSObject)
+<p>
+<b>Declared In:	</b>Foundation/NSConnection.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+The NSConnection class declares the programmatic interface to objects that
+manage a <i>connection</i> such that objects in one thread can send messages to
+objects in another thread (typically, in another process, and it defines
+instances that manage each side of such a connection. <p>
+<p>
+Each distinct thread of execution has one default connection defined. Any given
+thread can have as many connections as desired, but a given connection can be
+served by only one thread.<p>
+<p>
+To set up a connection, some object in your application must be established as
+what is known as a root object and registered
+with a name in the Network Name Server. Such root objects can then be connected
+to by other threads, and can receive messages sent to them from other threads.
+An easy way to establish an object as a root object is to send the
+<b>defaultConnection</b> method to the NSConnection class object to obtain a
+connection object. Then use <b>setRootObject: </b>to<b> </b>establish the
+desired object as the object that will be registered, followed by
+<b>registerName:</b> to make that object available to the Network Name Server
+under the specified name.<p>
+<p>
+To obtain a connection to an object registered elsewhere, you will generally
+send the<b> rootProxyForConnectionWithRegisteredName:host:</b> method to the
+NSConnection class object. This method returns a proxy to the remote object.
+You should then inform the proxy of the protocol(s) the remote object responds
+to using <b>setProtocolForProxy:</b>. To obtain the actual connection object
+instead of the proxy, use the <b>connectionWithRegisteredName:host:</b>
+method.<p>
+<p>
+If the string <b>@"*"</b> is used where a hostname is required, it implies a
+lookup for any server registered with the specified name on the local subnet.
+If <b>nil</b> is supplied where a hostname is required, the name lookup occurs
+only on the local host.<p>
+<p>
+When an NSConnection object is deallocated, the notification NSConnectionDeath
+is posted to the default notification center with that NSConnection object.<p>
+<p>
+
+<b>Exceptions</b><p>
+
+
+NSConnection can raise NSInternalInconsistencyException for a variety of
+reasons when it detects impossible situations.
+In addition, NSConnection can raise NSInvalidArgumentException when a remote
+method invocation sends an unknown selector.<p>
+<p>
+
+<b>Initializing a Connection</b><p>
+
+<UL><LI> - (id)<b>init</b>	Initialize a newly allocated NSConnection suitable for a new
+registry and new name.</LI></UL>
+<b>Establishing a Connection</b><p>
+
+<UL><LI> + (NSConnection *)<b>connectionWithRegisteredName:</b>(NSString *)<i>name</i>
+
+<b>host:</b>(NSString *)<i>hostName</i>	Registers and returns a connection with
+<i>name</i> on <i>hostName</i>.
+</LI><LI> +  (NSConnection *)<b>defaultConnection</b>	Establishes and returns a default
+per-thread connection.
+</LI><LI> +  (NSDistantObject *)<b>rootProxyForConnectionWithRegisteredName:</b>(NSString
+*)<i>name</i> 
+<b>host</b>:(NSString *)<i>hostName</i>	Registers a connection with <i>name</i>
+on <i>hostName</i> and returns its root proxy.</LI></UL>
+<b>Determining Connections</b><p>
+
+<UL><LI> + (NSArray *)<b>allConnections</b>	Returns an array describing all existing
+valid connections.
+</LI><LI> -  (BOOL)<b>isValid</b>	Identifies that the receiver is a valid connection.</LI></UL>
+<b>Registering a Connection</b><p>
+
+<UL><LI> - (BOOL)<b>registerName:</b>(NSString *)<i>name</i>	Registers the connection
+with <i>name</i> on the local system and returns YES if the registration was
+successful, NO otherwise.</LI></UL>
+<b>Assigning a Delegate</b><p>
+
+<UL><LI> - (id)<b>delegate	</b>Returns the connection's delegate.
+</LI><LI> -  (void)<b>setDelegate:</b>(id)<i>anObject</i>	Sets the connection's delegate.
+</LI></UL>
+<b>Getting and Setting the Root Object</b><p>
+
+<UL><LI> - (id)<b>rootObject</b>	Returns the root object served.
+</LI><LI> -  (NSDistantObject *)<b>rootProxy</b>	Returns an NSDistantObject proxy to the
+root object served by this connection.
+</LI><LI> -  (void)<b>setRootObject:</b>(id)<i>anObject</i>	Sets the root object being
+served to <i>anObject</i>; if the root object already exists, replaces it with
+<i>anObject</i>.  Be aware that if the root object is replaced while a
+connection is active, existing root proxies on the client side of the
+connection will continue to communicate with the previous root object, while
+new proxies will communicate with the newly established root object. </LI></UL>
+<b>Request Mode</b><p>
+
+<UL><LI> - (NSString *)<b>requestMode</b>	Returns the mode in which requests are
+honored.
+</LI><LI> -  (void)<b>setRequestMode:</b>(NSString *)<i>mode</i>	Sets the mode in which
+requests are honored to <i>mode</i>.</LI></UL>
+<b>Conversation Queueing</b><p>
+
+
+-(BOOL)<b>independentConversationQueueing</b>	Returns
+<b>conversationQueuing</b> mode. The default value is NO.<p>
+<p>
+-(void)<b>setIndependentConversationQueueing:</b>(BOOL)<i>flag</i><p>
+<i></i>	If <i>flag</i> is YES, unrelated requests are queued for later
+processing. This allows a server to use distributed objects freely in its
+implementation without concern for the consistency of its internal state. Note
+that this can cause deadlocks among peers.<p>
+
+<b>Timeouts</b><p>
+
+<UL><LI> - (NSTimeInterval)<b>replyTimeout</b>	Returns the reply timeout time
+interval.
+</LI><LI> -  (NSTimeInterval)<b>requestTimeout</b>	Returns the request timeout time
+interval.
+</LI><LI> -  (void)<b>setReplyTimeout:</b>(NSTimeInterval)<i>interval	</i>Sets the reply
+timeout to the time interval <i>interval</i>.
+</LI><LI> -  (void)<b>setRequestTimeout:</b>(NSTimeInterval)<i>interval</i>	 Sets the
+request timeout to the time interval <i>interval</i>.</LI></UL>
+<b>Get Statistics</b><p>
+
+<UL><LI> - (NSDictionary *)<b>statistics</b>	Returns statistics for this connection.</LI></UL>
+<b>Implemented by the Delegate</b><p>
+
+<UL><LI> - (BOOL)<b>makeNewConnection:</b>(NSConnection *)<i>connection</i>
+<i></i><b>sender:</b>(NSConnection *)<i>ancestor</i>	Asks permission to create
+a new connection <i>connection</i> where <i>ancestor</i> is the ancestral
+connection; returns YES if connection allowed.
+</body></html>

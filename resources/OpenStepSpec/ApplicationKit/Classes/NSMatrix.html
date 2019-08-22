@@ -1,0 +1,369 @@
+<html><head><TITLE>NSMatrix.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSMatrix </b><p>
+
+<B>Inherits From: </B><A HREF="NSControl.html">NSControl</A> : <A HREF="NSView.html">NSView</A> : <A HREF="NSResponder.html">NSResponder</A> : <A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding (NSResponder)
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSMatrix.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSMatrix is a class used for creating groups of NSCells that work together in
+various ways. It includes methods for arranging NSCells in rows and columns,
+either with or without space between them. NSCells in an NSMatrix are numbered
+by row and column, each starting with 0; for example, the top left NSCell would
+be at (0, 0), and the NSCell that's second down and third across would be at
+(1, 2). <p>
+<p>
+The cell objects that an NSMatrix contains are usually of a single subclass of
+NSCell, but they can be of multiple subclasses of NSCell. The only restriction
+is that all cell objects must be the same size. An NSMatrix can be set up to
+create new NSCells by copying a prototype object, or by allocating and
+initializing instances of a specific NSCell class.<p>
+<p>
+An NSMatrix adds to NSControl's target/action paradigm by allowing a separate
+target and action for each of its NSCells in addition to its own target and
+action. It also allows for an action message that's sent when the user
+double-clicks an NSCell, and which is sent in addition to the single-click
+action message. If an NSCell doesn't have an action, the NSMatrix sends its own
+action to its own target. If an NSCell doesn't have a target, the NSMatrix
+sends the NSCell's action to its own target. The double-click action of an
+NSMatrix is always sent to the target of the NSMatrix.<p>
+<p>
+Since the user might press the mouse button while the cursor is within the
+NSMatrix and then drag the mouse around, NSMatrix offers four
+selection modes that determine how NSCells
+behave when the NSMatrix is tracking the mouse:<p>
+<p>
+.	NSTrackModeMatrix is the most basic mode of operation. In this mode the
+NSCells are asked to track the mouse with
+<b>trackMouse:inRect:ofView:untilMouseUp:</b> whenever the mouse is inside
+their bounds. No highlighting is performed. An example of this mode might be a
+graphic equalizer NSMatrix of sliders, where
+moving the mouse around causes the sliders to move under the mouse.<p>
+<p>
+.	NSHighlightModeMatrix is a modification of NSTrackModeMatrix. In this mode,
+an NSCell is highlighted before it's asked to track the mouse, then
+unhighlighted when it's done tracking. This is useful for multiple unconnected
+NSCells that use highlighting to inform the user that they are being tracked
+(like push-buttons and switches).<p>
+<p>
+.	NSRadioModeMatrix is used when you want no more than one NSCell to be
+selected at a time. It can be used to create a set of buttons of which one and
+only one is selected (there's the option of allowing no button to be selected).
+Any time an NSCell is selected, the previously selected NSCell is unselected.
+The canonical example of this mode is a set of radio buttons.<p>
+<p>
+.	NSListModeMatrix is the opposite of NSTrackModeMatrix. NSCells are
+highlighted, but don't track the mouse. This mode can be used to select a range
+of text values, for example. NSMatrix supports the standard multiple-selection
+paradigms of dragging to select, using the shift key to make discontinuous
+selections, and using the alternate key to extend selections.<p>
+<p>
+
+<b>Initializing the NSMatrix Class </b><p>
+
+<UL><LI> + (Class)<b>cellClass</b>	Returns the default class used to make cells.
+</LI><LI> +  (void)<b>setCellClass:</b>(Class)<i>classId</i>	Sets the default class used
+to make cells.</LI></UL>
+<b>Initializing an NSMatrix Object</b><p>
+
+<UL><LI> - (id)<b>initWithFrame:</b>(NSRect)<i>frameRect</i>	Initializes a new NSMatrix
+object in <i>frameRect</i>.
+</LI><LI> -  (id)<b>initWithFrame:</b>(NSRect)<i>frameRect</i>	Initializes a new NSMatrix
+object in <i>frameRect</i>, with
+<b>mode:</b>(int)<i>aMode</i>	<i>	aMode</i> as the selection mode,
+<i>classId</i> as the class used
+<b>cellClass:</b>(Class)<i>classId</i>		to make new cells, and having
+<i>rowsHigh</i> rows and
+<b>numberOfRows:</b>(int)<i>rowsHigh</i>	<i>	colsWide</i> columns.
+<b>numberOfColumns:</b>(int)<i>colsWide</i>
+<i></i></LI><LI> -  (id)<b>initWithFrame:</b>(NSRect)<i>frameRect</i>	Initializes a new NSMatrix
+object with the given values
+<b>mode:</b>(int)<i>aMode</i>		with <i>aMode</i> as the selection mode,
+<i>aCell</i> as the
+<b>prototype:</b>(NSCell *)<i>aCell</i>		prototype copied to make new cells,
+and having
+<b>numberOfRows:</b>(int)<i>rowsHigh</i>		<i>rowsHigh</i> rows and
+<i>colsWide</i> columns.
+<b>numberOfColumns:</b>(int)<i>colsWide</i>
+<i></i>
+Setting the Selection Mode 
+
+</LI><LI> -  (NSMatrixMode)<b>mode</b>	Returns the selection mode of the matrix.
+</LI><LI> -  (void)<b>setMode:</b>(NSMatrixMode)<i>aMode</i>	Sets the selection mode of
+the matrix.</LI></UL>
+<b>Configuring the NSMatrix </b><p>
+
+<UL><LI> - (BOOL)<b>allowsEmptySelection</b>	Returns whether it's possible to have no
+cells selected.
+</LI><LI> -  (BOOL)<b>isSelectionByRect</b>	Returns whether a user can drag a rectangular
+selection.
+</LI><LI> -  (void)<b>setAllowsEmptySelection:</b>(BOOL)<i>flag</i>	Sets whether it's
+possible to have no cells selected.
+</LI><LI> -  (void)<b>setSelectionByRect:</b>(BOOL)<i>flag</i>	Sets whether a user can
+drag a rectangular selection (the default is YES). If <i>flag</i> is NO,
+selection is on a row-by-row basis.</LI></UL>
+<b>Setting the Cell Class </b><p>
+
+<UL><LI> - (Class)<b>cellClass</b>	Returns the subclass of NSCell used to make new
+cells.
+</LI><LI> -  (id)<b>prototype</b>	Returns the prototype cell copied to make new cells.
+</LI><LI> -  (void)<b>setCellClass:</b>(Class)<i>classId</i>	Sets the subclass of NSCell
+used to make new cells.
+</LI><LI> -  (void)<b>setPrototype:</b>(NSCell *)<i>aCell</i>	Sets the prototype cell
+copied to make new cells.</LI></UL>
+<b>Laying Out the NSMatrix </b><p>
+
+<UL><LI> - (void)<b>addColumn</b>	Adds a new column of cells to the right of the last
+column.
+</LI><LI> -  (void)<b>addColumnWithCells:</b>(NSArray *)<i>cellArray	</i>Adds a new column
+of cells, using those contained in <i>cellArray.</i>
+<i></i></LI><LI> -  (void)<b>addRow</b>	Adds a new row of cells below the last row.
+</LI><LI> -  (void)<b>addRowWithCells:</b>(NSArray *)<i>cellArray	</i>Adds a new row<i>
+</i>of cells, using those contained in <i>cellArray.</i>
+<i></i></LI><LI> -  (NSRect)<b>cellFrameAtRow:</b>(int)<i>row</i>	Returns the frame rectangle of
+the cell at <i>row</i> and <i>column</i>.
+<b>column:</b>(int)<i>column</i>
+<i></i></LI><LI> -  (NSSize)<b>cellSize</b>	Returns the width and height of cells in the
+matrix.
+</LI><LI> -  (void)<b>getNumberOfRows:</b>(int *)<i>rowCount</i>	Gets the number of rows
+and columns in the matrix.
+<b>columns:</b>(int *)<i>columnCount</i>
+<i></i></LI><LI> -  (void)<b>insertColumn:</b>(int)<i>column</i>	Inserts a new column of cells at
+<i>column</i>, creating as many as needed to make the matrix <i>column
+</i>columns wide.
+</LI><LI> -  (void)<b>insertColumn:</b>(int)<i>column</i> <b>withCells:</b>(NSArray
+*)<i>cellArray</i>
+<i></i>	Inserts a new row of cells at <i>column</i>, using those contained in
+<i>cellArray.</i>
+<i></i></LI><LI> -  (void)<b>insertRow:</b>(int)<i>row</i>	Inserts a new row of cells at
+<i>row</i>, creating as many as needed to make the matrix <i>row</i> rows
+wide.
+</LI><LI> -  (void)<b>insertRow:</b>(int)<i>row</i> <b>withCells:</b>(NSArray
+*)<i>cellArray</i>
+<i></i>	Inserts a new row of cells at <i>row</i>, using those contained in
+<i>cellArray.</i>
+<i></i></LI><LI> -  (NSSize)<b>intercellSpacing</b>	Returns the vertical and horizontal spacing
+between cells
+</LI><LI> -  (NSCell *)<b>makeCellAtRow:</b>(int)<i>row</i>	Creates a new cell at
+<i>row</i>, <i>column</i> in the matrix and returns 
+<b>column:</b>(int)<i>column</i>		it.
+</LI><LI> -  (void)<b>putCell:</b>(NSCell *)<i>newCell</i>	Replaces the cell at <i>row</i>
+and <i>column</i> with <i>newCell</i>.
+<b>atRow:</b>(int)<i>row</i>
+<i></i><b>column:</b>(int)<i>column</i>
+<i></i></LI><LI> -  (void)<b>removeColumn:</b>(int)<i>column</i>	Removes the column at
+<i>column</i>, releasing the cells.
+</LI><LI> -  (void)<b>removeRow:</b>(int)<i>row</i>	Removes the row at <i>row</i>,
+releasing the cells.
+</LI><LI> -  (void)<b>renewRows:</b>(int)<i>newRows</i>	Changes the number of rows and
+columns in the receiver
+<b>columns:</b>(int)<i>newColumns</i>		without freeing any cells.
+</LI><LI> -  (void)<b>setCellSize:</b>(NSSize)<i>aSize</i>	Sets the width and height of
+all cells in the matrix.
+</LI><LI> -  (void)<b>setIntercellSpacing:</b>(NSSize)<i>aSize</i>	Sets the vertical and
+horizontal spacing between cells.
+</LI><LI> -  (void)<b>sortUsingFunction:</b>(int (*)(id <i>element1</i>, id
+<i>element2</i>, void *<i>userData</i>))<i>comparator</i>
+<i></i><b>context:</b>(void *)<i>context</i>	Sorts the receiver's cells in
+ascending order as defined by the comparison function <i>comparator</i>.
+<i>context</i> is passed as the function's third argument.
+</LI><LI> -  (void)<b>sortUsingSelector:</b>(SEL)<i>comparator</i>	Sorts the receiver's
+cells in ascending order as defined by the comparison method
+<i>comparator</i>.</LI></UL>
+<b>Finding Matrix Coordinates </b><p>
+
+<UL><LI> - (BOOL)<b>getRow:</b>(int *)<i>row</i>	Gets the row and column position
+corresponding to <i>aPoint</i>.
+<b>column:</b>(int *)<i>column		</i>Returns YES if <i>aPoint</i> is within the
+matrix; 
+<b>forPoint:</b>(NSPoint)<i>aPoint</i> 		NO otherwise.
+</LI><LI> -  (BOOL)<b>getRow:</b>(int *)<i>row</i>	Gets the row and column position of
+<i>aCell</i>.
+<b>column:</b>(int *)<i>column	</i>	Returns YES if <i>aCell</i> is in the
+matrix; NO otherwise.
+<b>ofCell:</b>(NSCell *)<i>aCell</i>
+<i></i>
+Modifying Individual Cells 
+
+</LI><LI> -  (void)<b>setState:</b>(int)<i>value</i>	Sets the state of the cell at
+<i>row</i> and <i>column</i> to <i>value</i>.
+<b>atRow:</b>(int)<i>row</i>
+<i></i><b>column:</b>(int)<i>column</i>
+<i></i>
+Selecting Cells 
+
+</LI><LI> -  (void)<b>deselectAllCells</b>	Clears the receiver's selection, assuming that
+the NSMatrix allows an empty selection.
+</LI><LI> -  (void)<b>deselectSelectedCell</b>	Deselects the selected cell.
+</LI><LI> -  (void)<b>selectAll:</b>(id)<i>sender</i>	Selects all the cells in the
+matrix.
+</LI><LI> -  (void)<b>selectCellAtRow:</b>(int)<i>row</i>	Selects the cell at <i>row</i>
+and <i>col</i>.
+<b>column:</b>(int)<i>column</i>
+<i></i></LI><LI> -  (BOOL)<b>selectCellWithTag:</b>(int)<i>anInt</i>	Selects the cell with the
+tag <i>anInt</i>.
+</LI><LI> -  (id)<b>selectedCell</b>	Returns the most recently selected cell or <b>nil</b>
+if no cell has been selected.
+</LI><LI> -  (NSArray *)<b>selectedCells</b>	Returns an array containing the selected
+cells.
+</LI><LI> -  (int)<b>selectedColumn</b>	Returns the column of the selected cell or -1 if
+no column has been selected.
+</LI><LI> -  (int)<b>selectedRow</b>	Returns the row of the selected cell or -1 if no row
+has been selected.
+</LI><LI> -  (void)<b>setSelectionFrom:</b>(int)<i>startPos</i>	Selects the cells in the
+matrix from <i>startPos</i> to <i>endPos</i>,
+<b>to:</b>(int)<i>endPos</i>		counting in row order from the upper left, as
+though
+<b>anchor:</b>(int)<i>anchorPos</i>		<i>anchorPos</i> were the number of the
+last cell selected, and
+<b>highlight:</b>(BOOL)<i>flag</i>		highlighting the cells according to
+<i>flag</i>.</LI></UL>
+<b>Finding Cells </b><p>
+
+<UL><LI> - (id)<b>cellAtRow:</b>(int)<i>row</i>	Returns the cell at row <i>row</i> and
+column <i>col</i>.
+<b>column:</b>(int)<i>column</i>
+<i></i></LI><LI> -  (id)<b>cellWithTag:</b>(int)<i>anInt</i>	Returns the cell having <i>anInt</i>
+as its tag.
+</LI><LI> -  (NSArray *)<b>cells</b>	Returns the matrix's array of cells.</LI></UL>
+<b>Modifying Graphic Attributes </b><p>
+
+<UL><LI> - (NSColor *)<b>backgroundColor</b>	Returns the color of the background between
+cells.
+</LI><LI> -  (NSColor *)<b>cellBackgroundColor</b>	Returns the color of the background
+within cells.
+</LI><LI> -  (BOOL)<b>drawsBackground</b>	Returns whether the receiver draws the
+background between cells.
+</LI><LI> -  (BOOL)<b>drawsCellBackground</b>	Returns whether the receiver draws the
+background within cells.
+</LI><LI> -  (void)<b>setBackgroundColor:</b>(NSColor *)<i>aColor</i>	Sets the color of
+the background between cells to <i>aColor</i>.
+</LI><LI> -  (void)<b>setCellBackgroundColor:</b>(NSColor *)<i>aColor</i>
+<i></i>	Sets the color of the background within cells to <i>aColor</i>.
+</LI><LI> -  (void)<b>setDrawsBackground:</b>(BOOL)<i>flag</i>	Sets whether the receiver
+draws the background between cells.
+</LI><LI> -  (void)<b>setDrawsCellBackground:</b>(BOOL)<i>flag</i>	Sets whether the
+receiver draws the background within cells.</LI></UL>
+<b>Editing Text in Cells </b><p>
+
+<UL><LI> - (void)<b>selectText:</b>(id)<i>sender</i>	Selects the text in the first or
+last editable cell.
+</LI><LI> -  (id)<b>selectTextAtRow:</b>(int)<i>row</i>	Selects the text of the cell at
+<i>row</i>, <i>column </i>in the matrix.
+<b>column:</b>(int)<i>column</i>
+<i></i></LI><LI> -  (void)<b>textDidBeginEditing:</b>(NSNotification *)<i>notification</i>
+<i></i>	Invoked when there's a change in the text after the receiver gains
+first responder status. Default behavior is pass to this message on to the text
+delegate. This method posts the NSControlTextDidBeginEditingNotification
+notification with the receiving object and, in the notification's dictionary,
+the text object (with the key NSFieldEditor) to the default notification
+center.
+</LI><LI> -  (void)<b>textDidChange:</b>(NSNotification *)<i>notification</i>	
+	Invoked upon a key-down event or paste operation that changes the receiver's
+contents. Default behavior is to pass this message on to the text delegate.
+This method posts the NSControlTextDidChangeNotification notification with the
+receiving object and, in the notification's dictionary, the text object (key
+NSFieldEditor) to the default notification center.
+</LI><LI> -  (void)<b>textDidEndEditing:</b>(NSNotification *)<i>notification</i>
+<i>	</i>Invoked when text editing ends and then forwarded to the text delegate.
+This method posts the notification NSControlTextDidEndEditingNotification with
+the receiving object and, in the notification's dictionary, the text object
+(with the key NSFieldEditor) to the default notification center.
+</LI><LI> -  (BOOL)<b>textShouldBeginEditing:</b>(NSText *)<i>textObject</i>	 
+	Invoked to let the NSTextField respond to impending changes to its text and
+then forwarded to the text delegate.
+</LI><LI> -  (BOOL)<b>textShouldEndEditing:</b>(NSText *)<i>textObject</i>	
+	Invoked to let the NSTextField respond to impending loss of first responder
+status and then forwarded to the text delegate.</LI></UL>
+<b>Setting Tab Key Behavior </b><p>
+
+<UL><LI> - (id)<b>nextText</b>	Returns the object to be selected when the user presses
+Tab while editing the last text cell.
+</LI><LI> -  (id)<b>previousText</b>	Returns the object to be selected when the user
+presses Shift-Tab while editing the first text cell.
+</LI><LI> -  (void)<b>setNextText:</b>(id)<i>anObject</i>	Sets the object to be selected
+when the user presses Tab while editing the last text cell.
+</LI><LI> -  (void)<b>setPreviousText:</b>(id)<i>anObject</i>	Sets the object to be
+selected when user presses Shift-Tab while editing the first text cell.</LI></UL>
+<b>Assigning a Delegate </b><p>
+
+<UL><LI> - (void)<b>setDelegate:</b>(id)<i>anObject</i>	Sets the delegate for messages
+from the field editor.
+</LI><LI> -  (id)<b>delegate</b>	Returns the delegate for messages from the field
+editor.</LI></UL>
+<b>Resizing the Matrix and Cells </b><p>
+
+<UL><LI> - (BOOL)<b>autosizesCells</b>	Returns whether the matrix resizes its cells
+automatically.
+</LI><LI> -  (void)<b>setAutosizesCells:</b>(BOOL)<i>flag</i>	Sets whether the matrix
+resizes its cells automatically.
+</LI><LI> -  (void)<b>setValidateSize:</b>(BOOL)<i>flag</i>	Sets whether the cell size
+needs to be recalculated.
+</LI><LI> -  (void)<b>sizeToCells</b>	Resizes the matrix to fit its cells exactly.</LI></UL>
+<b>Scrolling </b><p>
+
+<UL><LI> - (BOOL)<b>isAutoscroll	</b>Returns whether the matrix automatically scrolls
+when dragged in.
+</LI><LI> -  (void)<b>scrollCellToVisibleAtRow:</b>(int)<i>row</i>	Scrolls the matrix so
+that the cell at <i>row</i> and <i>column </i>is
+<b>column:</b>(int)<i>column</i>		visible.
+</LI><LI> -  (void)<b>setAutoscroll:</b>(BOOL)<i>flag</i>	Sets whether the matrix
+automatically scrolls when dragged in.
+</LI><LI> -  (void)<b>setScrollable:</b>(BOOL)<i>flag</i>	If <i>flag</i> is YES, makes all
+the cells scrollable.</LI></UL>
+<b>Displaying </b><p>
+
+<UL><LI> - (void)<b>drawCellAtRow:</b>(int)<i>row</i>	Displays the cell at <i>row</i>
+and <i>col</i>.
+<b>column:</b>(int)<i>column</i>	
+</LI><LI> -  (void)<b>highlightCell:</b>(BOOL)<i>flag	</i>Highlights (or unhighlights) the
+cell at <i>row</i>, <i>col</i>.
+<b>atRow:</b>(int)<i>row</i>
+<i></i><b>column:</b>(int)<i>column</i>
+<i></i>
+Target and Action 
+
+</LI><LI> -  (SEL)<b>doubleAction</b>	Returns the action method for double clicks.
+</LI><LI> -  (void)<b>setDoubleAction:</b>(SEL)<i>aSelector</i>	Sets the action method
+used on double-clicks to <i>aSelector</i>.
+</LI><LI> -  (SEL)<b>errorAction</b>	Returns the action method for editing errors.
+</LI><LI> -  (BOOL)<b>sendAction</b>	Sends the selected cell's action, or the NSMatrix's
+action if the cell doesn't have one.
+</LI><LI> -  (void)<b>sendAction:</b>(SEL)<i>aSelector</i>	Sends <i>aSelector</i> to
+<i>anObject</i>, for all cells if <i>flag</i> is YES.
+<b>to:</b>(id)<i>anObject</i>
+<i></i><b>forAllCells:</b>(BOOL)<i>flag</i>
+<i></i></LI><LI> -  (void)<b>sendDoubleAction</b>	Sends the action corresponding to a
+double-click.
+</LI><LI> -  (void)<b>setErrorAction:</b>(SEL)<i>aSelector</i>	Sets the action method for
+editing errors to <i>aSelector</i>.</LI></UL>
+<b>Handling Event and Action Messages </b><p>
+
+<UL><LI> - (BOOL)<b>acceptsFirstMouse:</b>(NSEvent *)<i>theEvent</i>	Returns NO only if
+receiver's mode is NSListModeMatrix.
+</LI><LI> -  (void)<b>mouseDown:</b>(NSEvent *)<i>theEvent</i>	Responds to a mouse-down
+event. A mouse-down event in a text cell initials editing mode. A double-click
+in any cell type except a text cell sends the double-click action of the
+NSMatrix (if there is one) in addition to the single-click action.
+</LI><LI> -  (int)<b>mouseDownFlags</b>	Returns the event flags in effect at start of
+tracking. 
+</LI><LI> -  (BOOL)<b>performKeyEquivalent:</b>(NSEvent *)<i>theEvent</i>
+<i></i>	Simulates a mouse click in the appropriate cell.</LI></UL>
+<b>Managing the Cursor </b><p>
+
+<UL><LI> - (void)<b>resetCursorRects</b>	Resets cursor rectangles so that the cursor
+becomes an I-beam over text cells.
+</body></html>

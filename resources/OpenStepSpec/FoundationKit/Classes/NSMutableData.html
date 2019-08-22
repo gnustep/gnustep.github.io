@@ -1,0 +1,120 @@
+<html><head><TITLE>NSMutableData.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSMutableData </b><p>
+
+<B>Inherits From: </B><A HREF="NSData.html">NSData</A> : <A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding, NSCopying, NSMutableCopying (NSData)
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>Foundation/NSData.h <p>
+Foundation/NSSerialization.h<p>
+<p>
+
+<b>Class Description</b><p>
+
+
+The NSMutableData class declares the programmatic interface to objects that
+contain modifiable data in the form of bytes. This class inherits all read-only
+access methods from its superclass, NSData, and declares only those methods
+that permit the modification of the data.<p>
+<p>
+NSMutableData's two primitive methods<b>mutableBytes</b> and
+<b>setLength:</b>provide the basis for all the other methods in its
+interface. The <b>mutableBytes</b> method returns a pointer for writing into
+the bytes contained in the mutable data object. <b>setLength: </b>allows you to
+truncate or extend the length of a mutable data object. <p>
+<p>
+The <b>appendBytes:length:</b> and <b>appendData:</b> methods let you append
+bytes or the contents of another data object to a mutable data object. You can
+replace a range of bytes in a mutable data object with either zeroes (using the
+<b>resetBytesInRange:</b> method), or with different bytes (using the
+<b>replaceBytesInRange:withBytes:</b> method). <p>
+<p>
+This class declares various serialization methods that enable
+architecture-independent serialization of arbitrary Objective C types.<p>
+<p>
+
+<b>Creating an NSMutableData Object</b><p>
+
+<UL><LI> + (id)<b>allocWithZone:</b>(NSZone *)<i>zone</i>	Creates and returns an
+uninitialized mutable data object from <i>zone</i>.
+</LI><LI> +  (id)<b>dataWithCapacity:</b>(unsigned int)<i>numBytes</i>	Creates and returns
+a mutable data object, initially allocating enough memory to hold
+<i>numBytes</i> bytes.
+</LI><LI> +  (id)<b>dataWithLength:</b>(unsigned int)<i>length</i>	Creates and returns a
+mutable data object, giving it enough memory to hold <i>length</i> bytes.<b>
+</b>Fills the object with zeroes up to <i>length</i>.
+</LI><LI> -  (id)<b>initWithCapacity:</b>(unsigned int)<i>capacity</i>	Initializes a newly
+allocated mutable data object, giving it enough memory to hold <i>capacity</i>
+bytes. Sets the length of the data object to 0.
+</LI><LI> -  (id)<b>initWithLength:</b>(unsigned int)<i>length</i>	Initializes a newly
+allocated mutable data object, giving it enough memory to hold <i>length</i>
+bytes. Fills the object with zeroes up to <i>length</i>.</LI></UL>
+<b>Adjusting Capacity</b><p>
+
+<UL><LI> - (void)<b>increaseLengthBy:</b>(unsigned int)<i>extraLength</i>	Increases the
+length of a mutable data object by <i>extraLength</i> zero-filled bytes.
+</LI><LI> -  (void *)<b>mutableBytes</b>	Returns a pointer to the bytes in a mutable data
+object, enabling you to modify the bytes. 
+</LI><LI> -  (void)<b>setLength:</b>(unsigned int)<i>length</i>	Extends or truncates the
+length of a mutable data object by <i>length</i> bytes. If the mutable data
+object is extended, the additional bytes are zero-filled.</LI></UL>
+<b>Appending Data</b><p>
+
+<UL><LI> - (void)<b>appendBytes:</b>(const void *)<i>bytes</i>	Appends <i>length
+</i>bytes to a mutable data object from
+<b>length:</b>(unsigned int)<i>length</i>	 	the buffer <i>bytes</i>.
+</LI><LI> -  (void)<b>appendData:</b>(NSData *)<i>other</i>	Appends the contents of the
+data object <i>other</i> to the receiver.</LI></UL>
+<b>Modifying Data</b><p>
+
+<UL><LI> - (void)<b>replaceBytesInRange:</b>(NSRange)<i>aRange</i>	Replaces the
+receiver's bytes located in <i>aRange</i> with <i>bytes</i>. 
+<b>withBytes:</b>(const void *)<i>bytes</i>	 	Raises an NSRangeException if
+<i>aRange</i> is not within the range of the receiver's data.
+</LI><LI> -  (void)<b>resetBytesInRange:</b>(NSRange)<i>aRange</i>	Replaces the receiver's
+bytes located in <i>aRange</i> with zeros. Raises an NSRangeException if
+<i>aRange</i> is not within the range of the receiver's data.</LI></UL>
+<b>Serializing Data</b><p>
+
+<UL><LI> - (void)<b>serializeAlignedBytesLength:</b>(unsigned int)<i>length</i>
+<i></i>	Prepares bytes for an <b>appendBytes:length:</b> invocation by
+serializing them. If the <i>length</i> of the bytes will cause extension past
+the page size, this method encodes header information, creating a hole so that
+all bytes in the data object are aligned on page boundaries.
+</LI><LI> -  (void)<b>serializeDataAt:</b>(const void *)<i>data</i>	Serializes whatever
+data element is referenced by <i>data</i>,
+<b>ofObjCType:</b>(const char *)<i>type</i>		interpreting it by the Objective C
+type specifier <i>type</i>.
+<b>context:		</b>If the data element is an object other than an instance of
+(id &lt;NSObjCTypeSerializationCallBack&gt;)<i>callback</i>		 NSDictionary,
+NSArray, NSString, or NSData, further definition of the object can occur
+through a callback from object <i>callback</i>. All Objective C types are
+currently supported except <b>unions </b>and<b> void *. </b>Pointers refer to a
+single item.
+</LI><LI> -  (void)<b>serializeInt:</b>(int)<i>value</i>	Serializes the integer
+<i>value</i> by encoding it as a character representation.
+</LI><LI> -  (void)<b>serializeInt:</b>(int)<i>value</i>	Serializes the integer
+<i>value</i> by encoding it as a character 
+<b>atIndex:</b>(unsigned int)<i>index</i>		representation and replaces the
+encoded value at the specified <i>index</i> in the data.
+</LI><LI> -  (void)<b>serializeInts:</b>(int *)<i>intBuffer</i>	Serializes <i>numInts</i>
+count of integers in <i>intBuffer</i> by 
+<b>count:</b>(unsigned int)<i>numInts</i>		encoding each integer as a character
+representation.
+</LI><LI> -  (void)<b>serializeInts:</b>(int *)<i>intBuffer</i>	Serializes <i>numInts</i>
+count of integers in <i>intBuffer</i> by
+<b>count:</b>(unsigned int)<i>numInts</i>		encoding each integer, starting at
+the specified
+<b>atIndex:</b>(unsigned int)<i>index</i>		<i>index</i>, and replacing each
+corresponding integer encoding serially.
+
+
+</body></html>

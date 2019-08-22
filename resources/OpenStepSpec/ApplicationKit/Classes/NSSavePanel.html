@@ -1,0 +1,119 @@
+<html><head><TITLE>NSSavePanel.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSSavePanel </b><p>
+
+<B>Inherits From: </B><A HREF="NSPanel.html">NSPanel</A> : <A HREF="NSWindow.html">NSWindow</A> : <A HREF="NSResponder.html">NSResponder</A> : <A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding (NSResponder)
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSSavePanel.h<p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSSavePanel creates a Save panel. The Save panel provides a simple way for a
+user to specify a file to use when saving a document or other data. It can
+restrict the user to files of a certain type, as specified by a file name
+extension. <p>
+<p>
+When the user decides on a file name, the message <b>panel:isValidFilename:</b>
+is sent to the NSSavePanel's delegate (if it responds to that message). The
+delegate can then determine whether that file name can be used; it returns YES
+if the file name is valid, or NO if the Save panel should stay up and wait for
+the user to type in a different file name.<p>
+<p>
+Typically, you access an NSSavePanel by invoking the <b>savePanel</b> method.
+When the class receives a <b>savePanel</b> message, it tries to reuse an
+existing panel rather than create a new one. When a panel is reused, its
+attributes are reset to the default values so that the effect is the same as
+receiving a new panel. Because a Save panel may be reused, you shouldn't modify
+the instance returned by <b>savePanel</b>, except through the methods listed
+below. For example, you can set the panel's title and required file type, but
+not the arrangement of the buttons within the panel. If you must modify the
+Save panel substantially, create and manage your own instance using the
+<b>alloc...</b> and <b>init...</b> methods rather than the <b>savePanel</b>
+method.<p>
+<p>
+
+<b>Creating an NSSavePanel </b><p>
+
+
++(NSSavePanel *)<b>savePanel	</b>Returns an NSSavePanel object, creating it if
+necessary.<p>
+
+<b>Customizing the NSSavePanel </b><p>
+
+<UL><LI> - (void)<b>setAccessoryView:</b>(NSView *)<i>aView</i>	Adds an
+application-customized view to the save panel. 
+</LI><LI> -  (NSView *)<b>accessoryView</b>	Returns the application-customized view
+object. 
+</LI><LI> -  (void)<b>setTitle:</b>(NSString *)<i>title</i>	Sets the title of the
+NSSavePanel to <i>title</i>. 
+</LI><LI> -  (NSString *)<b>title</b>	Returns the title of the NSSavePanel.
+</LI><LI> -  (void)<b>setPrompt:</b>(NSString *)<i>prompt</i>	Sets the title of the form
+field for the path to <i>prompt</i>.
+</LI><LI> -  (NSString *)<b>prompt</b>	Returns the title of the form field for the path.</LI></UL>
+<b>Setting Directory and File Type </b><p>
+
+<UL><LI> - (NSString *)<b>requiredFileType</b>	Gets the required file type (if any). 
+</LI><LI> -  (void)<b>setDirectory:</b>(NSString *)<i>path</i>	Sets the current directory
+of the NSSavePanel.
+</LI><LI> -  (void)<b>setRequiredFileType:</b>(NSString *)<i>type</i>	Sets the required
+file type (if any). An empty string indicates that the user can save to any
+ASCII file.
+</LI><LI> -  (void)<b>setTreatsFilePackagesAsDirectories:</b>(BOOL)<i>flag</i>
+<i></i>	Sets whether the NSSavePanel object treats file packages as directories
+by showing their contents in the browser.
+</LI><LI> -  (BOOL)<b>treatsFilePackagesAsDirectories	</b>Returns YES if the NSSavePanel
+treats file packages as directories, thereby allowing users to browse the
+contents of file packages.</LI></UL>
+<b>Running the NSSavePanel </b><p>
+
+<UL><LI> - (int)<b>runModalForDirectory:</b>(NSString *)<i>path</i>	Displays the
+NSSavePanel and begins its event loop,
+<b>file:</b>(NSString *)<i>filename</i>		showing <i>path</i> in the browser and
+selecting <i>filename</i>. 
+</LI><LI> -  (int)<b>runModal</b>	Displays the NSSavePanel and begins its event loop. </LI></UL>
+<b>Reading Save Information </b><p>
+
+<UL><LI> - (NSString *)<b>directory</b>	Returns the directory that the chosen file
+resides in. 
+</LI><LI> -  (NSString *)<b>filename</b>	Returns the absolute path name of the file to be
+saved.</LI></UL>
+<b>Target and Action Methods </b><p>
+
+<UL><LI> - (void)<b>ok:</b>(id)<i>sender</i>	Method invoked by the OK button. 
+</LI><LI> -  (void)<b>cancel:</b>(id)<i>sender</i>	Method invoked by the Cancel button.</LI></UL>
+<b>Responding to User Input </b><p>
+
+<UL><LI> - (void)<b>selectText:</b>(id)<i>sender</i>	Invoked when users press Tab,
+Shift-Tab, or an arrow key.</LI></UL>
+<b>Setting the Delegate </b><p>
+
+<UL><LI> - (void)<b>setDelegate:</b>(id)<i>anObject</i>	Makes <i>anObject</i> the
+NSSavePanel's delegate. </LI></UL>
+<b>Methods Implemented by the Delegate </b><p>
+
+<UL><LI> - (NSComparisonResult)<b>panel:</b>(id)<i>sender</i>	Returns
+NSOrderedDescending if <i>filename1</i> precedes
+<b>compareFilename:</b>(NSString *)<i>filename1</i>	 <i>	filename2</i>,
+NSOrderedAscending in the opposite case,
+<b>with:</b>(NSString *)<i>filename2</i>	 	NSOrderedSame if the two are
+equivalent.
+<b>caseSensitive:</b>(BOOL)<i>caseSensitive</i>	 
+</LI><LI> -  (BOOL)<b>panel:</b>(id)<i>sender</i>	Returns YES if <i>filename</i> should be
+displayed in the
+<b>shouldShowFilename:</b>(NSString *)<i>filename</i>	 	browser. 
+</LI><LI> -  (BOOL)<b>panel:</b>(id)<i>sender</i>	Returns YES if <i>filename</i> is
+acceptable to the delegate. 
+<b>isValidFilename:</b>(NSString*)<i>filename</i>
+<i></i>
+</body></html>

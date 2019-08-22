@@ -1,0 +1,243 @@
+<html><head><TITLE>NSByteStore.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSByteStore</b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSObject (NSObject)
+<p>
+<b>Declared In:	</b>Foundation/NSByteStore.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+An NSByteStore object manages a single memory-based heap. Use NSByteStore to
+allocate storage in data-intensive applications. Its main feature is
+transaction management, which makes compound operations atomic and ensures data
+integrity.<p>
+<p>
+You address the blocks of storage that an NSByteStore manages through unsigned
+integers called block numbers. To gain access to the contents of a block, you
+first must open the block for reading or writing. When you open a block, the
+NSByteStore resolves the block number into a pointer. While a block is open,
+you can address its contents using the pointer and can safely assume that the
+block won't move. Once you close the block, however, the NSByteStore is free to
+move it in order to compact storage; so the pointer may become invalid. <p>
+<p>
+The contents of an NSByteStore are relocatable to and from other instances of
+NSByteStore and its subclasses. Although the address of a block becomes invalid
+when the block is relocated, its block number remains constant. Since block
+numbers are indirect references to data, it's possible to retrieve the contents
+of an NSByteStore without invalidating block number-based referential data
+structures residing in the NSByteStore, like linked lists or trees. This makes
+it easy to copy complex structures or to quickly save them to a file.<p>
+<p>
+A subclass of NSByteStore, NSByteStoreFile, stores data in a file so that you
+can retain data created and changed by your application. For more information,
+see its class description. <p>
+<p>
+
+<b>Transactions</b><p>
+
+NSByteStore implements <i>transactions</i>, allowing several operations to be
+grouped together in such a way that either all of them take effect, or none of
+them do. Transactions help to ensure semantic integrity by making compound
+operations atomic, and they provide a convenient way to undo a series of
+changes. If you use NSByteStoreFile, the use of transactions also ensures data
+integrity against process and system crashes. This means that if a system loses
+power, the NSByteStoreFile's contents can be recovered intact on power up, in
+the state they were in after the last transaction that actually finished. <p>
+<p>
+Transactions are either enabled or disabled for an object. Most likely, you
+will want to disable transactions for NSByteStores (unless you want the undo
+capability) and enable them for NSByteStoreFiles. When transactions are
+enabled, NSByteStore copies blocks that your application opens for writing.
+Thus, updates are slower when transactions are enabled. If you are using
+NSByteStore directly, its contents are always destroyed by a system crash, so
+the only advantage to using transactions is the undo capability. If you are
+using NSByteStoreFile, enabling transactions may save some of the changes made
+before a system crash. Therefore, you should always use transactions with
+NSByteStoreFile except if it contains data that can be easily reconstructed,
+such as an index.<p>
+<p>
+
+<b>Using Transactions</b><p>
+
+A single transaction begins with a <b>startTransaction</b> message and ends
+with either a <b>commitTransaction</b> or <b>abortTransaction</b> message.
+<b>startTransaction</b> enables transactions if they are disabled. Sending
+<b>commitTransaction</b> means you want the changes made by this transaction to
+take effect. <b>abortTransaction</b> means you want to cancel the changes made
+by this transaction.<p>
+<p>
+You can check whether transactions have been enabled with
+<b>areTransactionsEnabled</b>. You may want to do this if your code is invoked
+by higher level methods that determine the transaction management policy for
+the application. For example, NSByteStore uses <b>areTransactionsEnabled</b> to
+determine whether or not to invoke <b>startTransaction</b> before responding to
+an <b>empty</b> message.<p>
+<p>
+You can nest transactions. The first <b>startTransaction</b> message (or the
+first message that opens a block after <b>enableTransactions</b>) starts
+transaction 1. If you send <b>startTransaction</b> again before ending
+transaction 1, it begins transaction 2, which is nested inside transaction 1.
+The <b>nestingLevel</b> method returns the current nesting level of
+transactions. <b>startTransaction</b> also returns the nesting level as the
+transaction's ID. <p>
+<p>
+The trick with nesting transactions is: <i>the changes a transaction makes
+aren't really made until the nesting level returns to 0</i>. In other words,
+changes don't actually take effect until the top-level transaction is
+committed. This means that any blocks that any of the transactions have opened
+for writing will not be available until the all of the transactions are
+finished. So, if you start a transaction at nesting level 2, make some changes
+to blocks 3, 5, and 7, and then you send <b>commitTransaction</b>, all that
+<b>commitTransaction</b> really does is set the nesting level to 1 and tell
+transaction 1 about the changes to blocks 3, 5, and 7. If you then send
+<b>commitTransaction</b> at transaction 1, <b>commitTransaction</b> sets the
+nesting level to 0. Because the nesting level is now 0, the changes can take
+place. Blocks 3, 5, and 7 are overwritten with the changes made during
+transaction 2 and are made available. If instead you decide to abort
+transaction 1 (by sending <b>abortTransaction</b>), the changes transaction 2
+made to blocks 3, 5, and 7 are cancelled, as well as any changes transaction 1
+made to any blocks. In this way, the parent of a transaction can undo changes
+made by their children, but the children cannot undo the changes made by their
+parents.<p>
+<p>
+Note that if your code makes changes outside any transaction while transactions
+are enabled, an enclosing transaction is started automatically. The next
+invocation of <b>startTransaction</b>, if any, before an intervening abort or
+commit, simply picks up this enclosing transaction and reports a nesting level
+of 1. Thus, if nesting isn't needed, your code can simply enable transactions
+initially with a pair of <b>startTransaction</b>/<b>commitTransaction</b>
+messages, and thereafter use only <b>commitTransaction</b> to mark transaction
+boundaries. New transactions implicitly begin with the first modification
+following each commit.<p>
+<p>
+Any modifications that haven't been committed are aborted when an NSByteStore
+is freed.<p>
+<p>
+
+<b>Opening Blocks for Reading or Writing</b><p>
+
+When you open a block for reading or writing, that block is unavailable until
+you specify that you are finished. <p>
+<p>
+When you are finished reading a block, you send <b>closeBlock:</b>. Any method
+that accesses information about a block opens it for reading. This means not
+only does <b>readBlock:range:</b> open a block for reading, but so does
+<b>sizeOfBlock:</b>, which returns the block's size. The <b>copyBlock:</b>
+method opens the block for reading, but it also closes it when finished (unless
+you already had that block opened for reading). Even if you commit a
+transaction before you send <b>closeBlock:</b>, the block remains open for
+reading.<p>
+<p>
+Any method that changes a block's contents opens the block for writing. This
+means not only does <b>openBlock:range:</b> open a block for writing, but so do
+the methods <b>copyBytes:toBlock:range:</b>, <b>createBlockOfSize:</b>, and
+<b>freeBlock:</b>. You indicate that you are finished with a block you have
+open for writing by having its changes take effect. Closing the block with
+<b>closeBlock:</b> does <i>not</i> make your changes take effect, <i>even if
+transactions are disabled</i>. Regardless of whether transactions are enabled
+or disabled, you must send <b>commitTransaction</b> to have your changes
+actually be made. <p>
+<p>
+If transactions are disabled, <b>commitTransaction</b> commits all the changes
+made to blocks since that last <b>commitTransaction</b> or
+<b>abortTransaction</b> message was sent. <b>abortTransaction</b> cancels all
+the changes made since the last <b>commitTransaction</b>.<p>
+<p>
+
+<b>Creating an NSByteStore</b><p>
+
+<UL><LI> + (NSByteStore *)<b>byteStore</b>	Returns a new NSByteStore with transactions
+disabled.</LI></UL>
+<b>Managing the NSByteStore</b><p>
+
+<UL><LI> - (unsigned)<b>count</b>	Returns the number of blocks in the NSByteStore at
+transaction level 0. That is, if you have created or freed some blocks but
+those changes have not been committed at transaction level 0, <b>count</b> will
+not reflect those changes.
+</LI><LI> -  (void)<b>empty</b>	Frees all blocks of memory in the NSByteStore. If
+transactions are enabled, this method starts and commits a new transaction. 
+</LI><LI> -  (void)<b>getBlocks:</b>(unsigned *)<i>blocks</i>	Returns in <i>blocks</i> a
+C-style array of block numbers at transaction level 0. The caller must free the
+returned array.
+</LI><LI> -  (unsigned)<b>rootBlock</b>	Returns the number of the root block, which by
+convention is used as a table of contents or a directory. </LI></UL>
+<b>Creating, Copying, and Freeing Blocks</b><p>
+
+<UL><LI> - (unsigned)<b>createBlockOfSize:</b>(unsigned)<i>size</i> 	Returns a block
+number for a new block of <i>size</i> bytes with the contents initialized to
+zero. Creating a block with size 0 is allowed. 
+</LI><LI> -  (unsigned)<b>copyBlock:</b>(unsigned)<i>aBlock</i> 	Returns a block number
+for a new block whose size and 
+<b>range:</b>(NSRange)<i>range</i>		contents are identical to the memory region
+in block <i>aBlock</i> specified by <i>range</i>.
+</LI><LI> -  (void)<b>freeBlock:</b>(unsigned)<i>aBlock</i>	Removes and frees the block
+<i>aBlock</i>.</LI></UL>
+<b>Opening and Closing Blocks</b><p>
+
+<UL><LI> - (void *)<b>openBlock:</b>(unsigned)<i>aBlock</i> 	Opens for writing the
+memory region in block <i>aBlock</i> 
+<b>range:</b>(NSRange)<i>range</i> 		specified by <i>range</i>. A pointer to
+the region is returned.
+</LI><LI> -  (const void *)<b>readBlock:</b>(unsigned)<i>aBlock</i> 	Opens for reading the
+memory region in block <i>aBlock.</i> 
+<b>range:</b>(NSRange)<i>range</i> 		specified by <i>range</i>. A pointer to
+the region is returned.
+</LI><LI> -  (void)<b>closeBlock:</b>(unsigned)<i>aBlock</i>	Closes the block
+<i>aBlock</i>.</LI></UL>
+<b>Managing Block Sizes</b><p>
+
+<UL><LI> - (void)<b>resizeBlock:</b>(unsigned)<i>aBlock</i> 	Resizes the block
+<i>aBlock</i> to <i>size</i> bytes. This 
+<b>toSize:</b>(unsigned)<i>size</i>		method may change the location of the
+block as well.
+</LI><LI> -  (unsigned)<b>sizeOfBlock:</b>(unsigned)<i>aBlock</i>	Returns the size in
+bytes of the block <i>aBlock</i>.</LI></UL>
+<b>Using Transactions</b><p>
+
+<UL><LI> - (unsigned)<b>startTransaction</b>	Begins a new transaction, enabling
+transactions if necessary, for the current context. This transaction will be
+aborted or committed before all other outstanding transactions. Returns a
+number that both identifies the new transaction and indicates the number of
+transactions outstanding.
+</LI><LI> -  (void)<b>abortTransaction</b>	Reverts the NSByteStore to the state it was in
+before the last <b>startTransaction</b> message or the last
+<b>commitTransaction</b> message. Any blocks that had been opened are made
+available to other store contexts.
+</LI><LI> -  (void)<b>commitTransaction</b>	Commits all changes made to blocks opened
+since the last <b>startTransaction</b> or the last <b>commitTransaction</b> and
+closes those blocks. If transactions are disabled or the nesting level becomes
+0, this method makes all of the changed blocks available to other contexts. 
+</LI><LI> -  (BOOL)<b>areTransactionsEnabled</b>	Returns YES if transactions are enabled
+for the NSByteStore, NO if not. Transactions are enabled by the method
+<b>startTransaction</b>.
+</LI><LI> -  (unsigned)<b>nestingLevel</b>	Returns the number of transactions pending
+against the NSByteStore. 
+</LI><LI> -  (unsigned)<b>changeCount</b>	Returns the number of changes made to the
+NSByteStore's contents since it was initialized. This number equals the number
+of <b>commitTransaction</b> and <b>abortTransaction</b> messages the
+NSByteStore has received.</LI></UL>
+<b>Changing the Contents</b><p>
+
+<UL><LI> - (void)<b>copyBytes:</b>(const void *)<i>newData</i> 	Copies the series of
+bytes pointed to by <i>newData</i> into the 
+<b>toBlock:</b>(unsigned)<i>aBlock</i> 		memory region in block <i>aBlock</i>
+specified by <i>range</i>. This 
+<b>range:</b>(NSRange)<i>range</i>		method will expand the block's size if the
+data will not fit in the location specified by <i>range</i>. 
+</LI><LI> -  (NSData *)<b>contentsAsData</b>	Creates a virtual memory image of the
+NSByteStore. 
+</LI><LI> -  (void)<b>replaceContentsWithData:</b>(NSData *)<i>data</i> 	Replaces the
+contents of the NSByteStore with virtual memory image <i>data</i>. This method
+ignores and erases any pending writes to the NSByteStore.
+</body></html>

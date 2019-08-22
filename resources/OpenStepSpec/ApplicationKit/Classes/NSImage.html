@@ -1,0 +1,373 @@
+<html><head><TITLE>NSImage.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSImage </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding, NSCopying
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSImage.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+An NSImage object contains an image that can be composited anywhere without
+first being drawn in any particular view. It manages the image by:<p>
+<p>
+.	Reading image data from the application bundle, from an NSPasteboard, or from
+an NSData object.<p>
+<p>
+.	Keeping multiple representations of the same image.<p>
+<p>
+.	Choosing the representation that's appropriate for a particular data type.<p>
+<p>
+.	Choosing the representation that's appropriate for any given display
+device.<p>
+<p>
+.	Caching the representations it uses by rendering them in off-screen
+windows.<p>
+<p>
+.	Optionally retaining the data used to draw the representations, so that they
+can be reproduced when needed.<p>
+<p>
+.	Compositing the image from the off-screen cache to where it's needed
+on-screen.<p>
+<p>
+.	Reproducing the image for the printer so that it matches what's displayed
+on-screen, yet is the best representation possible for the printed page.<p>
+<p>
+.	Automatically using any filtering services installed by the user to convert
+image data from unsupported formats to supported formats. <p>
+<p>
+
+<b>Defining an Image</b><p>
+
+An image can be created from various types of data:<p>
+<p>
+.	Encapsulated PostScript code (EPS)<p>
+<p>
+.	Bitmap data in Tag Image File Format (TIFF)<p>
+<p>
+.	Untagged (raw) bitmap data <p>
+<p>
+.	Other image data supported by an NSImageRep subclass registered with the
+NSImage class<p>
+<p>
+.	Data that can be filtered to a supported type by a user-installed filter
+service<p>
+<p>
+If data is placed in a file (for example, in an application bundle), the
+NSImage object can access the data whenever it's needed to create the image. If
+data is read from an NSData object, the NSImage object may need to store the
+data itself.<p>
+<p>
+Images can also be defined by the program, in two ways:<p>
+<p>
+.	By drawing the image in an off-screen window maintained by the NSImage
+object. In this case, the NSImage maintains only the cached image.<p>
+<p>
+.	By defining a method that can be used to draw the image when needed. This
+allows the NSImage to delegate responsibility for producing the image to some
+other object.<p>
+<p>
+
+<b>Image Representations</b><p>
+
+An NSImage object can keep more than one representation of an image. Multiple
+representations permit the image to be customized for the display device. For
+example, different hand-tuned TIFF images can be provided for monochrome and
+color screens, and an EPS representation or a custom method might be used for
+printing. All representations are versions of the same image.<p>
+<p>
+An NSImage returns an NSArray of its representations in response to a
+<b>representations</b> message. Each representation is a kind of NSImageRep
+object:<p>
+<p>
+NSEPSImageRep	An image that can be recreated from EPS data that's either stored
+by the object or at a known location in the file system.<p>
+<p>
+NSBitmapImageRep	An image that can be recreated from bitmap or TIFF data.<p>
+<p>
+NSCustomImageRep	An image that can be redrawn by a method defined in the
+application.<p>
+<p>
+NSCachedImageRep	An image that has been rendered in an off-screen cache from
+data or instructions that are no longer available. The image in the cache
+provides the only data from which the image can be reproduced.<p>
+<p>
+You can define other NSImageRep subclasses for objects that render images from
+other types of source data. To make these new subclasses available to an
+NSImage object, they need to be added to the NSImageRep class registry by
+invoking the <b>registerImageRepClass:</b> class method. NSImage determines the
+data types that each subclass can support by invoking its
+<b>imageUnfilteredFileTypes</b> and <b>imageUnfilteredPasteboardTypes</b>
+methods.<p>
+<p>
+
+<b>Choosing Representations</b><p>
+
+The NSImage object will choose the representation that best matches the
+rendering device. By default, the choice is made according to the following set
+of ordered rules. Each rule is applied in turn until the choice of
+representation is narrowed to one.<p>
+<p>
+1.	Choose a color representation for a color device, and a gray-scale
+representation for a monochrome device.<p>
+<p>
+2.	Choose a representation with a resolution that matches the resolution of the
+device, or if no representation matches, choose the one with the highest
+resolution.<p>
+<p>
+By default, any image representation with a resolution that's an integer
+multiple of the device resolution is considered to match. If more than one
+representation matches, the NSImage will choose the one that's closest to the
+device resolution. However, you can force resolution matches to be exact by
+passing NO to the <b>setMatchesOnMultipleResolution:</b> method.<p>
+<p>
+Rule 2 prefers TIFF and bitmap representations, which have a defined
+resolution, over EPS representations, which don't. However, you can use the
+<b>setUsesEPSOnResolutionMismatch:</b> method to have the NSImage choose an EPS
+representation in case a resolution match isn't possible.<p>
+<p>
+3.	If all else fails, choose the representation with a specified bits per
+sample that matches the depth of the device. If no representation matches,
+choose the one with the highest bits per sample.<p>
+<p>
+By passing NO to the <b>setPrefersColorMatch:</b> method, you can have the
+NSImage try for a resolution match before a color match. This essentially
+inverts the first and second rules above.<p>
+<p>
+If these rules fail to narrow the choice to a single representationfor
+example, if the NSImage has two color TIFF representations with the same
+resolution and depththe one that will be chosen is system dependent.<p>
+<p>
+
+<b>Caching Representations</b><p>
+
+When first asked to composite the image, the NSImage object chooses the
+representation that's best for the destination display device, as outlined
+above. It renders the representation in an off-screen window on the same
+device, then composites it from this cache to the desired location. Subsequent
+requests to composite the image use the same cache. Representations aren't
+cached until they're needed for compositing.<p>
+<p>
+When printing, the NSImage tries not to use the cached image. Instead, it
+attempts to render on the printerusing the appropriate image data, or a
+delegated methodthe best version of the image that it can. Only as a
+last resort will it image the cached bitmap.<p>
+<p>
+
+<b>Image Size</b><p>
+
+Before an NSImage can be used, the size of the image must be set, in units of
+the base coordinate system. If a representation is smaller or larger than the
+specified size, it can be scaled to fit.<p>
+<p>
+If the size of the image hasn't already been set when the NSImage is provided
+with a representation, the size will be set from the data. The bounding box is
+used to determine the size of an NSEPSImageRep. The TIFF fields
+ImageLength and
+ImageWidth are used to determine the size of an
+NSBitmapImageRep.<p>
+<p>
+
+<b>Coordinate Systems</b><p>
+
+Images have the horizontal and vertical orientation of the base coordinate
+system; they can't be rotated or flipped. When composited, an image maintains
+this orientation, no matter what coordinate system it's composited to. (The
+destination coordinate system is used only to determine the location of a
+composited image, not its size or orientation.)<p>
+<p>
+It's possible to refer to portions of an image when compositing by specifying a
+rectangle in the image's coordinate system, which is identical to the base
+coordinate system, except that the origin is at the lower left corner of the
+image.<p>
+<p>
+
+<b>Named Images</b><p>
+
+An NSImage object can be identified either by its <b>id</b> or by a name.
+Assigning an NSImage a name adds it to a table kept by the class object; each
+name in the database identifies one and only one instance of the class. When
+you ask for an NSImage object by name (with the <b>imageNamed:</b> method), the
+class object returns the one from its database, which also includes all the
+system bitmaps provided by the Application Kit.  If there's no object in the
+database for the specified name, the class object tries to create one by
+checking for a system bitmap of the same name, checking the name of the
+application's own image, and then checking for the image in the application's
+main bundle.<p>
+<p>
+If a section or file matches the name, an NSImage is created from the data
+stored there. You can therefore create NSImage objects simply by including EPS
+or TIFF data for them within the executable file, or in files inside the
+application's file package.<p>
+<p>
+
+<b>Image Filtering Services</b><p>
+
+NSImage is designed to automatically take advantage of user-installed filter
+services for converting unsupported image file types to supported image file
+types. The class method <b>imageFileTypes</b> returns an array of all file
+types from which NSImage can create an instance of itself. This list includes
+all file types supported by registered subclasses of NSImageRep, and those
+types that can be converted to supported file types through a user-installed
+filter service.<p>
+<p>
+
+<b>Initializing a New NSImage Instance </b><p>
+
+<UL><LI> - (id)<b>initByReferencingFile:</b>(NSString *)<i>filename</i>	Initializes the
+new NSImage from the data in <i>filename</i>. The file is assumed to persist
+and may be reread later if the NSImage is resized or otherwise modified.
+</LI><LI> -  (id)<b>initWithContentsOfFile:</b>(NSString *)<i>filename</i>
+<i></i>	Initializes the new NSImage from the data in <i>filename</i>. 
+</LI><LI> -  (id)<b>initWithData:</b>(NSData *)<i>data</i>	Initializes the new NSImage
+from <i>data</i>.
+</LI><LI> -  (id)<b>initWithPasteboard:</b>(NSPasteboard *)<i>pasteboard</i>
+<i></i>	Initializes the new NSImage with the data in <i>pasteboard</i>.
+</LI><LI> -  (id)<b>initWithSize:</b>(NSSize)<i>aSize</i>	Initializes the new NSImage to
+the specified size.</LI></UL>
+<b>Setting the Size of the Image </b><p>
+
+<UL><LI> - (void)<b>setSize:</b>(NSSize)<i>aSize</i>	Sets the size of the image to
+<i>aSize</i> in base coordinates.
+</LI><LI> -  (NSSize)<b>size</b>	Returns the size of the image.</LI></UL>
+<b>Referring to Images by Name </b><p>
+
+<UL><LI> + (id)<b>imageNamed:</b>(NSString *)<i>name</i>	Returns the NSImage object
+having <i>name</i>. Searches the main bundle for the image if necessary.
+</LI><LI> -  (BOOL)<b>setName:</b>(NSString *)<i>name</i>	Assigns<i> name </i>to be the
+receiver's name. Returns NO if <i>name</i> is already in use; otherwise,
+returns YES.
+</LI><LI> -  (NSString *)<b>name</b>	Returns the receiver's name.</LI></UL>
+<b>Specifying the Image </b><p>
+
+<UL><LI> - (void)<b>addRepresentation:</b>(NSImageRep *)<i>imageRep</i>
+<i></i>	Adds <i>imageRep</i> to the receiver's list of representations.
+</LI><LI> -  (void)<b>addRepresentations:</b>(NSArray *)<i>imageRepArray</i>
+<i></i>	Adds the<i> imageRep</i>s from <i>imageRepArray</i> to the receiver's
+list of representations.
+</LI><LI> -  (void)<b>lockFocus</b>	Prepares for drawing in the best representation.
+</LI><LI> -  (void)<b>lockFocusOnRepresentation:</b>(NSImageRep *)<i>imageRep</i>
+	Prepares for drawing in <i>imageRep</i>.
+</LI><LI> -  (void)<b>unlockFocus</b>	Balances a previous <b>lockFocus</b> or
+<b>lockFocusOnRepresentation:</b>.</LI></UL>
+<b>Using the Image </b><p>
+
+<UL><LI> - (void)<b>compositeToPoint:</b>(NSPoint)<i>aPoint</i>	Composites the image to
+<i>aPoint</i> using the operation <i>op</i>.
+<b>operation:</b>(NSCompositingOperation)<i>op</i>
+<i></i></LI><LI> -  (void)<b>compositeToPoint:</b>(NSPoint)<i>aPoint</i>	Composites the
+<i>aRect</i> portion of the image to <i>aPoint</i> using
+<b>fromRect:</b>(NSRect)<i>aRect</i>		the operation <i>op</i>.
+<b>operation:</b>(NSCompositingOperation)<i>op</i>
+<i></i></LI><LI> -  (void)<b>dissolveToPoint:</b>(NSPoint)<i>aPoint</i>	Composites the image to
+<i>aPoint</i> using the <b>dissolve</b>
+<b>fraction:</b>(float)<i>aFloat</i>		operator. <i>aFloat</i> is a value from
+0.0 to 1.0 that determines how much of the resulting composite comes from the
+receiver.
+</LI><LI> -  (void)<b>dissolveToPoint:</b>(NSPoint)<i>aPoint</i>	Composites the
+<i>aRect</i> portion of the image to <i>aPoint</i> using
+<b>fromRect:</b>(NSRect)<i>aRect</i>		the <b>dissolve</b> operator.
+<i>aFloat</i> is a value from 0.0 to 1.0
+<b>fraction:</b>(float)<i>aFloat</i>		that determines how much of the resulting
+composite comes from the receiver.</LI></UL>
+<b>Choosing Which Image Representation to Use </b><p>
+
+<UL><LI> - (void)<b>setPrefersColorMatch:</b>(BOOL)<i>flag</i>	Determines whether color
+matches are preferred.
+</LI><LI> -  (BOOL)<b>prefersColorMatch</b>	Returns whether color matches are preferred.
+</LI><LI> -  (void)<b>setUsesEPSOnResolutionMismatch:</b>(BOOL)<i>flag</i>
+<i></i>	Sets whether to use EPS representations on mismatch.
+</LI><LI> -  (BOOL)<b>usesEPSOnResolutionMismatch</b>	Returns whether to use EPS
+representations on mismatch.
+</LI><LI> -  (void)<b>setMatchesOnMultipleResolution:</b>(BOOL)<i>flag</i>
+<i></i>	Sets whether resolution multiples match.
+</LI><LI> -  (BOOL)<b>matchesOnMultipleResolution</b>	Returns whether resolution multiples
+match.</LI></UL>
+<b>Getting the Representations </b><p>
+
+<UL><LI> - (NSImageRep *)<b>bestRepresentationForDevice:</b>(NSDictionary
+*)<i>deviceDescription</i>
+<i></i>	Returns the best representation for the device described by
+<i>deviceDescription</i>. If <i>deviceDescription</i> is <b>nil</b>, the
+current device is assumed. See <b>NSGraphics.h</b> for appropriate dictionary
+keys and values.
+</LI><LI> -  (NSArray *)<b>representations</b>	Returns an array of all the
+representations.
+</LI><LI> -  (void)<b>removeRepresentation:</b>(NSImageRep *)<i>imageRep</i>
+<i></i>	Removes <i>imageRep</i> from the receiver's list of representations.</LI></UL>
+<b>Determining How the Image is Stored </b><p>
+
+<UL><LI> - (void)<b>setCachedSeparately:</b>(BOOL)<i>flag</i>	Sets whether
+representations are cached separately.
+</LI><LI> -  (BOOL)<b>isCachedSeparately</b>	Returns whether representations are cached
+separately.
+</LI><LI> -  (void)<b>setDataRetained:</b>(BOOL)<i>flag</i>	Sets whether image data is
+retained by the object after the image is cached.
+</LI><LI> -  (BOOL)<b>isDataRetained</b>	Returns whether image data is retained.
+</LI><LI> -  (void)<b>setCacheDepthMatchesImageDepth:</b>(BOOL)<i>flag</i>
+<i></i>	Sets whether the default depth limit applies to caches.
+</LI><LI> -  (BOOL)<b>cacheDepthMatchesImageDepth</b>	Returns whether the default depth
+limit applies to caches.</LI></UL>
+<b>Determining How the Image is Drawn </b><p>
+
+<UL><LI> - (BOOL)<b>isValid</b>	Returns YES to indicate that the receiver's image is
+valid.
+</LI><LI> -  (void)<b>setScalesWhenResized:</b>(BOOL)<i>flag</i>	If flag is YES,
+representations are scaled to fit. 
+</LI><LI> -  (BOOL)<b>scalesWhenResized</b>	Returns whether representations are scaled to
+fit.
+</LI><LI> -  (void)<b>setBackgroundColor:</b>(NSColor *)<i>aColor</i>	Sets the background
+color of the image to <i>aColor</i>.
+</LI><LI> -  (NSColor *)<b>backgroundColor</b>	Returns the background color of the
+image.
+</LI><LI> -  (BOOL)<b>drawRepresentation:</b>(NSImageRep *)<i>imageRep</i> 
+<b>inRect:</b>(NSRect)<i>aRect</i>	Overridden to have <i>imageRep</i> draw the
+representation in <i>aRect</i>.
+</LI><LI> -  (void)<b>recache</b>	Invalidates caches of all representations, so they will
+be redrawn.</LI></UL>
+<b>Assigning a Delegate </b><p>
+
+<UL><LI> - (void)<b>setDelegate:</b>(id)<i>anObject</i>	Makes <i>anObject</i> the
+delegate of the NSImage.
+</LI><LI> -  (id)<b>delegate</b>	Returns the delegate of the NSImage.</LI></UL>
+<b>Producing TIFF Data for the Image </b><p>
+
+<UL><LI> - (NSData *)<b>TIFFRepresentation	</b>Returns a data object containing TIFF for
+all representations, using their default compressions.
+</LI><LI> -  (NSData
+*)<b>TIFFRepresentationUsingCompression:</b>(NSTIFFCompression)<i>comp</i>
+<i></i>factor:(float)<i>aFloat</i>	Returns a data object containing TIFF for
+all the representations.</LI></UL>
+<b>Managing NSImageRep Subclasses </b><p>
+
+<UL><LI> + (NSArray *)<b>imageUnfilteredFileTypes </b>	Returns an array of file types
+recognized by the NSImage
+		without filtering. This list comes from all registered NSImageReps.
+</LI><LI> +  (NSArray *)<b>imageUnfilteredPasteboardTypes</b>
+<b></b>	Returns an array of pasteboard types recognized by the NSImage.</LI></UL>
+<b>Testing Image Data Sources </b><p>
+
+<UL><LI> + (BOOL)<b>canInitWithPasteboard:</b>(NSPasteboard *)<i>pasteboard</i>
+<i></i>	Returns YES if the receiver can create a representation from
+<i>pasteboard</i>; otherwise, returns NO.
+</LI><LI> +  (NSArray *)<b>imageFileTypes</b>	Returns an array of supported image data
+file types.
+</LI><LI> +  (NSArray *)<b>imagePasteboardTypes</b>	Returns an array of supported
+pasteboard types.</LI></UL>
+<b>Methods Implemented by the Delegate </b><p>
+
+<UL><LI> - (NSImage *)<b>imageDidNotDraw:</b>(id)<i>sender	</i>Responds to message that
+<i>image</i> couldn't be composited
+<b>inRect:</b>(NSRect)<i>aRect</i>		into <i>aRect</i>.
+</body></html>

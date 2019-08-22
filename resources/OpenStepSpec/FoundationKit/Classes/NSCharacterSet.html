@@ -1,0 +1,119 @@
+<html><head><TITLE>NSCharacterSet.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSCharacterSet </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding, NSCopying, NSMutableCopying
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>Foundation/NSCharacterSet.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+The NSCharacterSet class declares the programmatic interface to objects that
+construct immutable <i>descriptions</i> of character sets in the Unicode
+character encoding. Using NSCharacterSet objects, you can determine if a given
+Unicode character belongs to a specified set. See NSMutableCharacterSet for a
+class that constructs descriptions of character sets that can be modified
+dynamically. NSCharacterSet's primitive methods are <b>characterIsMember:</b>
+and <b>bitmapRepresentation</b>. Subclasses of NSCharacterSet must implement
+these two methods.<p>
+<p>
+NSCharacterSet objects can be thought of as loosely analogous to the
+<b>is1/4</b> macros (such as <b>isupper()</b>)available in the <b>ctype</b>
+collection of most standard C libraries. NSCharacterSet objects, however, offer
+much greater flexibility in that you can dynamically construct your own custom
+character sets against which you can test characters.<p>
+<p>
+The term bitmap in the descriptions below does
+not refer to bitmap characters in the sense of
+screen fonts for display. The bitmaps referred
+to here are compact ordered <i>bit set</i> representations of Unicode character
+positions or ranges of Unicode characters.<p>
+<p>
+You create standard character setssuch as
+a set of alphanumerics, or a set of decimal digitsby invoking the
+NSCharacterSet class object with one of the methods described in
+Creating a Standard Character Set. These methods
+provide convenient means to create a standard set without needing to specify
+the character positons explicitly.<p>
+<p>
+You can also create your own custom character
+sets by using one of the methods described under Creating a
+Custom Character Set. To create a character set with multiple
+disjoint ranges, see the <b>add</b>1/4 methods described in
+NSMutableCharacterSet.<p>
+<p>
+
+<b>Creating a Standard Character Set </b><p>
+
+<UL><LI> + (NSCharacterSet *)<b>alphanumericCharacterSet</b>	Returns a character set
+containing the uppercase and lowercase alphabetic characters (a-z, A-Z, other
+alphabetic characters such as [[Yacute]], &#137;, &Ucirc;, &#135;, and so on)
+and the decimal digit characters (0-9).
+</LI><LI> +  (NSCharacterSet *)<b>controlCharacterSet</b>	Returns a character set
+containing the control characters (characters with decimal Unicode values 0 to
+31 and 127 to 159).
+</LI><LI> +  (NSCharacterSet *)<b>decimalDigitCharacterSet</b>	Returns a character set
+containing only decimal digit characters (0-9).
+</LI><LI> +  (NSCharacterSet *)<b>decomposableCharacterSet</b>	Returns a character set
+containing all individual Unicode characters that can also be represented as
+composed character sequences.
+</LI><LI> +  (NSCharacterSet *)<b>illegalCharacterSet</b>	Returns a character set
+containing the illegal Unicode values.
+</LI><LI> +  (NSCharacterSet *)<b>letterCharacterSet</b>	Returns a character set
+containing the uppercase and lowercase alphabetic characters (a-z, A-Z, other
+alphabetic characters such as [[Yacute]], &#137;, &Ucirc;, &#135;, and so
+on).
+</LI><LI> +  (NSCharacterSet *)<b>lowercaseLetterCharacterSet</b>
+<b></b>	Returns a character set containing only lowercase alphabetic characters
+(a-z, other alphabetic characters such as [[Yacute]], &Ucirc;, and so on).
+</LI><LI> +  (NSCharacterSet *)<b>nonBaseCharacterSet</b>	Returns a set containing all
+characters which are not defined to be base characters for purposes of dynamic
+character composition.
+</LI><LI> +  (NSCharacterSet *)<b>uppercaseLetterCharacterSet</b>
+<b></b>	Returns a character set containing only uppercase alphabetic characters
+(A-Z, other alphabetic characters such as &#137;, &#135;, and so on).
+</LI><LI> +  (NSCharacterSet *)<b>whitespaceAndNewlineCharacterSet</b>
+<b></b>	Returns a character set containing only whitespace characters (space
+and tab) and the newline character.
+</LI><LI> +  (NSCharacterSet *)<b>whitespaceCharacterSet</b>	Returns a character set
+containing only in-line whitespace characters (space and tab). This set doesn't
+contain the newline or carriage return characters.</LI></UL>
+<b>Creating a Custom Character Set </b><p>
+
+<UL><LI> + (NSCharacterSet *)<b>characterSetWithBitmapRepresentation:</b>(NSData
+*)<i>data</i>	
+	Returns a character set containing characters determined by the bitmap
+representation <i>data</i>.
+</LI><LI> +  (NSCharacterSet *)<b>characterSetWithCharactersInString:</b>(NSString
+*)<i>aString</i>
+<i></i>	Returns a character set containing the characters in <i>aString</i>. If
+<i>aString</i> is empty, an empty character set is returned. <i>aString</i>
+must not be <b>nil</b>.
+</LI><LI> +  (NSCharacterSet *)<b>characterSetWithRange:</b>(NSRange)<i>aRange</i>
+<i></i>	Returns a character set containing characters whose Unicode values are
+given by <i>aRange</i>.</LI></UL>
+<b>Getting a Binary Representation </b><p>
+
+<UL><LI> - (NSData *)<b>bitmapRepresentation</b>	Returns an NSData object encoding the
+receiving character set in binary format. This format is suitable for saving to
+a file or otherwise transmitting or archiving.</LI></UL>
+<b>Testing Set Membership </b><p>
+
+<UL><LI> - (BOOL)<b>characterIsMember:</b>(unichar)<i>aCharacter</i>	Returns YES if
+<i>aCharacter</i> is in the receiving character set, NO if it isn't.</LI></UL>
+<b>Inverting a Character Set </b><p>
+
+<UL><LI> - (NSCharacterSet *)<b>invertedSet</b>	Returns a character set containing only
+characters that <i>don't</i> exist in the receiver.
+</body></html>

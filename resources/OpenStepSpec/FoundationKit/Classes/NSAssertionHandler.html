@@ -1,0 +1,91 @@
+<html><head><TITLE>NSAssertionHandler.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSAssertionHandler </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSObject (NSObject)
+<p>
+<b>Declared In:	</b>Foundation/NSExceptions.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+An <i>assertion</i> is a statement about conditions during the execution of
+program code, such as the relationship between variables, the state of a
+boolean variable, the value of an expression, and so on. If the statement about
+the conditions proves false, the assertion is said to have failed, and usually
+some action must be taken to report the failed assertion. Application
+programmers wishing to provide more detailed control over assertion failures
+than provided by the macros defined below would use the methods of
+NSAssertionHandler to report assertion failures.<p>
+<p>
+NSAssertionHandler provides a mechanism whereby each distinct thread of
+execution can have a separate handler to deal with failed assertions in code.
+The <i>fileName</i> and <i>line</i> arguments to the methods described below
+can be obtained by using the <tt><b>__FILE__</b></tt> and
+<tt><b>__LINE__</b></tt> macros that are pre-defined in the C pre-processor.<p>
+<p>
+The <b>Foundation/NSExceptions.h</b> header file contains a collection of
+macros that can be used to state assertions within methods, and contains a
+parallel collection of macros that can be used to state assertions within
+regular C functions. If the condition tested in any of these macros fails, the
+current assertion handler is invoked with one of the methods defined below,
+depending on whether the macro is one of the NSAssertN or one of the NSCAssertN
+macros. Separate macros have from 1 to 5 arguments. Macros for dealing with
+assertion failures within methods are:<p>
+<p>
+<tt>NSAssert1(<i>condition</i>, <i>description</i>, <i>argument</i>1);</tt><p>
+<tt>NSAssert2(<i>condition</i>, <i>description</i>, <i>argument</i>1,
+<i>argument</i>2);</tt><p>
+<tt>NSAssert3(<i>condition</i>, <i>description</i>, <i>argument</i>1,
+<i>argument</i>2, <i>argument</i>3);</tt><p>
+<tt>NSAssert4(<i>condition</i>, <i>description</i>, <i>argument</i>1,
+<i>argument</i>2, <i>argument</i>3, <i>argument</i>4);</tt><p>
+<tt>NSAssert5(<i>condition</i>, <i>description</i>, <i>argument</i>1,
+<i>argument</i>2, <i>argument</i>3, <i>argument</i>4, <i>argument</i>5);</tt><p>
+<tt></tt><p>
+In each case, <i>condition</i> is the statement to be tested (for example,
+<b>index &lt; length</b>), <i>description</i> is a description of the reason
+for the failure (in the form of a printf-style format NSString), and each
+<i>arg</i>N is an argument to be formatted according to the <i>description</i>
+string.<p>
+<p>
+The parallel set of macros for dealing with failed assertions from within C
+functions have names of the form NSCAssertN instead of NSAssertN. The arguments
+are otherwise the same as the NSAssertN macros.<p>
+<p>
+
+<b>Getting the Current Handler </b><p>
+
+<UL><LI> + (NSAssertionHandler *)<b>currentHandler</b>	Returns the assertion handler for
+the current thread.</LI></UL>
+<b>Handling Failures</b><p>
+
+<UL><LI> - (void)<b>handleFailureInFunction:</b>(NSString *)<i>functionName</i>
+<i></i><b>file:</b>(NSString *)<i>fileName</i>	Logs an error message that
+includes <i>functionName</i>;
+<b>lineNumber:</b>(int)<i>line</i>		the source<i> </i>file <i>fileName</i> and
+the <i>line</i> number where
+<b>description:</b>(NSString *)<i>format,...</i>		the failure occured; and a
+short description of the
+		failure, described by <i>format</i>. It then raises an
+NSInternalInconsistencyException.
+</LI><LI> -  (void)<b>handleFailureInMethod:</b>(SEL)<i>selector</i>	Logs an error message
+that includes the method (<i>selector</i>)
+<b>object:</b>(id)<i>object</i>		and <i>object</i> associated with the failure;
+
+<b>file:</b>(NSString *)<i>fileName</i>		the source file <i>fileName</i> and
+<b>lineNumber:</b>(int)<i>line</i>		<i>line</i> number in that file where the
+failure occured;
+<b>description:</b>(NSString *)<i>format,...</i>		and a short description of
+the failure, described by <i>format</i>. It then raises an
+NSInternalInconsistencyException.
+</body></html>

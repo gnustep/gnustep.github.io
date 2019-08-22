@@ -1,0 +1,133 @@
+<html><head><TITLE>NSObjCTypeSerializationCallBack.html</TITLE><!-- This document was created from RTF source by rtftohtml version
+2.7.4 --></head><body><A HREF="../../OpenStepSpec.html">Return to the Main Index</A><br><A HREF="index.html">Return to the Alphabetic Index</A><br><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+<b></b><p>
+<b>NSObjCTypeSerializationCallBack </b><p>
+<b></b><p>
+<b>Adopted By:	</b>No OpenStep classes <p>
+<p>
+<b>Declared In:	</b>Foundation/NSSerialization.h <p>
+<p>
+<b></b><p>
+<b>Protocol Description</b><p>
+<b></b><p>
+<b></b><p>
+An object conforms to the NSObjCTypeSerializationCallBack protocol so that it
+can intervene in the serialization and deserialization process. The primary
+purpose of this protocol is to allow for the serialization of objects and other
+data types that aren't directly supported by OpenStep's serialization facility.
+(See the NSSerializer class specification for information on serialization.) <p>
+<p>
+NSMutableData declares the method that's used to begin the serialization
+process:<p>
+<p>
+<tt>- (void)serializeDataAt:(const void *)data </tt><p>
+<tt></tt>    <tt>ofObjCType:(const char *)type 	           </tt><p>
+<tt></tt>    <tt>context:(id
+&lt;NSObjCTypeSerializationCallBack&gt;)callback</tt><p>
+<tt></tt><p>
+This method can serialized all standard Objective C types (<b>int</b>,
+<b>float</b>, character strings, and so on) except for objects, <b>union</b>,
+and <b>void *</b>. If, during the serialization process, an object is
+encountered, the object passed as the callback argument above is asked to
+provide the serialization.<p>
+<p>
+Suppose that the type being serialized is a structure of this description:<p>
+<p>
+<tt>struct stockRecord {</tt><p>
+<tt></tt>    <tt>NSString *stockName;</tt><p>
+<tt></tt>    <tt>float value;</tt><p>
+<tt>};</tt><p>
+<tt></tt><p>
+The Objective C type code for this structure is {@f}, so the serialization
+process begins with this message: (Assume that <b>theData</b> is the
+NSMutableData object that's doing the serialization and <b>helper</b> is an
+object that conforms to the NSObjCTypeSerializationCallBack protocol.)<p>
+<p>
+<tt>struct stockRecord aRecord = {@</tt>"<tt>aCompany</tt>"<tt>, 34.7};</tt><p>
+<tt></tt><p>
+<tt>[theData serializeDataAt:&amp;aRecord ofObjCType:</tt>"{@f}"<tt>
+context:helper];</tt><p>
+<tt></tt><p>
+Since the first field of the structure is an unsupported type, the helper
+object is sent a <b>serializeObjectAt:ofObjCType:intoData:</b> message, letting
+it serialize the object. <b>helper</b> might implement the method in this
+way:<p>
+<p>
+<tt>- (void)serializeObjectAt:(id *)objectPtr </tt><p>
+<tt>    ofObjCType:(const char *)type </tt><p>
+<tt>    intoData:(NSMutableData *)theMutableData </tt><p>
+<tt>{</tt><p>
+<tt>    NSString *nameObject;</tt><p>
+<tt>    char *companyName</tt><p>
+<tt>    </tt><p>
+<tt>    nameObject = *objectPtr;</tt><p>
+<tt>    companyName = [nameObject cString];</tt><p>
+<tt></tt><p>
+<tt>    [theData serializeDataAt:&amp;companyName
+ofObjCType:@encode(typeof(companyName))</tt><p>
+<tt>        context:nil]</tt><p>
+<tt>}</tt><p>
+<tt></tt><p>
+The callback object is free to serialize the target object as it wishes. In
+this case, <b>helper</b> simply extracts the company name from the NSString
+object and then has that character string serialized. Once this callback method
+finishes executing, the original method
+(<b>serializeDataAt:ofObjCType:context:</b>) resumes execution and serializes
+the second field of the structure. Since this second field contains a supported
+type (<b>float</b>), the callback method is not invoked again.<p>
+<p>
+Deserialization follows a similar pattern, except in this case NSData declares
+the central method <b>deserializeDataAt:ofObjCType:atCursor:context:</b>. The
+deserialization of the example structure starts with a message to the NSData
+object that contains the serialized data:<p>
+<p>
+<tt>(unsigned *)cursor = 0;</tt><p>
+<tt></tt><p>
+<tt>[theData deserializeDataAt:&amp;aRecord ofObjCType:</tt>"{@f}"<tt>
+cursor:&amp;cursor</tt> <tt>context:helper];</tt><p>
+<tt></tt><p>
+(The cursor argument is a pointer to zero since we're starting at the beginning
+of the data in the NSData object.) <p>
+<p>
+When this method is invoked, the callback object receives a
+<b>deserializeObjectAt:ofObjCType:fromData:atCursor:</b> message, as declared
+in this protocol. The callback object can then reestablish the first field of
+the structure. For example, <b>helper</b> might implement the method in this
+way:<p>
+<p>
+<tt>- (void) deserializeObjectAt:(id *)objectPtr </tt><p>
+<tt></tt>    <tt>ofObjCType:(const char *)type </tt><p>
+<tt></tt>    <tt>fromData:(NSData *)data </tt><p>
+<tt></tt>    <tt>atCursor:(unsigned *)cursor </tt><p>
+<tt>{</tt><p>
+<tt></tt>    <tt>char *companyName;</tt><p>
+<tt></tt><p>
+<tt></tt>    <tt>[theData deserializeDataAt:&amp;companyName
+ofObjCType:</tt>"<tt>*</tt>" <tt>atCursor:cursor context:nil];</tt><p>
+<tt></tt>    <tt>*objectPtr = [[NSString stringWithCString:companyName]
+retain];</tt><p>
+<tt>}</tt><p>
+<tt></tt><b></b><p>
+<b>Callback Handling </b><p>
+<b></b><p>
+<b></b><p>
+- (void)<b>deserializeObjectAt:</b>(id *)<i>object</i>	 The implementor of this
+method decodes the referenced <p>
+<b>ofObjCType:</b>(const char *)<i>type</i>		<i>object</i> (which should always
+be of <i>type</i> "@") located at <p>
+<b>fromData:</b>(NSData *)<i>data</i>		the<i> cursor</i> position in the
+<i>data</i> object. The decoded <p>
+<b>atCursor:</b>(unsigned int*)<i>cursor</i>		object is <i>not</i>
+autoreleased. See description of NSData method
+<b>deserializeDataAt:ofObjCType:context:</b>.<p>
+<p>
+- (void)<b>serializeObjectAt:</b>(id *)<i>object</i>	The implementor of this
+method encodes the referenced<p>
+<b>ofObjCType:</b>(const char *)<i>type</i>		<i>object</i> (which should always
+be of <i>type</i> "@") in the <i>data</i><p>
+<i></i><b>intoData:</b>(NSMutableData *)<i>data</i>		object. See description of
+NSMutableData method <b>serializeDataAt:ofObjCType:context:</b> <p>
+</body></html>

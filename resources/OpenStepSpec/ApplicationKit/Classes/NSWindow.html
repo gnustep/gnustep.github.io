@@ -1,0 +1,536 @@
+<html><head><TITLE>NSWindow.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSWindow </b><p>
+
+<B>Inherits From: </B><A HREF="NSResponder.html">NSResponder</A> : <A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding (NSResponder)
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSWindow.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+The NSWindow class defines objects that manage and coordinate the windows that
+an application displays on the screen. A single NSWindow object corresponds to,
+at most, one window. The two principle functions of an NSWindow are to provide
+an area in which views can be placed, and to accept and distribute, to the
+appropriate NSViews, events that the user instigates by manipulating the mouse
+and keyboard.<p>
+<p>
+
+<b>Rectangles, Views, and the View Hierarchy</b><p>
+
+An NSWindow is defined by a <i>frame rectangle</i> that encloses the entire
+window, including its title bar, resize bar, and border, and by a <i>content
+rectangle</i> that encloses just its content area. Both rectangles are
+specified in the screen coordinate system. The frame rectangle establishes the
+NSWindow's <i>base coordinate system</i>. This coordinate system is always
+aligned with and is measured in the same increments as the screen coordinate
+system (in other words, the base coordinate system can't be rotated or scaled).
+The origin of a base coordinate system is the bottom left corner of the
+window's frame rectangle. <p>
+<p>
+You create an NSWindow (through one of the <b>init:...</b> methods) by
+specifying, among other attributes, the size and location of its content
+rectangle. The frame rectangle is derived from the dimensions of the content
+rectangle.<p>
+<p>
+When it's created, an NSWindow automatically creates two NSViews: an opaque
+<i>frame view</i> and a transparent<i> content view</i> that fills the content
+area. The frame view is a private object that your application can't access
+directly. The content view is the highest
+accessible view in the window; you can replace the content view with an NSView
+of your own creation through NSWindow's <b>setContentView: </b>method. <p>
+<p>
+You add other views to the window by declaring each to be a subview of the
+content view, or a subview of one of the content view's subviews, and so on,
+through NSView's <b>addSubview:</b> method. This tree of views is called the
+window's <i>view hierarchy</i>. When an NSWindow is told to display itself, it
+does so by sending view-displaying messages to each object in its view
+hierarchy. Because displaying is carried out in a determined order, the content
+view (which is drawn first) may be wholly or partially obscured by its
+subviews, and these subviews may be obscured by their subviews (and so on). <p>
+<p>
+
+<b>Event Handling</b><p>
+
+The window system and the NSApplication object forward mouse and keyboard
+events to the appropriate NSWindow object. The NSWindow that's currently
+designated to receive keyboard events is known as the<i> key window</i>. If the
+mouse or keyboard event affects the window directlyresizing or moving
+it, for examplethe NSWindow performs the appropriate operation itself
+and sends messages to its delegate informing it of its intentions, thus
+allowing your application to intercede. Events that are directed at specific
+views within the window are forwarded by the NSWindow to the NSView. <p>
+<p>
+The NSWindow keeps track of the object that was last selected to handle
+keyboard events as its <i>first responder</i>. The first responder is typically
+the NSView that displays the current selection. In addition to keyboard events,
+the first responder is sent action messages that have a user-selected target (a
+<b>nil</b> target in program code). The NSWindow continually updates the first
+responder in response to the user's mouse actions.<p>
+<p>
+Each NSWindow provides a <i>field editor</i>, an NSText object that handles
+small-scale text-editing chores. The field editor can be used by the NSWindow's
+first responder to edit the text that it displays. The
+<b>fieldEditor:forObject:</b> method returns the NSWindow's field editor. (You
+can make this method instead return an alternative NSText object, appropriate
+for the object specified the second argument, by implementing the delegate
+method <b>windowWillReturnFieldEditor:toObject:</b>.)<p>
+<p>
+
+<b>Initializing and Getting a New NSWindow Object </b><p>
+
+<UL><LI> - (id)<b>initWithContentRect:</b>(NSRect)<i>contentRect</i>	Initializes the new
+window object with a location and 
+<b>styleMask:</b>(unsigned int)<i>aStyle</i>	 	size for content of
+<i>contentRect</i>, a window style and
+<b>backing:</b>(NSBackingStoreType)<i>bufferingType</i>	buttons as indicated in
+the bitmap mask <i>aStyle</i>, drawing 
+<b>defer:</b>(BOOL)<i>flag</i>	 	buffering as indicated by
+<i>bufferingType</i>. If <i>flag</i> is YES, 
+	 	the window system defers creating the window until it's needed.
+</LI><LI> -  (id)<b>initWithContentRect:</b>(NSRect)<i>contentRect</i>	Initializes the new
+window object for a screen as specified 
+<b>styleMask:</b>(unsigned int)<i>aStyle</i>	 	by <i>aScreen</i>, with a
+location and size for content of<i> </i>
+<i></i>backing:(NSBackingStoreType)<i>bufferingType</i>	<i>contentRect</i>, a
+window style and buttons as indicated in
+<b>defer:</b>(BOOL)<i>flag</i>		the bitmap mask <i>aStyle</i>, drawing
+buffering as indicated 
+<b>screen:</b>(NSScreen *)<i>aScreen</i>		by <i>bufferingType</i>. If
+<i>flag</i> is YES,the window system defers creating the window until it's
+needed.</LI></UL>
+<b>Computing Frame and Content Rectangles </b><p>
+
+<UL><LI> + (NSRect)<b>contentRectForFrameRect:</b>(NSRect)<i>aRect</i>
+<i></i>styleMask:(unsigned int)<i>aStyle</i>	Gets the content rectangle for
+frame rectangle<i> aRect</i> in a window of type <i>aStyle</i>.
+</LI><LI> +  (NSRect)<b>frameRectForContentRect:</b>(NSRect)<i>aRect</i>
+<i></i>styleMask:(unsigned int)<i>aStyle</i>	Gets the frame rectangle for
+content rectangle <i>aRect</i> in a window of type <i>aStyle</i>.
+</LI><LI> +  (float)<b>minFrameWidthWithTitle:</b>(NSString *)<i>aTitle</i>
+<i></i>styleMask:(unsigned int)<i>aStyle</i>	Returns the minimum frame width
+needed for <i>aTitle</i> in a window of type <i>aStyle</i>.</LI></UL>
+<b>Accessing the Content View </b><p>
+
+<UL><LI> - (id)<b>contentView</b>	Returns the NSWindow's content view. 
+</LI><LI> -  (void)<b>setContentView:</b>(NSView *)<i>aView</i>	Makes <i>aView</i> the
+NSWindow's content view. </LI></UL>
+<b>Window Graphics </b><p>
+
+<UL><LI> - (NSColor *)<b>backgroundColor</b>	Returns the window's background color. 
+</LI><LI> -  (NSString *)<b>representedFilename</b>	Returns the filename associated with
+this window (regardless of the title string).
+</LI><LI> -  (void)<b>setBackgroundColor:</b>(NSColor *)<i>color</i>	Sets the window's
+background color to <i>color.</i> 
+</LI><LI> -  (void)<b>setRepresentedFilename:</b>(NSString *)<i>aString</i>
+<i></i>	 Alters<i> aString</i> by formatting it as a path and filename, then
+sets the filename associated with this window to the result.  If
+<i>filename</i> doesn't include a path to the file, the current working
+directory is used. This method doesn't affect the title string.
+</LI><LI> -  (void)<b>setTitle:</b>(NSString *)<i>aString</i>	Makes <i>aString</i> the
+window's title. 
+</LI><LI> -  (void)<b>setTitleWithRepresentedFilename:</b>(NSString *)<i>aString</i>
+<i></i>	Invokes<b> setRepresentedFilename:</b> and makes the resultant string
+the window's title.
+</LI><LI> -  (unsigned int)<b>styleMask</b>	Returns the window's border and title-bar
+style. 
+</LI><LI> -  (NSString *)<b>title</b>	Returns the window's title string. </LI></UL>
+<b>Window Device Attributes </b><p>
+
+<UL><LI> - (NSBackingStoreType)<b>backingType</b>	Returns the type of the window
+device's backing store. 
+</LI><LI> -  (NSDictionary *)<b>deviceDescription	</b>Returns the window device's
+attributes as key/value pairs.
+</LI><LI> -  (int)<b>gState</b>	Returns the graphics-state object for the window object.
+</LI><LI> -  (BOOL)<b>isOneShot</b>	Returns whether backing-store memory for the window is
+freed when the window is ordered off-screen.
+</LI><LI> -  (void)<b>setBackingType:</b>(NSBackingStoreType)<i>type</i>	Sets the type of
+window-device backing store. 
+</LI><LI> -  (void)<b>setOneShot:</b>(BOOL)<i>flag</i>	Sets whether backing-store memory
+for the window should be freed when the window is ordered off-screen.
+</LI><LI> -  (int)<b>windowNumber</b>	Returns the window number. </LI></UL>
+<b>The Miniwindow </b><p>
+
+<UL><LI> - (NSImage *)<b>miniwindowImage</b>	Returns the image that's displayed in the
+miniwindow. 
+</LI><LI> -  (NSString *)<b>miniwindowTitle</b>	Returns the title that's displayed in the
+miniwindow. 
+</LI><LI> -  (void)<b>setMiniwindowImage:</b>(NSImage *)<i>image</i>	Sets the <i>image</i>
+that's displayed in the miniwindow. 
+</LI><LI> -  (void)<b>setMiniwindowTitle:</b>(NSString *)<i>title</i>	Sets the
+<i>title</i> that's displayed in the miniwindow. </LI></UL>
+<b>The Field Editor </b><p>
+
+<UL><LI> - (void)<b>endEditingFor:</b>(id)<i>anObject</i>	Ends the field editor's
+editing assignment for <i>anObject</i>. 
+</LI><LI> -  (NSText *)<b>fieldEditor:</b>(BOOL)<i>createFlag</i>	Returns the window
+object's field editor for <i>anObject</i>.
+<b>forObject:</b>(id)<i>anObject</i>	 	If the field editor does not exist and
+<i>createFlag</i> is YES, creates a field editor. </LI></UL>
+<b>Window Status and Ordering</b><p>
+
+<UL><LI> - (void)<b>becomeKeyWindow</b>	Records the window's new status as the key
+window. This method posts the notification NSWindowDidBecomeKeyNotification
+with the receiving object to the default notification center.
+</LI><LI> -  (void)<b>becomeMainWindow</b>	Records the window's new status as the main
+window. This method posts the notification NSWindowDidBecomeMainNotification
+with the receiving object to the default notification center.
+</LI><LI> -  (BOOL)<b>canBecomeKeyWindow</b>	Returns whether the receiving window object
+can be the key window. 
+</LI><LI> -  (BOOL)<b>canBecomeMainWindow</b>	Returns whether the receiving window object
+can be the main window. 
+</LI><LI> -  (BOOL)<b>hidesOnDeactivate</b>	Returns whether deactivation hides the window.
+
+</LI><LI> -  (BOOL)<b>isKeyWindow</b>	Returns whether the receiving window object is the
+key window. 
+</LI><LI> -  (BOOL)<b>isMainWindow</b>	Returns whether the receiving window object is the
+main window. 
+</LI><LI> -  (BOOL)<b>isMiniaturized</b>	Returns whether the window is hidden (and the
+miniwindow displayed). 
+</LI><LI> -  (BOOL)<b>isVisible</b>	Returns whether the window object is in the screen
+list (and thus visible). 
+</LI><LI> -  (int)<b>level</b>	Returns the current window level.
+</LI><LI> -  (void)<b>makeKeyAndOrderFront:</b>(id)<i>sender</i>	Makes the receiving
+window object the key window and brings it forward. 
+</LI><LI> -  (void)<b>makeKeyWindow</b>	Makes the receiving window object the key window.
+
+</LI><LI> -  (void)<b>makeMainWindow</b>	Makes the receiving window object the main
+window. 
+</LI><LI> -  (void)<b>orderBack:</b>(id)<i>sender</i>	Puts the window object at the back
+of its tier. 
+</LI><LI> -  (void)<b>orderFront:</b>(id)<i>sender</i>	Puts the window object at the front
+of its tier. 
+</LI><LI> -  (void)<b>orderFrontRegardless</b>	Puts the window object at the front even if
+the application is inactive. If the window is currently miniaturized, this
+method posts the notification NSWindowDidDeminiaturizeNotification with the
+window object to the default notification center.
+</LI><LI> -  (void)<b>orderOut:</b>(id)<i>sender</i>	Removes the window object from the
+screen list. 
+</LI><LI> -  (void)<b>orderWindow:</b>(NSWindowOrderingMode)<i>place</i>
+<i></i>relativeTo:(int)<i>otherWin</i>	 Repositions the window object in the
+screen list in position <i>place</i> relative to another window. If the window
+is currently miniaturized, this method posts the
+NSWindowDidDeminiaturizeNotification notification with that window object to
+the default notification center.
+</LI><LI> -  (void)<b>resignKeyWindow</b>	Records that the window object is no longer the
+key window. This method posts the notification NSWindowDidResignKeyNotification
+with the receiving object to the default notification center. 
+</LI><LI> -  (void)<b>resignMainWindow</b>	Records that the window object is no longer the
+main window. This method posts the notification
+NSWindowDidResignMainNotification with the receiving object to the default
+notification center. 
+</LI><LI> -  (void)<b>setHidesOnDeactivate:</b>(BOOL)<i>flag</i>	Sets whether deactivation
+hides the window. 
+</LI><LI> -  (void)<b>setLevel</b>:(int)<i>newLevel</i>	Resets the window level to
+<i>newLevel</i>.</LI></UL>
+<b>Moving and Resizing the Window </b><p>
+
+<UL><LI> - (NSPoint)<b>cascadeTopLeftFromPoint:</b>(NSPoint)<i>topLeftPoint</i>
+<i></i>	When successively invoked, tiles windows by offsetting them slightly to
+the right and down from the previous window. Returns the top left point of the
+placed window, which is typically used for <i>topLeftPoint</i> in the next
+invocation. If you specify (0,0), places the window as is, and returns its top
+left point.
+</LI><LI> -  (void)<b>center</b>	Centers the window on the screen. 
+</LI><LI> -  (NSRect)<b>constrainFrameRect:</b>(NSRect)<i>frameRect</i>
+<i></i>toScreen:(NSScreen *)<i>screen</i>	Constrains the window's frame
+rectangle <i>frameRect</i> to <i>screen</i>. Returns the frame rectangle.
+</LI><LI> -  (NSRect)<b>frame</b>	Returns the window's frame rectangle 
+</LI><LI> -  (NSSize)<b>minSize</b>	Returns the window's minimum size. 
+</LI><LI> -  (NSSize)<b>maxSize</b>	Returns the window's maximum size 
+</LI><LI> -  (void)<b>setContentSize:</b>(NSSize)<i>aSize</i>	Resizes the window's content
+area to <i>aSize.</i>
+<i></i></LI><LI> -  (void)<b>setFrame:</b>(NSRect)<i>frameRect</i> 	Moves and/or resizes the
+window frame to <i>frameRect</i>. <i>flag</i>
+<i></i>display:(BOOL)<i>flag		</i>determines whether the window is displayed.
+This method posts the NSWindowDidResizeNotification notification with the
+receiving object to the default notification center.
+</LI><LI> -  (void)<b>setFrameOrigin:</b>(NSPoint)<i>aPoint	</i>Moves the window by
+changing its frame origin to <i>aPoint</i>.
+</LI><LI> -  (void)<b>setFrameTopLeftPoint:</b>(NSPoint)<i>aPoint	</i>Moves the window by
+changing its top-left corner to <i>aPoint</i>.
+</LI><LI> -  (void)<b>setMinSize:</b>(NSSize)<i>aSize</i>	Sets the window's minimum size.
+
+</LI><LI> -  (void)<b>setMaxSize:</b>(NSSize)<i>aSize</i>	Sets the window's maximum size.
+</LI></UL>
+<b>Converting Coordinates </b><p>
+
+<UL><LI> - (NSPoint)<b>convertBaseToScreen:</b>(NSPoint)<i>aPoint</i>
+<i></i>	Converts <i>aPoint</i> from base to screen coordinates. 
+</LI><LI> -  (NSPoint)<b>convertScreenToBase:</b>(NSPoint)<i>aPoint</i>
+<i></i>	Converts <i>aPoint</i> from screen to base coordinates. </LI></UL>
+<b>Managing the Display </b><p>
+
+<UL><LI> - (void)<b>display</b>	Displays all the window's views.
+</LI><LI> -  (void)<b>disableFlushWindow</b>	Disables flushing for a buffered window. 
+</LI><LI> -  (void)<b>displayIfNeeded</b>	Displays all the window's views that need to be
+redrawn. 
+</LI><LI> -  (void)<b>enableFlushWindow</b>	Enables flushing for a buffered window.
+</LI><LI> -  (void)<b>flushWindow</b>	Flushes the window's buffer to the screen. 
+</LI><LI> -  (void)<b>flushWindowIfNeeded</b>	Conditionally flushes the window's buffer to
+the screen. 
+</LI><LI> -  (BOOL)<b>isAutodisplay</b>	Returns whether the window displays all views
+requiring redrawing when <b>update</b> is invoked.
+</LI><LI> -  (BOOL)<b>isFlushWindowDisabled</b>	Returns whether flushing is disabled. 
+</LI><LI> -  (void)<b>setAutodisplay</b>:(BOOL)<i>flag	</i>Sets whether the window
+displays all views requiring redrawing when <b>update</b> is invoked<i>.</i>
+<i></i></LI><LI> -  (void)<b>setViewsNeedDisplay:</b>(BOOL)<i>flag</i>	Sets whether some views of
+the receiving window object should be redrawn.
+</LI><LI> -  (void)<b>update</b>	Update's the window's display and cursor rectangles. This
+method is invoked after every event. When it successfully completes, it posts
+the NSWindowDidUpdateNotification notification.
+</LI><LI> -  (void)<b>useOptimizedDrawing:</b>(BOOL)<i>flag</i>	Sets whether the window's
+views should optimize drawing.
+</LI><LI> -  (BOOL)<b>viewsNeedDisplay</b>	Returns whether some views of the receiving
+NSWindow object should be redrawn.</LI></UL>
+<b>Screens and Window Depths </b><p>
+
+<UL><LI> + (NSWindowDepth)<b>defaultDepthLimit</b>	Returns the default depth limit for
+all windows. 
+</LI><LI> -  (BOOL)<b>canStoreColor</b>	Returns whether the window is deep enough to store
+colors. 
+</LI><LI> -  (NSScreen *)<b>deepestScreen</b>	Returns the deepest screen that the window
+is on. 
+</LI><LI> -  (NSWindowDepth)<b>depthLimit</b>	Returns the window's depth limit. 
+</LI><LI> -  (BOOL)<b>hasDynamicDepthLimit</b>	Returns whether the depth limit depends on
+the screen. 
+</LI><LI> -  (NSScreen *)<b>screen</b>	Returns the screen that (most of) the window is
+on.
+</LI><LI> -  (void)<b>setDepthLimit:</b>(NSWindowDepth)<i>limit</i>	Sets the window's
+depth limit to <i>limit</i> 
+</LI><LI> -  (void)<b>setDynamicDepthLimit:</b>(BOOL)<i>flag</i>	Sets whether the depth
+limit will depend on the screen. </LI></UL>
+<b>Cursor Management </b><p>
+
+<UL><LI> - (BOOL)<b>areCursorRectsEnabled</b>	Returns whether cursor rectangles are
+enabled.
+</LI><LI> -  (void)<b>disableCursorRects</b>	Disables all cursor rectangles in the window
+object.
+</LI><LI> -  (void)<b>discardCursorRects</b>	Removes all cursor rectangles in the window
+object. 
+</LI><LI> -  (void)<b>enableCursorRects</b>	Enables cursor rectangles in the window
+object. 
+</LI><LI> -  (void)<b>invalidateCursorRectsForView:</b>(NSView *)<i>aView</i>
+<i></i>	Marks cursor rectangles invalid for <i>aView</i>. 
+</LI><LI> -  (void)<b>resetCursorRects</b>	Resets cursor rectangles for the window object.
+</LI></UL>
+<b>Handling User Actions and Events </b><p>
+
+<UL><LI> - (void)<b>close</b>	Closes the window. When this method begins, it posts the
+notification NSWindowWillCloseNotification with the receiving object to the
+default notification center. 
+</LI><LI> -  (void)<b>deminiaturize:</b>(id)<i>sender</i>	Hides the miniwindow and
+redisplays the window. 
+</LI><LI> -  (BOOL)<b>isDocumentEdited</b>	Returns whether the window's document has been
+edited. 
+</LI><LI> -  (BOOL)<b>isReleasedWhenClosed</b>	Returns whether the window object is
+released when it is closed.
+</LI><LI> -  (void)<b>miniaturize:</b>(id)<i>sender</i>	Hides the window and displays its
+miniwindow. When this method begins, it posts the notification
+NSWindowWillMiniaturizeNotification with the receiving object to the default
+notification center. When it completes successfully, it posts
+NSWindowDidMiniaturizeNotification.
+</LI><LI> -  (void)<b>performClose:</b>(id)<i>sender</i>	Simulates user clicking the close
+button. 
+</LI><LI> -  (void)<b>performMiniaturize:</b>(id)<i>sender</i>	Simulates user clicking the
+miniaturize button. 
+</LI><LI> -  (int)<b>resizeFlags</b>	Returns the event modifier flags during resizing. 
+</LI><LI> -  (void)<b>setDocumentEdited:</b>(BOOL)<i>flag</i>	Sets whether the window's
+document has been edited. 
+</LI><LI> -  (void)<b>setReleasedWhenClosed:</b>(BOOL)<i>flag</i>	Sets whether closing the
+window object also releases it. </LI></UL>
+<b>Aiding Event Handling </b><p>
+
+<UL><LI> - (BOOL)<b>acceptsMouseMovedEvents</b>	Returns whether the NSWindow accepts
+mouse-moved events.
+</LI><LI> - <i> (</i>NSEvent *)<b>currentEvent</b>	Returns the current event object for
+the application.
+</LI><LI> -  (void)<b>discardEventsMatchingMask:</b>(unsigned int)<i>mask</i> 
+<b>beforeEvent:</b>(NSEvent *)<i>lastEvent	</i>Discards any events in the event
+queue that have a type indicated by bitmap <i>mask</i> until the method
+encounters the event <i>lastEvent</i>.
+</LI><LI> -  (NSResponder *)<b>firstResponder</b>	Returns the first responder to user
+events. 
+</LI><LI> -  (void)<b>keyDown:</b>(NSEvent *)<i>theEvent	</i>Handles key-down events.
+</LI><LI> -  (BOOL)<b>makeFirstResponder:</b>(NSResponder *)<i>aResponder</i>
+<i></i>	Makes <i>aResponder</i> the first responder to user events. 
+</LI><LI> -  (NSPoint)<b>mouseLocationOutsideOfEventStream</b>	Provides current location
+of the cursor. 
+</LI><LI> -  (NSEvent *)<b>nextEventMatchingMask:</b>(unsigned int)<i>mask</i>
+<i></i>	Returns the next event object for the application that matches the
+events indicated by event mask <i>mask</i>.
+</LI><LI> -  (NSEvent *)<b>nextEventMatchingMask:</b>(unsigned int)<i>mask</i> 
+<b>untilDate:</b>(NSDate *)<i>expiration</i> 	Returns the next event object for
+the application that
+<b>inMode:</b>(NSString *)<i>mode</i> 		matches the events indicated by event
+mask <i>mask</i>, and 
+<b>dequeue:</b>(BOOL)<i>deqFlag	</i> 	that occurs before time
+<i>expiration</i>; until <i>expiration</i>, the run loop runs in <i>mode</i>.
+</LI><LI> -  (void)<b>postEvent:</b>(NSEvent *)<i>event</i> 
+<b>atStart:</b>(BOOL)<i>flag	</i>Post an <i>event</i> for the application; if
+<i>atStart</i> is YES, the event goes to the beginning of the event queue.
+</LI><LI> -  (void)<b>setAcceptsMouseMovedEvents:</b>(BOOL)<i>flag</i>
+<i></i>	Sets whether the NSWindow accepts mouse-moved events.
+</LI><LI> -  (void)<b>sendEvent:</b>(NSEvent *)<i>theEvent</i>	Dispatches mouse and
+keyboard events. If this method is dispatching a window exposed event, it posts
+the NSWindowDidExposeNotification notification with the receiving object and,
+in the notification's dictionary, a rectangle describing the exposed area (with
+the key NSExposedRect) to the default notification center. If it is dispatching
+a screen changed event, it posts NSWindowDidChangeScreenNotification with the
+receiving object. If it is dispatching a window moved event, it posts
+NSWindowDidMoveNotification.
+</LI><LI> -  (BOOL)<b>tryToPerform:</b>(SEL)<i>anAction</i>	 Aids in dispatching action
+messages (<i>anAction</i>) to
+<b>with:</b>(id)<i>anObject</i>	 <i>	anObject</i>.
+</LI><LI> -  (BOOL)<b>worksWhenModal</b>	Override to return whether the window object
+accepts events when a modal panel is being run. Default is NO.</LI></UL>
+<b>Dragging </b><p>
+
+<UL><LI> - (void)<b>dragImage:</b>(NSImage *)<i>anImage</i>	 Initiates an image-dragging
+session. NSView invokes this
+<b>at:</b>(NSPoint)<i>baseLocation</i>	 	method inside its implementation of
+<b>mouseDown:</b>. 
+<b>offset:</b>(NSSize)<i>initialOffset</i>
+<i></i>event:(NSEvent *)<i>event</i>
+<i></i>pasteboard:(NSPasteboard *)<i>pboard</i>
+<i></i>source:(id)<i>sourceObject</i>
+<i></i>slideBack:(BOOL)<i>slideFlag</i>
+<i></i></LI><LI> - <b> </b>(void)<b>registerForDraggedTypes:</b>(NSArray *)<i>newTypes</i>
+<i></i>	Registers the NSPasteboard types (<i>newTypes</i>) that the window
+object accepts in an image-dragging session. 
+</LI><LI> -  (void)<b>unregisterDraggedTypes</b>	Unregisters the window object as a
+recipient of dragged images. </LI></UL>
+<b>Services and Windows Menu Support </b><p>
+
+<UL><LI> - (BOOL)<b>isExcludedFromWindowsMenu</b>	Returns whether the receiving window
+object is omitted from the Windows menu. 
+</LI><LI> -  (void)<b>setExcludedFromWindowsMenu:</b>(BOOL)<i>flag</i>
+<i></i>	Sets whether the receiving window object is omitted from the Windows
+menu. 
+</LI><LI> -  (id)<b>validRequestorForSendType:</b>(NSString *)<i>sendType</i>
+<i></i>returnType:(NSString *)<i>returnType</i>	Returns whether the window can
+respond to a service with send and receive types <i>sendType</i> and
+<i>returnType</i>. </LI></UL>
+<b>Saving and Restoring the Frame </b><p>
+
+<UL><LI> + (void)<b>removeFrameUsingName:</b>(NSString *)<i>name</i>
+<i></i>	Removes the named frame rectangle from the system defaults. 
+</LI><LI> -  (NSString *)<b>frameAutosaveName</b>	Returns the name that's used to autosave
+the frame rectangle as a system default. 
+</LI><LI> -  (void)<b>saveFrameUsingName:</b>(NSString *)<i>name</i>	Saves the frame
+rectangle as a system default. 
+</LI><LI> -  (BOOL)<b>setFrameAutosaveName:</b>(NSString *)<i>name</i>
+<i></i>	Sets the <i>name</i> that's used to autosave the frame rectangle as a
+system default. 
+</LI><LI> -  (void)<b>setFrameFromString:</b>(NSString *)<i>string</i>	Sets the frame
+rectangle from <i>string</i>, which encodes the position and dimensions of the
+frame rectangle and the position and dimensions of the screen. 
+</LI><LI> -  (BOOL)<b>setFrameUsingName:</b>(NSString *)<i>name</i>	Sets the frame
+rectangle from the named default.
+</LI><LI> -  (NSString *)<b>stringWithSavedFrame</b>	Returns a string encoding the
+position and dimensions of the frame rectangle and the position and dimensions
+of the screen.</LI></UL>
+<b>Printing and PostScript</b><p>
+
+<UL><LI> - (NSData *)<b>dataWithEPSInsideRect:</b>(NSRect)<i>rect</i> 	
+	Returns the encapsulated PostScript inside <i>rect</i> as a data object.
+</LI><LI> -  (void)<b>fax:</b>(id)<i>sender</i>	Faxes all the window's views. 
+</LI><LI> -  (void)<b>print:</b>(id)<i>sender</i>	Prints all the window's views. </LI></UL>
+<b>Assigning a Delegate </b><p>
+
+<UL><LI> - (id)<b>delegate</b>	Returns the window object's delegate. 
+</LI><LI> -  (void)<b>setDelegate:</b>(id)<i>anObject</i>	Makes <i>anObject</i> the window
+object's delegate.</LI></UL>
+<b>Implemented by the Delegate </b><p>
+
+<UL><LI> - (BOOL)<b>windowShouldClose:</b>(id)<i>sender</i>	Notifies delegate that the
+window is about to close. 
+</LI><LI> -  (NSSize)<b>windowWillResize:</b>(NSWindow *)<i>sender</i> 
+<b>toSize:</b>(NSSize)<i>frameSize</i>	Lets delegate constrain resizing to
+<i>frameSize</i>.
+</LI><LI> -  (id)<b>windowWillReturnFieldEditor:</b>(NSWindow *)<i>sender</i> 
+<b>toObject:</b>(id)<i>client</i>	Lets delegate provide another text object for
+field editor. 
+</LI><LI> -  (void)<b>windowDidBecomeKey:</b>(NSNotification *)<i>aNotification</i>
+<i></i>	Sent by the default notification center to notify the delegate that the
+window is the key window. <i>aNotification</i> is always
+NSWindowDidBecomeKeyNotification. If the delegate implements this method, it's
+automatically registered to receive this notification.
+</LI><LI> -  (void)<b>windowDidBecomeMain:</b>(NSNotification *)<i>aNotification</i>
+<i></i>	Sent by the default notification center to notify the delegate that the
+window is the main window. <i>aNotification</i> is always
+NSWindowDidBecomeMainNotification. If the delegate implements this method, it's
+automatically registered to receive this notification. 
+</LI><LI> -  (void)<b>windowDidChangeScreen:</b>(NSNotification *)<i>aNotification</i>
+<i></i>	Sent by the default notification center to notify the delegate that the
+window changed screens. <i>aNotification</i> is always
+NSWindowDidChangeScreenNotification. If the delegate implements this method,
+it's automatically registered to receive this notification.
+</LI><LI> -  (void)<b>windowDidDeminiaturize:</b>(NSNotification *)<i>aNotification</i>
+<i></i>	Sent by the default notification center to notify the delegate that the
+window was restored to screen. <i>aNotification</i> is always
+NSWindowDidDeminiaturizeNotification. If the delegate implements this method,
+it's automatically registered to receive this notification.
+</LI><LI> -  (void)<b>windowDidExpose:</b>(NSNotification *)<i>aNotification</i>
+<i></i>	Sent by the default notification center to notify the delegate that the
+window was exposed.<i> aNotification</i> is always
+NSWindowDidExposeNotification. If the delegate implements this method, it's
+automatically registered to receive this notification.
+</LI><LI> -  (void)<b>windowDidMiniaturize:</b>(NSNotification *)<i>aNotification</i>
+<i></i>	Sent by the default notification center to notify the delegate that the
+window was miniaturized. <i>aNotification</i> is always
+NSWindowDidMiniaturizeNotification. If the delegate implements this method,
+it's automatically registered to receive this notification.
+</LI><LI> -  (void)<b>windowDidMove:</b>(NSNotification *)<i>aNotification</i>
+<i></i>	Sent by the default notification center to notify the delegate that the
+window did move. <i>aNotification</i> is always NSWindowDidMoveNotification. If
+the delegate implements this method, it's automatically registered to receive
+this notification.
+</LI><LI> -  (void)<b>windowDidResignKey:</b>(NSNotification *)<i>aNotification</i>
+<i></i>	Sent by the default notification center to notify the delegate that the
+window isn't the key window. <i>aNotification</i> is always
+NSWindowDidResignKeyNotification. If the delegate implements this method, it's
+automatically registered to receive this notification.
+</LI><LI> -  (void)<b>windowDidResignMain:</b>(NSNotification *)<i>aNotification</i>
+<i></i>	Sent by the default notification center to notify the delegate that the
+window isn't the main window. <i>aNotification</i> is always
+NSWindowDidResignMainNotification. If the delegate implements this method, it's
+automatically registered to receive this notification.
+</LI><LI> -  (void)<b>windowDidResize:</b>(NSNotification *)<i>aNotification</i>
+<i></i>	Sent by the default notification center to notify the delegate that the
+window was resized.<i> aNotification</i> is always
+NSWindowDidResizeNotification. If the delegate implements this method, it's
+automatically registered to receive this notification.
+</LI><LI> -  (void)<b>windowDidUpdate:</b>(NSNotification *)<i>aNotification</i>
+<i></i>	Sent by the default notification center to notify the delegate that the
+window was updated. <i>aNotification</i> is always
+NSWindowDidUpdateNotification. If the delegate implements this method, it's
+automatically registered to receive this notification.
+</LI><LI> -  (void)<b>windowWillClose:</b>(NSNotification *)<i>aNotification</i>
+<i></i>	Sent by the default notification center to notify the delegate that the
+window will close. <i>aNotification</i> is always
+NSWindowWillCloseNotification. If the delegate implements this method, it's
+automatically registered to receive this notification.
+</LI><LI> -  (void)<b>windowWillMiniaturize:</b>(NSNotification *)<i>aNotification</i> 
+	Sent by the default notification center to notify the delegate that the window
+will be miniaturized. <i>aNotification</i> is always
+NSWindowWillMiniaturizeNotification. If the delegate implements this method,
+it's automatically registered to receive this notification.
+</LI><LI> -  (void)<b>windowWillMove:</b>(NSNotification *)<i>aNotification</i>
+<i></i>	Sent by the default notification center to notify the delegate that the
+window will move. <i>aNotification</i> is always NSWindowWillMoveNotification.
+If the delegate implements this method, it's automatically registered to
+receive this notification.
+
+</body></html>

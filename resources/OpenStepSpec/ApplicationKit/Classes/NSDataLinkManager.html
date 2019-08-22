@@ -1,0 +1,186 @@
+<html><head><TITLE>NSDataLinkManager.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSDataLinkManager</b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSDataLinkManager.h<p>
+<p>
+
+<b>Class Description</b><p>
+
+
+An NSDataLinkManager object (also known as a <i>data link manager</i> or simply
+<i>link manager</i>) manages data linked from and into a document through
+NSDataLink objects. NSDataLink objects (or <i>data links</i>) provide a link
+between a selection in a source document and a dependent, dynamically updated
+selection in a destination document. When a user does a Paste and Link command
+in the destination document, the link manager creates the link in response to a
+<b>addLink:at:</b> message. When this link is added to the destination
+document, it makes a connection with the source document's link manager, which
+creates a source link in the source application.<p>
+<p>
+If an application supports data linking, a link manager should be instantiated
+for every document the application creates. A link manager must be assigned a
+delegate that assists it in keeping the document up to date; this delegate must
+implement some or all of the methods listed in the Methods
+Implemented by the Delegate section of this class
+specification. In addition, the delegate must keep the link manager informed of
+the state of the document, sending it messages whenever the document is edited,
+saved, or otherwise altered.<p>
+<p>
+Only applications that support continuously updating links need to be aware of
+when source links are created; these applications can have the delegate of the
+destination document's link manager return YES in response to a
+<b>dataLinkManagerTracksLinksIndividually:</b> message, and then respond to
+<b>dataLinkManager:startTrackingLink:</b> messages to receive notifications
+that source links are created.<p>
+<p>
+For more information about NSDataLink objects, see the NSDataLink class
+description. See the NSSelection class description for more information on
+NSSelection objects.<p>
+<p>
+
+<b>Initializing and Freeing a Link Manager</b><p>
+
+<UL><LI> - (id)<b>initWithDelegate:</b>(id)<i>anObject</i>	Initializes and returns a
+newly allocated instance, designating <i>anObject</i> as the delegate.
+</LI><LI> -  (id)<b>initWithDelegate:</b>(id)<i>anObject</i>	Initializes and returns a
+newly allocated instance 
+ <b>fromFile:</b>(NSString *)<i>path</i>		designating <i>anObject</i> as the
+delegate. The document's file is specified by the full path <i>path.</i>
+<i></i>
+Adding and Removing Links
+
+</LI><LI> -  (BOOL)<b>addLink:</b>(NSDataLink *)<i>link</i>	 Adds the link <i>link</i> to
+the document, indicating that the data
+<b>at:</b>(NSSelection *)<i>selection</i>		in the document described by
+<i>selection</i> is dependent upon the link.
+	
+</LI><LI> -  (BOOL)<b>addLinkAsMarker:</b>(NSDataLink *)<i>link</i>	Incorporates
+<i>link</i> into the document as a marker in the
+ <b>at:</b>(NSSelection *)<i>selection		</i>location of the destination
+document described by <i>selection</i>.
+</LI><LI> -  (NSDataLink *)<b>addLinkPreviouslyAt:</b>(NSSelection *)<i>oldSelection</i>
+<i></i><b>fromPasteboard:</b>(NSPasteboard *)<i>pasteboard</i>	Creates and adds
+a new destination link corresponding to	
+<b>at:</b>(NSSelection *)<i>selection</i>		the same source data as the link
+described by the destination selection <i>oldSelection</i> with the new link's
+destination selection provided in<i> selection;</i> the document's links must
+have been written to the pasteboard <i>pasteboard.</i>
+<i></i></LI><LI> -  (void)<b>breakAllLinks</b>	Breaks all the destination links in the
+document.
+</LI><LI> -  (void)<b>writeLinksToPasteboard:</b>(NSPasteboard *)<i>pasteboard</i>	
+	Writes all the link manager's links to <i>pasteboard</i>.</LI></UL>
+<b>Informing the Link Manager of Document Status</b><p>
+
+<UL><LI> - (void)<b>noteDocumentClosed</b>	Informs link manager that document has been
+closed.
+</LI><LI> -  (void)<b>noteDocumentEdited</b>	Informs link manager that document has been
+edited.
+</LI><LI> -  (void)<b>noteDocumentReverted</b>	Informs link manager that changes have been
+reverted.
+</LI><LI> -  (void)<b>noteDocumentSaved</b>	Informs link manager that document has been
+saved.
+</LI><LI> -  (void)<b>noteDocumentSavedAs:</b>(NSString *)<i>path</i>	Informs link manager
+that document has been saved in the file specified by the full pathname
+<i>path</i>.
+</LI><LI> -  (void)<b>noteDocumentSavedTo:</b>(NSString *)<i>path</i>	Informs link manager
+that document has been saved in the file specified by the full pathname
+<i>path</i>.</LI></UL>
+<b>Getting and Setting Information about the Link Manager</b><p>
+
+<UL><LI> - (id)<b>delegate</b>	Returns the data link manager's delegate.
+</LI><LI> -  (BOOL)<b>delegateVerifiesLinks</b>	Returns YES if delegate is asked to verify
+updates.
+</LI><LI> -  (NSString *)<b>filename</b>	Returns the filename for the link manager's
+document.
+</LI><LI> -  (BOOL)<b>interactsWithUser</b>	Tells whether the link manager displays panels
+if link errors occur.
+</LI><LI> -  (BOOL)<b>isEdited</b>	Returns YES if the document was edited since the last
+save.
+</LI><LI> -  (void)<b>setDelegateVerifiesLinks:</b>(BOOL)<i>flag</i>	Sets whether the
+delegate is asked to verify updates.
+</LI><LI> -  (void)<b>setInteractsWithUser:</b>(BOOL)<i>flag</i>	Sets whether the link
+manager displays panels if link errors occur.</LI></UL>
+<b>Getting and Setting Information about the Manager's Links</b><p>
+
+<UL><LI> - (BOOL)<b>areLinkOutlinesVisible</b>	Returns YES if outlines are visible.
+</LI><LI> -  (NSEnumerator *)<b>destinationLinkEnumerator</b>	Returns an enumerator of the
+destination's source links.
+</LI><LI> -  (NSDataLink *)<b>destinationLinkWithSelection:</b>(NSSelection
+*)<i>destSel</i>
+<i></i>	Returns the destination link for the selection <i>destSel</i>.
+</LI><LI> -  (void)<b>setLinkOutlinesVisible:</b>(BOOL)<i>flag</i>	Sets whether outlines
+are visible.
+</LI><LI> -  (NSEnumerator *)<b>sourceLinkEnumerator</b>	Returns an enumerator of the
+receiver's source links.</LI></UL>
+<b>Methods Implemented by the Delegate</b><p>
+
+<UL><LI> - (BOOL)<b>copyToPasteboard:</b>(NSPasteboard *)<i>pasteboard</i> 
+<b>at:</b>(NSSelection *)<i>selection</i> 	Implemented by the link manager's
+delegate to supply the
+<b>cheapCopyAllowed:</b>(BOOL)<i>flag</i>		source data described by
+<i>selection</i> on the pasteboard <i>pasteboard</i>. If <i>flag</i> is YES,
+the system guarantees that no events will be processed by the application
+before the delegate is requested to provide the specified data; in this case,
+the application doesn't necessarily have to write any data representations to
+the pasteboard. This method should return YES upon success, or NO if the
+selection can't be resolved.
+</LI><LI> -  (void)<b>dataLinkManager:</b>(NSDataLinkManager *)<i>sender</i> 
+<b>didBreakLink:</b>(NSDataLink *)<i>link</i>	Informs the delegate that the
+destination link <i>link</i> was broken and thus data based on the link's
+destination selection will no longer be updated.
+</LI><LI> -  (BOOL)<b>dataLinkManager:</b>(NSDataLinkManager *)<i>sender</i> 
+<b>isUpdateNeededForLink:</b>(NSDataLink *)<i>link</i>	Returns YES if the
+source data identified by <i>link</i>'s source selection has been modified
+since the link's last update time.
+</LI><LI> -  (void)<b>dataLinkManager:</b>(NSDataLinkManager *)<i>sender</i> 
+<b>startTrackingLink:</b>(NSDataLink *)<i>link</i>	Informs the delegate that a
+destination document has established a data link <i>link</i> to the link
+manager's document and is tracking it.
+</LI><LI> -  (void)<b>dataLinkManager:</b>(NSDataLinkManager *)<i>sender</i> 
+<b>stopTrackingLink:</b>(NSDataLink *)<i>link</i>	Informs the delegate that a
+destination is no longer tracking the source link <i>link</i>.
+</LI><LI> -  (void)<b>dataLinkManagerCloseDocument:</b>(NSDataLinkManager
+*)<i>sender</i>
+<i></i>	Closes documents opened without the user interface.
+
+
+</LI><LI> -  (void)<b>dataLinkManagerDidEditLinks:</b>(NSDataLinkManager *)<i>sender</i>
+<i></i>	Informs the delegate that link data has been modified; the delegate
+should use this notification to mark the document as edited.
+</LI><LI> -  (void)<b>dataLinkManagerRedrawLinkOutlines:</b>(NSDataLinkManager
+*)<i>sender</i>
+<i></i>	Directs the delegate to redraw objects with link outlines.
+</LI><LI> -  (BOOL)<b>dataLinkManagerTracksLinksIndividually:</b>(NSDataLinkManager
+*)<i>sender</i>
+<i></i>	Returns whether the receiver is willing to track links individually.
+</LI><LI> -  (BOOL)<b>importFile:</b>(NSString *)<i>filename</i> 	Imports the file<i>
+filename</i> at the destination described by
+<b>at:</b>(NSSelection *)<i>selection</i>	<i>	selection</i>. Returns YES upon
+success, or NO if the selection can't be resolved.
+</LI><LI> -  (BOOL)<b>pasteFromPasteboard:</b>(NSPasteboard *)<i>pasteboard</i> 
+<b>at:</b>(NSSelection *)<i>selection	</i>Pastes the updated data that has been
+made available on <i>pasteboard</i>. The destination for the data is described
+by <i>selection</i>, which was supplied to the link manager as an argument to
+the <b>addLink:at:</b> method. Returns YES upon success, or NO if the selection
+can't be resolved.
+</LI><LI> -  (BOOL)<b>showSelection:</b>(NSSelection *)<i>selection</i>	Shows the source
+data for the specified selection <i>selection</i>. Returns YES upon success, or
+NO if the selection can't be resolved.
+</LI><LI> -  (NSWindow *)<b>windowForSelection:</b>(NSSelection *)<i>selection</i>
+<i></i>	Returns the NSWindow object for the given <i>selection</i>, or
+<b>nil</b> if the selection can't be resolved.
+
+
+</body></html>

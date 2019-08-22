@@ -1,0 +1,111 @@
+<html><head><TITLE>NSSelection.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSSelection </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding, NSCopying
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSSelection.h<p>
+<p>
+
+<b>Class Description</b><p>
+
+
+The NSSelection class defines an object that describes a selection within a
+document. An NSSelection, or simply, selection, is an immutable description; it
+may be held by the system or other documents, and it cannot change over time.
+Selections are typically used by NSDataLink objects to represent the source and
+destination of a link.<p>
+<p>
+Because a selection description can't be changed once it's been exported, it's
+a good idea to construct general descriptions that can survive changes to a
+document and don't require selection-specific information to be stored in the
+document. This description may be simple or complex, depending upon the
+application. For example, a painting application might describe a selection in
+an image as a simple rectangle. This description doesn't require that any
+information be stored in the image's file, and the description can be expected
+to remain valid through the life of the image. An object-based drawing
+application might describe a selection as a list of object identifiers (though
+<i>not</i> <b>id</b>s), where an object identifier is unique throughout the
+life of the document. Based on this list, a selection could be meaningfully
+reconstructed, even if new objects are added to the document or selected
+objects are deleted. Such a scheme doesn't require that any selection-specific
+information be stored in the document's file, with the benefit that links can
+be made to read-only documents. <p>
+<p>
+Maintaining a character-range selection in a text document is more problematic.
+A possible solution is to insert selection-begin and selection-end markers that
+define a specific selection into the text stream. A selection description would
+then refer to a specific selection marker. This solution requires that
+selection state information be stored and maintained within the document.
+Furthermore, this information generally shouldn't be purged from the document,
+because the document can't know how many references to the selection exist.
+(References to the selection could be stored with documents on removable media,
+like floppy disks.) This selection-state information should be maintained as
+long as it refers to any meaningful data. For this reason, it's desirable to
+describe selection in a manner that doesn't require that selection-state
+information be maintained in the document whenever possible.<p>
+<p>
+Three well-known selection descriptions can apply to any document: the empty
+selection, the entire document, and the abstract concept of the current
+selection. NSSelection objects for these selections are returned by the
+<b>emptySelection</b>,<b> allSelection</b>, and <b>currentSelection</b> class
+methods.<p>
+<p>
+Since an NSSelection may be used in a document that is read by machines with
+different architectures, care should be taken to write machine-independent
+descriptions. For example, using a binary structure as a selection description
+will fail on a machine where an identically defined structure has a different
+size or is kept in memory with different byte ordering. Exporting (and then
+parsing) ASCII descriptions is often a good solution. If binary descriptions
+must be used, it's prudent to preface the description with a token specifying
+the description's byte ordering.<p>
+<p>
+It may also be prudent to version-stamp selection descriptions, so that old
+selections can be accurately read by updated versions of an application.<p>
+<p>
+
+<b>Returning Special Selection Shared Instances</b><p>
+
+<UL><LI> + (NSSelection *)<b>allSelection</b>	Returns the shared instance of the
+well-known selection representing the entire document.
+</LI><LI> +  (NSSelection *)<b>currentSelection</b>	Returns the shared instance of the
+well-known selection representing the abstract concept of the current
+selection. The current selection never describes a specific selection; it
+describes a selection that may change frequently.
+</LI><LI> +  (NSSelection *)<b>emptySelection</b>	Returns the shared instance of the
+well-known selection representing no data.</LI></UL>
+<b>Creating and Initializing a Selection</b><p>
+
+<UL><LI> + (NSSelection *)<b>selectionWithDescriptionData:</b>(NSData *)<i>data</i>	
+	Creates and returns an NSSelection object that records <i>data</i> as the
+description of the selection.
+</LI><LI> -  (id)<b>initWithDescriptionData:</b>(NSData *)<i>newData</i>	Initializes a
+newly allocated NSSelection object that records <i>data</i> as the description
+of the selection. Returns the initialized object.
+</LI><LI> -  (id)<b>initWithPasteboard:</b>(NSPasteboard *)<i>pasteboard</i>	
+	Initializes a newly allocated NSSelection object that takes its description of
+the selection from <i>pasteboard</i>. Returns the initialized object.</LI></UL>
+<b>Describing a Selection</b><p>
+
+<UL><LI> - (NSData *)<b>descriptionData</b>	Returns the data that describes the
+selection as set by <b>selectionWithDescriptionData:</b> or
+<b>initWithDescriptionData:</b>.
+</LI><LI> -  (BOOL)<b>isWellKnownSelection</b>	Returns YES if the receiver is one of the
+well-known selection types (those representing the entire document, current
+selection, or empty selection) and NO otherwise.</LI></UL>
+<b>Writing a Selection to the Pasteboard</b><p>
+
+<UL><LI> - (void)<b>writeToPasteboard:</b>(NSPasteboard *)<i>pasteboard</i>	
+	Writes the selection data to the pasteboard <i>pasteboard</i>. A copy of the
+selection can then be retrieved by initializing a new NSSelection from the
+pasteboard using <b>initWithPasteboard:</b>.
+</body></html>

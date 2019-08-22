@@ -1,0 +1,405 @@
+<html><head><TITLE>NSText.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSText</b><p>
+
+<B>Inherits From: </B><A HREF="NSView.html">NSView</A> : <A HREF="NSResponder.html">NSResponder</A> : <A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSChangeSpelling, NSIgnoreMisspelledWords
+NSCoding (NSResponder)<p>
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSTextView.h<p>
+<p>
+
+<b>Class Description</b><p>
+
+
+The NSText class declares the programmatic interface to objects that manage
+text. NSText objects are used by the Application Kit wherever text appears in
+interface objects: An NSText object draws the title of a window, the commands
+in a menu, the title of a button, and the items in a browser. Your application
+inherits these uses of the NSText class when it incorporates any of these
+objects into its interface. Your application can also create NSText objects for
+its own purposes.<p>
+<p>
+The NSText class is unlike most other classes in the Application Kit in its
+complexity and range of features. One of its design goals is to provide a
+comprehensive set of text-handling features so that you'll rarely need to
+create a subclass. An NSText object can (among other things):<p>
+<p>
+.	Control the color of its text and background.<p>
+<p>
+.	Control the font and layout characteristics of its text.<p>
+<p>
+.	Control whether text is editable.<p>
+<p>
+.	Wrap text on a word or character basis.<p>
+<p>
+.	Display graphic images within its text.<p>
+<p>
+.	Write text to or read text from files in the form of RTFDRich Text
+Format files that contain TIFF or EPS images.<p>
+<p>
+.	Let another object, the delegate, dynamically control its properties.<p>
+<p>
+.	Let the user copy and paste text within and between applications.<p>
+<p>
+.	Let the user copy and paste font and format information between NSText
+objects.<p>
+<p>
+.	Let the user check the spelling of words in its text.<p>
+<p>
+.	Let the user control the format of paragraphs by manipulating a ruler.<p>
+<p>
+Graphical user-interface building tools (such as Interface Builder) may give
+you access to NSText objects in several different configurations, such as those
+found in the NSTextField, NSForm, and NSScrollView objects. These classes
+configure an NSText object for their own specific purposes. Additionally, all
+NSTextFields, NSForms, NSButtons within the same windowin short, all
+objects that access an NSText object through associated Cellsshare the
+same NSText object, reducing the memory demands of an application. Thus, it's
+generally best to use one of these classes whenever it meets your needs, rather
+than create NSText objects yourself. If one of these classes doesn't provide
+enough flexibility for your purposes, you can create NSText objects
+programatically.<p>
+<p>
+
+<b>Plain and Rich NSText Objects</b><p>
+
+
+When you create an NSText object directly, by default it allows only one font,
+line height, text color, and paragraph format for the entire text. Once an
+NSText object is created, you can alter its global settings using methods such
+as <b>setFont:</b> and <b>setTextColor:</b>. For convenience, such an NSText
+object will be called a <i>plain</i> NSText object.<p>
+<p>
+To allow multiple values for attributes such as font and color, you must send
+the NSText object a <b>setRichText:YES</b> message. An NSText object that
+allows multiple fonts also allows multiple paragraph formats, line heights, and
+so on. For convenience, such an NSText object will be called a <i>rich</i>
+NSText object.<p>
+<p>
+A rich NSText object can use RTF (Rich Text Format) as an interchange format.
+Not all RTF control words are supported: On input, an NSText object ignores any
+control word it doesn't recognize; some of those it can read and interpret it
+doesn't write out. These are the RTF control words that an NSText object
+recognizes.<p>
+<p>
+<PRE>
+<b>Control Word	Read	Write</b><p><p>
+\ansi		yes	yes<p>
+\b		yes	yes<p>
+\cb		yes	yes<p>
+\cf		yes	yes<p>
+\colortbl	yes	yes<p>
+\dnn		yes	yes<p>
+\fin		yes	yes<p>
+\fn		yes	yes<p>
+\fonttbl	yes	yes<p>
+\fsn		yes	yes<p>
+\i		yes	yes<p>
+\lin		yes	yes<p>
+\margrn		yes	yes<p>
+\paperwn	yes	yes<p>
+\mac		yes	no<p>
+\margln		yes	yes<p>
+\par		yes	yes<p>
+\pard		yes	no<p>
+\pca		yes	no<p>
+\qc		yes	yes<p>
+\ql		yes	yes<p>
+\qr		yes	yes<p>
+\sn		yes	no<p>
+\tab		yes	yes<p>
+\upn		yes	yes<p>
+</PRE>
+<p>
+<p>
+NSText objects are designed to work closely with various other objects. Some of
+thesesuch as the delegate or an embedded graphic objectrequire a
+degree of programming on your part. Otherssuch as the Font panel,
+spelling checker, or rulertake no effort other than deciding whether the
+service should be enabled or disabled. The following sections discuss these
+interrelationships.<p>
+<p>
+
+<b>Notifying the NSText Object's Delegate</b><p>
+
+
+Many of an NSText object's actions can be controlled through an associated
+object, the NSText object's delegate. If it implements any of the following
+methods, the delegate receives the corresponding message at the appropriate
+time:<p>
+<p>
+<b>textDidBeginEditing:</b><p>
+<b>textDidChange:</b><p>
+<b>textDidEndEditing:</b><p>
+<b>textShouldBeginEditing:</b><p>
+<b>textShouldEndEditing:</b><p>
+
+<b></b>So, for example, if the delegate implements the
+<b>textDidBeginEditing:</b> method, it will receive notification upon the
+user's first attempt to change the text. Moreover, depending on the method's
+return value, the delegate can either allow or prohibit changes to the text.
+See Methods Implemented by the Delegate. The
+delegate can be any object you choose, and one delegate can control multiple
+NSText objects.<p>
+<p>
+
+<b>Adding Graphics to the Text</b><p>
+
+
+A rich NSText object allows graphics to be embedded in the text. Each graphic
+is treated as a single (possibly large)
+character: The text's line height and character
+placement are adjusted to accommodate the graphic
+character. Graphics are embedded in the text in
+either of two ways: programmatically or directly through user actions. In the
+programmatic approach, graphic objects are added using the
+<b>replaceRange:WithRTFD:</b> method.<p>
+<p>
+An alternate means of adding an image to the text is for the user to drag an
+EPS or TIFF file icon directly into an NSText object. The NSText object
+automatically creates a graphic object to manage the display of the image. This
+feature requires a rich NSText object that has been configured to receive
+dragged imagessee the <b>setImportsGraphics:</b> method. <p>
+<p>
+Images that have been imported in this way can be written as RTFD documents.
+Programmatic creation of RTFD documents is not supported in this version of
+OpenStep. RTFD documents use a file package, or directory, to store the
+components of the document (the D stands for
+directory). The file package has the name of the
+document plus a .rtfd extension. The file
+package always contains a file called TXT.rtf for the text of the document, and
+one or more TIFF or EPS files for the images. An NSText object can transfer
+information in an RTFD document to a file and read it from a filesee the
+<b>writeRTFDToFile:atomically:</b> and <b>readRTFDFromFile:</b> methods.<p>
+<p>
+
+<b>Cooperating with Other Objects and Services</b><p>
+
+
+NSText objects are designed to work with the Application Kit's font conversion
+system. By default, an NSText object keeps the Font panel updated with the font
+of the current selection. It also changes the font of the selection (for a rich
+NSText object) or of the entire text (for a default NSText object) to reflect
+the user's choices in the Font panel or menu. To disconnect an NSText object
+from this service, send it a <b>setUsesFontPanel:NO</b> message.<p>
+<p>
+If an NSText object is a subview of an NSScrollView, it can cooperate with the
+NSScrollView to display and update a ruler that displays formatting
+information. The NSScrollView retiles its subviews to make room for the ruler,
+and the NSText object updates the ruler with the format information of the
+paragraph containing the selection. The <b>toggleRuler:</b> method controls the
+display of this ruler. Users can modify paragraph formats by manipulating the
+components of the ruler.<p>
+<p>
+Coordinates and sizes mentioned in the method descriptions below are in
+PostScript units1/72 of an inch.<p>
+<p>
+
+<b>Getting and Setting Contents </b><p>
+
+<UL><LI> - (void)<b>replaceRange:</b>(NSRange)<i>range</i>	Replaces the characters
+within the specified <i>range</i> of
+<b>withRTF:</b>(NSData *)<i>rtfData</i>		text with the RTF data
+<i>rtfData</i>.
+</LI><LI> -  (void)<b>replaceRange:</b>(NSRange)<i>range</i>	Replaces the characters
+within the specified <i>range</i> of
+<b>withRTFD:</b>(NSData *)<i>rtfdData</i>		text with the RTFD data
+<i>rtfdData</i>.
+</LI><LI> -  (NSData *)<b>RTFDFromRange:</b>(NSRange)<i>range</i>	Extracts the specified
+<i>range</i> of RTFD text from the NSText object and returns an data object
+initialized with that text.
+</LI><LI> -  (NSData *)<b>RTFFromRange:</b>(NSRange)<i>range</i>	Extracts the specified
+<i>range</i> of RTF text from the NSText object and returns a data object
+initialized with that text. This data is formatted according to the RTF file
+format.
+</LI><LI> -  (void)<b>setText:</b>(NSString *)<i>string</i>	Sets the contents of the
+NSText object to be <i>string</i>. 
+</LI><LI> -  (void)<b>setText:</b>(NSString *)<i>string</i>	Replaces the characters in the
+specified <i>range</i> of text in the 
+<b>range:</b>(NSRange)<i>range</i>		NSText object to be<i> string.</i>
+<i></i></LI><LI> -  (NSString *)<b>text</b>	Returns the contents of the NSText object as a
+immutable string object.</LI></UL>
+<b>Managing Global Characteristics</b><p>
+
+<UL><LI> - (NSTextAlignment)<b>alignment</b>	Returns how text in the NSText object is
+aligned between the margins.
+</LI><LI> -  (BOOL)<b>drawsBackground</b>	Returns whether the NSText object draws its own
+background.
+</LI><LI> -  (BOOL)<b>importsGraphics</b>	Returns whether the NSText object can accept
+images.
+</LI><LI> -  (BOOL)<b>isEditable</b>	Returns whether users can edit the NSText object.
+</LI><LI> -  (BOOL)<b>isRichText</b>	Returns whether the text in the NSText object is
+RTF.
+</LI><LI> -  (BOOL)<b>isSelectable</b>	Returns whether users can select text in the NSText
+object.
+</LI><LI> -  (void)<b>setAlignment:</b>(NSTextAlignment)<i>mode</i>	Sets how the text in
+the NSText object is aligned between the margins.
+</LI><LI> -  (void)<b>setDrawsBackground:</b>(BOOL)<i>flag</i>	Sets whether the NSText
+object draws its own background.
+</LI><LI> -  (void)<b>setEditable:</b>(BOOL)<i>flag</i>	Sets whether users can edit text
+in the NSText object.
+</LI><LI> -  (void)<b>setImportsGraphics:</b>(BOOL)<i>flag</i>	Sets whether the NSText
+object can accept images.
+</LI><LI> -  (void)<b>setRichText:</b>(BOOL)<i>flag</i>	Sets whether the text in the
+NSText object allows for multiple values of attributes, such as color and font
+(i.e. RTF).
+</LI><LI> -  (void)<b>setSelectable:</b>(BOOL)<i>flag</i>	Sets whether users can select
+text in the NSText object.</LI></UL>
+<b>Managing Font and Color</b><p>
+
+<UL><LI> - (NSColor *)<b>backgroundColor</b>	Returns the background color for the NSText
+object.
+</LI><LI> -  (void)<b>changeFont:</b>(id)<i>sender</i>	Initiates a font-change session.
+</LI><LI> -  (NSFont *)<b>font</b>	Returns the default NSFont object for the NSText
+object.
+</LI><LI> -  (void)<b>setBackgroundColor:</b>(NSColor *)<i>color</i>	Sets the background
+color for the NSText object.
+</LI><LI> -  (void)<b>setColor:</b>(NSColor *)<i>color</i>	Sets the color for the
+specified <i>range</i> of text in the
+<b>ofRange:</b>(NSRange)<i>range</i>		NSText object to <i>color</i>.
+</LI><LI> -  (void)<b>setFont:</b>(NSFont *)<i>obj</i>	Sets the default NSFont object for
+the NSText object.
+</LI><LI> -  (void)<b>setFont:</b>(NSFont *)<i>font</i>	Sets the font for the specified
+<i>range</i> of text in the 
+<b>ofRange:</b>(NSRange)<i>range</i>		NSText object to <i>font</i>.
+</LI><LI> -  (void)<b>setTextColor:</b>(NSColor *)<i>color</i>	Sets the textual color for
+the NSText object.
+</LI><LI> -  (void)<b>setUsesFontPanel:</b>(BOOL)<i>flag</i>	Sets whether the NSText
+object uses the font panel.
+</LI><LI> -  (NSColor *)<b>textColor</b>	Returns the textual color for the NSText
+object.
+</LI><LI> -  (BOOL)<b>usesFontPanel</b>	Returns whether the NSText object uses the font
+panel</LI></UL>
+<b>Managing the Selection</b><p>
+
+<UL><LI> - (NSRange)<b>selectedRange</b>	Returns the range of the selected text in the
+NSText object.
+</LI><LI> -  (void)<b>setSelectedRange:</b>(NSRange)<i>range</i>	Sets the <i>range</i> of
+selected text in the NSText object.</LI></UL>
+<b>Sizing the Frame Rectangle</b><p>
+
+<UL><LI> - (BOOL)<b>isHorizontallyResizable</b>	Returns whether the frame width can
+change.
+</LI><LI> -  (BOOL)<b>isVerticallyResizable</b>	Returns whether the frame height can
+change.
+</LI><LI> -  (NSSize)<b>maxSize</b>	Gets the maximum size of the NSTextView's frame.
+</LI><LI> -  (NSSize)<b>minSize</b>	Gets the minimum size of the NSTextView's frame.
+</LI><LI> -  (void)<b>setHorizontallyResizable:</b>(BOOL)<i>flag</i>	Sets whether the
+frame's width can change.
+</LI><LI> -  (void)<b>setMaxSize:</b>(NSSize)<i>newMaxSize</i>	Sets the maximum size of
+the NSText object to <i>newMaxSize</i>.
+</LI><LI> -  (void)<b>setMinSize:</b>(NSSize)<i>newMinSize</i>	Sets the minimum size of
+the NSText object to <i>newMinSize</i>.
+</LI><LI> -  (void)<b>setVerticallyResizable:</b>(BOOL)<i>flag</i>	Sets whether the
+frame's height can change.
+</LI><LI> -  (void)<b>sizeToFit</b>	Resizes the frame to fit just around the text.</LI></UL>
+<b>Responding to Editing Commands</b><p>
+
+<UL><LI> - (void)<b>alignCenter:</b>(id)<i>sender</i>	Centers the selected text between
+the margins.
+</LI><LI> -  (void)<b>alignLeft:</b>(id)<i>sender</i>	Aligns selected text to the left
+margin.
+</LI><LI> -  (void)<b>alignRight:</b>(id)<i>sender</i>	Aligns selected text the right
+margin.
+</LI><LI> -  (void)<b>copy:</b>(id)<i>sender</i>	Copies the selected text to the
+pasteboard.
+</LI><LI> -  (void)<b>copyFont:</b>(id)<i>sender</i>	Copies the selected text's font to
+the pasteboard.
+</LI><LI> -  (void)<b>copyRuler:</b>(id)<i>sender</i>	Copies the selected text's ruler to
+the pasteboard.
+</LI><LI> -  (void)<b>cut:</b>(id)<i>sender</i>	Deletes the selected text and copies it to
+the pasteboard. 
+</LI><LI> -  (void)<b>delete:</b>(id)<i>sender</i>	Deletes the selected text. This method
+posts the notification NSTextDidChangeNotification with the receiving object to
+the default notification center and may post the NSTextDidBeginEditing
+notification as well. (NSTextDidEndEditingNotification gets posted when the
+first responder changes.)
+</LI><LI> -  (void)<b>paste:</b>(id)<i>sender</i>	Replaces the selected text with the
+contents of the pasteboard. This method posts the notification
+NSTextDidChangeNotification with the receiving object to the default
+notification center and may post the NSTextDidBeginEditing notification as
+well.
+</LI><LI> -  (void)<b>pasteFont:</b>(id)<i>sender</i>	Replaces the selection's font with
+the pasteboard contents. This method posts the NSTextDidChangeNotification
+notification with the receiving object to the default notification center and
+may post the NSTextDidBeginEditing notification as well.
+</LI><LI> -  (void)<b>pasteRuler:</b>(id)<i>sender</i>	Replaces the selection's ruler with
+the pasteboard contents.
+</LI><LI> -  (void)<b>selectAll:</b>(id)<i>sender</i>	Selects all text in the NSText
+object.
+</LI><LI> -  (void)<b>subscript:</b>(id)<i>sender</i>	Subscripts the current selection.
+</LI><LI> -  (void)<b>superscript:</b>(id)<i>sender</i>	Superscripts the current
+selection.
+</LI><LI> -  (void)<b>underline:</b>(id)<i>sender</i>	Underlines the selected text.
+</LI><LI> -  (void)<b>unscript:</b>(id)<i>sender</i>	Removes superscript or subscript in
+the current selection.</LI></UL>
+<b>Managing the Ruler</b><p>
+
+<UL><LI> - (BOOL)<b>isRulerVisible</b>	Returns whether the ruler is visible.
+</LI><LI> -  (void)<b>toggleRuler:</b>(id)<i>sender</i>	Displays the ruler if it's not
+visible, and removes it if it is visible.</LI></UL>
+<b>Spelling</b><p>
+
+<UL><LI> - (void)<b>checkSpelling:</b>(id)<i>sender</i>	Initiates a spell-checking
+session.
+</LI><LI> -  (void)<b>showGuessPanel:</b>(id)<i>sender</i>	Displays the spell-checker's
+Show Guess panel.</LI></UL>
+<b>Scrolling</b><p>
+
+<UL><LI> - (void)<b>scrollRangeToVisible:</b>(NSRange)<i>range</i>	Scrolls the NSText
+object so that the <i>range</i> of text is visible.</LI></UL>
+<b>Reading and Writing RTFD Files</b><p>
+
+<UL><LI> - (BOOL)<b>readRTFDFromFile:</b>(NSString *)<i>path</i>	Reads RTFD data from
+the file package specified by <i>path</i> and initializes an NSText object with
+it; returns whether the operation succeeded.
+</LI><LI> -  (BOOL)<b>writeRTFDToFile:</b>(NSString *)<i>path</i>	Writes RTFD data from
+the receiving NSText object
+<b>atomically:</b>(BOOL)<i>flag</i>		to the file package specified by
+<i>path</i>. <i>flag</i> determines whether writing occurs atomically. Returns
+whether the operation succeeded.</LI></UL>
+<b>Managing the Field Editor</b><p>
+
+<UL><LI> - (BOOL)<b>isFieldEditor</b>	Returns whether the receiving NSText object gives
+up First Responder status on tab, carriage return, etc.
+</LI><LI> -  (void)<b>setFieldEditor:</b>(BOOL)<i>flag</i>	Sets whether the receiving
+NSText object is to be used as a field editor. <i>flag</i> indicates whether to
+end on carriage return, tab, or other terminating character.</LI></UL>
+<b>Managing the Delegate</b><p>
+
+<UL><LI> - (id)<b>delegate</b>	Returns the delegate of the NSText object.
+</LI><LI> -  (void)<b>setDelegate:</b>(id)<i>anObject</i>	Makes <i>anObject</i> the NSText
+object's delegate.</LI></UL>
+<b>Implemented by the Delegate</b><p>
+
+<UL><LI> - (void)<b>textDidBeginEditing:</b>(NSNotification *)<i>aNotification</i>
+<i></i>	Sent by the default notification center to the delegate;
+<i>aNotification</i> is always NSTextDidBeginEditingNotification. If the
+delegate implements this method, it's automatically registered to receive this
+notification.
+</LI><LI> -  (void)<b>textDidChange:</b>(NSNotification *)<i>aNotification</i>	
+	Sent by the default notification center to the delegate; <i>aNotification</i>
+is always NSTextDidChangeNotification. If the delegate implements this method,
+it's automatically registered to receive this notification.
+</LI><LI> -  (void)<b>textDidEndEditing:</b>(NSNotification *)<i>aNotification</i>
+<i></i>	Sent by the default notification center to the delegate;
+<i>aNotification</i> is always NSTextDidEndEditingNotification. If the delegate
+implements this method, it's automatically registered to receive this
+notification.
+</LI><LI> -  (BOOL)<b>textShouldBeginEditing:</b>(NSText *)<i>textObject</i>	 
+	Sent directly by <i>textObject</i> to the delegate. Informs delegate of an
+impending textual change. YES means go ahead and make the change.
+</LI><LI> -  (BOOL)<b>textShouldEndEditing:</b>(NSText *)<i>textObject</i>	
+	Sent directly by <i>textObject</i> to the delegate. Warns delegate of the
+impending loss of First Responder status. YES means go ahead and change
+status.
+</body></html>

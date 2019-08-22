@@ -1,0 +1,170 @@
+<html><head><TITLE>NSColorPanel.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSColorPanel </b><p>
+
+<B>Inherits From: </B><A HREF="NSPanel.html">NSPanel</A> : <A HREF="NSWindow.html">NSWindow</A> : <A HREF="NSResponder.html">NSResponder</A> : <A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding (NSResponder)
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSColorPanel.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSColorPanel provides a standard user interface for selecting color in an
+application. It provides a number of standard color selection modes, and, with
+the NSColorPickingDefault and NSColorPickingCustom protocols, allows an
+application to add its own color selection modes. It allows the user to save
+swatches containing frequently used colors. Once set, these swatches are
+displayed by NSColorPanel in any application where it is used, giving the user
+color consistency between applications. NSColorPanel enables users to capture a
+color anywhere on the screen for use in the active application, and allows
+dragging colors from itself into views in an application. NSColorPanel's action
+message is sent to the target object when the user changes the current color.
+<p>
+<p>
+An application has only one instance of NSColorPanel, the shared instance.
+Invoking the <b>sharedColorPanel: </b>method returns the shared instance of
+NSColorPanel, instantiating it if necessary. You can also initialize an
+NSColorPanel for your application by invoking NSApplication's
+<b>orderFrontColorPanel</b> method.<p>
+<p>
+You can put NSColorPanel in any application created with Interface Builder by
+adding the Colors... item from the Menu palette
+to the application's menu. <p>
+<p>
+
+<b>Color Mask and Color Modes</b><p>
+
+The color mask determines which of the color modes are enabled for
+NSColorPanel. This mask is set before you initialize a new instance of
+NSColorPanel. NSColorPanelAllModesMask represents the logical OR of the other
+color mask constants: it causes the NSColorPanel to display all standard color
+pickers. When initializing a new instance of NSColorPanel, you can logically OR
+any combination of color mask constants to restrict the available color modes.
+<p>
+<p>
+<b>Mode	Color Mask Constant</b><p>
+
+<b></b>Grayscale-Alpha	NSColorPanelGrayModeMask<p>
+Red-Green-Blue	NSColorPanelRGBModeMask <p>
+Cyan-Yellow-Magenta-Black	NSColorPanelCMYKModeMask<p>
+Hue-Saturation-Brightness	NSColorPanelHSBModeMask<p>
+TIFF image	NSColorPanelCustomPaletteModeMask<p>
+Custom color lists	NSColorPanelColorListModeMask <p>
+Color wheel	NSColorPanelWheelModeMask <p>
+All of the above	NSColorPanelAllModesMask <p>
+<p>
+<p>
+The NSColorPanel's color mode mask is set using the class method
+<b>setPickerMask:. </b>The mask must be set before creating an application's
+instance of NSColorPanel. <p>
+<p>
+When an application's instance of NSColorPanel is masked for more than one
+color mode, your program can set its active mode by invoking the
+<b>setMode</b>: method with a color mode constant as its argument; the user can
+set the mode by clicking buttons on the panel. Here are the standard color
+modes and mode constants:<p>
+<p>
+<b>Mode	Color Mode Constant</b><p>
+
+<b></b>Grayscale-Alpha	NSGrayModeColorPanel<p>
+Red-Green-Blue	NSRGBModeColorPanel <p>
+Cyan-Yellow-Magenta-Black	NSCMYKModeColorPanel<p>
+Hue-Saturation-Brightness	NSHSBModeColorPanel<p>
+TIFF image	NSCustomPaletteModeColorPanel <p>
+Color lists	NSColorListModeColorPanel <p>
+Color wheel	NSWheelModeColorPanel <p>
+<p>
+<p>
+In grayscale-alpha, red-green-blue, cyan-magenta-yellow-black, and
+hue-saturation-brightness modes, the user adjusts colors by manipulating
+sliders. In the custom palette mode, the user can load a TIFF file into the
+NSColorPanel, then select colors from the TIFF image. In custom color list
+mode, the user can create and load lists of named colors. The two custom modes
+provide NSPopUpLists for loading and saving files. Finally, color wheel mode
+provides a simplified control for selecting colors. If a color panel has been
+used, it uses whatever mode it was in last as the default mode when
+NSColorPanelAllModesMask is used to initialize the NSColorPanel. Otherwise, it
+uses color wheel mode.<p>
+<p>
+
+<b>Associated Classes and Protocols</b><p>
+
+The NSColorList class provides an API for managing custom color lists. The
+NSColorPanel methods <b>attachColorList:</b> and <b>detachColorList:</b> let
+your application add and remove custom lists from the NSColorPanel's user
+interface. <p>
+<p>
+The protocols NSColorPickingDefault and NSColorPickingCustom provide an API for
+adding custom color selection to the user interface. The NSColorPicker class
+implements the NSColorPickingDefault protocol; you can subclass NSColorPicker
+and implement the NSColorPickingCustom protocol in your subclass to create your
+own user interface for color selection. <p>
+<p>
+<b>See also:  </b>NSColorList, NSColorPickingDefault, NSColorPicker,
+NSColorPickingDefault protocol, NSColorPickingCustom protocol, NSColorWell<p>
+<p>
+
+<b>Creating the NSColorPanel </b><p>
+
+<UL><LI> + (NSColorPanel *)<b>sharedColorPanel</b>	Creates if necessary and returns the
+shared NSColorPanel.
+</LI><LI> +  (BOOL)<b>sharedColorPanelExists	</b>Returns YES if the NSColorPanel<b>
+</b>has been created already.</LI></UL>
+<b>Setting the NSColorPanel </b><p>
+
+<UL><LI> + (void)<b>setPickerMask:</b>(int)<i>mask</i>	Sets the mask that determines
+which color selection modes are available in the color panel.
+</LI><LI> +  (void)<b>setPickerMode:</b>(int)<i>mode</i>	Sets the color picker mode.
+</LI><LI> -  (NSView *)<b>accessoryView	</b>Returns the accessory view, or<b> nil </b>if
+there is none.
+</LI><LI> -  (BOOL)<b>isContinuous</b>	Returns YES if the NSColorPanel continuously sends
+the action message to the target.
+</LI><LI> -  (int)<b>mode</b>	Returns the mode of the NSColorPanel.
+</LI><LI> -  (void)<b>setAccessoryView:</b>(NSView *)<i>aView</i>	Sets the accessory view
+to <i>aView</i>.
+</LI><LI> -  (void)<b>setAction:</b>(SEL)<i>aSelector</i>	Sets the action message sent to
+the target.
+</LI><LI> -  (void)<b>setContinuous:</b>(BOOL)<i>flag</i>	Sets the NSColorPanel to
+continuously send the action message to the target.
+</LI><LI> -  (void)<b>setMode:</b>(int)<i>mode</i>	Sets the mode of the NSColorPanel.
+</LI><LI> -  (void)<b>setShowsAlpha:</b>(BOOL)<i>flag</i>	Sets the NSColorPanel to show
+alpha values.
+</LI><LI> -  (void)<b>setTarget:</b>(id)<i>anObject</i>	Sets the target of the
+NSColorPanel.
+</LI><LI> -  (BOOL)<b>showsAlpha</b>	Returns YES if the NSColorPanel shows alpha values.</LI></UL>
+<b>Attaching a Color List</b><p>
+
+<UL><LI> - (void)<b>attachColorList:</b>(NSColorList *)<i>aColorList	</i>
+<i></i>	Adds the specified list of NSColors<i> </i>to all the color pickers in
+the color panel that display color lists.
+</LI><LI> -  (void)<b>detachColorList:</b>(NSColorList *)<i>aColorList	</i>
+<i></i>	Removes the specified list of NSColors<i> </i>from all the color
+pickers in the color panel<i> </i>that display color lists.</LI></UL>
+<b>Setting Color</b><p>
+
+
++(BOOL)<b>dragColor:</b>(NSColor **)<i>aColor</i>	Drags <i>aColor</i> into a
+destination view from <i>sourceView</i>.<p>
+<b>withEvent:</b>(NSEvent *)<i>anEvent</i>	<p>
+<b>fromView:</b>(NSView *)<i>sourceView</i><p>
+<i></i><p>
+- (float)<b>alpha</b>	Returns the NSColorPanel's current alpha value, or 1.0
+(opaque) if the panel has no opacity slider.<p>
+<p>
+- (NSColor *)<b>color</b>	Returns the currently displayed color.<p>
+<p>
+- (void)<b>setColor:</b>(NSColor *)<i>aColor</i>	Sets the color to be
+displayed. This method posts the NSColorPanelChangedNotification notification
+with the receiving object to the default notification center.<p>
+<p>
+</body></html>

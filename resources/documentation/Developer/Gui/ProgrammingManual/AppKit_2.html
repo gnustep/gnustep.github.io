@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- C 2005-2006 Christopher Armstrong.
+
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2, as published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included in the section entitled "GNU Free Documentation License".
+
+This documentation is provided on an "AS IS" BASIS, WITHOUT WARRANTY
+OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED
+TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND USEFULNESS
+OF THE DOCUMENTATION IS WITH YOU (THE LICENSEE). IN NO EVENT WILL THE COPYRIGHT
+HOLDERS BE LIABLE FOR DAMAGES, INCLUDING ANY DIRECT, INDIRECT,
+SPECIAL, GENERAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF
+THE USE OR INABILITY TO USE THIS DOCUMENTATION (INCLUDING BUT NOT
+LIMITED TO LOSS OF DATA, USE, OR PROFITS; PROCUREMENT OF SUBSTITUTE
+GOODS AND SERVICES; OR BUSINESS INTERUPTION) HOWEVER CAUSED, EVEN
+IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ -->
+<!-- Created on December 24, 2013 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Using the GNUstep AppKit 0.1: 2. Basic Concepts</title>
+
+<meta name="description" content="Using the GNUstep AppKit 0.1: 2. Basic Concepts">
+<meta name="keywords" content="Using the GNUstep AppKit 0.1: 2. Basic Concepts">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="basicconcepts"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="AppKit_1.html#Contributing" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_3.html#gnustepapplications" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit_1.html#Introduction" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_3.html#gnustepapplications" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="AppKit_16.html#conceptindex" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Basic-Concepts"></a>
+<h1 class="chapter">2. Basic Concepts</h1>
+
+<p>Throughout this manual, we refer to a number of concepts that you will need to be familiar with. It may be useful to at least glance over this section and make sure you are familiar with the concepts presented.
+</p>
+<dl compact="compact">
+<dt> <i>application wrapper (or appwrapper)</i></dt>
+<dd><p>GNUstep applications rarely consist of just an executable file. They often contain interface files, property lists and other resources such as images. These are bundled together with the executable into a directory known as an <em>application wrapper</em>. To launch applications, you use the <code>openapp</code> command.
+</p>
+</dd>
+<dt> <i>delegate</i></dt>
+<dd>
+<p>A <em>delegate</em> usually refers to an object that handles certain events and methods on behalf of another object. The methods a delegate should implement are declared as either a formal or informal protocol. 
+</p>
+<p>Many of the view and control classes within the AppKit allow you to supply delegate objects to help them make decisions about different things such as what data to display, how to handle events, whether to permit the user to select things, handling drag and drop, etc.
+</p>
+</dd>
+<dt> <i>formal protocol</i></dt>
+<dd>
+<p>A <em>formal protocol</em> is a protocol that requires you to implement all the methods that are listed within it. They are used much less often that informal protocols in the AppKit.
+</p>
+<p>Formal protocols are declared using their own statement, the <code>@protocol</code> identifier. You implement a formal protocol by placing it&rsquo;s name in arrow brackets (&rsquo;&lt;&rsquo; and &rsquo;&gt;&rsquo;) and listing its methods in your interface declaration.
+</p>
+</dd>
+<dt> <i>informal protocol</i></dt>
+<dd><p>Objective-C can have both <em>formal</em> and <em>informal</em> protocols. Informal protocols don&rsquo;t require you to implement all of their methods.
+</p>
+<p>Informal protocols are declared as a category of <code>NSObject</code>. You implement them in your own class by simply declaring and implementing the methods in the protocol you wish to. Always check the documentation of the classes that use the protocol to see which methods you should implement (usually at least one of them is mandatory).
+</p>
+</dd>
+<dt> <i>nib file</i></dt>
+<dd><p><em>nib files</em> are your program&rsquo;s interface files, which contain definitions of all the windows, controls and menus as well as their connections to classes from your application. They have the extension &lsquo;<tt>.gorm</tt>&rsquo;.
+</p>
+<p>See see <a href="AppKit_4.html#Interface-Files">Interface Files</a> for more information.
+</p>
+</dd>
+<dt> <i>notification</i></dt>
+<dd><p>A <em>notification</em> is an indicator of a certain event. Notifications are objects posted to a <em>notification center</em>. Other objects may register with a notification center to receive notifications.
+</p>
+<p>For more information about notifications, refer to the <cite>GNUstep Base Programming Manual</cite>.
+</p>
+</dd>
+</dl>
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="AppKit_1.html#Introduction" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_3.html#gnustepapplications" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="AppKit_16.html#conceptindex" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>Adam Fedor</em> on <em>December 24, 2013</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

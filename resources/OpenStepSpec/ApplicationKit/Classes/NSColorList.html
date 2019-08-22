@@ -1,0 +1,114 @@
+<html><head><TITLE>NSColorList.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSColorList </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSColorList.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+Instances of NSColorList are used to manage named lists of NSColors.
+NSColorPanel's list-mode color picker uses instances of NSColorList to
+represent any lists of colors that come with the system, as well as any lists
+created by the user. An application can use NSColorList to manage
+document-specific color lists, which may be added to an application's
+NSColorPanel using its <b>attachColorList:</b> method.<p>
+<p>
+An NSColorList is similar to a dictionary object: An NSColor is added to,
+looked up in, and removed from the list by specifying its key, which is an
+NSString. In addition, colors can be inserted at specified positions in the
+list. The list itself has a name, specified when you create the object (using
+either <b>initWithName:</b> or <b>initWithName:fromFile:</b>).<p>
+<p>
+An NSColorList saves and retrieves its colors from files with the extension
+<b>.clr</b> in directories defined by a standard
+search path. To access all the color lists in the standard search path, use the
+<b>availableColorLists</b> method; this returns an array of NSColorLists, from
+which you can retrieve the individual color lists by name.<p>
+<p>
+NSColorList reads color list files in several different formats; it saves color
+lists using the archiver API.<p>
+<p>
+
+<b>Initializing an NSColorList</b><p>
+
+<UL><LI> - (id)<b>initWithName:</b>(NSString *)<i>name</i>	Initializes and returns the
+receiver, registering it under the specified name if the name isn't in use
+already. 
+</LI><LI> -  (id)<b>initWithName:</b>(NSString *)<i>name</i>	Initializes and returns the
+receiver, registering it under the
+<b>fromFile:</b>(NSString *)<i>path</i>		specified name if the name isn't in
+use already. <i>path</i> should be the full path to the file for the color
+list; <i>name</i> should be the name of the file for the color list (minus the
+.clr extension). </LI></UL>
+<b>Getting All Color Lists</b><p>
+
+<UL><LI> + (NSArray *)<b>availableColorLists</b>	Returns an array of all NSColorLists
+found in the standard color list directories. Color lists created at run time
+aren't included in this list unless they're saved into one of the standard
+color list directories.</LI></UL>
+<b>Getting a Color List by Name</b><p>
+
+<UL><LI> + (NSColorList *)<b>colorListNamed:</b>(NSString *)<i>name</i>
+<i></i>	Searches the array that's returned by <b>availableColorLists</b> and
+returns the NSColorList named <i>name</i>, or <b>nil</b> if no such color list
+exists. <i>name</i> mustn't include the .clr
+suffix.
+</LI><LI> -  (NSString *)<b>name</b>	Returns the name of the NSColorList. </LI></UL>
+<b>Managing Colors by Key</b><p>
+
+<UL><LI> - (NSArray *)<b>allKeys</b>	Returns an array of NSString objects that contains
+all the keys by which the NSColors are stored in the NSColorList. The length of
+this array equals the number of colors, and its contents are arranged according
+to the ordering specified when the colors were inserted.
+</LI><LI> -  (NSColor *)<b>colorWithKey:</b>(NSString *)<i>key</i>	Returns the NSColor
+associated with <i>key</i>, or <b>nil</b> if there is none<i>.</i>
+<i></i></LI><LI> -  (void)<b>insertColor:</b>(NSColor *)<i>color</i>	Inserts <i>color</i> at the
+specified location in the list (which is
+<b>key:</b>(NSString *)<i>key</i>		numbered starting with 0). If the list
+already contains a
+<b>atIndex:</b>(unsigned)<i>location</i>		color with the same key at a
+different location, it's removed from the old location. This method posts the
+NSColorListChangedNotification notification to the default notification center.
+Raises NSColorListNotEditableException if the color list is not editable. This
+method posts the NSColorListChangedNotification notification to the default
+notification center.
+</LI><LI> -  (void)<b>removeColorWithKey:</b>(NSString *)<i>key</i>	Removes the color
+associated with <i>key </i>from the list. This method does nothing if the list
+doesn't contain the key. This method posts the NSColorListChangedNotification
+notification to the default notification center. Raises
+NSColorListNotEditableException if the color list is not editable.
+</LI><LI> -  (void)<b>setColor:</b>(NSColor *)<i>aColor</i>	Associates the specified
+NSColor with the key <i>key</i>. If the
+<b>forKey:</b>(NSString *)<i>key</i>		list already contains <i>key</i>, this
+method sets the corresponding color to <i>aColor</i>; otherwise, it inserts
+<i>aColor</i> at the end of the list.</LI></UL>
+<b>Editing</b><p>
+
+<UL><LI> - (BOOL)<b>isEditable</b>	Returns YES if the color list can be modified. This
+depends on the source of the list: If it came from a write-protected file, this
+method returns NO.</LI></UL>
+<b>Writing and Removing Files</b><p>
+
+<UL><LI> - (BOOL)<b>writeToFile:</b>(NSString *)<i>path</i>	If <i>path</i> is a
+directory, saves the NSColorList in a file named <i>listname</i>.clr (where
+<i>listname</i> is the name with which the NSColorList was initialized). If
+<i>path</i> includes a file name, this method saves the file under that name.
+If <i>path</i> is <b>nil</b>, this method saves the file as <i>listname</i>.clr
+in the standard location. Returns YES upon success.
+</LI><LI> -  (void)<b>removeFile</b>	Deletes the file from which the list was created,
+unless the user doesn't own the color list. The receiver is removed from the
+list of available colors, but isn't released.
+</body></html>

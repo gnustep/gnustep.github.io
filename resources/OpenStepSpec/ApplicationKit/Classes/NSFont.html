@@ -1,0 +1,173 @@
+<html><head><TITLE>NSFont.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSFont </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding, NSCopying
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSFont.h<p>
+<p>
+
+<b>Class Description</b><p>
+
+
+The NSFont class declares the programmatic interface to objects that correspond
+to fonts. NSFont is in principle an abstract class that represents fonts in
+general, not just PostScript fonts. In practice, at this time, NSFont objects
+represent PostScript fonts. Each NSFont object records a font's name, size,
+style, and matrix. When an NSFont object receives a <b>set</b> message, it
+establishes its font as the current font in the PostScript Server's current
+graphics state.<p>
+<p>
+For a given application, only one NSFont object is created for a particular
+PostScript font/size or font/matrix combination. That isif you ask for
+24-point Optima, a new font object is created for 24-point Optima if such an
+object doesn't exist already. When the NSFont class object receives a message
+to create a new object for a particular font, it first checks whether an object
+has already been created for that font. If so, the the NSFont class object
+returns the existing font object; otherwise, the the NSFont class object
+creates a new font object and returns it. <p>
+<p>
+This sharing of NSFont objects minimizes the number of distinct font objects
+created. It also implies that no one object in your application can know
+whether it has the only reference to a particular NSFont object. Thus, NSFont
+objects shouldn't be deallocated, but should be treated like auto-released
+Foundation class objects.<p>
+<p>
+Where <i>matrix</i> is used, it refers to a PostScript-style six-element array
+of numbers that indicate transformations to be applied to a font. An
+NSFontIdentityMatrix identifies a font matrix used for fonts created by
+specifying a size.<p>
+<p>
+The <i>size</i> of a font in the method definitions is defined in
+points, which in currently accepted practice,
+are actually PostScript unitsa PostScript unit being defined as 1/72 of
+an inch, or 0.0139 of an inch. In metric equivalents, a PostScript unit is
+0.3528 millimetres. PostScript points are
+minimally different from printer's points, so
+for all intents and purposes you can think of PostScript units and points as
+interchangeable.<p>
+<p>
+In general, you instantiate an NSFont object by sending one of the methods
+listed in Creating a Font Object to the NSFont
+class object. The methods with <b>system</b> and <b>user </b>in their names
+obtain special pre-determined fonts defined at the system level and the
+application level, respectively. In general, you would use the
+<b>fontWithName:size:</b> and <b>fontWithName:matrix:</b> methods to obtain a
+named font.<p>
+<p>
+A variety of methods are available for querying a font object. In particular,
+AFM (Adobe Font Metrics) data can be obtained by invoking <b>afmDictionary</b>
+or <b>afmFileContents	</b>.<p>
+<p>
+Methods whose descriptions state Returns1/4and matrix
+NSFontIdentityMatrix actually return an NSFontIdentityMatrix
+whose first and fourth elements are multiplied by the current size of the
+font.<p>
+<p>
+
+<b>Exceptions</b><p>
+
+<b></b>Methods listed in Creating a Font Object
+can all raise a NSFontUnavailableException if the requested font can't be
+constructed.<p>
+<p>
+
+<b>Creating a Font Object</b><p>
+
+<UL><LI> + (NSFont *)<b>boldSystemFontOfSize:</b>(float)<i>fontSize</i>	Returns the font
+object representing the bold system font
+		of size <i>fontSize</i> and matrix NSFontIdentityMatrix.
+</LI><LI> +  (NSFont *)<b>fontWithName:</b>(NSString *)<i>fontName</i>
+<b>matrix:</b>(const float *)<i>fontMatrix</i>
+<i></i>	Returns a font object for font <i>fontName</i> and matrix
+<i>fontMatrix</i>.
+</LI><LI> +  (NSFont *)<b>fontWithName:</b>(NSString *)<i>fontName</i>
+<b>size:</b>(float)<i>fontSize</i>
+<i></i>	Returns a font object for font <i>fontName</i> of size <i>fontSize</i>.
+
+</LI><LI> +  (NSFont *)<b>systemFontOfSize:</b>(float)<i>fontSize</i>	Returns the font
+object representing the system font of size <i>fontSize</i> and matrix
+NSFontIdentityMatrix.
+</LI><LI> +  (NSFont *)<b>userFixedPitchFontOfSize:</b>(float)<i>fontSize</i>
+<i></i>	Returns the font object representing the application's fixed-pitch font
+of size <i>fontSize</i> and matrix NSFontIdentityMatrix<i>.</i>
+<i></i></LI><LI> +  (NSFont *)<b>userFontOfSize:</b>(float)<i>fontSize</i>	Returns the font
+object representing the application's standard font of size <i>fontSize</i> and
+matrix NSFontIdentityMatrix.</LI></UL>
+<b>Setting the Font</b><p>
+
+<UL><LI> + (void)<b>setUserFixedPitchFont:</b>(NSFont *)<i>aFont</i>	Sets the
+fixed-pitch font used by default in the application to <i>aFont</i>.
+</LI><LI> +  (void)<b>setUserFont:</b>(NSFont *)<i>aFont</i>	Sets the standard font used
+by default in the application to <i>aFont</i>.
+</LI><LI> +  (void)<b>useFont:</b>(NSString *)<i>fontName</i>	Registers that
+<i>fontName</i> is used in the document. This information is used by the
+printing machinery
+</LI><LI> -  (void)<b>set</b>	Makes this font the graphic state's current font.</LI></UL>
+<b>Querying the Font</b><p>
+
+<UL><LI> - (NSDictionary *)<b>afmDictionary</b>	Returns the font's AFM dictionary if the
+font has an AFM file. The return value can possibly be <b>nil</b>, so you must
+check to determine if a non-<b>nil</b> value was actually returned.
+</LI><LI> -  (NSString *)<b>afmFileContents	</b>Returns the raw contents of the entire AFM
+file, in terms of strings, if the font has an AFM file. If the font does not
+have an AFM file, this method returns <b>nil</b>.
+</LI><LI> - <b> </b>(NSRect)<b>boundingRectForFont	</b>Returns the bounding rectangle for
+the font. This is the font's FontBBox field scaled to the current size of the
+font.
+</LI><LI> -  (NSString *)<b>displayName</b>	Returns the full name of the font as displayed
+in the font panel. This is the localized version of the font's name. It is not
+necessarily the FullName field of the font.
+</LI><LI> -  (NSString *)<b>familyName</b>	Returns the name of the font's family.
+</LI><LI> -  (NSString *)<b>fontName</b>	Returns the name of the font.
+</LI><LI> -  (BOOL)<b>isBaseFont	</b>Indicates whether the font is a base font, as opposed
+to a composite font.
+</LI><LI> -  (const float *)<b>matrix</b>	Returns a pointer to an array of six floats
+representing the font's matrix. You should not alter the data pointed to by
+matrix. If you wish to change values for any reason you must make a copy of the
+matrix 
+</LI><LI> -  (float)<b>pointSize</b>	Returns the size of the font in points. 
+</LI><LI> -  (NSFont *)<b>printerFont	</b>Returns the printer font for the font, if the
+receiving font object is a screen font. Else, this method returns
+<b>self</b>.
+</LI><LI> -  (NSFont *)<b>screenFont</b>	Returns the screen font for the font, if there is
+one. Else this method returns <b>self</b>.
+</LI><LI> -  (float)<b>widthOfString:</b>(NSString *)<i>string</i>	Returns the width of
+<i>string</i> in the font. Use this method with caution: it assumes that the
+characters in <i>string</i>can all actually be rendered in the font. It uses
+lossy encoding methods in NSString to get the character data.
+</LI><LI> -  (float *)<b>widths</b>	Returns a pointer to an array representing the widths
+of the glyphs in the font.</LI></UL>
+<b>Manipulating Glyphs</b><p>
+
+<UL><LI> - (NSSize)<b>advancementForGlyph:</b>(NSGlyph)<i>aGlyph</i>
+<i></i>	Returns the horizontal and vertical advancement for <i>aGlyph</i>. That
+is, this method returns the amount by which the current point would be
+displaced in both <i>x</i> and <i>y</i> if the specified glyph were rendered in
+the current font and size. In general, the <i>y</i> component of the
+displacement for Western fonts will be zero.
+</LI><LI> - <b> </b>(NSRect)<b>boundingRectForGlyph:</b>(NSGlyph)<i>aGlyph</i>
+<i></i>	Returns a bounding rectangle for <i>aGlyph</i>, scaled to the font's
+actual size and matrix.
+</LI><LI> -  (BOOL)<b>glyphIsEncoded:</b>(NSGlyph)<i>aGlyph	</i>Indicates whether
+<i>aGlyph</i> is encoded. That is, <i>aGlyph</i> is present in the encoding for
+the font.
+</LI><LI> -  (NSPoint)<b>positionOfGlyph:</b>(NSGlyph)<i>curGlyph	</i>Returns
+<i>curGlyph</i>'s position when it follows <i>prevGlyph.</i>
+<i></i><b>precededByGlyph:</b>(NSGlyph)<i>prevGlyph		</i> <i>nominal</i> is a
+pointer to a BOOL. If not <b>nil</b>, this method
+<b>isNominal:</b>(BOOL *)<i>nominal</i>		 fills in <i>nominal</i> with YES, to
+indicate that the position has been modified by kerning information, and NO to
+indicate that no kerning information was present.
+<i></i>
+<i></i>
+</body></html>

@@ -1,0 +1,126 @@
+<html><head><TITLE>NSTextField.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSTextField </b><p>
+
+<B>Inherits From: </B><A HREF="NSControl.html">NSControl</A> : <A HREF="NSView.html">NSView</A> : <A HREF="NSResponder.html">NSResponder</A> : <A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding (NSResponder)
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSTextField.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+An NSTextField is an NSControl object that can display a piece of text that a
+user can select or edit, and which sends an action message to its target if the
+user hits the Return key while editing. An NSTextField can also be linked to
+other NSTextFields, so that when the user presses Tab or Shift-Tab, the object
+assigned as the next or
+previous field gets a message to select its
+text.<p>
+<p>
+An NSTextField is a good alternative to an NSText object for small regions of
+editable text, since the display of the NSTextField is achieved by using a
+global NSText object shared by objects all over your application, which saves
+on memory usage. Each NSWindow also has an NSText object used for editing of
+NSTextFields (and NSTextFieldCells in NSMatrices). An NSWindow's global NSText
+object is called a <i>field editor</i>, since it's attached as needed to an
+NSTextField to perform its editing. NSTextField allows you to specify an object
+to act as an indirect delegate to the field editor; the NSTextField itself acts
+as the NSText delegate if it needs to, then passes the delegate method on to
+its own NSText delegate.<p>
+<p>
+
+<b>Setting User Access to Text </b><p>
+
+<UL><LI> - (BOOL)<b>isEditable</b>	Returns whether the NSTextField's text is editable.
+
+</LI><LI> -  (BOOL)<b>isSelectable</b>	Returns whether the NSTextField's text is
+selectable. 
+</LI><LI> -  (void)<b>setEditable:</b>(BOOL)<i>flag</i>	Sets whether the NSTextField's
+text is editable. 
+</LI><LI> -  (void)<b>setSelectable:</b>(BOOL)<i>flag</i>	Sets whether the NSTextField's
+text is selectable. </LI></UL>
+<b>Editing Text </b><p>
+
+<UL><LI> - (void)<b>selectText:</b>(id)<i>sender</i>	Selects all of the text if it's
+selectable or editable. </LI></UL>
+<b>Setting Tab Key Behavior </b><p>
+
+<UL><LI> - (id)<b>nextText</b>	Gets the object selected when the user presses Tab. 
+</LI><LI> -  (id)<b>previousText</b>	Gets the object selected when the user presses
+Shift-Tab. 
+</LI><LI> -  (void)<b>setNextText:</b>(id)<i>anObject</i>	Sets the object selected when
+the user presses Tab. 
+</LI><LI> -  (void)<b>setPreviousText:</b>(id)<i>anObject</i>	Sets the object selected
+when the user presses Shift-Tab. </LI></UL>
+<b>Assigning a Delegate </b><p>
+
+<UL><LI> - (void)<b>setDelegate:</b>(id)<i>anObject</i>	Sets the delegate for messages
+from the field editor to <i>anObject</i>.
+</LI><LI> -  (id)<b>delegate</b>	Returns the delegate for messages from the field
+editor.</LI></UL>
+<b>Modifying Graphic Attributes </b><p>
+
+<UL><LI> - (NSColor *)<b>backgroundColor</b>	Returns the color of the background.
+</LI><LI> -  (BOOL)<b>drawsBackground</b>	Returns whether the NSTextField draws its own
+background.
+</LI><LI> -  (BOOL)<b>isBezeled</b>	Returns whether the NSTextField has a bezeled border.
+
+</LI><LI> -  (BOOL)<b>isBordered</b>	Returns whether the NSTextField has a plain border.
+
+</LI><LI> -  (void)<b>setBackgroundColor:</b>(NSColor *)<i>aColor</i>	Sets the color of
+the background to <i>aColor.</i> 
+</LI><LI> -  (void)<b>setBezeled:</b>(BOOL)<i>flag</i>	Sets whether the NSTextField has a
+bezeled border. 
+</LI><LI> -  (void)<b>setBordered:</b>(BOOL)<i>flag</i>	Sets whether the NSTextField has a
+plain border. 
+</LI><LI> -  (void)<b>setDrawsBackground</b>:(BOOL)<i>flag</i>	Sets whether the
+NSTextField draws its own background color. 
+</LI><LI> -  (void)<b>setTextColor:</b>(NSColor *)<i>aColor</i>	Sets the color of the
+NSTextField's text to <i>aColor</i>.
+</LI><LI> -  (NSColor *)<b>textColor</b>	Returns the color of the NSTextField's text.</LI></UL>
+<b>Target and Action </b><p>
+
+<UL><LI> - (SEL)<b>errorAction</b>	Returns the action method sent for an invalid value.
+
+</LI><LI> -  (void)<b>setErrorAction:</b>(SEL)<i>aSelector</i>	Sets the action method sent
+(<i>aSelector</i>) for an invalid value entered. </LI></UL>
+<b>Handling Events </b><p>
+
+<UL><LI> - (BOOL)<b>acceptsFirstResponder</b>	Return YES if text is editable or
+selectable. 
+</LI><LI> -  (void)<b>textDidBeginEditing:</b>(NSNotification *)<i>notification</i>
+<i></i>	Invoked when there's a change in the text after the receiver gains
+first responder status. The default behavior is to pass this message on to the
+text delegate by posting the notification
+NSControlTextDidEndEditingNotification with the receiving object and, in the
+notification's dictionary, the text object (with the key NSFieldEditor) to the
+default notification center.
+</LI><LI> -  (void)<b>textDidChange:</b>(NSNotification *)<i>notification</i>	
+	Invoked upon a key-down event or paste operation that changes the receiver's
+contents. The default behavior is to pass this message on to the text delegate
+by posting the NSControlTextDidChangeNotification notification with the
+receiving object and, in the notification's dictionary, the text object (with
+the key NSFieldEditor) to the default notification center.
+</LI><LI> -  (void)<b>textDidEndEditing:</b>(NSNotification *)<i>notification</i>
+<i>	</i>Invoked when text editing ends. The default behavior is to pass this
+message on to the text delegate by posting the notification
+NSControlTextDidEndEditingNotification with the receiving object and, in the
+notification's dictionary, the text object (with the key NSFieldEditor) to the
+default notification center.
+</LI><LI> -  (BOOL)<b>textShouldBeginEditing:</b>(NSText *)<i>textObject</i>	 
+	Invoked to let the NSTextField respond to impending changes to its text and
+then forwarded to the text delegate.
+</LI><LI> -  (BOOL)<b>textShouldEndEditing:</b>(NSText *)<i>textObject</i>	
+	Invoked to let the NSTextField respond to impending loss of first responder
+status and then forwarded to the text delegate.
+</body></html>

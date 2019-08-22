@@ -1,0 +1,175 @@
+<html><head><TITLE>TypesAndConstants.html</TITLE><!-- This document was created from RTF source by rtftohtml version
+2.7.4 --></head><body>
+<A HREF="../../OpenStepSpec.html">Return to Contents</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+<p>
+<b>Types and Constants</b><p>
+<p>
+The Display PostScript Client Library is composed of system-dependent
+and a system-independent parts. The <i>Display PostScript System, Client
+Library Reference Manual</i>, by Adobe Systems, Incorporated, provides the
+specification for the system-independent portion of this library.<p>
+<p>
+The defined types, enumeration constants, and global variables that are part of
+OpenStep's system-dependent part of the Display PostScript Client Library are
+listed here.<p>
+<p>
+<p>
+<b>Defined Types</b><p>
+<p>
+Number Formats<p>
+<p>
+typedef enum _DPSNumberFormat {<p>
+<p>
+	#ifdef __BIG_ENDIAN__<p>
+<UL><LI>	dps_float</b> = 48,<p>
+</LI><LI>	dps_long</b> = 0,<p>
+</LI><LI>	dps_short</b> = 32<p>
+#else<p>
+</LI><LI>	dps_float</b> = 48+128,<p>
+</LI><LI>	dps_long</b> = 0+128,<p>
+</LI><LI>	dps_short</b> = 32+128<p>
+</LI></UL>
+	#endif<p>
+	} <b>DPSNumberFormat</b>;<p>
+<p>
+Other permitted values are:<p>
+<p>
+<UL>
+<LI>For 32-bit fixed-point numbers, use <b>dps_long</b> plus the number of bits
+in the fractional part.</LI>
+<LI>For 16-bit fixed-point numbers, use <b>dps_short</b> plus the number of bits
+in the fractional part.</LI>
+</UL>
+<p>
+<p>
+<b>Backing Store Types</b><p>
+<p>
+typedef enum _NSBackingStoreType {<p>
+<UL><LI>NSBackingStoreRetained</b>,<p>
+</LI><LI>NSBackingStoreNonretained</b>,<p>
+</LI><LI>NSBackingStoreBuffered</b><p>
+</LI></UL>
+} <b>NSBackingStoreType</b>;<p>
+<p>
+<b>Compositing Operations</b><p>
+<p>
+typedef enum _NSCompositingOperation {<p>
+<UL><LI>NSCompositeClear</b>,<p>
+</LI><LI>NSCompositeCopy</b>,<p>
+</LI><LI>NSCompositeSourceOver</b>,<p>
+</LI><LI>NSCompositeSourceIn</b>,<p>
+</LI><LI>NSCompositeSourceOut</b>,<p>
+</LI><LI>NSCompositeSourceAtop</b>,<p>
+</LI><LI>NSCompositeDataOver</b>,<p>
+</LI><LI>NSCompositeDataIn</b>,<p>
+</LI><LI>NSCompositeDataOut</b>,<p>
+</LI><LI>NSCompositeDataAtop</b>,<p>
+</LI><LI>NSCompositeXOR</b>,<p>
+</LI><LI>NSCompositePlusDarker</b>,<p>
+</LI><LI>NSCompositeHighlight</b>,<p>
+</LI><LI>NSCompositePlusLighter</b><p>
+</LI></UL>
+} <b>NSCompositingOperation</b>;<p>
+<p>
+<b>Window Ordering</b><p>
+<p>
+typedef enum _NSWindowOrderingMode {<p>
+<UL><LI>NSWindowAbove</b>,<p>
+</LI><LI>NSWindowBelow</b>,<p>
+</LI><LI>NSWindowOut</b><p>
+</LI></UL>
+} <b>NSWindowOrderingMode</b>;<p>
+<p>
+<b>User Path Operators</b><p>
+<p>
+<p>
+These constants define the operator numbers used to construct the operator
+array parameter of DPSDoUserPath.<p>
+<p>
+typedef unsigned char <b>DPSUserPathOp</b>;<p>
+enum {<p>
+<UL><LI>dps_setbbox</b>,<p>
+</LI><LI>dps_moveto</b>,<p>
+</LI><LI>dps_rmoveto</b>,<p>
+</LI><LI>dps_lineto</b>,<p>
+</LI><LI>dps_rlineto</b>,<p>
+</LI><LI>dps_curveto</b>,<p>
+</LI><LI>dps_rcurveto</b>,<p>
+</LI><LI>dps_arc</b>,<p>
+</LI><LI>dps_arcn</b>,<p>
+</LI><LI>dps_arct</b>,<p>
+</LI><LI>dps_closepath</b>,<p>
+</LI><LI>dps_ucache</b><p>
+</LI></UL>
+};<p>
+<p>
+<b>User Path Actions</b><p>
+<p>
+<p>
+These constants define the action of a DPSDoUserPath. In addition to the
+actions defined here, any other system name index may be used. See the
+<i>PostScript Language Reference Manual</i>, <i>Second Edition</i>, by Adobe
+Systems Incorporated, for a detailed list of system name indexes.<p>
+<p>
+<p>
+typedef enum _DPSUserPathAction {<p>
+<UL><LI>dps_uappend</b>,<p>
+</LI><LI>dps_ufill</b>,<p>
+</LI><LI>dps_ueofill</b>,<p>
+</LI><LI>dps_ustroke</b>,<p>
+</LI><LI>dps_ustrokepath</b>,<p>
+</LI><LI>dps_inufill</b>,<p>
+</LI><LI>dps_inueofill</b>,<p>
+</LI><LI>dps_inustroke</b>,<p>
+</LI><LI>dps_def</b>,<p>
+</LI><LI>dps_put</b><p>
+</LI></UL>
+} <b>DPSUserPathAction</b>;<p>
+<p>
+<b>Enumerations</b><p>
+<p>
+Special Values for Alpha<p>
+<p>
+enum {<p>
+<UL><LI>NSAlphaEqualToData</b>,<p>
+</LI><LI>NSAlphaAlwaysOne</b><p>
+</LI></UL>
+};<p>
+<p>
+<b>User Object Representing the PostScript Null Object</b><p>
+<p>
+enum {<p>
+<UL><LI>DPSNullObject</b> <p>
+</LI></UL>
+};<p>
+<p>
+<b>Symbolic Constants</b><p>
+<p>
+<b>Error Code Base</b><p>
+<p>DPS_OPENSTEP_ERROR_BASE<p>
+<p>
+<p>
+<b>Global Variables</b><p>
+<p>
+<b>Exception Names</b><p>
+<p>
+<UL><LI>NSString *<b>DPSPostscriptErrorException;</b><p>
+</LI><LI>NSString *<b>DPSNameTooLongException;</b><p>
+</LI><LI>NSString *<b>DPSResultTagCheckException;</b><p>
+</LI><LI>NSString *<b>DPSResultTypeCheckException;</b><p>
+</LI><LI>NSString *<b>DPSInvalidContextException;</b><p>
+</LI><LI>NSString *<b>DPSSelectException;</b><p>
+</LI><LI>NSString *<b>DPSConnectionClosedException;</b><p>
+</LI><LI>NSString *<b>DPSReadException;</b><p>
+</LI><LI>NSString *<b>DPSWriteException;</b><p>
+</LI><LI>NSString *<b>DPSInvalidFDException;</b><p>
+</LI><LI>NSString *<b>DPSInvalidTEException;</b><p>
+</LI><LI>NSString *<b>DPSInvalidPortException;</b><p>
+</LI><LI>NSString *<b>DPSOutOfMemoryException;</b><p>
+</LI><LI>NSString *<b>DPSCantConnectException;</b><p>
+</LI></UL>
+<p>
+</body></html>

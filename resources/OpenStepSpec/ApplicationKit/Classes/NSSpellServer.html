@@ -1,0 +1,202 @@
+<html><head><TITLE>NSSpellServer.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSSpellServer </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSObject (NSObject)
+<p>
+<b>Declared In:	</b>AppKit/NSSpellServer.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+The NSSpellServer class gives you a way to make your particular spelling
+checker a service that's available to any application. A <i>service</i> is an
+application that declares its availability in a standard way, so that any other
+applications that wish to use it can do so. If you build a spelling checker
+that makes use of the NSSpellServer class and list it as an available service,
+then users of any application that makes use of NSSpellChecker or includes a
+Services menu will see your spelling checker as one of the available
+dictionaries.<p>
+<p>
+To make use of NSSpellServer, you write a small program that creates an
+NSSpellServer instance and a delegate that responds to messages asking it to
+find a misspelled word and to suggest guesses for a misspelled word. Send the
+NSSpellServer <b>registerLanguage:byVendor:</b> messages to tell it the
+languages your delegate can handle.<p>
+<p>
+The program that runs your spelling checker should not be built as an
+Application Kit application, but as a simple program. Suppose you supply
+spelling checkers under the vendor name Acme.
+Suppose the file containing the code for your delegate is called
+AcmeEnglishSpellChecker. Then the following might be your program's
+<b>main</b>:<p>
+<p>
+<tt>void main()</tt><p>
+<tt>{</tt><p>
+<tt>  NSSpellServer *aServer = [[NSSpellServer alloc] init];</tt><p>
+<tt>  if ([aServer registerLanguage:"English" byVendor:"Acme"]) {</tt><p>
+<tt>    [aServer setDelegate:[AcmeEnglishSpellChecker alloc] init]];</tt><p>
+<tt>    [aServer run];</tt><p>
+<tt>    fprintf(stderr, "Unexpected death of Acme SpellChecker!\n");</tt><p>
+<tt>  } else {</tt><p>
+<tt>    fprintf(stderr, "Unable to check in Acme SpellChecker.\n");</tt><p>
+<tt>  }</tt><p>
+<tt>}</tt><p>
+<tt></tt><p>
+Your delegate is an instance of a custom subclass. (It's simplest to make it a
+subclass of NSObject, but that's not a requirement.) Given an NSString, your
+delegate must be able to find a misspelled word by implementing the method<b>
+spellServer:findMisspelledWordInString:language:wordCount:countOnly:</b>.
+Usually, this method also reports the number of words it has scanned, but that
+isn't mandatory.<p>
+<p>
+Optionally, the delegate may also suggest corrections for misspelled words. It
+does so by implementing the method
+<b>spellServer:suggestGuessesForWord:inLanguage:</b><p>
+
+
+Service Availability Notice<p>
+<p>
+When there's more than one spelling checker available, the user selects the one
+desired. The application that requests a spelling check uses an NSSpellChecker
+object, and it provides a Spelling panel; in the panel there's a pop-up list of
+available spelling checkers. Your spelling checker appears in that list if it
+has a <i>service descriptor</i>.<p>
+<p>
+A service descriptor is an entry in a text file called <b>services</b>. Usually
+it's located within the bundle that also contains your spelling checker's
+executable file. The bundle (or directory) that contains the services file must
+have a name ending in .service or
+.app. The system looks for service bundles in a
+standard set of directories.<p>
+<p>
+A spell checker service availability notice has a standard format, illustrated
+in the following example for the Acme spelling checker:<p>
+<p>
+<tt>Spell Checker:  Acme</tt><p>
+<tt>Language:  French</tt><p>
+<tt>Language:  English</tt><p>
+<tt>Executable:  franglais.daemon</tt><p>
+<tt></tt><p>
+The first line identifies the type of service; for a spelling checker, it must
+say Spell Checker: followed by your vendor name.
+The next line contains the English name of a language your spelling checker is
+prepared to check. (The language must be one your system recognizes.) If your
+program can check more than one language, use an additional line for each
+additional language. The last line of a descriptor gives the name of the
+service's executable file. (It requires a complete path if it's in a different
+directory.) <p>
+<p>
+If there's a service descriptor for your Acme spelling checker and also a
+service descriptor for the English checker provided by a vendor named
+Consolidated, a user looking at the Spelling panel's pop-up list would see:<p>
+<p>
+<tt>English (Acme)</tt><p>
+<tt>English (Consolidated)</tt><p>
+<tt>French (Acme)</tt><p>
+<tt></tt>
+<b>Illustrative Sequence of Messages to an NSSpellServer</b><p>
+
+The act of checking spelling usually involves the interplay of objects in two
+classes: the user application's NSSpellChecker (which responds to interactions
+with the user) and your spelling checker's NSSpellServer (which provides the
+application interface for your spelling checker). You can see the interaction
+between the two in the following list of steps involved in finding a misspelled
+word.<p>
+<p>
+.	The user of an application selects a menu item to request a spelling check.
+The application sends a message to its NSSpellChecker object. The
+NSSpellChecker in turn sends a corresponding message to the appropriate
+NSSpellServer.<p>
+<p>
+.	The NSSpellServer receives the message asking it to check the spelling of an
+NSString. It forwards the message to its delegate.<p>
+<p>
+.	The delegate searches for a misspelled word. If it finds one, it returns an
+NSRange identifying the word's location in the string. <p>
+<p>
+.	The NSSpellServer receives a message asking it to suggest guesses for the
+correct spelling of a misspelled word, and forwards the message to its
+delegate.<p>
+<p>
+.	The delegate returns a list of possible corrections, which the NSSpellServer
+in turn returns to the NSSpellChecker that initiated the request.<p>
+<p>
+.	The NSSpellServer doesn't know what the user does with the errors its
+delegate has found or with the guesses its delegate has proposed. (Perhaps the
+user corrects the document, perhaps by selecting a correction from the
+NSSpellChecker's display of guesses; but that's not the NSSpellServer's
+responsibility.) However, if the user presses the Learn or Forget buttons
+(thereby causing the NSSpellChecker to revise the user's word list), the
+NSSpellServer receives a notification of the word thus learned or forgotten.
+It's up to you whether your spell checker acts on this information. If the user
+presses the Ignore button, the delegate is not notified (but the next time that
+word occurs in the text, the method <b>isWordInUserDictionaries:caseSensitive:
+</b>will report YES rather than NO).<p>
+<p>
+.	Once the NSSpellServer delegate has reported a misspelled word, it has
+completed its search. Of course, it's likely that the user's application will
+then send a new message, this time asking the NSSpellServer to check a string
+containing the part of the text it didn't get to earlier.<p>
+<p>
+
+<b>Checking in Your Service </b><p>
+
+<UL><LI> - (BOOL)<b>registerLanguage:</b>(NSString *)<i>language</i>	Registers a
+spelling server for <i>language</i> by <i>vendor</i>.
+<b>byVendor:</b>(NSString *)<i>vendor</i>	</LI></UL>
+<b>Assigning a Delegate </b><p>
+
+<UL><LI> - (id)<b>delegate</b>	Returns the NSSpellServer's delegate. 
+</LI><LI> -  (void)<b>setDelegate:</b>(id)<i>anObject</i>	Sets the delegate of the
+NSSpellServer. </LI></UL>
+<b>Running the Service </b><p>
+
+<UL><LI> - (void)<b>run</b>	Makes the NSSpellServer start listening for spell-checking
+requests. This method should not return.</LI></UL>
+<b>Checking User Dictionaries </b><p>
+
+<UL><LI> - (BOOL)<b>isWordInUserDictionaries:</b>(NSString *)<i>word</i>
+<i></i><b>caseSensitive:</b>(BOOL)<i>flag</i>	Returns whether <i>word</i> is in
+any open user dictionary; the search is case-sensitive if <i>flag</i> is YES.</LI></UL>
+<b>Methods Implemented by the Delegate </b><p>
+
+<UL><LI> - (NSRange)<b>spellServer:</b>(NSSpellServer *)<i>sender</i>	Search for a
+misspelled word in <i>stringToCheck</i>, using
+<b>findMisspelledWordInString:		</b><i>language</i>, and marking the first<b>
+</b>misspelled word found 
+     (NSString *)<i>stringToCheck       </i>		by returning its range within the
+string object. In 
+<b>language:</b>(NSString *)<i>language</i>		<i>wordCount</i> return by
+reference the number of words
+<b>wordCount:</b>(int *)<i>wordCount</i>		from the beginning of the string
+object until the 
+<b>countOnly:</b>(BOOL)<i>countOnly</i>	 	misspelled word (or the
+end-of-string). If <i>countOnly</i> is YES, just count the words in the string
+object; do not spell-check. Send <b>isWordInUserDictionaries:caseSensitive:</b>
+to the spelling server to determine if <i>word</i> exists in the user's
+language dictionaries.
+</LI><LI> -  (NSArray *)<b>spellServer:</b>(NSSpellServer *)<i>sender</i>	Search for
+alternatives to the misspelled <i>word</i> in
+<b>suggestGuessesForWord:</b>(NSString *)<i>word</i>		<i>language</i>. Return
+guesses as an array of string objects.
+<b>inLanguage:</b>(NSString *)<i>language</i>
+<i></i></LI><LI> -  (void)<b>spellServer:</b>(NSSpellServer *)<i>sender</i>	Notifies the delegate
+of a <i>word</i> added to the user's hidden
+<b>didLearnWord:</b>(NSString *)<i>word</i>		word list. 
+<b>inLanguage:</b>(NSString *)<i>language</i>
+<i></i></LI><LI> -  (void)<b>spellServer:</b>(NSSpellServer *)<i>sender</i>	Notifies the delegate
+of a <i>word</i> removed from the user's
+<b>didForgetWord:</b>(NSString *)<i>word</i>		 hidden word list. 
+<b>inLanguage:</b>(NSString *)<i>language</i>
+<i></i>
+</body></html>

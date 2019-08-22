@@ -1,0 +1,111 @@
+<html><head><TITLE>NSValue.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSValue </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding, NSCopying
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>Foundation/NSValue.h<p>
+Foundation/NSGeometry.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSValue objects provide an object-oriented wrapper for the data types defined
+in standard C and Objective C. The NSValue class is often used to put Objective
+C and standard C data types into collections that require objects, such as
+NSArray objects. When a value object is instantiated, it is encoded with the
+specified data type.<p>
+<p>
+The NSValue class declares the programmatic interface to an object that
+contains a C data type. It provides methods for creating value objects that
+contain values of a specified data type, pointers, and other objects.<p>
+<p>
+Use NSValue objects to put C types into collections. Use NSNumber objects to
+put numbers into collections.<p>
+<p>
+The following code puts an NSRange into an NSArray, using the Objective C
+<b>@encode</b> directive to get a character string that encodes the type
+structure of NSRange:<p>
+<p>
+<tt>[myArray insertObject:[NSValue value:&amp;range
+withObjCType:@encode(NSRange)] atIndex:n]</tt><p>
+<tt></tt><p>
+To get the value back, you would do this:<p>
+<p>
+<tt>[[myArray objectAtIndex:n] getValue:&amp;range]</tt><p>
+<tt></tt><p>
+NSValue objects are provided with generic coding and copying behavior. To
+subclass NSValue and preserve class when encoding or copying, override
+<b>classForCoder</b>, <b>initWithCoder:,</b> <b>encodeWithCoder:</b> (for
+encoding), and <b>copyWithZone:</b> (for copying).<p>
+<p>
+
+<b>General Exception Conditions</b><p>
+
+
+NSValue can raise NSInternalInconsistencyException in a variety of cases where
+an unkown Objective C type is found. In addition, NSValue's implementation of
+<b>encodeWithCoder:</b> can raise NSInvalidArgumentException if an attempt is
+made to encode <b>void</b>.<p>
+<p>
+
+<b>Allocating and Initializing Value Objects</b><p>
+
+<UL><LI> + (NSValue *)<b>value:</b>(const void *)<i>value</i>	Creates and returns a
+value object containing the value 
+<b>withObjCType:</b>(const char *)<i>type</i>	<i>	value</i> of the Objective C
+type <i>type</i>.
+</LI><LI> +  (NSValue *)<b>valueWithNonretainedObject:</b> (id)<i>anObject</i>
+<i></i>	Creates and returns a value object containing the object
+<i>anObject,</i> without retaining <i>anObject</i>. This is provided as a
+convenience method: the statement [NSValue
+valueWithNonretainedOject:<i>anObject</i>] is equivalent to the statement
+[NSValue value:&amp;<i>anObject</i> withObjCType:@encode(void *)].
+</LI><LI> +  (NSValue *)<b>valueWithPointer:</b>(const void *)<i>pointer</i>
+<i></i>	Creates and returns a value object that contains the specified pointer.
+This is provided as a convenience method: the statement [NSValue
+valueWithPointer:<i>pointer</i>] is equivalent to the statement [NSValue
+value:&amp;<i>pointer</i> withObjCType:@encode(void *)].</LI></UL>
+<b>Allocating and Initializing Geometry Value Objects</b><p>
+
+<UL><LI> + (NSValue *)<b>valueWithPoint:</b>(NSPoint)<i>point	</i>Creates and returns a
+value object that contains the specified<i> </i>NSPoint structure (which
+represents a geometrical point in two dimensions).
+</LI><LI> +  (NSValue *)<b>valueWithRect:</b>(NSRect)<i>rect	</i>Creates and returns a
+value object that contains the specified<i> </i>NSRect structure, representing
+a rectangle.
+</LI><LI> +  (NSValue *)<b>valueWithSize:</b>(NSSize)<i>size</i>	Creates and returns a
+value object that contains the specified<i> </i>NSSize structure (which stores
+a width and a height).</LI></UL>
+<b>Accessing Data in Value Objects</b><p>
+
+<UL><LI> - (void)<b>getValue:</b>(void *)<i>value</i>	Copies the receiver's data into
+<i>value</i>.
+</LI><LI> -  (id)<b>nonretainedObjectValue</b>	Returns the non-retained object that's
+contained in the receiver. It's an error to send this message to an NSValue
+object that doesn't store a nonretained object. 
+</LI><LI> -  (const char *)<b>objCType</b>	Returns the Objective C type of the data
+contained in the receiver.
+</LI><LI> -  (void *)<b>pointerValue</b>	Returns the value pointed to by a pointer
+contained in an value object. It's an error to send this message to an NSValue
+that doesn't store a pointer.</LI></UL>
+<b>Accessing Data in Value Geometry Objects</b><p>
+
+<UL><LI> - (NSPoint)<b>pointValue</b>	Returns the point structure that's contained in
+the receiver.
+</LI><LI> -  (NSRect)<b>rectValue</b>	Returns the rectangle structure that's contained in
+the receiver.
+</LI><LI> -  (NSSize)<b>sizeValue	</b>Returns the size structure that's contained in the
+receiver<b>.</b></LI></UL>
+<p>
+</body></html>

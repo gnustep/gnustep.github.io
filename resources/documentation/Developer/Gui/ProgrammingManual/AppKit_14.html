@@ -1,0 +1,280 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- C 2005-2006 Christopher Armstrong.
+
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2, as published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included in the section entitled "GNU Free Documentation License".
+
+This documentation is provided on an "AS IS" BASIS, WITHOUT WARRANTY
+OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED
+TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND USEFULNESS
+OF THE DOCUMENTATION IS WITH YOU (THE LICENSEE). IN NO EVENT WILL THE COPYRIGHT
+HOLDERS BE LIABLE FOR DAMAGES, INCLUDING ANY DIRECT, INDIRECT,
+SPECIAL, GENERAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF
+THE USE OR INABILITY TO USE THIS DOCUMENTATION (INCLUDING BUT NOT
+LIMITED TO LOSS OF DATA, USE, OR PROFITS; PROCUREMENT OF SUBSTITUTE
+GOODS AND SERVICES; OR BUSINESS INTERUPTION) HOWEVER CAUSED, EVEN
+IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ -->
+<!-- Created on December 24, 2013 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Using the GNUstep AppKit 0.1: 14. Images and Imageviews</title>
+
+<meta name="description" content="Using the GNUstep AppKit 0.1: 14. Images and Imageviews">
+<meta name="keywords" content="Using the GNUstep AppKit 0.1: 14. Images and Imageviews">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="images"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="AppKit_13.html#Using-Services" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_14.html#Using-NSImage" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit_13.html#dataexchange" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_15.html#fdl" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="AppKit_16.html#conceptindex" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Images-and-Imageviews-1"></a>
+<h1 class="chapter">14. Images and Imageviews</h1>
+
+<p><a name="Images-and-Imageviews"></a>
+GNUstep provides mechanisms for the retreival and display of images. A number of objects beginning with <code>NSImage</code><a name="DOCF17" href="AppKit_fot.html#FOOT17">(17)</a> exist, each with slightly different functions.
+</p>
+<p>An <em>image</em> is represented using an instance of the <code>NSImage</code> class. You can create these using the path or URL of a file, raw image data or a pasteboard.
+</p>
+<p>Images may contain zero or more image representations, or <em>imagereps</em>. For example, a photographic image may contain both black and white and colour representations, or representations at different resolutions. The purpose of this is to allow GNUstep to select the best representation for a particular device. GNUstep may select a lower-resolution representation for a screen, while selecting the highest resolution representation for printed output. If there was also a vector representation, it may choose to use it for printed output. An imagerep is represented by an instance of a <code>NSImageRep</code> subclass.
+</p>
+<p>An image by itself is not enough for rendering. Images are rendered on a window using an <code>NSImageView</code> object. These let you set the alignment and scaling for displaying the image. They also let you set a graphical border using the <code>-setFrameStyle:</code> method. <code>NSImageView</code> is a control, so the normal control/cell model applies to it.
+</p>
+<p>If you only need to display an image on it&rsquo;s own, use <code>NSImageView</code>. For more complicated image rendering, e.g. inside of custom views, use <code>NSImage</code> to draw or composite at a certain point.
+</p>
+<hr size="6">
+<a name="Using-NSImage"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="AppKit_14.html#images" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_14.html#Drawing-Images" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit_14.html#images" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_14.html#images" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_15.html#fdl" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="AppKit_16.html#conceptindex" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">14.1 Using NSImage</h2>
+
+<p>Whether using <code>NSImageView</code> or not, you will have to create an <code>NSImage</code> object. It provides a number of constructors for loading an image with a path, a URL or a data object (<code>NSData</code>). Note that for loading from a file or URL, two sets of methods are provided. These have subtly different meanings, as shown below:
+</p>
+<dl compact="compact">
+<dt> <code>-initWithContentsOfFile:</code></dt>
+<dt> <code>-initWithContentsOfURL:</code></dt>
+<dd><p>These methods load the image from the specified location, and create image representations for rendering later.
+</p>
+</dd>
+<dt> <code>-initByReferencingFile:</code></dt>
+<dt> <code>-initByReferencingURL:</code></dt>
+<dd><p>These methods don&rsquo;t actually load the image straight away. Instead, when you try to composite or draw the image at a location, it loads the image from disk and generates a representation at that time.
+</p>
+</dd>
+</dl>
+
+<p>From here, an image can be drawn within a view using any of the drawing/compositing/dissolving methods. You can also get at the imagereps using the <code>-representations</code> method (amongst others).
+</p>
+<hr size="6">
+<a name="Drawing-Images"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="AppKit_14.html#Using-NSImage" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_14.html#Working-with-image-representations" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit_14.html#images" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_14.html#images" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_15.html#fdl" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="AppKit_16.html#conceptindex" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">14.2 Drawing Images</h2>
+
+<p><code>NSImage</code> provides a number of methods for drawing an image. It also provides quite a number means to control how an image is composited at its destination.<a name="DOCF18" href="AppKit_fot.html#FOOT18">(18)</a> <em>Compositing</em> refers to the way the image is rendered onto the destination surface.
+</p>
+<p>Simply drawing an image into your view may be achieved with the <code>-drawRepresentation:inRect:</code> method. In other cases, you may wish to draw it onto a destination surface with a compositing operation, in which case you can use the <code>-drawAtPoint:fromRect:operation:fraction:</code> or <code>-drawInRect:fromRect:operation:fraction:</code> methods.
+</p>
+<p>These take a rectangle from the source image, and composite it onto a destination surface. The compositing operation specifies how the image is blended with the destination surface, and is a constant in <code>NSCompositingOperation</code>. These constants define what the destination image looks like after a composite, as a result of combining the source and destination image. <a name="DOCF19" href="AppKit_fot.html#FOOT19">(19)</a>
+</p><dl compact="compact">
+<dt> <code>NSCompositeClear</code></dt>
+<dd><p>The destination is left transparent.
+</p>
+</dd>
+<dt> <code>NSCompositeCopy</code></dt>
+<dd><p>The source image appears at the destination.
+</p>
+</dd>
+<dt> <code>NSCompositeSourceOver</code></dt>
+<dd><p>The source image appears wherever it is opaque, and the destination image elsewhere.
+</p>
+</dd>
+<dt> <code>NSCompositeSourceIn</code></dt>
+<dd><p>The source image appears wherever both the source and destination are opaque, and is transparent elsewhere.
+</p>
+</dd>
+<dt> <code>NSCompositeSourceOut</code></dt>
+<dd><p>The source image appears where the source image is opaque but the destination image is transparent, and is transparent elsewhere.
+</p>
+</dd>
+<dt> <code>NSCompositeSourceAtop</code></dt>
+<dd><p>The source image appears wherever both images are opaque, the destination appears wherever the destination is opaque but the source image is transparent, and the result is transparent elsewhere.
+</p>
+</dd>
+<dt> <code>NSCompositeDestinationOver</code></dt>
+<dd><p>The destination image appears wherever it is opaque, and the source image elsewhere.
+</p>
+</dd>
+<dt> <code>NSCompositeDestinationIn</code></dt>
+<dd><p>The destination image appears where both images are opaque, and the result is transparent elsewhere.
+</p>
+</dd>
+<dt> <code>NSCompositeDestinationOut</code></dt>
+<dd><p>The destination image appears wherever it is opaque but the source image is transparent, and it is transparent elsewhere.
+</p>
+</dd>
+<dt> <code>NSCompositeDestinationAtop</code></dt>
+<dd><p>The destination image appears wherever both images are opaque, the source image appears wherever the source image is opaque but the destination is transparent, and the result is transparent elsewhere.
+</p>
+</dd>
+<dt> <code>NSCompositeXOR</code></dt>
+<dd><p>The result of and exclusive OR operation between the bits defining the pixels in bothe images.
+</p>
+</dd>
+<dt> <code>NSCompositePlusDarker</code></dt>
+<dd><p>The result of adding the values of the colour components of the pixels in both images, with the result approaching zero as a limit.
+</p>
+</dd>
+<dt> <code>NSCompositePlusLighter</code></dt>
+<dd><p>The result of adding the values of the colour components of the pixels in both images, with the result approaching one as a limit.
+</p></dd>
+</dl>
+
+<p>The <var>fraction</var> parameter corresponds to the coverage of the source alpha channel with zero making the source transparent and one making the source fully opaque.
+</p>
+<hr size="6">
+<a name="Working-with-image-representations"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="AppKit_14.html#Drawing-Images" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_15.html#fdl" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit_14.html#images" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_14.html#images" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_15.html#fdl" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="AppKit_16.html#conceptindex" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">14.3 Working with image representations</h2>
+
+<p>Quite a number of classes inherit from <code>NSImageRep</code> to provide means to load different types of image formats, such as bitmaps, TIFF images, etc:
+</p><dl compact="compact">
+<dt> <code>NSBitmapImageRep</code></dt>
+<dd><p>For bitmap (raster) images, <code>NSBitmapImageRep</code> is used. PNG, JPG and TIFF image file formats would be represented with the class. 
+</p>
+<p>You can retreive information about the image with methods such as <code>-bitsPerPixel</code> or <code>-isPlanar</code>. For image formats that can store metadata (such as resolution information or camera settings), the <code>-valueForProperty:</code> and <code>-setProperty:withValue:</code> methods can be used to manipulate it.
+</p>
+<p>If necessary, it contains initialisers for instantiating it from raw data(<code>-initWithData:</code>) and from the display (<code>-initWithFocusedViewRect:</code>.
+</p>
+</dd>
+<dt> <code>NSCachedImageRep</code></dt>
+<dd><p>This image representation is cached bitmap left over from the result of executing some instructions or data. It lives inside an off-screen window.
+</p>
+</dd>
+<dt> <code>NSCustomImageRep</code></dt>
+<dd><p>These are representations which can be drawn in a manner that is defined by the application. You initialize these with a selector that is executed against a delegate object when <code>-draw</code> is called on the representation.
+</p>
+</dd>
+<dt> <code>NSEPSImageRep</code></dt>
+<dd><p>Unsupported.
+</p>
+</dd>
+</dl>
+
+<p>The <code>NSImageRep</code> class itself also provides a number of methods for gaining information about what kinds of file formats GNUstep supports, and for instantiating images dynamically based on raw image data or the contents of a file or URL.
+</p>
+
+
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="AppKit_14.html#images" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_15.html#fdl" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="AppKit_16.html#conceptindex" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>Adam Fedor</em> on <em>December 24, 2013</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

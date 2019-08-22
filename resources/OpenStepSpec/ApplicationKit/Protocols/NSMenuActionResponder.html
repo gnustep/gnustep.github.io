@@ -1,0 +1,95 @@
+<html><head><TITLE>NSMenuActionResponder.html</TITLE><!-- This document was created from RTF source by rtftohtml version
+2.7.4 --></head><body><A HREF="../../OpenStepSpec.html">Return to the Main Index</A><br><A HREF="index.html">Return to the Alphabetic Index</A><br><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+<b></b><p>
+<b>NSMenuActionResponder</b><p>
+<b>(informal protocol)</b><p>
+<b></b><p>
+<b>Category Of:	</b>NSObject<p>
+<p>
+<b>Declared In:	</b>AppKit/NSMenu.h <p>
+<p>
+<b></b><p>
+<b>Protocol Description</b><p>
+<b></b><p>
+<b></b><p>
+This informal protocol allows your application to update the enabled or
+disabled status of an NSMenuCell. It declares only one method,
+<b>validateCell:</b>. By default, every time a user event occurs, NSMenu
+automatically enables and disables each visible menu cell based on criteria
+described later in this specification. Implement <b>validateCell:</b> in cases
+where you want to override NSMenu's default enabling scheme. This is described
+in more detail later.<p>
+<p>
+There are two ways that NSMenuCells can be enabled or disabled: Explicitly, by
+sending the <b>setEnabled:</b> message, or automatically, as described below.
+NSMenuCells are updated automatically unless you send the message
+<b>setAutoenablesItems:NO</b> to the NSMenu object. You should never mix the
+two. That is, never use <b>setEnabled:</b> unless you have disabled the
+automatic updating. <p>
+<p>
+<b></b><p>
+<b>Automatic Updating of NSMenuCells</b><p>
+<b></b><p>
+Whenever a user event occurs, the NSMenu object updates the status of every
+visible menu cell. To update the status of a menu cell, NSMenu tries to find
+the object that responds to the NSMenuCell's action message. It searches the
+following objects in the following order until it finds one that responds to
+the action message. <p>
+<p>
+.	the NSMenuCell's target<p>
+<p>
+.	the key window's first responder<p>
+<p>
+.	the key window's delegate<p>
+<p>
+.	the main window's first responder<p>
+<p>
+.	the main window's delegate<p>
+<p>
+.	the NSApplication object<p>
+<p>
+.	the NSApplication's delegate<p>
+<p>
+.	the NSMenu's delegate<p>
+<p>
+If none of these objects responds to the action message, the menu cell is
+disabled. If NSMenu finds an object that responds to the action message, it
+then checks to see if that object responds to the <b>validateCell:</b> message
+(the method defined in this informal protocol). If <b>validateCell:</b> is not
+implemented in that object, the menu cell is enabled. If it is implemented, the
+return value of <b>validateCell:</b> indicates whether the menu cell should be
+enabled or disabled.<p>
+<p>
+For example, the NSText object implements the <b>copy:</b> method. If your
+application has a Copy menu cell that sends the <b>copy:</b> action message to
+the first responder, that menu cell is automatically enabled any time an NSText
+object is the first responder of the key or main window. If you have an object
+that might become the first responder and that object could allow users to
+select something that they aren't allowed to copy, you can implement the
+<b>validateCell:</b> method in that object. <b>validateCell:</b> can return NO
+if the forbidden items are selected and YES if they aren't. By implementing
+<b>validateCell:</b>, you can have the Copy menu item disabled even though its
+target object implements the <b>copy:</b> method. If instead your object
+<i>never</i> permits copying, then you would simply not implement <b>copy:</b>
+in that object, and the cell would be disabled automatically whenever the
+object is first responder.<p>
+<p>
+If you send a <b>setEnabled:</b> message to enable or disable a menu cell when
+the automatic updating is turned on, other objects might reverse what you have
+done after another user event occurs. Using <b>setEnabled:</b>, you can never
+be sure that a menu cell is enabled or disabled or will remain that way. If
+your application must use <b>setEnabled:</b>, you must turn off the automatic
+enabling of menu cells (by sending <b>setAutoEnablesItems:NO</b> to NSMenu) in
+order to get predictable results.<p>
+<p>
+<b></b><p>
+<b>Updating NSMenuCells</b><p>
+<b></b><p>
+<b></b><p>
+- (BOOL)<b>validateCell:</b>(id)<i>aCell	</i>Implemented to override the
+default action of updating an NSMenuCell. Return YES to enable the NSMenuCell,
+NO to disable it.<p>
+</body></html>

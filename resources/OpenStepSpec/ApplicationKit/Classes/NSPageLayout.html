@@ -1,0 +1,89 @@
+<html><head><TITLE>NSPageLayout.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSPageLayout </b><p>
+
+<B>Inherits From: </B><A HREF="NSPanel.html">NSPanel</A> : <A HREF="NSWindow.html">NSWindow</A> : <A HREF="NSResponder.html">NSResponder</A> : <A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding (NSResponder)
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSPageLayout.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSPageLayout is a type of NSPanel that queries the user for information such as
+paper type and orientation. This information is stored in an NSPrintInfo
+object, and is later used when printing. The NSPageLayout panel is created,
+displayed, and run (in a modal loop) when a <b>runPageLayout:</b> message is
+sent to the NSApplication object. By default, this message is sent up the
+responder chain when the user clicks the Page Layout menu item.<p>
+<p>
+Typically, you access an NSPageLayout panel by invoking the <b>pageLayout</b>
+method. When the class receives a <b>pageLayout</b> message, it tries to reuse
+an existing panel rather than create a new one. If a panel is reused, its
+attributes are reset to the default values so that the effect is the same as
+receiving a new panel. Because Page Layout panels may be reused, you shouldn't
+modify the instance returned by <b>pageLayout</b>, except through the methods
+listed below. If you must modify the Page Layout panel in other ways than those
+allowed by its methods, create and manage your own instance using the
+<b>alloc...</b> and <b>init...</b> methods rather than the <b>pageLayout</b>
+method.<p>
+<p>
+You can add your own controls to the Page Layout panel through the
+<b>setAccessoryView:</b> method. The panel is automatically resized to
+accommodate the NSView that you've added. Note that you can't retrieve the
+NSPageLayout's settings through messages to the page layout panel
+objectNSPageLayout does not have accessor methods to obtain the state of
+its controls. If controls you add through an accessory view need to know the
+values of the existing controls in the page layout panel (or vice versa),
+access NSPageLayout's controls using the tags defined in AppKit/NSPageLayout.h
+as arguments to <b>viewWithTag:</b> messages to the page layout panel object.
+Controls thus returned can then be queried for their state.<p>
+<p>
+
+<b>Creating an NSPageLayout Instance </b><p>
+
+<UL><LI> + (NSPageLayout *)<b>pageLayout</b>	Returns a default NSPageLayout object.</LI></UL>
+<b>Running the Panel </b><p>
+
+<UL><LI> - (int)<b>runModal</b>	Displays the panel and begins its event loop. The
+panel's values are recorded in the shared NSPrintInfo object.
+</LI><LI> -  (int)<b>runModalWithPrintInfo:</b>(NSPrintInfo *)<i>pInfo	</i>
+<i></i>	Displays the panel and begins its event loop<i>. </i>The panel's values
+are recorded in the <i>pInfo</i>, the supplied NSPrintInfo object.</LI></UL>
+<b>Customizing the Panel </b><p>
+
+<UL><LI> - (NSView *)<b>accessoryView</b>	Returns the NSPageLayout's accessory View.
+</LI><LI> -  (void)<b>setAccessoryView:</b>(NSView *)<i>aView</i>	Adds a View to the
+panel.</LI></UL>
+<b>Updating the Panel's Display </b><p>
+
+<UL><LI> - (void)<b>convertOldFactor:</b>(float *)<i>old</i>	 Returns by reference the
+ratio between a point and the
+<b>newFactor:</b>(float *)<i>new</i>	 	currently chosen unit of measurement. If
+invoked within the <b>pickedUnits:</b> method, <i>old</i> refers to the ratio
+before the user's choice and <i>new</i> refers to the new ratio.
+</LI><LI> -  (void)<b>pickedButton:</b>(id)<i>sender</i>	Stops the event loop.
+</LI><LI> -  (void)<b>pickedOrientation:</b>(id)<i>sender</i>	Updates the panel with the
+selected orientation.
+</LI><LI> -  (void)<b>pickedPaperSize:</b>(id)<i>sender</i>	Updates the panel when a paper
+size is selected.
+</LI><LI> -  (void)<b>pickedUnits:</b>(id)<i>sender</i>	Updates the panel when a new unit
+is selected.</LI></UL>
+<b>Communicating with the NSPrintInfo Object </b><p>
+
+<UL><LI> - (NSPrintInfo *)<b>printInfo	</b>Returns the NSPrintInfo object that used when
+the panel is run.
+</LI><LI> -  (void)<b>readPrintInfo</b>	Reads the NSPageLayout's values from the
+NSPrintInfo object.
+</LI><LI> -  (void)<b>writePrintInfo</b>	Writes the NSPageLayout's values to the
+NSPrintInfo object.
+</body></html>

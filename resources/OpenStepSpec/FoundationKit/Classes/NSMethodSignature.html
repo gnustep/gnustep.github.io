@@ -1,0 +1,74 @@
+<html><head><TITLE>NSMethodSignature.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSMethodSignature </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSObject (NSObject)
+<p>
+<b>Declared In:	</b>Foundation/NSMethodSignature.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSMethodSignature provides the programmatic interface to objects that provide
+access to the type signatures of an object's
+methodsthat is, the types of the arguments and return value. A <i>method
+signature </i>is used by the distributed objects machinery to determine how to
+correctly encode method names and arguments for the underlying inter-process
+communications. The typical use of method signatures is when a message is sent
+to a remote object <i>via</i> a proxy. If the proxy doesn't know the types of
+arguments a remote object will use, the proxy first has to query the remote
+object for its method signature object, which specifies the types the method
+requires as arguments. The proxy then knows how to encode the data it has been
+passed and forward it correctly to the real object.<p>
+<p>
+You create a method signature object by sending a <b>signatureWithObjCTypes</b>
+method to the NSMethodSignature class object, passing a
+C-style character string which specifies the
+method's return types and argument types.<p>
+<p>
+Given a method signature, all other available instance methods query the object
+for information about the signature, such as its return type, number of
+arguments, stack frame size (obviously architecture-dependent), and so on.<p>
+<p>
+Also see NSInvocation for the class which can use method signature objects to
+send messages to other objects.<p>
+<p>
+
+<b>Creating a Method Signature</b><p>
+
+<UL><LI> + (NSMethodSignature *)<b>signatureWithObjCTypes:</b>(const char
+*)<i>types</i>
+<i></i>	Creates a method signature object given <i>types</i>, a string encoding
+the method return and argument types. </LI></UL>
+<b>Querying a Method Signature</b><p>
+
+<UL><LI> - (NSArgumentInfo)<b>argumentInfoAtIndex:</b>(unsigned)<i>index</i>
+<i></i>	Returns information about the argument at <i>index</i>. Indices begin
+with 0. The hidden arguments <b>self</b> and
+<b>_cmd</b> are indexed at 0 and 1; method-specific arguments begin at index 2.
+If <i>index</i> is too large for the actual number of arguments,
+NSInvalidArgumentException is raised.
+</LI><LI> -  (unsigned)<b>frameLength</b>	Returns the number of bytes that the arguments,
+taken together, would occupy on the stack. 
+</LI><LI> -  (BOOL)<b>isOneway</b>	Returns YES if the method is asynchronous (that is, it
+returns without waiting for the receiver to finish processing it), and NO
+otherwise.
+</LI><LI> -  (unsigned)<b>methodReturnLength</b>	Returns the number of bytes required by
+the return value.
+</LI><LI> -  (char *)<b>methodReturnType</b>	Returns a string encoding the return type of
+the method. (What the characters in the string represent is usually defined by
+some implementation-dependent runtime types.)
+</LI><LI> -  (unsigned)<b>numberOfArguments</b>	Returns the number of arguments recorded
+in the receiver. This will be at least two, since it includes the
+hidden arguments, <b>self</b> and <b>_cmd</b>,
+which are the first two arguments passed to every method implementation.
+</body></html>

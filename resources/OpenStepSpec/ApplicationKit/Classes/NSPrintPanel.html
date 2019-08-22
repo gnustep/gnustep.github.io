@@ -1,0 +1,91 @@
+<html><head><TITLE>NSPrintPanel.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSPrintPanel </b><p>
+
+<B>Inherits From: </B><A HREF="NSPanel.html">NSPanel</A> : <A HREF="NSWindow.html">NSWindow</A> : <A HREF="NSResponder.html">NSResponder</A> : <A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding (NSResponder)
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSPrintPanel.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSPrintPanel creates a Print panel. The Print panel queries the user for
+information about a print job, such as which pages to print and how many
+copies. <p>
+<p>
+When a <b>print:</b> message is sent to an NSView or NSWindow, an
+NSPrintOperation object is created to control the print operation, which
+includes deciding whether or not to use an NSPrintPanel. The NSPrintPanel will
+be used unless the <b>setShowPanels:NO</b> message is sent to the
+NSPrintOperation. If you're subclassing NSPrintPanel, send the
+<b>setPrintPanel</b> message to the NSPrintOperation object to ensure that an
+instance of your subclass is the unique NSPrintPanel for that operation.<p>
+<p>
+Short of subclassing NSPrintPanel, you can augment its display by adding a
+custom NSView through the <b>setAccessoryView:</b> method. The panel is
+automatically resized to accommodate the NSView that you add. Note, however,
+that you don't have to create controls for special printer features. If a
+printer includes features in the OpenUI field of
+its PostScript Printer Description (PPD) table, these features will be
+displayed in a separate panel that's brought up when the user clicks the Print
+panel's Options button. For more information on a printer's PPD table, see the
+NSPrinter class description.<p>
+<p>
+Typically, you access an NSPrintPanel by invoking the <b>printPanel</b> method.
+When the class receives a <b>printPanel</b> message, it tries to reuse an
+existing panel rather than create a new one. When a panel is reused, its
+attributes are reset to the default values so that the effect is the same as
+receiving a new panel. Because a Print panel may be reused, you shouldn't
+modify the instance returned by <b>printPanel</b>, except through the methods
+listed below. For example, you can set the accessory view, but not the
+arrangement of the buttons within the panel. If you must modify the Print panel
+substantially, create and manage your own instance using the <b>alloc...</b>
+and <b>init...</b> methods rather than the <b>printPanel</b> method.<p>
+<p>
+An application stores printing information in an NSPrintInfo object.
+NSPrintPanel's <b>updateFromPrintInfo</b> reads the NSPrintInfo object's
+information into the Print panel. <b>finalWritePrintInfo</b> updates the
+NSPrintInfo object if the user changes the information on the Print panel. When
+the NSPrintOperation object is created, an NSPrintInfo object is also selected
+for the operation. The NSPrintOperation creates a copy of the NSPrintInfo.
+<b>finalWritePrintInfo</b> actually writes to that copy.<p>
+<p>
+
+<b>Creating an NSPrintPanel </b><p>
+
+<UL><LI> + (NSPrintPanel *)<b>printPanel</b>	Returns a default NSPrintPanel object.</LI></UL>
+<b>Customizing the Panel </b><p>
+
+<UL><LI> - (void)<b>setAccessoryView:</b>(NSView *)<i>aView</i>	Adds an NSView to the
+panel.
+</LI><LI> -  (NSView *)<b>accessoryView</b>	Returns the accessory NSView.</LI></UL>
+<b>Running the Panel </b><p>
+
+<UL><LI> - (int)<b>runModal</b>	Displays the Print panel and begins its event loop. If
+it is necessary to resize the panel in order to accommodate the list of
+printers, this method posts the notification NSWindowDidResizeNotification with
+the receiving object to the default notification center.
+</LI><LI> -  (void)<b>pickedButton:</b>(id)<i>sender</i>	Stops the event loop.</LI></UL>
+<b>Updating the Panel's Display </b><p>
+
+<UL><LI> - (void)<b>pickedAllPages:</b>(id)<i>sender</i>	Updates the panel when the user
+chooses all pages.
+</LI><LI> -  (void)<b>pickedLayoutList:</b>(id)<i>sender</i>	Updates the panel when the
+user chooses a new layout.</LI></UL>
+<b>Communicating with the NSPrintInfo Object </b><p>
+
+<UL><LI> - (void)<b>updateFromPrintInfo</b>	Reads NSPrintPanel's values from the
+NSPrintInfo object.
+</LI><LI> -  (void)<b>finalWritePrintInfo</b>	Writes NSPrintPanel's values to the
+NSPrintInfo object.
+</body></html>

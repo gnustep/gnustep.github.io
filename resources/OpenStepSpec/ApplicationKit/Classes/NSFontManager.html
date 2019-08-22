@@ -1,0 +1,184 @@
+<html><head><TITLE>NSFontManager.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSFontManager</b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSObject (NSObject)
+<p>
+<b>Declared In:	</b>AppKit/NSFontManager.h<p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSFontManager declares the programmatic interface to objects that manage font
+conversion in an application. NSFontManager is the center of activity for font
+conversion. NSFontManager accepts messages from font conversion user-interface
+objects such as the Font menu or the Font panel (see NSFontPanel for more
+details) and appropriately converts the current font in the selection by
+sending a <b>changeFont:</b> message up the responder chain.<p>
+<p>
+When an object receives a <b>changeFont:</b> message, it should message
+NSFontManager (by sending it a <b>convertFont:</b> message), asking it to
+convert the font in whatever way the user has specified. Thus, any object
+containing a font that can be changed should respond to the <b>changeFont:</b>
+message by sending a <b>convertFont:</b> message back to the NSFontManager for
+each font in the selection.<p>
+<p>
+To use NSFontManager, you simply insert a Font menu into your application's
+menu using the appropriate interface construction tools (such as Interface
+Builder). You can also obtain a Font menu by sending a <b>getFontMenu:</b>
+message to NSFontManager and then inserting the menu it returns into the
+application's main menu. Once the Font menu is installed, your application
+automatically gains the functionality of both the Font menu and the Font
+panel.<p>
+<p>
+NSFontManager's delegate can restrict which font names will appear in the Font
+Panel. See Methods Implemented by the Delegate
+at the end of this class specification for more information.<p>
+<p>
+NSFontManager can be used to convert a font or find out the attributes of a
+font. It can also be overridden to convert fonts in some application-specific
+manner. The default implementation of font conversion is very conservative: The
+font isn't converted unless all traits of the font can be maintained across the
+conversion.<p>
+<p>
+Generally, you obtain an instance of NSFontManager by sending a
+<b>sharedFontManager</b> message to the NSFontManager class object.
+NSFontManager will return a font manager object that is shared within your
+application. NSFontManager normally returns a pre-defined font manager object,
+but the actual object which is returned can be changed by previously invoking
+the <b>setFontManagerFactory</b> factory to some other kind of object.<p>
+<p>
+
+<b>Font Traits</b><p>
+
+Fonts work mainly in terms of <i>traits</i>, or characteristics, such as bold,
+italic, condensed, and so on. Traits are described by a collection of constants
+such as <b>NSItalicFontMask</b>, <b>NSBoldFontMask</b>, and so on. The full
+complement of traits are defined in AppKit/NSFontManager.h. The values of
+traits are defined in bitwise form so they can be or'ed together, although some
+traits, such as <b>NSBoldFontMask</b> and <b>NSUnboldFontMask</b> naturally
+conflict and have the effect of turning each other off. You use one of the
+<b>convertFont</b>1/4 methods to obtain a font of the desired characteristics
+from an existing font.<p>
+<p>
+The <b>convertFont:toHaveTrait:</b> and the <b>convertFont:toNotHaveTrait:</b>
+methods deal with only one trait at a time. To convert a font to have (or not
+have) multiple traits, you must invoke these methods for each separate trait
+you wish to add to or remove from the font. Alternatively, use the
+<b>fontWithFamily:traits:weight:size:</b> method to specify multiple traits in
+one invocation.	<p>
+<p>
+The <i>size</i> of a font in the method definitions below is defined in
+points, which, in the current milieu, are
+actually PostScript unitsa PostScript unit being defined as 1/72 of an
+inch, or 0.0139 of an inch. In metric equivalents, a PostScript unit is 0.3528
+millimetres. PostScript points are minimally
+different from printer's points, so for all
+intents and purposes you can think of PostScript units and points as
+interchangeable.<p>
+<p>
+The <i>weight</i> of a font as used in these methods is simply a value
+representing a point in a continuum of font weights from lightest to heaviest.
+There's no simple one-to-one mapping of some integer value to, say, a
+<b>bold</b> weight. If you query the font for its weight value, increment the
+value, and use it as a new weight, you'll not necessarily obtain a different
+face (such as a transition from medium to bold) in a new instance of the font.
+<p>
+<p>
+
+<b>Managing the FontManager</b><p>
+
+<UL><LI> + (void)<b>setFontManagerFactory:</b>(Class)<i>classId</i>	Sets the class used
+to create the NSFontManager.
+</LI><LI> +  (void)<b>setFontPanelFactory:</b>(Class)<i>classId</i>	Sets the class used to
+create the FontPanel.
+</LI><LI> +  (NSFontManager *)<b>sharedFontManager</b>	Returns a shared FontManager.</LI></UL>
+<b>Converting Fonts</b><p>
+
+<UL><LI> - (NSFont *)<b>convertFont:</b>(NSFont *)<i>fontObject</i>	Converts
+<i>fontObject</i> according to the user's selections from the Font panel or the
+Font menu.
+</LI><LI> -  (NSFont *)<b>convertFont:</b>(NSFont *)<i>fontObject</i>	Returns a Font
+object whose traits are the same as those of
+<b>toFamily:</b>(NSString *)<i>family</i>		 <i>fontObject</i> except as
+specified by <i>family</i>. 	
+</LI><LI> -  (NSFont *)<b>convertFont:</b>(NSFont *)<i>fontObject</i>	Returns a Font
+object whose traits are the same as those of
+<b>toFace:</b>(NSString *)<i>typeface</i>		 <i>fontObject</i> except as
+specified by <i>typeface</i>. 	
+</LI><LI> -  (NSFont *)<b>convertFont:</b>(NSFont *)<i>fontObject</i>	Returns a Font
+object whose traits are the same as those of
+<b>toHaveTrait:</b>(NSFontTraitMask)<i>trait</i>		 <i>fontObject</i> except as
+altered by the addition of the traits specified by <i>trait</i>.
+</LI><LI> -  (NSFont *)<b>convertFont:</b>(NSFont *)<i>fontObject</i>	Returns a Font
+object whose traits are the same as those of
+<b>toNotHaveTrait:</b>(NSFontTraitMask)<i>trait</i>		 <i>fontObject</i> except
+as altered by the removal of the traits specified by <i>trait</i>.
+</LI><LI> -  (NSFont *)<b>convertFont:</b>(NSFont *)<i>fontObject</i>	Returns a Font
+object whose traits are the same as those of
+<b>toSize:</b>(float)<i>size</i>		 <i>fontObject</i> except as specified by
+<i>size</i>. 	
+</LI><LI> -  (NSFont *)<b>convertWeight:</b>(BOOL)<i>upFlag</i>	Attempts to increase (if
+<i>upFlag</i> is YES) or decrease (if
+<b>ofFont:</b>(NSFont *)<i>fontObject</i>		 <i>upFlag</i> is NO) the weight of
+the font specified by <i>fontObject</i>. 
+</LI><LI> -  (NSFont *)<b>fontWithFamily:</b>(NSString *)<i>family</i>	Tries to find a
+font that matches the specified
+<b>traits:</b>(NSFontTraitMask)<i>traits</i>	 	characteristics.
+<b>weight:</b>(int)<i>weight</i>	 
+<b>size:</b>(float)<i>size</i>	</LI></UL>
+<b>Setting and Getting Parameters</b><p>
+
+<UL><LI> - (SEL)<b>action</b>	Gets the action sent by the FontManager.
+</LI><LI> -  (NSArray *)<b>availableFonts</b>	Provides an array listing all available
+fonts.
+</LI><LI> -  (NSMenu *)<b>fontMenu:</b>(BOOL)<i>create</i>	Returns the Font menu, creating
+one if it doesn't exist and <i>create</i> is YES.
+</LI><LI> -  (NSFontPanel *)<b>fontPanel:</b>(BOOL)<i>create</i>	Returns the Font panel,
+creating one if it doesn't exist and <i>create</i> is YES.
+</LI><LI> -  (BOOL)<b>isEnabled</b>	Returns whether the Font panel and menu are enabled.
+</LI><LI> -  (BOOL)<b>isMultiple</b>	Returns whether the selection contains multiple
+fonts.
+</LI><LI> -  (NSFont *)<b>selectedFont</b>	Returns the first font in the current selection
+
+</LI><LI> -  (void)<b>setAction:</b>(SEL)<i>aSelector</i>	Sets the action to that
+specified by <i>aSelector</i> to be sent by the FontManager when the user
+selects a new font.
+</LI><LI> -  (void)<b>setEnabled:</b>(BOOL)<i>flag</i>	Enables or disables the Font panel
+and menu depending on <i>flag</i>.
+</LI><LI> -  (void)<b>setFontMenu:</b>(NSMenu *)<i>newMenu</i>	Sets the font menu to
+<i>newMenu</i>.
+</LI><LI> -  (void)<b>setSelectedFont:</b>(NSFont *)<i>fontObject</i>	Notifies FontManager
+of the selection's current font from
+<b>isMultiple:</b>(BOOL)<i>flag</i>		<i>fontObject</i> with <i>flag</i>
+indicating whether the selection has multiple fonts.
+</LI><LI> -  (NSFontTraitMask)<b>traitsOfFont:</b>(NSFont *)<i>fontObject</i>
+<i></i>	Returns the font traits of <i>fontObject</i>.
+</LI><LI> -  (int)<b>weightOfFont:</b>(NSFont *)<i>fontObject</i>	Returns the font
+weight<i> </i>of <i>fontObject</i>.</LI></UL>
+<b>Target and Action Methods</b><p>
+
+<UL><LI> - (BOOL)<b>sendAction</b>	Dispatches the action message up the responder
+chain.</LI></UL>
+<b>Assigning a Delegate</b><p>
+
+<UL><LI> - (id)<b>delegate</b>	Returns the FontManager's delegate.
+</LI><LI> -  (void)<b>setDelegate:</b>(id)<i>anObject</i>	Sets the FontManager's delegate
+to <i>anObject</i>.</LI></UL>
+<b>Methods Implemented by the Delegate</b><p>
+
+<UL><LI> - (BOOL)<b>fontManager:</b>(id)<i>sender</i> <b>willIncludeFont:</b>(NSString
+*)<i>fontName</i>
+<i></i>	Responds to a message informing the FontManager's delegate that the
+FontPanel is about to include <i>fontName</i> in the list displayed to the
+user; if this method returns NO, the font isn't added; otherwise, it is.
+</body></html>

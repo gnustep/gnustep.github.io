@@ -1,0 +1,376 @@
+<html><head><TITLE>NSView.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSView </b><p>
+
+<B>Inherits From: </B><A HREF="NSResponder.html">NSResponder</A> : <A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding (NSResponder)
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSView.h<p>
+AppKit/NSClipView.h<p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSView is an abstract class that provides its subclasses with a structure for
+drawing and for handling events. Any application that needs to display, print,
+or receive events must use NSView objects.<p>
+<p>
+To be displayed, a view must be placed in a window (represented by an NSWindow
+object). All the views within a window are arranged in a hierarchy, with each
+view having a single <i>superview</i> and zero or more <i>subviews</i>. Each
+view has its own area to draw in and its own coordinate system, expressed as a
+transformation of its superview's coordinate system. An NSView object can
+scale, translate, or rotate its coordinates, or flip the polarity of its
+y-axis.<p>
+<p>
+An NSView keeps track of its size and location in two ways: as a frame
+rectangle (expressed in its superview's coordinate system) and as a bounds
+rectangle (expressed in its own coordinate system). Both are represented by
+NSRect structures.<p>
+<p>
+Subclasses of NSView typically override <b>drawRect:</b> to implement an
+object's distinctive appearance. They also frequently override one or more of
+NSView's or NSResponder's event-handling methods, to react to the user's
+manipulations of the mouse and keyboard.<p>
+<p>
+
+<b>Initializing NSView Objects </b><p>
+
+<UL><LI> - (id)<b>initWithFrame:</b>(NSRect)<i>frameRect</i>	Initializes a new NSView
+object to the location and dimensions of <i>frameRect</i>.</LI></UL>
+<b>Managing the NSView Hierarchy </b><p>
+
+<UL><LI> - (void)<b>addSubview:</b>(NSView *)<i>aView</i>	Makes <i>aView</i> a subview
+of the receiving view object. 
+</LI><LI> -  (void)<b>addSubview:</b>(NSView *)<i>aView</i>	Makes <i>aView</i> a subview
+of the receiving view object.
+<b>positioned:</b>(NSWindowOrderingMode)<i>place</i>	 	It is positioned
+relative to <i>otherView</i> according to
+<b>relativeTo:</b>(NSView *)<i>otherView</i>	 	<i>place</i>.
+</LI><LI> -  (NSView *)<b>ancestorSharedWithView:</b>(NSView *)<i>aView</i>	
+	Returns the ancestor view shared by <i>aView</i> and the receiver; <b>self</b>
+if <i>aView</i> is the receiving view or if the receiving view is the ancestor
+of <i>aView</i>; <i>aView</i> if it is the superview of the receiving view; or
+<b>nil</b> in any other case.
+</LI><LI> -  (BOOL)<b>isDescendantOf:</b>(NSView *)<i>aView</i>	Returns whether
+<i>aView</i> is an ancestor of the receiver. 
+</LI><LI> -  (NSView *)<b>opaqueAncestor</b>	Returns the receiver's nearest opaque
+ancestor. 
+</LI><LI> -  (void)<b>removeFromSuperview</b>	Removes the receiver from the view
+hierarchy. 
+</LI><LI> -  (void)<b>replaceSubview:</b>(NSView *)<i>oldView</i>	Replaces <i>oldView</i>
+with <i>newView</i>.
+<b>with:</b>(NSView *)<i>newView</i>	 
+</LI><LI> -  (void)<b>sortSubviewsUsingFunction:</b>(int (*)(id ,id ,void
+*))<i>compare</i> 
+<b>context:</b>(void *)<i>context	</i>Sorts the receiving view's subviews using
+the sorting function <i>compare</i> and the context <i>context</i>. The first
+two arguments of the function are the views to be compared.
+</LI><LI> -  (NSArray *)<b>subviews</b>	Returns a mutable array of the receiving view
+object's subviews. 
+</LI><LI> -  (NSView *)<b>superview</b>	Returns the receiving view object's superview. 
+</LI><LI> -  (NSWindow *)<b>window</b>	Returns the window in which the view is displayed.
+
+</LI><LI> -  (void)<b>viewWillMoveToWindow:</b>(NSWindow *)<i>newWindow	</i>
+<i></i>	Notifies the view that it will move to a new window<i>.</i>
+<i></i>
+Modifying the Frame Rectangle 
+
+</LI><LI> -  (float)<b>frameRotation</b>	Returns the angle of the frame rectangle's
+rotation. 
+</LI><LI> -  (NSRect)<b>frame</b>	Gets the view's frame rectangle. 
+</LI><LI> -  (void)<b>rotateByAngle:</b>(float)<i>angle</i>	Rotates the view's frame
+rectangle by <i>angl</i>e. This method posts the NSViewFocusChangedNotification
+notification with the receiving object to the default notification center. 
+</LI><LI> -  (void)<b>setFrame:</b>(NSRect)<i>frameRect</i>	Assigns the view a new frame
+rectangle. 
+</LI><LI> -  (void)<b>setFrameOrigin</b>:(NSPoint)<i>newOrigin</i>	Sets the origin of the
+view's frame to <i>newOrigin</i>. This method posts the
+NSViewFrameChangedNotification and NSViewFocusChangedNotification notifications
+with the receiving object to the default notification center.
+</LI><LI> -  (void)<b>setFrameRotation:</b>(float)<i>angle</i>	Rotates the view's frame to
+<i>angle</i>. This method posts the NSViewFocusChangedNotification notification
+with the receiving object to the default notification center. 
+</LI><LI> -  (void)<b>setFrameSize:</b>(NSSize)<i>newSize</i>	Resizes the view's frame to
+<i>newSize.</i> This method posts the NSViewFrameChangedNotification and
+NSViewFocusChangedNotification notifications with the receiving object to the
+default notification center.</LI></UL>
+<b>Modifying the Coordinate System </b><p>
+
+<UL><LI> - (float)<b>boundsRotation</b>	Returns the rotation of the view's coordinate
+system. 
+</LI><LI> -  (NSRect)<b>bounds</b>	Gets the view's bounds rectangle. 
+</LI><LI> -  (BOOL)<b>isFlipped</b>	Returns whether the view is flipped. 
+</LI><LI> -  (BOOL)<b>isRotatedFromBase</b>	Returns whether the view is rotated. 
+</LI><LI> -  (BOOL)<b>isRotatedOrScaledFromBase</b>	Returns whether the view is rotated or
+scaled. 
+</LI><LI> -  (void)<b>scaleUnitSquareToSize:</b>(NSSize)<i>newSize</i>	Scales the NSView's
+coordinate system unit size to <i>newSize.</i> This method posts the
+notification NSViewFocusChangedNotification with the receiving object to the
+default notification center. 
+</LI><LI> -  (void)<b>setBounds:</b>(NSRect)<i>aRect	</i>Sets the NSView's bounds
+rectangle to <i>aRect</i>.
+</LI><LI> -  (void)<b>setBoundsOrigin:</b>(NSPoint)<i>newOrigin</i>	Sets the NSView's
+drawing origin to <i>newOrigin</i>. This method posts the
+NSViewFocusChangedNotification notification with the receiving object to the
+default notification center. 
+</LI><LI> -  (void)<b>setBoundsRotation:</b>(float)<i>angle</i>	Rotates the NSView's
+coordinate system to <i>angle</i>. This method posts the
+NSViewFocusChangedNotification notification with the receiving object to the
+default notification center. 
+</LI><LI> -  (void)<b>setBoundsSize:</b>(NSSize)<i>newSize</i>	Resizes the NSView's
+coordinate system to <i>newSize.</i> This method posts the
+NSViewFocusChangedNotification notification with the receiving object to the
+default notification center. 
+</LI><LI> -  (void)<b>translateOriginToPoint:</b>(NSPoint)<i>point</i>	Shifts the NSView's
+coordinate system to <i>point</i>. This method posts the
+NSViewFocusChangedNotification notification with the receiving object to the
+default notification center. </LI></UL>
+<b>Converting Coordinates </b><p>
+
+<UL><LI> - (NSRect)<b>centerScanRect:</b>(NSRect)<i>aRect</i>	Converts the rectangle
+<i>aRect</i> to lie on centers of pixels. 
+</LI><LI> -  (NSPoint)<b>convertPoint:</b>(NSPoint)<i>aPoint</i>	Converts <i>aPoint</i> in
+<i>aView</i> to the receiver's coordinates. 
+<b>fromView:</b>(NSView *)<i>aView</i>	 
+</LI><LI> -  (NSPoint)<b>convertPoint:</b>(NSPoint)<i>aPoint</i>	Converts <i>aPoint</i> in
+the receiver to <i>aView</i>'s coordinates. 
+<b>toView:</b>(NSView *)<i>aView</i>	 
+</LI><LI> -  (NSRect)<b>convertRect:</b>(NSRect)<i>aRect</i>	Converts the rectangle
+<i>aRect</i> in <i>aView</i> to the receiver's 
+<b>fromView:</b>(NSView *)<i>aView</i>	 	coordinates.
+</LI><LI> -  (NSRect)<b>convertRect:</b>(NSRect)<i>aRect</i>	Converts the rectangle
+<i>aRect</i> in the receiver to <i>aView</i>'s 
+<b>toView:</b>(NSView *)<i>aView</i>	 	coordinates.
+</LI><LI> -  (NSSize)<b>convertSize:</b>(NSSize)<i>aSize</i>	Converts <i>aSize</i> in
+<i>aView</i> to the receiver's coordinates. 
+<b>fromView:</b>(NSView *)<i>aView</i>	
+</LI><LI> -  (NSSize)<b>convertSize:</b>(NSSize)<i>aSize</i>	Converts <i>aSize</i> in the
+receiver to <i>aView</i>'s coordinates. 
+<b>toView:</b>(NSView *)<i>aView</i>	</LI></UL>
+<b>Notifying Ancestor Views </b><p>
+
+<UL><LI> - (BOOL)<b>postsFrameChangedNotifications</b>	Returns whether notifications of
+frame changes to ancestors are activated. 
+</LI><LI> -  (void)<b>setPostsFrameChangedNotifications:</b>(BOOL)<i>flag</i>	
+	Sets whether to activate ancestor notifications. </LI></UL>
+<b>Resizing Subviews </b><p>
+
+<UL><LI> - (void)<b>resizeSubviewsWithOldSize:</b>(NSSize)<i>oldSize</i>	
+	Initiates <b>superviewSizeChanged:</b> messages to subviews.
+</LI><LI> -  (void)<b>setAutoresizesSubviews:</b>(BOOL)<i>flag</i>	Sets whether to notify
+subviews of resizing. 
+</LI><LI> -  (BOOL)<b>autoresizesSubviews</b>	Returns whether the NSView notifies subviews
+of resizing.
+</LI><LI> -  (void)<b>setAutoresizingMask:</b>(unsigned int)<i>mask</i>	Determines
+automatic resizing behavior. 
+</LI><LI> -  (unsigned int)<b>autoresizingMask</b>	Returns the NSView's autosizing mask.
+
+</LI><LI> -  (void)<b>resizeWithOldSuperviewSize:</b>(NSSize)<i>oldSize</i>	
+	Notifies subviews that the superview changed size. </LI></UL>
+<b>Graphics State Objects </b><p>
+
+<UL><LI> - (void)<b>allocateGState</b>	Allocates a graphics state object.
+</LI><LI> -  (void)<b>releaseGState</b> 	Release the NSView's graphics state object.
+</LI><LI> -  (int)<b>gState</b>	Returns the NSView's graphics state object. 
+</LI><LI> -  (void)<b>renewGState</b>	Marks the NSView's graphics state object as needing
+initialization. 
+</LI><LI> -  (void)<b>setUpGState	</b>Sets up the NSView's graphics state object.</LI></UL>
+<b>Focusing </b><p>
+
+<UL><LI> + (NSView *)<b>focusView	</b>Returns the currently focused view.
+</LI><LI> -  (void)<b>lockFocus</b>	Brings the receiving view into focus. 
+</LI><LI> -  (void)<b>unlockFocus</b>	Unfocuses the receiving view. </LI></UL>
+<b>Displaying </b><p>
+
+<UL><LI> - (BOOL)<b>canDraw</b>	Returns whether the view object can draw. 
+</LI><LI> -  (void)<b>display</b>	Displays the receiving view and its subviews. 
+</LI><LI> -  (void)<b>displayIfNeeded</b>	Conditionally displays the receiving view and
+its subviews (if opaque). 
+</LI><LI> -  (void)<b>displayIfNeededIgnoringOpacity</b>	Conditionally displays the
+receiving view and its subviews, regardless of opacity.
+</LI><LI> -  (void)<b>displayRect:</b>(NSRect)<i>aRect</i>	Displays the receiving view and
+its subviews (if opaque) within <i>aRect</i>. 
+</LI><LI> -  (void)<b>displayRectIgnoringOpacity:</b>(NSRect)<i>aRect</i>	Displays the
+receiving view and its subviews (regardless of opacity) within <i>aRect</i>.
+</LI><LI> -  (void)<b>drawRect:</b>(NSRect)<i>rect</i>	Implemented by subclasses to supply
+drawing instructions. 
+</LI><LI> -  (NSRect)<b>visibleRect</b>	Gets the receiving view's visible portion. 
+</LI><LI> -  (BOOL)<b>isOpaque</b>	Returns whether the view is opaque. 
+</LI><LI> -  (BOOL)<b>needsDisplay</b>	Returns whether the view needs to be redisplayed.
+
+</LI><LI> -  (void)<b>setNeedsDisplay:</b>(BOOL)<i>flag</i>	If <i>flag</i> is YES, marks
+the view as changed, needing redisplay. 
+</LI><LI> -  (void)<b>setNeedsDisplayInRect:</b>(NSRect)<i>invalidRect</i>	Marks the view
+as changed, needing redisplay in rectangle <i>invalidRect</i>.
+</LI><LI> -  (BOOL)<b>shouldDrawColor</b>	Returns whether the view should be drawn in
+color. </LI></UL>
+<b>Scrolling </b><p>
+
+<UL><LI> - (NSRect)<b>adjustScroll:</b>(NSRect)<i>newVisible</i>	Lets the view object
+adjust the visible rectangle.
+</LI><LI> -  (BOOL)<b>autoscroll:</b>(NSEvent *)<i>theEvent</i>	Scrolls in response to a
+mouse-dragged event.
+</LI><LI> -  (void)<b>reflectScrolledClipView</b>:(NSClipView *)<i>aClipView	</i>
+<i></i>	Reflects scrolling within<i> </i>clip view<i> aClipView.</i>
+<i></i></LI><LI> -  (void)<b>scrollClipView:</b>(NSClipView *)<i>aClipView</i> 	Scrolls the clip
+view <i>aClipView</i> to <i>aPoint.</i>
+<i></i><b>toPoint:</b>(NSPoint)<i>aPoint	</i>
+<i></i></LI><LI> -  (void)<b>scrollPoint:</b>(NSPoint)<i>aPoint</i>	Aligns <i>aPoint</i> with the
+content view's origin. 
+</LI><LI> -  (void)<b>scrollRect:</b>(NSRect)<i>aRect</i>	Shifts the rectangle
+<i>aRect</i> by <i>delta</i>. 
+<b>by:</b>(NSSize)<i>delta</i>	 
+</LI><LI> -  (BOOL)<b>scrollRectToVisible:</b>(NSRect)<i>aRect</i>	Scrolls the view so the
+rectangle <i>aRect</i> is visible. </LI></UL>
+<b>Managing the Cursor </b><p>
+
+<UL><LI> - (void)<b>addCursorRect:</b>(NSRect)<i>aRect</i>	Adds a cursor rectangle
+<i>aRect</i> for cursor <i>anObject</i> to the
+<b>cursor:</b>(NSCursor *)<i>anObject</i>		NSView.
+</LI><LI> -  (void)<b>discardCursorRects</b>	Removes all cursor rectangles in the view. 
+</LI><LI> -  (void)<b>removeCursorRect:</b>(NSRect)<i>aRect</i>	Removes cursor rectangle
+<i>aRect</i> for cursor <i>anObject</i> from
+<b>cursor:</b>(NSCursor *)<i>anObject</i>		the view.
+</LI><LI> -  (void)<b>resetCursorRects</b>	Implemented by subclasses to reset their cursor
+rectangles. </LI></UL>
+<b>Assigning a Tag </b><p>
+
+<UL><LI> - (int)<b>tag</b>	Returns the view object's tag. 
+</LI><LI> -  (id)<b>viewWithTag:</b>(int)<i>aTag</i>	Returns the subview object with
+<i>aTag</i> as its tag. </LI></UL>
+<b>Aiding Event Handling </b><p>
+
+<UL><LI> - (BOOL)<b>acceptsFirstMouse:</b>(NSEvent *)<i>theEvent</i>	Returns whether the
+view object accepts first mouse-down events. 
+</LI><LI> -  (NSView *)<b>hitTest:</b>(NSPoint)<i>aPoint</i>	Returns the lowest subview
+containing the point <i>aPoint</i>.
+</LI><LI> -  (BOOL)<b>mouse:</b>(NSPoint)<i>aPoint</i>	Returns whether the point
+<i>aPoint</i> lies inside the <i>aRect</i>. 
+<b>inRect:</b>(NSRect)<i>aRect</i>	 
+</LI><LI> -  (BOOL)<b>performKeyEquivalent:</b>(NSEvent *)<i>theEvent</i>
+<i></i>	Implemented by subclasses to perform key-equivalent commands. Returns
+whether a subview handled <i>theEvent</i>.
+</LI><LI> -  (void)<b>removeTrackingRect:</b>(NSTrackingRectTag)<i>tag</i>
+<i></i>	Removes the tracking rectangle identified by <i>tag</i> from the view.
+(<i>tag</i> is an unique identifier returned from the
+<b>addTractingRect:owner:assumeInside:</b> method.)
+</LI><LI> -  (BOOL)<b>shouldDelayWindowOrderingForEvent:</b>(NSEvent *)<i>anEvent</i>
+<i></i>	Returns whether the view's window is brought forward normally
+(mouse-down) or delayed (mouse-up). 
+</LI><LI> -  (NSTrackingRectTag)<b>addTrackingRect:</b>(NSRect)<i>aRect</i> 
+<b>owner:</b>(id)<i>anObject</i> 	Adds a tracking rectangle (<i>aRect</i>)
+owned by <i>anObject</i> to 
+<b>userData:</b>(void *)<i>data</i>		the receiving NSView. 
+<b>assumeInside:</b>(BOOL)<i>flag</i>		<i>flag</i> indicates whether the
+tracking rectangle will be only inside the NSView. Returns a unique tag that
+identifies the tracking rectangle.</LI></UL>
+<b>Dragging </b><p>
+
+<UL><LI> - (BOOL)<b>dragFile:</b>(NSString *)<i>filename	</i>Initiates a file-dragging
+session, dragging file indicated
+<b>fromRect:</b>(NSRect)<i>rect</i>		by path <i>filename</i>. <i>rect</i>
+describes the position of the icon 
+<b>slideBack:</b>(BOOL)<i>slideFlag</i>		in the View's coordinates<b>.
+</b><i>slideFlag</i> determines 
+<b>event:</b>(NSEvent *)<i>event</i>	 	whether the NSImage should slide back if
+rejected
+</LI><LI> -  (void)<b>dragImage:</b>(NSImage *)<i>anImage</i>	Initiates an image-dragging
+session, dragging <i>anImage</i>
+<i></i><b>at:</b>(NSPoint)<i>viewLocation</i>	 	from <i>viewLocation</i>.
+<i>initialOffset</i> is the difference in 
+<b>offset:</b>(NSSize)<i>initialOffset</i>	 	the mouse location from the
+mouse-down. 
+<b>event:</b>(NSEvent *)<i>event</i>	 	<i>pboard</i> is the pasteboard holding
+the data. 
+<b>pasteboard:</b>(NSPasteboard *)<i>pboard</i>	 	<i>sourceObject</i> is the
+object receiving 
+<b>source:</b>(id)<i>sourceObject</i>	 	NSDraggingSource messages.<i>
+slideFlag</i> determines 
+<b>slideBack:</b>(BOOL)<i>slideFlag</i>	 	whether the NSImage should slide back
+if rejected.
+</LI><LI> -  (void)<b>registerForDraggedTypes:</b>(NSArray *)<i>newTypes</i>	 
+	Registers the pasteboard types that the window will accept in an
+image-dragging session.
+</LI><LI> -  (void)<b>unregisterDraggedTypes</b>	Unregisters the window as a recipient of
+dragged images.</LI></UL>
+<b>Printing</b><p>
+
+<UL><LI> - (NSData *)<b>dataWithEPSInsideRect:</b>(NSRect)<i>aRect</i>
+<i></i>	Returns a data object initialized with the EPS data within <i>aRect</i>
+in the receiving view.
+</LI><LI> -  (void)<b>fax:</b>(id)<i>sender</i>	Faxes the view and its subviews.
+</LI><LI> -  (void)<b>print:</b>(id)<i>sender	</i>Prints the view and its
+subviews<i>.</i>
+<i></i></LI><LI> -  (void)<b>writeEPSInsideRect:</b>(NSRect)<i>rect</i>	Places PostScript code
+for the rectangle <i>rect</i> on the 
+<b>toPasteboard:</b>(NSPasteboard *)<i>pasteboard</i>	 <i>	pasteboard</i>.</LI></UL>
+<b>Pagination </b><p>
+
+<UL><LI> - (void)<b>adjustPageHeightNew:</b>(float *)<i>newBottom</i>	Assists automatic
+pagination of the view object.
+<b>top:</b>(float)<i>oldTop</i>	 
+<b>bottom:</b>(float)<i>oldBottom</i>	 
+<b>limit:</b>(float)<i>bottomLimit</i>	 
+</LI><LI> -  (void)<b>adjustPageWidthNew:</b>(float *)<i>newRight</i>	Assists automatic
+pagination of the view object. 
+<b>left:</b>(float)<i>oldLeft</i>	 
+<b>right:</b>(float)<i>oldRight</i>	 
+<b>limit:</b>(float)<i>rightLimit</i>	 
+</LI><LI> -  (float)<b>heightAdjustLimit</b>	Returns how much of a page can go on the next
+page. 
+</LI><LI> -  (BOOL)<b>knowsPagesFirst:</b>(int *)<i>firstPageNum</i>	Returns whether the
+view paginates itself.
+<b>last:</b>(int *)<i>lastPageNum</i>	 
+</LI><LI> -  (NSPoint)<b>locationOfPrintRect:</b>(NSRect)<i>aRect</i>	Locates the printing
+rectangle on the page. 
+</LI><LI> -  (NSRect)<b>rectForPage:</b>(int)<i>page</i>	Provides how much of the view
+will print on page. 
+</LI><LI> -  (float)<b>widthAdjustLimit</b>	Returns how much of a page can go on the next
+page. </LI></UL>
+<b>Writing Conforming PostScript </b><p>
+
+<UL><LI> - (void)<b>addToPageSetup</b>	Allows you to adjust for differences in the
+graphics state between the screen and the printer. 
+</LI><LI> -  (void)<b>beginPage:</b>(int)<i>ordinalNum	</i>Writes a page separator.
+<b>label:</b>(NSString *)<i>aString</i>
+<i></i><b>bBox:</b>(NSRect)<i>pageRect</i>
+<i></i><b>fonts:</b>(NSString *)<i>fontNames</i>	 
+</LI><LI> -  (void)<b>beginPageSetupRect:</b>(NSRect)<i>aRect</i>	Writes the beginning of
+a page setup section.
+<b>placement:</b>(NSPoint)<i>location</i>	 
+</LI><LI> -  (void)<b>beginPrologueBBox:</b>(NSRect)<i>boundingBox	</i>Writes the header
+for a print job.
+<b>creationDate:</b>(NSString *)<i>dateCreated</i>
+<i></i><b>createdBy:</b>(NSString *)<i>anApplication</i>
+<i></i><b>fonts:</b>(NSString *)<i>fontNames</i>
+<i></i><b>forWhom:</b>(NSString *)<i>user</i>
+<i></i><b>pages:</b>(int)<i>numPages</i>
+<i></i><b>title:</b>(NSString *)<i>aTitle</i>	 
+</LI><LI> -  (void)<b>beginSetup</b>	Writes the beginning of the job setup section. 
+</LI><LI> -  (void)<b>beginTrailer</b>	Writes the beginning of the trailer for the print
+job. 
+</LI><LI> -  (void)<b>drawPageBorderWithSize:</b>(NSSize)<i>borderSize</i>	 
+	Implemented by subclasses to draw in margins (e.g., borders, numbering).
+<i>borderSize</i> is the size of the border.
+</LI><LI> -  (void)<b>drawSheetBorderWithSize:</b>(NSSize)<i>borderSize</i>	 
+	Implemented by subclasses to draw in margins (e.g., borders, numbering).
+<i>borderSize</i> is the size of the border.
+</LI><LI> -  (void)<b>endHeaderComments</b>	Writes the end of the header. 
+</LI><LI> -  (void)<b>endPrologue</b>	Writes the end of the prologue. 
+</LI><LI> -  (void)<b>endSetup</b>	Writes the end of the job setup section. 
+</LI><LI> -  (void)<b>endPageSetup</b>	Writes the end of a page setup section. 
+</LI><LI> -  (void)<b>endPage</b>	Writes the end of a page. 
+</LI><LI> -  (void)<b>endTrailer</b>	Writes the end of the trailer. 
+
+
+</body></html>

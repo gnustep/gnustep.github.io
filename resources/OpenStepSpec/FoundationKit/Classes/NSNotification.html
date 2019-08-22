@@ -1,0 +1,100 @@
+<html><head><TITLE>NSNotification.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSNotification </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCopying
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>Foundation/NSNotification.h<p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSNotification objects provide a flexible way to transmit event information
+between objects.<p>
+<p>
+Message passinginvoking a methodis the standard way to convey
+information between objects. However, this requires the object sending the
+message to know who the receiver is. At times this explicit binding of two
+objects is undesirablemost notably because it would tie two otherwise
+independent subsystems. For these instances, a looser broadcast model is
+introduced: An object posts a notification, which is dispatched to the
+appropriate receivers through a notification center.<p>
+<p>
+An object may post an NSNotification object (referred to as a<i> notification
+object</i> or simply, a<i> notification</i>), which contains information about
+an object: the notification's name, its sender, and an optional dictionary
+containing other information. Other objects can register themselves as
+observers to receive notification objects when they are posted. When the event
+happens, the registered objects receive notifications about it. The object
+posting the NSNotification object, the object the notification is about, and
+the observer of the notification may all be different objects. <p>
+<p>
+An NSNotificationCenter object registers observers for events and notifies the
+observers if these events occur. An object may ask an NSNotificationCenter
+object (also known as a <i>notification center</i>) to observe an event
+regarding another object. If the event occurs, the posting object tells the
+notification center to notify its observers that this condition has occurred.
+The notification center then sends a notification to all observing objects.
+(See the class specification of NSNotificationCenter for more on posting
+notification objects.)<p>
+<p>
+This notification model frees an object from concern about what objects may
+want to observe it. An object involved with an eventor another
+objectmay simply post a notification about that event without knowing
+what objectsif anyare observing the event. The notification
+center takes care of distributing notifications to registered observers.
+Another benefit of this model is to allow multiple objects to listen for
+notifications, an effect that might otherwise require explicitly setting up an
+array.<p>
+<p>
+You instantiate a notification object directly by sending the
+<b>notificationWithName:object:</b> or
+<b>notificationWithName:object:userInfo:</b> messages to the NSNotification
+class object. You can also create notifications indirectly through the
+NSNotificationCenter class using the <b>postNotificationName:object:</b> and
+<b>postNotificationName:object:userInfo:</b> convenience methods. <p>
+<p>
+You can subclass NSNotification to contain information in addition to the
+notification name, sender, and dictionary.<p>
+<p>
+NSNotification objects are immutable objects.<p>
+<p>
+The NSNotification class adopts the NSCopying protocol, making it possible to
+treat notifications as context-independent values that can be copied and
+reused. You can put notifications in an array and send the <b>copy</b> message
+to that array, which recursively copies every item. This essentially allows
+clients to deal with notifications as first class values that can be copied by
+collections.<p>
+<p>
+
+<b>Creating Notification Objects</b><p>
+
+<UL><LI> + (NSNotification *)<b>notificationWithName:</b>(NSString *)<i>aName</i>
+<i></i><b>object:</b>(id)<i>anObject</i>	Returns a notification object that
+associates the name <i>aName</i> with the object <i>anObject</i>.
+</LI><LI> +  (NSNotification *)<b>notificationWithName:</b>(NSString *)<i>aName</i>
+<i></i><b>object:</b>(id)<i>anObject	</i>Returns a notification object that
+associates the name
+<b>userInfo:</b>(NSDictionary *)<i>userInfo</i>		<i>aName</i> with the object
+<i>anObject</i> and the dictionary of arbitrary data <i>userInfo</i>.
+<i>userInfo</i> may be <b>nil</b>.</LI></UL>
+<b>Querying a Notification Object</b><p>
+
+<UL><LI> - (NSString *)<b>name</b>	Returns the name of the notification.
+</LI><LI> -  (id)<b>object</b>	Returns the object (such as the sender) that's associated
+with this notification.
+</LI><LI> -  (NSDictionary *)<b>userInfo</b>	Returns a dictionary object associated with
+this notification. Returns <b>nil</b> if there is no such object.
+
+
+</body></html>

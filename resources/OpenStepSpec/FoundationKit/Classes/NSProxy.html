@@ -1,0 +1,75 @@
+<html><head><TITLE>NSProxy.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSProxy </b><p>
+
+<B>Inherits From: </B>none(<i>NXProxy is a root class</i>) <p>
+<p>
+<b>Conforms To:	</b>NSObject 
+<p>
+<b>Declared In:	</b>Foundation/NSProxy <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+The NSProxy class declares the programmatic interface to
+<i>proxies</i>objects that stand in for real objects (usually
+descendants of the NSObject class), where the real objects may exist within the
+same or another process, perhaps even in a system of a different architecture
+across a network. To the application, the proxy behaves like the real object,
+though the real object may not be directly accessible, and in general, instance
+variables of remote objects are not accessible.<p>
+<p>
+NSProxy class defines few methods, because proxies respond to few messages
+directly. Instead, when a proxy receives a message it doesn't respond to, it
+encodes the message, including the arguments, in an invocation, and invokes
+<b>forwardInvocation:</b>. Specialized subclasses then direct further
+processing, such as forwarding the message to a real object in the same or
+another process.<p>
+<p>
+Methods defined in this class are methods that the NSProxy class responds to
+directly. Unless otherwise noted, none of these methods are forwarded to the
+proxy's correspondent.<p>
+<p>
+Your application in general doesn't instantiate NSProxy objectsthey're
+created as instances of specialized subclasses. Proxies are reference-counted
+so that only a single NSProxy per connection is instantiated for any real
+object.<p>
+<p>
+
+<b>Creating and Destroying Instances	</b><p>
+
+<UL><LI> + (id)<b>alloc</b>	Returns a new, uninitialized instance of the receiving
+class.
+</LI><LI> +  (id)<b>allocWithZone:</b>(NSZone *)<i>zone</i>	Returns a new, uninitialized
+instance of the receiving class in <i>zone</i>.
+</LI><LI> -  (void)<b>dealloc</b>	Deallocates the memory occupied by the receiver. </LI></UL>
+<b>Identifying Classes	</b><p>
+
+<UL><LI> + (Class)<b>class</b>	Returns <b>self</b>. Since this is a class method, it
+returns the class object.</LI></UL>
+<b>Obtaining Method Information</b><p>
+
+<UL><LI> - (NSMethodSignature
+*)<b>methodSignatureForSelector:</b>(SEL)<i>aSelector</i>
+<i></i>	Implemented by subclasses to return an object that contains a
+description of the <i>aSelector</i> method, or <b>nil</b> if the
+<i>aSelector</i> method can't be found. The NSProxy implementation of this
+method raises an NSInvalidArgumentException exception.</LI></UL>
+<b>Describing Objects</b><p>
+
+<UL><LI> - (NSString *)<b>description</b>	Prints the name of receiver's class and the
+hexadecimal value of the its <b>id</b>.</LI></UL>
+<b>Forwarding Messages</b><p>
+
+<UL><LI> - (void)<b>forwardInvocation:</b>(NSInvocation *)<i>invocation</i>
+<i></i>	Implemented by subclasses to forward messages to other objects. The
+NSProxy implementation of this method raises an NSInvalidArgumentException
+exception.
+</body></html>

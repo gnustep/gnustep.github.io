@@ -1,0 +1,101 @@
+<html><head><TITLE>NSMenu.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSMenu </b><p>
+
+<B>Inherits From: </B><A HREF="NSPanel.html">NSPanel</A> : <A HREF="NSWindow.html">NSWindow</A> : <A HREF="NSResponder.html">NSResponder</A> : <A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding (NSResponder)
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSMenu.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+This class defines an object that manages an application's menus. An NSMenu
+object displays a list of items that a user can choose from. When an item is
+clicked, it may either issue a command directly or bring up another menu (a
+<i>submenu</i>) that offers further choices. An NSMenu object's choices are
+implemented as a column of NSMenuCells in an NSMatrix. <p>
+<p>
+Each NSMenuCell can be configured to send its action message to a target, or to
+bring up a submenu. When the user clicks a submenu item, the submenu is
+displayed on the screen, attached to its supermenu so that if the user drags
+the supermenu, the submenu follows it. A submenu may also be torn away from its
+supermenu, in which case it displays a close button.<p>
+<p>
+Exactly one NSMenu created by the application is designated as the main menu
+for the application (with NSApplication's <b>setMainMenu:</b> method). This
+menu is displayed on top of all other windows whenever the application is
+active, and should never display a close button (because the main menu doesn't
+have a supermenu).<p>
+<p>
+See the NSMenuCell and NSMatrix class specificiations for more details.<p>
+<p>
+
+<b>Controlling Allocation Zones</b><p>
+
+<UL><LI> + (NSZone *)<b>menuZone</b>	Returns the zone from which NSMenus should be
+allocated, creating one if necessary.
+</LI><LI> +  (void)<b>setMenuZone:</b>(NSZone *)<i>zone</i>	Sets the zone from which
+NSMenus should be allocated.</LI></UL>
+<b>Initializing a New NSMenu </b><p>
+
+<UL><LI> - (id)<b>initWithTitle:</b>(NSString *)<i>aTitle</i>	Initializes and returns a
+new NSMenu using <i>aTitle</i> for its title.</LI></UL>
+<b>Setting Up the Menu Commands </b><p>
+
+<UL><LI> - (id)<b>addItemWithTitle:</b>(NSString *)<i>aString</i>	Adds a new item with
+title <i>aString</i>, action <i>aSelector</i>, and 
+<b>action:</b>(SEL)<i>aSelector</i>		key equivalent <i>charCode</i> to the end
+of the NSMenu. 
+<b>keyEquivalent:</b>(NSString *)<i>charCode</i>	 	Returns the new
+NSMenuCell.
+</LI><LI> -  (id)<b>insertItemWithTitle:</b>(NSString *)<i>aString</i> 	Adds a new item at
+<i>index</i> having the title <i>aString</i>, action 
+<b>action:</b>(SEL)<i>aSelector</i> 	<i>	aSelector</i>, and key equivalent
+<i>charCode</i>. Returns the
+<b>keyEquivalent:</b>(NSString *)<i>charCode</i> 		 new NSMenuCell.
+<b>atIndex:</b>(unsigned int)<i>index</i>
+<i></i></LI><LI> -  (NSMatrix *)<b>itemMatrix</b>	Returns the NSMatrix of NSMenuCell items.
+</LI><LI> -  (void)<b>setItemMatrix:</b>(NSMatrix *)<i>aMatrix</i>	Replaces the current
+matrix of items with <i>aMatrix</i>.</LI></UL>
+<b>Finding Menu Items </b><p>
+
+<UL><LI> - (id)<b>cellWithTag:</b>(int)<i>aTag</i>	Returns the NSMenuCell that has
+<i>aTag</i> as its tag.</LI></UL>
+<b>Building Submenus </b><p>
+
+<UL><LI> - (NSMenuCell *)<b>setSubmenu:</b>(NSMenu *)<i>aMenu</i>	Makes <i>aMenu</i> a
+submenu controlled by <i>aCell</i>.
+<b>forItem:</b>(NSMenuCell *)<i>aCell</i>
+<i></i></LI><LI> -  (void)<b>submenuAction:</b>(id)<i>sender</i>	Activates a submenu attached to
+sender's NSMenu.</LI></UL>
+<b>Managing NSMenu Windows </b><p>
+
+<UL><LI> - (NSMenu *)<b>attachedMenu</b>	Returns the NSMenu attached to the receiver or
+<b>nil</b> if there's no such object.
+</LI><LI> -  (BOOL)<b>isAttached</b>	Returns YES if the receiver is attached to another
+menu and NO otherwise.
+</LI><LI> -  (BOOL)<b>isTornOff</b>	Returns NO if the receiver is attached to another menu
+(or if it's the main menu) and YES otherwise.
+</LI><LI> -  (NSPoint)<b>locationForSubmenu:</b>(NSMenu *)<i>aSubmenu</i>
+<i></i>	Determines where to display an attached submenu when it's brought up.
+</LI><LI> -  (void)<b>sizeToFit</b>	Resizes the receiver to exactly fit the command
+items.
+</LI><LI> -  (NSMenu *)<b>supermenu</b>	Returns the receiver's supermenu.</LI></UL>
+<b>Displaying the Menu </b><p>
+
+<UL><LI> - (BOOL)<b>autoenablesItems</b>	Returns whether the receiver enables and
+disables its NSMenuCells. (See the NSMenuActionResponder informal protocol.)
+</LI><LI> -  (void)<b>setAutoenablesItems:</b>(BOOL)<i>flag</i>	Sets whether the receiver
+enables and disables its NSMenuCells. (See the NSMenuActionResponder informal
+protocol.)
+</body></html>

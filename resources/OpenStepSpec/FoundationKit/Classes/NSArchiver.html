@@ -1,0 +1,101 @@
+<html><head><TITLE>NSArchiver.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSArchiver </b><p>
+
+<B>Inherits From: </B><A HREF="NSCoder.html">NSCoder</A> : <A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSObject (NSObject)
+<p>
+<b>Declared In:	</b>Foundation/NSArchiver.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSArchiver, a concrete subclass of NSCoder, defines an object that encodes
+Objective C objects into an architecture-independent format that can be stored
+in a file. When objects are archived, their class information and the values of
+their instance variables are written to the archive. NSArchiver's companion
+class, NSUnarchiver, takes an archive file and decodes its contents into a set
+of objects equivalent to the original one.<p>
+<p>
+Archiving is typically initiated by sending an NSArchiver an
+<b>encodeRootObject:</b> or <b>archiveRootObject:toFile:</b> message. These
+messages specify a single object that is the starting point for archiving. The
+root object receives an <b>encodeWithCoder:</b> message (see the NSCoding
+protocol) that allows it to begin archiving itself and the other objects that
+it's connected to. An object responds to an <b>encodeWithCoder:</b> message by
+writing its instance variables to the archiver.<p>
+<p>
+An object doesn't have to archive the values of each of its instance variables.
+Some values may not be important to reestablish and others may be derivable
+from related state upon unarchiving. Other instance variables should be written
+to the archive only under certain conditions, as explained below.<p>
+<p>
+NSArchiver overrides the inherited <b>encodeRootObject:</b> and
+<b>encodeConditionalObject:</b> methods to support the conditional archiving of
+members of a graph of objects. When an object receives an
+<b>encodeWithCoder:</b> message, it should respond by unconditionally archiving
+instance variables that are intrinsic to its nature (with the exceptions noted
+above) and conditionally archiving those that are not.   For example, an NSView
+unconditionally archives its array of subviews (using <b>encodeObject:</b>, or
+the like) but conditionally archives its superview (using
+<b>encodeConditionalObject:</b>). The archiving system notes each reference to
+a conditional object, but doesn't actually archive the object unless some other
+object in the graph requests the object to be archived unconditionally. This
+ensures that an object is only archived once despite multiple references to it
+in the object graph. When the objects are extracted from the archive, the
+multiple references to objects are resolved, and an equivalent graph of objects
+is reestablished.<p>
+<p>
+
+<b>Initializing an NSArchiver</b><p>
+
+<UL><LI> - (id)<b>initForWritingWithMutableData:</b>(NSMutableData *)<i>mdata</i>	
+	Initializes an archiver, encoding stream and version information into mutable
+data <i>mdata</i>. Raises NSInvalidArgumentException if the <i>mdata</i>
+argument is <b>nil</b>.</LI></UL>
+<b>Archiving Data </b><p>
+
+<UL><LI> + (NSData *)<b>archivedDataWithRootObject:</b>(id)<i>rootObject</i>	
+	Creates and returns a data object after initializing an archiver with that
+object and encoding the archiver with <i>rootObject</i>.
+</LI><LI> +  (BOOL)<b>archiveRootObject:</b>(id)<i>rootObject</i>	Archives<i>
+rootObject</i> by encoding it as a data object in
+<b>toFile:</b>(NSString *)<i>path</i>		an archiver and writing that data object
+to file <i>path</i>. Returns YES upon success.
+</LI><LI> -  (void)<b>encodeArrayOfObjCType:</b>(const char *)<i>type</i>	 Encodes an
+<i>array</i> of <i>count</i> data elements of the same 
+<b>count:</b>(unsigned int)<i>count</i>		Objective C data <i>type</i>.<i>
+</i>
+<i></i><b>at:</b>(const void *)<i>array</i>
+<i></i></LI><LI> -  (void)<b>encodeConditionalObject:</b>(id)<i>object</i>	Encodes into the
+linearized data a conditional <i>object</i> that points back toward a root
+object. If <b>nil</b> is specified for <i>object</i>, it encodes it as
+<b>nil</b> unconditionally. Raises an NSInvalidArgumentException if no root
+object has been encoded.
+</LI><LI> -  (void)<b>encodeRootObject:</b>(id)<i>rootObject</i>	Encodes the
+<i>rootObject</i> at the start of the linearized data representing the object
+graph. Raises an NSInvalidArgumentException if the root object has already been
+encoded.</LI></UL>
+<b>Getting Data from the NSArchiver</b><p>
+
+<UL><LI> - (NSMutableData *)<b>archiverData</b>	Returns the data object, in mutable
+form, that is associated with the receiving NSArchiver.</LI></UL>
+<b>Substituting One Class for Another </b><p>
+
+<UL><LI> - (NSString *)<b>classNameEncodedForTrueClassName:</b>(NSString
+*)<i>trueName</i>
+<i></i>	Returns the class name used to archive instances of the class
+<i>trueName</i>. See <b>encodeClassName:intoClassName</b>.
+</LI><LI> -  (void)<b>encodeClassName:</b>(NSString *)<i>trueName</i>	Encodes in the
+archive a substitute class name 
+<b>intoClassName:</b>(NSString *)<i>inArchiveName</i>)		for the real class name
+(<i>trueName</i>). 
+</body></html>

@@ -1,0 +1,134 @@
+<html><head><TITLE>NSObject.html</TITLE><!-- This document was created from RTF source by rtftohtml version
+2.7.4 --></head><body><A HREF="../../OpenStepSpec.html">Return to the Main Index</A><br><A HREF="index.html">Return to the Alphabetic Index</A><br><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+<b></b><p>
+<b>NSObject </b><p>
+<b></b><p>
+<b>Adopted By:	</b>NSObject<p>
+NSProxy<p>
+<p>
+<b>Declared In:	</b>Foundation/NSObject.h <p>
+<p>
+<b></b><p>
+<b>Protocol Description</b><p>
+<b></b><p>
+<b></b><p>
+The NSObject protocol declares methods that all objectsno matter which
+root class they descend from (NSObject, NSProxy, or another root
+class)should implement to work well within OpenStep. Some of the methods
+in this protocol reveal an object's primary attributes: its position in the
+class hierarchy, its conformance to other protocols, and whether it responds to
+specific messages. Others let it be manipulated in various ways. For example,
+it can be asked to perform methods that are determined at runtime (using the
+<b>perform:...</b> methods) or to participate in OpenStep's automatic
+deallocation scheme (using the <b>retain</b>, <b>release</b>, and
+<b>autorelease</b> methods). <p>
+<p>
+By conforming to this protocol an object advertises that it has the basic
+behaviors necessary to work with the OpenStep's container classes (such as
+NSArray or NSDictionary).<p>
+<p>
+<b></b><p>
+<b>Identifying and Comparing Instances</b><p>
+<b></b><p>
+<b></b><p>
+- (unsigned int)<b>hash</b>	Returns an unsigned integer that can be used as a
+table address in a hash table structure. Two objects that are equal must hash
+to the same value.<p>
+<p>
+- (BOOL)<b>isEqual:</b>(id)<i>anObject</i>	Returns YES if the receiver and
+<i>anObject</i> have equal values; otherwise returns NO.<p>
+<p>
+- (id)<b>self</b>	Returns the receiver.<p>
+<b></b><p>
+<b>Identifying Class and Superclass</b><p>
+<b></b><p>
+<b></b><p>
+- (Class)<b>class</b>	Returns the class object for the receiver's class.<p>
+<p>
+- (Class)<b>superclass</b>	Returns the class object for the receiver's
+superclass.<p>
+<b></b><p>
+<b>Determining Allocation Zones</b><p>
+<b></b><p>
+<b></b><p>
+- (NSZone *)<b>zone</b>	Returns a pointer to the zone from which the receiver
+was allocated.<p>
+<b></b><p>
+<b>Sending Messages Determined at Run Time</b><p>
+<b></b><p>
+<b></b><p>
+- (id)<b>perform:</b>(SEL)<i>aSelector</i>	Sends an <i>aSelector</i> message to
+the receiver and returns the result of the message. If <i>aSelector</i> is
+null, an NSInvalidArgumentException is raised.<p>
+<p>
+- (id)<b>perform:</b>(SEL)<i>aSelector</i>	Sends an <i>aSelector</i> message to
+the receiver with <i>anObject</i><p>
+<i></i><b>withObject:</b>(id)<i>anObject</i>		as an argument. If
+<i>aSelector</i> is null, an NSInvalidArgumentException is raised.<p>
+<p>
+- (id)<b>perform:</b>(SEL)<i>aSelector</i>	Sends the receiver an
+<i>aSelector</i> message with <i>anObject</i> and<p>
+<b>withObject:</b>(id)<i>anObject</i>	<i>	anotherObject</i> as arguments. If
+<i>aSelector</i> is null, an<p>
+<b>withObject:</b>(id)<i>anotherObject</i>	 	NSInvalidArgumentException is
+raised.<p>
+<b></b><p>
+<b>Identifying Proxies</b><p>
+<b></b><p>
+<b></b><p>
+- (BOOL)<b>isProxy</b>	Returns YES to indicate that the receiver is an NSProxy,
+rather than an object that descends from NSObject. Otherwise, it returns NO.<p>
+<b></b><p>
+<b>Testing Inheritance Relationships</b><p>
+<b></b><p>
+<b></b><p>
+- (BOOL)<b>isKindOfClass:</b>(Class)<i>aClass</i>	Returns YES if the receiver
+is an instance of <i>aClass</i> or an instance of any class that inherits from
+<i>aClass</i>. Otherwise, it returns NO.<p>
+<p>
+- (BOOL)<b>isMemberOfClass:</b>(Class)<i>aClass</i>	Returns YES if the receiver
+is an instance of <i>aClass</i>. Otherwise, it returns NO.<p>
+<b></b><p>
+<b>Testing for Protocol Conformance</b><p>
+<b></b><p>
+<b></b><p>
+- (BOOL)<b>conformsToProtocol:</b>(Protocol *)<i>aProtocol</i>	<p>
+	Returns YES if the class of the receiver conforms to <i>aProtocol</i>, and NO
+if it doesn't.<p>
+<b></b><p>
+<b>Testing Class Functionality</b><p>
+<b></b><p>
+<b></b><p>
+- (BOOL)<b>respondsToSelector:</b>(SEL)<i>aSelector</i>	Returns YES if the
+receiver implements or inherits a method that can respond to <i>aSelector</i>
+messages, and NO if it doesn't.<p>
+<b></b><p>
+<b>Managing Reference Counts</b><p>
+<b></b><p>
+<b></b><p>
+- (id)<b>autorelease</b>	As defined in the NSObject class, decrements the
+receiver's reference count. When the count reaches 0, adds the object to the
+current autorelease pool. Returns <b>self</b>. Objects in the pool are released
+later, typically at the top of the event loop.<p>
+<p>
+- (oneway void)<b>release</b>	As defined in the NSObject class, decrements the
+receiver's reference count. When the count reaches 0, the object is
+automatically deallocated immediately. <p>
+<p>
+- (id)<b>retain</b>	As defined in the NSObject class, <b>retain</b> increments
+the receiver's reference count. You send an object a <b>retain</b> message when
+you want to prevent it from being deallocated without your express permission.
+Returns <b>self</b> as a convenience.<p>
+<p>
+- (unsigned int)<b>retainCount</b>	Returns the receiver's reference count for
+debugging purposes.<p>
+<b></b><p>
+<b>Describing the Object</b><p>
+<b></b><p>
+<b></b><p>
+- (NSString *)<b>description</b>	Returns a human-readable description of the
+receiver.<p>
+</body></html>

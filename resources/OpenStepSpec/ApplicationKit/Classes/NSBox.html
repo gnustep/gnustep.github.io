@@ -1,0 +1,82 @@
+<html><head><TITLE>NSBox.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSBox</b><p>
+
+<B>Inherits From: </B><A HREF="NSView.html">NSView</A> : <A HREF="NSResponder.html">NSResponder</A> : <A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding (NSResponder)
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSBox.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+An NSBox object is a simple NSView that can do two things: It can draw a border
+around itself and it can title itself. You can use an NSBox to group, visually,
+some number of other NSViews. These other NSViews are added to the NSBox
+through the typical subview-adding methods, such as <b>addSubview:</b> and
+<b>replaceSubview:with:</b>. <p>
+<p>
+An NSBox contains a <i>content area</i>, a rectangle set within the NSBox's
+frame in which the NSBox's subviews are displayed. The size and location of the
+content area depends on the NSBox's border type, title location, the size of
+the font used to draw the title, and an additional measure that you can set
+through the <b>setContentViewMargins:</b> method. When you create an NSBox, an
+instance of NSView is created and added (as a subview of the NSBox object) to
+fill the NSBox's content area. If you replace this <i>content view </i>with an
+NSView of your own, your NSView will be resized to fit the content area.
+Similarly, as you resize an NSBox its content view is automatically resized to
+fill the content area. <p>
+<p>
+The NSViews that you add as subviews to an NSBox are actually added to the
+NSBox's content viewNSView's subview-adding methods are redefined by
+NSBox to ensure that a subview is correctly placed in the view hierarchy.
+However, you should note that the <b>subviews</b> method <i>isn't</i>
+redefined: It returns an NSArray containing a single object, the NSBox's
+content view.<p>
+<p>
+
+<b>Getting and Modifying the Border and Title </b><p>
+
+<UL><LI> - (NSRect)<b>borderRect	</b>Returns the rectangle in which the border is
+drawn.
+</LI><LI> -  (NSBorderType)<b>borderType</b>	Returns the box's border type.
+</LI><LI> -  (void)<b>setBorderType:</b>(NSBorderType)<i>aType</i>	Sets the box's border
+to <i>aType</i>.
+</LI><LI> -  (void)<b>setTitle:</b>(NSString *)<i>aString</i>	Sets the box's title to
+<i>aString</i>.
+</LI><LI> -  (void)<b>setTitleFont:</b>(NSFont *)<i>fontObj</i>	Sets the NSFont of the
+title to <i>fontObj</i>.
+</LI><LI> -  (void)<b>setTitlePosition:</b>(NSTitlePosition)<i>aPosition</i>	Sets the
+position of the title to <i>aPosition</i>.
+</LI><LI> -  (NSString *)<b>title</b>	Returns the title of the box.
+</LI><LI> -  (id)<b>titleCell</b>	Returns the Cell used to draw the title.
+</LI><LI> -  (NSFont *)<b>titleFont</b>	Returns the NSFont used to draw the title.
+</LI><LI> -  (NSTitlePosition)<b>titlePosition</b>	Returns the position of the title.
+</LI><LI> -  (NSRect)<b>titleRect	</b>Returns the rectangle in which the title is drawn.</LI></UL>
+<b>Setting and Placing the Content View </b><p>
+
+<UL><LI> - (id)<b>contentView</b>	Returns the content view.
+</LI><LI> -  (NSSize)<b>contentViewMargins</b>	Gets the distances between the border and
+the content view.
+</LI><LI> -  (void)<b>setContentView:</b>(NSView *)<i>aView</i>	Replaces the NSBox's
+content view with <i>aView</i>.
+</LI><LI> -  (void)<b>setContentViewMargins:</b>(NSSize)<i>offsetSize	</i>Sets the
+distances between the border and the content view to the horizontal and
+vertical amounts in <i>offsetSize</i>.</LI></UL>
+<b>Resizing the Box </b><p>
+
+<UL><LI> - (void)<b>setFrameFromContentFrame:</b>(NSRect)<i>contentFrame</i>	
+	Resizes the box to accommodate <i>contentFrame</i>.
+</LI><LI> -  (void)<b>sizeToFit</b>	Resizes the box to exactly enclose its subviews.
+
+
+</body></html>

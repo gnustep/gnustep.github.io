@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- C 2005-2006 Christopher Armstrong.
+
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2, as published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included in the section entitled "GNU Free Documentation License".
+
+This documentation is provided on an "AS IS" BASIS, WITHOUT WARRANTY
+OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED
+TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND USEFULNESS
+OF THE DOCUMENTATION IS WITH YOU (THE LICENSEE). IN NO EVENT WILL THE COPYRIGHT
+HOLDERS BE LIABLE FOR DAMAGES, INCLUDING ANY DIRECT, INDIRECT,
+SPECIAL, GENERAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF
+THE USE OR INABILITY TO USE THIS DOCUMENTATION (INCLUDING BUT NOT
+LIMITED TO LOSS OF DATA, USE, OR PROFITS; PROCUREMENT OF SUBSTITUTE
+GOODS AND SERVICES; OR BUSINESS INTERUPTION) HOWEVER CAUSED, EVEN
+IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ -->
+<!-- Created on December 24, 2013 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Using the GNUstep AppKit 0.1: 11. Matrix Controls</title>
+
+<meta name="description" content="Using the GNUstep AppKit 0.1: 11. Matrix Controls">
+<meta name="keywords" content="Using the GNUstep AppKit 0.1: 11. Matrix Controls">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="matrix"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="AppKit_10.html#Using-a-Data-Source" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_11.html#Creating-Matrix-Controls" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit_10.html#outlineviews" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_12.html#browsercontrols" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="AppKit_16.html#conceptindex" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Matrix-Controls-1"></a>
+<h1 class="chapter">11. Matrix Controls</h1>
+<p><a name="Matrix-Controls"></a>
+<a name="index-matrices_002c-matrix-control"></a>
+<a name="index-matrix-controls_002c-definition"></a>
+Matrix controls are groups of cells, arranged in a table like format, 
+with each cell indexed by row and column. It is similar to a table view, but differs in that it doesn&rsquo;t have a predefined cell class. Instead, it uses objects of classes derived from NSCell to be implemented. A matrix is implemented by the NSMatrix class.<a name="DOCF14" href="AppKit_fot.html#FOOT14">(14)</a>
+</p>
+<p>It takes it&rsquo;s implementation from NSControl, and hence what applies to controls also applies to matrixes. This matrix control is used to implement browsers as well. Note that it does not use a delegate or a data source to display or obtain it&rsquo;s data or size. Instead, this is done using accessor methods, making the NSMatrix class more passive in it&rsquo;s representation of data.
+</p>
+<hr size="6">
+<a name="Creating-Matrix-Controls"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="AppKit_11.html#matrix" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_11.html#Using-Matrix-controls" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit_11.html#matrix" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_11.html#matrix" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_12.html#browsercontrols" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="AppKit_16.html#conceptindex" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">11.1 Creating Matrix Controls</h2>
+
+<p>A matrix control can be creating by new <code>NSMatrix</code> instance and then calling <code>-initWithFrame:mode:prototype:numberOfRows:numberOfColumns:</code> or <code>-initWithFrame:mode:cellClass:numberOfRows:numberOfColumns:</code>. The former method uses an instance of a cell to instantiate cells for the rows and columns, while the latter uses a cell class to create the cells.
+</p>
+<p>Both these methods require a matrix mode, those of which are specified in <code>NSMatrixMode</code> and control how the matrix &quot;tracks&quot; the mouse:
+</p><dl compact="compact">
+<dt> <code>NSRadioModeMatrix</code></dt>
+<dd><p>Only permits one cell in the matrix to be selected at a time.
+</p>
+</dd>
+<dt> <code>NSHighlightModeMatrix</code></dt>
+<dd><p>Performs trackng (as described below) as well as highlighting the cell before tracking commences.
+</p>
+</dd>
+<dt> <code>NSListModeMatrix</code></dt>
+<dd><p>Cells objects are highlighted without the opportunity to track the mouse.
+</p>
+</dd>
+<dt> <code>NSTrackModeMatrix</code></dt>
+<dd><p>The cell is able to track the mouse while the cursor is within it&rsquo;s bounds. 
+</p>
+</dd>
+</dl>
+
+<p>For more information about cell tracking, See <a href="AppKit_6.html#Basic-Controls">Basic Controls</a>.
+</p>
+<hr size="6">
+<a name="Using-Matrix-controls"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="AppKit_11.html#Creating-Matrix-Controls" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_12.html#browsercontrols" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit_11.html#matrix" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_11.html#matrix" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_12.html#browsercontrols" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="AppKit_16.html#conceptindex" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">11.2 Using Matrix controls</h2>
+
+<p>After having placed one on a window using Gorm, we can change what appears in the matrix by using it&rsquo;s methods.
+</p>
+<a name="index-cell-class_002c-matrix-controls"></a>
+<a name="index-matrix-controls_002c-cell-class"></a>
+<p>The <em>cell class</em> is what class is to be used (by default) to create cells. We can use instances of many different cells classes, for example, you may choose to populate your matrix with <code>NSTextCell</code> instances as well as <code>NSButtonCell</code> instances if you were creating an interactive form. You set the default cell class by calling either <code>+setCellClass:</code> on the <code>NSMatrix</code> class to set the cell class over all new <code>NSMatrix</code> instances, or you can call <code>-setCellClass:</code> to set the class used to create new cells on a instance-by-instance basis for each of your matrix instances.
+</p>
+<p>We can retrieve information about the cells in a matrix through a variety of methods. To retrieve the cell at a certain location, use the <code>-cellAtRow:column:</code> method. The size of cells is retrieved using the <code>-cellSize</code> method. To access specific cells, use <code>-cellAtRow:column:</code>, or to access all the cells, simple call <code>-cells</code> to get an array.
+</p>
+<p>We can begin adding rows or columns to the end our matrix using the <code>-addColumn</code> and <code>-addRow</code> methods. To specify the specific cells, use the <code>-addColumnWithCells:</code> and <code>-addRowWithCells:</code> methods, passing an array of the cells for that column/row. Alternatively, rows and columns can be inserted at arbitrary locations using the <code>-insertRow:</code> and <code>-insertColumn:</code> methods, specifying a row or column number. <code>-insertRow:withCells:</code> and <code>-insertColumn:withCells:</code> lets you pass in the cells to be inserted.
+</p>
+<p>Rows and columns can also be removed or replaced. You can remove a column or a row by number using the <code>-removeColumn:</code> or <code>-removeRow:</code> methods respectively. To replace a particular cell, use the <code>-putCell:atRow:column:</code> method.
+</p>
+<p>The cell selection and selection behaviour can be modified. A specific cell can be selected with the <code>-selectCellAtRow:column:</code> by specifying it&rsquo;s location, <code>-selectCellWithTag:</code> by specifying it&rsquo;s tag, or <code>-selectCell:</code> with the cell object. You can also select all the cells with the <code>-selectAll:</code> method.
+</p>
+<p>The selected cell is returned from <code>-selectedCell:</code>, or <code>-selectedCells</code> if more than one cell is selected. <code>-selectedRow</code> and <code>-selectedColumn</code> can be used if an entire row/column is selected.
+</p>
+
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="AppKit_11.html#matrix" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_12.html#browsercontrols" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="AppKit_16.html#conceptindex" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>Adam Fedor</em> on <em>December 24, 2013</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

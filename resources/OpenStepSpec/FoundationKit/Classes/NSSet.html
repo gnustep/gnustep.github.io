@@ -1,0 +1,142 @@
+<html><head><TITLE>NSSet.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSSet </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding, NSCopying, NSMutableCopying
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>Foundation/NSSet.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+The NSSet class declares the programmatic interface to an object that manages
+an immutable set of objects. NSSet provides support for the mathematical
+concept of a <i>set</i>. A set, both in its mathematical sense and in the
+OpenStep implementation of NSSet, is an <i>unordered</i> collection of distinct
+elements. OpenStep provides the NSMutableSet class for sets whose contents may
+be altered, and also provides the NSCountedSet class for sets that can contain
+multiple instances of the same element.<p>
+<p>
+Use set objects as an alternative to array objects when the order of elements
+is not important, but performance in testing whether an object is contained in
+the set <i>is</i> a considerationwhile arrays are ordered, testing for
+membership is slower than with sets. For example, the NSSet method
+<b>containsObject:</b> operates in O(1) time when applied to a set, while
+<b>containsObject:</b> operates in O(N) time when applied to an array.<p>
+<p>
+Objects in a set must respond to <b>hash</b> and <b>isEqual:</b> methods. See
+the NSObject protocol for details on <b>hash</b> and <b>isEqual:</b>.<p>
+<p>
+Generally, you instantiate an NSSet object by sending one of the <b>set1/4</b>
+methods to the NSSet class object. These methods return an NSSet object
+containing the elements (if any) you pass in as arguments. The <b>set</b>
+method is a convenience method to create an
+empty set. Newly created instances of NSSet created by invoking the <b>set</b>
+method can be populated with objects using any of the <b>init1/4</b> methods.
+<b>initWithObjects::</b> is the designated initializer for the NSSet class.
+Objects added to the set are not copied; rather, each object receives a
+<b>retain</b> message before it's added to the set.<p>
+<p>
+NSSet provides methods for querying the elements of the set. <b>allObjects</b>
+returns an array containing all objects in the set.<b> anyObject</b> returns
+some object in the set.<b> count</b> returns the number of objects currently in
+the set.<b> member:</b> returns the object in the set that is equal to a
+specified object. Additionally, the <b>intersectsSet:</b> tests for set
+intersection, <b>isEqualToSet:</b> tests for set equality, and
+<b>isSubsetOfSet:</b> tests for one set being a subset of the specified set
+object.<p>
+<p>
+The <b>objectEnumerator</b> method provides for traversing elements of the set
+one by one.<p>
+<p>
+NSSet's <b>makeObjectsPerform:</b> and <b>makeObjectsPerform:withObject:</b>
+methods provides for sending messages to individual objects in the set.<p>
+<p>
+
+<b>Exceptions</b><p>
+
+
+NSSet implements the <b>encodeWithCoder:</b> method, which raises
+NSInternalInconsistencyException if the number of objects enumerated for
+encoding turns out to be unequal to the number of objects in the set. <p>
+<p>
+
+<b>Allocating and Initializing a Set</b><p>
+
+<UL><LI> + (id)<b>allocWithZone:</b>(NSZone *)<i>zone</i>	Creates and returns an
+uninitialized set object in <i>zone</i>.
+</LI><LI> +  (id)<b>set</b>	Creates and returns an empty set object.
+</LI><LI> +  (id)<b>setWithArray:</b>(NSArray *)<i>array</i>	Creates and returns a set
+object containing the objects in <i>array</i>.
+</LI><LI> +  (id)<b>setWithObject:</b>(id)<i>anObject</i>	Creates and returns a set object
+containing the single element <i>anObject.</i>
+<i></i></LI><LI> +  (id)<b>setWithObjects:</b>(id)<i>firstObj,...</i>	Creates and returns a set
+object containing the objects in the argument list. The object list is
+comma-separated and ends with <b>nil</b>.
+</LI><LI> -  (id)<b>initWithArray:</b>(NSArray *)<i>array</i>	Initializes a newly
+allocated set object by placing in it the objects contained in <i>array.</i>
+<i></i></LI><LI> -  (id)<b>initWithObjects:</b>(id)<i>firstObj,...</i>	Initializes a newly
+allocated set object by placing in it the objects in the argument list. The
+object list is comma-separated and ends with <b>nil</b>.
+</LI><LI> -  (id)<b>initWithObjects:</b>(id *)<i>objects</i>	Initializes a newly allocated
+set object by placing in 
+<b>count:</b>(unsigned int)<i>count</i>		it <i>count</i> objects from the
+<i>objects</i> array.
+</LI><LI> -  (id)<b>initWithSet:</b>(NSSet *)<i>anotherSet</i>	Initializes a newly
+allocated set object by placing in it the objects contained in
+<i>anotherSet.</i>
+<i></i></LI><LI> -  (id)<b>initWithSet:</b>(NSSet *)<i>set</i>	Initializes a newly allocated set
+object by placing in it the
+<b>copyItems:</b>(BOOL)<i>flag</i>		objects contained in <i>anotherSet</i> (or
+immutable copies of them, if <i>flag </i>is YES).</LI></UL>
+<b>Querying the Set</b><p>
+
+<UL><LI> - (NSArray *)<b>allObjects</b>	Returns an array containing all the objects in
+the set.
+</LI><LI> -  (id)<b>anyObject</b>	Returns some object in the set, or <b>nil</b> if the set
+is empty.
+</LI><LI> -  (BOOL)<b>containsObject:</b>(id)<i>anObject</i>	Returns YES if
+<i>anObject</i> is present in the set.
+</LI><LI> -  (unsigned int)<b>count</b>	Returns the number of objects currently in the
+set.
+</LI><LI> -  (id)<b>member:</b>(id)<i>anObject</i>	Return the object in the set that is
+equal to <i>anObject</i>, or <b>nil</b> if none is equal.
+</LI><LI> -  (NSEnumerator *)<b>objectEnumerator</b>	Returns an enumerator object that
+lets you access each object in the set.</LI></UL>
+<b> Sending Messages to Elements of the Set</b><p>
+
+<UL><LI> - (void)<b>makeObjectsPerform:</b>(SEL)<i>aSelector</i>	Sends an
+<i>aSelector</i> message to each object in the set.
+</LI><LI> -  (void)<b>makeObjectsPerform:</b>(SEL)<i>aSelector</i>	Sends an
+<i>aSelector</i> message to each object in the
+<b>withObject:</b>(id)<i>anObject</i>		set, with <i>anObject</i> as an
+argument.</LI></UL>
+<b>Comparing Sets</b><p>
+
+<UL><LI> - (BOOL)<b>intersectsSet:</b>(NSSet *)<i>otherSet</i>	Returns YES if there's
+any object in the receiving set that's equal to an object in <i>otherSet</i>.
+</LI><LI> -  (BOOL)<b>isEqualToSet:</b>(NSSet *)<i>otherSet</i>	Returns YES if every
+object in the receiving set is equal to an object in <i>otherSet</i>, and the
+two sets contain the same number of objects.
+</LI><LI> -  (BOOL)<b>isSubsetOfSet:</b>(NSSet *)<i>otherSet</i>	Returns YES if every
+object in the receiving set is equal to an object in <i>otherSet</i>, and the
+receiving set contains no more objects than <i>otherSet</i> does.</LI></UL>
+<b>Creating a String Description of the Set</b><p>
+
+<UL><LI> - (NSString *)<b>description</b>	Returns a string object that describes the
+contents of the receiver.
+</LI><LI> -  (NSString *)<b>descriptionWithLocale:</b>(NSDictionary
+*)<i>localeDictionary</i>
+<i></i>	Returns a string representation of the NSSet object, including the keys
+and values that represent the locale data from <i>localeDictionary</i>.
+</body></html>

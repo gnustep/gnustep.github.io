@@ -1,0 +1,77 @@
+<html><head><TITLE>NSScreen.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSScreen </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSObject (NSObject)
+<p>
+<b>Declared In:	</b>AppKit/NSScreen.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+An NSScreen object describes the attributes of a computer's monitor, or screen.
+An application may use an NSScreen object to retrieve information about a
+screen and use this information to decide what to display upon that screen. For
+example, an application may use the <b>deepestScreen</b> method to find out
+which of the available screens can best represent color and then may choose to
+display all of its windows on that screen. <p>
+<p>
+The two main attributes of a screen are its depth and its dimensions. The
+<b>depth</b> method describes the screen depth (such as two-bit, eight-bit, or
+twelve-bit) and tells you if the screen can display color. The <b>frame</b>
+method gives the screen's dimensions and location as an NSRect. <p>
+<p>
+The device description dictionary contains more complete information about the
+screen. Use NSScreen's <b>deviceDescription</b> method to access the
+dictionary, and use these keys to retrieve information about a screen:<p>
+<p>
+<b>Dictionary Key	Returns</b><p>
+
+<b></b>NSDeviceResolution	An NSValue describing the screen's resolution in dots
+per inch (dpi).<p>
+<p>
+NSDeviceColorSpaceName	The screen's color space name. See NSGraphics.h for a
+list of possible values.<p>
+<p>
+NSDeviceBitsPerSample	The bit depth of screen images (2-bit, 8-bit, etc.). <p>
+<p>
+NSDeviceIsScreen	YES, indicating the device is a screen.<p>
+<p>
+NSDeviceSize	An NSValue describing the screen's size in points.<p>
+<p>
+<p>
+The device description dictionary contains information about not only screens,
+but all other system devices such as printers and windows. There are other keys
+into the dictionary that you would use to obtain information about these other
+devices. For a complete list of device dictionary keys, see NSGraphics.h.<p>
+<p>
+
+<b>Creating NSScreen Instances</b><p>
+
+<UL><LI> + (NSScreen *)<b>mainScreen</b>	Returns an NSScreen object representing the
+main screen. The main screen is the screen with the key window.
+</LI><LI> +  (NSScreen *)<b>deepestScreen</b>	Returns an NSScreen object representing the
+screen that can best represent color. This method always returns an object,
+even if there is only one screen and it is not a color screen. 
+</LI><LI> +  (NSArray *)<b>screens</b>	Returns an array of NSScreen objects representing
+all of the screens available on the system. Raises
+NSWindowServerCommunicationException if the screens information can't be
+obtained from the window system.</LI></UL>
+<b>Reading Screen Information</b><p>
+
+<UL><LI> - (NSWindowDepth)<b>depth	</b>Returns the screen's depth, including whether the
+screen can display color.
+</LI><LI> -  (NSRect)<b>frame</b>	Returns the dimensions and location of the screen in an
+NSRect.
+</LI><LI> -  (NSDictionary *)<b>deviceDescription</b>	Returns the device dictionary as
+described in the class description.
+</body></html>

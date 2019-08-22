@@ -1,0 +1,182 @@
+<html><head><TITLE>NSDate.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSDate </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding, NSCopying
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>Foundation/NSDate.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSDate is an abstract class that provides behavior for creating dates,
+comparing dates, representing dates, computing time intervals, and similar
+functionality. It presents a programmatic interface through which suitable date
+objects are requested and returned. NSDate objects are lightweight and
+immutable since they represent a invariant point in time. This class is
+designed to provide the foundation for arbitrary calendrical representations.
+Its subclass NSCalendarDate offers date objects that are suitable for
+representing dates according to western calendrical systems.<p>
+<p>
+Date as used above implies clock time as well.
+The standard unit of time for date objects is a value typed as NSTimeInterval
+(a <b>double</b>) and expressed as seconds. The NSTimeInterval type makes
+possible a wide and fine-grained range of date and time values, giving accuracy
+within milliseconds for dates 10,000 years apart.<p>
+<p>
+NSDate and its subclasses compute time as seconds <i>relative</i> to an
+absolute reference date. This reference date is the first instant of January 1,
+2001. NSDate converts all date and time representations to and from
+NSTimeInterval values that are relative to this absolute reference date. A
+positive interval relative to a date represents a point in the future, a
+negative interval represents a time in the past.<p>
+<p>
+<b>Note:  </b>Conventional UNIX systems implement time according to the Network
+Time Protocol (NTP) standard, which is based on Coordinated Universal Time. The
+private implementation of NSDate follows the NTP standard. However, this
+standard doesn't account for leap seconds and therefore isn't synchronized with
+International Atomic Time (the most accurate).<p>
+<p>
+<p>
+Like various other Foundation classes, NSDate lets you obtain operating-system
+functionality (dates and times) without depending on operating-system
+internals. It also provides a basis for the NSRunLoop and NSTimer classes,
+which use concrete date objects to implement local event loops and timers. <p>
+<p>
+NSDate's sole primitive method, <b>timeIntervalSinceReferenceDate</b>, provides
+the basis for all the other methods in the NSDate interface. It returns a time
+value relative to an absolute reference date.<p>
+<p>
+
+<b>Using NSDate</b><p>
+
+The date objects dispensed by NSDate give you a diverse range of date and time
+functionality. To obtain dates, send one of the <b>date...</b> messages to the
+NSDate class object. One of the most useful is <b>date</b> itself, which
+returns a date object representing the current date and time. You can get new
+date objects with date and time values adjusted from existing date objects by
+sending <b>addTimeInterval:</b>.<p>
+<p>
+You can obtain relative date information by sending the <b>timeInterval...</b>
+messges to a date object. For instance, <b>timeIntervalSinceNow</b> gives you
+the time, in seconds, between the current time and the receiving date object.
+Compare dates with the <b>isEqual:</b>, <b>compare:</b>, <b>laterDate:</b>, and
+<b>earlierDate:</b> methods and use the <b>description </b>method to obtain a
+string object that represents the date in a standard international format.<p>
+<p>
+
+<b>Creating an NSDate Object </b><p>
+
+<UL><LI> + (id)<b>allocWithZone:</b>(NSZone *)<i>zone</i>	Allocates an unitialized
+NSDate in <i>zone</i>. Returns <b>nil</b> if allocation fails.
+</LI><LI> +  (NSDate *)<b>date</b>	Creates and returns an NSDate set to the current date
+and time.
+</LI><LI> +  (NSDate
+*)<b>dateWithTimeIntervalSinceNow:</b>(NSTimeInterval)<i>seconds</i>
+<i></i>	Creates and returns an NSDate set to <i>seconds</i> seconds from the
+current date and time.
+</LI><LI> +  (NSDate
+*)<b>dateWithTimeIntervalSince1970:</b>(NSTimeInterval)<i>seconds</i>
+<i></i>	Creates and returns an NSDate set to to <i>seconds</i> seconds from the
+reference date used by UNIX<sup>(R) </sup>systems. Use a negative argument
+value to specify a date and time before the reference date.
+</LI><LI> +  (NSDate
+*)<b>dateWithTimeIntervalSinceReferenceDate:</b>(NSTimeInterval)<i>seconds</i><p
+<i></i>	Creates and returns an NSDate set to <i>seconds</i> seconds from the
+absolute reference date (the first instant of 1 January, 2001). Use a negative
+argument value to specify a date and time before the reference date.
+</LI><LI> +  (NSDate *)<b>distantFuture</b>	Creates and returns an NSDate that represents
+a date in the distant future (in terms of centuries). You can use this object
+in your code as a control date, a guaranteed outer temporal limit.
+</LI><LI> +  (NSDate *)<b>distantPast</b>	Creates and returns an NSDate that represents a
+date in the distant past (in terms of centuries). You can use this object in
+your code as a control date, a guaranteed temporal boundary.
+</LI><LI> -  (id)<b>init</b>	Initializes a newly allocated NSDate to the current date and
+time.
+</LI><LI> -  (id)<b>initWithString:</b>(NSString *)<i>description</i>	Returns an NSDate
+with a date and time value specified by the international string-representation
+format: YYYY-MM-DD HH:MM:SS -HHMM, where -HHMM is a time zone offset in hours
+and minutes from Greenwich Mean Time.
+</LI><LI> -  (NSDate *)<b>initWithTimeInterval:</b>(NSTimeInterval)<i>seconds</i>
+<i></i><b>sinceDate:</b>(NSDate *)<i>anotherDate</i>	Returns an NSDate
+initialized relative to another date object by <i>seconds</i> (plus or
+minus).
+</LI><LI> -  (NSDate
+*)<b>initWithTimeIntervalSinceNow:</b>(NSTimeInterval)<i>seconds</i>
+<i></i>	Returns an NSDate initialized relative to the current date and time by
+<i>seconds</i> (plus or minus).
+</LI><LI> - 
+(id)<b>initWithTimeIntervalSinceReferenceDate:</b>(NSTimeInterval)<i>seconds</i>p>
+<i></i>	Returns an NSDate initialized relative to the reference date and time
+by <i>seconds</i> (plus or minus).</LI></UL>
+<b>Converting to an NSCalendar Object</b><p>
+
+<UL><LI> - (NSCalendarDate *)<b>dateWithCalendarFormat:</b>(NSString
+*)<i>formatString</i>
+<i></i><b>timeZone:</b>(NSTimeZone *)<i>timeZone</i>	Returns an NSCalendarDate
+object bound to the format string <i>formatString</i> and the time zone
+<i>timeZone</i>. If you specify <b>nil</b> after either or both of these
+arguments, the default format string and time zone are assumed.</LI></UL>
+<b>Representing Dates</b><p>
+
+<UL><LI> - (NSString *)<b>description</b>	Returns a string representation of the
+receiver. The representation conforms to the international format YYYY-MM-DD
+HH:MM:SS -HHMM, where -HHMM represents the time-zone offset in hours and
+minutes from Greenwich Mean Time (GMT).
+</LI><LI> -  (NSString *)<b>descriptionWithCalendarFormat:</b>(NSString
+*)<i>formatString</i>
+<i></i><b>timeZone</b>:(NSTimeZone *)<i>aTimeZone	</i>Returns a string
+representation of the receiver. The
+<b>locale:</b>(NSDictionary *)<i>localeDictionary</i>		representation conforms
+to <i>formatString</i> (a <b>strftime</b>-style date-conversion string) and is
+adjusted to <i>aTimeZone</i>. Included are the keys and values that represent
+the locale data from <i>localeDictionary</i>.
+</LI><LI> -  (NSString *)<b>descriptionWithLocale:</b>(NSDictionary
+*)<i>localeDictionary</i>
+<i></i>	Returns a string representation of receiver (see <b>description</b>).
+Included are the key and values that represent the locale data from
+<i>localeDictionary</i>.</LI></UL>
+<b>Adding and Getting Intervals</b><p>
+
+<UL><LI> + (NSTimeInterval)<b>timeIntervalSinceReferenceDate</b>	
+	Returns the interval between the system's absolute reference date and the
+current date and time. This value is less than zero until the first instant of
+1 January 2001.
+</LI><LI> -  <b>addTimeInterval:</b>(NSTimeInterval)<i>seconds</i>	Returns an NSDate
+that's set to a specified number of seconds relative to the receiver.
+</LI><LI> -  (NSTimeInterval)<b>timeIntervalSince1970</b>	Returns the interval between the
+receiver and the reference date used by UNIX<sup>(R) </sup>systems.
+</LI><LI> -  (NSTimeInterval)<b>timeIntervalSinceDate:</b>(NSDate *)<i>anotherDate</i>
+<i></i>	Returns the interval between the receiver and <i>anotherDate</i>.
+</LI><LI> -  (NSTimeInterval)<b>timeIntervalSinceNow</b>	Returns the interval between the
+receiver and the current date and time.
+</LI><LI> -  (NSTimeInterval)<b>timeIntervalSinceReferenceDate</b>	
+	Returns the interval between the receiver and the system's absolute reference
+date. This value is less than zero until the first instant of 1 January 2001.</LI></UL>
+<b>Comparing Dates</b><p>
+
+<UL><LI> - (NSComparisonResult)<b>compare:</b>(NSDate *)<i>anotherDate</i>
+<i></i>	Compares the receiver's date to that of <i>anotherDate</i> and returns
+NSOrderedDescending if the receiver is temporally later, NSOrderedAscending if
+it's temporally earlier, and NSOrderedSame if they are equal.
+</LI><LI> -  (NSDate *)<b>earlierDate:</b>(NSDate *)<i>anotherDate</i>	Compares the
+receiver's date to <i>anotherDate</i> and returns the one that's temporally
+earlier.
+</LI><LI> -  (BOOL)<b>isEqual:</b>(id)<i>anotherDate</i>	Returns YES if <i>anotherDate</i>
+and the receiver are within one second of each other; otherwise, returns NO.
+</LI><LI> -  (NSDate *)<b>laterDate:</b>(NSDate *)<i>anotherDate</i>	Compares the
+receiver's date to <i>anotherDate</i> and returns the one that's temporally
+later.
+
+
+</body></html>

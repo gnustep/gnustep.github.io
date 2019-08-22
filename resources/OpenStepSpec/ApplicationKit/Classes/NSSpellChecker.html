@@ -1,0 +1,208 @@
+<html><head><TITLE>NSSpellChecker.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSSpellChecker </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSObject (NSObject)
+<p>
+<b>Declared In:	</b>AppKit/NSSpellChecker.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+The NSSpellChecker class gives any application an interface to the OpenStep
+spell-checking service. To handle all its spell checking, an application needs
+only one instance of NSSpellChecker. It provides a panel in which the user can
+specify decisions about words that are suspect. To check the spelling of a
+piece of text, the application:<p>
+<p>
+.	Includes in its user interface a menu item (or a button or command) by which
+the user will request spell checking.<p>
+<p>
+.	Makes the text available by way of an NSString object.<p>
+<p>
+.	Creates an instance of the NSSpellChecker class and sends it a
+<b>checkSpellingOfString:startingAt:</b> message.<p>
+<p>
+For example, you might use the following statement to create an
+NSSpellChecker:<p>
+<p>
+<tt>range = [[NSSpellChecker sharedSpellChecker] checkSpellingOfString:aString
+startingAt:0];</tt><p>
+<tt></tt><p>
+The <b>checkSpellingOfString:startingAt:</b> method checks the spelling of the
+words in the specified string beginning at the specified offset (this example
+uses 0 to start at the beginning of the string) until it finds a word that is
+misspelled. Then it returns an NSRange to indicate the location of the
+misspelled word.<p>
+<p>
+In a graphical application, whenever a misspelled word is found, you'll
+probably want to highlight the word in the document, using the NSRange that
+<b>checkSpellingOfString:startingAt:</b> returned to determine the text to
+highlight. Then you should show the misspelled word in the Spelling panel's
+misspelled-word field by calling <b>updateSpellingPanelWithMisspelledWord:</b>.
+If <b>checkSpellingOfString:startingAt:</b> does not find a misspelled word,
+you should call <b>updateSpellingPanelWithMisspelledWord:</b> with the empty
+string. This causes the system to beep, letting the user know that the spell
+check is complete and no misspelled words were found. None of these steps is
+required, but if you do one, you should do them all.<p>
+<p>
+The object that provides the string being checked should adopt the following
+protocols:<p>
+<p>
+NSChangeSpelling	A message in this protocol (<b>changeSpelling:</b>) is sent
+down the responder chain when the user presses the Correct button.<p>
+<p>
+NSIgnoreMisspelledWords 	When the object being checked responds to this
+protocol, the spell server keeps a list of words that are acceptable in the
+document and enables the Ignore button in the Spelling panel.<p>
+<p>
+The application may choose to split a document's text into segments and check
+them separately. This will be necessary when the text has segments in different
+languages. Spell checking is invoked for one language at a time, so a document
+that contains portions in three languages will require at least three checks.<p>
+<p>
+
+<b>Dictionaries and Word Lists</b><p>
+
+The process of checking spelling makes use of three references:<p>
+<p>
+.	A dictionary registered with the system's spell-checking service. When the
+Spelling panel first appears, by default it shows the dictionary for the user's
+preferred language. The user may select a different dictionary from the list in
+the Spelling panel.<p>
+<p>
+.	The user's learn list of correctly-spelled
+words in the current language. The NSSpellChecker updates the list when the
+user presses the Learn or Forget buttons in the Spelling panel.<p>
+<p>
+.	The document's list of words to be ignored while checking it (if the first
+responder conforms to the NSIgnoreMisspelledWords protocol). The NSSpellChecker
+updates its copy of this list when the user presses the Ignore button in the
+Spelling panel.<p>
+<p>
+A word is considered to be misspelled if none of these three accepts it. <p>
+<p>
+
+<b>Matching a List of Ignored Words with the Document It Belongs To</b><p>
+
+The NSString being checked isn't the same as the document. In the course of
+processing a document, an application might run several checks based on
+different parts or different versions of the text. But they'd all belong to the
+same document. The NSSpellChecker keeps a separate ignored
+words list for each document that it checks. To help match
+ignored words lists to documents, you should
+call <b>uniqueSpellDocumentTag</b> once for each document. This method returns
+a unique arbitrary integer that will serve to distinguish one document from the
+others being checked and to match each ignored
+words list to a document. When searching for misspelled words,
+pass the tag as the fourth argument of
+<b>checkSpellingOfString:startingAt:language:wrap:inSpellDocumentWithTag:wordCout:</b>.
+(The convenience method <b>checkSpellingOfString:startingAt:</b> takes no tag.
+This method is suitable when the first responder does not conform to the
+NSIgnoreMisspelledWords protocol.) <p>
+<p>
+When the application saves a document, it may choose to retrieve the
+ignored words list and save it along with the
+document. To get back the right list, it must send the NSSpellChecker an
+<b>ignoredWordsInSpellDocumentWithTag:</b> message. When the application has
+closed a document, it should notify the NSSpellChecker that the document's
+ignored words list can now be discarded, by
+sending it a <b>closeSpellDocumentWithTag:</b> message. When the application
+reopens the document, it should restore the ignored
+words list with the message
+<b>setIgnoredWords:inSpellDocumentWithTag:</b>. <p>
+<p>
+
+<b>Making a Checker available </b><p>
+
+<UL><LI> + (NSSpellChecker *)<b>sharedSpellChecker</b>	Returns the NSSpellChecker (one
+per application). 
+</LI><LI> +  (BOOL)<b>sharedSpellCheckerExists</b>	Returns whether the application's
+NSSpellChecker has already been created. </LI></UL>
+<b>Managing the Spelling Panel </b><p>
+
+<UL><LI> - (NSView *)<b>accessoryView</b>	Returns the Spelling panel's accessory NSView
+object. 
+</LI><LI> -  (void)<b>setAccessoryView:</b>(NSView *)<i>aView</i>	Makes an NSView object
+an accessory of the Spelling panel by making it a subview of the panel's
+content view. This method posts the notification NSWindowDidResizeNotification
+with the Spelling panel object to the default notification center.
+</LI><LI> -  (NSPanel *)<b>spellingPanel</b>	Returns the NSSpellChecker's panel. </LI></UL>
+<b>Checking Spelling </b><p>
+
+<UL><LI> - (int)<b>countWordsInString:</b>(NSString *)<i>aString</i>	Returns the number
+of words in <i>string</i>. The <i>language</i> 
+<b>language:</b>(NSString *)<i>language</i>		argument specifies the language
+used in the string. If <i>language</i> is the empty string, the current
+selection in the Spelling panel's pop-up menu is used.
+</LI><LI> -  (NSRange)<b>checkSpellingOfString:</b>(NSString *)<i>stringToCheck</i>
+<i></i><b>startingAt:</b>(int)<i>startingOffset</i>	Starts the search for a
+misspelled word in <i>stringToCheck</i> starting at <i>startingOffset</i>
+within the string object. Returns the range of the first misspelled word.
+Wrapping occurs but no ignored-words dictionary is used.
+</LI><LI> -  (NSRange)<b>checkSpellingOfString:</b>(NSString *)<i>stringToCheck</i>
+<i></i><b>startingAt:</b>(int)<i>startingOffset	</i>Starts the search for a
+misspelled word in <i>stringToCheck</i>
+<i></i><b>language:</b>(NSString *)<i>language</i>		starting at
+<i>startingOffset</i> within the string object.
+<b>wrap:</b>(BOOL)<i>wrapFlag</i>		Returns the range of the first misspelled
+word and
+<b>inSpellDocumentWithTag:</b>(int)<i>tag</i>		optionally the word count by
+reference. <i>tag</i> is an
+<b>wordCount:</b>(int *)<i>wordCount</i>		identifier unique within the
+application used to inform the spell check which document (actually, a
+dictionary) of ignored words to use. <i>wrapFlag</i> determines whether spell
+checking continues at the beginning of the string when the end is reached.
+<i>language</i> is the language used in the string. If <i>language</i> is the
+empty string, the current selection in the Spelling panel's pop-up menu is
+used.</LI></UL>
+<b>Setting the Language </b><p>
+
+<UL><LI> - (NSString *)<b>language</b>	Returns the current language used in
+spell-checking.
+</LI><LI> -  (BOOL)<b>setLanguage:</b>(NSString *)<i>aLanguage</i>	Sets the language to
+use in spell-checking to <i>aLanguage</i>. Returns whether the Language pop-up
+list in the Spelling panel lists <i>aLanguage</i>.</LI></UL>
+<b>Managing the Spelling Process </b><p>
+
+<UL><LI> + (int)<b>uniqueSpellDocumentTag	</b>Returns a guaranteed unique tag to use as
+the spell-document tag for a document. Use this method to generate tags to
+avoid collisions with other objects that can be spell-checked.
+</LI><LI> -  (void)<b>closeSpellDocumentWithTag:</b>(int)<i>tag</i>	Notifies the
+NSSpellChecker that the user has finished with the ignored-word document
+identified by <i>tag</i>, causing it to throw that dictionary away. 
+</LI><LI> -  (void)<b>ignoreWord:</b>(NSString *)<i>wordToIgnore	</i>Instructs the
+NSSpellChecker to ignore all future 
+<b>inSpellDocumentWithTag:</b>(int)<i>tag		</i>occurrences of
+<i>wordToIgnore</i> in the document identified by <i>tag</i>. You should call
+this method from within your implementation of the NSIgnoreMisspelledWords
+protocol's <b>ignoreSpelling:</b>.
+</LI><LI> -  (NSArray *)<b>ignoredWordsInSpellDocumentWithTag:</b>(int)<i>tag</i>
+<i></i>	Returns the array of ignored words for a document identified by
+<i>tag</i>. Invoke this before <b>closeSpellDocument:</b> if you want to store
+the ignored words.
+</LI><LI> -  (void)<b>setIgnoredWords:</b>(NSArray *)<i>someWords	</i>Initializes the
+ignored-words document (i.e., dictionary 
+<b>inSpellDocumentWithTag:</b>(int)<i>tag</i>	 	identified by <i>tag</i> with
+<i>someWords</i>, an array of words<i> </i>to ignore.
+</LI><LI> -  (void)<b>setWordFieldStringValue</b>:(NSString *)<i>aString</i>
+<i></i>	Sets the string that appears in the misspelled word field, using the
+string object <i>aString</i>.
+</LI><LI> -  (void)<b>updateSpellingPanelWithMisspelledWord:</b>(NSString *)<i>word</i>
+<i></i>	Causes NSSpellChecker to update the Spelling panel's misspelled-word
+field to reflect <i>word</i>. You are responsible for highlighting <i>word</i>
+in the document and for extracting it from the document using the range
+returned by the <b>checkSpelling:...</b> methods. Pass the empty string as
+<i>word</i> to have the system beep, indicating no misspelled words were
+found.
+
+</body></html>

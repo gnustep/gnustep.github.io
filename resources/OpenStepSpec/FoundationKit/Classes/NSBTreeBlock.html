@@ -1,0 +1,138 @@
+<html><head><TITLE>NSBTreeBlock.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSBTreeBlock</b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSObject (NSObject)
+<p>
+<b>Declared In:	</b>Foundation/NSByteStore.h<p>
+<p>
+
+<b>Class Description</b><p>
+
+
+An NSBTreeBlock provides ordered, associative storage and retrieval of untyped
+data. It identifies and orders data items, called <i>values</i>, by <i>key</i>,
+using a comparator function. A companion class, NSBTreeCursor, actually
+manipulates the contents of the NSBTreeBlock; NSBTreeBlock only provides the
+mechanisms for storing and sorting the key/value pairs.<p>
+<p>
+
+<b>Setting Up an NSBTreeBlock</b><p>
+
+An NSBTreeBlock can be used with either a memory-based NSByteStore or an
+NSByteStoreFile. The NSByteStore holds the contents of the NSBTreeBlock. Use
+NSBTreeBlock with NSByteStoreFile to build persistent databases. An
+NSBTreeBlock is initialized as a new client of an NSByteStore using the method
+<b>initWithStore:</b> or <b>initWithStore:block:</b>. The NSBTreeBlock takes up
+one block in the NSByteStore per key/value pair and one block for each node in
+the tree. An NSBTreeBlock will always take up at least one block in the
+NSByteStore.<p>
+<p>
+After the NSBTreeBlock has been initialized, it must have its comparator
+function set with the <b>setComparator:context:</b>. A comparator function
+takes as arguments two pieces of arbitrary data and their lengths and returns
+an integer indicating their ordering relative to one another. A comparator
+function is of type (NSBTreeComparator *), which has the form:<p>
+<p>
+<tt>typedef int NSBTreeComparator(NSData * <i>data1</i>, NSData * <i>data2</i>,
+const void *<i>context</i>)</tt><p>
+<tt></tt><p>
+where <i>data1</i> and <i>data2</i> are pointers to data and <i>context</i> is
+a pointer to blind data that may be used by the comparator function. The
+comparator function returns a number less than 0 if <i>data1</i> is considered
+less than <i>data2</i>, greater than 0 if <i>data1</i> is considered greater
+than <i>data2</i>, and equal to 0 if <i>data1</i> and <i>data2</i> are
+considered equal. By default, NSBTreeBlocks compare keys as strings. <p>
+<p>
+
+<b>Getting Data Into and Out of an NSBTreeBlock</b><p>
+
+As stated above, NSBTreeBlock simply provides the capacity for associative
+storage. An NSBTreeCursor is needed to take advantage of that capacity. An
+NSBTreeCursor is like a pointer into the NSBTreeBlock: It can move to specific
+positions within the key space and perform operations on the values stored at
+those locations, independent of other cursors. See the NSBTreeCursor class
+description for more information.<p>
+<p>
+Multiple NSBTreeCursors may independently access a single NSBTreeBlock. The
+actions of one cursor don't affect any of the other cursors in the
+NSBTreeBlock, except to the extent that they modify the contents of the
+NSBTreeBlock. It is both safe and meaningful to remove a record that another
+NSBTreeCursor has just located, as long as the code using the other
+NSBTreeCursor anticipates this possibility, as described below. <p>
+<p>
+In the case of one cursor removing a value that another cursor has just
+located, the second cursor will have received an indication from a key-locating
+method (for example, <b>moveCursorToKey:</b>) that it has found a key. When it
+tries to access the value associated with that key, however, the key may no
+longer exist. The cursor will detect the deletion and slide forward to the next
+available key if asked to read the value, or it will raise an exception if
+asked to remove or write the value. If your code allows multiple cursors to be
+concurrently active in a single NSBTreeBlock, it must anticipate this behavior
+by handling the exceptions that may be raised and by comparing the key against
+the expected value after invoking <b>cursorKey</b>. If one cursor is pointed at
+a key and a second cursor removes or adds a key at a different location, it
+does not change the position of the first cursor.<p>
+<p>
+
+<b>Working With the NSByteStore</b><p>
+
+Since NSBTreeBlock is an NSByteStore client, the transaction model of
+NSByteStore applies to changes made to the contents of an NSBTreeBlock. In
+particular, you must send the <b>commitTransaction</b> message to the
+NSByteStore to have changes to the NSBTreeBlock take effect (and be flushed to
+disk for a file-based store). If an NSBTreeBlock is used on a strictly
+read-only basis, transaction management can be ignored. <p>
+<p>
+After an <b>abortTransaction</b>, a cursor may be pointing to a key that no
+longer exists. Therefore, you must reposition each cursor using one of the
+<b>moveCursor...</b> methods after an <b>abortTransaction</b>.<p>
+<p>
+
+<b>Creating and Initializing a New NSBTreeBlock Instance </b><p>
+
+<UL><LI> + (NSBTreeBlock *)<b>btreeBlockWithStore:</b>(NSByteStore *)<i>aStore</i>
+<i></i>	Returns a new NSBTreeBlock instance in the designated NSByteStore.
+</LI><LI> +  (NSBTreeBlock *)<b>btreeBlockWithStore:</b>(NSByteStore *)<i>aStore</i>
+<i></i><b>block:</b>(unsigned)<i>aBlock</i>	Returns a new NSBTreeBlock instance
+in the designated NSByteStore with <i>aBlock</i> as the root block of the
+NSBTreeBlock. If <i>aBlock</i> does not exist or is invalid, the
+NSBTreeInitException is raised.
+</LI><LI> -  (id)<b>initWithStore:</b>(NSByteStore *)<i>aStore</i>
+<i></i>	Initializes a newly allocated NSBTreeBlock instance in the designated
+NSByteStore.
+</LI><LI> -  (id)<b>initWithStore:</b>(NSByteStore *)<i>aStore</i>
+<i></i><b>block:</b>(unsigned)<i>aBlock</i>	Initializes a newly allocated
+NSBTreeBlock instance in the designated NSByteStore with <i>aBlock</i> as the
+root block of the NSBTreeBlock. If <i>aBlock</i> does not exist or is invalid,
+the NSBTreeInitException is raised.</LI></UL>
+<b>Accessing Information About the NSByteStore</b><p>
+
+<UL><LI> - (NSByteStore *)<b>byteStore</b>	Returns the NSByteStore associated with the
+NSBTreeBlock.
+</LI><LI> -  (unsigned)<b>storeBlock</b>	Returns the number of the NSByteStore block that
+contains the root of the NSBTreeBlock.</LI></UL>
+<b>Setting the Comparator</b><p>
+
+<UL><LI> - (void)<b>setComparator:</b>(NSBTreeComparator *)<i>comparator</i> 
+<b>context:</b>(const void *)<i>context</i>	Sets the comparison method. The
+default is string comparison. When a value is inserted in the NSBTreeBlock, the
+comparator function decides where to put it. For more information, see the
+class description.</LI></UL>
+<b>Accessing NSBTreeBlock information</b><p>
+
+<UL><LI> - (unsigned)<b>count</b>	Returns the number of key/value pairs stored in the
+NSBTreeBlock.</LI></UL>
+<b>Affecting NSBTreeBlock Contents</b><p>
+
+<UL><LI> - (void)<b>removeAllObjects</b>	Removes all key/value pairs from the
+NSBTreeBlock. 
+</body></html>

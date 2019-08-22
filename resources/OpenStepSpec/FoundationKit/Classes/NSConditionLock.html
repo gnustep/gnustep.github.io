@@ -1,0 +1,86 @@
+<html><head><TITLE>NSConditionLock.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSConditionLock </b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSLocking
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>Foundation/NSLock.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSConditionLock objects are used to lock and unlock threads when specified
+conditions occur.<p>
+<p>
+The user of an NSConditionLock object can lock when a process enters a
+particular state and can set the state to something else when releasing the
+lock. The states are defined by the lock's user. NSConditionLock is well suited
+to synchronizing different modules such as a producer and a consumer where the
+two modules must share data, but the consumer must sleep until a condition is
+met such as more data being available.<p>
+<p>
+The NSConditionLock class provides four ways of locking its objects
+(<b>lock</b>,<b> lockWhenCondition:</b>,<b> tryLock</b>, and
+<b>tryLockWhenCondition</b>) and two ways of unlocking (<b>unlock </b>and<b>
+unlockWithCondition:</b>). Any combination of locking method and unlocking
+method is legal. <p>
+<p>
+The following example shows how the producer-consumer problem might be handled
+using condition locks. The producer need not wait for a condition, but must
+wait for the lock to be made available so it can safely create shared data. For
+example, a producer could use a lock this way:<p>
+<p>
+<tt>/* create the lock only once */</tt><p>
+<tt>id condLock = [NSConditionLock new];</tt><p>
+<tt></tt><p>
+<tt>[condLock lock];</tt><p>
+<tt>/* Manipulate global data... */</tt><p>
+<tt>[condLock unlockWithCondition:HAS_DATA];</tt><p>
+<tt></tt><p>
+Multiple consumer threads can then lock until there's data available and
+everyone is out of locked critical sections. In the following code sample, the
+consumer sleeps until the producer invokes <b>unlockWithCondition:</b> with the
+parameter HAS_DATA:<p>
+<p>
+<tt>[condLock lockWhenCondition:HAS_DATA];</tt><p>
+<tt>/* Manipulate global data if necessary... */</tt><p>
+<tt>[condLock unlockWithCondition:(moreData ? HAS_DATA : NO_DATA)];</tt><p>
+<tt></tt><p>
+An NSConditionLock object doesn't busy-wait, so it can be used to lock
+time-consuming operations without degrading system performance.<p>
+<p>
+The NSConditionLock, NSLock, and NSRecursiveLock classes all implement the
+NSLocking protocol with various features and performance characteristics; see
+the other class descriptions for more information.<p>
+<p>
+
+<b>Initializing an NSConditionLock</b><p>
+
+<UL><LI> - (id)<b>initWithCondition:</b>(int)<i>condition</i>	Initializes a newly
+created NSConditionLock and sets its condition to <i>condition</i>.</LI></UL>
+<b>Returning the Condition</b><p>
+
+<UL><LI> - (int)<b>condition</b>	Returns the receiver's condition, the state that must
+be achieved before a conditional lock can be acquired or released.</LI></UL>
+<b>Acquiring and Releasing a Lock</b><p>
+
+<UL><LI> - (void)<b>lockWhenCondition:</b>(int)<i>condition</i>	Attempts to acquire a
+lock when <i>condition</i> is met. Blocks until <i>condition</i> is met.
+</LI><LI> -  (void)<b>unlockWithCondition:</b>(int)<i>condition</i>	Releases the lock and
+sets lock state to <i>condition</i>.
+</LI><LI> -  (BOOL)<b>tryLock</b>	Attempts to acquire a lock. Returns YES if successful
+and NO otherwise.
+</LI><LI> -  (BOOL)<b>tryLockWhenCondition:</b>(int)<i>condition</i>	Attempts to acquire a
+lock when <i>condition</i> is met. Returns YES if successful and NO
+otherwise.
+</body></html>

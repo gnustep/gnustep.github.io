@@ -1,0 +1,974 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>GSTable class documentation</title>
+  </head>
+  <body>
+    <font face="serif">
+    <a href="GuiAdditions.html">Up</a>
+    <br />
+    <h1><a name="title$GSTable">GSTable class documentation</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Nicola Pero (<a href="mailto:n.pero@mi.flashnet.it"><code>n.pero@mi.flashnet.it</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <blockquote>
+      The GSTable class (a GNU extension)
+    </blockquote>
+    <p><b>Copyright:</b> (C) 1999 Free Software Foundation, Inc.</p>
+
+        <div>
+      <hr width="50%" align="left" />
+      <h3>Contents -</h3>
+      <ol>
+        <li>
+          <a href="GSTable.html#001000000000">GSTable</a>
+        </li>
+        <li>
+          <a href="GSTable.html#001001000000">Advanced Description of GSTable</a>
+        </li>
+        <li>
+          <a href="GSTable.html#001002000000">Setting Row and Column Expand Flag</a>
+        </li>
+      </ol>
+      <hr width="50%" align="left" />
+    </div>
+
+          <h1><a name="001000000000">GSTable</a></h1>
+    <p>
+
+        A GSTable object is used to control the disposition (position
+        and size) of a group of NSViews. The GSTable object offers
+        two main facilities to the programmer:
+          </p>
+    <ul>
+      <li>
+        
+          with a GSTable object, you do not need to specify the
+          exact position and size of each view. You only specify
+          the logical position, relative to the other views in the
+          table. The actual frame of each view is then computed
+          by the GSTable at run time.
+        
+      </li>
+      <li>
+        
+          when the GSTable is resized (for example, because the
+          user has resized the window in which the GSTable is),
+          the GSTable takes care of moving and resizing all its
+          views automatically. This is done in much a advanced
+          and customizable way than in the usual standard NSView&apos;s
+          autoresizing mechanism.
+        
+      </li>
+    </ul>
+    <p>
+
+        You create a GSTable instance with a certain number of rows
+        and columns. The GSTable object itself is invisible; it is
+        only a logical device used to specify the subview
+        position. Then, you place one by one the views you
+        want to control in the GSTable, by calling a method of the
+        family
+        <a rel="gsdoc" href="GSTable.html#method$GSTable-putView$atRow$column$">
+          -putView:atRow:column:
+        </a>
+
+        . Before placing a view in the table, you should resize it to
+        the minimum comfortable size you want it to have. The table
+        then automatically places the views, organizing them in
+        well-ordered columns and rows.
+          </p>
+    <p>
+
+        The initial size of the GSTable is zero; each time you put
+        a view in the GSTable, the GSTable recomputes sizes and as a
+        result resizes itself so that it exactly fits the views
+        it contains. You should not force a GSTable in a size
+        different from the one it has automatically computed.
+        The only acceptable, reasonable and meaningful way of
+        resizing a GSTable is through the appropriate
+        [NSView -resizeWithOldSuperviewSize:]
+ message when the GSTable is in the view hierarchy.
+          </p>
+    <p>
+
+        When you add a view, you may specify some particular
+        margins to be used for that view. If nothing is
+        specified, the view is added to the table with the
+        margins of 0. You should think of each view and its
+        margins as a whole. A position in the GSTable is free
+        or filled with a view and its margins.
+          </p>
+    <p>
+
+        The GSTable itself knows what is the minimum size it needs
+        to have in order to comfortably display the views it
+        contains. You may get this size by calling the method
+        <a rel="gsdoc" href="GSTable.html#method$GSTable-minimumSize">
+          -minimumSize
+        </a>
+
+        . When first filled, the table has this minimum size. If in
+        any moment you want the table to restore itself to this
+        size, you should invoke the method
+        <a rel="gsdoc" href="GSTable.html#method$GSTable-sizeToFit">
+          -sizeToFit
+        </a>
+
+        .
+          </p>
+    <p>
+
+        When the GSTable receives a
+        [NSView -resizeWithOldSuperviewSize:]
+ message, it automatically rearranges the views it contains:
+          </p>
+    <ul>
+      <li>
+        
+          If the new width or height is equal or less than the
+          table&apos;s minimum width or height, the GSTable simply
+          arranges its views in the initial position. In other
+          words, the GSTable refuse to resize below its minimum
+          width or height. If you do that, part of the GSTable is
+          clipped.
+        
+      </li>
+      <li>
+        
+          If the new width or height is bigger than the table&apos;s
+          minimum width or height, the space in excess is
+          equally distributed between the columns or rows which
+          have X (or Y) resizing enabled. When a column or a row
+          is resized, each view in the column or row is resized
+          together with its margins. By setting the
+          autoresizingMask of each view, you may
+          decide how the resizing operation will act on that
+          particular view and its margins. For example,
+          setting the autoresizingMask to
+          <code>NSViewWidthSizable | NSViewHeightSizable</code>
+          will always leave the margins fixed to their initial
+          dimensions, and expand/reduce only the view, in
+          all directions. Setting the autoresizingMask to
+          <code>NSViewMinXMargin | NSViewMaxXMargin</code>
+          <code>| NSViewSizable | NSViewHeightSizable</code>
+          will instead expand/reduce both the margins and the view
+          in the horizontal direction, but leave the margins fixed
+          and expand/reduce only the view in the vertical
+          direction. Whatever the autoresizingMask and the
+          amount of the resizing, views and margins are never
+          resized below their minimum comfortable size, as
+          explained above. For more information on the
+          autoresizingMask, please refer to the
+          description of the
+          
+            -setAutoresizingMask:
+          
+
+          method of the NSView class.
+        
+      </li>
+    </ul>
+
+            <h2><a name="001001000000">Advanced Description of GSTable</a></h2>
+    <p>
+
+          We call any view which is added to the GSTable a
+          <var>prisoner</var>. The purpose of the GSTable is to
+          effectively manage its prisoners. To do so, the
+          GSTable creates a special view, called a
+          <var>jail</var>, for each prisoner. The jails are
+          subviews of the GSTable; each prisoner, when added
+          to the GSTable, is made a subview of its jail. The GSTable
+          always moves and resizes directly the jails. The
+          moving is automatically transmitted to the prisoners,
+          which are subviews of the jails; the resizing is
+          transmitted through the usual autoresizing
+          machinery, because the jails always have
+          autoresizing of subviews turned on. This works
+          because if a prisoner sends to its superview an
+          
+            [NSView -frame]
+          
+
+          message, the frame of the jail (and <em>not</em> the
+          frame of the GSTable) is returned, so that each
+          prisoner will autoresize itself in its jail frame.
+          Moreover, any prisoner, being a subview of its
+          jail, is clipped in its jail frame. If a prisoner draws
+          something out of its jail frame, the output is
+          discarded by the usual subview/view clipping
+          machinery. This prevents the prisoners from
+          disturbing each other. The dimension of the jail
+          is the dimension of the prisoner plus its margins. Since
+          the GSTable manages directly the jails, each prisoner is
+          managed together with its margins. When the jail is
+          resized, the prisoner receives a
+          [NSView -resizeWithOldSuperviewSize:]
+, which makes it resize itself and its margins in the new jail size, according to its autoresizingMask.
+            </p>
+
+            <h2><a name="001002000000">Setting Row and Column Expand Flag</a></h2>
+    <p>
+
+          When the GSTable is resized, the extra space is equally
+          divided between the Rows and Columns which have the X
+          (or Y) resizing enabled. The following methods let you
+          enable/disable the X (or Y) resizing of each
+          row and column in the GSTable. Note that when the GSTable
+          is first created, all its columns and rows have by default
+          resizing enabled.
+          <a rel="gsdoc" href="GSTable.html#method$GSTable-setXResizingEnabled$forColumn$">
+            -setXResizingEnabled:forColumn:
+          </a>
+
+          ,
+          <a rel="gsdoc" href="GSTable.html#method$GSTable-setYResizingEnabled$forRow$">
+            -setYResizingEnabled:forRow:
+          </a>
+
+          .
+            </p>
+    <h2><a name="class$GSTable">GSTable</a> : NSView</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepGUI/GSTable.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="GSTable.html#_GSTable_ivars">Instance Variables</a>
+    <br/><br/>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-addColumn">-addColumn</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-addRow">-addRow</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-init">-init</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-initWithNumberOfRows$numberOfColumns$">-initWithNumberOfRows:numberOfColumns:</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-isXResizingEnabledForColumn$">-isXResizingEnabledForColumn:</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-isYResizingEnabledForRow$">-isYResizingEnabledForRow:</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-minimumSize">-minimumSize</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-numberOfColumns">-numberOfColumns</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-numberOfRows">-numberOfRows</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-putView$atRow$column$">-putView:atRow:column:</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-putView$atRow$column$withMargins$">-putView:atRow:column:withMargins:</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-putView$atRow$column$withMinXMargin$maxXMargin$minYMargin$maxYMargin$">-putView:atRow:column:withMinXMargin:maxXMargin:minYMargin:maxYMargin:</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-putView$atRow$column$withXMargins$yMargins$">-putView:atRow:column:withXMargins:yMargins:</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-setBorder$">-setBorder:</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-setMaxXBorder$">-setMaxXBorder:</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-setMaxYBorder$">-setMaxYBorder:</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-setMinXBorder$">-setMinXBorder:</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-setMinYBorder$">-setMinYBorder:</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-setXBorder$">-setXBorder:</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-setXResizingEnabled$forColumn$">-setXResizingEnabled:forColumn:</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-setYBorder$">-setYBorder:</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-setYResizingEnabled$forRow$">-setYResizingEnabled:forRow:</a></li>
+      <li><a rel="gsdoc" href="GSTable.html#method$GSTable-sizeToFit">-sizeToFit</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSTable-addColumn">addColumn&nbsp;</a></h3>
+    - (void) <b>addColumn</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Add a column to the GSTable. The column is added
+            <strong>void</strong>, with zero width and X
+            Resizing enabled.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-addRow">addRow&nbsp;</a></h3>
+    - (void) <b>addRow</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Add a row to the GSTable. The row is added
+            <strong>void</strong>, with zero height and Y
+            Resizing enabled.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-init">init&nbsp;</a></h3>
+    - (id) <b>init</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Initialize with a default of 2 columns and 2
+            rows.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-initWithNumberOfRows$numberOfColumns$">initWithNumberOfRows:&nbsp;numberOfColumns:&nbsp;</a></h3>
+    - (id) <b>initWithNumberOfRows:</b> (int)rows<b> numberOfColumns:</b> (int)columns;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Initialize a GSTable with <var>columns</var>
+            <var>columns</var> and <var>rows</var>
+            <var>rows</var>. If <var>columns</var> or
+            <var>rows</var> is negative or null, a warning is
+            issued and a default of 2 is used instead.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-isXResizingEnabledForColumn$">isXResizingEnabledForColumn:&nbsp;</a></h3>
+    - (BOOL) <b>isXResizingEnabledForColumn:</b> (int)aColumn;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Return whether X resizing is enabled for the column
+            <var>aColumn</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-isYResizingEnabledForRow$">isYResizingEnabledForRow:&nbsp;</a></h3>
+    - (BOOL) <b>isYResizingEnabledForRow:</b> (int)aRow;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Return whether Y resizing is enabled for the row
+            <var>aRow</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-minimumSize">minimumSize&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSSize">NSSize</a>) <b>minimumSize</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            This returns the minimum size the GSTable should be
+            resized to. Trying to resize the GSTable below this
+            size will only result in clipping (ie, making it
+            disappear) part of the GSTable.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-numberOfColumns">numberOfColumns&nbsp;</a></h3>
+    - (int) <b>numberOfColumns</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Return the number of columns in the GSTable.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-numberOfRows">numberOfRows&nbsp;</a></h3>
+    - (int) <b>numberOfRows</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Return the number of rows in the GSTable.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-putView$atRow$column$">putView:&nbsp;atRow:&nbsp;column:&nbsp;</a></h3>
+    - (void) <b>putView:</b> (NSView*)aView<b> atRow:</b> (int)row<b> column:</b> (int)column;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Put <var>aView</var> in the GSTable, in the specified
+            <var>row</var> and <var>column</var>. Zero (0)
+            margins are used. If the <var>column</var>
+            <var>column</var> (or the <var>row</var>
+            <var>row</var>}) is not enough big to fully display
+            <var>aView</var> and its margins, the
+            <var>column</var> (or the <var>row</var>) is resized
+            (regardless of the fact that X or Y Resizing is
+            Enabled or not). It is understood that this will
+            affect each view (and its margins) in the
+            <var>column</var> (or <var>row</var>) according to
+            the autoresizing mask of each view.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-putView$atRow$column$withMargins$">putView:&nbsp;atRow:&nbsp;column:&nbsp;withMargins:&nbsp;</a></h3>
+    - (void) <b>putView:</b> (NSView*)aView<b> atRow:</b> (int)row<b> column:</b> (int)column<b> withMargins:</b> (float)margins;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Put <var>aView</var> in the GSTable, using
+            <var>margins</var> as margin in all directions: left,
+            right, top, bottom.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-putView$atRow$column$withMinXMargin$maxXMargin$minYMargin$maxYMargin$">putView:&nbsp;atRow:&nbsp;column:&nbsp;withMinXMargin:&nbsp;maxXMargin:&nbsp;minYMargin:&nbsp;maxYMargin:&nbsp;</a></h3>
+    - (void) <b>putView:</b> (NSView*)aView<b> atRow:</b> (int)row<b> column:</b> (int)column<b> withMinXMargin:</b> (float)minXMargin<b> maxXMargin:</b> (float)maxXMargin<b> minYMargin:</b> (float)minYMargin<b> maxYMargin:</b> (float)maxYMargin;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Put <var>aView</var> in the GSTable, using the
+              specified margins. The names for the margins
+              are chosen as to be as close as possible to the
+              autoresizingMask convention. The margins
+              are to be interpreted as follows:
+                </p>
+    <p>
+      
+            
+      <dl>
+        <dt><var>minXMargin</var></dt>
+        <dd>
+          Left Margin
+        </dd>
+        <dt><var>maxXMargin</var></dt>
+        <dd>
+          Right Margin
+        </dd>
+        <dt><var>minYMargin</var></dt>
+        <dd>
+          
+                Lower Margin (Upper if view is flipped)
+              
+        </dd>
+        <dt><var>maxYMargin</var></dt>
+        <dd>
+          
+                Upper Margin (Lower if view is flipped)
+              
+        </dd>
+      </dl>
+      
+            
+    </p>
+    <p>
+
+              Each view which is added to the GSTable can have
+              some margins set. The GSTable treats the view and
+              its margins as a whole. They are given (as a whole)
+              some space, which is reduced or increased (but only
+              if X or Y Resizing is Enabled for the
+              <var>column</var> or the <var>row</var> in which
+              the view resides) when the GSTable is resized. When
+              this happens, the space is added (or subtracted) to
+              the view or to the margins according to the
+              autoResizeMask of the view.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-putView$atRow$column$withXMargins$yMargins$">putView:&nbsp;atRow:&nbsp;column:&nbsp;withXMargins:&nbsp;yMargins:&nbsp;</a></h3>
+    - (void) <b>putView:</b> (NSView*)aView<b> atRow:</b> (int)row<b> column:</b> (int)column<b> withXMargins:</b> (float)xMargins<b> yMargins:</b> (float)yMargins;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Put <var>aView</var> in the GSTable, using
+            <var>xMargins</var> as the left and right margins,
+            and <var>yMargins</var> as the top and bottom margins.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-setBorder$">setBorder:&nbsp;</a></h3>
+    - (void) <b>setBorder:</b> (float)aBorder;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Set the GSTable up, bottom, left and right borders to
+            the same value <var>aBorder</var>. The GSTable is
+            immediately updated. If <var>aBorder</var> is
+            negative, the border is reset to the default,
+            which is zero (0). The border is simply unfilled
+            space; it is measured in the GSTable coordinate
+            system.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-setMaxXBorder$">setMaxXBorder:&nbsp;</a></h3>
+    - (void) <b>setMaxXBorder:</b> (float)aBorder;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Same as setXBorder: but set only the right border.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-setMaxYBorder$">setMaxYBorder:&nbsp;</a></h3>
+    - (void) <b>setMaxYBorder:</b> (float)aBorder;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Same as setXBorder: but set only the upper border
+            (lower if the GSTable is flipped).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-setMinXBorder$">setMinXBorder:&nbsp;</a></h3>
+    - (void) <b>setMinXBorder:</b> (float)aBorder;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Same as setXBorder: but set only the left border.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-setMinYBorder$">setMinYBorder:&nbsp;</a></h3>
+    - (void) <b>setMinYBorder:</b> (float)aBorder;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Same as setXBorder: but set only the lower border
+            (upper if the GSTable is flipped).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-setXBorder$">setXBorder:&nbsp;</a></h3>
+    - (void) <b>setXBorder:</b> (float)aBorder;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Set the GSTable left and right borders to
+            <var>aBorder</var>. If <var>aBorder</var> is
+            negative, the border is reset to zero. The
+            GSTable is immediately updated.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-setXResizingEnabled$forColumn$">setXResizingEnabled:&nbsp;forColumn:&nbsp;</a></h3>
+    - (void) <b>setXResizingEnabled:</b> (BOOL)aFlag<b> forColumn:</b> (int)aColumn;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Enable/disable X Resizing for the column
+            <var>aColumn</var>} according to <var>aFlag</var>.
+            Note: at present, enabling/disabling X resizing after
+            the table has been put in the view hierarchy is not
+            supported.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-setYBorder$">setYBorder:&nbsp;</a></h3>
+    - (void) <b>setYBorder:</b> (float)aBorder;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Same as setXBorder: but set the up and bottom borders.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-setYResizingEnabled$forRow$">setYResizingEnabled:&nbsp;forRow:&nbsp;</a></h3>
+    - (void) <b>setYResizingEnabled:</b> (BOOL)aFlag<b> forRow:</b> (int)aRow;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Enable/disable Y Resizing for the row
+            <var>aRow</var> according to <var>aFlag</var>. Note:
+            at present, enabling/disabling Y resizing after the
+            table has been put in the view hierarchy is not
+            supported.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTable-sizeToFit">sizeToFit&nbsp;</a></h3>
+    - (void) <b>sizeToFit</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            If for any reason you need the GSTable to be redrawn
+            (with minimum size), invoke the following.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<a name="_GSTable_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for GSTable Class</h2>
+    <h3><a name="ivariable$GSTable*_columnDimension">_columnDimension</a></h3>
+    @protected float* <b>_columnDimension</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSTable*_columnXOrigin">_columnXOrigin</a></h3>
+    @protected float* <b>_columnXOrigin</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSTable*_expandColumn">_expandColumn</a></h3>
+    @protected BOOL* <b>_expandColumn</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSTable*_expandRow">_expandRow</a></h3>
+    @protected BOOL* <b>_expandRow</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSTable*_expandingColumnNumber">_expandingColumnNumber</a></h3>
+    @protected int <b>_expandingColumnNumber</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSTable*_expandingRowNumber">_expandingRowNumber</a></h3>
+    @protected int <b>_expandingRowNumber</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSTable*_havePrisoner">_havePrisoner</a></h3>
+    @protected BOOL* <b>_havePrisoner</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSTable*_jails">_jails</a></h3>
+    @protected NSView** <b>_jails</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSTable*_maxXBorder">_maxXBorder</a></h3>
+    @protected float <b>_maxXBorder</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSTable*_maxYBorder">_maxYBorder</a></h3>
+    @protected float <b>_maxYBorder</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSTable*_minColumnDimension">_minColumnDimension</a></h3>
+    @protected float* <b>_minColumnDimension</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSTable*_minRowDimension">_minRowDimension</a></h3>
+    @protected float* <b>_minRowDimension</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSTable*_minXBorder">_minXBorder</a></h3>
+    @protected float <b>_minXBorder</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSTable*_minYBorder">_minYBorder</a></h3>
+    @protected float <b>_minYBorder</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSTable*_minimumSize">_minimumSize</a></h3>
+    @protected NSSize <b>_minimumSize</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSTable*_numberOfColumns">_numberOfColumns</a></h3>
+    @protected int <b>_numberOfColumns</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSTable*_numberOfRows">_numberOfRows</a></h3>
+    @protected int <b>_numberOfRows</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSTable*_rowDimension">_rowDimension</a></h3>
+    @protected float* <b>_rowDimension</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSTable*_rowYOrigin">_rowYOrigin</a></h3>
+    @protected float* <b>_rowYOrigin</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <br/><hr width="50%" align="left" /><br/>
+    <br />
+    <a href="GuiAdditions.html">Up</a>
+    </font>
+</body>
+</html>

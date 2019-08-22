@@ -1,0 +1,210 @@
+<html><head><TITLE>NSCalendarDate.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSCalendarDate </b><p>
+
+<B>Inherits From: </B><A HREF="NSDate.html">NSDate</A> : <A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding, NSCopying (NSDate)
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>Foundation/NSDate.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+NSCalendarDate is a public subclass of NSDate that defines concrete date
+objects. These objects have time zones and format strings bound to them and are
+especially suited for representing and manipulating dates according to western
+calendrical systems. <p>
+<p>
+By drawing on the behavior of the NSTimeZone class, NSCalendarDate objects
+adjust their visible representations to reflect their associated time zones.
+Because of this, you can track an NSCalendarDate object across different time
+zones. You can also present date information from time-zone viewpoints other
+than the one for the current locale.<p>
+<p>
+Each NSCalendarDate object also has a calendar format string bound to it. This
+format string contains date-conversion specifiers that are very similar to
+those used in the standard C library function <b>strftime()</b>. By reference
+to this format string, NSCalendarDate can interpret dates that are represented
+as strings conforming to the format. Several methods allow you to specify
+formats other than the one bound to the object, and <b>setCalendarFormat:</b>
+lets you change the default format string for an NSCalendarDate object.<p>
+<p>
+NSCalendarDate provides both class and instance methods for obtaining
+initialized objects. Some of these methods allow you to initialize date objects
+from strings while others initialize objects from sets of integers
+corresponding the standard time values (months, hours, seconds, etc.). As
+always, you are responsible for deallocating any objects obtained through an
+<b>alloc...</b> or <b>copy...</b> method.<p>
+<p>
+To retrieve conventional elements of a date, use the methods of the form
+<b>dayOfWeek</b>, <b>monthOfYear</b>, and so on. For example, <b>dayOfWeek</b>
+returns a number that indicates the day of the week (0 is Sunday). The
+<b>monthOfYear</b> method returns a number from 1 to 12 that indicates the
+month.<p>
+<p>
+NSCalendarDate provides several methods for representing dates as strings.
+These methods<b>description</b>, <b>descriptionWithLocale:</b>,
+<b>descriptionWithCalendarFormat</b>:, and
+<b>descriptionWithCalendarFormat:timeZone:</b>take an implicit or
+explicit format string.<p>
+<p>
+NSCalendarDate performs date computations based on western calendar systems,
+primarily the Gregorian. (The algorithms are derived from public domain
+software described in Calendrical Calculations,
+a two-part series by Nachum Dershowitz and Edward M. Reingold in
+<i>SoftwarePractice and Experience</i>).<p>
+<p>
+
+<b>General Exceptions</b><p>
+
+
+NSCalendarDate will raise NSInvalidArgumentException in the general case where
+numeric character strings to specify years, months, days, and so on, are not
+valid numbers.<p>
+<p>
+
+<b>Getting and Initializing an NSCalendar Date </b><p>
+
+<UL><LI> + (NSCalendarDate *)<b>calendarDate</b>	Returns an NSCalendarDate initialized
+to the current date and time.
+</LI><LI> +  (NSCalendarDate *)<b>dateWithString:</b>(NSString *)<i>description</i>
+<i></i><b>calendarFormat:</b>(NSString *)<i>format</i>	 Returns an
+NSCalendarDate object initialized with the date specified in <i>description</i>
+and interpreted according the the conversion specifiers in <i>format</i>.
+Raises NSInvalidArgumentException if the <i>description</i> and <i>format</i>
+do not correspond exactly.
+</LI><LI> +  (NSCalendarDate *)<b>dateWithString:</b>(NSString *)<i>description</i> 
+<b>calendarFormat:</b>(NSString *)<i>format</i> 	Returns an NSCalendarDate
+object initialized with the date
+<b>locale:</b>(NSDictionary *)<i>dictionary		</i>date specified in
+<i>description</i> and interpreted according the the conversion specifiers in
+<i>format</i>. String components of the date are fetched from the locale
+<i>dictionary</i>. Raises NSInvalidArgumentException if the <i>description</i>
+and <i>format</i> do not correspond exactly.
+</LI><LI> +  (NSCalendarDate *)<b>dateWithYear:</b>(int)<i>year</i>	Returns an
+NSCalendarDate object initialized with integers 
+<b>month:</b>(unsigned int)<i>month</i>		that specify a <i>year</i> (which must
+include the 
+<b>day:</b>(unsigned int)<i>day</i>		century), <i>month</i>, <i>day</i>,
+<i>hour</i>, <i>minute</i>, and <i>second</i>. Also
+<b>hour:</b>(unsigned int)<i>hour</i>		include a time-zone object or time-zone
+detail object 
+<b>minute:</b>(unsigned int)<i>minute</i>		(<i>aTimeZone</i>) to have the date
+adjusted to a particular
+<b>second:</b>(unsigned int)<i>second</i>		locale. If you specify <b>nil</b>
+for a time zone, 
+<b>timeZone</b>:(NSTimeZone *)<i>aTimeZone		</i>NSInvalidArgumentException is
+raised.<i> </i>(See "Retrieving Date Elements," below, for the proper ranges of
+the date and time integers.)
+</LI><LI> -  (id)<b>initWithString:</b>(NSString *)<i>description</i>	Initializes and
+returns an NSCalendarDate object specified by <i>description</i> in the
+international format for date representation (YYYY-MM-DD HH:MM:SS - HHMM, where
+- HHMM is an offset from GMT).
+</LI><LI> -  (id)<b>initWithString:</b>(NSString *)<i>description</i>	Initializes and
+returns an NSCalendarDate object specified
+<b>calendarFormat:</b>(NSString *)<i>format</i>		as a string object in
+<i>description</i> and interpreted according to the extended <b>strftime()
+</b>date-conversion specifiers in <i>format</i>. Raises
+NSInvalidArgumentException if the <i>description</i> and <i>format</i> do not
+correspond exactly.
+</LI><LI> -  (id)<b>initWithString:</b>(NSString *)<i>description</i>	Initializes and
+returns an NSCalendarDate object specified
+<b>calendarFormat:</b>(NSString *)<i>format</i>		as a string object in
+<i>description</i> and interpreted
+<b>locale:</b>(NSDictionary *)<i>dictionary</i>		according to the extended
+<b>strftime </b>date-conversion specifiers in <i>format</i>. String components
+of the date are fetched from the locale <i>dictionary</i>. Raises an
+NSInvalidArgumentException if the <i>description</i> and <i>format</i> do not
+correspond exactly.
+</LI><LI> -  (id)<b>initWithYear:</b>(int)<i>year</i>	Returns an NSCalendarDate object
+initialized with integers
+<b>month:</b>(unsigned int)<i>month</i>		that specify a <i>year</i> (which must
+include the
+<b>day:</b>(unsigned int)<i>day</i>		century), <i>month</i>, <i>day</i>,
+<i>hour</i>, <i>minute</i>, and <i>second</i>. Also
+<b>hour:</b>(unsigned int)<i>hour</i>		include a time-zone object
+(<i>aTimeZone</i>) to have the
+<b>minute:</b>(unsigned int)<i>minute</i>		date adjusted for a particular
+locale. Raises an 
+<b>second:</b>(unsigned int)<i>second</i>		NSInvalidArgumentException if you
+specify <b>nil</b> for a 
+<b>timeZone</b>:(NSTimeZone *)<i>aTimeZone</i>		time zone. (See "RetrievingDate
+Elements," below, for the proper ranges of the date and time integers.)</LI></UL>
+<b>Retrieving Date Elements</b><p>
+
+<UL><LI> - (int)<b>dayOfCommonEra</b>	Returns the number of days since the beginning of
+the Common Era.
+</LI><LI> -  (int)<b>dayOfMonth</b>	Returns the day of the month (1 through 31) of the
+NSCalendarDate object.
+</LI><LI> -  (int)<b>dayOfWeek</b>	Returns a number indicating the day of the week (0
+[Sun] through 6 [Sat]) of the NSCalendarDate object.
+</LI><LI> -  (int)<b>dayOfYear</b>	Returns a number indicating the day of the year (1
+through 366) of the NSCalendarDate object.
+</LI><LI> -  (int)<b>hourOfDay</b>	Returns a number indicating the hour of the day (0
+through 23) of the NSCalendarDate object.
+</LI><LI> -  (int)<b>minuteOfHour</b>	Returns a number indicating the minute of the hour
+(0 through 59) of the NSCalendarDate object.
+</LI><LI> -  (int)<b>monthOfYear</b>	Returns a number indicating the month of the year (1
+through 12) of the NSCalendarDate object.
+</LI><LI> -  (int)<b>secondOfMinute</b>	Returns a number indicating the second of the
+minute (0 through 59) of the NSCalendarDate object.
+</LI><LI> -  (int)<b>yearOfCommonEra</b>	Returns a number indicating the year, including
+the century, of the NSCalendarDate object.</LI></UL>
+<b>Providing Adjusted Dates </b><p>
+
+<UL><LI> - (NSCalendarDate *)<b>addYear:</b>(int)<i>year</i>	Returns an NSCalendarDate
+objects with the <i>year</i>, <i>month</i>, 
+<b>month:</b>(int)<i>month</i>		<i>day</i>, <i>hour</i>, <i>minute</i>, and
+<i>second</i> offsets specified as 
+<b>day:</b>(int)<i>day</i>		arguments and the correct time-zone detail object
+for
+<b>hour:</b>(int)<i>hour</i>		the computed date. These offsets are relative to
+the
+<b>minute:</b>(int)<i>minute</i>		object and can be positive or negative. This
+method
+<b>second:</b>(int)<i>second</i>		preserves clock
+time during transitions to and from 
+		Daylight Savings Time and on leap years.</LI></UL>
+<b>Getting String Descriptions of Dates </b><p>
+
+<UL><LI> - (NSString *)<b>description</b>	Returns a string description of the receiver's
+date using the default format string (%Y-%m-%d %H:%M:%S %z) and the locale and
+time-zone information associated with the receiver.
+</LI><LI> -  (NSString *)<b>descriptionWithCalendarFormat:</b>(NSString *)<i>format</i>	
+	Returns a string description of the receiver's date that is formatted
+according to the conversion specifiers in <i>format</i> and using the locale
+and time-zone detail information associated with the receiver.
+</LI><LI> -  (NSString *)<b>descriptionWithCalendarFormat:</b>(NSString *)<i>format</i>	
+<b>locale:</b>(NSDictionary *)<i>locale</i>	Returns a string description of the
+receiver's date that is formatted according to the conversion specifiers in
+<i>format</i>, represented according to the locale information in
+<i>locale</i>, and adjusted according to the time-zone detail information
+associated with the receiver.
+</LI><LI> -  (NSString *)<b>descriptionWithLocale:</b>(NSDictionary *)<i>locale</i>
+<i></i>	Returns a string description of the receiver's date using the default
+format string (%Y-%m-%d %H:%M:%S %z), with information localized according to
+the locale information in <i>locale</i>, and using the time zone information
+associated with the receiver. </LI></UL>
+<b>Getting and Setting Calendar Formats </b><p>
+
+<UL><LI> - (NSString *)<b>calendarFormat</b>	Returns the calendar format (a string of
+date-conversion specifiers) for the receiving object. The default calendar
+format is %Y-%m-%d %H:%M:%S %z.
+</LI><LI> -  (void)<b>setCalendarFormat:</b>(NSString *)<i>format	</i>Sets the calendar
+format for the receiving object to <i>format</i>. </LI></UL>
+<b>Getting and Setting Time Zones </b><p>
+
+<UL><LI> - (void)<b>setTimeZone:</b>(NSTimeZone *)<i>aTimeZone</i>	Sets the time-zone
+object associated with the NSCalendarDate object to <i>aTimeZone</i>.
+</LI><LI> -  (NSTimeZoneDetail *)<b>timeZoneDetail</b>	Returns the NSTimeZoneDetail object
+associated with the receiver.
+</body></html>

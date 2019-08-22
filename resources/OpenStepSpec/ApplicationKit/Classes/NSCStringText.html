@@ -1,0 +1,553 @@
+<html><head><TITLE>NSCStringText.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSCStringText </b><p>
+
+<B>Inherits From: </B><A HREF="NSText.html">NSText</A> : <A HREF="NSView.html">NSView</A> : <A HREF="NSResponder.html">NSResponder</A> : <A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSChangeSpelling, NSIgnoreMisspelledWords (NSText)
+NSCoding (NSResponder)<p>
+NSObject (NSObject)<p>
+<p>
+<b>Declared In:	</b>AppKit/NSCStringText.h <p>
+<p>
+
+<b>Class Description</b><p>
+
+
+The NSCStringText class declares the programmatic interface to objects that
+manage text using eight-bit character encodings. The encoding is the same as
+the default C string encoding provided by <b>defaultCStringEncoding</b> in the
+NSString class. NSCStringText can be used in situations where backwards
+compatibility with the detailed interfaces of the NEXTSTEP Text object is
+important. Applications that can use the interface of NSText should do so.<p>
+<p>
+The NSCStringText class is unlike most other classes in the Application Kit in
+its complexity and range of features. One of its design goals is to provide a
+comprehensive set of text-handling features so that you'll rarely need to
+create a subclass. An NSCStringText object can (among other things):<p>
+<p>
+.	Control the color of its text and background.<p>
+<p>
+.	Control the font and layout characteristics of its text.<p>
+<p>
+.	Control whether text is editable.<p>
+<p>
+.	Wrap text on a word or character basis.<p>
+<p>
+.	Write text to, or read it from, a file, as either RTF or plain ASCII data.<p>
+<p>
+.	Display graphic images within its text.<p>
+<p>
+.	Communicate with other applications through the Services menu.<p>
+<p>
+.	Let another object, the delegate, dynamically control its properties.<p>
+<p>
+.	Let the user copy and paste text within and between applications.<p>
+<p>
+.	Let the user copy and paste font and format information between NSCStringText
+objects.<p>
+<p>
+.	Let the user check the spelling of words in its text.<p>
+<p>
+.	Let the user control the format of paragraphs by manipulating a ruler.<p>
+<p>
+NSCStringText can deal only with eight-bit characters. Therefore, it is not
+able to deal with Unicode character sets, and NSCStringText can't be fully
+internationalized.<p>
+<p>
+
+<b>Plain and Rich NSCStringText Objects</b><p>
+
+
+When you create an NSCStringText object directly, by default it allows only one
+font, line height, text color, and paragraph format for the entire text. You
+can set the default font used by new NSCStringText instances by sending the
+NSCStringText class object a <b>setDefaultFont:</b> message. Once an
+NSCStringText object is created, you can alter its global settings using
+methods such as <b>setFont:</b>, <b>setLineHeight:</b>, <b>setTextGray:</b>,
+and <b>setAlignment:</b>. For convenience, such an NSCStringText object will be
+called a <i>plain</i> NSCStringText object.<p>
+<p>
+To allow multiple values for these attributes, you must send the NSCStringText
+object a <b>setRichText:YES</b> message. An NSCStringText object that allows
+multiple fonts also allows multiple paragraph formats, line heights, and so on.
+For convenience, such an NSCStringText object will be called a <i>rich</i>
+NSCStringText object.<p>
+<p>
+A rich NSCStringText object can use RTF (Rich Text Format) as an interchange
+format. Not all RTF control words are supported: On input, an NSCStringText
+object ignores any control word it doesn't recognize; some of those it can read
+and interpret it doesn't write out. Refer to the class description of NSText
+for a list of the RTF control words that an NSCStringText object recognizes. <p>
+<p>
+Note: An NSCStringText object writes eight-bit characters in the default C
+string encoding, which differs somewhat from the ANSI character set.<p>
+<p>
+In an NSCStringText object, each sequence of characters having the same
+attributes is called a <i>run</i>. A plain NSCStringText object has only one
+run for the entire text. A rich NSCStringText object can have multiple runs.
+Methods such as <b>setSelFont</b>: and <b>setSelColor:</b> let you
+programmatically modify the attributes of the selected sequence of characters
+in a rich NSCStringText object. As discussed below, the user can set these
+attributes using the Font panel and the ruler.<p>
+<p>
+NSCStringText objects are designed to work closely with various objects and
+services. Some of thesesuch as the delegate or an embedded graphic
+objectrequire a degree of programming on your part. Otherssuch as
+the Font panel, spelling checker, ruler, and Services menutake no effort
+other than deciding whether the service should be enabled or disabled. The
+following sections discuss these interrelationships.<p>
+<p>
+
+<b>Notifying the NSCStringText Object's Delegate</b><p>
+
+
+Many of an NSCStringText object's actions can be controlled through an
+associated object, the NSCStringText object's delegate. If it implements any of
+the following methods, the delegate receives the corresponding message at the
+appropriate time:<p>
+<p>
+<b>textWillResize:</b><p>
+<b>textDidResize:oldBounds:</b><p>
+<b>textWillSetSel:toFont:</b><p>
+<b>textWillConvert:fromFont:toFont:</b><p>
+<b>textWillStartReadingRichText:</b><p>
+<b>textWillFinishReadingRichText:</b><p>
+<b>textWillWrite:</b><p>
+<b>textDidRead:paperSize:</b><p>
+
+<b></b>So, for example, if the delegate implements the
+<b>textWillConvert:fromFont:toFont:</b> method, it will receive notification
+upon the user's first attempt to change the font of the text. Moreover,
+depending on the method's return value, the delegate can either allow or
+prohibit changes to the text. See Methods Implemented by the
+Delegate. The delegate can be any object you choose, and one
+delegate can control multiple NSCStringText objects.<p>
+<p>
+
+<b>Adding Graphics to the Text</b><p>
+
+
+A rich NSCStringText object allows graphics to be embedded in the text. Each
+graphic is treated as a single (possibly large)
+character: The text's line height and character
+placement are adjusted to accommodate the graphic
+character. Graphics are embedded in the text in
+either of two ways: programmatically or directly through user actions. The
+programmatic approach is discussed first.<p>
+<p>
+In the programmatic approach, you add an objectgenerally a subclass of
+NSCellto the text. This object manages the graphic image by drawing it
+when appropriate. Although NSCell subclasses are commonly used, the only
+requirement is that the embedded object responds to these messagessee
+Methods Implemented by an Embedded Graphic
+Object for more information:<p>
+<p>
+<b>highlight:withFrame:inView:</b><p>
+<b>drawWithFrame:inView:</b><p>
+<b>trackMouse:inRect:ofView:untilMouseUp:</b><p>
+<b>cellSize:</b><p>
+<b>readRichText:forView:</b><p>
+<b>richTextforView:</b><p>
+
+<b></b>You place the graphic object in the text by sending the NSCStringText
+object a <b>replaceSelWithCell:</b> message.<p>
+<p>
+An NSCStringText object displays a graphic in its text by sending the managing
+object a <b>drawWithFrame:inView:</b> message. To record the graphic to a file
+or to the pasteboard, the NSCStringText object sends the managing object a
+<b>richTextforView:</b> message. The object must then write an RTF control word
+along with any data (such as the path of a TIFF file containing its image data)
+it might need to recreate its image. To reestablish the text containing the
+graphic image from RTF data, an NSCStringText object must know which class to
+associate with particular RTF control words. You associate a control word with
+a class object by sending the NSCStringText class object a
+<b>registerDirective:forClass:</b> message. Thereafter, whenever an
+NSCStringText object finds the registered control word in the RTF data being
+read from a file or the pasteboard, it will create a new instance of the class
+and send the object a <b>readRichText:forView:</b> message.<p>
+<p>
+An alternate means of adding an image to the text is for the user to drag an
+EPS or TIFF file icon directly into an NSCStringText object. The NSCStringText
+object automatically creates a graphic object to manage the display of the
+image. This feature requires a rich NSCStringText object that has been
+configured to receive dragged imagessee the <b>setImportsGraphics:</b>
+method of the NSText class. <p>
+<p>
+Images that have been imported in this way can be written as RTFD documents.
+Programmatic creation of RTFD documents is not supported in this version of
+OpenStep. RTFD documents use a file package, or directory, to store the
+components of the document (the D stands for
+directory). The file package has the name of the
+document plus a .rtfd extension. The file
+package always contains a file called TXT.rtf for the text of the document, and
+one or more TIFF or EPS files for the images. An NSCStringText object can
+transfer information in an RTFD document to a file and read it from a
+filesee the <b>writeRTFDToFile:atomically:</b> and
+<b>readRTFDFromFile:</b> methods in the NSText methods.<p>
+<p>
+
+<b>Cooperating with Other Objects and Services</b><p>
+
+
+NSCStringText objects are designed to work with the Application Kit's font
+conversion system. By default, an NSCStringText object keeps the Font panel
+updated with the font of the current selection. It also changes the font of the
+selection (for a rich NSCStringText object) or of the entire text (for a
+default NSCStringText object) to reflect the user's choices in the Font panel
+or menu. To disconnect an NSCStringText object from this service, send it a
+<b>setUsesFontPanel:NO</b> message (this method is actually implemented by
+NSTextthe superclass).<p>
+<p>
+If an NSCStringText object is a subview of an NSScrollView, it can cooperate
+with the NSScrollView to display and update a ruler that displays formatting
+information. The NSScrollView retiles its subviews to make room for the ruler,
+and the NSCStringText object updates the ruler with the format information of
+the paragraph containing the selection. The <b>toggleRuler:</b> method controls
+the display of this ruler. Users can modify paragraph formats by manipulating
+the components of the ruler.<p>
+<p>
+By means of the Services menu, an NSCStringText object can make use of
+facilities outside the scope of its own application. By default, an
+NSCStringText object registers with the services system that it can send and
+receive RTF and plain ASCII data. If the application containing the
+NSCStringText object has a Services menu, a menu item is added for each service
+provider that can accept or return these formats. To prevent NSCStringText
+objects from registering for services, send the NSCStringText class object an
+<b>excludeFromServicesMenu:YES</b> message before any NSCStringText objects are
+created.<p>
+<p>
+Coordinates and sizes mentioned in the method descriptions below are in
+PostScript units1/72 of an inch.<p>
+<p>
+
+<b>Initializing a New NSCStringText Object </b><p>
+
+<UL><LI> - (id)<b>initWithFrame:</b>(NSRect)<i>frameRect</i>	Returns a new NSCStringText
+object at <i>frameRect </i>
+<i></i>text:(NSString *)<i>theText</i>		initialized with the contents of
+<i>theText</i> and with <i>mode</i> 
+<b>alignment:</b>(NSTextAlignment)<i>mode</i>	 	alignment.</LI></UL>
+<b>Modifying the Frame Rectangle </b><p>
+
+<UL><LI> - (void)<b>resizeTextWithOldBounds:</b>(NSRect)<i>oldBounds</i> 
+<b>maxRect:</b>(NSRect)<i>maxRect</i>	Used by the NSCStringText object to
+resize and redisplay itself. </LI></UL>
+<b>Laying Out the Text </b><p>
+
+<UL><LI> - (int)<b>calcLine</b>	Calculates line breaks. 
+</LI><LI> -  (BOOL)<b>changeTabStopAt:</b>(float)<i>oldX</i>	 Resets the position of the
+specified tab stop.
+<b>to:</b>(float)<i>newX</i> 
+</LI><LI> -  (BOOL)<b>charWrap</b>	Returns whether extra long words are wrapped. 
+</LI><LI> -  (void *)<b>defaultParagraphStyle</b>	Returns the default paragraph style. 
+</LI><LI> -  (float)<b>descentLine</b>	Returns distance from base line to bottom of line.
+
+</LI><LI> -  (void)<b>getMarginLeft:</b>(float *)<i>leftMargin</i>	 Gets by reference the
+dimensions of margins around the 
+<b>right:</b>(float *)<i>rightMargin</i>	 	text.
+<b>top:</b>(float *)<i>topMargin</i>	 
+<b>bottom:</b>(float *)<i>bottomMargin</i>	 
+</LI><LI> -  (void)<b>getMinWidth:</b>(float *)<i>width</i>	Given the <i>widthMax</i> and
+<i>heightMax</i>, calculates the
+<b>minHeight:</b>(float *)<i>height</i>		minimum area needed to display the
+text and returns
+<b>maxWidth:</b>(float)<i>widthMax</i>		<i>width</i> and <i>height</i> by
+reference.
+<b>maxHeight:</b>(float)<i>heightMax</i>		 
+</LI><LI> -  (float)<b>lineHeight</b>	Returns height of a line of text. 
+</LI><LI> -  (void *)<b>paragraphStyleForFont:</b>(NSFont *)<i>fontId</i>	Recalculates the
+paragraph style based on new font <i>fontId</i> 
+<b>alignment:</b>(int)<i>alignment</i>	 and<i> alignment</i>.
+</LI><LI> -  (void)<b>setCharWrap:</b>(BOOL)<i>flag</i>	Sets whether extra long words are
+wrapped. 
+</LI><LI> -  (void)<b>setDescentLine:</b>(float)<i>value</i>	Sets the distance from the
+base line to the bottom of line to <i>value</i>.
+</LI><LI> -  (void)<b>setLineHeight:</b>(float)<i>value</i>	Sets the height of a line of
+text to <i>value</i>. 
+</LI><LI> -  (void)<b>setMarginLeft:</b>(float)<i>leftMargin</i>	Adjusts the margins
+around the text. 
+<b>right:</b>(float)<i>rightMargin</i>	 
+<b>top:</b>(float)<i>topMargin</i>	 
+<b>bottom:</b>(float)<i>bottomMargin</i>
+<i></i></LI><LI> -  (void)<b>setNoWrap</b>	Disables word wrap. 
+</LI><LI> -  (void)<b>setParagraphStyle:</b>(void *)<i>paraStyle</i>	Sets the default
+paragraph style for the entire text. 
+</LI><LI> -  (BOOL)<b>setSelProp:</b>(NSParagraphProperty)<i>property</i>
+<i></i>to:(float)<i>value</i>	Sets a paragraph <i>property</i> for one or more
+selected
+		paragraphs to <i>value</i>.</LI></UL>
+<b>Reporting Line and Position </b><p>
+
+<UL><LI> - (int)<b>lineFromPosition:</b>(int)<i>position</i>	Converts character
+<i>position</i> to line number. 
+</LI><LI> -  (int)<b>positionFromLine:</b>(int)<i>line</i>	Converts <i>line</i> number to
+character position. </LI></UL>
+<b>Reading and Writing Text </b><p>
+
+<UL><LI> - (void)<b>finishReadingRichText</b>	Sent after the NSCStringText object reads
+RTF data. 
+</LI><LI> -  (NSTextBlock *)<b>firstTextBlock</b>	Returns a pointer to the first text
+block in the NSCStringText object. 
+</LI><LI> -  (NSRect)<b>paragraphRect:</b>(int)<i>paraNumber</i>	Returns the location and
+size of a paragraph identified by
+<b>start:</b>(int *)<i>startPos</i>	 	<i>paraNumber</i>; also returns the
+starting and ending 
+<b>end:</b>(int *)<i>endPos</i>	 <i>	</i>character positions by reference.
+</LI><LI> -  (void)<b>startReadingRichText</b>	Sent before the NSCStringText object begins
+reading RTF data.</LI></UL>
+<b>Editing Text </b><p>
+
+<UL><LI> - (void)<b>clear:</b>(id)<i>sender</i>	Deletes the selected text. 
+</LI><LI> -  (void)<b>hideCaret</b>	Removes the caret from the text display. 
+</LI><LI> -  (void)<b>showCaret</b>	Displays the previously hidden caret in the text
+display. </LI></UL>
+<b>Managing the Selection </b><p>
+
+<UL><LI> - (void)<b>getSelectionStart:</b>(NSSelPt *)<i>start</i>	Gets information (by
+reference) relating to the starting and
+<b>end:</b>(NSSelPt *)<i>end</i>	 	ending character positions of the
+selection.
+</LI><LI> -  (void)<b>replaceSel:</b>(NSString *)<i>aString</i>	Replaces the selection
+with <i>aString</i>. 
+</LI><LI> -  (void)<b>replaceSel:</b>(NSString *)<i>aString</i>	Replaces the selection
+with <i>length</i> bytes of <i>aString</i>.
+<b>length:</b>(int)<i>length</i>	 
+</LI><LI> -  (void)<b>replaceSel:</b>(NSString *)<i>aString</i>	Replaces the selection
+with <i>length</i> bytes of <i>aString</i>.
+<b>length:</b>(int)<i>length</i>	 	<i>insertRuns</i> is a pointer to the
+current run in the run
+<b>runs:</b>(NSRunArray *)<i>insertRuns</i>	 	array.
+</LI><LI> -  (void)<b>scrollSelToVisible</b>	Brings the selection within the frame
+rectangle. 
+</LI><LI> -  (void)<b>selectError</b>	Selects all the text. 
+</LI><LI> -  (void)<b>selectNull</b>	Deselects the current selection. 
+</LI><LI> -  (void)<b>setSelectionStart:</b>(int)<i>start</i>	Selects text from characters
+<i>start</i> through <i>end</i>. 
+<b>end:</b>(int)<i>end</i>
+<i></i></LI><LI> -  (void)<b>selectText:</b>(id)<i>sender</i>	Makes the receiver the first
+responder and selects all text. </LI></UL>
+<b>Setting the Font </b><p>
+
+
++<b> </b>(NSFont *)<b>defaultFont</b>	Returns the default NSFont object for
+NSCStringText objects.<p>
+<p>
++ (void)<b>setDefaultFont:</b>(NSFont *)<i>anObject</i>	Makes <i>anObject</i>
+the default NSFont object for NSCStringText objects. <p>
+<p>
+- (void)<b>setFont:</b>(NSFont *)<i>fontObj</i>	Sets the NSFont object and
+paragraph style for all text.<p>
+<b>paragraphStyle:</b>(void *)<i>paragraphStyle</i>	 <p>
+<p>
+- (void)<b>setSelFont:</b>(NSFont *)<i>fontObj</i>	Sets the NSFont object for
+the selection.<p>
+<p>
+- (void)<b>setSelFont:</b>(NSFont *)<i>fontObj</i>	Sets the NSFont object and
+paragraph style for the<p>
+<b>paragraphStyle:</b>(void *)<i>paragraphStyle</i>	 	selection. <p>
+<p>
+- (void)<b>setSelFontFamily:</b>(NSString *)<i>fontName</i>	Sets the font
+family for the selection. <p>
+<p>
+- (void)<b>setSelFontSize:</b>(float)<i>size</i>	Sets the font size for the
+selection. <p>
+<p>
+- (void)<b>setSelFontStyle:</b>(NSFontTraitMask)<i>traits</i>	Sets the font
+style for the selection. <p>
+
+<b>Finding Text </b><p>
+
+<UL><LI> - (BOOL)<b>findText:</b>(NSString *)<i>textPattern</i>	Searches for
+<i>textPattern</i> in the text, starting at the insertion
+<b>ignoreCase:</b>(BOOL)<i>ignoreCase</i>		point. <i>ignoreCase</i> instructs
+the search to disregard case;
+<b>backwards:</b>(BOOL)<i>backwards</i>		 <i>backwards</i> means search
+backwards; <i>wrap</i> means that
+<b>wrap:</b>(BOOL)<i>wrap</i>		 when the search reaches the beginning or end of
+the text (depending on the direction), it should continue by wrapping to the
+end or beginning of the text.</LI></UL>
+<b>Modifying Graphic Attributes </b><p>
+
+<UL><LI> - (NSColor *)<b>runColor:</b>(NSRun *)<i>run</i>	Returns the color of the
+specified text run. 
+</LI><LI> -  (NSColor *)<b>selColor</b>	Returns the color of the selected text. 
+</LI><LI> -  (void)<b>setSelColor:</b>(NSColor *)<i>color</i>	Sets the color of the
+selected text. </LI></UL>
+<b>Reusing an NSCStringText Object </b><p>
+
+<UL><LI> - (void)<b>renewFont:</b>(NSFont *)<i>newFontObj	</i>Resets the NSCStringText
+object to draw different text 
+<b>text:</b>(NSString *)<i>newText</i>		<i>newText</i> in font <i>newFontId</i>
+within frame <i>newFrame</i>. 
+<b>frame:</b>(NSRect)<i>newFrame</i>
+<i></i>tag:(int)<i>newTag</i>	 
+</LI><LI> -  (void)<b>renewFont:</b>(NSString *)<i>newFontName</i>	Resets the
+NSCStringText object to draw different text 
+<b>size:</b>(float)<i>newFontSize</i>		<i>newText</i> in the font identified by
+<i>newFontName</i>,<i> </i>
+<i></i>style:(int)<i>newFontStyle</i>		<i>newFontSize</i>, and<i> newFontStyle.
+</i>Drawing occurs within 
+<b>text:</b>(NSString *)<i>newText</i>		frame <i>newFrame</i>.
+<b>frame:</b>(NSRect)<i>newFrame</i>
+<i></i>tag:(int)<i>newTag</i>	 
+</LI><LI> -  (void)<b>renewRuns:</b>(NSRunArray *)<i>newRuns</i>	Resets the NSCStringText
+object to draw different text 
+<b>text:</b>(NSString *)<i>newText</i>		<i>newText</i> in<i> newFrame</i>.
+<b>frame:</b>(NSRect)<i>newFrame</i>
+<i></i>tag:(int)<i>newTag</i>	 </LI></UL>
+<b>Setting Window Attributes </b><p>
+
+<UL><LI> - (BOOL)<b>isRetainedWhileDrawing</b>	Returns whether a retained window is used
+for drawing. 
+</LI><LI> -  (void)<b>setRetainedWhileDrawing:</b>(BOOL)<i>flag</i>	Allows use of a
+retained window when drawing. </LI></UL>
+<b>Assigning a Tag </b><p>
+
+<UL><LI> - (void)<b>setTag:</b>(int)<i>anInt</i>	Makes <i>anInt</i> the NSCStringText
+object's tag. 
+</LI><LI> -  (int)<b>tag</b>	Returns the NSCStringText object's tag. </LI></UL>
+<b>Handling Event Messages </b><p>
+
+<UL><LI> - (void)<b>becomeKeyWindow</b>	Activates the caret if selection has width of 0.
+
+</LI><LI> -  (void)<b>moveCaret:</b>(unsigned short)<i>theKey</i>	Moves the caret in
+response to arrow keys. 
+</LI><LI> -  (void)<b>resignKeyWindow</b>	Deactivates the caret. </LI></UL>
+<b>Displaying Graphics within the Text </b><p>
+
+<UL><LI> + <b>registerDirective:</b>(NSString *)<i>directive</i>	Associates an RTF
+control word (<i>directive</i>) with <i>class</i>
+<i></i>forClass:<i>class</i>		(usually NSCell and subclasses); objects of this
+class are encoded through RTF control words in NSCStringText objects. 
+</LI><LI> -  (NSPoint)<b>locationOfCell:</b>(NSCell *)<i>cell</i>	Returns the location of
+<i>cell</i>. 
+</LI><LI> -  (void)<b>replaceSelWithCell:</b>(NSCell *)<i>cell</i>	Replaces the selection
+with cell object <i>cell</i>. 
+</LI><LI> -  (void)<b>setLocation:</b>(NSPoint)<i>origin</i>	Sets the <i>origin</i> point
+of <i>cell</i>. 
+<b>ofCell:</b>(NSCell *)<i>cell</i>
+<i></i>
+Using the Services Menu and the Pasteboard
+
+</LI><LI> +  <b>excludeFromServicesMenu:</b>(BOOL)<i>flag</i>	Controls whether
+NSCStringText objects can register for services. 
+</LI><LI> -  (BOOL)<b>readSelectionFromPasteboard:</b>(NSPasteboard *)<i>pboard</i>
+<i></i>	Replaces the selection with data from pasteboard <i>pboard</i>. 
+</LI><LI> -  (id)<b>validRequestorForSendType:</b>(NSString *)<i>sendType</i> 
+<b>returnType:</b>(NSString *)<i>returnType</i>	Determines which Service menu
+items are enabled. 
+</LI><LI> -  (BOOL)<b>writeSelectionToPasteboard:</b>(NSPasteboard *)<i>pboard</i> 
+<b>types:</b>(NSArray *)<i>types</i>	Copies the selection to pasteboard
+<i>pboard</i>.</LI></UL>
+<b>Setting Tables and Functions </b><p>
+
+<UL><LI> - (const NSFSM *)<b>breakTable</b>	Returns the table defining word boundaries.
+
+</LI><LI> -  (const unsigned char *)<b>charCategoryTable</b>	Returns the table defining
+character categories. 
+</LI><LI> -  (NSCharFilterFunc)<b>charFilter</b>	Returns the current character filter
+function. 
+</LI><LI> -  (const NSFSM *)<b>clickTable</b>	Returns the table defining double-click
+selection. 
+</LI><LI> -  (NSTextFunc)<b>drawFunc</b>	Returns the current draw function. 
+</LI><LI> -  (const unsigned char *)<b>postSelSmartTable</b>	Returns cut and paste table
+for right word boundary. 
+</LI><LI> -  (const unsigned char *)<b>preSelSmartTable</b>	Returns cut and paste table
+for left word boundary. 
+</LI><LI> -  (NSTextFunc)<b>scanFunc</b>	Returns the current scan function. 
+</LI><LI> -  (void)<b>setBreakTable:</b>(const NSFSM *)<i>aTable</i>	Sets the table
+defining word boundaries. 
+</LI><LI> -  (void)<b>setCharCategoryTable:</b>(const unsigned char *)<i>aTable</i>
+<i></i>	Sets the table defining character categories used in the word wrap or
+click tables.
+</LI><LI> -  (void)<b>setCharFilter:</b>(NSCharFilterFunc)<i>aFunction</i>
+<i></i>	Makes <i>aFunction</i> the character filter function. 
+</LI><LI> -  (void)<b>setClickTable:</b>(const NSFSM *)<i>aTable</i>	Sets the table
+defining double-click selection. 
+</LI><LI> -  (void)<b>setDrawFunc:</b>(NSTextFunc)<i>aFunction</i>	Makes <i>aFunction</i>
+the function that draws the text. 
+</LI><LI> -  (void)<b>setPostSelSmartTable:</b>(const unsigned char *)<i>aTable</i>
+<i></i>	Sets the cut and paste table for right word boundary. 
+</LI><LI> -  (void)<b>setPreSelSmartTable:</b>(const unsigned char *)<i>aTable</i>
+<i></i>	Sets the cut and paste table for left word boundary. 
+</LI><LI> -  (void)<b>setScanFunc:</b>(NSTextFunc)<i>aFunction</i>	Makes<i> aFunction</i>
+the scan function. 
+</LI><LI> -  (void)<b>setTextFilter:</b>(NSTextFilterFunc)<i>aFunction</i>	Makes
+<i>aFunction</i> the text filter function. 
+</LI><LI> -  (NSTextFilterFunc)<b>textFilter</b>	Returns the current text filter function.
+</LI></UL>
+<b>Printing </b><p>
+
+<UL><LI> - (void)<b>adjustPageHeightNew:</b>(float *)<i>newBottom</i>	Assists with
+automatic pagination of text. 
+<b>top:</b>(float)<i>oldTop</i>	 
+<b>bottom:</b>(float)<i>oldBottom</i>	 
+<b>limit:</b>(float)<i>bottomLimit</i>
+<i></i>
+Implemented by an Embedded Graphic Object 
+
+</LI><LI> -  (NSSize)<b>cellSize</b>	Embedded cell returns its size.
+</LI><LI> -  (void)<b>drawWithFrame:</b>(NSRect)<i>cellFrame</i>	Embedded object draws
+itself, including frame, within
+<b>inView:</b>(NSView *)<i>controlView</i>	 <i>	cellFrame</i> in
+<i>controlView</i>. 
+</LI><LI> -  (void)<b>highlight:</b>(BOOL)<i>flag</i>	Embedded object highlights or
+unhighlights itself with
+<b>withFrame:</b>(NSRect)<i>cellFrame</i>	 <i>cellFrame</i> of
+<i>controlView</i>, depending on the value of
+<b>inView:</b>(NSView *)<i>controlView</i>	 <i>flag</i>.
+</LI><LI> -  (void)<b>readRichText:</b>(NSString *)<i>stringObject</i>	 Embedded object
+reads its RTF representation from
+<b>forView:</b>(NSView *)<i>view</i>	 <i>	stringObject</i> and initializes
+itself.
+</LI><LI> -  (NSString *)<b>richTextForView:</b>(NSView *)<i>view</i>	Embedded object
+stores its RTF representation within view as a string object and returns it.
+</LI><LI> -  (BOOL)<b>trackMouse:</b>(NSEvent *)<i>theEvent</i>	 Embedded object
+implements this method to track mouse
+<b>inRect:</b>(NSRect)<i>cellFrame</i>	 	movement within tracking rectangle
+(<i>cellFrame</i>) and to
+<b>ofView:</b>(NSView *)<i>controlView</i>	 	detect mouse-up event
+(<i>untilMouseUp</i>).
+<b>untilMouseUp:</b>(BOOL)<i>untilMouseUp</i>	 </LI></UL>
+<b>Implemented by the Delegate </b><p>
+
+<UL><LI> - (void)<b>textDidRead:</b>(NSCStringText *)<i>textObject</i>	Lets the delegate
+review paper size.
+<b>paperSize:</b>(NSSize)<i>paperSize</i>	 
+</LI><LI> -  (NSRect)<b>textDidResize:</b>(NSCStringText *)<i>textObject</i>
+<i></i>oldBounds:(NSRect)<i>oldBounds</i>	 Reports size change to delegate.
+</LI><LI> -  (NSFont *)<b>textWillConvert:</b>(NSCStringText *)<i>textObject</i>
+<i></i>fromFont:(NSFont *)<i>font</i>	 Lets delegate intercede in selection's
+font change. 
+<b>toFont:</b>(NSFont *)<i>font</i>
+<i></i></LI><LI> -  (void)<b>textWillFinishReadingRichText:</b>(NSCStringText
+*)<i>textObject</i>
+<i></i>	Informs delegate that the NSCStringText object finished reading RTF
+data. 
+</LI><LI> -  (void)<b>textWillResize:</b>(NSCStringText *)<i>textObject</i>
+<i></i>	Informs delegate of impending size change. 
+</LI><LI> -  (void)<b>textWillSetSel:</b>(NSCStringText *)<i>textObject</i>
+<i></i>toFont:(NSFont *)<i>font</i>	Lets delegate intercede in the updating of
+the Font panel. 
+</LI><LI> -  (void)<b>textWillStartReadingRichText:</b>(NSCStringText
+*)<i>textObject</i>
+<i></i>	Informs delegate that NSCStringText object will read RTF data. 
+</LI><LI> -  (NSSize)<b>textWillWrite:</b>(NSCStringText *)<i>textObject</i>
+<i></i>	Lets the delegate specify paper size. </LI></UL>
+<b>Compatibility Methods</b><p>
+
+<UL><LI> - (NSCStringTextInternalState *)<b>cStringTextInternalState</b>
+<b></b>	Returns a structure that represents the instance variables of the
+NSCStringText object. The structure is defined in
+<b>appkit/NSCStringText.h</b>, and in the Types and
+Constants section of the Application Kit documentation. Note
+that this method is provided for applications that really must depend on
+changing the values of an NSCStringText object's instance variables. 
+</body></html>

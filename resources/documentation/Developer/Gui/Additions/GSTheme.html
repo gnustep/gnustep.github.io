@@ -1,0 +1,1792 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>GSTheme</title>
+  </head>
+  <body>
+    <font face="serif">
+    <a href="GuiAdditions.html">Up</a>
+    <br />
+    <h1><a name="title$GSTheme">GSTheme</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Adam Fedor (<a href="mailto:fedor@gnu.org"><code>fedor@gnu.org</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Richard Frith-Macdonald (<a href="mailto:rfm@gnu.org"><code>rfm@gnu.org</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <blockquote>
+      
+      Useful/configurable drawing functions
+    
+    </blockquote>
+    <p><b>Copyright:</b> (C) 2004-2006 Free Software Foundation, Inc.</p>
+
+        <div>
+      <hr width="50%" align="left" />
+      <h3>Contents -</h3>
+      <ol>
+        <li>
+          <a href="GSTheme.html#001000000000">The theme management system</a>
+        </li>
+        <li>
+          <a href="GSTheme.html#001001000000">Types of theming</a>
+        </li>
+        <li>
+          <a href="GSTheme.html#001002000000">Subclassing GSTheme</a>
+        </li>
+        <li>
+          <a href="GSTheme.html#002000000000">Software documentation for the GSPageLayout class</a>
+        </li>
+        <li>
+          <a href="GSTheme.html#003000000000">Software documentation for the GSPrintPanel class</a>
+        </li>
+        <li>
+          <a href="GSTheme.html#004000000000">Software documentation for the GSTheme class</a>
+        </li>
+        <li>
+          <a href="GSTheme.html#005000000000">Software documentation for the GSTheme(Drawing)
+        category</a>
+        </li>
+      </ol>
+      <hr width="50%" align="left" />
+    </div>
+
+          <h1><a name="001000000000">The theme management system</a></h1>
+    <p>
+
+        The theme management system for the GNUstep GUI is based
+        around the
+        <a rel="gsdoc" href="GSTheme.html#class$GSTheme">GSTheme</a>
+
+          class, which provides support for loading of theme
+          bundles and methods for drawing common user interface
+          elements. <br /> The theme system works in
+          conjunction with a variety of other GUI classes
+          and is intended to eventually allow for very major
+          changes in GUI appearance and behavior.
+            </p>
+    <p>
+
+          Various design imperatives apply to the theme system,
+          but probably the key ones are:
+            </p>
+    <ul>
+      <li>
+        
+            It should allow designers and other non-technical users
+            to easily develop new and interesting GUI styles likely
+            to attract new users to GNUstep.
+          
+      </li>
+      <li>
+        
+            Using and switching between themes should be an easy
+            and pleasant experience... so that people are not put
+            off when they try using themes.
+          
+      </li>
+      <li>
+        
+            It should eventually permit a GNUstep application to
+            appear as a native application on ms-windows and
+            other systems.
+          
+      </li>
+    </ul>
+    <p>
+
+          To attain these aims implies the recognition of some more
+          specific objectives and some possible technical
+          solutions:
+            </p>
+    <ul>
+      <li>
+        
+            We must have as simple as possible an API for the
+            functions handling the way GUI elements work and
+            the way they draw themselves. <br /> The standard
+            OpenStep/MacOS-X API provides mechanisms
+            for controlling the colors used to draw controls (via
+            NSColor
+
+              and
+              NSColorList
+
+                ) and controlling the way controls behave
+                (NSInterfaceStyleForKey() and
+                [NSResponder -interfaceStyle]
+), but we need to extend that with methods to draw controls entirely differently if required.
+              
+      </li>
+      <li>
+        
+                We must have a GUI application for theme
+                development. It is not sufficient to
+                provide an API if we want good graphic
+                designers and user interface specialists to
+                develop themes for us.
+              
+      </li>
+      <li>
+        
+                It must be possible for an application to
+                dynamically change the theme in use while
+                it is running and it should be easy for a user to
+                select between available themes. <br /> This
+                implies that themes must be loadable bundles
+                and that it must always be possible to unload a
+                theme as well as loading one. <br /> It suggests
+                that the theme selection mechanism should be in
+                every application, perhaps as an extension to an
+                existing panel such as the info panel.
+              
+      </li>
+    </ul>
+
+                  <h2><a name="001001000000">Types of theming</a></h2>
+    <p>
+
+                There are various aspects of theming which can be
+                treated pretty much separately, so there is no
+                reason why a theme might not be created which
+                just employs one of these mechanisms.
+                  </p>
+    <dl>
+      <dt>System images</dt>
+      <dd>
+        
+                  Possibly the simples theme change... a theme
+                  might supply a new set of system images used
+                  for arrows and other icons that the GUI decorates
+                  controls with.
+                
+      </dd>
+      <dt>System colors</dt>
+      <dd>
+        
+                  A theme might simply define a new system color
+                  list, so that controls are drawn in a new color
+                  range, though they would still function the
+                  same way. Even specifying new colors can make
+                  the GUI look quite different though. <br />
+                  Beyond system colors, the theming API also
+                  provides a mechanism for specifying colors
+                  for particular parts of GUI controls.
+                
+      </dd>
+      <dt>Image tiling</dt>
+      <dd>
+        
+                  Controls might be given sets of images used
+                  as tiling to draw themselves rather than using the
+                  standard line drawing and color fill
+                  mechanisms.
+                
+      </dd>
+      <dt>Interface style</dt>
+      <dd>
+        
+                  A theme might supply a set of interface style keys
+                  for various controls, defining how those controls
+                  should behave subject to the limitation of the
+                  range of behaviors coded into the GUI library.
+                
+      </dd>
+      <dt>Method override</dt>
+      <dd>
+        
+                  A theme might actually provide code, in the form of
+                  a subclass of
+                  <a rel="gsdoc" href="GSTheme.html#class$GSTheme">GSTheme</a>
+
+                    such that drawing methods have completely
+                    custom behavior.
+                  
+      </dd>
+    </dl>
+
+                    <h2><a name="001002000000">Subclassing GSTheme</a></h2>
+    <p>
+
+                  While many themes can be created without
+                  subclassing GSTheme, there are some cases
+                  where writing code is necessary (most notably
+                  when interfacing to a native theming engine for
+                  some platform in order to make a GNUstep app
+                  have a native look). <br /> In these cases the
+                  subclass should follow certain rules in
+                  order to operate cleanly and efficiently:
+                    </p>
+    <dl>
+      <dt>Stability</dt>
+      <dd>
+        
+                    Theme operation should remain consistent
+                    while it is in use, particularly in the
+                    provision of resources such as images and
+                    colors. <br /> If a theme needs to change a
+                    resource (such as an image) then it should
+                    do so by calling
+                    <a rel="gsdoc" href="GSTheme.html#method$GSTheme-deactivate">
+                      -deactivate
+                    </a>
+
+                    , making the change, and then calling
+                    <a rel="gsdoc" href="GSTheme.html#method$GSTheme-activate">
+                      -activate
+                    </a>
+
+                    . This sequence ensures that the GUI library is
+                    made aware of any changes and can redraw the
+                    screen. <br /> The deactivation/activation
+                    sequence is expensive, so the subclass
+                    should attempt to combine multiple resource
+                    updates into a group rather than performing
+                    the deactivation/activation for each resource
+                    individually.
+                  
+      </dd>
+      <dt>Activation</dt>
+      <dd>
+        
+                    The standard
+                    <a rel="gsdoc" href="GSTheme.html#method$GSTheme-activate">
+                      -activate
+                    </a>
+
+                    method replaces existing system images,
+                    colors, interface style settings and other
+                    user defaults settings with versions stored in
+                    the theme bundle. <br /> If a subclass wishes
+                    to dynamically provide these resources rather
+                    than supplying them as static information in
+                    the bundle, it may update the in-memory
+                    information after the normal operation
+                    has taken place. This should be done by the
+                    theme registering itsself as an observer of
+                    GSThemeWillActivateNotification
+                    and adding the resources just before the theme
+                    becomes active. <br /> Cleanup may be done
+                    in response to a
+                    GSThemeWillDeactivateNotification
+                    (called before the default cleanup) or a
+                    GSThemeDidDeactivateNotification
+                    (called after the default cleanup).
+                  
+      </dd>
+      <dt>Versioning</dt>
+      <dd>
+        
+                    With a theme which contains only static
+                    resources, versioning is not much of an
+                    issue, but with a code-based theme (ie where
+                    you subclass GSTheme) versioning does become
+                    very important. This is because, while you can
+                    load code from a bundle, you can&apos;t unload it
+                    again... so if you have two versions of a
+                    theme where the subclass has the same name,
+                    then you have a conflict and can&apos;t load both
+                    and swap between the two. <br /> Thematic.app
+                    solves this problem my incorporating a
+                    version number into the name of the GSTheme
+                    subclasses it creates, but that&apos;s not
+                    the only consideration... <br /> You must also
+                    ensure that either you do not define any
+                    other classes in your theme or that, if you
+                    do define them you make sure that each of them
+                    incorporates the theme version number.
+                    <br /> A similar consideration would apply
+                    to any categories, however category conflicts
+                    are far more difficult to resolve since even
+                    with different version names of the
+                    categories, the categories all effect
+                    the same class/methods. In fact this issue is
+                    so tricky to deal with that you should simply
+                    not use categories within your theme code.
+                    <br /> To work around this limitation, the
+                    GSTheme class supports overriding of the
+                    methods of any other class while the theme
+                    is active. See the
+                    <a rel="gsdoc" href="GSTheme.html#method$GSTheme-overriddenMethod$for$">
+                      -overriddenMethod:for:
+                    </a>
+
+                    method for more information.
+                  
+      </dd>
+      <dt>Image override</dt>
+      <dd>
+        
+                    System images (those returned by the
+                    [NSImage +imageNamed:]
+ method) are handled by the default theming mechanism, for each system image supplied in the theme bundle, the image is loaded from the bundle and used while the theme is active. Any pre-existing in-memory image is saved on theme activation and restored on theme deactivation. <br /> A theme subclass may override the <a rel="gsdoc" href="GSTheme.html#method$GSTheme-imageClass">-imageClass</a>
+ method to change the class used to load each image from the bundle... thus allowing customisation of not just the images but also of the image behavior in the (very rare) cases where this is desirable.
+                  
+      </dd>
+    </dl>
+
+          <h1><a name="002000000000">
+        Software documentation for the GSPageLayout class
+      </a></h1>
+    <h2><a name="class$GSPageLayout">GSPageLayout</a> : NSPageLayout</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepGUI/GSTheme.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+
+          <h1><a name="003000000000">
+        Software documentation for the GSPrintPanel class
+      </a></h1>
+    <h2><a name="class$GSPrintPanel">GSPrintPanel</a> : NSPrintPanel</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepGUI/GSTheme.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+
+          <h1><a name="004000000000">
+        Software documentation for the GSTheme class
+      </a></h1>
+    <h2><a name="class$GSTheme">GSTheme</a> : <a rel="gsdoc" href="../../Base/Reference/NSObject.html#class$NSObject">NSObject</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepGUI/GSTheme.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            <em>
+              This interface is <strong>HIGHLY</strong> unstable
+              and incomplete at present.
+            </em>
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            This is a class used for &apos;theming&apos;, which is mostly a
+            matter of encapsulating common drawing behaviors so
+            that GUI appearance can be easily modified, but also
+            includes mechanisms for altering some GUI behavior
+            (such as orientation and position of menus).
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            Methods in this class standardize drawing of
+            buttons, borders and other common GUI elements, so
+            that all other classes within the GUI will provide a
+            consistent appearance by using these methods.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            The default implementation uses the standard
+            configurable colors defined in NSColor, such
+            as <code>controlLightHighlightColor</code>,
+            <code>controlShadowColor</code> and
+            <code>controlDarkShadowColor</code>. <br /> Themes
+            are expected to override the default system color list
+            with their own versions, and this class cooperates
+            with
+            NSColor
+
+              and
+              NSColorList
+
+                to establish the correct system color list when a
+                theme is activated.
+                  </p>
+    <p>
+      
+              
+    </p>
+    <p>
+
+                The class provides a mechanism for automatic
+                loading of theme bundles consisting of
+                resources used to define how drawing is done,
+                plus an optional binary subclass of this class (to
+                replace/extend the drawing methods this
+                class provides).
+                  </p>
+    <p>
+      
+              
+    </p>
+    <p>
+
+                In future this class should provide mechanisms to
+                draw controls by tiling of images, and provide
+                control over GUI behavior by controlling the
+                values returned by
+                
+                  NSInterfaceStyleForKey()
+                
+
+                so that controls use the appropriate behavior.
+                  </p>
+    <p>
+      
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-browserColumnSeparation">-browserColumnSeparation</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-browserHeaderDrawingRectForCell$withFrame$">-browserHeaderDrawingRectForCell:withFrame:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-browserHeaderTextColor">-browserHeaderTextColor</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-browserUseBezels">-browserUseBezels</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-browserVerticalPadding">-browserVerticalPadding</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-buttonMarginsForCell$style$state$">-buttonMarginsForCell:style:state:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-cellForScrollerArrow$horizontal$">-cellForScrollerArrow:horizontal:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-cellForScrollerKnob$">-cellForScrollerKnob:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-cellForScrollerKnobSlot$">-cellForScrollerKnobSlot:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-defaultScrollerWidth">-defaultScrollerWidth</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawBackgroundForMenuView$withFrame$dirtyRect$horizontal$">-drawBackgroundForMenuView:withFrame:dirtyRect:horizontal:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawBarInside$inCell$flipped$">-drawBarInside:inCell:flipped:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawBorderAndBackgroundForMenuItemCell$withFrame$inView$state$isHorizontal$">-drawBorderAndBackgroundForMenuItemCell:withFrame:inView:state:isHorizontal:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawBorderForImageFrameStyle$frame$view$">-drawBorderForImageFrameStyle:frame:view:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawBorderType$frame$view$">-drawBorderType:frame:view:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawBoxInClipRect$boxType$borderType$inView$">-drawBoxInClipRect:boxType:borderType:inView:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawBrowserHeaderCell$withFrame$inView$">-drawBrowserHeaderCell:withFrame:inView:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawBrowserRect$inView$withScrollerRect$columnSize$">-drawBrowserRect:inView:withScrollerRect:columnSize:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawButton$in$view$style$state$">-drawButton:in:view:style:state:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawColorWellBorder$withBounds$withClip$">-drawColorWellBorder:withBounds:withClip:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawFocusFrame$view$">-drawFocusFrame:view:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawKnobInCell$">-drawKnobInCell:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawMenuRect$inView$isHorizontal$itemCells$">-drawMenuRect:inView:isHorizontal:itemCells:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawMenuTitleBackground$withBounds$withClip$">-drawMenuTitleBackground:withBounds:withClip:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawPopUpButtonCellInteriorWithFrame$withCell$inView$">-drawPopUpButtonCellInteriorWithFrame:withCell:inView:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawProgressIndicator$withBounds$withClip$atCount$forValue$">-drawProgressIndicator:withBounds:withClip:atCount:forValue:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawProgressIndicatorBarDeterminate$">-drawProgressIndicatorBarDeterminate:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawProgressIndicatorBezel$withClip$">-drawProgressIndicatorBezel:withClip:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawScrollViewRect$inView$">-drawScrollViewRect:inView:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawScrollerRect$inView$hitPart$isHorizontal$">-drawScrollerRect:inView:hitPart:isHorizontal:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawSegmentedControlSegment$withFrame$inView$style$state$roundedLeft$roundedRight$">-drawSegmentedControlSegment:withFrame:inView:style:state:roundedLeft:roundedRight:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawSeparatorItemForMenuItemCell$withFrame$inView$isHorizontal$">-drawSeparatorItemForMenuItemCell:withFrame:inView:isHorizontal:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme+loadThemeNamed$">+loadThemeNamed:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme+orderFrontSharedThemePanel$">+orderFrontSharedThemePanel:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme+setTheme$">+setTheme:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme+theme">+theme</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-activate">-activate</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-authors">-authors</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-bundle">-bundle</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-colorClass">-colorClass</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-colorFlush$state$">-colorFlush:state:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-colorNamed$state$">-colorNamed:state:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-colors">-colors</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-deactivate">-deactivate</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-icon">-icon</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-imageClass">-imageClass</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-infoDictionary">-infoDictionary</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-initWithBundle$">-initWithBundle:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-license">-license</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-name">-name</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-nameForElement$">-nameForElement:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-overriddenMethod$for$">-overriddenMethod:for:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-setName$">-setName:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-setName$forElement$temporary$">-setName:forElement:temporary:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-themeInspector">-themeInspector</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-tilesFlush$state$">-tilesFlush:state:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-tilesNamed$state$">-tilesNamed:state:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme-versionString">-versionString</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSTheme+loadThemeNamed$">loadThemeNamed:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="GSTheme.html#class$GSTheme">GSTheme</a>*) <b>loadThemeNamed:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)aName;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Loads a theme from a theme bundle of the specified
+            name, which may be either a full path name of the
+            theme bundle, or a simple theme name (in which case
+            the standard directories are searched for it) or
+            <code>nil</code> (in which case the default GNUstep
+            theme is returned). <br /> Returns the loaded theme
+            but does not make it the current theme, to do that you
+            will need to call the
+            <a rel="gsdoc" href="GSTheme.html#method$GSTheme+setTheme$">
+              +setTheme:
+            </a>
+
+            method.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme+orderFrontSharedThemePanel$">orderFrontSharedThemePanel:&nbsp;</a></h3>
+    + (void) <b>orderFrontSharedThemePanel:</b> (id)sender;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Creates and displays a panel allowing selection of
+            different themes and display of the current theme
+            inspector.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme+setTheme$">setTheme:&nbsp;</a></h3>
+    + (void) <b>setTheme:</b> (<a rel="gsdoc" href="GSTheme.html#class$GSTheme">GSTheme</a>*)theme;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Set the currently active <var>theme</var> to be the
+            instance specified. <br /> You do not normally
+            need to call this method as it is called automatically
+            when the user default which specifies the current
+            <var>theme</var> (GSTheme) is updated.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme+theme">theme&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="GSTheme.html#class$GSTheme">GSTheme</a>*) <b>theme</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the currently active theme instance. This
+            is the value most recently set using
+            <a rel="gsdoc" href="GSTheme.html#method$GSTheme+setTheme$">
+              +setTheme:
+            </a>
+
+            or (if none has been set) is a default instance of the
+            base class.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-activate">activate&nbsp;</a></h3>
+    - (void) <b>activate</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              This method is called automatically when the
+              receiver is made into the currently active theme
+              by the
+              <a rel="gsdoc" href="GSTheme.html#method$GSTheme+setTheme$">
+                +setTheme:
+              </a>
+
+              method. Subclasses may override it to perform
+              startup operations, however, the method is not
+              really intended to be overridden, and subclasses
+              should generally handle activation work in
+              response to the GSThemeWillActivatenotification
+              posted by this method.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The base implementation handles setup and caching of
+              the system color list, standard image information,
+              tiling information, and user defaults. <br /> It
+              then sends a GSThemeWillActivateNotification to
+              allow subclasses to perform further activation
+              work, and a GSThemeDidActivateNotification to allow
+              other parts of the GUI library to update themselves
+              from the new theme.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Finally, this method marks all windows in the
+              application as needing update... so they will
+              draw themselves with the new theme information.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              NB. If a GSTheme subclass is integrating to an
+              external native theming mechanism in order to
+              make GNUstep apps look like native apps, then the
+              external theme may change dynamically and the
+              GSTheme subclass may need to change the GNUstep
+              application to reflect this change. When this
+              happens, the update should be handled by the
+              subclass calling
+              <a rel="gsdoc" href="GSTheme.html#method$GSTheme-deactivate">
+                -deactivate
+              </a>
+
+              and then
+              <a rel="gsdoc" href="GSTheme.html#method$GSTheme-activate">
+                -activate
+              </a>
+
+              to make the changes &apos;live&apos;.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-authors">authors&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="../../Base/Reference/NSArray.html#class$NSArray">NSArray</a>*) <b>authors</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the names of the theme&apos;s authors.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-bundle">bundle&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="../../Base/Reference/NSBundle.html#class$NSBundle">NSBundle</a>*) <b>bundle</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the bundle containing the resources used by
+            the current theme.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-colorClass">colorClass&nbsp;</a></h3>
+    - (Class) <b>colorClass</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the class used by the theme for loading
+            color lists. The default implementation returns the
+            NSColorList class, but a subclass may override
+            this to return a color list class whose values change
+            dynamically in response to changes of a native
+            theming API for instance. <br /> The class returned
+            by this method should be NSColorList or one of its
+            subclasses. Subclasses should note that GSTheme
+            will initialise the instances of the class using the
+            [NSColerList -initWithName:fromFile:]
+ method.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-colorFlush$state$">colorFlush:&nbsp;state:&nbsp;</a></h3>
+    - (void) <b>colorFlush:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)aName<b> state:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$GSThemeControlState">GSThemeControlState</a>)elementState;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Removes the name from the color cache forcing it to
+            be re-created next time the named color is required.
+            <br /> Passing <code>nil</code> for <var>aName</var>
+            removes all named colors. <br /> Passing a negative
+            value for <var>elementState</var> applies to all
+            caches.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-colorNamed$state$">colorNamed:&nbsp;state:&nbsp;</a></h3>
+    - (NSColor*) <b>colorNamed:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)aName<b> state:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$GSThemeControlState">GSThemeControlState</a>)elementState;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            This returns the color for drawing the item whose name
+            is <var>aName</var> in the specified state. If
+            <var>aName</var> is <code>nil</code> or if there is
+            no color defined for the particular combination of item
+            name and state, the method returns <code>nil</code>.
+            <br /> The standard names used for the parts of
+            various controls are declared in GSTheme.h <br />
+            See also the
+            <a rel="gsdoc" href="GSTheme.html#method$GSTheme-tilesNamed$state$">
+              -tilesNamed:state:
+            </a>
+
+            method.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-colors">colors&nbsp;</a></h3>
+    - (NSColorList*) <b>colors</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the system color list defined by the
+            receiver. <br /> The default implementation
+            returns the color list provided in the theme bundle
+            (if any) or the default system color list.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-deactivate">deactivate&nbsp;</a></h3>
+    - (void) <b>deactivate</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              This method is called automatically when the
+              receiver is stopped from being the currently
+              active theme by the use of the
+              <a rel="gsdoc" href="GSTheme.html#method$GSTheme+setTheme$">
+                +setTheme:
+              </a>
+
+              method to make another theme active. Subclasses
+              may override it to perform shutdown operations, but
+              it is preferred for subclasses to perform their own
+              deactivation in response to a
+              GSThemeWillDeactivateNotification.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The base implementation sends a
+              GSThemeWillDeactivateNotification
+              to allow subclasses to perform cleanup, then restores
+              image, color and default information to the state
+              before the theme was activates, and finally sends
+              a GSThemeDidDeactivateNotification to allow other parts
+              of the GUI library to update themselves.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              NB. If a GSTheme subclass is integrating to an
+              external native theming mechanism in order to
+              make GNUstep apps look like native apps, then the
+              external theme may change dynamically and the
+              GSTheme subclass may need to change the GNUstep
+              application to reflect this change. When this
+              happens, the update should be handled by the
+              subclass calling
+              <a rel="gsdoc" href="GSTheme.html#method$GSTheme-deactivate">
+                -deactivate
+              </a>
+
+              and then
+              <a rel="gsdoc" href="GSTheme.html#method$GSTheme-activate">
+                -activate
+              </a>
+
+              to make the changes &apos;live&apos;.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-icon">icon&nbsp;</a></h3>
+    - (NSImage*) <b>icon</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the theme&apos;s icon.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-imageClass">imageClass&nbsp;</a></h3>
+    - (Class) <b>imageClass</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the class used by the theme for loading
+            images. The default implementation returns the
+            NSImage class, but a subclass may override this to
+            return an image class whose instances dynamically
+            alter what they draw in response to changes of a
+            native theming API for instance. <br /> This method
+            must return the NSImage class or one of its
+            subclasses. Subclass implementations should
+            note that instances will be initialised using the
+            [NSImage -initWithContentsOfFile:]
+ method and will use the [NSImage -imageFileTypes]
+ method to determine which image files can be loaded.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-infoDictionary">infoDictionary&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="../../Base/Reference/NSDictionary.html#class$NSDictionary">NSDictionary</a>*) <b>infoDictionary</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Returns the info dictionary for this theme. In
+              the base class implementation this is simply the info
+              dictionary of the theme bundle, but subclasses
+              may override this method to return extra or different
+              information.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Keys found in this dictionary include:
+                </p>
+    <p>
+      
+            
+      <dl>
+        <dt>GSThemeDomain</dt>
+        <dd>
+          
+                A dictionary whose key/value pairs are used to set up
+                new values in the GSThemeDomain domain of the user
+                defaults system, and hence define values for
+                these unless overridden by values set explicitly
+                by the user.
+              
+        </dd>
+        <dt>GSThemeTiles</dt>
+        <dd>
+          
+                A dictionary keyed on tile names and containing the
+                following:
+                
+          <dl>
+            <dt>FileName</dt>
+            <dd>
+              
+                    Name of the file (within the GSThemeTiles
+                    directory in the bundle) in which the
+                    image for this tile is stored.
+                  
+            </dd>
+            <dt>HorizontalDivision</dt>
+            <dd>
+              
+                    The offset along the X-axis used to divide the
+                    image into columns of tiles.
+                  
+            </dd>
+            <dt>VerticalDivision</dt>
+            <dd>
+              
+                    The offer along the Y-axis used to divide the
+                    image into rows of tiles.
+                  
+            </dd>
+          </dl>
+          
+              
+        </dd>
+      </dl>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-initWithBundle$">initWithBundle:&nbsp;</a></h3>
+    - (id) <b>initWithBundle:</b> (<a rel="gsdoc" href="../../Base/Reference/NSBundle.html#class$NSBundle">NSBundle</a>*)bundle;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+This is a designated initialiser for the class.<br />
+    <div class="desc">
+      
+            Initialise an instance of a theme with the
+            specified resource <var>bundle</var>. <br /> You
+            don&apos;t need to call this method directly, but if you
+            are subclassing you may need to override this to
+            provide additional initialisation.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-license">license&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*) <b>license</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the theme&apos;s license.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-name">name&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*) <b>name</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the theme&apos;s name.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-nameForElement$">nameForElement:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*) <b>nameForElement:</b> (id)anObject;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the name used to locate theming resources
+            for a particular GUI element. If no name has been set
+            for the particular object this method returns
+            <code>nil</code>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-overriddenMethod$for$">overriddenMethod:&nbsp;for:&nbsp;</a></h3>
+    - (IMP) <b>overriddenMethod:</b> (SEL)selector<b> for:</b> (id)receiver;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Returns the original implementation of a method
+              overridden by this theme, or zero if the
+              method was not overridden.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              A theme may override a method of another class by
+              implementing a method whose name is
+              &apos;_overrideXXXMethod_YYY&apos; where
+              &apos;XXX&apos; is the name of the class whose method is to
+              be overridden, and &apos;YYY&apos; is the normal name of the
+              method in that class. <br /> eg.
+              _overrideNSScrollerMethod_drawRect:
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              NB. The overriding method may not access instance
+              variable directly and must cast all uses of
+              &apos;self&apos; to be the correct class.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-setName$">setName:&nbsp;</a></h3>
+    - (void) <b>setName:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)aString;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Set the name of this theme... used for testing by
+            Thematic.app
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-setName$forElement$temporary$">setName:&nbsp;forElement:&nbsp;temporary:&nbsp;</a></h3>
+    - (void) <b>setName:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)aString<b> forElement:</b> (id)anObject<b> temporary:</b> (BOOL)takeOwnership;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Set the name that is used to identify theming resources
+            for a particular control or other GUI element. This is
+            used so that where an element is part of a control it
+            can be displayed differently from the same class of
+            element used outside that control. <br /> Supplying
+            a <code>nil</code> value for <var>aString</var> simply
+            removes any name setting for <var>anObject</var>.
+            <br /> Supplying <code>nil</code> for
+            <var>anObject</var> is illegal (raises an exception)
+            unless the value of <var>aString</var> is also
+            <code>nil</code> (and the method does nothing).
+            <br /> Any control which uses this method to set
+            names for subsidiary elements must also make sure to
+            remove the name mapping before that element is
+            deallocated, unless the
+            <var>takeOwnership</var> option is <code>YES</code>,
+            in which case <var>anObject</var> is retained, the name
+            mapping lasts only until the receiver is
+            deactivated, and at that point
+            <var>anObject</var> is released.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-themeInspector">themeInspector&nbsp;</a></h3>
+    - (NSWindow*) <b>themeInspector</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Provides a standard inspector window used to
+              display information about the receiver. The
+              default implementation displays the icon, the
+              name, and the authors of the theme.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The code managing this object (if any) must be
+              prepared to have the content view of the window
+              re-parented into another window for display
+              on screen.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-tilesFlush$state$">tilesFlush:&nbsp;state:&nbsp;</a></h3>
+    - (void) <b>tilesFlush:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)aName<b> state:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$GSThemeControlState">GSThemeControlState</a>)elementState;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Removes the name tile images from cache, forcing
+            re-creation next time the named tiles are
+            required. <br /> Passing <code>nil</code> for
+            <var>aName</var> removes all named tiles. <br />
+            Passing a negative value for
+            <var>elementState</var> applies to all caches.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-tilesNamed$state$">tilesNamed:&nbsp;state:&nbsp;</a></h3>
+    - (GSDrawTiles*) <b>tilesNamed:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)aName<b> state:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$GSThemeControlState">GSThemeControlState</a>)elementState;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the tile image information for a particular
+            image name, or <code>nil</code> if there is no such
+            information or the name is <code>nil</code>.
+            <br /> The standard names used for the parts of
+            various controls are declared in GSTheme.h <br />
+            The GUI library uses this internally to handling tiling
+            of image information to draw user interface elements.
+            The tile information returned by this method can be
+            passed to the
+            -fillRect:withTiles:background:fillStyle:
+ method. <br /> The <var>elementState</var> argument specifies the state for which tiles are requested. See the <a rel="gsdoc" href="GSTheme.html#method$GSTheme-colorNamed$state$">-colorNamed:state:</a>
+ method for determining colors to be used for drawing specific GUI elements.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme-versionString">versionString&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*) <b>versionString</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the theme&apos;s version string.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="005000000000">
+        Software documentation for the GSTheme(Drawing)
+        category
+      </a></h1>
+    <h2><a rel="gsdoc" href="GSTheme.html#class$GSTheme">GSTheme</a>(<a name="category$GSTheme(Drawing)">Drawing</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepGUI/GSTheme.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          Theme drawing methods. <br /> Methods which return
+          information/resources are generally
+          expected (ie unless explicitly documented otherwise)
+          to be returning something which persists until the method
+          is called again or until the current theme is deactivated
+          (whichever comes first). <br /> This means that
+          drawing code should <strong>not</strong> need to
+          retain/release any returned object (the theme
+          is responsible for retaining the object), and should also
+          be able to cache size information etc for later drawing.
+          <br /> This simple rule means that drawing code can be
+          written to be as efficient as possible while keeping
+          caching strategies simple and uniform. <br /> To
+          facilitate this within the theme code itsself, it
+          is recommended that you make use of the
+          <a rel="gsdoc" href="GSTheme.html#method$GSTheme-setName$forElement$temporary$">
+            -setName:forElement:temporary:
+          </a>
+
+          method to retain any vended object until deactivation.
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-browserColumnSeparation">-browserColumnSeparation</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-browserHeaderDrawingRectForCell$withFrame$">-browserHeaderDrawingRectForCell:withFrame:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-browserHeaderTextColor">-browserHeaderTextColor</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-browserUseBezels">-browserUseBezels</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-browserVerticalPadding">-browserVerticalPadding</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-buttonMarginsForCell$style$state$">-buttonMarginsForCell:style:state:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-cellForScrollerArrow$horizontal$">-cellForScrollerArrow:horizontal:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-cellForScrollerKnob$">-cellForScrollerKnob:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-cellForScrollerKnobSlot$">-cellForScrollerKnobSlot:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-defaultScrollerWidth">-defaultScrollerWidth</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawBackgroundForMenuView$withFrame$dirtyRect$horizontal$">-drawBackgroundForMenuView:withFrame:dirtyRect:horizontal:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawBarInside$inCell$flipped$">-drawBarInside:inCell:flipped:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawBorderAndBackgroundForMenuItemCell$withFrame$inView$state$isHorizontal$">-drawBorderAndBackgroundForMenuItemCell:withFrame:inView:state:isHorizontal:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawBorderForImageFrameStyle$frame$view$">-drawBorderForImageFrameStyle:frame:view:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawBorderType$frame$view$">-drawBorderType:frame:view:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawBoxInClipRect$boxType$borderType$inView$">-drawBoxInClipRect:boxType:borderType:inView:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawBrowserHeaderCell$withFrame$inView$">-drawBrowserHeaderCell:withFrame:inView:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawBrowserRect$inView$withScrollerRect$columnSize$">-drawBrowserRect:inView:withScrollerRect:columnSize:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawButton$in$view$style$state$">-drawButton:in:view:style:state:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawColorWellBorder$withBounds$withClip$">-drawColorWellBorder:withBounds:withClip:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawFocusFrame$view$">-drawFocusFrame:view:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawKnobInCell$">-drawKnobInCell:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawMenuRect$inView$isHorizontal$itemCells$">-drawMenuRect:inView:isHorizontal:itemCells:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawMenuTitleBackground$withBounds$withClip$">-drawMenuTitleBackground:withBounds:withClip:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawPopUpButtonCellInteriorWithFrame$withCell$inView$">-drawPopUpButtonCellInteriorWithFrame:withCell:inView:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawProgressIndicator$withBounds$withClip$atCount$forValue$">-drawProgressIndicator:withBounds:withClip:atCount:forValue:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawProgressIndicatorBarDeterminate$">-drawProgressIndicatorBarDeterminate:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawProgressIndicatorBezel$withClip$">-drawProgressIndicatorBezel:withClip:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawScrollViewRect$inView$">-drawScrollViewRect:inView:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawScrollerRect$inView$hitPart$isHorizontal$">-drawScrollerRect:inView:hitPart:isHorizontal:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawSegmentedControlSegment$withFrame$inView$style$state$roundedLeft$roundedRight$">-drawSegmentedControlSegment:withFrame:inView:style:state:roundedLeft:roundedRight:</a></li>
+      <li><a rel="gsdoc" href="GSTheme.html#method$GSTheme(Drawing)-drawSeparatorItemForMenuItemCell$withFrame$inView$isHorizontal$">-drawSeparatorItemForMenuItemCell:withFrame:inView:isHorizontal:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-browserColumnSeparation">browserColumnSeparation&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$CGFloat">CGFloat</a>) <b>browserColumnSeparation</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-browserHeaderDrawingRectForCell$withFrame$">browserHeaderDrawingRectForCell:&nbsp;withFrame:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>) <b>browserHeaderDrawingRectForCell:</b> (NSTableHeaderCell*)cell<b> withFrame:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)rect;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-browserHeaderTextColor">browserHeaderTextColor&nbsp;</a></h3>
+    - (NSColor*) <b>browserHeaderTextColor</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-browserUseBezels">browserUseBezels&nbsp;</a></h3>
+    - (BOOL) <b>browserUseBezels</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-browserVerticalPadding">browserVerticalPadding&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$CGFloat">CGFloat</a>) <b>browserVerticalPadding</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-buttonMarginsForCell$style$state$">buttonMarginsForCell:&nbsp;style:&nbsp;state:&nbsp;</a></h3>
+    - (GSThemeMargins) <b>buttonMarginsForCell:</b> (NSCell*)cell<b> style:</b> (int)style<b> state:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$GSThemeControlState">GSThemeControlState</a>)state;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Amount by which the button is inset by the border.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-cellForScrollerArrow$horizontal$">cellForScrollerArrow:&nbsp;horizontal:&nbsp;</a></h3>
+    - (NSButtonCell*) <b>cellForScrollerArrow:</b> (NSScrollerArrow)part<b> horizontal:</b> (BOOL)horizontal;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Creates and returns the cell to be used to draw a
+            scroller arrow of the specified type and
+            orientation. <br /> The theme instance is
+            responsible for ensuring that the cell
+            continues to exist until the theme is deactivated
+            (the default implementation does this by naming the
+            cell using the
+            <a rel="gsdoc" href="GSTheme.html#method$GSTheme-setName$forElement$temporary$">
+              -setName:forElement:temporary:
+            </a>
+
+            method, which also provides a name for the cell
+            color and image).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-cellForScrollerKnob$">cellForScrollerKnob:&nbsp;</a></h3>
+    - (NSCell*) <b>cellForScrollerKnob:</b> (BOOL)horizontal;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Creates and returns the cell to be used to draw a
+            scroller knob of the specified orientation. <br />
+            The theme instance is responsible for ensuring that the
+            cell continues to exist until the theme is deactivated
+            (the default implementation does this by naming the
+            cell using the
+            <a rel="gsdoc" href="GSTheme.html#method$GSTheme-setName$forElement$temporary$">
+              -setName:forElement:temporary:
+            </a>
+
+            method).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-cellForScrollerKnobSlot$">cellForScrollerKnobSlot:&nbsp;</a></h3>
+    - (NSCell*) <b>cellForScrollerKnobSlot:</b> (BOOL)horizontal;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Creates and returns the cell to be used to draw a
+            scroller slot of the specified orientation. <br />
+            The theme instance is responsible for ensuring that the
+            cell continues to exist until the theme is deactivated
+            (the default implementation does this by naming the
+            cell using the
+            <a rel="gsdoc" href="GSTheme.html#method$GSTheme-setName$forElement$temporary$">
+              -setName:forElement:temporary:
+            </a>
+
+            method).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-defaultScrollerWidth">defaultScrollerWidth&nbsp;</a></h3>
+    - (float) <b>defaultScrollerWidth</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the width which should be allowed for a
+            scroller within the current theme. Drawing code is
+            entitled to assume that this value will remain
+            constant until the theme is deactivated.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawBackgroundForMenuView$withFrame$dirtyRect$horizontal$">drawBackgroundForMenuView:&nbsp;withFrame:&nbsp;dirtyRect:&nbsp;horizontal:&nbsp;</a></h3>
+    - (void) <b>drawBackgroundForMenuView:</b> (NSMenuView*)menuView<b> withFrame:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)bounds<b> dirtyRect:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)dirtyRect<b> horizontal:</b> (BOOL)horizontal;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawBarInside$inCell$flipped$">drawBarInside:&nbsp;inCell:&nbsp;flipped:&nbsp;</a></h3>
+    - (void) <b>drawBarInside:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)rect<b> inCell:</b> (NSCell*)cell<b> flipped:</b> (BOOL)flipped;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawBorderAndBackgroundForMenuItemCell$withFrame$inView$state$isHorizontal$">drawBorderAndBackgroundForMenuItemCell:&nbsp;withFrame:&nbsp;inView:&nbsp;state:&nbsp;isHorizontal:&nbsp;</a></h3>
+    - (void) <b>drawBorderAndBackgroundForMenuItemCell:</b> (NSMenuItemCell*)cell<b> withFrame:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)cellFrame<b> inView:</b> (NSView*)controlView<b> state:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$GSThemeControlState">GSThemeControlState</a>)state<b> isHorizontal:</b> (BOOL)isHorizontal;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawBorderForImageFrameStyle$frame$view$">drawBorderForImageFrameStyle:&nbsp;frame:&nbsp;view:&nbsp;</a></h3>
+    - (void) <b>drawBorderForImageFrameStyle:</b> (NSImageFrameStyle)frameStyle<b> frame:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)frame<b> view:</b> (NSView*)view;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Draw a border of the specified <var>frame</var> style.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawBorderType$frame$view$">drawBorderType:&nbsp;frame:&nbsp;view:&nbsp;</a></h3>
+    - (void) <b>drawBorderType:</b> (NSBorderType)aType<b> frame:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)frame<b> view:</b> (NSView*)view;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Draw a border of the specified border type.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawBoxInClipRect$boxType$borderType$inView$">drawBoxInClipRect:&nbsp;boxType:&nbsp;borderType:&nbsp;inView:&nbsp;</a></h3>
+    - (void) <b>drawBoxInClipRect:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)clipRect<b> boxType:</b> (NSBoxType)boxType<b> borderType:</b> (NSBorderType)borderType<b> inView:</b> (NSBox*)box;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawBrowserHeaderCell$withFrame$inView$">drawBrowserHeaderCell:&nbsp;withFrame:&nbsp;inView:&nbsp;</a></h3>
+    - (void) <b>drawBrowserHeaderCell:</b> (NSTableHeaderCell*)cell<b> withFrame:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)rect<b> inView:</b> (NSView*)view;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawBrowserRect$inView$withScrollerRect$columnSize$">drawBrowserRect:&nbsp;inView:&nbsp;withScrollerRect:&nbsp;columnSize:&nbsp;</a></h3>
+    - (void) <b>drawBrowserRect:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)rect<b> inView:</b> (NSView*)view<b> withScrollerRect:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)scrollerRect<b> columnSize:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSSize">NSSize</a>)columnSize;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawButton$in$view$style$state$">drawButton:&nbsp;in:&nbsp;view:&nbsp;style:&nbsp;state:&nbsp;</a></h3>
+    - (void) <b>drawButton:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)frame<b> in:</b> (NSCell*)cell<b> view:</b> (NSView*)view<b> style:</b> (int)style<b> state:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$GSThemeControlState">GSThemeControlState</a>)state;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Draws a button <var>frame</var> and background (not
+            its content) for the specified <var>cell</var> and
+            <var>view</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawColorWellBorder$withBounds$withClip$">drawColorWellBorder:&nbsp;withBounds:&nbsp;withClip:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>) <b>drawColorWellBorder:</b> (NSColorWell*)well<b> withBounds:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)bounds<b> withClip:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)clipRect;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawFocusFrame$view$">drawFocusFrame:&nbsp;view:&nbsp;</a></h3>
+    - (void) <b>drawFocusFrame:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)frame<b> view:</b> (NSView*)view;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Draws the indicator (normally a dotted rectangle) to
+            show that the <var>view</var> currently has keyboard
+            focus.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawKnobInCell$">drawKnobInCell:&nbsp;</a></h3>
+    - (void) <b>drawKnobInCell:</b> (NSCell*)cell;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawMenuRect$inView$isHorizontal$itemCells$">drawMenuRect:&nbsp;inView:&nbsp;isHorizontal:&nbsp;itemCells:&nbsp;</a></h3>
+    - (void) <b>drawMenuRect:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)rect<b> inView:</b> (NSView*)view<b> isHorizontal:</b> (BOOL)horizontal<b> itemCells:</b> (<a rel="gsdoc" href="../../Base/Reference/NSArray.html#class$NSArray">NSArray</a>*)itemCells;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawMenuTitleBackground$withBounds$withClip$">drawMenuTitleBackground:&nbsp;withBounds:&nbsp;withClip:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>) <b>drawMenuTitleBackground:</b> (GSTitleView*)aTitleView<b> withBounds:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)bounds<b> withClip:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)clipRect;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawPopUpButtonCellInteriorWithFrame$withCell$inView$">drawPopUpButtonCellInteriorWithFrame:&nbsp;withCell:&nbsp;inView:&nbsp;</a></h3>
+    - (void) <b>drawPopUpButtonCellInteriorWithFrame:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)cellFrame<b> withCell:</b> (NSCell*)cell<b> inView:</b> (NSView*)controlView;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawProgressIndicator$withBounds$withClip$atCount$forValue$">drawProgressIndicator:&nbsp;withBounds:&nbsp;withClip:&nbsp;atCount:&nbsp;forValue:&nbsp;</a></h3>
+    - (void) <b>drawProgressIndicator:</b> (NSProgressIndicator*)progress<b> withBounds:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)bounds<b> withClip:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)rect<b> atCount:</b> (int)count<b> forValue:</b> (double)val;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawProgressIndicatorBarDeterminate$">drawProgressIndicatorBarDeterminate:&nbsp;</a></h3>
+    - (void) <b>drawProgressIndicatorBarDeterminate:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)bounds;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawProgressIndicatorBezel$withClip$">drawProgressIndicatorBezel:&nbsp;withClip:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>) <b>drawProgressIndicatorBezel:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)bounds<b> withClip:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)rect;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawScrollViewRect$inView$">drawScrollViewRect:&nbsp;inView:&nbsp;</a></h3>
+    - (void) <b>drawScrollViewRect:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)rect<b> inView:</b> (NSView*)view;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawScrollerRect$inView$hitPart$isHorizontal$">drawScrollerRect:&nbsp;inView:&nbsp;hitPart:&nbsp;isHorizontal:&nbsp;</a></h3>
+    - (void) <b>drawScrollerRect:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)rect<b> inView:</b> (NSView*)view<b> hitPart:</b> (NSScrollerPart)hitPart<b> isHorizontal:</b> (BOOL)isHorizontal;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawSegmentedControlSegment$withFrame$inView$style$state$roundedLeft$roundedRight$">drawSegmentedControlSegment:&nbsp;withFrame:&nbsp;inView:&nbsp;style:&nbsp;state:&nbsp;roundedLeft:&nbsp;roundedRight:&nbsp;</a></h3>
+    - (void) <b>drawSegmentedControlSegment:</b> (NSCell*)cell<b> withFrame:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)cellFrame<b> inView:</b> (NSView*)controlView<b> style:</b> (NSSegmentStyle)style<b> state:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$GSThemeControlState">GSThemeControlState</a>)state<b> roundedLeft:</b> (BOOL)roundedLeft<b> roundedRight:</b> (BOOL)roundedRight;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSTheme(Drawing)-drawSeparatorItemForMenuItemCell$withFrame$inView$isHorizontal$">drawSeparatorItemForMenuItemCell:&nbsp;withFrame:&nbsp;inView:&nbsp;isHorizontal:&nbsp;</a></h3>
+    - (void) <b>drawSeparatorItemForMenuItemCell:</b> (NSMenuItemCell*)cell<b> withFrame:</b> (<a rel="gsdoc" href="../../Base/Reference/TypesAndConstants.html#type$NSRect">NSRect</a>)cellFrame<b> inView:</b> (NSView*)controlView<b> isHorizontal:</b> (BOOL)isHorizontal;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Draws a separator between normal menu items in a
+              menu.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Each separator corresponds to a menu item that
+              returns <code>YES</code> to
+              
+                -isSeparatorItem
+              
+
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              You can provide an image tile named
+              <em>GSMenuSeparatorItem</em> to draw the separator.
+                </p>
+    <p>
+    </div>
+    <hr width="25%" align="left" />
+</div>
+    <br />
+    <a href="GuiAdditions.html">Up</a>
+    </font>
+</body>
+</html>

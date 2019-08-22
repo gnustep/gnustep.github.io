@@ -1,0 +1,105 @@
+<html><head><TITLE>NSCursor.html</TITLE>
+<!-- This document was created from RTF source by rtftohtml version 2.7.4,
+     extended by rtftoweb version 1.4. -->
+</head><body><A HREF="index.html">Return to the Alphabetic Index</A><br><A HREF="browser.html">Return to the Class Browser</A><br><A HREF="pic_browser.html">Return to the Picture Browser</A><HR>
+Copyright (c) 1994 by NeXT Computer, Inc.  All Rights
+Reserved.<p>
+<p>
+
+<b>NSCursor</b><p>
+
+<B>Inherits From: </B><A HREF="NSObject.html">NSObject</A><p>
+<p>
+<b>Conforms To:	</b>NSCoding
+NSObject (NSObject)<p>
+<p>
+<p>
+<B>Inherits From: </B><A HREF="http://www.gnustep.org/resources/OpenStepSpec/ApplicationKit/Classes/AppKit/NSCursor.h.html">AppKit/NSCursor.h</A><p>
+<p>
+
+<b>Class Description</b><p>
+
+
+An NSCursor holds an image that the window system can display for the cursor.
+An NSCursor is initialized with an NSImage object (which can subsequently be
+replaced by sending the NSCursor a <b>setImage:</b> message). To make the
+window system display a particular image as the current cursor, simply send a
+<b>set</b> message to the NSCursor instance associated with that image. <p>
+<p>
+For automatic cursor management, an NSCursor can be assigned to a cursor
+rectangle within a window. When the window is key and the user moves the cursor
+into the rectangle, the NSCursor becomes the current cursor. It ceases to be
+the current cursor when the cursor leaves the rectangle. The assignment is made
+using NSView's <b>addCursorRect:cursor:</b> method, usually inside a
+<b>resetCursorRects</b> method:<p>
+<p>
+<tt>- (void)resetCursorRects</tt><p>
+<tt>{</tt><p>
+<tt>    [self addCursorRect:someRect cursor:theNSCursorObject];</tt><p>
+<tt>}</tt><p>
+<tt></tt><p>
+This is the recommended way of associating a cursor with a particular region
+inside a window. However, the NSCursor class provides two other ways of setting
+the cursor:<p>
+<p>
+.	The class maintains its own stack of cursors. Pushing an NSCursor instance on
+the stack sets it to be the current cursor. Popping an NSCursor from the stack
+sets the next NSCursor in line, the one that's then at the top of the stack, to
+be the current cursor.<p>
+<p>
+.	An NSCursor can be made the owner of a tracking rectangle and told to set
+itself when it receives a mouse-entered or mouse-exited event.<p>
+<p>
+The Application Kit provides two ready-made NSCursor instances: the standard
+arrow cursor, and the I-beam cursor that's displayed over editable or
+selectable text. These can be retrieved with the class methods
+<b>arrowCursor</b> and <b>IBeamCursor</b>, respectively. There's no NSCursor
+instance for the wait cursor. The wait cursor is displayed automatically by the
+system, without any required program intervention.<p>
+<p>
+
+<b>Initializing a New NSCursor Object</b><p>
+
+<UL><LI> - (id)<b>initWithImage:</b>(NSImage *)<i>newImage</i>	Initializes a new
+NSCursor object with <i>newImage</i>.</LI></UL>
+<b>Defining the Cursor</b><p>
+
+<UL><LI> - (NSPoint)<b>hotSpot</b>	Returns the point on the cursor that's aligned with
+the mouse.
+</LI><LI> -  (NSImage *)<b>image</b>	Returns the NSImage object that has the cursor
+image.
+</LI><LI> -  (void)<b>setHotSpot:</b>(NSPoint)<i>spot</i>	Sets the point on the cursor
+that's aligned with the mouse.
+</LI><LI> -  (void)<b>setImage:</b>(NSImage *)<i>newImage</i>	Makes <i>newImage</i> the
+NSImage object that supplies the cursor image.</LI></UL>
+<b>Setting the Cursor</b><p>
+
+<UL><LI> + (void)<b>hide</b>	Hides the cursor. 
+</LI><LI> +  (void)<b>pop</b>	Restores the previous cursor.
+</LI><LI> +  (void)<b>setHiddenUntilMouseMoves</b>:(BOOL)<i>flag</i>;	Hides cursor when
+<i>flag</i> is YES; reveals it otherwise.
+</LI><LI> +  (void)<b>unhide</b>	Shows the cursor.
+</LI><LI> -  (BOOL)<b>isSetOnMouseEntered</b>	Returns YES if <b>mouseEntered:</b> sets
+cursor.
+</LI><LI> -  (BOOL)<b>isSetOnMouseExited</b>	Returns YES if <b>mouseExited:</b> sets
+cursor.
+</LI><LI> -  (void)<b>mouseEntered:</b>(NSEvent *)<i>theEvent</i>	Responds to a
+mouse-entered event by setting the cursor if <b>setOnMouseEntered</b> was
+sent.
+</LI><LI> -  (void)<b>mouseExited:</b>(NSEvent *)<i>theEvent</i>	Responds to a
+mouse-exited event by setting the cursor if <b>setOnMouseExited</b> was sent.
+</LI><LI> -  (void)<b>pop</b>	Removes the topmost NSCursor object from the cursor stack,
+and makes the next NSCursor down the current cursor.
+</LI><LI> -  (void)<b>push</b>	Puts the receiving NSCursor on the cursor stack and sets it
+to be the current cursor. 
+</LI><LI> -  (void)<b>set</b>	Sets the NSCursor to be the current cursor.
+</LI><LI> -  (void)<b>setOnMouseEntered:</b>(BOOL)<i>flag</i>	Determines whether
+<b>mouseEntered:</b> sets cursor.
+</LI><LI> -  (void)<b>setOnMouseExited:</b>(BOOL)<i>flag</i>	Determines whether
+<b>mouseExited:</b> sets cursor.</LI></UL>
+<b>Getting the Cursor</b><p>
+
+<UL><LI> + (NSCursor *)<b>arrowCursor</b>	Returns an arrow cursor. 
+</LI><LI> +  (NSCursor *)<b>currentCursor</b>	Returns the current cursor.
+</LI><LI> +  (NSCursor *)<b>IBeamCursor</b>	Returns an I-beam cursor. 
+</body></html>

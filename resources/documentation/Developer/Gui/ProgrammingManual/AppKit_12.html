@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- C 2005-2006 Christopher Armstrong.
+
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2, as published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included in the section entitled "GNU Free Documentation License".
+
+This documentation is provided on an "AS IS" BASIS, WITHOUT WARRANTY
+OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED
+TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND USEFULNESS
+OF THE DOCUMENTATION IS WITH YOU (THE LICENSEE). IN NO EVENT WILL THE COPYRIGHT
+HOLDERS BE LIABLE FOR DAMAGES, INCLUDING ANY DIRECT, INDIRECT,
+SPECIAL, GENERAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF
+THE USE OR INABILITY TO USE THIS DOCUMENTATION (INCLUDING BUT NOT
+LIMITED TO LOSS OF DATA, USE, OR PROFITS; PROCUREMENT OF SUBSTITUTE
+GOODS AND SERVICES; OR BUSINESS INTERUPTION) HOWEVER CAUSED, EVEN
+IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ -->
+<!-- Created on December 24, 2013 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>Using the GNUstep AppKit 0.1: 12. Browsers</title>
+
+<meta name="description" content="Using the GNUstep AppKit 0.1: 12. Browsers">
+<meta name="keywords" content="Using the GNUstep AppKit 0.1: 12. Browsers">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="browsercontrols"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="AppKit_11.html#Using-Matrix-controls" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_12.html#Browser-Cells" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit_11.html#matrix" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_13.html#dataexchange" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="AppKit_16.html#conceptindex" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Browsers-1"></a>
+<h1 class="chapter">12. Browsers</h1>
+<p><a name="Browsers"></a>
+</p>
+<a name="index-browsers_002c-definition"></a>
+<a name="index-controls_002c-browsers"></a>
+<p>A <em>browser</em> is a special type of matrix control, useful for the display of hierachial or tree-like data. They use vertical lists of cells, in which some cells can be selected so that they display the &quot;branches&quot; of a tree in the adjacent pane. In this way, a user can easily navigate a hierachy, such as a filesystem which has many directories and sub-directories.
+</p>
+<p>In fact, the textual data in a browser can be accessed using path like string components, such as &lsquo;<tt>/path/to/leaf</tt>&rsquo; or &lsquo;<tt>/usr/local/lib</tt>&rsquo;. A good example of it&rsquo;s use in filesystems is GWorkspace, GNUstep&rsquo;s file manager application.<a name="DOCF15" href="AppKit_fot.html#FOOT15">(15)</a>.
+</p>
+<a name="index-leaf"></a>
+<a name="index-branch"></a>
+<a name="index-paridgms_002c-leaves-and-branches"></a>
+<p>We introduce the concept of <em>leaves</em> and <em>branches</em>. A <em>leaf</em> is a simple browser cell that only display&rsquo;s text; it does not open a new browser pane with sub-cells when it is selected. A <em>branch</em> both display text, and when selected, it fills the pane to the right with a list of leaves and/or branches that represent a group of cells logically below this one. A branch shows an arrow to indicate that it can be selected to display sub-cells. It is useful when dealing with tree-structures such as that modelled in Computer Sciencei courses.
+</p>
+<p>Each pane in the browser view is actually a one-column matrix (an <code>NSMatrix</code> object) which can be returned.
+</p>
+<p>Like many other controls, browsers define their own cell class, known as <code>NSBrowserCell</code>. It provides methods that are used to implement the functionality described above. Browsers use a simple delegate to decide how to display your hierachial data, which can be passive or active (see below).
+</p>
+<hr size="6">
+<a name="Browser-Cells"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="AppKit_12.html#browsercontrols" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_12.html#Browser-Methods" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit_12.html#browsercontrols" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_12.html#browsercontrols" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_13.html#dataexchange" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="AppKit_16.html#conceptindex" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">12.1 Browser Cells</h2>
+
+<p>As mentioned above, <code>NSBrowserCell</code> is used to implement the cells&rsquo;s placed in a browser. As a class it is quite simple, and warrants little attention. 
+</p>
+<p>It responds to all the methods in <code>NSCell</code>, such as <code>setText:</code> and the set value methods. Additionally, we can find out if it is a leaf using the <code>-isLeaf</code> method, and set whether or not it is a leaf using the <code>-setLeaf:</code> method.
+</p>
+<p>You can set whether the browser cell is selected using the <code>-set</code> method, and reset it using the <code>-reset</code> method. A cell shows that it is selected (or &quot;set&quot;) when it is highlighted.
+</p>
+<hr size="6">
+<a name="Browser-Methods"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="AppKit_12.html#Browser-Cells" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_12.html#Browser-Delegate" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit_12.html#browsercontrols" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_12.html#browsercontrols" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_13.html#dataexchange" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="AppKit_16.html#conceptindex" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">12.2 Browser Methods</h2>
+
+<p>Browsers provide a number of methods used for customising their behaviour, setting their data and getting information about their state.
+</p>
+<p>The path to the currently selected item (as described above) can be found using the <code>-path</code> method. You can find out the path leading upto a column with the <code>-pathToColumn:</code> method. An easy way of setting the current path is the <code>-setPath:</code> operator.
+</p>
+<p>You can customize the appearance of a browser and it&rsquo;s columns in various ways. Use <code>-setSeparatesColumns:</code> to have each column drawn in a separate pane. <code>-setTakesTitleFromPreviousColumn:</code> has it take the title displayed in the current column from the cell selected in the previous column, while <code>-setTitle:ofColumn:</code> allows you to set a column title directly. <code>-setTitled:</code> changes whether column titles are displayed at all.
+</p>
+<p>The types of operations permitted by the user can be changed as well. <code>-setAllowsMultipleSelection:</code> can be used to allow multiple selection, while <code>-setAllowsEmptySelection:</code> can be used to permit nothing to be selected. Use <code>-setAllowsBranchSelection:</code> to allow multiple branches to be selected when in multiple selection mode.
+</p>
+<p>The first and last column visible in the browser is found via the <code>-firstVisibleColumn</code> and <code>-lastVisibleColumn</code> respectively.
+</p>
+<hr size="6">
+<a name="Browser-Delegate"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="AppKit_12.html#Browser-Methods" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_13.html#dataexchange" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit_12.html#browsercontrols" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_12.html#browsercontrols" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_13.html#dataexchange" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="AppKit_16.html#conceptindex" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">12.3 Browser Delegate</h2>
+
+<a name="index-browsers_002c-delegate"></a>
+<a name="index-protocols_002c-NSBrowserDelegate"></a>
+<a name="index-defintiion_002c-active-and-passive-delegates"></a>
+<p>The delegate for a browser is used to gather it&rsquo;s data. It can be optionally <em>passive</em> or <em>active</em>, the difference being that active delegates instantiate the browser cell&rsquo;s themselves, whilst passive delegates leave this to <code>NSBrowser</code>. As a result, you can only implement one or the other subset of methods in <code>NSBrowserDelegate</code> informal protocol..
+</p>
+<p>A <em>passive</em> delegate must implement the <code>-browser:numberOfRowsInColumn:</code>, returning the number of rows to appear in the specified column number. On the other hand, <em>active</em> delegates must implement <code>-browser:createRowsForColumn:inMatrix:</code> and create the cells for that column proactively. You can only implement one of these methods; not both.
+</p>
+<p>All browser delegates can implement <code>-browser:willDisplayCell:atRow:column:</code>, a method called by the browser object before a particular cell is displayed so that the delegate can set up its properties. This method is a must for passive delegates. Another method that should be implemented is <code>-browser:selectRow:inColumn:</code>, as it is the delegate&rsquo;s responsibility to select cells (often by calling <code>-set</code> on the corresponding <code>NSBrowserCell</code> object). This method returns whether or not the cell was selected.
+</p>
+<p>You can optionally implement a number of other delegate methods if you wish. <code>-browser:titleOfColumn:</code> is called to get the title for a certain column, returned as a string, before the column is drawn.
+</p>
+<p>Keeping track of when the browser scrolls can be accomplished by implementing the <code>-browserWillScroll:</code> and/or the <code>-browserDidScroll:</code> methods. You can also specify to the browser whether or not columns are &quot;valid&quot; by implementing the <code>-browser:isColumnValid:</code> method. This is called by the browser in response to its <code>-validateVisibleColumn:</code> method, which checks whether a column is invalid and needs redrawing.
+</p>
+
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="AppKit_12.html#browsercontrols" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_13.html#dataexchange" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="AppKit.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[<a href="AppKit_16.html#conceptindex" title="Index">Index</a>]</td>
+<td valign="middle" align="left">[<a href="AppKit_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>Adam Fedor</em> on <em>December 24, 2013</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>
