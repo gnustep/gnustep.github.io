@@ -1,0 +1,1741 @@
+<HTML>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- Created on April, 1  2004 by texi2html 1.64 -->
+<!-- 
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Olaf Bachmann <obachman@mathematik.uni-kl.de>
+Send bugs and suggestions to <texi2html@mathematik.uni-kl.de>
+ 
+-->
+<HEAD>
+<TITLE>GNUstep Makefile Package: 1. Makefile Package</TITLE>
+
+<META NAME="description" CONTENT="GNUstep Makefile Package: 1. Makefile Package">
+<META NAME="keywords" CONTENT="GNUstep Makefile Package: 1. Makefile Package">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META NAME="Generator" CONTENT="texi2html 1.64">
+
+</HEAD>
+
+<BODY LANG="" BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" VLINK="#800080" ALINK="#FF0000">
+
+<A NAME="SEC1"></A>
+
+<HR SIZE=2>
+<H1> 1. Makefile Package </H1>
+<!--docid::SEC1::-->
+<P>
+
+<BLOCKQUOTE><TABLE BORDER=0 CELLSPACING=0> 
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC2">1.1 Introduction</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC3">1.2 Structure of a Makefile</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC4">1.3 Running Make</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC28">1.5 Global Variables (<TT>`GNUmakefile.preamble'</TT>)</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC29">1.6 Global Rules (<TT>`GNUmakefile.postamble'</TT>)</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC8">1.4 Project Types</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC30">1.7 Common Variables (<TT>`common.make'</TT>)</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+</TABLE></BLOCKQUOTE>
+<P>
+
+<A NAME="Makefile Introduction"></A>
+<HR SIZE="6">
+<A NAME="SEC2"></A>
+<H2> 1.1 Introduction </H2>
+<!--docid::SEC2::-->
+<P>
+
+The Makefile package is a system of make commands that is designed to
+encapsulate all the complex details of building and installing various types
+of projects from libraries to applications to documentation. This frees the
+developer to focus on the details of their particular project. Only
+a fairly simple main makefile need to be written which specifies the
+type of project and files involved in the project.
+</P><P>
+
+<A NAME="Makefile Structure"></A>
+<HR SIZE="6">
+<A NAME="SEC3"></A>
+<H2> 1.2 Structure of a Makefile </H2>
+<!--docid::SEC3::-->
+<P>
+
+Here is an example makefile (named GNUmakefile to emphasis the fact that it relies on special features of the GNU make program).
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>#
+# An example GNUmakefile
+#
+
+# Include the common variables defined by the Makefile Package
+include $(GNUSTEP_MAKEFILES)/common.make
+
+# Build a simple Objective-C program
+OBJC_PROGRAM_NAME = simple
+
+# The Objective-C files to compile
+simple_OBJC_FILES = simple.m
+
+-include GNUmakefile.preamble
+
+# Include in the rules for making Objective-C programs
+include $(GNUSTEP_MAKEFILES)/objc.make
+
+-include GNUmakefile.postamble
+</FONT></pre></td></tr></table></P><P>
+
+This is all that is necessary to define the project.
+</P><P>
+
+<A NAME="Running Make"></A>
+<HR SIZE="6">
+<A NAME="SEC4"></A>
+<H2> 1.3 Running Make </H2>
+<!--docid::SEC4::-->
+<BLOCKQUOTE><TABLE BORDER=0 CELLSPACING=0> 
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC5">1.3.1 Debug Information</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC6">1.3.2 Profile Information</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC7">1.3.3 Static, Shared, and Dynamic Link Libraries</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+</TABLE></BLOCKQUOTE>
+<P>
+
+Normally to compile a package which uses the Makefile Package it is
+purely a matter of typing <CODE>make</CODE> from the top-level directory of
+the package, and the package is compiled without any additional
+interaction.  
+</P><P>
+
+<A NAME="Debug Information"></A>
+<HR SIZE="6">
+<A NAME="SEC5"></A>
+<H3> 1.3.1 Debug Information </H3>
+<!--docid::SEC5::-->
+<P>
+
+By default the Makefile Package does not tell the compiler to generate
+debugging information when compiling Objective-C and C files.  The
+following command illustrates how to tell the Makefile Package to pass
+the appropriate flags to the compiler so that debugging information is
+put into the binary files.
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>make debug=yes
+</FONT></pre></td></tr></table></P><P>
+
+When debugging is turned on, the Makefile Package turns off optimization
+so the user must override the optimization flag when running make if
+both debugging information and optimization is to be performed by the
+compiler. Use the variable <VAR>OPTFLAG</VAR> to override the
+optimization flag.
+</P><P>
+
+<A NAME="Profile Information"></A>
+<HR SIZE="6">
+<A NAME="SEC6"></A>
+<H3> 1.3.2 Profile Information </H3>
+<!--docid::SEC6::-->
+<P>
+
+By default the Makefile Package does not tell the compiler to generate
+profiling information when compiling Objective-C and C files.  The
+following command illustrates how to tell the Makefile Package to pass
+the appropriate flags to the compiler so that profiling information is
+put into the binary files.
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>make profile=yes
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="Library Types"></A>
+<HR SIZE="6">
+<A NAME="SEC7"></A>
+<H3> 1.3.3 Static, Shared, and Dynamic Link Libraries </H3>
+<!--docid::SEC7::-->
+<P>
+
+By default the Makefile Package will generate a shared library if it is
+building a library project type, and it will link with shared libraries
+if it is building an application or command line tool project type.  The
+following command illustrates how to tell the Makefile Package not to
+build using shared libraries but using static libraries instead.
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>make shared=no
+</FONT></pre></td></tr></table></P><P>
+
+This default is only applicable on systems that support shared
+libraries; systems that do not support shared libraries will always
+build using static libraries.  Some systems support dynamic link
+libraries (DLL) which are a form of shared libraries; on these systems,
+DLLs will be built by default unless the Makefile Package is told to
+build using static libraries instead, as in the above command.
+</P><P>
+
+<A NAME="Project Types"></A>
+<HR SIZE="6">
+<A NAME="SEC8"></A>
+<H2> 1.4 Project Types </H2>
+<!--docid::SEC8::-->
+<BLOCKQUOTE><TABLE BORDER=0 CELLSPACING=0> 
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC9">1.4.1 Aggregate (<TT>`aggregate.make'</TT>)</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC10">1.4.2 Graphical Applications (<TT>`application.make'</TT>)</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC11">1.4.3 Bundles (<TT>`bundle.make'</TT>)</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC12">1.4.4 Command Line C Tools (<TT>`ctool.make'</TT>)</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC13">1.4.5 Documentation (<TT>`documentation.make'</TT>)</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC14">1.4.6 Frameworks (<TT>`framework.make'</TT>)</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC15">1.4.7 Java (<TT>`java.make'</TT>)</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC16">1.4.8 Libraries (<TT>`library.make'</TT>)</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC19">1.4.9 Native Library (<TT>`native-library.make'</TT>)</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC20">1.4.10 Objective-C Programs (<TT>`objc.make'</TT>)</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC23">1.4.11 Palettes (<TT>`palette.make'</TT>)</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC24">1.4.12 RPMs (<TT>`rpm.make'</TT>)</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC25">1.4.13 Services (<TT>`service.make'</TT>)</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC26">1.4.14 Subprojects (<TT>`subproject.make'</TT>)</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC27">1.4.15 Command Line Tools (<TT>`tool.make'</TT>)</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+</TABLE></BLOCKQUOTE>
+<P>
+
+Projects are divided into different types described below. To create a
+project of a specific type, just include the particular makefile. For
+example, to create an application, include this line in your make make
+file:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>include $(GNUSTEP_MAKEFILES)/application.make
+</pre></td></tr></table></P><P>
+
+Each project type is independent of the others. If you want to create
+two different types of projects within the same directory (e.g. a tool
+and a java program), include both the desired makefiles in your main
+make file.
+</P><P>
+
+<A NAME="aggregate.make"></A>
+<HR SIZE="6">
+<A NAME="SEC9"></A>
+<H3> 1.4.1 Aggregate (<TT>`aggregate.make'</TT>) </H3>
+<!--docid::SEC9::-->
+<P>
+
+An Aggregate project is a project that consists of several
+subprojects. Each subproject can be of any other valid project type
+(including the Aggregate type). The only project variable is the
+SUBPROJECTS variable
+</P><P>
+
+<A NAME="IDX1"></A>
+<DL>
+<DT><U>Aggregate project:</U> <B>SUBPROJECTS</B>
+<DD><CODE>SUBPROJECTS</CODE> defines the directory names that hold the subprojects
+that the Aggregate project should build.
+</DL>
+</P><P>
+
+<A NAME="application.make"></A>
+<HR SIZE="6">
+<A NAME="SEC10"></A>
+<H3> 1.4.2 Graphical Applications (<TT>`application.make'</TT>) </H3>
+<!--docid::SEC10::-->
+<P>
+
+An application is an Objective-C program that includes a GUI component,
+and by default links in all the GNUstep libraries required for GUI
+development, such as the Base and Gui libraries.
+</P><P>
+
+<A NAME="bundle.make"></A>
+<HR SIZE="6">
+<A NAME="SEC11"></A>
+<H3> 1.4.3 Bundles (<TT>`bundle.make'</TT>) </H3>
+<!--docid::SEC11::-->
+<P>
+
+A bundle is a collection of resources and code that can be used to
+enhance an existing application or tool dynamically using the NSBundle
+class from the GNUstep base library.
+</P><P>
+
+<A NAME="ctool.make"></A>
+<HR SIZE="6">
+<A NAME="SEC12"></A>
+<H3> 1.4.4 Command Line C Tools (<TT>`ctool.make'</TT>) </H3>
+<!--docid::SEC12::-->
+<P>
+
+A ctool is a project that only uses C language files.
+Otherwise it is similar to the ObjC project type.
+</P><P>
+
+<A NAME="documentation.make"></A>
+<HR SIZE="6">
+<A NAME="SEC13"></A>
+<H3> 1.4.5 Documentation (<TT>`documentation.make'</TT>) </H3>
+<!--docid::SEC13::-->
+<P>
+
+The Documentation project provides rules to use various types of
+documentation such as texi and LaTeX documentation, and convert them
+into finished documentation (info, PostScript, HTML, etc). 
+</P><P>
+
+<A NAME="framework.make"></A>
+<HR SIZE="6">
+<A NAME="SEC14"></A>
+<H3> 1.4.6 Frameworks (<TT>`framework.make'</TT>) </H3>
+<!--docid::SEC14::-->
+<P>
+
+A Framework is a collection of resources and a library that provides
+common code that can be linked into a Tool or Application. In many
+respects it is similar to a Bundle.
+</P><P>
+
+<A NAME="java.make"></A>
+<HR SIZE="6">
+<A NAME="SEC15"></A>
+<H3> 1.4.7 Java (<TT>`java.make'</TT>) </H3>
+<!--docid::SEC15::-->
+<P>
+
+This project provides rules for building java programs. It also makes it
+easy to make java projects that interact with the GNUstep libraries.
+</P><P>
+
+<A NAME="library.make"></A>
+<HR SIZE="6">
+<A NAME="SEC16"></A>
+<H3> 1.4.8 Libraries (<TT>`library.make'</TT>) </H3>
+<!--docid::SEC16::-->
+<BLOCKQUOTE><TABLE BORDER=0 CELLSPACING=0> 
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC17">1.4.8.1 Project Variables</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC18">1.4.8.2 Example Makefile</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+</TABLE></BLOCKQUOTE>
+<P>
+
+The Makefile Package provides a project type for building libraries;
+libraries can be built as static libraries, shared libraries, or dynamic
+link libraries (DLL) if the platform supports that type of library.
+Static libraries are supported on all platforms; while, shared libraries
+and DLLs are only supported on some platforms.
+</P><P>
+
+<A NAME="library.make variables"></A>
+<HR SIZE="6">
+<A NAME="SEC17"></A>
+<H4> 1.4.8.1 Project Variables </H4>
+<!--docid::SEC17::-->
+<P>
+
+<A NAME="IDX2"></A>
+<DL>
+<DT><U>Library project:</U> <B>LIBRARY_NAME</B>
+<DD><CODE>LIBRARY_NAME</CODE> should be assigned the list of name of libraries to
+be generated.  Most UNIX systems expect that the filename for the
+library has the word <TT>`lib'</TT> prefixed to the name; i.e. the <TT>`c'</TT>
+library has filename of <TT>`libc'</TT>.  Prefix the <TT>`lib'</TT> to the
+library name when it is specified in the <CODE>LIBRARY_NAME</CODE> variable
+because the Makefile Package will not automatically prefix it.
+</DL>
+</P><P>
+
+<A NAME="IDX3"></A>
+<DL>
+<DT><U>Library project:</U> <B>C_FILES</B>
+<DD><CODE>xxx_C_FILES</CODE> is the list of C files, with a <TT>`.c'</TT> extension,
+that are to be compiled to generate the <STRONG>xxx</STRONG> library.
+Replace the <STRONG>xxx</STRONG> with the name of the library as listed by
+the <CODE>LIBRARY_NAME</CODE> variable.
+</DL>
+</P><P>
+
+<A NAME="IDX4"></A>
+<DL>
+<DT><U>Library project:</U> <B>OBJC_FILES</B>
+<DD><CODE>xxx_OBJC_FILES</CODE> is the list of Objective-C files, with a <TT>`.m'</TT>
+extension, that are to be compiled to generate the <STRONG>xxx</STRONG> library.
+Replace the <STRONG>xxx</STRONG> with the name of the library as listed by the
+<CODE>LIBRARY_NAME</CODE> variable.
+</DL>
+</P><P>
+
+<A NAME="IDX5"></A>
+<DL>
+<DT><U>Library project:</U> <B>PSWRAP_FILES</B>
+<DD><CODE>xxx_PSWRAP_FILES</CODE> is the list of PostScript wrap files, with a
+<TT>`.psw'</TT> extension, that are to be compiled to generate the
+<STRONG>xxx</STRONG> library.  PostScript wrap files are processed by the
+<TT>`pswrap'</TT> utility which generates a <TT>`.c'</TT> and a <TT>`.h'</TT> file
+from each <TT>`.psw'</TT> file; the generate <TT>`.c'</TT> file is the file
+actually compiled.  Replace the <STRONG>xxx</STRONG> with the name of the
+library as listed by the <CODE>LIBRARY_NAME</CODE> variable.
+</DL>
+</P><P>
+
+<A NAME="IDX6"></A>
+<DL>
+<DT><U>Library project:</U> <B>HEADER_FILES</B>
+<DD><CODE>xxx_HEADER_FILES</CODE> is the list of header filenames that are to be
+installed with the library.  If a filename has a directory path prefixed
+to it then that prefix will be maintained when the headers are
+installed.  It is up to the user to make sure that the installation
+directory exists; otherwise, an error will occur when the library is
+installed, see <A HREF="make_1.html#SEC17">xxx_HEADER_FILES_INSTALL_DIR</A>.  Replace the <STRONG>xxx</STRONG> with
+the name of the library as listed by the <CODE>LIBRARY_NAME</CODE> variable.
+</DL>
+</P><P>
+
+<A NAME="IDX7"></A>
+<DL>
+<DT><U>Library project:</U> <B>HEADER_FILES_DIR</B>
+<DD><CODE>xxx_HEADER_FILES_DIR</CODE> is the relative path from the current
+directory, where the makefile is located, to where the header files
+specified by <CODE>xxx_HEADER_FILES</CODE> are located.  If a filename
+specified in <CODE>xxx_HEADER_FILES</CODE> has a directory path prefixed to it
+then that path will not be removed when the Makefile Package accesses
+the files, so do not specify a path with <CODE>xxx_HEADER_FILES_DIR</CODE>
+that is already prefixed to the header filenames, see <A HREF="make_1.html#SEC17">xxx_HEADER_FILES_INSTALL_DIR</A>.  <CODE>xxx_HEADER_FILES_DIR</CODE>
+is optional; leaving it blank or undefined, and the Makefile Package
+assumes that the relative path to the header files is the current
+directory where the makefile resides.  Replace the <STRONG>xxx</STRONG> with the
+name of the library as listed by the <CODE>LIBRARY_NAME</CODE> variable.
+</DL>
+</P><P>
+
+<A NAME="IDX8"></A>
+<DL>
+<DT><U>Library project:</U> <B>HEADER_FILES_INSTALL_DIR</B>
+<DD><CODE>xxx_HEADER_FILES_INSTALL_DIR</CODE> specifies the relative subdirectory
+path below <CODE>GNUSTEP_HEADERS</CODE> where the header files are to be
+installed.  If this directory or any of its parent directories do not
+exist, then the Makefile Package will create them.  The Makefile Package
+prefixes <CODE>xxx_HEADER_FILES_INSTALL_DIR</CODE> to each of the filenames in
+<CODE>xxx_HEADER_FILES</CODE> when they are installed, so if the filenames in
+<CODE>xxx_HEADER_FILES</CODE> already have a directory path prefixed then the
+user is responsible for creating that directory, the Makefile Package
+will not create.  <CODE>xxx_HEADER_FILES_INSTALL_DIR</CODE> is optional;
+leaving it blank or undefined, and the Makefile Package assumes that the
+installation directory is just <CODE>GNUSTEP_HEADERS</CODE> with no
+subdirectory.  Replace the <STRONG>xxx</STRONG> with the name of the library as
+listed by the <CODE>LIBRARY_NAME</CODE> variable.
+</DL>
+</P><P>
+
+<A NAME="IDX9"></A>
+<DL>
+<DT><U>Library project:</U> <B>CPPFLAGS</B>
+<DD><CODE>xxx_CPPFLAGS</CODE> are additional flags that will be passed to the
+compiler preprocessor when compiling Objective-C and C files to generate
+the <STRONG>xxx</STRONG> library.  Adding flags here does not override the
+default <CODE>CPPFLAGS</CODE>, see <A HREF="make_1.html#SEC35">CPPFLAGS</A>, they are
+in addition to <CODE>CPPFLAGS</CODE>.  These flags are specific to the
+<STRONG>xxx</STRONG> library, see <A HREF="make_1.html#SEC28">ADDITIONAL_CPPFLAGS</A>,
+to see how to specify global preprocessor flags.  Replace the
+<STRONG>xxx</STRONG> with the name of the listed as listed by the
+<CODE>LIBRARY_NAME</CODE> variable.
+</DL>
+</P><P>
+
+<A NAME="IDX10"></A>
+<DL>
+<DT><U>Library project:</U> <B>OBJCFLAGS</B>
+<DD><CODE>xxx_OBJCFLAGS</CODE> are additional flags that will be passed to the
+compiler when compiling Objective-C files to generate the <STRONG>xxx</STRONG>
+library.  Adding flags here does not override the default
+<CODE>OBJCFLAGS</CODE>, see <A HREF="make_1.html#SEC35">OBJCFLAGS</A>, they are in
+addition to <CODE>OBJCFLAGS</CODE>.  These flags are specific to the
+<STRONG>xxx</STRONG> library, see <A HREF="make_1.html#SEC28">ADDITIONAL_OBJCFLAGS</A>,
+to see how to specify global compiler flags.  Replace the <STRONG>xxx</STRONG>
+with the name of the library as listed by the <CODE>LIBRARY_NAME</CODE>
+variable.
+</DL>
+</P><P>
+
+<A NAME="IDX11"></A>
+<DL>
+<DT><U>Library project:</U> <B>CFLAGS</B>
+<DD><CODE>xxx_CFLAGS</CODE> are additional flags that will be passed to the
+compiler when compiling C files to generate the <STRONG>xxx</STRONG> library.
+Adding flags here does not override the default <CODE>CFLAGS</CODE>, see
+<A HREF="make_1.html#SEC35">CFLAGS</A>, they are in addition to <CODE>CFLAGS</CODE>.
+These flags are specific to the <STRONG>xxx</STRONG> library, see
+<A HREF="make_1.html#SEC28">ADDITIONAL_CFLAGS</A>, to see how to specify global
+compiler flags.  Replace the <STRONG>xxx</STRONG> with the name of the library
+as listed by the <CODE>LIBRARY_NAME</CODE> variable.
+</DL>
+</P><P>
+
+<A NAME="IDX12"></A>
+<DL>
+<DT><U>Library project:</U> <B>LDFLAGS</B>
+<DD><CODE>xxx_LDFLAGS</CODE> are additional flags that will be passed to the
+linker when it creates the <STRONG>xxx</STRONG> library.  Adding flags here does
+not override the default <CODE>LDFLAGS</CODE>, see <A HREF="make_1.html#SEC35">LDFLAGS</A>, they are in addition to <CODE>LDFLAGS</CODE>.  These flags
+are specific to the <STRONG>xxx</STRONG> library, see
+<A HREF="make_1.html#SEC28">ADDITIONAL_LDFLAGS</A>, to see how to specify
+global linker flags.  Replace the <STRONG>xxx</STRONG> with the name of the
+library as listed by the <CODE>LIBRARY_NAME</CODE> variable.
+</DL>
+</P><P>
+
+<A NAME="IDX13"></A>
+<DL>
+<DT><U>Library project:</U> <B>INCLUDE_DIRS</B>
+<DD><CODE>xxx_INCLUDE_DIRS</CODE> is the list of additional directories that the
+compiler will search when it is looking for include files; these flags
+are specific to the <STRONG>xxx</STRONG> library, see
+<A HREF="make_1.html#SEC28">ADDITIONAL_INCLUDE_DIRS</A>, to see how to specify
+additional global include directories.  The directories should be
+specified as <SAMP>`-I'</SAMP> flags to the compiler.  The additional include
+directories will be placed before the normal GNUstep and system include
+directories, and before any global include directories specified with
+<CODE>ADDITIONAL_INCLUDE_DIRS</CODE>, so they will always be searched first.
+Replace the <STRONG>xxx</STRONG> with the name of the library as listed by the
+<CODE>LIBRARY_NAME</CODE> variable.
+</DL>
+</P><P>
+
+<A NAME="Example Library Makefile"></A>
+<HR SIZE="6">
+<A NAME="SEC18"></A>
+<H4> 1.4.8.2 Example Makefile </H4>
+<!--docid::SEC18::-->
+<P>
+
+This example makefile illustrates two libraries, <TT>`libone'</TT> and
+<TT>`libtwo'</TT>, that are to be generated.
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>
+#
+# An example makefile
+#
+
+# Include the common variables defined by the Makefile Package
+include $(GNUSTEP_MAKEFILES)/common.make
+
+# Two libraries
+LIBRARY_NAME = libone libtwo
+
+#
+# The files for the libone library
+#
+# The Objective-C files to compile
+libone_OBJC_FILES = one.m draw.m
+
+# The C source files to be compiled
+libone_C_FILES = parse.c
+
+# The PostScript wrap source files to be compiled
+libone_PSWRAP_FILES = drawing.psw
+
+# The header files for the library
+libone_HEADER_FILES_DIR = ./one
+libone_HEADER_FILES_INSTALL_DIR = one
+libone_HEADER_FILES = one.h draw.h
+
+#
+# The files for the libtwo library
+#
+# The Objective-C files to compile
+libtwo_OBJC_FILES = two.m another.m test.m
+
+# The header files for the library
+libtwo_HEADER_FILES_DIR = ./two
+libtwo_HEADER_FILES_INSTALL_DIR = two
+libtwo_HEADER_FILES = two.h another.h test.h common.h
+
+# Option include to set any additional variables
+-include GNUmakefile.preamble
+
+# Include in the rules for making libraries
+include $(GNUSTEP_MAKEFILES)/library.make
+
+# Option include to define any additional rules
+-include GNUmakefile.postamble
+
+</FONT></pre></td></tr></table></P><P>
+
+Notice that the <TT>`libone'</TT> library has Objective-C, C, and PostScript
+wrap files to be compiled; while, the <TT>`libtwo'</TT> library only has
+some Objective-C files.
+</P><P>
+
+The header files for the <TT>`libone'</TT> library reside in the <TT>`one'</TT>
+subdirectory from where the sources are located, and the header files
+will be installed into the <TT>`one'</TT> subdirectory within
+<CODE>GNUSTEP_HEADERS</CODE>.  Likewise the header files for the <TT>`libtwo'</TT>
+library reside in the <TT>`two'</TT> subdirectory from where the sources are
+located, and the header files will be installed into the <TT>`two'</TT>
+subdirectory within <CODE>GNUSTEP_HEADERS</CODE>.
+</P><P>
+
+<A NAME="native-library.make"></A>
+<HR SIZE="6">
+<A NAME="SEC19"></A>
+<H3> 1.4.9 Native Library (<TT>`native-library.make'</TT>) </H3>
+<!--docid::SEC19::-->
+<P>
+
+A "native library" is a project which is to be built as a shared
+library on most targets and as a framework on Darwin.  (Currently
+this is only the case for apple-apple-apple.)  In other
+words, it is to be built as the most appropriate native equivalent
+of a traditional shared library (see <A HREF="make_1.html#SEC16">1.4.8 Libraries (<TT>`library.make'</TT>)</A> and
+<A HREF="make_1.html#SEC14">1.4.6 Frameworks (<TT>`framework.make'</TT>)</A>).
+</P><P>
+
+<A NAME="IDX14"></A>
+<DL>
+<DT><U>Native Library project:</U> <B>NATIVE_LIBRARY_NAME</B>
+<DD><CODE>NATIVE_LIBRARY_NAME</CODE> should be the name of the native library,
+without the 'lib'.  All the other variables are the same as
+the ones used in libraries and frameworks.
+</DL>
+</P><P>
+
+To compile something against a native library, you can use
+<CODE>ADDITIONAL_NATIVE_LIBS += MyLibrary</CODE>
+This will be converted into -lMyLibrary link flag on for most
+targets and into -framework MyLibrary link flag for
+apple-apple-apple.
+</P><P>
+
+<A NAME="objc.make"></A>
+<HR SIZE="6">
+<A NAME="SEC20"></A>
+<H3> 1.4.10 Objective-C Programs (<TT>`objc.make'</TT>) </H3>
+<!--docid::SEC20::-->
+<BLOCKQUOTE><TABLE BORDER=0 CELLSPACING=0> 
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC21">1.4.10.1 Project Variables</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC22">1.4.10.2 Example Makefile</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+</TABLE></BLOCKQUOTE>
+<P>
+
+The Makefile Package provides a project type that is useful for building
+Objective-C programs that do not depend upon the GNUstep libraries.
+Objective-C programs which only use the Objective-C Runtime Library and
+the classes it defines are candidates for this project type.
+</P><P>
+
+<A NAME="objc.make variables"></A>
+<HR SIZE="6">
+<A NAME="SEC21"></A>
+<H4> 1.4.10.1 Project Variables </H4>
+<!--docid::SEC21::-->
+<P>
+
+Most of the project variables work the same as in Library
+projects (see <A HREF="make_1.html#SEC16">1.4.8 Libraries (<TT>`library.make'</TT>)</A>).
+</P><P>
+
+<A NAME="IDX15"></A>
+<DL>
+<DT><U>Objective-C program project:</U> <B>OBJC_PROGRAM_NAME</B>
+<DD><CODE>OBJC_PROGRAM_NAME</CODE> is the list of names of Objective-C programs
+that are to be built; each name should be unique as it is the name of
+the executable file that will be generated.
+</DL>
+</P><P>
+
+<A NAME="IDX16"></A>
+<DL>
+<DT><U>Objective-C program project:</U> <B>OBJC_LIBS</B>
+<DD><CODE>xxx_OBJC_LIBS</CODE> is the list of additional libraries that the linker
+will use when linking to create the <STRONG>xxx</STRONG> Objective-C program
+executable file.  These libraries are specific to the <STRONG>xxx</STRONG>
+Objective-C program, see <A HREF="make_1.html#SEC28">ADDITIONAL_OBJC_LIBS</A>,
+to see how to specify additional global libraries.  These libraries are
+placed before all of the Objective-C Runtime and system libraries, and
+before the global libraries specified with <CODE>ADDITIONAL_OBJC_LIBS</CODE>,
+so that they will be searched first when linking.  The additional
+libraries should be specified as <SAMP>`-l'</SAMP> flags to the linker as the
+following example illustrates.  Replace the <STRONG>xxx</STRONG> with the name
+of the program as listed by the <CODE>OBJC_PROGRAM_NAME</CODE> variable.
+</DL>
+</P><P>
+
+<A NAME="Example ObjC Makefile"></A>
+<HR SIZE="6">
+<A NAME="SEC22"></A>
+<H4> 1.4.10.2 Example Makefile </H4>
+<!--docid::SEC22::-->
+<P>
+
+This makefile illustrates two Objective-C programs, <TT>`simple'</TT> and
+<TT>`list'</TT> that are to be generated.
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>#
+# An example makefile
+#
+
+# Include the common variables defined by the Makefile Package
+include $(GNUSTEP_MAKEFILES)/common.make
+
+# Build a simple Objective-C program
+OBJC_PROGRAM_NAME = simple list
+
+# Have the Objective-C runtime macro be defined for simple program
+simple_CPPFLAGS = $(RUNTIME_DEFINE)
+
+# The Objective-C files to compile for simple program
+simple_OBJC_FILES = simple.m
+
+# The Objective-C files to compile for list program
+list_OBJC_FILES = list.m linkedlist.m
+
+# The C files to compile for list program
+list_C_FILES = sort.c
+
+# Option include to set any additional variables
+-include GNUmakefile.preamble
+
+# Include in the rules for making Objective-C programs
+include $(GNUSTEP_MAKEFILES)/objc.make
+
+# Option include to define any additional rules
+-include GNUmakefile.postamble
+</FONT></pre></td></tr></table></P><P>
+
+The <TT>`simple'</TT> Objective-C program only consists of single
+Objective-C file; while, the <TT>`list'</TT> Objective-C program consists of
+two Objective-C files and one C file.  The <TT>`simple'</TT> Objective-C
+program use the variable defined by the Makefile Package,
+<CODE>RUNTIME_DEFINE</CODE>, to define a macro based upon the Objective-C
+Runtime library; presumably <TT>`simple.m'</TT> has code which is dependent
+upon the Objective-C Runtime.
+</P><P>
+
+<A NAME="palette.make"></A>
+<HR SIZE="6">
+<A NAME="SEC23"></A>
+<H3> 1.4.11 Palettes (<TT>`palette.make'</TT>) </H3>
+<!--docid::SEC23::-->
+<P>
+
+A palette is a Bundle that provides some kind of GUI functionality.
+Otherwise it is similar to the Bundle project.
+</P><P>
+
+<A NAME="rpm.make"></A>
+<HR SIZE="6">
+<A NAME="SEC24"></A>
+<H3> 1.4.12 RPMs (<TT>`rpm.make'</TT>) </H3>
+<!--docid::SEC24::-->
+<P>
+
+The RPM project provides rules for automatically generating RPM spec
+files in order to make RPM distributions. Note that this project
+makefile is included automatically when you include any other project
+type in your GNUmakefile. It is non necessary to include
+<TT>`rpm.make'</TT>.
+</P><P>
+
+Except for <CODE>PACKAGE_NAME</CODE>, which is required, all the following
+variables are optional. It is recommended that you set them anyway in
+order to provide the standard information that is present in most RPM
+distributions.
+</P><P>
+
+<A NAME="IDX17"></A>
+<DL>
+<DT><U>RPM:</U> <B>PACKAGE_NAME</B>
+<DD><CODE>PACKAGE_NAME</CODE> defines the name of the RPM distribution. In most
+cases this will be the same as the name of your project type. For
+instance, if you are creating a application, and have set
+<CODE>APP_NAME</CODE> to <SAMP>`MyApplication'</SAMP>, Then set <CODE>PACKAGE_NAME</CODE> to
+the same thing, or just use <CODE>PACKAGE_NAME=$(APP_NAME)</CODE>.  if 
+<CODE>PACKAGE_NAME</CODE> is not set, it defaults to <CODE>unnamed-package</CODE>
+</DL>
+</P><P>
+
+<A NAME="IDX18"></A>
+<DL>
+<DT><U>RPM:</U> <B>PACKAGE_VERSION</B>
+<DD>Set <CODE>PACKAGE_VERSION</CODE> to the release version number of your package. If not
+set, it defaults to 0.0.1
+</DL>
+</P><P>
+
+<A NAME="IDX19"></A>
+<DL>
+<DT><U>RPM:</U> <B>GNUSTEP_INSTALLATION_DIR</B>
+<DD>Set <CODE>GNUSTEP_INSTALLATION_DIR</CODE> to the installation
+directory. Typically this is either <CODE>$(GNUSTEP_SYSTEM_ROOT)</CODE>),
+<CODE>$(GNUSTEP_LOCAL_ROOT)</CODE>, or <CODE>$(GNUSTEP_USER_ROOT)</CODE>. If not set
+it defaults to <CODE>$(GNUSTEP_LOCAL_ROOT)</CODE>.
+</DL>
+</P><P>
+
+<A NAME="IDX20"></A>
+<DL>
+<DT><U>RPM:</U> <B>RPM_DISABLE_RELOCATABLE</B>
+<DD>Set this to <CODE>YES</CODE> if the package must be in <CODE>$(GNUSTEP_SYSTEM_ROOT)</CODE>
+and is not relocatable.
+</DL>
+</P><P>
+
+<A NAME="IDX21"></A>
+<DL>
+<DT><U>RPM:</U> <B>PACKAGE_NEEDS_CONFIGURE</B>
+<DD>Set this to <CODE>YES</CODE> if a configure script needs to be run before
+compilation
+</DL>
+</P><P>
+
+In addition you need to provide a stub spec file named for the package
+name, such as this example <TT>`libobjc.spec.in'</TT> file:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>Release:        1
+Source:         ftp://ftp.gnustep.org/pub/gnustep/libs/%{gs_name}-%{gs_version}.
+tar.gz
+Copyright:      GPL
+Group:          Development/Libraries
+Summary:        Objective-C Runtime Library
+Packager:       Adam Fedor &#60;fedor@gnu.org&#62;
+Vendor:         The GNUstep Project
+URL:            http://www.gnustep.org/
+
+%description
+Library containing the Objective-C runtime.
+</pre></td></tr></table></P><P>
+
+<A NAME="service.make"></A>
+<HR SIZE="6">
+<A NAME="SEC25"></A>
+<H3> 1.4.13 Services (<TT>`service.make'</TT>) </H3>
+<!--docid::SEC25::-->
+<P>
+
+A Service is like a Tool that provides a service to a running GNUstep program.
+</P><P>
+
+<A NAME="subproject.make"></A>
+<HR SIZE="6">
+<A NAME="SEC26"></A>
+<H3> 1.4.14 Subprojects (<TT>`subproject.make'</TT>) </H3>
+<!--docid::SEC26::-->
+<P>
+
+A Subproject provides a way to organize code in a large application into
+subunits. The code in the subproject is merged in with the main tool
+or application.
+</P><P>
+
+<A NAME="tool.make"></A>
+<HR SIZE="6">
+<A NAME="SEC27"></A>
+<H3> 1.4.15 Command Line Tools (<TT>`tool.make'</TT>) </H3>
+<!--docid::SEC27::-->
+<P>
+
+A tool is an ObjC project that by default links in the GNUstep base
+library. Otherwise it is similar to the ObjC project type.
+</P><P>
+
+<A NAME="GNUmakefile.preamble"></A>
+<HR SIZE="6">
+<A NAME="SEC28"></A>
+<H2> 1.5 Global Variables (<TT>`GNUmakefile.preamble'</TT>) </H2>
+<!--docid::SEC28::-->
+<P>
+
+<TT>`GNUmakefile.preamble'</TT> is an optional file that may be put within the
+package for declaring global makefile variables for the package.  The
+filename, <TT>`GNUmakefile.preamble'</TT>, is just a convention; likewise, the
+variables defined within it can be put in the normal <TT>`GNUmakefile'</TT>
+versus in this special file.  However, the reason for this convention is
+that the <TT>`GNUmakefile'</TT> may be automatically maintained by a project
+management system, like Project Center, so any changes made to
+<TT>`GNUmakefile'</TT> may be discarded by that project management system.
+</P><P>
+
+The file, <TT>`GNUmakefile.preamble'</TT>, in the Makefile Package is a
+template that can be used the project's <TT>`GNUmakefile.preamble'</TT>.  It is
+not necessary to have a <TT>`GNUmakefile.preamble'</TT> with the project unless
+it is actually needed, the Makefile Package will only include it if it
+is available, see <A HREF="make_1.html#SEC3">1.2 Structure of a Makefile</A> for information on how the
+Makefile Package includes a <TT>`GNUmakefile.preamble'</TT>.
+</P><P>
+
+The rest of this section describes the individual global variables that
+the Makefile Package uses which are generally placed in the package's
+<TT>`GNUmakefile.preamble'</TT>.
+</P><P>
+
+<A NAME="IDX22"></A>
+<DL>
+<DT><U>Variable:</U> <B>ADDITIONAL_CPPFLAGS</B>
+<DD><CODE>ADDITIONAL_CPPFLAGS</CODE> are additional flags that will be passed to
+the compiler preprocessor.  Generally any macros to be defined for all
+files are placed here; the are passed for both Objective-C and C files
+that are compiled.  <CODE>RUNTIME_DEFINE</CODE>, <CODE>FOUNDATION_DEFINE</CODE>,
+<CODE>GUI_DEFINE</CODE>, and <CODE>GUI_BACKEND_DEFINE</CODE> are some makefile
+variables which define macros that can be assigned to
+<CODE>ADDITIONAL_CPPFLAGS</CODE>.  The following example illustrates the use
+of <CODE>ADDITIONAL_CPPFLAGS</CODE> to define a macro for the Objective-C
+Runtime Library plus an additional macro that is specific to the
+package.
+</DL>
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>ADDITIONAL_CPPFLAGS = $(RUNTIME_DEFINE) -DVERBOSE=1
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="IDX23"></A>
+<DL>
+<DT><U>Variable:</U> <B>ADDITIONAL_OBJCFLAGS</B>
+<DD><CODE>ADDITIONAL_OBJCFLAGS</CODE> are additional flags that will be passed to
+the compiler when compiling Objective-C files.  Adding flags here does
+not override the default <CODE>OBJCFLAGS</CODE>, see <A HREF="make_1.html#SEC35">OBJCFLAGS</A>, they are in addition to <CODE>OBJCFLAGS</CODE>.  Generally
+<CODE>ADDITIONAL_OBJCFLAGS</CODE> are placed before <CODE>OBJCFLAGS</CODE> when the
+compiler is executed, but one should avoid having any placement
+sensitive flags because the order of the flags is not guaranteed.  The
+following example illustrates how you can pass additional Objective-C
+flags.
+</DL>
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>ADDITIONAL_OBJCFLAGS = -Wno-protocol
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="IDX24"></A>
+<DL>
+<DT><U>Variable:</U> <B>ADDITIONAL_CFLAGS</B>
+<DD><CODE>ADDITIONAL_CFLAGS</CODE> are additional flags that will be passed to the
+compiler when compiling C files.  Adding flags here does not override
+the default <CODE>CFLAGS</CODE>, see <A HREF="make_1.html#SEC35">CFLAGS</A>, they are
+in addition to <CODE>CFLAGS</CODE>.  Generally <CODE>ADDITIONAL_CFLAGS</CODE> are
+placed before <CODE>CFLAGS</CODE> when the compiler is executed, but one
+should avoid having any placement sensitive flags because the order of
+the flags is not guaranteed.  The following example illustrates how you
+can pass additional C flags.
+</DL>
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>ADDITIONAL_CFLAGS = -finline-functions
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="IDX25"></A>
+<DL>
+<DT><U>Variable:</U> <B>ADDITIONAL_LDFLAGS</B>
+<DD><CODE>ADDITIONAL_LDFLAGS</CODE> are additional flags that will be passed to
+the linker when it creates an executable; these flags are passed when
+linking a command line tool, and application, or an Objective-C program.
+Adding flags here does not override the default <CODE>LDFLAGS</CODE>, see
+<A HREF="make_1.html#SEC35">LDFLAGS</A>, they are in addition to
+<CODE>LDFLAGS</CODE>.  Generally <CODE>ADDITIONAL_LDFLAGS</CODE> are placed before
+<CODE>LDFLAGS</CODE> when the linker is executed, but one should avoid having
+any placement sensitive flags because the order of the flags is not
+guaranteed.  The following example illustrates how you can pass addition
+linker flags.
+</DL>
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>ADDITIONAL_LDFLAGS = -v
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="IDX26"></A>
+<DL>
+<DT><U>Variable:</U> <B>ADDITIONAL_INCLUDE_DIRS</B>
+<DD><CODE>ADDITIONAL_INCLUDE_DIRS</CODE> is the list of additional directories that
+the compiler will search when it is looking for include files.  The
+directories should be specified as <SAMP>`-I'</SAMP> flags to the compiler.  The
+additional include directories will be placed before the normal GNUstep
+and system include directories, so they will always be searched first.
+The following example illustrates two additional include directories;
+<CODE>/usr/local/gnu/include</CODE> will be searched first, then
+<CODE>/usr/gnu/include</CODE>, and finally the GNUstep and system directories
+which are automatically defined by the Makefile Package.
+</DL>
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>ADDITIONAL_INCLUDE_DIRS = -I/usr/local/gnu/include -I/usr/gnu/include
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="IDX27"></A>
+<DL>
+<DT><U>Variable:</U> <B>ADDITIONAL_LIB_DIRS</B>
+<DD><CODE>ADDITIONAL_LIB_DIRS</CODE> is the list of additional directories that
+the linker will search when it is looking for library files.  The
+directories should be specified as <SAMP>`-L'</SAMP> flags to the linker.  The
+additional library directories will be placed before the GNUstep and
+system library directories so that they will be searched first by the
+linker.  The following example illustrates two additional library
+directories; <CODE>/usr/local/gnu/lib</CODE> will be searched first, then
+<CODE>/usr/gnu/lib</CODE>, and finally the GNUstep and system directories
+which are automatically defined by the Makefile Package.
+</DL>
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>ADDITIONAL_LIB_DIRS = -L/usr/local/gnu/lib -L/usr/gnu/lib
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="IDX28"></A>
+<DL>
+<DT><U>Variable:</U> <B>ADDITIONAL_OBJC_LIBS</B>
+<DD><CODE>ADDITIONAL_OBJC_LIBS</CODE> is the list of additional libraries that the
+linker will use when linking command line tools, applications, and
+Objective-C programs, see <A HREF="make_1.html#SEC27">1.4.15 Command Line Tools (<TT>`tool.make'</TT>)</A>, <A HREF="make_1.html#SEC10">1.4.2 Graphical Applications (<TT>`application.make'</TT>)</A>, and
+<A HREF="make_1.html#SEC20">1.4.10 Objective-C Programs (<TT>`objc.make'</TT>)</A>.  For Objective-C programs, <CODE>ADDITIONAL_OBJC_LIBS</CODE>
+is placed before all of the Objective-C Runtime and system libraries so
+that they will be searched first when linking.  For command line tools
+and applications, <CODE>ADDITIONAL_OBJC_LIBS</CODE> is placed <EM>before</EM>
+all of the Objective-C Runtime and system libraries but <EM>after</EM> the
+Foundation and GUI libraries.  Libraries specified with
+<CODE>ADDITIONAL_OBJC_LIBS</CODE> should only depend upon the Objective-C
+Runtime and/or system functions, not Foundation or GUI classes;
+Foundation dependent libraries should be specified with
+<CODE>ADDITIONAL_TOOL_LIBS</CODE> and GUI dependent libraries should be
+specified with <CODE>ADDITONAL_GUI_LIBS</CODE>.  The additional libraries
+should be specified as <SAMP>`-l'</SAMP> flags to the linker as the following
+example illustrates.
+</DL>
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>ADDITIONAL_OBJC_LIBS = -lSwarm
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="IDX29"></A>
+<DL>
+<DT><U>Variable:</U> <B>ADDITIONAL_TOOL_LIBS</B>
+<DD><CODE>ADDITIONAL_TOOL_LIBS</CODE> is the list of additional libraries that the
+linker will use when linking command line tools and applications, see
+<A HREF="make_1.html#SEC27">1.4.15 Command Line Tools (<TT>`tool.make'</TT>)</A> and <A HREF="make_1.html#SEC10">1.4.2 Graphical Applications (<TT>`application.make'</TT>)</A>.  For command line tools,
+<CODE>ADDITIONAL_TOOL_LIBS</CODE> is placed before all of the GNUstep and
+system libraries so that they will be searched first when linking.  For
+applications, <CODE>ADDITIONAL_TOOL_LIBS</CODE> is placed before the
+Foundation and system libraries but after the GUI libraries.  Libraries
+specified with <CODE>ADDITIONAL_TOOL_LIBS</CODE> should only depend upon the
+Foundation classes and/or system functions, not GUI classes; GUI
+dependent libraries should be specified with <CODE>ADDITIONAL_GUI_LIBS</CODE>.
+The additional libraries should be specified as <SAMP>`-l'</SAMP> flags to the
+linker as the following example illustrates.
+</DL>
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>ADDITIONAL_TOOL_LIBS = -lone -lsimple
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="IDX30"></A>
+<DL>
+<DT><U>Variable:</U> <B>ADDITIONAL_GUI_LIBS</B>
+<DD><CODE>ADDITIONAL_GUI_LIBS</CODE> is the list of additional libraries that the
+linker will use when linking applications, see <A HREF="make_1.html#SEC10">1.4.2 Graphical Applications (<TT>`application.make'</TT>)</A>.
+<CODE>ADDITIONAL_GUI_LIBS</CODE> is placed before all of the GUI, Foundation,
+and system libraries so that they will be searched first when linking.
+The additional libraries should be specified as <SAMP>`-l'</SAMP> flags to the
+linker as the following example illustrates.
+</DL>
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>ADDITIONAL_GUI_LIBS = -lMiscGui
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="IDX31"></A>
+<DL>
+<DT><U>Variable:</U> <B>LIBRARIES_DEPEND_UPON</B>
+<DD><CODE>LIBRARIES_DEPEND_UPON</CODE> is the set of libraries that the shared
+library depends upon, see <A HREF="make_1.html#SEC16">1.4.8 Libraries (<TT>`library.make'</TT>)</A> for more information about
+building shared libraries; this variable is only relevant for library
+project types.  On some platforms when a shared library is built, any
+libraries which the object code in the shared library depends upon must
+be linked in the generation of the shared library.  This is similar to
+the process of linking an executable file like a command line tool or
+Objective-C program except that the result is a shared library.
+Libraries specified with <CODE>LIBRARIES_DEPEND_UPON</CODE> should be listed
+as <SAMP>`-l'</SAMP> flags to the linker; when possible use variables defined by
+the Makefile Package to specify GUI, Foundation, or system libraries;
+like <CODE>GUI_LIBS</CODE>, <CODE>FND_LIBS</CODE>, <CODE>OBJC_LIBS</CODE>, or
+<CODE>SYSTEM_LIBS</CODE>.  <CODE>LIBRARIES_DEPEND_UPON</CODE> is independent of
+<CODE>ADDITIONAL_OBJC_LIBS</CODE>, <CODE>ADDITIONAL_TOOL_LIBS</CODE>, and
+<CODE>ADDITIONAL_GUI_LIBS</CODE>, so any libraries specified there may need to
+be specified with <CODE>LIBRARIES_DEPEND_UPON</CODE>.  The following example
+illustrates the use of <CODE>LIBRARIES_DEPEND_UPON</CODE> for a shared library
+that is depend upon the Foundation, ObjC, system libraries and an
+additional user library.
+</DL>
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>LIBRARIES_DEPEND_UPON = -lsimple $(FND_LIBS) $(OBJC_LIBS) $(SYSTEM_LIBS)
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="IDX32"></A>
+<DL>
+<DT><U>Variable:</U> <B>ADDITIONAL_INSTALL_DIRS</B>
+<DD><CODE>ADDITIONAL_INSTALL_DIRS</CODE> is the list of additional directories
+that should be created when the Makefile Package installs the file for
+the project.  These directories are only one that the project needs to
+be created but that the Makefile Package does not automatically create.
+The directories should be absolute paths but use the
+<CODE>GNUSTEP_INSTALLATION_DIR</CODE> variable and other Makefile Package
+define variables, see <A HREF="make_1.html#SEC31">1.7.1 Directory Paths</A>, so that the directories get
+created in the appropriate place relative to the other file installed
+for the project.  The following example illustrates how two additional
+directories can be created during installation.
+</DL>
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>ADDITIONAL_INSTALL_DIRS = $(GNUSTEP_INSTALLATION_DIR)/MyProject \
+                          $(GNUSTEP_RESOURCES)/MyProject
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="GNUmakefile.postamble"></A>
+<HR SIZE="6">
+<A NAME="SEC29"></A>
+<H2> 1.6 Global Rules (<TT>`GNUmakefile.postamble'</TT>) </H2>
+<!--docid::SEC29::-->
+<P>
+
+The <TT>`GNUmakefile.postamble'</TT> file is an optional file you may
+include in your package to define additional rules that should be
+executed when making and/or installing the project. There is a template
+<TT>`GNUmakefile.postamble'</TT> file in the Makefile package that you can
+use as an example. Most of the rules are self explanatory. The
+<SAMP>`before-'</SAMP> rules define things that should happen before a process
+is executed (e.g. <SAMP>`before-all'</SAMP> for before compilation,
+<SAMP>`before-install'</SAMP> for before installation). The <SAMP>`after-'</SAMP> rules
+define things that should happen after a process is complete.
+</P><P>
+
+You can even define additional rules such as ones that a particular to
+your specific package or that are to be used by developers only.
+</P><P>
+
+<A NAME="Common Variables"></A>
+<HR SIZE="6">
+<A NAME="SEC30"></A>
+<H2> 1.7 Common Variables (<TT>`common.make'</TT>) </H2>
+<!--docid::SEC30::-->
+<BLOCKQUOTE><TABLE BORDER=0 CELLSPACING=0> 
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC31">1.7.1 Directory Paths</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC32">1.7.2 Scripts</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC33">1.7.3 Host and Target Platform Information</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC34">1.7.4 Library Combination</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="make_1.html#SEC35">1.7.5 Overridable Flags</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+</TABLE></BLOCKQUOTE>
+<P>
+
+Any of these variables that are defined by <TT>`common.make'</TT> can and
+should be used by the user's makefile fragments to reference directories
+and/or perform any tasks which are not done automatically by the
+Makefile Package.  Most variables refer to directory paths, both
+absolute and relative, where files will be installed, but other
+variables are defined based upon the target platform that the person is
+compiling for.  Do not change the values of any of these automatically
+defined variables as the resultant behaviour of the Makefile Package is
+undefined.
+</P><P>
+
+<A NAME="Directory Paths"></A>
+<HR SIZE="6">
+<A NAME="SEC31"></A>
+<H3> 1.7.1 Directory Paths </H3>
+<!--docid::SEC31::-->
+<P>
+
+<A NAME="IDX33"></A>
+<DL>
+<DT><U>Variable:</U> <B>GNUSTEP_MAKEFILES</B>
+<DD><CODE>GNUSTEP_MAKEFILES</CODE> is the absolute path to the directory where the
+Makefile Package files are located.  Use <CODE>GNUSTEP_MAKEFILES</CODE> to
+refer to a makefile fragment or script file from the Makefile Package
+within a makefile; the <CODE>GNUSTEP_MAKEFILES</CODE> variable should be
+only be used within makefiles and not referenced within C or Objective-C
+programs.
+</DL>
+</P><P>
+
+<A NAME="IDX34"></A>
+<DL>
+<DT><U>Variable:</U> <B>GNUSTEP_APPS</B>
+<DD><CODE>GNUSTEP_APPS</CODE> is the absolute path to the directory where GUI
+applications are installed.  This variable is dependent upon the
+<CODE>GNUSTEP_INSTALLATION_DIR</CODE> variable, so the path will change
+accordingly if the user specifies a different installation root
+directory.
+</DL>
+</P><P>
+
+<A NAME="IDX35"></A>
+<DL>
+<DT><U>Variable:</U> <B>GNUSTEP_TOOLS</B>
+<DD><CODE>GNUSTEP_TOOLS</CODE> is the absolute path for the root directory where
+command line tools are installed.  Only command line tools which are
+target platform independent should be installed in <CODE>GNUSTEP_TOOLS</CODE>;
+target platform dependent command line tools should be placed in the
+appropriate subdirectory of <CODE>GNUSTEP_TOOLS</CODE>, see <A HREF="make_1.html#SEC31">GNUSTEP_TARGET_DIR</A>, and <A HREF="make_1.html#SEC31">TOOL_INSTALLATION_DIR</A>.  This variable is dependent upon the
+<CODE>GNUSTEP_INSTALLATION_DIR</CODE> variable, so the path will change
+accordingly if the user specifies a different installation root
+directory.
+</DL>
+</P><P>
+
+<A NAME="IDX36"></A>
+<DL>
+<DT><U>Variable:</U> <B>GNUSTEP_HEADERS</B>
+<DD><CODE>GNUSTEP_HEADERS</CODE> is the absolute path for the root directory where
+header files are installed.  Normally header files are not installed in
+the <CODE>GNUSTEP_HEADERS</CODE> directory, but in a subdirectory as specified
+by the project which owns the files, see <A HREF="make_1.html#SEC16">1.4.8 Libraries (<TT>`library.make'</TT>)</A> for more
+information.  <CODE>GNUSTEP_HEADERS</CODE> should contain platform independent
+header files because the files are shared by all platforms.  Any target
+platform dependent header files should be placed in the appropriate
+subdirectory as specified by <CODE>GNUSTEP_TARGET_DIR</CODE>.  This variable
+is dependent upon the <CODE>GNUSTEP_INSTALLATION_DIR</CODE> variable, so the
+path will change accordingly if the user specifies a different
+installation root directory.
+</DL>
+</P><P>
+
+<A NAME="IDX37"></A>
+<DL>
+<DT><U>Variable:</U> <B>GNUSTEP_LIBRARIES_ROOT</B>
+<DD><CODE>GNUSTEP_LIBRARIES_ROOT</CODE> is the absolute path for the root
+directory where libraries are installed.  Because libraries are binary
+objects and thus inherently target platform dependent, no libraries
+should actually reside in <CODE>GNUSTEP_LIBRARIES_ROOT</CODE>; libraries are
+placed in the appropriate subdirectory taking the target and possibly
+the library combo into account, see <A HREF="make_1.html#SEC31">GNUSTEP_TARGET_LIBRARIES</A>, and <A HREF="make_1.html#SEC31">GNUSTEP_LIBRARIES</A>.  This variable is dependent upon the
+<CODE>GNUSTEP_INSTALLATION_DIR</CODE> variable, so the path will change
+accordingly if the user specified a different installation root
+directory.
+</DL>
+</P><P>
+
+<A NAME="IDX38"></A>
+<DL>
+<DT><U>Variable:</U> <B>GNUSTEP_TARGET_LIBRARIES</B>
+<DD><CODE>GNUSTEP_TARGET_LIBRARIES</CODE> is the absolute path for the directory
+where libraries are installed taking the target platform into account.
+It is a subdirectory of <CODE>GNUSTEP_LIBRARIES_ROOT</CODE> and is where
+libraries that do not depend upon the library combination, GNUstep or
+others, should be placed.  This variable is dependent upon the
+<CODE>GNUSTEP_INSTALLATION_DIR</CODE> variable, so the path will change
+accordingly if the user specifies a different installation root
+directory.
+</DL>
+</P><P>
+
+<A NAME="IDX39"></A>
+<DL>
+<DT><U>Variable:</U> <B>GNUSTEP_LIBRARIES</B>
+<DD><CODE>GNUSTEP_LIBRARIES</CODE> is the absolute path for the directory where
+libraries are installed taking the target platform and library
+combination into account.  It is a subdirectory of
+<CODE>GNUSTEP_TARGET_LIBRARIES</CODE> and therefore a subdirectory of
+<CODE>GNUSTEP_LIBRARIES_ROOT</CODE>.  This directory is generally where
+library project types, see <A HREF="make_1.html#SEC16">1.4.8 Libraries (<TT>`library.make'</TT>)</A>, will install the library
+file.  This variable is dependent upon the
+<CODE>GNUSTEP_INSTALLATION_DIR</CODE> variable, so the path will change
+accordingly if the user specifies a different installation root
+directory.
+</DL>
+</P><P>
+
+<A NAME="IDX40"></A>
+<DL>
+<DT><U>Variable:</U> <B>GNUSTEP_RESOURCES</B>
+<DD><CODE>GNUSTEP_RESOURCES</CODE> is the absolute path for the directory where
+resource files are installed; example resources are fonts, printer type
+information, model files for system panels, and system images.  The
+resource files are generally associated with libraries, because
+resources for applications or bundles are included within the
+application or bundle directory wrapper.  <CODE>GNUSTEP_RESOURCES</CODE> is a
+subdirectory of <CODE>GNUSTEP_LIBRARIES_ROOT</CODE>; it is dependent upon the
+<CODE>GNUSTEP_INSTALLATION_DIR</CODE> variable, so the path will change
+accordingly if the user specifies a different installation root
+directory.
+</DL>
+</P><P>
+
+<A NAME="IDX41"></A>
+<DL>
+<DT><U>Variable:</U> <B>GNUSTEP_HOST_DIR</B>
+<DD><CODE>GNUSTEP_HOST_DIR</CODE> is the subdirectory path for the host platform CPU
+and operating system.  It is a composed from the <CODE>GNUSTEP_HOST_CPU</CODE>
+and <CODE>GNUSTEP_HOST_OS</CODE> variables.
+</DL>
+</P><P>
+
+<A NAME="IDX42"></A>
+<DL>
+<DT><U>Variable:</U> <B>GNUSTEP_TARGET_DIR</B>
+<DD><CODE>GNUSTEP_TARGET_DIR</CODE> is the subdirectory path for the target platform
+CPU and operating system.  It is composed from the
+<CODE>GNUSTEP_TARGET_CPU</CODE> and <CODE>GNUSTEP_TARGET_OS</CODE> variables.
+<CODE>GNUSTEP_TARGET_DIR</CODE> is generally used as part of the installation
+path when platform specific files are installed.
+</DL>
+</P><P>
+
+<A NAME="IDX43"></A>
+<DL>
+<DT><U>Variable:</U> <B>GNUSTEP_OBJ_DIR</B>
+<DD><CODE>GNUSTEP_OBJ_DIR</CODE> is the subdirectory path where the Makefile
+Package places binary files: object files, libraries, executables,
+produced by the compiler.  The Makefile Package separates binary files
+for different target platforms, different library combinations, and
+different compile options into different directories; these different
+directories are subdirectories from the current directory where the
+makefile resides.  This structure allows a package to be compiled for
+different target platforms, different library combinations, and
+different compile options <EM>in place</EM>; i.e. the binary files are
+separated from each other so a compile pass from one set of options do
+not overwrite or erase binary files from a previous compile pass with
+different options.  Generally the user does not use this variable;
+however, if the package needs to manually install some binary files than
+the makefile fragment uses this variable to reference the path where the
+binary file is located.
+</DL>
+</P><P>
+
+<A NAME="Scripts"></A>
+<HR SIZE="6">
+<A NAME="SEC32"></A>
+<H3> 1.7.2 Scripts </H3>
+<!--docid::SEC32::-->
+<P>
+
+<A NAME="IDX44"></A>
+<DL>
+<DT><U>Variable:</U> <B>CONFIG_GUESS_SCRIPT</B>
+<DD><CODE>CONFIG_GUESS_SCRIPT</CODE> is the absolute path to the
+<TT>`config.guess'</TT> script within the Makefile Package; this script is
+used to determine host and target platform information.  The Makefile
+Package executes this script to determine the values of the host
+platform variables: <CODE>GNUSTEP_HOST</CODE>, <CODE>GNUSTEP_HOST_CPU</CODE>,
+<CODE>GNUSTEP_HOST_VENDOR</CODE>, <CODE>GNUSTEP_HOST_OS</CODE>, and the target
+platform variables: <CODE>GNUSTEP_TARGET</CODE>, <CODE>GNUSTEP_TARGET_CPU</CODE>,
+<CODE>GNUSTEP_TARGET_VENDOR</CODE>, <CODE>GNUSTEP_TARGET_OS</CODE>; generally the
+user does not need to execute this script because the Makefile Package
+executes it automatically.
+</DL>
+</P><P>
+
+<A NAME="IDX45"></A>
+<DL>
+<DT><U>Variable:</U> <B>CONFIG_SUB_SCRIPT</B>
+<DD><CODE>CONFIG_SUB_SCRIPT</CODE> is the absolute path to the <TT>`config.sub'</TT>
+script within the Makefile Package; this script takes a platform name
+and canonicalizes it, i.e. it puts the name in a standard form.  The
+Makefile Package uses this script when the user specifies a target
+platform for compilation; the target platform name is canonicalized so
+that the Makefile Package can properly parse the name into its different
+components.  Generally the user does not execute this script.
+</DL>
+</P><P>
+
+<A NAME="IDX46"></A>
+<DL>
+<DT><U>Variable:</U> <B>CONFIG_CPU_SCRIPT</B>
+<DD><CODE>CONFIG_CPU_SCRIPT</CODE> is the absolute path to the <TT>`cpu.sh'</TT>
+script within the Makefile Package; this script extracts the CPU name
+from a canonicalized platform name.  Generally the user does not execute
+this script; it is used internally by the Makefile Package.
+</DL>
+</P><P>
+
+<A NAME="IDX47"></A>
+<DL>
+<DT><U>Variable:</U> <B>CONFIG_VENDOR_SCRIPT</B>
+<DD><CODE>CONFIG_VENDOR_SCRIPT</CODE> is the absolute path to the <TT>`vendor.sh'</TT>
+script within the Makefile Package; this script extracts the vendor name
+from a canonicalized platform name.  Generally the user does not execute
+this script; it is used internally by the Makefile Package.
+</DL>
+</P><P>
+
+<A NAME="IDX48"></A>
+<DL>
+<DT><U>Variable:</U> <B>CONFIG_OS_SCRIPT</B>
+<DD><CODE>CONFIG_OS_SCRIPT</CODE> is the absolute path to the <TT>`os.sh'</TT> script
+within the Makefile Package; this script extracts the operating system
+name from a canonicalized platform name.  Generally the user does not
+execute this script; it is used internally by the Makefile Package.
+</DL>
+</P><P>
+
+<A NAME="IDX49"></A>
+<DL>
+<DT><U>Variable:</U> <B>CLEAN_CPU_SCRIPT</B>
+<DD><CODE>CLEAN_CPU_SCRIPT</CODE> is the absolute path to the <TT>`clean_cpu.sh'</TT>
+script within the Makefile Package; this script takes a platform CPU
+name and <EM>cleans</EM> it for use by the Makefile Package.  The process
+of cleaning refers to the situation where numerous equivalent
+processors, which have different names, are mapped to a single name.
+For example, the Intel line of processors: i386, i486, Pentium, all have
+different CPU names, but the Makefile Package considers them equivalent
+and cleans those names so that the single name <TT>`ix86'</TT> is used.
+Generally the user does not execute this script; it is used internally
+by the Makefile Package.
+</DL>
+</P><P>
+
+<A NAME="IDX50"></A>
+<DL>
+<DT><U>Variable:</U> <B>CLEAN_VENDOR_SCRIPT</B>
+<DD><CODE>CLEAN_VENDOR_SCRIPT</CODE> is the absolute path to the
+<TT>`clean_vendor.sh'</TT> script within the Makefile Package; this script
+takes a platform vendor name and <EM>cleans</EM> it for use by the
+Makefile Package.  The process of cleaning refers to the situation where
+numerous equivalent vendors, which have different names, are mapped to a
+single name.  Generally the user does not execute this script; it is
+used internally by the Makefile Package.
+</DL>
+</P><P>
+
+<A NAME="IDX51"></A>
+<DL>
+<DT><U>Variable:</U> <B>CLEAN_OS_SCRIPT</B>
+<DD><CODE>CLEAN_OS_SCRIPT</CODE> is the absolute path to the <TT>`clean_os.sh'</TT>
+script within the Makefile Package; this script takes a platform
+operating system name and <EM>cleans</EM> it for use by the Makefile
+Package.  The process of cleaning refers to the situation where numerous
+equivalent operating systems, which have different names, are mapped to
+a single name.  Generally the user does not execute this script; it is
+used internally by the Makefile Package.
+</DL>
+</P><P>
+
+<A NAME="Platform Information"></A>
+<HR SIZE="6">
+<A NAME="SEC33"></A>
+<H3> 1.7.3 Host and Target Platform Information </H3>
+<!--docid::SEC33::-->
+<P>
+
+<A NAME="IDX52"></A>
+<DL>
+<DT><U>Variable:</U> <B>GNUSTEP_HOST</B>
+<DD><CODE>GNUSTEP_HOST</CODE> is the canonical host platform name; i.e. the name
+of the platform which is performing compilation of programs.  For
+example, a SPARC machine by Sun Microsystems running the Solaris 2.5.1
+operating system has the name <CODE>sparc-sun-solaris2.5.1</CODE>.
+</DL>
+</P><P>
+
+<A NAME="IDX53"></A>
+<DL>
+<DT><U>Variable:</U> <B>GNUSTEP_HOST_CPU</B>
+<DD><CODE>GNUSTEP_HOST_CPU</CODE> is the CPU name for the canonical host platform
+name; i.e. the name of the CPU platform which is performing compilation
+of programs.  The Makefile Package cleans this CPU name with the
+<CODE>CLEAN_CPU_SCRIPT</CODE> script before using it internally.  For example,
+the canonical host platform name of <CODE>i586-pc-linux-gnu</CODE> has a CPU
+name of <CODE>ix86</CODE>.
+</DL>
+</P><P>
+
+<A NAME="IDX54"></A>
+<DL>
+<DT><U>Variable:</U> <B>GNUSTEP_HOST_VENDOR</B>
+<DD><CODE>GNUSTEP_HOST_VENDOR</CODE> is the vendor name for the canonical host
+platform; i.e. the name of the vendor platform which is performing
+compilation of programs.  The Makefile Package cleans this vendor name
+with the <CODE>CLEAN_VENDOR_SCRIPT</CODE> script before using it internally.
+For example, the canonical host platform name of
+<CODE>sparc-sun-solaris2.5.1</CODE> has a vendor name of <CODE>sun</CODE>.
+</DL>
+</P><P>
+
+<A NAME="IDX55"></A>
+<DL>
+<DT><U>Variable:</U> <B>GNUSTEP_HOST_OS</B>
+<DD><CODE>GNUSTEP_HOST_OS</CODE> is the operating system name for the canonical
+host platform; i.e. the name of the operating system platform which is
+performing compilation of programs.  The Makefile Package cleans this
+operating system name with the <CODE>CLEAN_OS_SCRIPT</CODE> script before
+using it internally.  For example, the canonical host platform name of
+<CODE>i586-pc-linux-gnu</CODE> has an operating system name of
+<CODE>linux-gnu</CODE>.
+</DL>
+</P><P>
+
+<A NAME="IDX56"></A>
+<DL>
+<DT><U>Variable:</U> <B>GNUSTEP_TARGET</B>
+<DD><CODE>GNUSTEP_TARGET</CODE> is the canonical target platform name;
+i.e. compilation of programs generate object code for this platform.  By
+default the target platform is the same as the host platform unless the
+user specifies a different target when running make, see Cross
+Compiling.
+</DL>
+</P><P>
+
+<A NAME="IDX57"></A>
+<DL>
+<DT><U>Variable:</U> <B>GNUSTEP_TARGET_CPU</B>
+<DD><CODE>GNUSTEP_TARGET_CPU</CODE> is the CPU name for the canonical target
+platform; i.e. compilation of programs generate object code for this CPU
+platform.  The Makefile Package cleans this operating system name with
+the <CODE>CLEAN_CPU_SCRIPT</CODE> script before using it internally.  By
+default the target CPU platform is the same as the host CPU platform,
+<CODE>GNUSTEP_HOST_CPU</CODE>, unless the user specifies a different target
+platform when running make, see Cross Compiling.
+</DL>
+</P><P>
+
+<A NAME="IDX58"></A>
+<DL>
+<DT><U>Variable:</U> <B>GNUSTEP_TARGET_VENDOR</B>
+<DD><CODE>GNUSTEP_TARGET_VENDOR</CODE> is the vendor name for the canonical target
+platform; i.e. compilation of programs generate object code for this
+vendor platform.  The Makefile Package cleans this vendor name with the
+<CODE>CLEAN_VENDOR_SCRIPT</CODE> script before using it internally.  By
+default the target vendor platform is the same as the host vendor
+platform, <CODE>GNUSTEP_HOST_VENDOR</CODE>, unless the user specifies a
+different target platform when running make, see Cross Compiling.
+</DL>
+</P><P>
+
+<A NAME="IDX59"></A>
+<DL>
+<DT><U>Variable:</U> <B>GNUSTEP_TARGET_OS</B>
+<DD><CODE>GNUSTEP_TARGET_OS</CODE> is the operating system name for the canonical
+target platform; i.e. compilation of programs generate object code for
+this operating system platform.  The Makefile Package cleans this
+operating system name with the <CODE>CLEAN_OS_SCRIPT</CODE> script before
+using it internally.  By default the target operating system platform is
+the same as the host operating system platform, <CODE>GNUSTEP_HOST_OS</CODE>,
+unless the user specifies a different target platform, see Cross
+Compiling.
+</DL>
+</P><P>
+
+<A NAME="Library Combination"></A>
+<HR SIZE="6">
+<A NAME="SEC34"></A>
+<H3> 1.7.4 Library Combination </H3>
+<!--docid::SEC34::-->
+<P>
+
+<A NAME="IDX60"></A>
+<DL>
+<DT><U>Variable:</U> <B>OBJC_RUNTIME_LIB</B>
+<DD><CODE>OBJC_RUNTIME_LIB</CODE> is assigned the code that indicates the
+Objective-C Runtime library which compiled Objective-C programs will
+use; the three possible values are: <SAMP>`gnu'</SAMP> for the GNU Runtime,
+<SAMP>`nx'</SAMP> for the NeXT Runtime, and <SAMP>`sun'</SAMP> for the Sun Microsystems
+Runtime.  The Objective-C Runtime library can be changed to use a
+library other than the default with the <SAMP>`library_combo'</SAMP> make
+parameter, see <A HREF="make_1.html#SEC4">1.3 Running Make</A> for more details.  Read <A HREF="make_1.html#SEC34">1.7.4 Library Combination</A> for more information on how the Makefile Package handles
+different library combinations.  If a makefile must perform specific
+operations dependent upon the Objective-C Runtime library then this
+variable is the one to check.
+</DL>
+</P><P>
+
+<A NAME="IDX61"></A>
+<DL>
+<DT><U>Variable:</U> <B>RUNTIME_DEFINE</B>
+<DD><CODE>RUNTIME_DEFINE</CODE> is assigned a preprocessor flag that can be passed
+to the compiler which defines a macro based upon the Objective-C Runtime
+library that compiled Objective-C programs will use.  This macro is
+useful if the compiled program must execute different code based upon
+the Objective-C Runtime being used.  See <A HREF="make_1.html#SEC28">1.5 Global Variables (<TT>`GNUmakefile.preamble'</TT>)</A> for an
+example on how to pass this preprocessor flag when compiling.  The three
+possible values are: <SAMP>`-DGNU_RUNTIME=1'</SAMP> for the GNU Runtime,
+<SAMP>`-DNeXT_RUNTIME=1'</SAMP> for the NeXT Runtime, and <SAMP>`-DSun_RUNTIME=1'</SAMP>
+for the Sun Microsystems Runtime.
+</DL>
+</P><P>
+
+<A NAME="IDX62"></A>
+<DL>
+<DT><U>Variable:</U> <B>FOUNDATION_LIB</B>
+<DD><CODE>FOUNDATION_LIB</CODE> is assigned the code that indicates the Foundation
+Kit library, as specified by the OpenStep specification, which compiled
+Objective-C programs will use; the four possible values are: <SAMP>`gnu'</SAMP>
+for the GNUstep Base Library, <SAMP>`nx'</SAMP> for the NeXT Foundation Kit
+Library, <SAMP>`sun'</SAMP> for the Sun Microsystems Foundation Kit Library, and
+<SAMP>`fd'</SAMP> for the libFoundation Library.  The Foundation Kit library can
+be changed to use a library other than the default with the
+<SAMP>`library_combo'</SAMP> make parameter, see <A HREF="make_1.html#SEC4">1.3 Running Make</A> for more details.
+Read <A HREF="make_1.html#SEC34">1.7.4 Library Combination</A> for more information on how the Makefile
+Package handles different library combinations.  If a makefile must
+perform specific operations dependent upon the Foundation Kit library
+then this variable is the one to check.
+</DL>
+</P><P>
+
+<A NAME="IDX63"></A>
+<DL>
+<DT><U>Variable:</U> <B>FND_DEFINE</B>
+<DD><CODE>FND_DEFINE</CODE> is assigned a preprocessor flag that can be passed to
+the compiler which defines a macro based upon the Foundation Kit
+library, as specified by the OpenStep specification, which compiled
+Objective-C programs will use.  This macro is useful if the compiled
+program must execute different code based upon the Foundation Kit
+library being used.  See <A HREF="make_1.html#SEC28">1.5 Global Variables (<TT>`GNUmakefile.preamble'</TT>)</A> for an example on how to pass
+this preprocessor flag when compiling.  The four possible values are:
+<SAMP>`-DGNUSTEP_BASE_LIBRARY=1'</SAMP> for the GNUstep Base Library,
+<SAMP>`-DNeXT_Foundation_LIBRARY=1'</SAMP> for the NeXT Foundation Kit Library,
+<SAMP>`-DSun_Foundation_LIBRARY=1'</SAMP> for the Sun Microsystems Foundation
+Kit Library, and <SAMP>`-DLIB_FOUNDATION_LIBRARY=1'</SAMP> for the libFoundation
+Library.
+</DL>
+</P><P>
+
+<A NAME="IDX64"></A>
+<DL>
+<DT><U>Variable:</U> <B>GUI_LIB</B>
+<DD><CODE>GUI_LIB</CODE> is assigned the code that indicates the Application Kit
+library, as specified by the OpenStep specification, which compiled
+Objective-C programs will use; the two possible values are: <SAMP>`gnu'</SAMP>
+for the GNUstep GUI Library and <SAMP>`nx'</SAMP> for the NeXT Application Kit
+Library.  The Application Kit library can be changed to use a library
+other than the default with the <SAMP>`library_combo'</SAMP> make parameter, see
+<A HREF="make_1.html#SEC4">1.3 Running Make</A> for more details.  Read <A HREF="make_1.html#SEC34">1.7.4 Library Combination</A> for more
+information on how the Makefile Package handles different library
+combinations.  If a makefile must perform specific operations dependent
+upon the Application Kit library then this variable is the one to check.
+</DL>
+</P><P>
+
+<A NAME="IDX65"></A>
+<DL>
+<DT><U>Variable:</U> <B>GUI_DEFINE</B>
+<DD><CODE>GUI_DEFINE</CODE> is assigned a preprocessor flag that can be passed to
+the compiler which defines a macro based upon the Application Kit
+library, as specified by the OpenStep specification, which compiled
+Objective-C programs will use.  This macro is useful if the compiled
+program must execute different code based upon the Application Kit
+library being used.  See <A HREF="make_1.html#SEC28">1.5 Global Variables (<TT>`GNUmakefile.preamble'</TT>)</A> for an example on how
+to pass this preprocessor flag when compiling.  The two possible values
+are: <SAMP>`-DGNUSTEP_GUI_LIBRARY=1'</SAMP> for the GNUstep GUI Library and
+<SAMP>`-DNeXT_Application_LIBRARY=1'</SAMP> for the NeXT Application Kit
+Library.
+</DL>
+</P><P>
+
+<A NAME="IDX66"></A>
+<DL>
+<DT><U>Variable:</U> <B>GUI_BACKEND_LIB</B>
+<DD><CODE>GUI_BACKEND_LIB</CODE> is assigned the code that indicates the backend
+library which compiled Objective-C programs will use in conjunction with
+the GNUstep GUI Library.  The three possible values are: <SAMP>`xdps'</SAMP> for
+the GNUstep X/DPS GUI Backend Library, <SAMP>`nsx'</SAMP> for the NSKit GUI
+Backend Library, and <SAMP>`w32'</SAMP> for the MediaBook WIN32 GUI Backend
+Library.  <CODE>GUI_BACKEND_LIB</CODE> is only relevant when <CODE>GUI_LIB</CODE> is
+set to <SAMP>`gnu'</SAMP>; otherwise, <CODE>GUI_BACKEND_LIB</CODE> will be set to
+<SAMP>`nil'</SAMP> to indicate that there is no backend library.
+<CODE>GUI_BACKEND_LIB</CODE> can be changed to use a library other than the
+default with the <SAMP>`library_combo'</SAMP> make parameter, see <A HREF="make_1.html#SEC4">1.3 Running Make</A> for more details.  Read <A HREF="make_1.html#SEC34">1.7.4 Library Combination</A> for more
+information on how the Makefile Package handles different library
+combinations.  If a makefile must perform specific operations dependent
+upon the backend library then this variable is the one to check.
+</DL>
+</P><P>
+
+<A NAME="IDX67"></A>
+<DL>
+<DT><U>Variable:</U> <B>GUI_BACKEND_DEFINE</B>
+<DD><CODE>GUI_BACKEND_DEFINE</CODE> is assigned a preprocessor flag that can be
+passed to the compiler which defines a macro based upon the backend
+library which compiled Objective-C programs will use in conjunction with
+the GNUstep GUI Library.  This macro is useful if the compiled program
+must execute different code based upon the backend library being used.
+See <A HREF="make_1.html#SEC28">1.5 Global Variables (<TT>`GNUmakefile.preamble'</TT>)</A> for an example on how to pass this
+preprocessor flag when compiling.  The three possible values are:
+<SAMP>`-DXDPS_BACKEND_LIBRARY=1'</SAMP> for the GNUstep X/DPS GUI Backend
+Library, <SAMP>`-DNSX_BACKEND_LIBRARY=1'</SAMP> for the NSKit GUI Backend
+Library, and <SAMP>`-DW32_BACKEND_LIBRARY=1'</SAMP> for the MediaBook WIN32 GUI
+Backend Library.  <CODE>GUI_BACKEND_DEFINE</CODE> is not defined if there is
+not backend library; i.e. <CODE>GUI_BACKEND_LIB</CODE> is <SAMP>`nil'</SAMP>.
+</DL>
+</P><P>
+
+<A NAME="Overridable Flags"></A>
+<HR SIZE="6">
+<A NAME="SEC35"></A>
+<H3> 1.7.5 Overridable Flags </H3>
+<!--docid::SEC35::-->
+<P>
+
+<A NAME="IDX68"></A>
+<DL>
+<DT><U>Variable:</U> <B>OBJCFLAGS</B>
+<DD><CODE>OBJCFLAGS</CODE> are flags that are passed to the compiler when
+compiling Objective-C files.  The user can override this variable when
+running make and specify different flags as the following command
+illustrates:
+</DL>
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>make OBJCFLAGS="-Wno-implicit -Wno-protocol"
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="IDX69"></A>
+<DL>
+<DT><U>Variable:</U> <B>CFLAGS</B>
+<DD><CODE>CFLAGS</CODE> are flags that are passed to the compiler when compiling C
+files.  The user can override this variable when running make and
+specify different flags as the following command illustrates:
+</DL>
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>make CFLAGS="-Wall"
+</FONT></pre></td></tr></table></P><P>
+
+<A NAME="IDX70"></A>
+<DL>
+<DT><U>Variable:</U> <B>OPTFLAG</B>
+<DD><CODE>OPTFLAG</CODE> is the flag used to indicate the optimization level that
+the compiler should perform when compiling Objective-C and C files; this
+flag is set to <SAMP>`-O2'</SAMP> by default, but the user can override this
+setting when running make as the following command illustrates:
+</DL>
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>make OPTFLAG=
+</FONT></pre></td></tr></table></P><P>
+
+This command sets the optimization flag to be empty so that no
+optimization will be performed by the compiler.
+</P><P>
+
+<A NAME="IDX71"></A>
+<DL>
+<DT><U>Variable:</U> <B>GNUSTEP_INSTALLATION_DIR</B>
+<DD><CODE>GNUSTEP_INSTALLATION_DIR</CODE> is the root directory where the package
+will install its files; overriding this variable when running make will
+change all of the variables within the Makefile Package that depend upon
+it; the following command illustrates the use of this variable:
+</DL>
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>make GNUSTEP_INSTALLATION_DIR="/GNUstep"
+</FONT></pre></td></tr></table></P><P>
+
+This command states that the <TT>`/GNUstep'</TT> directory should be used as
+the installation root directory; applications in the package will be
+installed under <TT>`/GNUstep/Apps'</TT> directory, libraries in the package
+will be installed under the <TT>`/GNUstep/Library/Libraries'</TT> directory,
+command line tools will be installed under the <TT>`/GNUstep/Tools'</TT>
+directory, and etc.  By default the Makefile Package sets
+<CODE>GNUSTEP_INSTALLATION_DIR</CODE> to <CODE>GNUSTEP_LOCAL_ROOT</CODE> unless
+<CODE>GNUSTEP_LOCAL_ROOT</CODE> is empty in which case
+<CODE>GNUSTEP_INSTALLATION_DIR</CODE> will be set to
+<CODE>GNUSTEP_SYSTEM_ROOT</CODE>.  Some packages will also override
+<CODE>GNUSTEP_INSTALLATION_DIR</CODE> within their makefile to force the
+package to install in (say) <CODE>GNUSTEP_SYSTEM_ROOT</CODE> instead of the
+default <CODE>GNUSTEP_LOCAL_ROOT</CODE> directory, but if the user sets the
+value of <CODE>GNUSTEP_INSTALLATION_DIR</CODE> when running make then that
+setting takes precedence over all others.
+</P><P>
+
+<HR SIZE="6">
+<BR>  
+<FONT SIZE="-1">
+This document was generated
+by <I>Adam Fedor</I> on <I>April, 1  2004</I>
+using <A HREF="http://www.mathematik.uni-kl.de/~obachman/Texi2html
+"><I>texi2html</I></A>
+
+</BODY>
+</HTML>

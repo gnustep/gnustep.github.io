@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>3 From the internal-all rule to the %.variables rule</TITLE>
+<META NAME="description" CONTENT="3 From the internal-all rule to the %.variables rule">
+<META NAME="keywords" CONTENT="gnustep-internals">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="gnustep-internals.css">
+
+<LINK REL="next" HREF="node5.html">
+<LINK REL="previous" HREF="node3.html">
+<LINK REL="up" HREF="gnustep-internals.html">
+<LINK REL="next" HREF="node5.html">
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" text="#000000" link="#0000FF" vlink="#4444FF" alink="#3388FF">
+<B> Next: <A NAME="tex2html50"
+  HREF="node5.html">4 The %.variables rule</A> </B>
+<B>Up: <A NAME="tex2html48"
+  HREF="gnustep-internals.html">GNUstep Makefile Package Internals</A>  </B>
+<B> Previous: <A NAME="tex2html42"
+  HREF="node3.html">2 From `make' to</A> </B>
+<BR> <P>
+
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00040000000000000000">
+3 From the internal-all rule to the %.variables rule</A>
+</H1>
+Make needs to build this target <TT>internal-all</TT>.  In
+<TT>rules.make</TT> this target appears as
+<PRE>
+internal-all::
+</PRE>
+because of the double colons (that is, because it is
+<TT>internal-all::</TT> rather than <TT>internal-all:</TT>) this
+target can have multiple totally separated rules.  Each rule must be a
+double colon rule, and is processed separately from the other rules
+(even if they refer to the same target).
+
+<P>
+The real rules for <TT>internal-all</TT> are included by the specific 
+makefiles; in our example, <TT>tool.make</TT> includes
+<PRE>
+internal-all:: $(TOOL_NAME:=.all.tool.variables)
+</PRE> now - in our case - because <TT>TOOL_NAME</TT> is <TT>decrypt</TT>, then
+this rule actually means
+<PRE> 
+internal-all:: decrypt.all.tool.variables
+</PRE>
+This means that to build <TT>internal-all</TT>, make has to build (at
+least) the <TT>decrypt.all.tool.variables</TT> target.
+<TT>library.make</TT> includes the completely analogous rule
+<PRE>
+internal-all:: $(LIBRARY_NAME:=.all.library.variables)
+</PRE> which in our case means 
+<PRE>
+internal-all:: libDvd.all.library.variables
+</PRE>
+This rule is completely separated from the other one; to build
+<TT>internal-all</TT>, make has to build the two different targets:
+<PRE>
+decrypt.all.tool.variables
+libDvd.all.library.variables
+</PRE>
+
+<P>
+<BR><HR>
+<ADDRESS>
+Richard Frith-Macdonald
+2013-07-26
+</ADDRESS>
+</BODY>
+</HTML>

@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>2 From `make' to the internal-all rule</TITLE>
+<META NAME="description" CONTENT="2 From `make' to the internal-all rule">
+<META NAME="keywords" CONTENT="gnustep-internals">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="gnustep-internals.css">
+
+<LINK REL="next" HREF="node4.html">
+<LINK REL="previous" HREF="node2.html">
+<LINK REL="up" HREF="gnustep-internals.html">
+<LINK REL="next" HREF="node4.html">
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" text="#000000" link="#0000FF" vlink="#4444FF" alink="#3388FF">
+<B> Next: <A NAME="tex2html40"
+  HREF="node4.html">3 From the internal-all</A> </B>
+<B>Up: <A NAME="tex2html38"
+  HREF="gnustep-internals.html">GNUstep Makefile Package Internals</A>  </B>
+<B> Previous: <A NAME="tex2html32"
+  HREF="node2.html">1 Introduction</A> </B>
+<BR> <P>
+
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00030000000000000000">
+2 From `make' to the internal-all rule</A>
+</H1>
+Imagine for example that in your <TT> GNUmakefile</TT> you include both
+<TT>tool.make</TT> and <TT>library.make</TT>, as in the following example:
+<PRE>
+include $(GNUSTEP_MAKEFILES)/common.make
+
+TOOL_NAME = decrypt
+decrypt_OBJC_FILES = decrypt.m
+
+LIBRARY_NAME = libDvd
+libDvd_OBJC_FILES = decss.m
+
+include $(GNUSTEP_MAKEFILES)/tool.make
+include $(GNUSTEP_MAKEFILES)/library.make
+</PRE> Then you type `make' on the command line.  We want to understand what
+happens.
+
+<P>
+Make will process your <TT>GNUmakefile</TT>, which includes
+<TT>tool.make</TT>, and that will include <TT>rules.make</TT>.  In
+<TT>rules.make</TT> make finds the first rule (the one which is
+executed), which is
+<PRE>
+all:: before-all internal-all after-all
+</PRE>
+This means that make will build by default that target <TT> all</TT>,
+and that building that target requires building the
+<TT>before-all</TT>, <TT>internal-all</TT> and <TT>after-all</TT>
+targets.  We ignore the <TT>before-all</TT> and <TT>after-all</TT>
+targets for now, and only concentrate on the core target, which is
+<TT>internal-all</TT>.
+
+<P>
+<BR><HR>
+<ADDRESS>
+Richard Frith-Macdonald
+2013-07-26
+</ADDRESS>
+</BODY>
+</HTML>

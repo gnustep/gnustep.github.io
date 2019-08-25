@@ -1,0 +1,724 @@
+   GNUstep HOWTO
+   *************
+
+   Ultimo aggiornamento: 25 Settembre 2003
+
+	Questo documento spiega come effettuare il build dei diversi componenti delle GNUstep core libraries e del GNUstep Launchpad.
+
+   Copyright (C) 1996 - 2002 Free Software Foundation, Inc.
+
+	E' concessa l'autorizzazione di copiare, distribuire e/o modificare questo documento secondo i termini della licenza GNU Free Documentation, Versione 1.1 o di qualsiasi versione successiva pubblicata dalla Free Software Foundation.
+
+Introduzione
+************
+
+	Questo documento spiega come effettuare il build delle GNUstep core libraries. Le core libraries, assieme ai tools associati e ad altri files, forniscono tutto il necessario per un sistema GNUstep perfettamente funzionante
+
+	Per permettere di compilare facilmente i progetti GNUstep e di effettuarne il debug, avrete bisogno del GNU Objective-C Compiler "GCC" e di altri pacchetti GNU.
+
+	Avrete bisogno di almeno 80Mb di spazio libero su hard disk (150Mb consigliati) per compilare le GNUstep core libraries.
+
+Sommario
+*******
+
+   Per compilare le librerie, avrete bisogno di compilare ed installare i seguenti pacchetti (a meno che non li abbiate già):
+
+   * gcc (Versione 2.95 or successiva, 3.0.4 o successiva raccomandate)
+
+   * GNU make (Versione 3.75 o superiore)
+
+   * gdb, nel caso in cui siate interessati all'attività di debugging
+
+   Potreste anche aver bisogno di installare alcuni dei pacchetti e delle librerie descritti qui di seguito. La maggior parte di questi pacchetti è opzionale, tuttavia alcuni sono necessari.
+
+`ffcall libraries (FORTEMENTE RACCOMANDATA)'
+     Questa è una libreria che fornisce la gestione stack-frame per NSInvocation ed NSConnection.
+
+     Il metodo precedentemente integrato per la gestione stack-frame non è più supportato e, in futuro, potrebbe venire rimosso.
+ffcall è sotto licenza GNU GPL.
+Come speciale eccezione, se utilizzate in GNUstep o in un progetto/lavoro derivato da GNUstep, le parti incluse di ffcall cadono sotto licensa GNU LGPL.
+
+`libffi library (OPZIONALE)'
+     Questa libreria fornisce le stesse possibilità di gestione di ffcall relativamente a NSInvocation ed NSConnection. Comunque, libffi non è stata provata a fondo e quindi non dovrebbe venire utilizzata a meno che non siate abituati ad affrontare dei possibili problemi. Non avete bisogno di entrambe le librerie, quindi scegliete tra questa ed ffcall.
+
+`WindowMaker (Versione >= 0.62) (OPZIONALE)'
+     GNUstep e WindowMaker lavorano insieme per fornire un'interfaccia consistente. Anche se non è richiesto, GNUstep funzionerà molto meglio se utilizzato con il window manager WindowMaker. Inoltre, WindowMaker include delle funzionalità che vengono utilizzate da GNUstep e che non sono disponibili in altro modo. Potete procurarvi l'ultima versione di WindowMaker da <http://www.windowmaker.info>.
+
+`libxml2 (RACCOMANDATA)'
+     La libreria libxml (Versione 2) è utilizzata per tradurre alcune parti della documentazione di GNUstep e fornisce il supporto per le liste di proprietà basate su XML e compatibili con
+MacOS-X. Il pacchetto è raccomandato ma attualmente non ne viene richiesta l'installazione.
+
+`The TIFF library (libtiff)' (Versione 3.4beta36 o successiva) (RICHIESTA)
+     La libreria dell'Interfaccia Grafica Utente (GUI) fa uso di questo pacchetto per salvare le immagini in formato TIFF.
+
+`openssl (OPZIONALE)'
+     La libreria openssl viene usata per fornire il supporto alle connessioni https attraverso le classi NSURL e HSURLH. Questa funzione è compilata separatamente perchè la licenza OpenSSL non è comatibile con la licenza di tipo GPL, nella speranza che se qualcuno dovesse scrivere qualcosa di alternativo a openssl, questo nuovo programma possa essere utilizzato al posto di quest'ultimo.
+
+`libiconv (OPZIONALE)'
+     Unicode supporta funzioni (iconv) fornite dalla glibc versione 2.1 o superiore. Se non disponete di glibc (verificate col comando iconv -version), potete procurarvi la libreria separata libiconv da <http://clisp.cons.org/~haible/packages-libiconv.html>.
+In ogni caso nessuna di queste è richiesta per utilizzare GNUstep.
+
+`pacchetto gnustep-objc (SOLO per gcc versione < 3.0) (RACCOMANDATO)'
+     Questa è una versione speciale dell'Objective-C runtime che include molti bugfix e delle funzionalità non presenti nelle verioni precedenti la 3.0. Il pacchetto è disponibile all'indirizzo ftp: <ftp://ftp.gnustep.org/pub/gnustep/libs> e si compila utilizzando il pacchetto GNUstep Makefile (cos? non dovete procurarvi tutta la distribuzione gcc). Assicuratevi di definire la variabile THREADING nello GNUmakefile.
+    E' possibile compilare questa libreria come statica (make shared=no) e copiarla nella locazione dove si trova la libreria gcc libobjc (digitate gcc -v per conoscere questa locazione).
+Nota: è necessario installare gnustep-make prima di installare questa libreria. 
+
+`GDB e Objective-C patch (OPZIONALI)'
+     GDB può essere ottenuto da <ftp://ftp.gnu.org/gnu/gdb>. La patch per farlo funzionare meglio con GNUstep può essere scaricata da <ftp://ftp.gnustep.org/pub/gnustep/patches>
+
+`TeX (OPZIONALE)'
+     Avete bisogno di una qualunque implementazione TeX, ad esempio tetex, per compilare alcune parti della documentazione (anche se la maggior parte è comunque disponibile sul web).
+
+Compilare ed installare i pacchetti.
+*************************************
+
+   Procuratevi i singoli pacchetti elencati qui di seguito:
+
+   * gnustep-make
+
+   * gnustep-base
+
+   * gnustep-gui
+
+   * gnustep-back
+
+   Consultate <http://www.gnustep.org> per le informazioni su come procurarsi questi pacchetti.
+
+   Assicuratevi di aver installato le librerie elencate qui sopra prima di configurare ed effettuare il build di GNUstep.
+
+   Dovreste poter installare questi pacchetti come root.
+
+   Per l'installazione su sistemi specifici, consultate la documentazione relativa agli altri sistemi presente alla fine di questo documento o gli appropriati files README nella directory relativa alla Documentazione di gnustep-make (come README.MingW per WIndows).
+
+Installare le Core Libraries
+=============================
+
+   I pacchetti GNUstep utilizzano Autoconf per la loro configurazione, che verifica alcune caratteristiche utilizzate da tutto il software GNUstep presenti sulla maccchina sulla quale lo state installando.
+
+Per effettuare la configurazione, digitate:
+
+     ./configure
+
+   Il pacchetto makefile di GNUstep ha bisogno di una directory root. Se la variabile d'ambiente GNUSTEP_SYSTEM_ROOT è specificata, il programma di configurazione determinerà la directory root secondo questa variabile (rimuovendo da questa la parte finale /System).
+E' anche possibile specificare la directory root eseguendo il comando configure seguito dal prefisso --parameter; il seguente comando rende /usr/local/GNUstep la directory root:
+
+     ./configure --prefix=/usr/local/GNUstep
+
+   Nel caso in cui la suddetta variabile d'ambiente non fosse specificata e voi non specificate una directory root quando lanciate il programma di configurazione, quest'ultimo userà /usr/GNUstep come directory di default.
+
+Setup alternativo della Libreria
+-----------------------
+
+   Consultate la documentazione nel pacchetto Makefile (make) per ulteriori opzioni d'installazione. Assicuratevi di usare le stesse opzionin di configurazione per ciascuna libreria GNUstep.
+
+Effettuare il build dei pacchetti
+--------------------
+
+   Per effettuare il build dei singoli pacchetti usate questo set di comandi, che dovrebbe esservi familiare, per ogni singolo pacchetto (aggiungendo ogni opzione doveste ritenere necessaria):
+
+     ./configure
+     make
+     make install
+
+   Iniziate dal pacchetto Makefile (gnustep-make). Dopo averlo installato avrete bisogno di eseguire lo script di configurazione della shell di GNUstep, come mostrato qui di seguito:
+
+      . /usr/GNUstep/System/Makefiles/GNUstep.sh
+
+   prima di effettuare qualunque altra operazione.
+
+   NOTA per gli utilizzatori di gcc 2.X o MinGW: Installate adesso gnustep-objc. Prima di effettuare il build di gnustep-objc, modificate il `GNUmakefile' ed impostate la variabile THREADING secondo la thread library (libreria dei processi) usata sul vostro sistema (generalmente si tratta di posix, ma potete lasciarla su "single" se non avete bisogno dei processi). A questo punto dovrete probablimente riconfigurare, effettuare il "make" ed installare
+gnustep-make di modo che possa sfruttare le informazioni sui processi fornite da gnustep-objc.
+
+   Adesso installate gnustep-base, gnustep-gui ed infine gnustep-back.
+
+   NOTA:  Se state tentando di installare i pacchetti senza i permessi di root, potreste aver bisogno di cabiare una cosa nella libreria di base. Modificate il file gnustep-base/Tools/gdomap.h togliendo il simbolo di commento dall'ultima linea e modificate il numero di porta specificato con un numero che sapete non essere utilizzato all'interno della vostra rete. DOvreste effettuare quest'operazione solo se assolutamente necessario, poichè questo cambiamento interromperà le comunicazioni con tutti quei sistemi in cui la stessa, identica, modifica non è stata effettuata. Inoltre, la porta standard gdomap è quella ufficialmente registrata con IANA e l'uso è riservato da gdomap - dovrebbe essere modificato solo se non avete modo di far avviare il server gdomap dal vostro amministratore di sistema.
+
+Installazione aggiuntiva
+***********************
+
+Setup dell'ambiente
+=================
+
+   Aggiungete lo script di shell 'GNUstep.sh' situato nel pacchetto Makefile al file di startup della vostra shell (ad esempio '.profile'). Ad esempio, se la variabile
+GNUSTEP_SYSTEM_ROOT è impostata come `/usr/GNUstep/System', aggiungere
+
+     . /usr/GNUstep/System/Makefiles/GNUstep.sh
+
+  nel vostro file `.profile' dovrebbe essere sufficiente (notate il punto all'inizio della linea, e lo spazio tra il punto ed il percorso che segue; se la variabile GNUSTEP_SYSTEM_ROOT è impostata diversamente, dovrete sostituire `/usr/GNUstep/System' con il valore da voi impostato per la variabile GNUSTEP_SYSTEM_ROOT).  Questo serve a definire le variabili d'ambiente necessarie a trovare i files e gli eseguibili GNUstep. Gli utenti di csh dovranno utilizzare lo script 'GNUstep.csh'. Consultate il file 'README' del pacchetto make per maggiori informazioni. 
+Alcuni sistemi, come GNU/Linux, hanno una directory del tipo '/etc/profile.d' dalla quale gli scripts possono essere eseguiti automaticamente. Se desiderate configurare GNUstep per tutti gli utenti del vostro sistema, potete provare copiando o creando un collegamento al file 'GNUstep.sh' in quella directory.
+Per csh oppure tcsh, provate:
+
+     source /usr/GNUstep/System/Makefiles/GNUstep.csh
+
+GNUstep Home
+============
+
+   Stabilite la directory home per GNUstep. Questa procedura dovrebbe venire effettuata in modo automatico nel caso in cui non venisse effettuata da voi. In questa directory vengono immagazzinati i dati relativi alle impostazioni di default per ogni utente e quelli relativi ad altri files di configurazione. Anche le applicazioni e le librerie installate dagli utenti si trovano qui (se si usa la directory di default). 
+
+     cd
+     mkdir GNUstep
+
+Time Zone
+=========
+
+   Successivamente, passate a configurare l'orario locale. Ci sono quattro modi di effettuare questa operazione, sceglietene uno (consultate
+'$GNUSTEP_SYSTEM_ROOT/Library/Libraries/Resources/gnustep-bsae/NSTimeZones/zones'
+per le impostazioni tipiche relative alle zone di fuso orario):
+
+  1. Usate l'utility defaults per impostare la "Local Time Zone" secondo la vostra zona (defaults è installato assieme a GNUstep nella directory Tools). Inserite un comando del tipo:
+'defaults write NSGlobalDomain "Local Time Zone" IT'
+
+  2. Impostate la variabile d'ambiente GNUSTEP_TZ.
+
+  3. Create il file `$GNUSTEP_SYSTEM_ROOT/Library/Libraries/Resources/gnustep-base/NSTimeZones/localtime' con il nome della vostra TimeZone all'interno.
+
+  4. Impostate la variabile d'ambiente TZ (nota: questa operazione potrebbe portare ad un conflitto con altri software presenti nel vostro sistema).
+
+GNUstep deamons
+===============
+
+   Impostate il vostro sistema per eseguire alcuni daemons di GNUstep. Se non lo fate questi verranno avviati automaticamente alla prima esecuzione di un'applicazione GNUstep:
+
+   * gdomap - Da inserire in uno dei file d'avvio del sistema, come `/etc/rc.local'
+     oppure `/etc/rc.d/rc.local' (configuratelo a seconda del vostro sistema)
+          GNUSTEP_SYSTEM_ROOT=/usr/GNUstep/System
+          if [ -f $GNUSTEP_SYSTEM_ROOT/Tools/gdomap ]; then
+            $GNUSTEP_SYSTEM_ROOT/Tools/gdomap
+          fi
+
+   * gdnc - Avvio successivo all'individuazione del percorse `GNUstep.sh' (ad esempio in .profile)
+
+   * gpbs - Come sopra, assicuratevi che l'X-Window Server sia in esecuzione.
+
+     if [ `gdomap -L GDNCServer | grep -c Unable` == 1 ]; then
+       echo "Starting GNUstep services..."
+       gdnc
+       gpbs
+     fi
+
+Test Tools e Applications
+***************************
+
+   I programmi per effettuare il testing per la libreria di base si trovano in  `base/Testing'. Esempi di applicazioni si trovano nel pacchetto gstep-examples. Per effettuarne il make è sufficiente decomprimerli ed utilizzare untar sul pacchetto, entrare (comando cd) nella directory appropriata ed inserire il comando make. Avrete bisogno di installare le librerie GNUstep core prima di effettuare queste operazioni.
+
+Come eseguire gli esempi.
+-------------------------------------------
+Utilizzate l'utility openapp che è parte del pacchetto GNUstep makefile (e si trova in `$GNUSTEP_SYSTEM_ROOT/Tools').
+Il modo d'utilizzo è il seguente:
+
+     openapp application [additional arguments to app]
+
+   Buona fortuna!
+
+Istruzioni specifiche per i diversi sistemi
+*****************************
+
+   \input texinfo
+Di seguito trovate una lista di sistemi sui quali sono stati effettuati dei tentativi di compilare GNUstep. E' possibile compilare GNUstep con pochi, o nessun problema sui sistemi operativi più popolari. Alcuni sistemi contrassegnati _Unstable_ potrebbero avere più problemi o non funzionare.
+
+   Un compilatore consigliato, quando esistente, è elencato per ogni sistema. DOvreste provare ad usare il compilatore suggerito per compilare GNUstep, questo perchè GNUstep è abbastanza complicato ed ha la tendenza a provocare molti errori in alcuni compilatori. Anche versioni più recenti rispetto a quelle elencate potrebbero non funzionare, quindi non è sufficiente procurarsi l'ultima versione di un compilatore aspettandosi che sia migliore delle precedenti versioni.
+
+   Note alla sezione compilatori: Se non viene suggerito alcun compilatore per il vostro sistema, prendete nota delle seguenti informazioni prima di scegliere il compilatore che fa al caso vostro.
+`egcs oppure gcc < 2.95'
+     Probabilmente funzioneranno, ma attualmente non sono usati da molti utenti.
+
+
+`gcc 2.95.x'
+     Probabilmente il compilatore meno recente con cui GNUstep viene regolarmente testato.
+
+`gcc 2.96'
+     Non è una release gcc ufficiale. Alcune versioni (Redhat, Mandrake) presentano problemi che prevengono la corretta compilazione di GNUstep causando errori piuttosto misteriosi.
+
+`gcc 3.0.x'
+     Un compilatore abbastanza buono. Consigliato.
+
+`gcc 3.1'
+     Parecchi bugs sono arrivati assieme a questa versione. Probabilmente è meglio evitarla, tuttavia potrebbe funzionare correttamente.
+
+`gcc 3.2.x'
+     Decisamente buono. Raccomandato.
+
+   Se avete compilato GNUstep su un sistema specifico, vi preghiamo di inviare un'e-mail contenente le informazioni su cosa vi è servito e sulle istruzioni per eseguire la procedura a GNUstep <bug-gnustep@gnu.org>.
+
+   Se vi imbattete in comportamenti "strani" su un determinato sistema, provate a compilare GNUstep senza ottimizzazione. Particolarmente nei nuovi compilatori GCC, l'ottimizzazione può gestire in modo non corretto alcune parti del codice. Il modo più semplice per fare in modo che le cose funzionino riguarda la procedura di configurazione, 'CFLAGS="" ./configure'. Oppure, nell'eseguire il build, 'make OPTFLAG"'".
+
+   Inoltre, se avete aggiornato manualmente gcc e/o make, raccomandiamo di leggere la documentazione presente all'indirizzo <http://www.LinuxFromScratch.org> per suggerimenti su come compilare ed installare gcc e make. Se sul vostro sistema avevate installato GNUstep, assicuratevi di rimuoverlo completamente, compresi gli script di inizializzazione.
+
+Darwin 6.x/PowerPC (_Unstable!_)
+================================
+
+`Compilatore suggerito'
+     gcc 3.2.2
+
+     Il compilatore di default aveva alcuni problemi relativi alla memoria(?). Usate la GNU runtime. Scaricate il compilatore gcc e configuratelo con -enable-threads=posix. In genere il compilatore installato produrrà file oggetto per il runtime NeXT se non viene specificato gcc.
+
+     -fgnu-runtime.Per cambiare questo comportamento (behaviour), modificate
+     src-dir/gcc/config/darwin.h: è necessario modificare la parola #define
+     alla linea 73 in #undef. In questo modo il runtime di default è gnu.
+     Quando effettuate il bootstrap del compilatore, una libreria objective C gnu-runtime (leggermente più veloce del runtime Apple) verrà compilata ed installata all'esecuzione del comando make install.Per usarla, è necessario eseguire un'ultima (importante) operazione: dopo aver installato il compilatore, dovete spostarvi nella directory d'installazione (install-dir)/lib e creare il seguente link dinamico: ln -s libobjc.a libobjc.dylib. Tutto ciò potrebbe sembrarvi senza senso, ma costringe il linker ad utilizzare questa libreria invece del runtime NeXT! 
+
+     Assicuratevi di configurare gnustep-make con ./configure
+     -with-library-combo=gnu-gnu-gnu se desiderate utilizzare tutte le librerie GNUstep.
+
+`Necessarie librerie aggiuntive'
+     Usate libffi (non ffcall). Quest'opzione dovrebbe essere attivata di default in gnustep-base cos? non dovrete inserire -enable-libffi
+
+`Istruzioni speciali'
+Debian/DEC-Alpha
+================
+
+`Compilatore suggerito'
+     Sconosciuto
+
+`Librerie aggiuntive necessarie'
+     Sconosciute
+
+`Istruzioni speciali'
+     Sconosciute
+
+FreeBSD 4.x
+===========
+
+`Compilatore suggerito'
+     Sconosciuto
+
+`Librerie aggiuntive necessarie'
+     Sconosciute
+
+`Istruzioni speciali'
+     Se state usando zsh, alcune variabili della shell potrebbero non essere impostate correttamente  quando si esegue GNUstep. Provate ad attivare SH_WORD_SPLIT 
+per esempio con:
+'zsh -sh-word-split',
+'zsh -o shwordsplit',
+'zsh -y'
+oppure impostate 'setopt SH_WORD_SPLIT' in uno dei file di startup di zsh.
+
+     Per gcc 3.0.4, make WANT_THREADS_SUPPORT=YES
+
+     Per libxml2 2.4.24, make WITHOUT_PYTHON=YES
+
+FreeBSD 3.x
+===========
+
+   Si compila "senza complicazioni" su FreeBSD 3.4.
+
+`Compilatore suggerito'
+     gcc 2.95.2
+
+`Librerie aggiuntive necessarie''
+     Sconosciute
+
+`Istruzioni speciali'
+     Avrete bisogno di usare gmake e non make per compilare i pacchetii GNUstep. Una speciale conversione di gdb può essere usata con le patches per Objective-C scaricandola dall'indirizzo: 
+     <ftp://ftp.pcnet.com/users/eischen/FreeBSD/gdb-4.17-port.tar.gz>
+
+     Il miglior compilatore per GNUstep è l'ultima versionde della GNU Compiler Collection (GCC). Potete procurarvela all'indirizzo: <http://egcs.cygnus.com/>.
+
+     Se volete utilizzare il supporto nativo da 'libc.r' per i processi POSIX, passate la seguente opzione al programma di configurazione: `--enable-threads=posix'. Questa è anche l'opzione raccomandata, in quanto questo è il pacchetto relativo ai threads di FreeBSD che offre i migliori risultati - con gli altri, potreste non riuscire ad eseguire alcuni esempi come `diningPhilosophers'.
+
+     L'intero processo di compilazione può fallire se avete installato una diversa libreria relativa ai threads, quindi fate attenzione se avete installato pacchetti come 'pth'.
+Oltre al supporto per libc_r, GNUstep cercherà anche `pth' e `pcthreads', quindi se avete installato questi pacchetti ma non vengono rilevati, preparatevi a scrivere un bel bug report.
+
+     Potete ottenere buoni risultati semplicemente installando la versione di gdb citata in precedenza dall'indirizzo <ftp://ftp.pcnet.com/users/eischen/FreeBSD/gdb-4.17-port.tar.gz>.
+Semplicemente spostatevi (cd) in /usr/ports/lang/egcs ed eseguite "make WANT_THREADS=yes
+install".  Facile, no?
+
+Se configure non riesce a trovare tiff.h oppure la libreria tiff e voi l'avete installata in un percorso non-standard (anche /usr/local), potreste aver bisogno di passare queste opzioni a configure:
+      `CFLAGS="-I/usr/local/include"' and `LDFLAGS="-L/usr/local/lib"'.
+
+
+
+
+FreeBSD 2.x (_Unstable!_)
+=========================
+
+`Compilatore suggerito'
+     gcc 2.8.x
+
+`Librerie aggiuntive necessarie''
+    Sconosciuto
+
+`Istruzioni speciali'
+     Solo le librerie statiche funzionano con questo sistema. Se non lo avete ancora fatto, usate /stand/sysinstall per installare questi pacchetti:
+
+     gmake           (GNU make)
+     gcc 2.8.x
+
+     Sembra compilare senza problemi, ma in alcuni test l'applicazione ? andata in crash. Potrebbe rivelarsi un'ottima idea quella di aggiornare a FreeBSD 3.x. Dovete utilizzare gmake e non make per compilare i pacchetti GNUstep.
+
+GNU-Linux/Intel (RedHat 5.x, 6.x, e 7.0)
+==========================================
+
+`Compilatore suggerito'
+     Con la versione 5.x, il compilatore egcs fornito con RedHat. Le versioni successive potrebbero avere gcc installato al loro interno, anche se la 7.0 contiene una versione non ufficiale (la 2.96) che non ? adatta a compilare il codice Objective-C.
+ Per la versione 7.0 dovreste installare i pacchetti di compatibilit? egcs (oppure una relase ufficiale delle gcc). Per RedHat 7.2 o successiva la versione gcc di default sembra comportarsi bene (anche se ? una 2.96)
+
+`Librerie aggiuntive necessarie''
+     Sconosciute
+
+`Istruzioni speciali'
+     Assicuratevi di avere una versione decente del compilatore. Provate con 'cc -v' oppure con 'gcc -v' per ottenere la versione del compilatore installato. Con la versione 5.x, assicuratevi di impostare l'opzione CC=egcs prima di continuare, ad esempio:
+
+          export CC=egcs
+          configure ....
+
+     Questo perch? la RedHat 5.x viene fornita con una vecchia versione di gcc.
+
+
+    Sulla RedHat 7.0, configurate in questo modo:
+          CC=egcs LDFLAGS="-u shmctl@GLIBC_2.2 -L/lib -lc -u getpwuid_r@GLIBC_2.1.2
+          -L/lib -lc -u getpwnam_r@GLIBC_2.1.2 -L/lib -lc" ./configure
+
+GNU-Linux/PowerPC (LinuxPPC, Yellowdog)
+=======================================
+
+`Compilatore suggerito'
+     Quello di default. gcc-3.x funziona, ma avrete anche bisogno di una nuova gdb per il debug.
+
+`Librerie aggiuntive necessarie''
+     Nessuna
+
+`Istruzioni speciali'
+   ffcall oppure libffi sono richiesti per fare in modo che le chiamate/invocazioni funzionino a dovere. Il problema pi? grosso consiste nell'inviare dati di dimensioni inferiori ai 4 bytes.
+
+Irix 6.5/MIPS
+=============
+
+`Compilatore suggerito'
+     gcc 3.2.1
+
+     Per usare i processi, ? necessario che provvediate ad effettuare il bootstrap di un compilatore:
+     configurate con -enable-threads=posix, che funzioner? finch? collegate OGNI eseguibile objective-C con -lpthread, senza badare agli avvisi di sistema prodotti dal linker di Irix! 
+
+`Librerie aggiuntive necessarie''
+     Sconosciuto
+
+`Istruzioni speciali'
+     Se non riuscite a collegare la libreria a causa del limite di lunghezza, troppo basso, per la linea di comando (20480), dovete usare systune ncargs per aumentare questo valore (il massimo ? 262144) oppure collegare la libreria manualmente. Nel caso libffi non sia supportata, usate ffcall.
+
+MkLinux/PowerPC (_Obsolete_)
+============================
+
+   Questa configurazione non viene pi? testata, ma potrebbe ancora funzionare.
+
+`Compilatore suggerito'
+     egcs-2.90.25 980302 (egcs-1.0.2 prerelease) che viene fornito come standard con DR 3.
+
+`Librerie aggiuntive necessarie''
+     Nessuna.
+
+`Istruzioni speciali'
+     Il sistema viene fornito con una buona versione di gcc. Sembra compilare ed installare senza problemi anche se DR3 dispone di una vecchia versione della glibc, che richiede alcuni accorgimenti durante la procedura di configurazione. Non ? stata completamente testata, quindi alcuni aspetti - in particolare le invocazioni degli oggetti e DO - potrebbero non funzionare correttamente. 
+
+     Se volete i processi (threads), probabilmente dovrete procurarvi l'ultima versione del compilatore gcc e della libreria glibc (che include la threads library) ed installarle entrambe.
+
+NetBSD
+======
+
+`Compilatore suggerito'
+     Sconosciuto
+
+`Librerie aggiuntive necessarie''
+     libiconv
+
+`Istruzioni speciali'
+     Consultate il file README.NetBSD che si trova all'interno del pacchetto gnustep-make.
+
+Netwinder (_Unstable!_)
+=======================
+
+`Compilatore suggerito'
+     Build #12 del sistema.
+
+`Librerie aggiuntive necessarie''
+     Sconosciute
+
+`Istruzioni speciali'
+     Visitate <http://www.netwinder.org/~patrix>
+
+OpenBSD 2.x  (_Unstable!_)
+==========================
+
+`Compilatore suggerito'
+     Sconosciuto
+
+`Librerie aggiuntive necessarie''
+     Sconosciute
+
+
+`Istruzioni speciali'
+    Pu? compilare solo con le librerie statiche. Visualizza una marea di finestre d'avviso. 
+Provate a leggere il file README.NetBSD, le istruzioni potrebbero funzionare lo stesso su    OpenBSD.
+
+OSF Alpha  (_Unstable!_)
+========================
+
+   Informazioni per la Versione 3.2C
+
+`Compilatore suggerito'
+     egcs-1.1.1/1.1.2, gcc-2.95
+
+`Librerie aggiuntive necessarie''
+    Sconosciute
+
+`Istruzioni spoeciali'
+     Pu? compilare solo con le librerie statiche. Il compilatore potrebbe non funzionare nel collegamento degli eseguibili (es. gdnc). La libreria standard ranlib e i programmi ar non sono affidabili per la creazione di librerie. Dovreste usare GNU binutils. Il linker, occasionalmente, non riesce a trovare i simboli - in questo caso potreste aver bisogno di collegare la stessa libreria per due volte. Ad esempio, aggiungendo un extres -lgnustep-gui in ADDTIONAL_TOOL_LIBS del GNUmakefile(.preamble).
+
+Slackware/Intel
+===============
+
+`Compilatore suggerito'
+     Sconosciuto.
+
+`Librerie aggiuntive necessarie''
+     Sconosciute.
+
+`Istruzioni speciali'
+     Sconosciute.
+
+Solaris 2.5.1/Sparc (_Obsolete_)
+================================
+
+  Questa configurazione non ? pi? testata, ma potrebbe ancora funzionare. 
+
+`Compilatore suggerito'
+     Sconosciuto
+
+
+`Librerie aggiuntive necessarie''
+     tiff, non usate quelle in /usr/openwin
+
+`Istruzioni speciali'
+     Consultate la sezione Solaris 2.6 per ulteriori informazioni.
+
+Solaris 2.[67]/Sparc
+====================
+
+`Compilatore suggerito'
+     gcc 3.2.1 gcc 2.95.3. La Versione 2.95.2 ha diversi bugs.
+     gcc 3.04. Non la 3.1 - non compile alcune parti di GNUstep.
+
+`Librerie aggiuntive necessarie''
+     tiff, non usate quelle in /usr/openwin
+
+`Istruzioni speciali'
+     Non ? supportata libffi a meno che non installiate l'apposita patch:
+     <http://gcc.gnu.org/ml/java-patches/2002-q3/msg00036.html> 
+     (comunque non particolarmente raccomandata).
+
+     L'uso di una shell POSIX (zsh o bash, che dovrebbero essere fornite con Solaris)
+     ? caldamente raccomandato. Di fatto, alcune funzioni come quelle di compilazione dei frameworks non funzioneranno se non usate la shell.
+
+   Qualcuno ha riportato problemi nell'utilizzo dell'assembler e del linker presenti nelle binutils. Utilizzare l'assembler ed il linker di Solaris non dovrebbe darvi problemi.
+
+   Vecchie istruzioni: Se state usando i threads, assicuratevi che il runtime Objective-C
+   (libobjc fornito con gcc) venga compilato con l'opzione threads abilitata (? cos? per default) E con il flag _REENTRANT definito (che non ? cos? per default). Altrimenti, utilizzate il pacchetto gnustep-objc. Assicuratevi, inoltre, che THREADS sia impostato come 'posix' e non come 'solaris'.
+
+Solaris 2.7/Intel
+=================
+
+`COmpilatore suggerito'
+    Sconosciuto.
+
+`Librerie aggiuntive necessarie''
+    Sconosciute
+
+
+
+`Istruzioni speciali'
+     Assicuratevi che non ci siano flags -g nel compilatore (ad esempio, compilare con debug=yes potrebbe causare problemi). Non siamo certi delle corrette bundle flags - potreste dover usare le flags alternative elencate in target.make, alla linea 989. Inoltre potrebbe essere necessario configurare gnustep-make con `--disable-backend-bundle' se non riuscite a far funzionare i bundles. Probabilmente vi trovereta davanti ad un mucchio di avvisi sulla redisposizione del testo che possono essere ignorate con ogni probabilit?. COnsultate le altre istruzione relative a Solaris per maggior informazioni. 
+
+Suse 6.x/Intel
+==============
+
+   GNUstep ? stato testato sulle versioni 6.2-6.4 di Suse
+
+`Compilatore raccomandato'
+     Standard
+
+`Librerie aggiuntive necessarie''
+     Nessuna
+
+`Istruzioni speciali'
+     Sembra che ci sia un problema con la versione di kernel distribuita con Suse: il socket binding usato da gdnc non funziona. Se ricompilate il kernel, questo componente funzioner? correttamente.
+
+Suse/Intel
+==========
+
+   GNUstep ? stato testato sulle versioni 7.0, 8.0, 8.1 e 8.2 di Suse
+
+`Compilatore suggerito'
+     Standard. gcc2.95.x, gcc3.0.x, 3.1 e 3.2 funzionano, ma la 2.95 ?
+     pi? veloce.  Compilate con l'opzione -threads-enabled (non standard).
+
+`Librerie aggiuntive necessarie''
+     Nessuna
+
+`Istruzioni speciali'
+     Nessuna.
+
+
+
+
+
+
+Suse 7.x/PPC
+============
+
+   GNUstep ? stato testato sulla versione 7.0 di Suse
+
+`Compilatore suggerito'
+     Standard. gcc2.95.x, gcc3.0.x e gc3.1 funzionano, ma la versione 2.95 ? pi? veloce.
+     Compilate con l'opzione -threads-enabled (non standard).
+
+`Librerie aggiuntive necessarie''
+     Nessuna.
+
+`Istruzioni speciali'
+     Nessuna.
+
+Unixware-2.1.3/Intel
+====================
+
+`Compilatore suggerito'
+     Sconosciuto.
+
+`Librerie aggiuntive necessarie''
+     Sconosciute.
+
+  Istruzioni speciali per l'installazione di GNUstep su sistemi Unixware 2.1 
+
+1
+     Configurate il kernel di modo da abilitare input lunghi dalla riga di comando (cosa che i 
+     makefiles fanno):
+     (/etc/conf/bin/idtune ARG_MAX 102400)
+
+2
+     Installate raft o il software GNU pi? recente:
+
+     gzip            (ne avrete bisogno per decomprimere alcuni files)
+     make          (per effettuare il build)
+     m4             (per autoconf etc)
+     autoconf    (se doveste aver bisogno di cambiare qualcosa)
+     bison
+     flex
+     binutils        (richiesto da gcc se volete effettuare il debug)
+     gcc-2.8.1
+                     (configurate --with-gnu-as --with-gnu-ld --with-stabs)
+                     NB. gcc-2.8.1 ha bisogno di un fix per __do_global_dtors_aux()
+                     in crtstuff.c su Unixware 2.1.3
+                     (e forse anche in altre versioni)
+                     Il fix ? gi? disponibile nelle versioni recenti di egcs.
+
+          ==================================
+          static void
+          __do_global_dtors_aux ()
+          {
+            static func_ptr *p = __DTOR_LIST__ + 1;
+            static int completed = 0;
+          
+            if (completed)
+              return;
+          
+            while (*p)
+              {
+                p++;
+                (*(p-1)) ();
+              }
+          
+          #ifdef EH_FRAME_SECTION_ASM_OP
+            __deregister_frame_info (__EH_FRAME_BEGIN__);
+          #endif
+            completed = 1;
+          }
+          ======================================
+
+3
+     Essendo riusciti a far funzionare gcc ? probabilmente una buona idea quella di effettuare nuovamente il build del vostro software GNU utilizzando gcc!
+
+4
+     Effettuate il build di gstep come al solito.
+
+5
+     Pu? succedere che SIOCGIFCONF ioctl non funzioni correttamente su unixware dopo
+     l'applicazione di patches al sistema.
+
+     Quindi ho aggiunto una flag '-a' a gdomap per fornirgli il nome di un file contenente gli
+     indirizzi IP e le informazioni sulla netmask per le interfacce di rete presenti nel sistema.
+
+     Dovrete creare un file (vi suggerisco '/etc/gdomap_addresses') contenente le informazioni per la vostra macchina e modificare i files di startup del vostro sistema presenti in /etc/rc?.d per avviare gdomap, dicendogli di usare quel file.
+
+
+     esempio: Se la vostra macchina ha un indirizzo IP di '193.111.111.2' e si trova in un networkand di classe C, il vostro file /etc/gdomap_addresses conterr? la linea:
+
+          193.111.111.2 255.255.255.0
+
+     e il vostro file di startup conterr?:
+
+          . /usr/local/GNUstep/Makefiles/GNUstep.sh
+          gdomap -a /etc/gdomap_addresses
+
+   Se non impostate gdomap in maniera corretta, Distributed Objects non funzioner?.
+
+Windows con CYGWIN (_Unstable!_)
+=================================
+
+`Compilatore suggerito'
+     gcc 2.95.3 (Cygwin release 1.1.8) o successiva
+
+`Librerie aggiuntive necessarie''
+     Objective-C library DLL (<ftp://ftp.gnustep.org/pub/gnustep/libs>)
+     per le librerie condivise. E' una buona idea quella di rimuovere libobjc.a che viene fornita con
+     gcc (gcc -v per individuarne la locazione) cos? che non venga accidentalmente individuato. Per
+     quanto riguarda ffcall, dovreste procurarvi la versione 1.8b (o successiva) perch? le precedenti
+     non compilano.
+     Ci sono ancora alcuni problemi con lo structure passing, ma questa funzionalit? non ? ancora
+     supportata da tute le architetture.
+
+`Istruzioni speciali'
+     Sulle versioni successive di Cygwin potrebbe venirvi richiesto di includere la directory
+     win32api in CPPFLAGS durante la configurazione:
+
+          CPPFLAGS=-I/usr/include/win32api ./configure
+
+   Assicuratevi di avere delle buone librerie condivise per tutto. Pu? verificarsi, infatti, che una pessima libreria condivisa (come libtiff) possa causare problemi strani e la cui soluzione non sia facilmente individuabile. Consultate `README.Cygwin' per informazioni su come compilare.
+
+Windows con MinGW (_Unstable! Come sempre..._)
+=============================================
+
+`Compilatore suggerito'
+     Guardare più in basso.
+
+`Librerie aggiuntive necessarie''
+     Guardate pi? in basso.
+
+`Istruzioni speciali'
+     Consultate il file `README.MinGW' all'interno della documentazione fornita con
+     gnustep-make per le istruzioni.
+     Solo per Windows NT/2000/XP.
+     I sistemi Win98 o precedenti sono pieni di bugs e non vengono supportati.
+     Interfaccia grafica utente (GUI) alla versione alpha.
+
+Ottenere le librerie attraverso CVS anonimi
+***********************************
+
+   Se non avete ottenuto gli snapshot dell'ultima veriosne, o volete semplicemente assicurarvi di essere in prima linea, allora procurarsi le librerie via CVS ? la soluzione adatta a voi.
+Andate a <http://savannah.gnu.org/cvs/?group_id=99> per informazioni su come ottenere un accesso anonimo al CVS.
+
+  Se non lo avete gi? fatto, cambiate la directopry dove desiderate che risieda il codice sorgente.
+  Per una lista dei potenziali moduli da tenere sotto controllo, inserite il comando:
+
+     cvs -z3 checkout -c
+
+   Ad esempio, per controllare il nostro 'core', che contiene tutte le librerie del codice GNUstep:
+
+     cvs -z3 checkout core
+
+   Dopo aver esaminato il sorgente, potete compilarlo come di consueto.
+   Per aggiornare il sorgente, andate nella directory del sorgente che volete modificare (source
+   tree), ad esempio andate in 'base' ed inserite:
+
+     cvs -z3 update -Pd
+
+   Non è necessario effettuare nuovamente il controllo una volta ottenuto il codice sorgente del
+   file, basta aggiornarlo!

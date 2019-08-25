@@ -1,0 +1,234 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on September 29, 2011 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>GNUstep Filesystem Hierarchy Document: 6. Configuration</title>
+
+<meta name="description" content="GNUstep Filesystem Hierarchy Document: 6. Configuration">
+<meta name="keywords" content="GNUstep Filesystem Hierarchy Document: 6. Configuration">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
+
+<a name="Configuration"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="gnustep-filesystem_5.html#Tools_002fResources" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#File-Format" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="gnustep-filesystem_5.html#Structure-of-a-Domain" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="gnustep-filesystem.html#Top" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="gnustep-filesystem.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="gnustep-filesystem_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Configuration-1"></a>
+<h2 class="section">6. Configuration</h2>
+
+<p>GNUstep supports arbitrary filesystem layouts to map the locations in
+the various domains to directories on the filesystem.
+</p>
+<p>When you run gnustep-make&rsquo;s ./configure program you can use the
+&ndash;with-layout=xxx flag to select the filesystem layout that you prefer
+(choosing between the ones in the FilesystemLayouts directory, or
+creating your own in there!).
+</p>
+<p>For most users, this is all they need to know.
+</p>
+<p>In this section we&rsquo;ll go more into the details of how the filesystem
+layout system internally works; this is only useful if you need to do
+something advanced with it, typically because you have multiple
+GNUstep installations or you are trying to do some custom packaging of
+GNUstep.
+</p>
+<p>The filesystem layout is determined by the GNUstep configuration file
+(or if that is not present, by default values built into the GNUstep
+make and base packages when they were configured and built).
+</p>
+<p>The location of the GNUstep configuration file is built in to the make and
+base packages when they are configured using the &ndash;with-config-file option
+to the configure script.  The path specified must be an absolute one for
+the make package, but may also be a path relative to the location of the
+base library itsself (as dynamically linked into applications) for the
+base package.
+</p>
+<p>However, the location of the configuration file may also be specified
+using the GNUSTEP_CONFIG_FILE environment variable, overriding the value
+built in to the package, at any time when using the make package to build
+or install software.  Support for the environment variable may also
+be enabled for the make package when its configure script is run.
+</p>
+<p>The GNUSTEP_CONFIG_FILE environment variable is particularly useful if
+you have multiple installations and need to easily switch between
+them.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top"><a href="#File-Format">6.1 File Format</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">              
+</td></tr>
+<tr><td align="left" valign="top"><a href="#Windows-_0028MINGW_0029">6.2 Windows (MINGW)</a></td><td>&nbsp;&nbsp;</td><td align="left" valign="top">
+</td></tr>
+</table>
+
+<hr size="6">
+<a name="File-Format"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Configuration" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Windows-_0028MINGW_0029" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Configuration" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="gnustep-filesystem.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="gnustep-filesystem_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="File-Format-1"></a>
+<h3 class="subsection">6.1 File Format</h3>
+
+<p>By default, the configuration file is called GNUstep.conf; it
+typically exists in /etc/GNUstep or /usr/local/etc/GNUstep (depending
+on how gnustep-make was configured) on a Unix-like system.  This file
+is in a format suitable for being &rsquo;sourced&rsquo; by the standard unix
+(Bourne) shell, consisting of lines of the form key=value, comments
+(everything on a line from the first hash (#) onwards), or blank
+lines.
+</p>
+<p>This is very convenient on unix-like systems, but needs care for windows users.
+If a value contains whitespace or backslash characters (or the hash which
+would start a comment) it needs to be quoted by enclosing the whole value
+in single or double quotes.  An alternative for values containing backslashes
+(the norm for a windows path) is to double up each backslash in an unquoted
+value.
+</p>
+<p>The valid values for the keys in the GNUstep configuration file are
+documented in the GNUstep.conf file itself.  Please check the
+GNUstep.conf.in file in your gnustep-make distribution for an
+up-to-date list of all the variables that you can change with
+explanations of what they do.
+</p>
+<hr size="6">
+<a name="Windows-_0028MINGW_0029"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#File-Format" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[ &gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Configuration" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="gnustep-filesystem.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="gnustep-filesystem_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Windows-_0028MINGW_0029-1"></a>
+<h3 class="subsection">6.2 Windows (MINGW)</h3>
+
+<p>On ms-windows, for software development, you are likely to want to have an
+extra configuration file.  This is because of the limitations of the
+make program (used to build and install software).
+</p>
+<p>Basically the issue is that the make package doesn&rsquo;t really like the
+colons and backslashes in windows paths (using them is error prone)
+and can&rsquo;t tolerate whitespace in file names.  So you want to do all
+the building in a unix-style environment using only unix-style paths.
+</p>
+<p>On MSYS/MinGW this is done naturally by using the standard unix-style
+/usr/local/etc/GNUstep/GNUstep.conf config file, where the location is
+inside the MSYS unix-style emulation system.  This is what is normally
+done by gnustep-make, so there is nothing special you need to do here.
+</p>
+<p>On the other hand, the base library (and all applications since they are
+built using it) wants to work with native windows paths so that applications
+behave naturally as far as the end users are concerned, and therefore needs a
+configuration file containing windows-style paths rather than unix-like
+ones.
+</p>
+<p>So, you need a different config file to be used by gnustep-base at
+runtime.  And this is enabled by default &ndash; in fact gnustep-base will
+use ./GNUstep.conf as config file on MinGW, where the location is
+relative to the location of the gnustep-base.dll.
+</p>
+<p>In other words, gnustep-make will use
+C:/xxx/usr/local/etc/GNUstep/GNUstep.conf (where &rsquo;xxx&rsquo; is the MSYS
+installation path), while gnustep-base will use a GNUstep.conf file in
+the same directory as the gnustep-base.dll.
+</p>
+<p>This ./GNUstep.conf file normally does not even exist; gnustep-base&rsquo;s
+./configure will hardcode into gnustep-base.dll relative paths to all
+resources (relative from the installation location of
+gnustep-base.dll).  If you modify the filesystem layout or relocate
+gnustep-base.dll, you should add a GNUstep.conf file with
+gnustep-base.dll that contains the relative locations of the
+directories (relative to the location of gnustep-base.dll).
+</p>
+<p>It is recommended that this ./GNUstep.conf always contains relative
+paths to make relocation easier.
+</p>
+<hr size="6">
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Configuration" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="gnustep-filesystem.html#Top" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="gnustep-filesystem_abt.html#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<p>
+ <font size="-1">
+  This document was generated by <em>root</em> on <em>September 29, 2011</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>

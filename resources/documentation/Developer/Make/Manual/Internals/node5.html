@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+
+<!--Converted with LaTeX2HTML 2002-2-1 (1.71)
+original version by:  Nikos Drakos, CBLU, University of Leeds
+* revised and updated by:  Marcus Hennecke, Ross Moore, Herb Swan
+* with significant contributions from:
+  Jens Lippmann, Marek Rouchal, Martin Wilck and others -->
+<HTML>
+<HEAD>
+<TITLE>4 The %.variables rule - dependencies</TITLE>
+<META NAME="description" CONTENT="4 The %.variables rule - dependencies">
+<META NAME="keywords" CONTENT="gnustep-internals">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+
+<META NAME="Generator" CONTENT="LaTeX2HTML v2002-2-1">
+<META HTTP-EQUIV="Content-Style-Type" CONTENT="text/css">
+
+<LINK REL="STYLESHEET" HREF="gnustep-internals.css">
+
+<LINK REL="next" HREF="node6.html">
+<LINK REL="previous" HREF="node4.html">
+<LINK REL="up" HREF="gnustep-internals.html">
+<LINK REL="next" HREF="node6.html">
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" text="#000000" link="#0000FF" vlink="#4444FF" alink="#3388FF">
+<B> Next: <A NAME="tex2html60"
+  HREF="node6.html">5 The %.variables rule</A> </B>
+<B>Up: <A NAME="tex2html58"
+  HREF="gnustep-internals.html">GNUstep Makefile Package Internals</A>  </B>
+<B> Previous: <A NAME="tex2html52"
+  HREF="node4.html">3 From the internal-all</A> </B>
+<BR> <P>
+
+<!--End of Navigation Panel-->
+
+<H1><A NAME="SECTION00050000000000000000">
+4 The %.variables rule - dependencies</A>
+</H1>
+The rule for building these targets is in the <TT>rules.make</TT> file, 
+it is the <TT>%.variables</TT> rule:
+<PRE>
+%.variables: %.tools %.subprojects
+@ \
+target=$(basename $(basename $*)); \
+operation=$(subst .,,$(suffix $(basename $*))); \
+type=$(subst -,_,$(subst .,,$(suffix $*))); \
+echo Making $$operation for $$type $$target...; \
+$(MAKE) -f $(MAKEFILE_NAME) --no-print-directory --no-keep-going \
+  internal-$${type}-$$operation \
+  INTERNAL_$${type}_NAME=$$target \
+  TARGET=$$target \
+  _SUBPROJECTS="$($(basename $(basename $*))_SUBPROJECTS)" \
+  ...
+</PRE>This rule matches all targets ending in <TT>.variables</TT>.  First of
+all, the rule depends on the corresponding <TT>%.tools</TT> and
+<TT>%.subprojects</TT> rules.  This is because before processing the
+target itself, gnustep-make needs to process the related subprojects
+and (only for frameworks) the framework tools.  We ignore this
+complication of subprojects and framework tools for now; if you look
+at the <TT>%.subprojects</TT> and <TT>%.tools</TT> rules you see
+that they do nothing if you are not actually using subprojects or
+framework tools in your makefile.
+
+<P>
+<BR><HR>
+<ADDRESS>
+Richard Frith-Macdonald
+2013-07-26
+</ADDRESS>
+</BODY>
+</HTML>
