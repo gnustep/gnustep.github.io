@@ -1,0 +1,485 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>NSTimer class reference</title>
+  </head>
+  <body>
+    <font face="serif">
+    <a href="Base.html">Up</a>
+    <br />
+    <h1><a name="title$NSTimer">NSTimer class reference</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Andrew Kachites McCallum (<a href="mailto:mccallum@gnu.ai.mit.edu"><code>mccallum@gnu.ai.mit.edu</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Richard Frith-Macdonald (<a href="mailto:rfm@gnu.org"><code>rfm@gnu.org</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Copyright:</b> (C) 1995, 1996, 1999 Free Software Foundation, Inc.</p>
+
+        <div>
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSTimer class
+      </a></h1>
+    <h2><a name="class$NSTimer">NSTimer</a> : <a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSTimer.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            An <code>NSTimer</code> provides a way to send a message
+            at some time in the future, possibly repeating every
+            time a fixed interval has passed. To use a timer, you
+            can either create one that will automatically be added
+            to the run loop in the current thread (using the
+            <a rel="gsdoc" href="NSRunLoop.html#method$NSRunLoop-addTimer$forMode$">
+              -addTimer:forMode:
+            </a>
+
+            method), or you can create it without adding it
+            then add it to an
+            <a rel="gsdoc" href="NSRunLoop.html#class$NSRunLoop">NSRunLoop</a>
+
+              explicitly later.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              NB. You may not use
+              <a rel="gsdoc" href="NSObject.html#method$NSObject-init">
+                -init
+              </a>
+
+              or <a rel="gsdoc" href="NSObject.html#method$NSObject+new">+new</a>
+ to create a
+              timer, as the timer must be properly initialised
+              to send an action after some interval.
+                </p>
+    <p>
+      
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_NSTimer_ivars">Instance Variables</a>
+    <br/><br/>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSTimer.html#method$NSTimer+scheduledTimerWithTimeInterval$invocation$repeats$">+scheduledTimerWithTimeInterval:invocation:repeats:</a></li>
+      <li><a rel="gsdoc" href="NSTimer.html#method$NSTimer+scheduledTimerWithTimeInterval$repeats$block$">+scheduledTimerWithTimeInterval:repeats:block:</a></li>
+      <li><a rel="gsdoc" href="NSTimer.html#method$NSTimer+scheduledTimerWithTimeInterval$target$selector$userInfo$repeats$">+scheduledTimerWithTimeInterval:target:selector:userInfo:repeats:</a></li>
+      <li><a rel="gsdoc" href="NSTimer.html#method$NSTimer+timerWithTimeInterval$invocation$repeats$">+timerWithTimeInterval:invocation:repeats:</a></li>
+      <li><a rel="gsdoc" href="NSTimer.html#method$NSTimer+timerWithTimeInterval$repeats$block$">+timerWithTimeInterval:repeats:block:</a></li>
+      <li><a rel="gsdoc" href="NSTimer.html#method$NSTimer+timerWithTimeInterval$target$selector$userInfo$repeats$">+timerWithTimeInterval:target:selector:userInfo:repeats:</a></li>
+      <li><a rel="gsdoc" href="NSTimer.html#method$NSTimer-fire">-fire</a></li>
+      <li><a rel="gsdoc" href="NSTimer.html#method$NSTimer-fireDate">-fireDate</a></li>
+      <li><a rel="gsdoc" href="NSTimer.html#method$NSTimer-initWithFireDate$interval$repeats$block$">-initWithFireDate:interval:repeats:block:</a></li>
+      <li><a rel="gsdoc" href="NSTimer.html#method$NSTimer-initWithFireDate$interval$target$selector$userInfo$repeats$">-initWithFireDate:interval:target:selector:userInfo:repeats:</a></li>
+      <li><a rel="gsdoc" href="NSTimer.html#method$NSTimer-invalidate">-invalidate</a></li>
+      <li><a rel="gsdoc" href="NSTimer.html#method$NSTimer-isValid">-isValid</a></li>
+      <li><a rel="gsdoc" href="NSTimer.html#method$NSTimer-setFireDate$">-setFireDate:</a></li>
+      <li><a rel="gsdoc" href="NSTimer.html#method$NSTimer-timeInterval">-timeInterval</a></li>
+      <li><a rel="gsdoc" href="NSTimer.html#method$NSTimer-userInfo">-userInfo</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSTimer+scheduledTimerWithTimeInterval$invocation$repeats$">scheduledTimerWithTimeInterval:&nbsp;invocation:&nbsp;repeats:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSTimer">NSTimer</a>*) <b>scheduledTimerWithTimeInterval:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSTimeInterval">NSTimeInterval</a>)ti<b> invocation:</b> (<a rel="gsdoc" href="NSInvocation.html#class$NSInvocation">NSInvocation</a>*)invocation<b> repeats:</b> (BOOL)f;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Create a timer which will fire after <var>ti</var>
+            seconds and, if <var>f</var> is <code>YES</code>,
+            every <var>ti</var> seconds thereafter. On firing,
+            <var>invocation</var> will be performed. <br /> This
+            timer will automatically be added to the current run
+            loop and will fire in the default run loop mode.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSTimer+scheduledTimerWithTimeInterval$repeats$block$">scheduledTimerWithTimeInterval:&nbsp;repeats:&nbsp;block:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSTimer">NSTimer</a>*) <b>scheduledTimerWithTimeInterval:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSTimeInterval">NSTimeInterval</a>)ti<b> repeats:</b> (BOOL)f<b> block:</b> (GSTimerBlock)block;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSTimer+scheduledTimerWithTimeInterval$target$selector$userInfo$repeats$">scheduledTimerWithTimeInterval:&nbsp;target:&nbsp;selector:&nbsp;userInfo:&nbsp;repeats:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSTimer">NSTimer</a>*) <b>scheduledTimerWithTimeInterval:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSTimeInterval">NSTimeInterval</a>)ti<b> target:</b> (id)object<b> selector:</b> (SEL)selector<b> userInfo:</b> (id)info<b> repeats:</b> (BOOL)f;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Create a timer which will fire after <var>ti</var>
+            seconds and, if <var>f</var> is <code>YES</code>,
+            every <var>ti</var> seconds thereafter. On firing,
+            the target <var>object</var> will be sent a message
+            specified by <var>selector</var> and with the
+            timer as its argument. <br /> This timer will
+            automatically be added to the current run
+            loop and will fire in the default run loop mode.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSTimer+timerWithTimeInterval$invocation$repeats$">timerWithTimeInterval:&nbsp;invocation:&nbsp;repeats:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSTimer">NSTimer</a>*) <b>timerWithTimeInterval:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSTimeInterval">NSTimeInterval</a>)ti<b> invocation:</b> (<a rel="gsdoc" href="NSInvocation.html#class$NSInvocation">NSInvocation</a>*)invocation<b> repeats:</b> (BOOL)f;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Create a timer which will fire after <var>ti</var>
+            seconds and, if <var>f</var> is <code>YES</code>,
+            every <var>ti</var> seconds thereafter. On firing,
+            <var>invocation</var> will be performed. <br /> NB.
+            To make the timer operate, you must add it to a run
+            loop.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSTimer+timerWithTimeInterval$repeats$block$">timerWithTimeInterval:&nbsp;repeats:&nbsp;block:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSTimer">NSTimer</a>*) <b>timerWithTimeInterval:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSTimeInterval">NSTimeInterval</a>)ti<b> repeats:</b> (BOOL)f<b> block:</b> (GSTimerBlock)block;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSTimer+timerWithTimeInterval$target$selector$userInfo$repeats$">timerWithTimeInterval:&nbsp;target:&nbsp;selector:&nbsp;userInfo:&nbsp;repeats:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSTimer">NSTimer</a>*) <b>timerWithTimeInterval:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSTimeInterval">NSTimeInterval</a>)ti<b> target:</b> (id)object<b> selector:</b> (SEL)selector<b> userInfo:</b> (id)info<b> repeats:</b> (BOOL)f;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Create a timer which will fire after <var>ti</var>
+            seconds and, if <var>f</var> is <code>YES</code>,
+            every <var>ti</var> seconds thereafter. On firing,
+            the target <var>object</var> will be sent a message
+            specified by <var>selector</var> and with the
+            timer as its argument. <br /> NB. To make the timer
+            operate, you must add it to a run loop.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSTimer-fire">fire&nbsp;</a></h3>
+    - (void) <b>fire</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Fires the timer... either performs an invocation or
+            sends a message to a target object, depending on how
+            the timer was set up. <br /> If the timer is not set to
+            repeat, it is automatically invalidated. <br />
+            Exceptions raised during firing of the timer are
+            caught and logged.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSTimer-fireDate">fireDate&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSDate.html#class$NSDate">NSDate</a>*) <b>fireDate</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the date/time at which the timer is next
+            due to fire.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSTimer-initWithFireDate$interval$repeats$block$">initWithFireDate:&nbsp;interval:&nbsp;repeats:&nbsp;block:&nbsp;</a></h3>
+    - (instancetype) <b>initWithFireDate:</b> (<a rel="gsdoc" href="NSDate.html#class$NSDate">NSDate</a>*)date<b> interval:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSTimeInterval">NSTimeInterval</a>)interval<b> repeats:</b> (BOOL)repeats<b> block:</b> (GSTimerBlock)block;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSTimer-initWithFireDate$interval$target$selector$userInfo$repeats$">initWithFireDate:&nbsp;interval:&nbsp;target:&nbsp;selector:&nbsp;userInfo:&nbsp;repeats:&nbsp;</a></h3>
+    - (id) <b>initWithFireDate:</b> (<a rel="gsdoc" href="NSDate.html#class$NSDate">NSDate</a>*)fd<b> interval:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSTimeInterval">NSTimeInterval</a>)ti<b> target:</b> (id)object<b> selector:</b> (SEL)selector<b> userInfo:</b> (id)info<b> repeats:</b> (BOOL)f;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br />
+This is a designated initialiser for the class.<br />
+    <div class="desc">
+      
+            Initialise the receive, a newly allocated
+            NSTimer <var>object</var>. <br /> The <var>ti</var>
+            argument specifies the time (in seconds) between
+            the firing. If it is less than or equal to 0.0 then a
+            small interval is chosen automatically. <br /> The
+            <var>fd</var> argument specifies an initial fire date
+            copied by the timer... if it is not supplied (a
+            <code>nil</code> <var>object</var>) then the
+            <var>ti</var> argument is used to create a start date
+            relative to the current time. <br /> The
+            <var>f</var> argument specifies whether the timer
+            will fire repeatedly or just once. <br /> If the
+            <var>selector</var> argument is zero, then then
+            <var>object</var> is an invocation to be used when
+            the timer fires. otherwise, the <var>object</var> is
+            sent the message specified by the <var>selector</var>
+            and with the timer as an argument. <br /> The
+            <var>object</var> and <var>info</var> arguments will
+            be retained until the timer is invalidated.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSTimer-invalidate">invalidate&nbsp;</a></h3>
+    - (void) <b>invalidate</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Marks the timer as invalid, causing its
+            target/invocation and user info objects
+            to be released. <br /> Invalidated timers are
+            automatically removed from the run loop when
+            it detects them.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSTimer-isValid">isValid&nbsp;</a></h3>
+    - (BOOL) <b>isValid</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Checks to see if the timer has been invalidated.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSTimer-setFireDate$">setFireDate:&nbsp;</a></h3>
+    - (void) <b>setFireDate:</b> (<a rel="gsdoc" href="NSDate.html#class$NSDate">NSDate</a>*)fireDate;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br />
+    <div class="desc">
+      
+            Change the fire date for the receiver. <br /> NB.
+            You should <em>NOT</em> use this method for a timer
+            which has been added to a run loop. The only time
+            when it is safe to modify the fire date of a timer in
+            a run loop is for a repeating timer when the timer is
+            actually in the process of firing.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSTimer-timeInterval">timeInterval&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSTimeInterval">NSTimeInterval</a>) <b>timeInterval</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the interval between firings, or zero if
+            the timer does not repeat.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSTimer-userInfo">userInfo&nbsp;</a></h3>
+    - (id) <b>userInfo</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the user info which was set for the timer
+            when it was created, or <code>nil</code> if none was
+            set or the timer is invalid.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<a name="_NSTimer_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for NSTimer Class</h2>
+    <h3><a name="ivariable$NSTimer*_block">_block</a></h3>
+    @public GSTimerBlock <b>_block</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$NSTimer*_date">_date</a></h3>
+    @public NSDate* <b>_date</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$NSTimer*_info">_info</a></h3>
+    @public id <b>_info</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$NSTimer*_interval">_interval</a></h3>
+    @public NSTimeInterval <b>_interval</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$NSTimer*_invalidated">_invalidated</a></h3>
+    @public BOOL <b>_invalidated</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$NSTimer*_repeats">_repeats</a></h3>
+    @public BOOL <b>_repeats</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$NSTimer*_selector">_selector</a></h3>
+    @public SEL <b>_selector</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$NSTimer*_target">_target</a></h3>
+    @public id <b>_target</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <br/><hr width="50%" align="left" /><br/>
+    <br />
+    <a href="Base.html">Up</a>
+    </font>
+</body>
+</html>

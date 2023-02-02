@@ -1,0 +1,363 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSStream" up="Base">
+  <head>
+    <title>NSStream documentation</title>
+    <author name="Derek Zhou">
+      <email address="derekzhou@gmail.com">
+        derekzhou@gmail.com
+      </email>
+    </author>
+    <copy>2006 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSInputStream class
+      </heading>
+      <class name="NSInputStream" super="NSStream" ovadd="10.4.0" gvadd="1.2.0">
+        <declared>Foundation/NSStream.h</declared>
+        <desc>
+          NSInputStream is a subclass of NSStream that
+          provides read-only stream functionality.
+        </desc>
+        <method type="id" factory="yes" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>inputStreamWithData:</sel>
+          <arg type="NSData*">data</arg>
+          <desc>
+            Creates and returns an initialized NSInputStream
+            object for reading from <var>data</var>.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>inputStreamWithFileAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Creates and returns an initialized NSInputStream
+            object that reads data from the file at the
+            specified <var>path</var>.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>inputStreamWithURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <desc>
+            Creates and returns an initialized NSInputStream
+            object that reads data from the specified URL.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>getBuffer:</sel>
+          <arg type="uint8_t**">buffer</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger*">len</arg>
+          <desc>
+            Returns a pointer to the read <var>buffer</var> in
+            <var>buffer</var> and, by reference, the number of
+            bytes available in <var>len</var>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>hasBytesAvailable</sel>
+          <desc>
+            Returns <code>YES</code> if the receiver has bytes
+            available to read. The receiver may also return
+            <code>YES</code> if a read must be attempted in
+            order to determine the availability of bytes.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>initWithData:</sel>
+          <arg type="NSData*">data</arg>
+          <desc>
+            Returns an initialized NSInputStream object for
+            reading from <var>data</var>.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>initWithFileAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Returns an initialized NSInputStream object for
+            reading from the file at the specified
+            <var>path</var>.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>initWithURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <desc>
+            Returns an initialized NSInputStream object for
+            reading from the specified URL.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>read:</sel>
+          <arg type="uint8_t*">buffer</arg>
+          <sel>maxLength:</sel>
+          <arg type="NSUInteger">len</arg>
+          <desc>
+            Reads up to <var>len</var> bytes into
+            <var>buffer</var>, returning the actual number of
+            bytes read.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSOutputStream class
+      </heading>
+      <class name="NSOutputStream" super="NSStream" ovadd="10.4.0" gvadd="1.2.0">
+        <declared>Foundation/NSStream.h</declared>
+        <desc>
+          NSOutputStream is a subclass of NSStream that
+          provides write-only stream functionality.
+        </desc>
+        <method type="id" factory="yes" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>outputStreamToBuffer:</sel>
+          <arg type="uint8_t*">buffer</arg>
+          <sel>capacity:</sel>
+          <arg type="NSUInteger">capacity</arg>
+          <desc>
+            Creates and returns an initialized NSOutputStream
+            object that can write to <var>buffer</var>, up to a
+            maximum of <var>capacity</var> bytes.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>outputStreamToFileAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>append:</sel>
+          <arg type="BOOL">shouldAppend</arg>
+          <desc>
+            Creates and returns an initialized NSOutputStream
+            object for writing to the file specified by
+            <var>path</var>.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>outputStreamToMemory</sel>
+          <desc>
+            Creates and returns an initialized NSOutputStream
+            object that will write stream data to memory.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>hasSpaceAvailable</sel>
+          <desc>
+            Returns <code>YES</code> if the receiver can be
+            written to, or if a write must be attempted in
+            order to determine if space is available.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>initToBuffer:</sel>
+          <arg type="uint8_t*">buffer</arg>
+          <sel>capacity:</sel>
+          <arg type="NSUInteger">capacity</arg>
+          <desc>
+            Returns an initialized NSOutputStream object that
+            can write to <var>buffer</var>, up to a maximum of
+            <var>capacity</var> bytes.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>initToFileAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>append:</sel>
+          <arg type="BOOL">shouldAppend</arg>
+          <desc>
+            Returns an initialized NSOutputStream object for
+            writing to the file specified by <var>path</var>.
+            <br /> If <var>shouldAppend</var> is
+            <code>YES</code>, newly written data will be
+            appended to any existing file contents.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>initToMemory</sel>
+          <desc>
+            Returns an initialized NSOutputStream object that
+            will write to memory.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>write:</sel>
+          <arg type="const uint8_t*">buffer</arg>
+          <sel>maxLength:</sel>
+          <arg type="NSUInteger">len</arg>
+          <desc>
+            Writes the contents of <var>buffer</var>, up to a
+            maximum of <var>len</var> bytes, to the receiver.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSStream class
+      </heading>
+      <class name="NSStream" super="NSObject" ovadd="10.4.0" gvadd="1.2.0">
+        <declared>Foundation/NSStream.h</declared>
+        <desc>
+          NSStream is an abstract class for objects
+          representing streams.
+        </desc>
+        <method type="void" factory="yes" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>getStreamsToHost:</sel>
+          <arg type="NSHost*">host</arg>
+          <sel>port:</sel>
+          <arg type="NSInteger">port</arg>
+          <sel>inputStream:</sel>
+          <arg type="NSInputStream**">inputStream</arg>
+          <sel>outputStream:</sel>
+          <arg type="NSOutputStream**">outputStream</arg>
+          <desc>
+            Creates and returns by reference an NSInputStream
+            object and NSOutputStream object for a socket
+            connection with the specified <var>port</var> on
+            <var>host</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>close</sel>
+          <desc>
+            Closes the receiver. <br /> Repeated calls to this
+            method on the same stream are quietly ignored.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>delegate</sel>
+          <desc>
+            Returns the receiver's delegate.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>open</sel>
+          <desc>
+            Opens the receiving stream. <br /> Upon completion of
+            the open operation, an NSStreamEventOpenCompleted event
+            is sent to the recevier's delegate. <br /> Repeated
+            calls to this method on the same stream are quietly
+            ignored.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>propertyForKey:</sel>
+          <arg type="NSString*">key</arg>
+          <desc>
+            Returns the receiver's property for the specified
+            <var>key</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>removeFromRunLoop:</sel>
+          <arg type="NSRunLoop*">aRunLoop</arg>
+          <sel>forMode:</sel>
+          <arg type="NSString*">mode</arg>
+          <desc>
+            Removes the receiver from the NSRunLoop specified
+            by <var>aRunLoop</var> running in the <var>mode</var>.
+            <br /> Attempts to remove the receiver from a run
+            loop or a <var>mode</var> in which it has not been
+            scheduled are quietly ignored.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>scheduleInRunLoop:</sel>
+          <arg type="NSRunLoop*">aRunLoop</arg>
+          <sel>forMode:</sel>
+          <arg type="NSString*">mode</arg>
+          <desc>
+            Schedules the receiver on <var>aRunLoop</var>
+            using the specified <var>mode</var>. <br /> You must
+            not attempt to add a stream to more than one run loop,
+            but you may call this method multiple times to add the
+            receiver in different modes for the same run loop.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>setDelegate:</sel>
+          <arg type="id">delegate</arg>
+          <desc>
+            Sets the receiver's <var>delegate</var>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>setProperty:</sel>
+          <arg type="id">property</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">key</arg>
+          <desc>
+            Sets the value of the <var>property</var> specified by
+            <var>key</var> to <var>property</var>, returns
+            <code>YES</code> if the key-value pair are accepted
+            by the receiver.
+          </desc>
+        </method>
+        <method type="NSError*" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>streamError</sel>
+          <desc>
+            Returns an NSError object representing the stream
+            error, or <code>nil</code> if no error has been
+            encountered.
+          </desc>
+        </method>
+        <method type="NSStreamStatus" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>streamStatus</sel>
+          <desc>
+            Returns the receiver's status.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSStreamDelegate) informal
+        protocol
+      </heading>
+      <category name="NSStreamDelegate" class="NSObject" ovadd="10.4.0" gvadd="1.2.0">
+        <declared>Foundation/NSStream.h</declared>
+        <desc>
+          Informal protocol for delegates of instance of the
+          <ref type="class" id="NSStream">NSStream</ref>
+            class.
+        </desc>
+        <method type="void" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>stream:</sel>
+          <arg type="NSStream*">sStream</arg>
+          <sel>handleEvent:</sel>
+          <arg type="NSStreamEvent">anEvent</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSStreamDelegate
+        protocol
+      </heading>
+      <protocol name="NSStreamDelegate" ovadd="10.7.0" gvadd="1.2.0">
+        <declared>Foundation/NSStream.h</declared>
+        <conform>NSObject</conform>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="void" ovadd="10.7.0" gvadd="1.2.0">
+          <sel>stream:</sel>
+          <arg type="NSStream*">sStream</arg>
+          <sel>handleEvent:</sel>
+          <arg type="NSStreamEvent">anEvent</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </protocol>
+    </chapter>
+  </body>
+</gsdoc>

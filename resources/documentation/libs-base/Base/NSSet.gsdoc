@@ -1,0 +1,563 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSSet" up="Base">
+  <head>
+    <title>NSCountedSet class reference</title>
+    <author name="Andrew Kachites McCallum">
+      <email address="mccallum@gnu.ai.mit.edu">
+        mccallum@gnu.ai.mit.edu
+      </email>
+    </author>
+    <copy>1995, 1996, 1998 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSCountedSet class
+      </heading>
+      <class name="NSCountedSet" super="NSMutableSet" ovadd="1.0.0">
+        <declared>Foundation/NSSet.h</declared>
+        <desc>
+          <p>
+            The <code>NSCountedSet</code> class is used to maintain
+            a set of objects where the number of times each object
+            has been added (without a corresponding removal) is
+            kept track of.
+          </p>
+          <p>
+            In GNUstep, the <code>purge</code> and
+            <code>unique</code> methods are provided to make use
+            of a counted set for <em>uniquing</em> objects easier.
+          </p>
+        </desc>
+        <method type="NSUInteger" ovadd="1.0.0">
+          <sel>countForObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Returns the number of times that an object that is
+            equal to the specified object (as determined by the
+            <ref type="method" id="-isEqual:">
+              [-isEqual:]
+            </ref>
+            method) has been added to the set and not removed
+            from it.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSMutableSet class
+      </heading>
+      <class name="NSMutableSet" super="NSSet" ovadd="1.0.0">
+        <declared>Foundation/NSSet.h</declared>
+        <desc>
+          Mutable version of
+          <ref type="class" id="NSSet">NSSet</ref>
+            .
+        </desc>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>setWithCapacity:</sel>
+          <arg type="NSUInteger">numItems</arg>
+          <desc>
+            New autoreleased instance with given capacity.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>addObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Adds <var>anObject</var> to the set. <br /> The object
+            is retained by the set.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>addObjectsFromArray:</sel>
+          <arg type="NSArray*">array</arg>
+          <desc>
+            Adds all the objects in the <var>array</var> to the
+            receiver.
+          </desc>
+        </method>
+        <method type="instancetype" init="yes" override="subclass" ovadd="1.0.0">
+          <sel>initWithCapacity:</sel>
+          <arg type="NSUInteger">numItems</arg>
+          <desc>
+            Initialises a newly allocated set to contain no
+            objects but to have space available to hold the
+            specified number of items. <br /> Additions of
+            items to a set initialised with an appropriate
+            capacity will be more efficient than addition of
+            items otherwise. <br /> Calls
+            <ref type="method" id="-init">
+              -init
+            </ref>
+            (which does nothing but maintain MacOS-X
+            compatibility), and needs to be
+            re-implemented in subclasses in order to
+            have all other initialisers work.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>intersectSet:</sel>
+          <arg type="NSSet*">other</arg>
+          <desc>
+            Removes from the receiver all the objects it
+            contains which are not also in <var>other</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>minusSet:</sel>
+          <arg type="NSSet*">other</arg>
+          <desc>
+            Removes from the receiver all the objects that are
+            in <var>other</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeAllObjects</sel>
+          <desc>
+            Removes all objects from the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Removes the <var>anObject</var> from the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setSet:</sel>
+          <arg type="NSSet*">other</arg>
+          <desc>
+            Removes all objects from the receiver then adds the
+            objects from <var>other</var>. If the receiver
+            <em>is</em> <var>other</var>, the method has no
+            effect.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>unionSet:</sel>
+          <arg type="NSSet*">other</arg>
+          <desc>
+            * Adds all the objects from <var>other</var> to the
+            receiver.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSSet class
+      </heading>
+      <class name="NSSet" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSSet.h</declared>
+        <conform>NSCoding</conform>
+        <conform>NSCopying</conform>
+        <conform>NSMutableCopying</conform>
+        <conform>NSFastEnumeration</conform>
+        <desc>
+          <code>NSSet</code> maintains an unordered collection
+          of unique objects (according to
+          <ref type="method" id="-isEqual:" class="NSObject">
+            [NSObject -isEqual:]
+          </ref>
+          ). When a duplicate object is added to the set, it
+          replaces its old copy.
+        </desc>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>set</sel>
+          <desc>
+            New autoreleased empty set.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>setWithArray:</sel>
+          <arg type="NSArray*">objects</arg>
+          <desc>
+            New set containing (unique elements of)
+            <var>objects</var>.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>setWithObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            New set containing single object <var>anObject</var>.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>setWithObjects:</sel>
+          <arg type="id">firstObject</arg>
+          <vararg />
+          <desc>
+            New set with objects in given nil-terminated list.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.0.0">
+          <sel>setWithObjects:</sel>
+          <arg type="const id[]">objects</arg>
+          <sel>count:</sel>
+          <arg type="NSUInteger">count</arg>
+          <desc>
+            New set containing (unique elements of)
+            <var>objects</var>.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>setWithSet:</sel>
+          <arg type="NSSet*">aSet</arg>
+          <desc>
+            Copy constructor.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSArray,ElementT)*" ovadd="1.0.0">
+          <sel>allObjects</sel>
+          <desc>
+            Return array of all objects in set. Order is
+            undefined.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_TYPE(ElementT)" ovadd="1.0.0">
+          <sel>anyObject</sel>
+          <desc>
+            Return an arbitrary object from set, or
+            <code>nil</code> if this is empty set.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>containsObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Return whether set contains an object equal to this
+            one according to
+            <ref type="method" id="-isEqual:" class="NSObject">
+              [NSObject -isEqual:]
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="1.0.0">
+          <sel>count</sel>
+          <desc>
+            Returns the number of objects stored in the set.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>description</sel>
+          <desc>
+            Returns listing of objects in set.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>descriptionWithLocale:</sel>
+          <arg type="id">locale</arg>
+          <desc>
+            Returns listing of objects in set.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>enumerateObjectsUsingBlock:</sel>
+          <arg type="GSSetEnumeratorBlock">aBlock</arg>
+          <desc>
+            Enumerate over the collection using a given
+            block. The first argument is the object. The second
+            argument is a pointer to a BOOL indicating whether
+            the enumeration should stop. Setting this to
+            <code>YES</code> will interupt the enumeration.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>enumerateObjectsWithOptions:</sel>
+          <arg type="NSEnumerationOptions">opts</arg>
+          <sel>usingBlock:</sel>
+          <arg type="GSSetEnumeratorBlock">aBlock</arg>
+          <desc>
+            Enumerate over the collection using the given
+            block. The first argument is the object. The second
+            argument is a pointer to a BOOL indicating whether
+            the enumeration should stop. Setting this to
+            <code>YES</code> will interrupt the enumeration. The
+            <var>opts</var> argument is a bitfield. Setting the
+            NSNSEnumerationConcurrent flag
+            specifies that it is thread-safe. The
+            NSEnumerationReverse bit specifies
+            that it should be enumerated in reverse order.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>init</sel>
+          <desc>
+            <p>
+              In MacOS-X class clusters do not have designated
+              initialisers, and there is a general rule
+              that <ref type="method" id="-init">-init</ref> is
+              treated as the designated initialiser of the
+              class cluster, but that other intitialisers may not
+              work s expected an would need to be individually
+              overridden in any subclass.
+            </p>
+            <p>
+              GNUstep tries to make it easier to subclass a
+              class cluster, by making class clusters follow the
+              same convention as normal classes, so the designated
+              initialiser is the <em>richest</em>
+              initialiser. This means that all other
+              initialisers call the documented designated
+              initialiser (which calls
+              <ref type="method" id="-init">
+                -init
+              </ref>
+              only for MacOS-X compatibility), and anyone writing
+              a subclass only needs to override that one initialiser
+              in order to have all the other ones work.
+            </p>
+            <p>
+              For MacOS-X compatibility, you may also need to
+              override various other initialisers. Exactly
+              which ones, you will need to determine by trial on
+              a MacOS-X system... and may vary between releases of
+              MacOS-X. So to be safe, on MacOS-X you probably
+              need to re-implement <em>all</em> the class cluster
+              initialisers you might use in conjunction
+              with your subclass.
+            </p>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithArray:</sel>
+          <arg type="NSArray*">other</arg>
+          <desc>
+            Initialises a newly allocated set by adding all
+            the objects in the supplied array to the set.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithObjects:</sel>
+          <arg type="id">firstObject</arg>
+          <vararg />
+          <desc>
+            Initialize with (unique elements of) objects in
+            given nil-terminated list.
+          </desc>
+        </method>
+        <method type="instancetype" init="yes" override="subclass" ovadd="1.0.0">
+          <sel>initWithObjects:</sel>
+          <arg type="const id[]">objects</arg>
+          <sel>count:</sel>
+          <arg type="NSUInteger">count</arg>
+          <desc>
+            Initialize to contain (unique elements of)
+            <var>objects</var>. <br /> Calls
+            <ref type="method" id="-init">
+              -init
+            </ref>
+            (which does nothing but maintain MacOS-X
+            compatibility), and needs to be
+            re-implemented in subclasses in order to
+            have all other initialisers work.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithSet:</sel>
+          <arg type="NSSet*">other</arg>
+          <desc>
+            Initialize with same items as <var>other</var>
+            (items not copied).
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithSet:</sel>
+          <arg type="NSSet*">other</arg>
+          <sel>copyItems:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Initialises a newly allocated set by adding all
+            the objects in the supplied set.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>intersectsSet:</sel>
+          <arg type="NSSet*">otherSet</arg>
+          <desc>
+            Return whether set intersection with
+            <var>otherSet</var> is non-empty.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isEqualToSet:</sel>
+          <arg type="NSSet*">other</arg>
+          <desc>
+            Return whether each set is subset of the
+            <var>other</var>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isSubsetOfSet:</sel>
+          <arg type="NSSet*">otherSet</arg>
+          <desc>
+            Return whether subset of <var>otherSet</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>makeObjectsPerform:</sel>
+          <arg type="SEL">aSelector</arg>
+          <desc>
+            Send each object given message (with no arguments).
+            Identical to
+            <ref type="method" id="-makeObjectsPerformSelector:">
+              -makeObjectsPerformSelector:
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>makeObjectsPerform:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>withObject:</sel>
+          <arg type="id">argument</arg>
+          <desc>
+            Send each object given message with given
+            <var>argument</var>. Identical to
+            <ref type="method" id="-makeObjectsPerformSelector:withObject:">-makeObjectsPerformSelector:withObject:</ref>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>makeObjectsPerformSelector:</sel>
+          <arg type="SEL">aSelector</arg>
+          <desc>
+            Send each object given message (with no arguments).
+            Identical to
+            <ref type="method" id="-makeObjectsPerform:">
+              -makeObjectsPerform:
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>makeObjectsPerformSelector:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>withObject:</sel>
+          <arg type="id">argument</arg>
+          <desc>
+            Send each object given message with given
+            <var>argument</var>. Identical to
+            <ref type="method" id="-makeObjectsPerform:withObject:">
+              -makeObjectsPerform:withObject:
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="GS_GENERIC_TYPE(ElementT)" ovadd="1.0.0">
+          <sel>member:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            If <var>anObject</var> is in set, return it (the copy in
+            the set).
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSEnumerator,ElementT)*" ovadd="1.0.0">
+          <sel>objectEnumerator</sel>
+          <desc>
+            Return enumerator over objects in set. Order is
+            undefined.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSSet,ElementT)*" ovadd="10.6.0">
+          <sel>objectsPassingTest:</sel>
+          <arg type="GSSetFilterBlock">aBlock</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSSet,ElementT)*" ovadd="10.6.0">
+          <sel>objectsWithOptions:</sel>
+          <arg type="NSEnumerationOptions">opts</arg>
+          <sel>passingTest:</sel>
+          <arg type="GSSetFilterBlock">aBlock</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSSet,ElementT)*" ovadd="10.5.0">
+          <sel>setByAddingObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Return a set formed by adding <var>anObject</var> to
+            the receiver.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSSet,ElementT)*" ovadd="10.5.0">
+          <sel>setByAddingObjectsFromArray:</sel>
+          <arg type="NSArray*">other</arg>
+          <desc>
+            Return a set formed by adding the contents of
+            <var>other</var> to the receiver.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSSet,ElementT)*" ovadd="10.5.0">
+          <sel>setByAddingObjectsFromSet:</sel>
+          <arg type="NSSet*">other</arg>
+          <desc>
+            Return a set formed as a union of the receiver and
+            <var>other</var>.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSCountedSet(GNU_Uniquing) category
+      </heading>
+      <category name="GNU_Uniquing" class="NSCountedSet" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>Foundation/NSSet.h</declared>
+        <desc>
+          Utility methods for using a counted set to handle
+          uniquing of objects.
+        </desc>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>purge:</sel>
+          <arg type="NSInteger">level</arg>
+          <desc>
+            <p>
+              This method removes from the set all objects whose
+              count is less than or equal to the specified value.
+            </p>
+            <p>
+              This is useful where a counted set is used for
+              uniquing objects. The set can be periodically
+              purged of objects that have only been added once -
+              and are therefore simply wasting space.
+            </p>
+          </desc>
+        </method>
+        <method type="GS_GENERIC_TYPE(ElementT)" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>unique:</sel>
+          <arg type="GS_GENERIC_TYPE(ElementT)">anObject</arg>
+          <desc>
+            <p>
+              If the supplied object (or one equal to it as
+              determined by the
+              <ref type="method" id="-isEqual:" class="NSObject">
+                [NSObject -isEqual:]
+              </ref>
+              method) is already present in the set, the count
+              for that object is incremented, the supplied object
+              is released, and the object in the set is retained and
+              returned. Otherwise, the supplied object is
+              added to the set and returned.
+            </p>
+            <p>
+              This method is useful for uniquing objects - the
+              init method of a class need simply end with -
+              <code>return [myUniquingSet unique: self];</code>
+            </p>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

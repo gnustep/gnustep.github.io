@@ -1,0 +1,550 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="AGSParser" up="BaseTools">
+  <head>
+    <title>
+      AGSParser...a class to get documention info from ObjC
+      source
+    </title>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <abstract>
+      This is the AGSParser class... and some autogsdoc examples.
+      The AGSParser class is designed to produce a property-list
+      which can be handled by AGSOutput... one class is not much
+      use without the other.
+    </abstract>
+    <copy>2001 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the AGSParser class
+      </heading>
+      <class name="AGSParser" super="NSObject" ovadd="1.0.0">
+        <declared>AGSParser.h</declared>
+        <desc>
+          The AGSParser class parses Objective-C header and source
+          files to produce a property-list which can be handled
+          by
+          <ref type="class" id="AGSOutput">AGSOutput</ref>
+            .
+        </desc>
+        <ivariable type="unichar*" name="buffer" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="comment" validity="protected" ovadd="1.0.0">
+          <desc>
+            Documentation accumulator.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="commentsRead" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="declared" validity="protected" ovadd="1.0.0">
+          <desc>
+            Where classes were declared.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="documentAllInstanceVariables" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="documentInstanceVariables" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="fileName" validity="protected" ovadd="1.0.0">
+          <desc>
+            The file being parsed.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="haveOutput" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="haveSource" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSCharacterSet*" name="identStart" validity="protected" ovadd="1.0.0">
+          <desc>
+            Legit initial <strong>char</strong> of identifier
+          </desc>
+        </ivariable>
+        <ivariable type="NSCharacterSet*" name="identifier" validity="protected" ovadd="1.0.0">
+          <desc>
+            Legit <strong>char</strong> in identifier
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableArray*" name="ifStack" validity="protected" ovadd="1.0.0">
+          <desc>
+            Track preprocessor conditionals.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="inArgList" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="inHeader" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="inInstanceVariables" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="inUnclosedExample" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableDictionary*" name="info" validity="protected" ovadd="1.0.0">
+          <desc>
+            All information parsed.
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="itemName" validity="protected" ovadd="1.0.0">
+          <desc>
+            The item being parsed.
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="length" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSArray*" name="lines" validity="protected" ovadd="1.0.0">
+          <desc>
+            The line number mapping.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableDictionary*" name="orderedSymbolDeclsByUnit" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="pos" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableArray*" name="source" validity="protected" ovadd="1.0.0">
+          <desc>
+            Names of source files.
+          </desc>
+        </ivariable>
+        <ivariable type="NSCharacterSet*" name="spacenl" validity="protected" ovadd="1.0.0">
+          <desc>
+            Blanks excluding newline
+          </desc>
+        </ivariable>
+        <ivariable type="NSCharacterSet*" name="spaces" validity="protected" ovadd="1.0.0">
+          <desc>
+            All blank characters
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="standards" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="unitName" validity="protected" ovadd="1.0.0">
+          <desc>
+            The unit being parsed.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="verbose" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="warn" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSDictionary*" name="wordMap" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <method type="NSMutableDictionary*" ovadd="1.0.0">
+          <sel>info</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="1.0.0">
+          <sel>init</sel>
+          <desc>
+            Simple initialiser
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="1.0.0">
+          <sel>orderedSymbolDeclarationsByUnit</sel>
+          <desc>
+            Returns the methods, functions and C data types in
+            their header declaration order, by organizing them
+            into arrays as described below. Methods are grouped by
+            class, category or protocol references. For example,
+            valid keys could be <em>ClassName</em>,
+            <em>ClassName(CategoryName)</em> and
+            <em>(ProtocolName)</em>. Functions and C data types
+            are grouped by header file names. For example,
+            <em>AGParser.h</em> would a valid key. TODO: Collect
+            functions and C data types. Only methods are
+            currently included in the returned dictionary.
+          </desc>
+        </method>
+        <method type="NSMutableArray*" ovadd="1.0.0">
+          <sel>outputs</sel>
+          <desc>
+            Return the list of known output files depending on
+            this source/header. <br /> If there are any classes,
+            categories, or protocols, there will be an
+            output file for them whose name is based on the name
+            of the header. <br /> If there are any constants,
+            variables, typedefs or functions, there will
+            either be a shared output file for them (defined by
+            a template name set in the user defaults system), or they
+            will go in the same file as classes etc.
+          </desc>
+        </method>
+        <method type="unsigned" ovadd="1.0.0">
+          <sel>parseComment</sel>
+          <desc>
+            In spite of its trivial name, this is one of the key
+            methods - it parses and skips past comments, but it
+            also recognizes special comments (with an additional
+            asterisk after the start of the block comment) and
+            extracts their contents, accumulating them into
+            the 'comment' instance variable. <br /> When the data
+            provided by a comment is appended to the data
+            stored in the 'comment' instance variable, a line
+            break (&lt;br /&gt;)is automatically forced to
+            separate it from the proceding info. <br /> In
+            addition, the first extracted documentation is
+            checked for the prsence of file header markup,
+            which is extracted into the 'info' dictionary. <br />
+            There are various sections we can extract from the
+            document - at most one of each. If date and
+            version are not supplied RCS Date and Revision tags
+            will be extracted where available.
+          </desc>
+        </method>
+        <method type="NSMutableDictionary*" ovadd="1.0.0">
+          <sel>parseDeclaration</sel>
+          <desc>
+            We handle struct, union, and enum declarations by
+            skipping the stuff enclosed in curly braces. If
+            there was an identifier after the keyword we use it
+            as the struct name, otherwise we use '...' to denote a
+            nameless type.
+          </desc>
+        </method>
+        <method type="NSMutableDictionary*" ovadd="1.0.0">
+          <sel>parseFile:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>isSource:</sel>
+          <arg type="BOOL">isSource</arg>
+          <desc>
+            If this is parsing a header file (<var>isSource</var> ==
+            <code>NO</code>) then we reset the list of known
+            source files associated with the header before
+            proceeding. <br /> We initially assume that the
+            location of a source file is the same as the
+            header, but if there is no file at that location,
+            we expect the source to be in the documentatation
+            directory or the current directory instead.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>parseIdentifier</sel>
+          <desc>
+            Attempt to parse an identifier/keyword (with
+            optional whitespace in front of it). Perform
+            mappings using the wordMap dictionary. If a
+            mapping produces an empty string, we treat it as if
+            we had read whitespace and try again. If we read end of
+            data, or anything which is invalid inside an
+            identifier, we return <code>nil</code>. If we
+            read a GS_GENERIC... macro, we return its first
+            argument.
+          </desc>
+        </method>
+        <method type="NSMutableDictionary*" ovadd="1.0.0">
+          <sel>parseImplementation</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSMutableDictionary*" ovadd="1.0.0">
+          <sel>parseInstanceVariables</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSMutableDictionary*" ovadd="1.0.0">
+          <sel>parseInterface</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSMutableDictionary*" ovadd="1.0.0">
+          <sel>parseMacro</sel>
+          <desc>
+            Parse a macro definition... we are expected to have
+            read #define already <br /> It's common to have macros
+            which don't need commenting... like the ones used to
+            protect a header against multiple inclusion for
+            instance. For this reason, we ignore any macro
+            which is not preceded by a documentation comment.
+          </desc>
+        </method>
+        <method type="NSMutableDictionary*" ovadd="1.0.0">
+          <sel>parseMethodIsDeclaration:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>parseMethodType</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSMutableDictionary*" ovadd="1.0.0">
+          <sel>parseMethodsAreDeclarations:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="unsigned" ovadd="1.0.0">
+          <sel>parsePreprocessor</sel>
+          <desc>
+            Parse a preprocessor statement, handling preprocessor
+            conditionals in a rudimentary way. We keep
+            track of the level of conditional nesting, and we
+            also track the use of #ifdef and #ifndef with some
+            well-known constants to tell us which standards
+            are currently supported.
+          </desc>
+        </method>
+        <method type="NSMutableDictionary*" ovadd="1.0.0">
+          <sel>parseProtocol</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSMutableArray*" ovadd="1.0.0">
+          <sel>parseProtocolList</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="unsigned" ovadd="1.0.0">
+          <sel>parseSpace</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="unsigned" ovadd="1.0.0">
+          <sel>parseSpace:</sel>
+          <arg type="NSCharacterSet*">spaceSet</arg>
+          <desc>
+            Skip past any whitespace characters (as defined by the
+            supplied set) including comments. <br /> Calls
+            parseComment if neccesary, ensuring that any
+            documentation in comments is appended to our
+            'comment' ivar.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>parseVersion</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>reset</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setDeclared:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            Set the <var>name</var> of the file in which classes
+            are to be documented as being declared. The default
+            value of this is the last part of the path of the
+            source file being parsed.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setDocumentAllInstanceVariables:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            This method is used to enable (or disable)
+            documentation of all instance variables. If
+            it is turned off, only those instance variables that are
+            explicitly declared 'public' or 'protected' will
+            be documented.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setDocumentInstanceVariables:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            This method is used to enable (or disable)
+            documentation of instance variables. If it is
+            turned off, instance variables will not be
+            documented.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setGenerateStandards:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Turn on or off parsing of preprocessor conditional
+            compilation info indicating the standards
+            complied with. When this is turned on, we assume
+            that all standards are complied with by default.
+            <br /> You should only turn this on while parsing
+            the GNUstep source code.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setStandards:</sel>
+          <arg type="NSMutableDictionary*">dict</arg>
+          <desc>
+            Store the current standards information derived from
+            preprocessor conditionals in the supplied
+            dictionary... this will be used by the AGSOutput
+            class to put standards markup in the gsdoc output.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setWordMap:</sel>
+          <arg type="NSDictionary*">map</arg>
+          <desc>
+            Sets up a dictionary used for mapping
+            identifiers/keywords to other words.
+            This is used to help cope with cases where C
+            preprocessor definitions are confusing the
+            parsing process.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setupBuffer</sel>
+          <desc>
+            Read in the file to be parsed and store it in a
+            temporary unicode buffer. Perform basic
+            transformations on the buffer to simplify
+            the parsing process later - including stripping out of
+            escaped end-of-line sequences. Create mapping
+            information to convert positions in the new
+            character buffer to line numbers in the original
+            data (for logging purposes).
+          </desc>
+        </method>
+        <method type="unsigned" ovadd="1.0.0">
+          <sel>skipArray</sel>
+          <desc>
+            Skip until we encounter an ']' marking the end of an
+            array. Expect the current character position to be
+            pointing to the '[' at the start of an array.
+          </desc>
+        </method>
+        <method type="unsigned" ovadd="1.0.0">
+          <sel>skipBlock</sel>
+          <desc>
+            Skip a bracketed block. Expect the current character
+            position to be pointing to the bracket at the
+            start of a block.
+          </desc>
+        </method>
+        <method type="unsigned" ovadd="1.0.0">
+          <sel>skipBlock:</sel>
+          <arg type="BOOL*">isEmpty</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="unsigned" ovadd="1.0.0">
+          <sel>skipLiteral</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="unsigned" ovadd="1.0.0">
+          <sel>skipRemainderOfLine</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="unsigned" ovadd="1.0.0">
+          <sel>skipSpaces</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="unsigned" ovadd="1.0.0">
+          <sel>skipStatement</sel>
+          <desc>
+            Skip until we encounter a semicolon or closing brace.
+            Strictly speaking, we don't skip all statements
+            that way, since we only skip part of an if...else
+            statement.
+          </desc>
+        </method>
+        <method type="unsigned" ovadd="1.0.0">
+          <sel>skipStatementLine</sel>
+          <desc>
+            Special method to skip a statement and up to the
+            end of the last line it was on, discarding any comments
+            so they don't get used by the next construct that
+            actually needs documenting.
+          </desc>
+        </method>
+        <method type="unsigned" ovadd="1.0.0">
+          <sel>skipToEndOfLine</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="unsigned" ovadd="1.0.0">
+          <sel>skipUnit</sel>
+          <desc>
+            Skip until we encounter an '@end' marking the end of
+            an interface, implementation, or protocol.
+          </desc>
+        </method>
+        <method type="NSMutableArray*" ovadd="1.0.0">
+          <sel>sources</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

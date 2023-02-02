@@ -1,0 +1,612 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>NSProxy class reference</title>
+  </head>
+  <body>
+    <font face="serif">
+    <a href="Base.html">Up</a>
+    <br />
+    <h1><a name="title$NSProxy">NSProxy class reference</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Richard Frith-Macdonald (<a href="mailto:richard@brainstorm.co.uk"><code>richard@brainstorm.co.uk</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Copyright:</b> (C) 1997 Free Software Foundation, Inc.</p>
+
+        <div>
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSProxy class
+      </a></h1>
+    <h2><a name="class$NSProxy">NSProxy</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSProxy.h</dd>
+      </dl>
+    </blockquote>
+    <blockquote>
+      <dl>
+        <dt><b>Conforms to:</b></dt>
+        <dd><a rel="gsdoc" href="NSObject.html#protocol$(NSObject)">NSObject</a></dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            The NSProxy class provides a basic implementation of a
+            class whose instances are used to <em>stand in</em>
+            for other objects. <br /> The class provides the most
+            basic methods of NSObject, and expects messages for
+            other methods to be forwarded to the <em>real</em>
+            object represented by the proxy. You must subclass
+            NSProxy to implement
+            <a rel="gsdoc" href="#method$NSProxy-forwardInvocation$">
+              -forwardInvocation:
+            </a>
+
+            to these <em>real</em> objects.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            Note that <code>NSProxy</code> is a different sort of
+            class than others in the GNUstep Base library in that
+            it is the only example of a root class besides
+            <a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a>
+
+              . Thus, it implements the <code>NSObject</code>
+              protocol but is not a subclass of NSObject.
+                </p>
+    <p>
+      
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_NSProxy_ivars">Instance Variables</a>
+    <br/><br/>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy+alloc">+alloc</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy+allocWithZone$">+allocWithZone:</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy+autorelease">+autorelease</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy+class">+class</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy+description">+description</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy+isKindOfClass$">+isKindOfClass:</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy+isMemberOfClass$">+isMemberOfClass:</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy+load">+load</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy+release">+release</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy+respondsToSelector$">+respondsToSelector:</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy+retain">+retain</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy+retainCount">+retainCount</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy-autorelease">-autorelease</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy-class">-class</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy-conformsToProtocol$">-conformsToProtocol:</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy-dealloc">-dealloc</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy-description">-description</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy-forwardInvocation$">-forwardInvocation:</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy-hash">-hash</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy-init">-init</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy-isEqual$">-isEqual:</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy-isKindOfClass$">-isKindOfClass:</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy-isMemberOfClass$">-isMemberOfClass:</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy-isProxy">-isProxy</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy-methodSignatureForSelector$">-methodSignatureForSelector:</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy-release">-release</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy-respondsToSelector$">-respondsToSelector:</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy-retain">-retain</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy-retainCount">-retainCount</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy-self">-self</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy-superclass">-superclass</a></li>
+      <li><a rel="gsdoc" href="NSProxy.html#method$NSProxy-zone">-zone</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSProxy+alloc">alloc&nbsp;</a></h3>
+    + (id) <b>alloc</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Allocates and returns an NSProxy instance in the
+            default zone.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy+allocWithZone$">allocWithZone:&nbsp;</a></h3>
+    + (id) <b>allocWithZone:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSZone">NSZone</a>*)z;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Allocates and returns an NSProxy instance in the
+            specified zone <var>z</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy+autorelease">autorelease&nbsp;</a></h3>
+    + (id) <b>autorelease</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the receiver.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy+class">class&nbsp;</a></h3>
+    + (Class) <b>class</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the receiver.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy+description">description&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>description</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns a string describing the receiver.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy+isKindOfClass$">isKindOfClass:&nbsp;</a></h3>
+    + (BOOL) <b>isKindOfClass:</b> (Class)aClass;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns <code>NO</code>... the NSProxy class cannot
+            be an instance of any class.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy+isMemberOfClass$">isMemberOfClass:&nbsp;</a></h3>
+    + (BOOL) <b>isMemberOfClass:</b> (Class)aClass;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns <code>YES</code> if <var>aClass</var> is
+            identical to the receiver, <code>NO</code>
+            otherwise.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy+load">load&nbsp;</a></h3>
+    + (void) <b>load</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <br /> A dummy method...
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy+release">release&nbsp;</a></h3>
+    + (oneway void) <b>release</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <br /> A dummy method to ensure that the class can
+            safely be held in containers.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy+respondsToSelector$">respondsToSelector:&nbsp;</a></h3>
+    + (BOOL) <b>respondsToSelector:</b> (SEL)aSelector;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns <code>YES</code> if the receiver responds
+            to <var>aSelector</var>, <code>NO</code> otherwise.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy+retain">retain&nbsp;</a></h3>
+    + (id) <b>retain</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the receiver.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy+retainCount">retainCount&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>retainCount</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the maximum <strong>unsigned</strong>
+            integer value.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy-autorelease">autorelease&nbsp;</a></h3>
+    - (id) <b>autorelease</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Adds the receiver to the current autorelease pool and
+            returns self.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy-class">class&nbsp;</a></h3>
+    - (Class) <b>class</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the class of the receiver.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy-conformsToProtocol$">conformsToProtocol:&nbsp;</a></h3>
+    - (BOOL) <b>conformsToProtocol:</b> (Protocol*)aProtocol;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Calls the
+            <a rel="gsdoc" href="#method$NSProxy-forwardInvocation$">
+              -forwardInvocation:
+            </a>
+
+            method to determine if the &apos;real&apos; object referred to
+            by the proxy conforms to <var>aProtocol</var>. Returns
+            the result. <br /> NB. The default operation of
+            <a rel="gsdoc" href="#method$NSProxy-forwardInvocation$">
+              -forwardInvocation:
+            </a>
+
+            is to raise an exception.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy-dealloc">dealloc&nbsp;</a></h3>
+    - (void) <b>dealloc</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Frees the memory used by the receiver.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy-description">description&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>description</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns a text description of the receiver.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy-forwardInvocation$">forwardInvocation:&nbsp;</a></h3>
+    - (void) <b>forwardInvocation:</b> (<a rel="gsdoc" href="NSInvocation.html#class$NSInvocation">NSInvocation</a>*)anInvocation;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+Subclasses <strong>must</strong> override this method.<br />
+    <div class="desc">
+      
+            Raises an <code>NSInvalidArgumentException</code>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy-hash">hash&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>hash</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the address of the receiver... so it can be
+            stored in a dictionary.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy-init">init&nbsp;</a></h3>
+    - (id) <b>init</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+This is a designated initialiser for the class.<br />
+Subclasses <strong>must</strong> override this method.<br />
+    <div class="desc">
+      
+            Initialises the receiver and returns the
+            resulting instance.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy-isEqual$">isEqual:&nbsp;</a></h3>
+    - (BOOL) <b>isEqual:</b> (id)anObject;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Tests for pointer equality with <var>anObject</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy-isKindOfClass$">isKindOfClass:&nbsp;</a></h3>
+    - (BOOL) <b>isKindOfClass:</b> (Class)aClass;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Calls the
+            <a rel="gsdoc" href="#method$NSProxy-forwardInvocation$">
+              -forwardInvocation:
+            </a>
+
+            method to determine if the &apos;real&apos; object referred to
+            by the proxy is an instance of the specified class.
+            Returns the result. <br /> NB. The default
+            operation of
+            <a rel="gsdoc" href="#method$NSProxy-forwardInvocation$">
+              -forwardInvocation:
+            </a>
+
+            is to raise an exception.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy-isMemberOfClass$">isMemberOfClass:&nbsp;</a></h3>
+    - (BOOL) <b>isMemberOfClass:</b> (Class)aClass;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Calls the
+            <a rel="gsdoc" href="#method$NSProxy-forwardInvocation$">
+              -forwardInvocation:
+            </a>
+
+            method to determine if the &apos;real&apos; object referred to
+            by the proxy is an instance of the specified class.
+            Returns the result. <br /> NB. The default
+            operation of
+            <a rel="gsdoc" href="#method$NSProxy-forwardInvocation$">
+              -forwardInvocation:
+            </a>
+
+            is to raise an exception.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy-isProxy">isProxy&nbsp;</a></h3>
+    - (BOOL) <b>isProxy</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns <code>YES</code>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy-methodSignatureForSelector$">methodSignatureForSelector:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSMethodSignature.html#class$NSMethodSignature">NSMethodSignature</a>*) <b>methodSignatureForSelector:</b> (SEL)aSelector;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            If we respond to the method directly, create and return
+            a method signature. Otherwise raise an exception.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy-release">release&nbsp;</a></h3>
+    - (oneway void) <b>release</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Decrement the retain count for the receiver...
+            deallocate if it would become negative.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy-respondsToSelector$">respondsToSelector:&nbsp;</a></h3>
+    - (BOOL) <b>respondsToSelector:</b> (SEL)aSelector;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            If we respond to the method directly, return
+            <code>YES</code>, otherwise forward this request to
+            the object we are acting as a proxy for.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy-retain">retain&nbsp;</a></h3>
+    - (id) <b>retain</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Increment the retain count for the receiver.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy-retainCount">retainCount&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>retainCount</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Return the retain count for the receiver.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy-self">self&nbsp;</a></h3>
+    - (id) <b>self</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the receiver.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy-superclass">superclass&nbsp;</a></h3>
+    - (Class) <b>superclass</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the superclass of the receiver&apos;s class.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSProxy-zone">zone&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSZone">NSZone</a>*) <b>zone</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the zone in which the receiver was
+            allocated.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<a name="_NSProxy_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for NSProxy Class</h2>
+    <h3><a name="ivariable$NSProxy*isa">isa</a></h3>
+    @public Class <b>isa</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <br/><hr width="50%" align="left" /><br/>
+    <br />
+    <a href="Base.html">Up</a>
+    </font>
+</body>
+</html>

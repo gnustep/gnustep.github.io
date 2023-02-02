@@ -1,0 +1,154 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSHost" up="Base">
+  <head>
+    <title>NSHost class reference</title>
+    <author name="Luke Howard">
+      <email address="lukeh@xedoc.com.au">
+        lukeh@xedoc.com.au
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <copy>1996, 1997,1999 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSHost class
+      </heading>
+      <class name="NSHost" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSHost.h</declared>
+        <desc>
+          Instances of this class encapsulate host
+          information. Constructors based on host name or
+          numeric address are provided.
+        </desc>
+        <method type="NSHost*" factory="yes" ovadd="1.0.0">
+          <sel>currentHost</sel>
+          <desc>
+            Get current host object.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="1.0.0">
+          <sel>flushHostCache</sel>
+          <desc>
+            Clear cache of host info instances.
+          </desc>
+        </method>
+        <method type="NSHost*" factory="yes" ovadd="1.0.0">
+          <sel>hostWithAddress:</sel>
+          <arg type="NSString*">address</arg>
+          <desc>
+            Get a host object. Hosts are cached for efficiency. The
+            <var>address</var> must be an IPV4 "dotted decimal"
+            string, e.g.
+<example>
+  NSHost aHost = [NSHost hostWithAddress:@"192.42.172.1"];
+ </example>
+          </desc>
+        </method>
+        <method type="NSHost*" factory="yes" ovadd="1.0.0">
+          <sel>hostWithName:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            Get info for host with given DNS <var>name</var>.
+          </desc>
+        </method>
+        <method type="BOOL" factory="yes" ovadd="1.0.0">
+          <sel>isHostCacheEnabled</sel>
+          <desc>
+            Return host cache management. If enabled, only one
+            object representing each host will be created, and a
+            shared instance will be returned by all methods that
+            return a host.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="1.0.0">
+          <sel>setHostCacheEnabled:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Set host cache management. If enabled, only one object
+            representing each host will be created, and a
+            shared instance will be returned by all methods that
+            return a host.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>address</sel>
+          <desc>
+            Return host address in "dotted decimal" notation,
+            e.g. "192.42.172.1". Chosen arbitrarily if a host has
+            more than one.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>addresses</sel>
+          <desc>
+            Return all known addresses for host in "dotted
+            decimal" notation, e.g. "192.42.172.1".
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isEqualToHost:</sel>
+          <arg type="NSHost*">aHost</arg>
+          <desc>
+            Compare hosts. Hosts are equal if they share at
+            least one address
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.6.0">
+          <sel>localizedName</sel>
+          <desc>
+            If the receiver is the currentHost, returns the default
+            name of the computer, otherwise returns
+            <code>nil</code>.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>name</sel>
+          <desc>
+            Return host name. Chosen arbitrarily if a host has
+            more than one.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>names</sel>
+          <desc>
+            Return all known names for host.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSHost(GNUstep)
+        category
+      </heading>
+      <category name="GNUstep" class="NSHost" gvadd="0.0.0" gvrem="1.17.0">
+        <declared>Foundation/NSHost.h</declared>
+        <desc>
+          Adds synonym for
+          <ref type="method" id="+currentHost">
+            +currentHost
+          </ref>
+          .
+        </desc>
+        <method type="NSHost*" factory="yes" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>localHost</sel>
+          <desc>
+            Synonym for
+            <ref type="method" id="+currentHost">
+              +currentHost
+            </ref>
+            .
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

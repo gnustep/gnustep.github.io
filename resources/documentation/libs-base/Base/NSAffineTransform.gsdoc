@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSAffineTransform" up="Base">
+  <head>
+    <title>NSAffineTransform.m</title>
+    <author name="Ovidiu Predescu">
+      <email address="ovidiu@net-community.com">
+        ovidiu@net-community.com
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <abstract>
+      This class provides a way to perform affine transforms. It
+      provides a matrix for transforming from one coordinate
+      system to another.
+    </abstract>
+    <copy>1996,1999 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSAffineTransform class
+      </heading>
+      <class name="NSAffineTransform" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSAffineTransform.h</declared>
+        <conform>NSCopying</conform>
+        <conform>NSCoding</conform>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="NSAffineTransform*" factory="yes" ovadd="1.0.0">
+          <sel>transform</sel>
+          <desc>
+            Return an autoreleased instance of this class.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>appendTransform:</sel>
+          <arg type="NSAffineTransform*">aTransform</arg>
+          <desc>
+            Appends the transform matrix to the receiver. This
+            is done by performing a matrix multiplication of the
+            receiver with <var>aTransform</var> so that
+            <var>aTransform</var> is the first transform applied
+            to the user coordinate. The new matrix then replaces the
+            receiver's matrix.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithTransform:</sel>
+          <arg type="NSAffineTransform*">aTransform</arg>
+          <desc>
+            Initialize the receiever's instance with the
+            instance represented by <var>aTransform</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>invert</sel>
+          <desc>
+            Calculates the inverse of the receiver's matrix
+            and replaces the receiever's matrix with it.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>prependTransform:</sel>
+          <arg type="NSAffineTransform*">aTransform</arg>
+          <desc>
+            Prepends the transform matrix to the receiver.
+            This is done by performing a matrix multiplication of
+            the receiver with <var>aTransform</var> so that
+            <var>aTransform</var> is the last transform applied
+            to the user coordinate. The new matrix then replaces the
+            receiver's matrix.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>rotateByDegrees:</sel>
+          <arg type="CGFloat">angle</arg>
+          <desc>
+            Applies the rotation specified by <var>angle</var>
+            in degrees. Points transformed with the transformation
+            matrix of the receiver are rotated counter-clockwise
+            by the number of degrees specified by <var>angle</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>rotateByRadians:</sel>
+          <arg type="CGFloat">angleRad</arg>
+          <desc>
+            Applies the rotation specified by angle in radians.
+            Points transformed with the transformation matrix of
+            the receiver are rotated counter-clockwise by the
+            number of radians specified by angle.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>scaleBy:</sel>
+          <arg type="CGFloat">scale</arg>
+          <desc>
+            Scales the transformation matrix of the reciever by
+            the factor specified by <var>scale</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>scaleXBy:</sel>
+          <arg type="CGFloat">scaleX</arg>
+          <sel>yBy:</sel>
+          <arg type="CGFloat">scaleY</arg>
+          <desc>
+            Scales the X axis of the receiver's transformation
+            matrix by <var>scaleX</var> and the Y axis of the
+            transformation matrix by <var>scaleY</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setTransformStruct:</sel>
+          <arg type="NSAffineTransformStruct">val</arg>
+          <desc>
+            <p>
+              Sets the structure which represents the matrix of
+              the reciever. The struct is of the form:
+            </p>
+            <p>
+              {m11, m12, m21, m22, tX, tY}
+            </p>
+          </desc>
+        </method>
+        <method type="NSPoint" ovadd="1.0.0">
+          <sel>transformPoint:</sel>
+          <arg type="NSPoint">aPoint</arg>
+          <desc>
+            Transforms a single point based on the
+            transformation matrix. Returns the resulting
+            point.
+          </desc>
+        </method>
+        <method type="NSSize" ovadd="1.0.0">
+          <sel>transformSize:</sel>
+          <arg type="NSSize">aSize</arg>
+          <desc>
+            Transforms the NSSize represented by
+            <var>aSize</var> using the reciever's transformation
+            matrix. Returns the resulting NSSize. <br /> NB. A
+            transform can result in negative size components
+            ... so calling code should check for and deal with that
+            situation.
+          </desc>
+        </method>
+        <method type="NSAffineTransformStruct" ovadd="1.0.0">
+          <sel>transformStruct</sel>
+          <desc>
+            <p>
+              Returns the <code>NSAffineTransformStruct</code>
+              structure which represents the matrix of the
+              reciever. The struct is of the form:
+            </p>
+            <p>
+              {m11, m12, m21, m22, tX, tY}
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>translateXBy:</sel>
+          <arg type="CGFloat">tranX</arg>
+          <sel>yBy:</sel>
+          <arg type="CGFloat">tranY</arg>
+          <desc>
+            Applies the translation specified by
+            <var>tranX</var> and <var>tranY</var> to the
+            receiver's matrix. Points transformed by the
+            reciever's matrix after this operation will be
+            shifted in position based on the specified
+            translation.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

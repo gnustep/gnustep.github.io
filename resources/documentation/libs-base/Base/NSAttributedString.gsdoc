@@ -1,0 +1,286 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSAttributedString" up="Base">
+  <head>
+    <title>NSAttributedString class reference</title>
+    <author name="ANOQ of the sun">
+      <email address="anoq@vip.cybercity.dk">
+        anoq@vip.cybercity.dk
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <copy>1997,1999 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSAttributedString
+        class
+      </heading>
+      <class name="NSAttributedString" super="NSObject" ovadd="10.0.0">
+        <declared>Foundation/NSAttributedString.h</declared>
+        <conform>NSCoding</conform>
+        <conform>NSCopying</conform>
+        <conform>NSMutableCopying</conform>
+        <desc>
+          A string in which name-value pairs represented by an
+          <ref type="class" id="NSDictionary">NSDictionary</ref>
+            may be associated to ranges of characters. Used for
+            text rendering by the GUI/AppKit framework, in which
+            fonts, sizes, etc. are stored under standard
+            attributes in the dictionaries.
+        </desc>
+        <method type="id" ovadd="10.0.0">
+          <sel>attribute:</sel>
+          <arg type="NSString*">attributeName</arg>
+          <sel>atIndex:</sel>
+          <arg type="NSUInteger">index</arg>
+          <sel>effectiveRange:</sel>
+          <arg type="NSRange*">aRange</arg>
+          <desc>
+            Returns value for given attribute at
+            <var>index</var>, and, if effectiveRange is non-nil,
+            this gets filled with a range over which this value
+            holds. This may not be the maximum range, depending
+            on the implementation.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>attribute:</sel>
+          <arg type="NSString*">attributeName</arg>
+          <sel>atIndex:</sel>
+          <arg type="NSUInteger">index</arg>
+          <sel>longestEffectiveRange:</sel>
+          <arg type="NSRange*">aRange</arg>
+          <sel>inRange:</sel>
+          <arg type="NSRange">rangeLimit</arg>
+          <desc>
+            Returns value for given attribute at
+            <var>index</var>, and, if longestEffectiveRange is
+            non-nil, this gets filled with the range over
+            which the attribute applies, clipped to
+            <var>rangeLimit</var>.
+          </desc>
+        </method>
+        <method type="NSAttributedString*" ovadd="10.0.0">
+          <sel>attributedSubstringFromRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Returns substring with attribute information.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.0.0">
+          <sel>attributesAtIndex:</sel>
+          <arg type="NSUInteger">index</arg>
+          <sel>effectiveRange:</sel>
+          <arg type="NSRange*">aRange</arg>
+          <desc>
+            Returns attributes and values at <var>index</var>,
+            and, if effectiveRange is non-nil, this gets filled
+            with a range over which these attributes and values
+            still hold. This may not be the maximum range,
+            depending on the implementation.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.0.0">
+          <sel>attributesAtIndex:</sel>
+          <arg type="NSUInteger">index</arg>
+          <sel>longestEffectiveRange:</sel>
+          <arg type="NSRange*">aRange</arg>
+          <sel>inRange:</sel>
+          <arg type="NSRange">rangeLimit</arg>
+          <desc>
+            Returns attributes and values at <var>index</var>,
+            and, if longestEffectiveRange is non-nil, this gets
+            filled with the range over which the attribute-value
+            set is the same as at <var>index</var>, clipped to
+            <var>rangeLimit</var>.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>initWithAttributedString:</sel>
+          <arg type="NSAttributedString*">attributedString</arg>
+          <desc>
+            Initialize to copy of
+            <var>attributedString</var>.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>initWithString:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            Initialize to <var>aString</var> with no
+            attributes.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>initWithString:</sel>
+          <arg type="NSString*">aString</arg>
+          <sel>attributes:</sel>
+          <arg type="NSDictionary*">attributes</arg>
+          <desc>
+            Initialize to <var>aString</var> with given
+            <var>attributes</var> applying over full range of
+            string.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>isEqualToAttributedString:</sel>
+          <arg type="NSAttributedString*">otherString</arg>
+          <desc>
+            Returns whether all characters and attributes are
+            equal between this string and <var>otherString</var>.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.0.0">
+          <sel>length</sel>
+          <desc>
+            Return length of the underlying string.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>string</sel>
+          <desc>
+            Returns the string content of the receiver. <br />
+            NB. this is actually a proxy to the internal content
+            (which may change) so if you need an immutable
+            instance you should copy the returned value, not
+            just retain it. <br /> Return the underlying string,
+            stripped of attributes.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSMutableAttributedString class
+      </heading>
+      <class name="NSMutableAttributedString" super="NSAttributedString" ovadd="10.0.0">
+        <declared>Foundation/NSAttributedString.h</declared>
+        <desc>
+          Mutable version of
+          <ref type="class" id="NSAttributedString">NSAttributedString</ref>
+            .
+        </desc>
+        <method type="void" ovadd="10.0.0">
+          <sel>addAttribute:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>value:</sel>
+          <arg type="id">value</arg>
+          <sel>range:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Adds attribute applying to given range.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>addAttributes:</sel>
+          <arg type="NSDictionary*">attributes</arg>
+          <sel>range:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Add <var>attributes</var> to apply over given range.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>appendAttributedString:</sel>
+          <arg type="NSAttributedString*">attributedString</arg>
+          <desc>
+            Appends attributed string to end of this one,
+            preserving attributes.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="10.0.0">
+          <sel>beginEditing</sel>
+          <desc>
+            Call before executing a collection of changes, for
+            optimization.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>deleteCharactersInRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Removes characters and attributes applying to them.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="10.0.0">
+          <sel>endEditing</sel>
+          <desc>
+            Call after executing a collection of changes, for
+            optimization.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>insertAttributedString:</sel>
+          <arg type="NSAttributedString*">attributedString</arg>
+          <sel>atIndex:</sel>
+          <arg type="NSUInteger">index</arg>
+          <desc>
+            Inserts attributed string within this one,
+            preserving attributes.
+          </desc>
+        </method>
+        <method type="NSMutableString*" ovadd="10.0.0">
+          <sel>mutableString</sel>
+          <desc>
+            Returns mutable version of the underlying string.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>removeAttribute:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>range:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Removes given attribute from <var>aRange</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>replaceCharactersInRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <sel>withAttributedString:</sel>
+          <arg type="NSAttributedString*">attributedString</arg>
+          <desc>
+            Replaces substring and attributes.
+          </desc>
+        </method>
+        <method type="void" override="subclass" ovadd="10.0.0">
+          <sel>replaceCharactersInRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <sel>withString:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            Replaces substring; replacement is granted
+            attributes equal to those of the first character
+            of the portion replaced.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setAttributedString:</sel>
+          <arg type="NSAttributedString*">attributedString</arg>
+          <desc>
+            Replaces entire contents (so this object can be
+            reused).
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setAttributes:</sel>
+          <arg type="NSDictionary*">attributes</arg>
+          <sel>range:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Sets <var>attributes</var> to apply over range,
+            replacing any previous <var>attributes</var>.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

@@ -1,0 +1,332 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSTimer" up="Base">
+  <head>
+    <title>NSTimer class reference</title>
+    <author name="Andrew Kachites McCallum">
+      <email address="mccallum@gnu.ai.mit.edu">
+        mccallum@gnu.ai.mit.edu
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <copy>1995, 1996, 1999 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSTimer class
+      </heading>
+      <class name="NSTimer" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSTimer.h</declared>
+        <desc>
+          <p>
+            An <code>NSTimer</code> provides a way to send a message
+            at some time in the future, possibly repeating every
+            time a fixed interval has passed. To use a timer, you
+            can either create one that will automatically be added
+            to the run loop in the current thread (using the
+            <ref type="method" id="-addTimer:forMode:">
+              -addTimer:forMode:
+            </ref>
+            method), or you can create it without adding it
+            then add it to an
+            <ref type="class" id="NSRunLoop">NSRunLoop</ref>
+              explicitly later.
+            </p>
+            <p>
+              NB. You may not use
+              <ref type="method" id="-init">
+                -init
+              </ref>
+              or <ref type="method" id="+new">+new</ref> to create a
+              timer, as the timer must be properly initialised
+              to send an action after some interval.
+            </p>
+        </desc>
+        <ivariable type="GSTimerBlock" name="_block" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSDate*" name="_date" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_info" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSTimeInterval" name="_interval" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_invalidated" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_repeats" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="SEL" name="_selector" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_target" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="NSTimer*" factory="yes" ovadd="1.0.0">
+          <sel>scheduledTimerWithTimeInterval:</sel>
+          <arg type="NSTimeInterval">ti</arg>
+          <sel>invocation:</sel>
+          <arg type="NSInvocation*">invocation</arg>
+          <sel>repeats:</sel>
+          <arg type="BOOL">f</arg>
+          <desc>
+            Create a timer which will fire after <var>ti</var>
+            seconds and, if <var>f</var> is <code>YES</code>,
+            every <var>ti</var> seconds thereafter. On firing,
+            <var>invocation</var> will be performed. <br /> This
+            timer will automatically be added to the current run
+            loop and will fire in the default run loop mode.
+          </desc>
+        </method>
+        <method type="NSTimer*" factory="yes" ovadd="1.0.0">
+          <sel>scheduledTimerWithTimeInterval:</sel>
+          <arg type="NSTimeInterval">ti</arg>
+          <sel>repeats:</sel>
+          <arg type="BOOL">f</arg>
+          <sel>block:</sel>
+          <arg type="GSTimerBlock">block</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSTimer*" factory="yes" ovadd="1.0.0">
+          <sel>scheduledTimerWithTimeInterval:</sel>
+          <arg type="NSTimeInterval">ti</arg>
+          <sel>target:</sel>
+          <arg type="id">object</arg>
+          <sel>selector:</sel>
+          <arg type="SEL">selector</arg>
+          <sel>userInfo:</sel>
+          <arg type="id">info</arg>
+          <sel>repeats:</sel>
+          <arg type="BOOL">f</arg>
+          <desc>
+            Create a timer which will fire after <var>ti</var>
+            seconds and, if <var>f</var> is <code>YES</code>,
+            every <var>ti</var> seconds thereafter. On firing,
+            the target <var>object</var> will be sent a message
+            specified by <var>selector</var> and with the
+            timer as its argument. <br /> This timer will
+            automatically be added to the current run
+            loop and will fire in the default run loop mode.
+          </desc>
+        </method>
+        <method type="NSTimer*" factory="yes" ovadd="1.0.0">
+          <sel>timerWithTimeInterval:</sel>
+          <arg type="NSTimeInterval">ti</arg>
+          <sel>invocation:</sel>
+          <arg type="NSInvocation*">invocation</arg>
+          <sel>repeats:</sel>
+          <arg type="BOOL">f</arg>
+          <desc>
+            Create a timer which will fire after <var>ti</var>
+            seconds and, if <var>f</var> is <code>YES</code>,
+            every <var>ti</var> seconds thereafter. On firing,
+            <var>invocation</var> will be performed. <br /> NB.
+            To make the timer operate, you must add it to a run
+            loop.
+          </desc>
+        </method>
+        <method type="NSTimer*" factory="yes" ovadd="1.0.0">
+          <sel>timerWithTimeInterval:</sel>
+          <arg type="NSTimeInterval">ti</arg>
+          <sel>repeats:</sel>
+          <arg type="BOOL">f</arg>
+          <sel>block:</sel>
+          <arg type="GSTimerBlock">block</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSTimer*" factory="yes" ovadd="1.0.0">
+          <sel>timerWithTimeInterval:</sel>
+          <arg type="NSTimeInterval">ti</arg>
+          <sel>target:</sel>
+          <arg type="id">object</arg>
+          <sel>selector:</sel>
+          <arg type="SEL">selector</arg>
+          <sel>userInfo:</sel>
+          <arg type="id">info</arg>
+          <sel>repeats:</sel>
+          <arg type="BOOL">f</arg>
+          <desc>
+            Create a timer which will fire after <var>ti</var>
+            seconds and, if <var>f</var> is <code>YES</code>,
+            every <var>ti</var> seconds thereafter. On firing,
+            the target <var>object</var> will be sent a message
+            specified by <var>selector</var> and with the
+            timer as its argument. <br /> NB. To make the timer
+            operate, you must add it to a run loop.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>fire</sel>
+          <desc>
+            Fires the timer... either performs an invocation or
+            sends a message to a target object, depending on how
+            the timer was set up. <br /> If the timer is not set to
+            repeat, it is automatically invalidated. <br />
+            Exceptions raised during firing of the timer are
+            caught and logged.
+          </desc>
+        </method>
+        <method type="NSDate*" ovadd="1.0.0">
+          <sel>fireDate</sel>
+          <desc>
+            Returns the date/time at which the timer is next
+            due to fire.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="0.0.0">
+          <sel>initWithFireDate:</sel>
+          <arg type="NSDate*">date</arg>
+          <sel>interval:</sel>
+          <arg type="NSTimeInterval">interval</arg>
+          <sel>repeats:</sel>
+          <arg type="BOOL">repeats</arg>
+          <sel>block:</sel>
+          <arg type="GSTimerBlock">block</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="10.2.0">
+          <sel>initWithFireDate:</sel>
+          <arg type="NSDate*">fd</arg>
+          <sel>interval:</sel>
+          <arg type="NSTimeInterval">ti</arg>
+          <sel>target:</sel>
+          <arg type="id">object</arg>
+          <sel>selector:</sel>
+          <arg type="SEL">selector</arg>
+          <sel>userInfo:</sel>
+          <arg type="id">info</arg>
+          <sel>repeats:</sel>
+          <arg type="BOOL">f</arg>
+          <desc>
+            Initialise the receive, a newly allocated
+            NSTimer <var>object</var>. <br /> The <var>ti</var>
+            argument specifies the time (in seconds) between
+            the firing. If it is less than or equal to 0.0 then a
+            small interval is chosen automatically. <br /> The
+            <var>fd</var> argument specifies an initial fire date
+            copied by the timer... if it is not supplied (a
+            <code>nil</code> <var>object</var>) then the
+            <var>ti</var> argument is used to create a start date
+            relative to the current time. <br /> The
+            <var>f</var> argument specifies whether the timer
+            will fire repeatedly or just once. <br /> If the
+            <var>selector</var> argument is zero, then then
+            <var>object</var> is an invocation to be used when
+            the timer fires. otherwise, the <var>object</var> is
+            sent the message specified by the <var>selector</var>
+            and with the timer as an argument. <br /> The
+            <var>object</var> and <var>info</var> arguments will
+            be retained until the timer is invalidated.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>invalidate</sel>
+          <desc>
+            Marks the timer as invalid, causing its
+            target/invocation and user info objects
+            to be released. <br /> Invalidated timers are
+            automatically removed from the run loop when
+            it detects them.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>isValid</sel>
+          <desc>
+            Checks to see if the timer has been invalidated.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0">
+          <sel>setFireDate:</sel>
+          <arg type="NSDate*">fireDate</arg>
+          <desc>
+            Change the fire date for the receiver. <br /> NB.
+            You should <em>NOT</em> use this method for a timer
+            which has been added to a run loop. The only time
+            when it is safe to modify the fire date of a timer in
+            a run loop is for a repeating timer when the timer is
+            actually in the process of firing.
+          </desc>
+        </method>
+        <method type="NSTimeInterval" ovadd="10.0.0">
+          <sel>timeInterval</sel>
+          <desc>
+            Returns the interval between firings, or zero if
+            the timer does not repeat.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>userInfo</sel>
+          <desc>
+            Returns the user info which was set for the timer
+            when it was created, or <code>nil</code> if none was
+            set or the timer is invalid.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

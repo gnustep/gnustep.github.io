@@ -1,0 +1,444 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>
+      AGSIndex... a class to create references for a gsdoc
+      file
+    </title>
+  </head>
+  <body>
+    <font face="serif">
+    <a href="BaseTools.html">Up</a>
+    <br />
+    <h1><a name="title$AGSIndex">
+      AGSIndex... a class to create references for a gsdoc
+      file
+    </a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Richard Frith-Macdonald (<a href="mailto:richard@brainstorm.co.uk"><code>richard@brainstorm.co.uk</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Copyright:</b> (C) 2001 Free Software Foundation, Inc.</p>
+
+        <div>
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the AGSIndex class
+      </a></h1>
+    <h2><a name="class$AGSIndex">AGSIndex</a> : NSObject</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AGSIndex.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          This class is used to build and manipulate a dictionary
+          of cross-reference information. <br /> The references are
+          held in a nested dictionary with strings at the leaves
+          (persisted to &apos;projectName&apos;.igsdoc) - <br />
+          method : method-name - {class-name file-name} <br />
+          method : method-name - {protocol-name file-name}
+          <br /> ivariable : variable-name - {class-name
+          file-name} <br /> class : class-name - file-name
+          <br /> category : category-name - file-name <br />
+          protocol : protocol-name - file-name <br /> function
+          : function-name - file-name <br /> type : type-name -
+          file-name <br /> constant : constant-name -
+          file-name <br /> variable : variable-name -
+          file-name <br /> entry : entry-name - {file-name
+          ref} <br /> label : label-name - {file-name ref} <br />
+          contents : ref - text <br /> super : class-name -
+          superclass-name <br /> categories :
+          class-name - {category-name file-name} <br />
+          unitmethods : unit-name - method-name <br />
+          classvars : class-name - variables-name <br />
+          title : file-name - text <br /> source : file-name -
+          array-of-source-files <br />
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_AGSIndex_ivars">Instance Variables</a>
+    <br/><br/>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="AGSIndex.html#method$AGSIndex-addInformalProtocols$">-addInformalProtocols:</a></li>
+      <li><a rel="gsdoc" href="AGSIndex.html#method$AGSIndex-globalRef$type$">-globalRef:type:</a></li>
+      <li><a rel="gsdoc" href="AGSIndex.html#method$AGSIndex-makeRefs$">-makeRefs:</a></li>
+      <li><a rel="gsdoc" href="AGSIndex.html#method$AGSIndex-mergeRefs$override$">-mergeRefs:override:</a></li>
+      <li><a rel="gsdoc" href="AGSIndex.html#method$AGSIndex-methodsInUnit$">-methodsInUnit:</a></li>
+      <li><a rel="gsdoc" href="AGSIndex.html#method$AGSIndex-outputsForHeader$">-outputsForHeader:</a></li>
+      <li><a rel="gsdoc" href="AGSIndex.html#method$AGSIndex-refs">-refs</a></li>
+      <li><a rel="gsdoc" href="AGSIndex.html#method$AGSIndex-setDirectory$">-setDirectory:</a></li>
+      <li><a rel="gsdoc" href="AGSIndex.html#method$AGSIndex-setGlobalRef$type$">-setGlobalRef:type:</a></li>
+      <li><a rel="gsdoc" href="AGSIndex.html#method$AGSIndex-setOutputs$forHeader$">-setOutputs:forHeader:</a></li>
+      <li><a rel="gsdoc" href="AGSIndex.html#method$AGSIndex-setRelationship$from$to$">-setRelationship:from:to:</a></li>
+      <li><a rel="gsdoc" href="AGSIndex.html#method$AGSIndex-setSources$forHeader$">-setSources:forHeader:</a></li>
+      <li><a rel="gsdoc" href="AGSIndex.html#method$AGSIndex-setUnitRef$type$">-setUnitRef:type:</a></li>
+      <li><a rel="gsdoc" href="AGSIndex.html#method$AGSIndex-sourcesForHeader$">-sourcesForHeader:</a></li>
+      <li><a rel="gsdoc" href="AGSIndex.html#method$AGSIndex-unitRef$type$">-unitRef:type:</a></li>
+      <li><a rel="gsdoc" href="AGSIndex.html#method$AGSIndex-unitRef$type$unit$">-unitRef:type:unit:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$AGSIndex-addInformalProtocols$">addInformalProtocols:&nbsp;</a></h3>
+    - (void) <b>addInformalProtocols:</b> (NSArray*)protocolNames;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Informal protocols are not explicitly marked in
+            source, but are inferred to be those categories of
+            NSObject that receive no implementation.
+            <a rel="gsdoc" href="AGSOutput.html#class$AGSOutput">AGSOutput</a>
+
+              finds and accumulates them; autogsdoc passes them
+              here, where each entry is found in the &apos;category&apos;
+              section of our refs and copied over to the
+              protocol section.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSIndex-globalRef$type$">globalRef:&nbsp;type:&nbsp;</a></h3>
+    - (NSString*) <b>globalRef:</b> (NSString*)ref<b> type:</b> (NSString*)type;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSIndex-makeRefs$">makeRefs:&nbsp;</a></h3>
+    - (void) <b>makeRefs:</b> (GSXMLNode*)node;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Given the root <var>node</var> of a gsdoc document,
+            we traverse the tree looking for interesting nodes, and
+            recording their names in a dictionary of
+            references.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSIndex-mergeRefs$override$">mergeRefs:&nbsp;override:&nbsp;</a></h3>
+    - (void) <b>mergeRefs:</b> (NSDictionary*)more<b> override:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Merge a dictionary containing references into the
+            current index. The <var>flag</var> may be used to
+            specify that references being merged in should
+            override any pre-existing values.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSIndex-methodsInUnit$">methodsInUnit:&nbsp;</a></h3>
+    - (NSArray*) <b>methodsInUnit:</b> (NSString*)aUnit;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSIndex-outputsForHeader$">outputsForHeader:&nbsp;</a></h3>
+    - (NSMutableArray*) <b>outputsForHeader:</b> (NSString*)h;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Return a list of output files for the header
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSIndex-refs">refs&nbsp;</a></h3>
+    - (NSMutableDictionary*) <b>refs</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSIndex-setDirectory$">setDirectory:&nbsp;</a></h3>
+    - (void) <b>setDirectory:</b> (NSString*)path;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSIndex-setGlobalRef$type$">setGlobalRef:&nbsp;type:&nbsp;</a></h3>
+    - (void) <b>setGlobalRef:</b> (NSString*)ref<b> type:</b> (NSString*)type;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSIndex-setOutputs$forHeader$">setOutputs:&nbsp;forHeader:&nbsp;</a></h3>
+    - (void) <b>setOutputs:</b> (NSArray*)a<b> forHeader:</b> (NSString*)h;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Set up an array listing the output files for
+            <var>a</var> particular header.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSIndex-setRelationship$from$to$">setRelationship:&nbsp;from:&nbsp;to:&nbsp;</a></h3>
+    - (void) <b>setRelationship:</b> (NSString*)r<b> from:</b> (NSString*)from<b> to:</b> (NSString*)to;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSIndex-setSources$forHeader$">setSources:&nbsp;forHeader:&nbsp;</a></h3>
+    - (void) <b>setSources:</b> (NSArray*)a<b> forHeader:</b> (NSString*)h;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Set up an array listing the source files for
+            <var>a</var> particular header.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSIndex-setUnitRef$type$">setUnitRef:&nbsp;type:&nbsp;</a></h3>
+    - (void) <b>setUnitRef:</b> (NSString*)ref<b> type:</b> (NSString*)type;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Set up a reference for something inside a unit (class,
+            category or protocol) We store &apos;method&apos; and
+            &apos;ivariable&apos; by <var>ref</var> then unit
+            (class), but we store &apos;unitmethods&apos; * and
+            &apos;classvars&apos; by unit then <var>ref</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSIndex-sourcesForHeader$">sourcesForHeader:&nbsp;</a></h3>
+    - (NSMutableArray*) <b>sourcesForHeader:</b> (NSString*)h;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Return a list of source files for the header.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSIndex-unitRef$type$">unitRef:&nbsp;type:&nbsp;</a></h3>
+    - (NSDictionary*) <b>unitRef:</b> (NSString*)ref<b> type:</b> (NSString*)type;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Return a dictionary containing info on all the units
+            containing the specified method or instance
+            variable.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSIndex-unitRef$type$unit$">unitRef:&nbsp;type:&nbsp;unit:&nbsp;</a></h3>
+    - (NSString*) <b>unitRef:</b> (NSString*)ref<b> type:</b> (NSString*)type<b> unit:</b> (NSString**)u;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Return the name of the file containing the
+            <var>ref</var> and return the unit name in which it
+            was found. If not found, return <code>nil</code> for
+            both. <br /> If <var>ref</var> does not occur in the
+            index, this method returns <code>nil</code>. <br />
+            If the method was given no unit to look in, then it will
+            succeed and return a value if (and only if) the
+            required reference is defined only in one unit
+            (excluding protocols). In the case where it is
+            in two units (one of them a protocol) the class is taken
+            in preference to the protocol. <br /> If <var>ref</var>
+            exists in the unit specified, the method will
+            succeed and return the name of the file in which
+            the reference is located. <br /> If the unit that the
+            method has been asked to look in is a protocol which
+            is not found, the lookup must fail. <br /> Try all
+            superclasses in turn.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<a name="_AGSIndex_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for AGSIndex Class</h2>
+    <h3><a name="ivariable$AGSIndex*base">base</a></h3>
+    @protected NSString* <b>base</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSIndex*category">category</a></h3>
+    @protected NSString* <b>category</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSIndex*chap">chap</a></h3>
+    @protected unsigned int <b>chap</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSIndex*classname">classname</a></h3>
+    @protected NSString* <b>classname</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSIndex*refs">refs</a></h3>
+    @protected NSMutableDictionary* <b>refs</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSIndex*sect">sect</a></h3>
+    @protected unsigned int <b>sect</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSIndex*ssect">ssect</a></h3>
+    @protected unsigned int <b>ssect</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSIndex*sssect">sssect</a></h3>
+    @protected unsigned int <b>sssect</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSIndex*unit">unit</a></h3>
+    @protected NSString* <b>unit</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <br/><hr width="50%" align="left" /><br/>
+    <br />
+    <a href="BaseTools.html">Up</a>
+    </font>
+</body>
+</html>

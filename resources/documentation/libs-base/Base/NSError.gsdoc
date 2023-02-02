@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSError" up="Base">
+  <head>
+    <title>NSError class documentation</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <copy>2004,2006 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSError class
+      </heading>
+      <class name="NSError" super="NSObject" ovadd="10.3.0">
+        <declared>Foundation/NSError.h</declared>
+        <conform>NSCopying</conform>
+        <conform>NSCoding</conform>
+        <desc>
+          Error information class. <br /> NSError instances are
+          used to pass information about runtime errors from lower
+          levels to higher levels of the program. <br /> These
+          should be used instead of exceptions where an error is
+          caused by external factors (such as a resource file
+          not being present) rather than a programming error (where
+          NSException should be used).
+        </desc>
+        <method type="id" factory="yes" ovadd="10.3.0">
+          <sel>errorWithDomain:</sel>
+          <arg type="NSErrorDomain">aDomain</arg>
+          <sel>code:</sel>
+          <arg type="NSInteger">aCode</arg>
+          <sel>userInfo:</sel>
+          <arg type="NSDictionary*">aDictionary</arg>
+          <desc>
+            Creates and returns an autoreleased NSError
+            instance by calling
+            <ref type="method" id="-initWithDomain:code:userInfo:">
+              -initWithDomain:code:userInfo:
+            </ref>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.3.0">
+          <sel>code</sel>
+          <desc>
+            Return the error code... which is not globally
+            unique, just unique for a particular domain.
+          </desc>
+        </method>
+        <method type="NSErrorDomain" ovadd="10.3.0">
+          <sel>domain</sel>
+          <desc>
+            Return the domain for this instance.
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="10.3.0">
+          <sel>initWithDomain:</sel>
+          <arg type="NSErrorDomain">aDomain</arg>
+          <sel>code:</sel>
+          <arg type="NSInteger">aCode</arg>
+          <sel>userInfo:</sel>
+          <arg type="NSDictionary*">aDictionary</arg>
+          <desc>
+            Initialises the receiver using the supplied
+            domain, code, and info. <br /> The domain must be
+            non-nil.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.3.0">
+          <sel>localizedDescription</sel>
+          <desc>
+            Return a human readable description for the error.
+            <br /> The default implementation uses the value
+            from the user info dictionary if it is available,
+            otherwise it generates a generic one from domain
+            and code.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>localizedFailureReason</sel>
+          <desc>
+            Return a human readable explanation of the reason
+            for the error (if known). This should normally be a
+            more discursive explanation then the
+            <strong>short</strong> one provided by the
+            <ref type="method" id="-localizedDescription">
+              -localizedDescription
+            </ref>
+            method. <br /> The default implementation uses the
+            value from the user info dictionary if it is
+            available, otherwise it returns <code>nil</code>
+            .
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.4.0">
+          <sel>localizedRecoveryOptions</sel>
+          <desc>
+            Returns an array of strings to be used as titles of
+            buttons in an alert panel when offering the user
+            optionbs to try to recover from the error. <br />
+            The default implementation uses the value from the user
+            info dictionary if it is available, otherwise it
+            returns <code>nil</code>.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>localizedRecoverySuggestion</sel>
+          <desc>
+            Returns a string used as the secondary text in an
+            alert panel, suggesting how the user might select an
+            option to attempt to recover from the error. <br />
+            The default implementation uses the value from the user
+            info dictionary if it is available, otherwise it
+            returns <code>nil</code>.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.4.0">
+          <sel>recoveryAttempter</sel>
+          <desc>
+            Not yet useful in GNUstep. <br /> The default
+            implementation uses the value from the user
+            info dictionary if it is available, otherwise it
+            returns <code>nil</code>.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.3.0">
+          <sel>userInfo</sel>
+          <desc>
+            Return the user info for this instance (or
+            <code>nil</code> if none is set) <br /> The
+            <code>NSLocalizedDescriptionKey</code> should locate
+            a human readable description in the dictionary. <br />
+            The <code>NSUnderlyingErrorKey</code> key should locate
+            an <code>NSError</code> instance if an error is
+            available describing any underlying problem.
+            <br />
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

@@ -1,0 +1,4402 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>The XML and HTML parsing system</title>
+  </head>
+  <body>
+    <font face="serif">
+    <a href="BaseAdditions.html">Up</a>
+    <br />
+    <h1><a name="title$GSXML">The XML and HTML parsing system</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Michael Pakhantsov (<a href="mailto:mishel@berest.dp.ua"><code>mishel@berest.dp.ua</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Richard Frith-Macdonald (<a href="mailto:rfm@gnu.org"><code>rfm@gnu.org</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Copyright:</b> (C) 2000-2005 Free Software Foundation, Inc.</p>
+
+        <div>
+      <hr width="50%" align="left" />
+      <h3>Contents -</h3>
+      <ol>
+        <li>
+          <a href="#001000000000">The XML and HTML parsing system</a>
+        </li>
+        <li>
+          <a href="#002000000000">Software documentation for the GSHTMLParser class</a>
+        </li>
+        <li>
+          <a href="#003000000000">Software documentation for the GSHTMLSAXHandler class</a>
+        </li>
+        <li>
+          <a href="#004000000000">Software documentation for the GSSAXHandler class</a>
+        </li>
+        <li>
+          <a href="#005000000000">Software documentation for the GSTreeSAXHandler class</a>
+        </li>
+        <li>
+          <a href="#006000000000">Software documentation for the GSXMLAttribute class</a>
+        </li>
+        <li>
+          <a href="#007000000000">Software documentation for the GSXMLDocument class</a>
+        </li>
+        <li>
+          <a href="#008000000000">Software documentation for the GSXMLNamespace class</a>
+        </li>
+        <li>
+          <a href="#009000000000">Software documentation for the GSXMLNode class</a>
+        </li>
+        <li>
+          <a href="#010000000000">Software documentation for the GSXMLParser class</a>
+        </li>
+        <li>
+          <a href="#011000000000">Software documentation for the GSXMLRPC class</a>
+        </li>
+        <li>
+          <a href="#012000000000">Software documentation for the GSXPathBoolean class</a>
+        </li>
+        <li>
+          <a href="#013000000000">Software documentation for the GSXPathContext class</a>
+        </li>
+        <li>
+          <a href="#014000000000">Software documentation for the GSXPathNodeSet class</a>
+        </li>
+        <li>
+          <a href="#015000000000">Software documentation for the GSXPathNumber class</a>
+        </li>
+        <li>
+          <a href="#016000000000">Software documentation for the GSXPathObject class</a>
+        </li>
+        <li>
+          <a href="#017000000000">Software documentation for the GSXPathString class</a>
+        </li>
+        <li>
+          <a href="#018000000000">Software documentation for the GSXMLDocument(XSLT)
+        category</a>
+        </li>
+        <li>
+          <a href="#019000000000">Software documentation for the GSXMLRPC(Delegate)
+        category</a>
+        </li>
+        <li>
+          <a href="#020000000000">Software documentation for the NSString(GSXML)
+        category</a>
+        </li>
+      </ol>
+      <hr width="50%" align="left" />
+    </div>
+
+          <h1><a name="001000000000">The XML and HTML parsing system</a></h1>
+    <p>
+
+        The GNUstep XML parser is a collection Objective-C classes
+        wrapping the C XML parsing library (libxml).
+          </p>
+    <p>
+
+        The underlying C library handles high performance parsing,
+        while the ObjectiveC classes provide ease of
+        use/integration.
+          </p>
+
+          <h1><a name="002000000000">
+        Software documentation for the GSHTMLParser class
+      </a></h1>
+    <h2><a name="class$GSHTMLParser">GSHTMLParser</a> : <a rel="gsdoc" href="#class$GSXMLParser">GSXMLParser</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSXML.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          The GSHTMLParser class is a simple subclass of
+          GSXMLParser which should parse reasonably well
+          formed HTML documents. If you wish to parse XHTML
+          documents, you should use GSXMLParser... the
+          GSHTMLParser class is for older &apos;legacy&apos;
+          documents.
+        
+    </div>
+
+          <h1><a name="003000000000">
+        Software documentation for the GSHTMLSAXHandler class
+      </a></h1>
+    <h2><a name="class$GSHTMLSAXHandler">GSHTMLSAXHandler</a> : <a rel="gsdoc" href="#class$GSSAXHandler">GSSAXHandler</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSXML.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          You may create a subclass of this class to handle
+          incremental parsing of html documents... this is
+          provided for handling legacy documents, as modern
+          html documents should use xhtml, and for those you
+          should simply subclass
+          <a rel="gsdoc" href="#class$GSSAXHandler">GSSAXHandler</a>
+
+        
+    </div>
+
+          <h1><a name="004000000000">
+        Software documentation for the GSSAXHandler class
+      </a></h1>
+    <h2><a name="class$GSSAXHandler">GSSAXHandler</a> : NSObject</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSXML.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            XML SAX Handler.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            GSSAXHandler is a callback-based interface to
+            the
+            <a rel="gsdoc" href="#class$GSXMLParser">GSXMLParser</a>
+
+              which operates in a similar (though not identical)
+              manner to SAX.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Each GSSAXHandler object is associated with a
+              GSXMLParser object. As parsing progresses,
+              the methods of the GSSAXHandler are invoked by the
+              parser, so the handler is able to deal with the
+              elements and entities being parsed.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The callback methods in the GSSAXHandler class do
+              nothing - it is intended that you subclass
+              GSSAXHandler and override them.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              If you create a GSXMLParser passing <code>nil</code>
+              as the GSSAXHandler, the parser will parse data to
+              create a
+              <a rel="gsdoc" href="#class$GSXMLDocument">GSXMLDocument</a>
+
+                instance which you can then examine as a whole
+                ... this is generally the preferred mechanism for
+                parsing as it permits the parser to validate
+                the parsed document againts a DTD, and your
+                software can then examine the document secure
+                in the knowledge that it contains the expected
+                structure. Use of a GSSAXHandler is
+                preferred for very large documents with
+                simple structure... in which case incremental
+                parsing is more efficient.
+                  </p>
+    <p>
+      
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_GSSAXHandler_ivars">Instance Variables</a>
+    <br/><br/>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler+handler">+handler</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-attribute$value$">-attribute:value:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-attributeDecl$name$type$typeDefValue$defaultValue$">-attributeDecl:name:type:typeDefValue:defaultValue:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-cdataBlock$">-cdataBlock:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-characters$">-characters:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-comment$">-comment:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-elementDecl$type$">-elementDecl:type:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-endDocument">-endDocument</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-endElement$">-endElement:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-endElement$prefix$href$">-endElement:prefix:href:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-entityDecl$type$public$system$content$">-entityDecl:type:public:system:content:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-error$">-error:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-error$colNumber$lineNumber$">-error:colNumber:lineNumber:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-externalSubset$externalID$systemID$">-externalSubset:externalID:systemID:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-fatalError$">-fatalError:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-fatalError$colNumber$lineNumber$">-fatalError:colNumber:lineNumber:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-getEntity$">-getEntity:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-getParameterEntity$">-getParameterEntity:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-globalNamespace$href$prefix$">-globalNamespace:href:prefix:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-hasExternalSubset">-hasExternalSubset</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-hasInternalSubset">-hasInternalSubset</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-ignoreWhitespace$">-ignoreWhitespace:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-internalSubset$externalID$systemID$">-internalSubset:externalID:systemID:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-isStandalone">-isStandalone</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-lib">-lib</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-loadEntity$at$">-loadEntity:at:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-namespaceDecl$href$prefix$">-namespaceDecl:href:prefix:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-notationDecl$public$system$">-notationDecl:public:system:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-parser">-parser</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-processInstruction$data$">-processInstruction:data:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-reference$">-reference:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-startDocument">-startDocument</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-startElement$attributes$">-startElement:attributes:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-startElement$prefix$href$attributes$namespaces$">-startElement:prefix:href:attributes:namespaces:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-unparsedEntityDecl$public$system$notationName$">-unparsedEntityDecl:public:system:notationName:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-warning$">-warning:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSSAXHandler-warning$colNumber$lineNumber$">-warning:colNumber:lineNumber:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSSAXHandler+handler">handler&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$GSSAXHandler">GSSAXHandler</a>*) <b>handler</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Create a new SAX handler.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-attribute$value$">attribute:&nbsp;value:&nbsp;</a></h3>
+    - (void) <b>attribute:</b> (NSString*)name<b> value:</b> (NSString*)value;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <br /> Handle an attribute that has been read by the
+            parser.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-attributeDecl$name$type$typeDefValue$defaultValue$">attributeDecl:&nbsp;name:&nbsp;type:&nbsp;typeDefValue:&nbsp;defaultValue:&nbsp;</a></h3>
+    - (void) <b>attributeDecl:</b> (NSString*)nameElement<b> name:</b> (NSString*)name<b> type:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)type<b> typeDefValue:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)defType<b> defaultValue:</b> (NSString*)value;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <br /> An attribute definition has been parsed.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-cdataBlock$">cdataBlock:&nbsp;</a></h3>
+    - (void) <b>cdataBlock:</b> (NSData*)value;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <br /> Called when a cdata block has been parsed.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-characters$">characters:&nbsp;</a></h3>
+    - (void) <b>characters:</b> (NSString*)name;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <br /> Receiving some chars from the parser.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-comment$">comment:&nbsp;</a></h3>
+    - (void) <b>comment:</b> (NSString*)value;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <br /> A comment has been parsed.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-elementDecl$type$">elementDecl:&nbsp;type:&nbsp;</a></h3>
+    - (void) <b>elementDecl:</b> (NSString*)name<b> type:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)type;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <br /> An element definition has been parsed.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-endDocument">endDocument&nbsp;</a></h3>
+    - (void) <b>endDocument</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <br /> Called when the document end has been
+            detected.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-endElement$">endElement:&nbsp;</a></h3>
+    - (void) <b>endElement:</b> (NSString*)elementName;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <br /> Called when a closing tag has been processed.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-endElement$prefix$href$">endElement:&nbsp;prefix:&nbsp;href:&nbsp;</a></h3>
+    - (void) <b>endElement:</b> (NSString*)elementName<b> prefix:</b> (NSString*)prefix<b> href:</b> (NSString*)href;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <br /> Called when a closing tag has been processed.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-entityDecl$type$public$system$content$">entityDecl:&nbsp;type:&nbsp;public:&nbsp;system:&nbsp;content:&nbsp;</a></h3>
+    - (void) <b>entityDecl:</b> (NSString*)name<b> type:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)type<b> public:</b> (NSString*)publicId<b> system:</b> (NSString*)systemId<b> content:</b> (NSString*)content;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <br /> An entity definition has been parsed.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-error$">error:&nbsp;</a></h3>
+    - (void) <b>error:</b> (NSString*)e;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Called when an error message needs to be output.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-error$colNumber$lineNumber$">error:&nbsp;colNumber:&nbsp;lineNumber:&nbsp;</a></h3>
+    - (void) <b>error:</b> (NSString*)e<b> colNumber:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)colNumber<b> lineNumber:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)lineNumber;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Called when an error message needs to be output.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-externalSubset$externalID$systemID$">externalSubset:&nbsp;externalID:&nbsp;systemID:&nbsp;</a></h3>
+    - (BOOL) <b>externalSubset:</b> (NSString*)name<b> externalID:</b> (NSString*)externalID<b> systemID:</b> (NSString*)systemID;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Called to find out whether there is an external
+            subset.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-fatalError$">fatalError:&nbsp;</a></h3>
+    - (void) <b>fatalError:</b> (NSString*)e;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Called when a fatal error message needs to be
+            output.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-fatalError$colNumber$lineNumber$">fatalError:&nbsp;colNumber:&nbsp;lineNumber:&nbsp;</a></h3>
+    - (void) <b>fatalError:</b> (NSString*)e<b> colNumber:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)colNumber<b> lineNumber:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)lineNumber;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Called when a fatal error message needs to be
+            output.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-getEntity$">getEntity:&nbsp;</a></h3>
+    - (void*) <b>getEntity:</b> (NSString*)name;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            get an entity by <var>name</var>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-getParameterEntity$">getParameterEntity:&nbsp;</a></h3>
+    - (void*) <b>getParameterEntity:</b> (NSString*)name;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            get a parameter entity by <var>name</var>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-globalNamespace$href$prefix$">globalNamespace:&nbsp;href:&nbsp;prefix:&nbsp;</a></h3>
+    - (void) <b>globalNamespace:</b> (NSString*)name<b> href:</b> (NSString*)href<b> prefix:</b> (NSString*)prefix;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <br /> An old global namespace has been parsed.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-hasExternalSubset">hasExternalSubset&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>) <b>hasExternalSubset</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Called to find out whether there is an external
+            subset.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-hasInternalSubset">hasInternalSubset&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>) <b>hasInternalSubset</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Called to find out whether there is an internal
+            subset.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-ignoreWhitespace$">ignoreWhitespace:&nbsp;</a></h3>
+    - (void) <b>ignoreWhitespace:</b> (NSString*)ch;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <br /> Receiving some ignorable whitespaces from the
+            parser.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-internalSubset$externalID$systemID$">internalSubset:&nbsp;externalID:&nbsp;systemID:&nbsp;</a></h3>
+    - (BOOL) <b>internalSubset:</b> (NSString*)name<b> externalID:</b> (NSString*)externalID<b> systemID:</b> (NSString*)systemID;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Called to find out whether there is an internal
+            subset.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-isStandalone">isStandalone&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>) <b>isStandalone</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Called to detemrine if the document is standalone.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-lib">lib&nbsp;</a></h3>
+    - (void*) <b>lib</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns a pointer to the raw libxml data used by
+            this document. <br /> Only for use by libxml experts!
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-loadEntity$at$">loadEntity:&nbsp;at:&nbsp;</a></h3>
+    - (NSString*) <b>loadEntity:</b> (NSString*)publicId<b> at:</b> (NSString*)location;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Called to return the filename from which an entity
+            should be loaded.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-namespaceDecl$href$prefix$">namespaceDecl:&nbsp;href:&nbsp;prefix:&nbsp;</a></h3>
+    - (void) <b>namespaceDecl:</b> (NSString*)name<b> href:</b> (NSString*)href<b> prefix:</b> (NSString*)prefix;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <br /> An old global namespace has been parsed.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-notationDecl$public$system$">notationDecl:&nbsp;public:&nbsp;system:&nbsp;</a></h3>
+    - (void) <b>notationDecl:</b> (NSString*)name<b> public:</b> (NSString*)publicId<b> system:</b> (NSString*)systemId;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <br /> What to do when a notation declaration has
+            been parsed.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-parser">parser&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLParser">GSXMLParser</a>*) <b>parser</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the parser object with which this handler is
+            associated. This may occasionally be useful.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-processInstruction$data$">processInstruction:&nbsp;data:&nbsp;</a></h3>
+    - (void) <b>processInstruction:</b> (NSString*)targetName<b> data:</b> (NSString*)PIdata;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <br /> A processing instruction has been parsed.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-reference$">reference:&nbsp;</a></h3>
+    - (void) <b>reference:</b> (NSString*)name;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <br /> Called when an entity reference is detected.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-startDocument">startDocument&nbsp;</a></h3>
+    - (void) <b>startDocument</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <br /> Called when the document starts being
+            processed.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-startElement$attributes$">startElement:&nbsp;attributes:&nbsp;</a></h3>
+    - (void) <b>startElement:</b> (NSString*)elementName<b> attributes:</b> (NSMutableDictionary*)elementAttributes;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <br /> Called when an opening tag has been
+            processed.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-startElement$prefix$href$attributes$namespaces$">startElement:&nbsp;prefix:&nbsp;href:&nbsp;attributes:&nbsp;namespaces:&nbsp;</a></h3>
+    - (void) <b>startElement:</b> (NSString*)elementName<b> prefix:</b> (NSString*)prefix<b> href:</b> (NSString*)href<b> attributes:</b> (NSMutableDictionary*)elementAttributes<b> namespaces:</b> (NSMutableDictionary*)elementNamespaces;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-unparsedEntityDecl$public$system$notationName$">unparsedEntityDecl:&nbsp;public:&nbsp;system:&nbsp;notationName:&nbsp;</a></h3>
+    - (void) <b>unparsedEntityDecl:</b> (NSString*)name<b> public:</b> (NSString*)publicId<b> system:</b> (NSString*)systemId<b> notationName:</b> (NSString*)notation;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            <br /> What to do when an unparsed entity
+            declaration is parsed.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-warning$">warning:&nbsp;</a></h3>
+    - (void) <b>warning:</b> (NSString*)e;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Called when a warning message needs to be output.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSSAXHandler-warning$colNumber$lineNumber$">warning:&nbsp;colNumber:&nbsp;lineNumber:&nbsp;</a></h3>
+    - (void) <b>warning:</b> (NSString*)e<b> colNumber:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)colNumber<b> lineNumber:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)lineNumber;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Called when a warning message needs to be output.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<a name="_GSSAXHandler_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for GSSAXHandler Class</h2>
+    <h3><a name="ivariable$GSSAXHandler*isHtmlHandler">isHtmlHandler</a></h3>
+    @protected BOOL <b>isHtmlHandler</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSSAXHandler*lib">lib</a></h3>
+    @protected void* <b>lib</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSSAXHandler*parser">parser</a></h3>
+    @protected GSXMLParser* <b>parser</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <br/><hr width="50%" align="left" /><br/>
+
+          <h1><a name="005000000000">
+        Software documentation for the GSTreeSAXHandler class
+      </a></h1>
+    <h2><a name="class$GSTreeSAXHandler">GSTreeSAXHandler</a> : <a rel="gsdoc" href="#class$GSSAXHandler">GSSAXHandler</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSXML.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          The default handler for parsing documents... this will
+          build a GSXMLDocument for you. This handler may not
+          currently be subclassed, though that capability may
+          be added at a later date.
+        
+    </div>
+
+          <h1><a name="006000000000">
+        Software documentation for the GSXMLAttribute class
+      </a></h1>
+    <h2><a name="class$GSXMLAttribute">GSXMLAttribute</a> : <a rel="gsdoc" href="#class$GSXMLNode">GSXMLNode</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSXML.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          A class wrapping attributes of an XML element node.
+          Generally when examining a GSXMLDocument, you need
+          not concern yourself with GSXMLAttribute objects as you
+          will probably use the
+          <a rel="gsdoc" href="#method$GSXMLNode-objectForKey$">
+            [GSXMLNode -objectForKey:]
+          </a>
+
+          method to return the string value of any attribute you
+          are interested in.
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLAttribute-value">-value</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSXMLAttribute-value">value&nbsp;</a></h3>
+    - (NSString*) <b>value</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the string value of the attribute.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="007000000000">
+        Software documentation for the GSXMLDocument class
+      </a></h1>
+    <h2><a name="class$GSXMLDocument">GSXMLDocument</a> : NSObject</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSXML.h</dd>
+      </dl>
+    </blockquote>
+    <blockquote>
+      <dl>
+        <dt><b>Conforms to:</b></dt>
+        <dd>NSCopying</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          A GSXML document wraps the document structure of the
+          underlying libxml library.
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_GSXMLDocument_ivars">Instance Variables</a>
+    <br/><br/>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument(XSLT)+xsltTransformFile$stylesheet$">+xsltTransformFile:stylesheet:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument(XSLT)+xsltTransformFile$stylesheet$params$">+xsltTransformFile:stylesheet:params:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument(XSLT)+xsltTransformXml$stylesheet$">+xsltTransformXml:stylesheet:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument(XSLT)+xsltTransformXml$stylesheet$params$">+xsltTransformXml:stylesheet:params:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument(XSLT)-xsltTransform$">-xsltTransform:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument(XSLT)-xsltTransform$params$">-xsltTransform:params:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument+documentWithVersion$">+documentWithVersion:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument-description">-description</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument-encoding">-encoding</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument-lib">-lib</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument-makeNodeWithNamespace$name$content$">-makeNodeWithNamespace:name:content:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument-root">-root</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument-setRoot$">-setRoot:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument-version">-version</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument-writeToFile$atomically$">-writeToFile:atomically:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument-writeToURL$atomically$">-writeToURL:atomically:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSXMLDocument+documentWithVersion$">documentWithVersion:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$GSXMLDocument">GSXMLDocument</a>*) <b>documentWithVersion:</b> (NSString*)version;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Create a new document with the specified
+            <var>version</var>.
+
+<pre>
+ id d = [GSXMLDocument documentWithVersion: @&quot;1.0&quot;];
+
+ [d setRoot: [d makeNodeWithNamespace: nil name: @&quot;plist&quot; content: nil]];
+ [[d root] setObject: @&quot;0.9&quot; forKey: @&quot;version&quot;];
+ n1 = [[d root] makeChildWithNamespace: nil name: @&quot;dict&quot; content: nil];
+ [n1 makeComment: @&quot; this is a comment &quot;];
+ [n1 makePI: @&quot;pi1&quot; content: @&quot;this is a process instruction&quot;];
+ [n1 makeChildWithNamespace: nil name: @&quot;key&quot; content: @&quot;Year Of Birth&quot;];
+ [n1 makeChildWithNamespace: nil name: @&quot;integer&quot; content: @&quot;65&quot;];
+ [n1 makeChildWithNamespace: nil name: @&quot;key&quot; content: @&quot;Pets Names&quot;];
+ </pre>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLDocument-description">description&nbsp;</a></h3>
+    - (NSString*) <b>description</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns a string representation of the document (ie
+            the XML) or <code>nil</code> if the document does not
+            have reasonable contents.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLDocument-encoding">encoding&nbsp;</a></h3>
+    - (NSString*) <b>encoding</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the name of the encoding for this document.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLDocument-lib">lib&nbsp;</a></h3>
+    - (void*) <b>lib</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns a pointer to the raw libxml data used by
+            this document. <br /> Only for use by libxml experts!
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLDocument-makeNodeWithNamespace$name$content$">makeNodeWithNamespace:&nbsp;name:&nbsp;content:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLNode">GSXMLNode</a>*) <b>makeNodeWithNamespace:</b> (<a rel="gsdoc" href="#class$GSXMLNamespace">GSXMLNamespace</a>*)ns<b> name:</b> (NSString*)name<b> content:</b> (NSString*)content;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Creates a new node within the document.
+
+<pre>
+ GSXMLNode *n1, *n2;
+ GSXMLDocument *d;
+
+ d = [GSXMLDocument documentWithVersion: @&quot;1.0&quot;];
+ [d setRoot: [d makeNodeWithNamespace: nil name: @&quot;plist&quot; content: nil]];
+ [[d root] setObject: @&quot;0.9&quot; forKey: @&quot;version&quot;];
+ n1 = [[d root] makeChildWithNamespace: nil name: @&quot;dict&quot; content: nil];
+ </pre>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLDocument-root">root&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLNode">GSXMLNode</a>*) <b>root</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the root node of the document.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLDocument-setRoot$">setRoot:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLNode">GSXMLNode</a>*) <b>setRoot:</b> (<a rel="gsdoc" href="#class$GSXMLNode">GSXMLNode</a>*)node;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Sets the root of the document. <br /> NB. The
+            <var>node</var> must have been created as part of the
+            receiving document (eg. using the
+            <a rel="gsdoc" href="#method$GSXMLDocument-makeNodeWithNamespace$name$content$">-makeNodeWithNamespace:name:content:</a>
+ method).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLDocument-version">version&nbsp;</a></h3>
+    - (NSString*) <b>version</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the version string for this document.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLDocument-writeToFile$atomically$">writeToFile:&nbsp;atomically:&nbsp;</a></h3>
+    - (BOOL) <b>writeToFile:</b> (NSString*)filename<b> atomically:</b> (BOOL)useAuxilliaryFile;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Uses the
+            <a rel="gsdoc" href="#method$GSXMLDocument-description">
+              -description
+            </a>
+
+            method to produce a string representation of the
+            document and writes that to <var>filename</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLDocument-writeToURL$atomically$">writeToURL:&nbsp;atomically:&nbsp;</a></h3>
+    - (BOOL) <b>writeToURL:</b> (NSURL*)url<b> atomically:</b> (BOOL)useAuxilliaryFile;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Uses the
+            <a rel="gsdoc" href="#method$GSXMLDocument-description">
+              -description
+            </a>
+
+            method to produce a string representation of the
+            document and writes that to <var>url</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<a name="_GSXMLDocument_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for GSXMLDocument Class</h2>
+    <h3><a name="ivariable$GSXMLDocument*_ownsLib">_ownsLib</a></h3>
+    @protected BOOL <b>_ownsLib</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSXMLDocument*_parent">_parent</a></h3>
+    @protected id <b>_parent</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSXMLDocument*lib">lib</a></h3>
+    @protected void* <b>lib</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <br/><hr width="50%" align="left" /><br/>
+
+          <h1><a name="008000000000">
+        Software documentation for the GSXMLNamespace class
+      </a></h1>
+    <h2><a name="class$GSXMLNamespace">GSXMLNamespace</a> : NSObject</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSXML.h</dd>
+      </dl>
+    </blockquote>
+    <blockquote>
+      <dl>
+        <dt><b>Conforms to:</b></dt>
+        <dd>NSCopying</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          A GSXMLNamespace object wraps part of the document
+          structure of the underlying libxml library.
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_GSXMLNamespace_ivars">Instance Variables</a>
+    <br/><br/>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNamespace+descriptionFromType$">+descriptionFromType:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNamespace+typeFromDescription$">+typeFromDescription:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNamespace-href">-href</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNamespace-lib">-lib</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNamespace-next">-next</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNamespace-prefix">-prefix</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNamespace-type">-type</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNamespace-typeDescription">-typeDescription</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSXMLNamespace+descriptionFromType$">descriptionFromType:&nbsp;</a></h3>
+    + (NSString*) <b>descriptionFromType:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)type;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the string representation of the specified
+            numeric <var>type</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNamespace+typeFromDescription$">typeFromDescription:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>) <b>typeFromDescription:</b> (NSString*)desc;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the numeric constant value for the namespace
+            type named. This method is inefficient, so the
+            returned value should be saved for re-use later.
+            The possible values are -
+            
+      <ul>
+        <li>
+          XML_LOCAL_NAMESPACE
+        </li>
+      </ul>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNamespace-href">href&nbsp;</a></h3>
+    - (NSString*) <b>href</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the namespace reference
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNamespace-lib">lib&nbsp;</a></h3>
+    - (void*) <b>lib</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns a pointer to the raw libxml data used by
+            this document. <br /> Only for use by libxml experts!
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNamespace-next">next&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLNamespace">GSXMLNamespace</a>*) <b>next</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            return the next namespace.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNamespace-prefix">prefix&nbsp;</a></h3>
+    - (NSString*) <b>prefix</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the namespace prefix.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNamespace-type">type&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>) <b>type</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return type of namespace
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNamespace-typeDescription">typeDescription&nbsp;</a></h3>
+    - (NSString*) <b>typeDescription</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return string representation of the type of the
+            namespace.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<a name="_GSXMLNamespace_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for GSXMLNamespace Class</h2>
+    <h3><a name="ivariable$GSXMLNamespace*_parent">_parent</a></h3>
+    @protected id <b>_parent</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSXMLNamespace*lib">lib</a></h3>
+    @protected void* <b>lib</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <br/><hr width="50%" align="left" /><br/>
+
+          <h1><a name="009000000000">
+        Software documentation for the GSXMLNode class
+      </a></h1>
+    <h2><a name="class$GSXMLNode">GSXMLNode</a> : NSObject</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSXML.h</dd>
+      </dl>
+    </blockquote>
+    <blockquote>
+      <dl>
+        <dt><b>Conforms to:</b></dt>
+        <dd>NSCopying</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          A GSXMLNode object wraps part of the document structure of
+          the underlying libxml library. It may have a parent,
+          siblings, and children.
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_GSXMLNode_ivars">Instance Variables</a>
+    <br/><br/>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode+descriptionFromType$">+descriptionFromType:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode+typeFromDescription$">+typeFromDescription:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-attributes">-attributes</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-content">-content</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-description">-description</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-document">-document</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-escapedContent">-escapedContent</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-firstAttribute">-firstAttribute</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-firstChild">-firstChild</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-firstChildElement">-firstChildElement</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-isElement">-isElement</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-isText">-isText</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-lib">-lib</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-makeAttributeWithName$value$">-makeAttributeWithName:value:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-makeChildWithNamespace$name$content$">-makeChildWithNamespace:name:content:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-makeComment$">-makeComment:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-makeNamespaceHref$prefix$">-makeNamespaceHref:prefix:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-makePI$content$">-makePI:content:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-makeText$">-makeText:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-name">-name</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-namespace">-namespace</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-namespaceDefinitions">-namespaceDefinitions</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-next">-next</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-nextElement">-nextElement</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-objectForKey$">-objectForKey:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-parent">-parent</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-previous">-previous</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-previousElement">-previousElement</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-propertiesAsDictionaryWithKeyTransformationSel$">-propertiesAsDictionaryWithKeyTransformationSel:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-setNamespace$">-setNamespace:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-setObject$forKey$">-setObject:forKey:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-type">-type</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLNode-typeDescription">-typeDescription</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSXMLNode+descriptionFromType$">descriptionFromType:&nbsp;</a></h3>
+    + (NSString*) <b>descriptionFromType:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)type;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the string constant value for the node
+            <var>type</var> given.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode+typeFromDescription$">typeFromDescription:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>) <b>typeFromDescription:</b> (NSString*)desc;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Converts a node type string to a numeric
+              constant which can be compared with the result
+              of the <a rel="gsdoc" href="#method$GSXMLNode-type">-type</a>
+
+              method to determine what sort of node an instance
+              is. Because this method is quite inefficient, you
+              should cache the numeric type returned and re-use
+              the cached value.
+                </p>
+    <p>
+      
+            The node type names are -
+            
+      <ul>
+        <li>
+          XML_ELEMENT_NODE
+        </li>
+        <li>
+          XML_ATTRIBUTE_NODE
+        </li>
+        <li>
+          XML_TEXT_NODE
+        </li>
+        <li>
+          XML_CDATA_SECTION_NODE
+        </li>
+        <li>
+          XML_ENTITY_REF_NODE
+        </li>
+        <li>
+          XML_ENTITY_NODE
+        </li>
+        <li>
+          XML_PI_NODE
+        </li>
+        <li>
+          XML_COMMENT_NODE
+        </li>
+        <li>
+          XML_DOCUMENT_NODE
+        </li>
+        <li>
+          XML_DOCUMENT_TYPE_NODE
+        </li>
+        <li>
+          XML_DOCUMENT_FRAG_NODE
+        </li>
+        <li>
+          XML_NOTATION_NODE
+        </li>
+        <li>
+          XML_HTML_DOCUMENT_NODE
+        </li>
+        <li>
+          XML_DTD_NODE
+        </li>
+        <li>
+          XML_ELEMENT_DECL
+        </li>
+        <li>
+          XML_ATTRIBUTE_DECL
+        </li>
+        <li>
+          XML_ENTITY_DECL
+        </li>
+      </ul>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-attributes">attributes&nbsp;</a></h3>
+    - (NSDictionary*) <b>attributes</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Return attributes and values as a dictionary
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-content">content&nbsp;</a></h3>
+    - (NSString*) <b>content</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return node content as a string. This should return
+            meaningful information for text nodes and for
+            entity nodes containing only text nodes. <br /> If
+            entity substitution was not enabled during parsing,
+            an element containing text may actually contain both
+            text nodes and entity reference nodes, in this case
+            you should not use this method to get the content of
+            the element, but should examine the child nodes of the
+            element individually and perform any entity
+            reference you need to do explicitly. <br /> NB.
+            There are five standard entities which are
+            automatically substituted into the content
+            text rather than appearing as entity nodes in their
+            own right. These are &apos;&lt;&apos;, &apos;&gt;&apos;, &apos;&apos;&apos;, &apos;&quot;&apos;
+            and &apos;&amp;&apos;. If you with to receive content in which
+            these characters are represented by the original
+            entity escapes, you need to use the
+            <a rel="gsdoc" href="#method$GSXMLNode-escapedContent">
+              -escapedContent
+            </a>
+
+            method.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-description">description&nbsp;</a></h3>
+    - (NSString*) <b>description</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns a string representation of the node and all
+            its children (ie the XML text) or <code>nil</code> if
+            the node does not have reasonable contents.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-document">document&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLDocument">GSXMLDocument</a>*) <b>document</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the document in which this node exists.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-escapedContent">escapedContent&nbsp;</a></h3>
+    - (NSString*) <b>escapedContent</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            This performs the same function as the
+            <a rel="gsdoc" href="#method$GSXMLNode-content">
+              -content
+            </a>
+
+            method, but retains escaped character information
+            (the standard five entities &amp;lt;, &amp;gt;,
+            &amp;apos;, &amp;quot;, and &amp;amp;) which
+            are normally replaced with their standard equivalents
+            (&lt;, &gt;, &apos;, &quot;, and &amp;).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-firstAttribute">firstAttribute&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLAttribute">GSXMLAttribute</a>*) <b>firstAttribute</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the first attribute in this node.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-firstChild">firstChild&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLNode">GSXMLNode</a>*) <b>firstChild</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the first child node of this node.
+
+<pre>
+    - (GSXMLNode*) elementRecursive: (GSXMLNode*)node
+    {
+      while (node != nil)
+        {
+          if ([node type] == XML_ELEMENT_NODE)
+            {
+              return node;
+            }
+          if ([node firstChild] != nil)
+            {
+              node = [self elementRecursive: [node firstChild]];
+            }
+          else
+            {
+              node = [node next];
+            }
+        }
+      return node;
+    }
+  </pre>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-firstChildElement">firstChildElement&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLNode">GSXMLNode</a>*) <b>firstChildElement</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the first child element of this node. If you
+            wish to step through all children of the node
+            (including non-element nodes) you should use the
+            <a rel="gsdoc" href="#method$GSXMLNode-firstChild">
+              -firstChild
+            </a>
+
+            method instead.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-isElement">isElement&nbsp;</a></h3>
+    - (BOOL) <b>isElement</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Convenience method, equivalent to calling
+            <a rel="gsdoc" href="#method$GSXMLNode-type">
+              -type
+            </a>
+
+            and comparing it with the result of passing
+            &quot;XML_ELEMENT_NODE&quot; to
+            <a rel="gsdoc" href="#method$GSXMLNode+typeFromDescription$">
+              +typeFromDescription:
+            </a>
+
+            (but faster).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-isText">isText&nbsp;</a></h3>
+    - (BOOL) <b>isText</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Convenience method, equivalent to calling
+            <a rel="gsdoc" href="#method$GSXMLNode-type">
+              -type
+            </a>
+
+            and comparing it with the result of passing
+            &quot;XML_TEXT_NODE&quot; to
+            <a rel="gsdoc" href="#method$GSXMLNode+typeFromDescription$">
+              +typeFromDescription:
+            </a>
+
+            (but faster).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-lib">lib&nbsp;</a></h3>
+    - (void*) <b>lib</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns a pointer to the raw libxml data used by
+            this document. <br /> Only for use by libxml experts!
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-makeAttributeWithName$value$">makeAttributeWithName:&nbsp;value:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLAttribute">GSXMLAttribute</a>*) <b>makeAttributeWithName:</b> (NSString*)name<b> value:</b> (NSString*)value;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Create and return an attribute (unless the named
+            attribute already exists, in which case we update
+            them <var>value</var> of the existing attribute and
+            return it.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-makeChildWithNamespace$name$content$">makeChildWithNamespace:&nbsp;name:&nbsp;content:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLNode">GSXMLNode</a>*) <b>makeChildWithNamespace:</b> (<a rel="gsdoc" href="#class$GSXMLNamespace">GSXMLNamespace</a>*)ns<b> name:</b> (NSString*)name<b> content:</b> (NSString*)content;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Creation of a new child element, added at the
+              end of parent children list. <var>ns</var> and
+              <var>content</var> parameters are optional (may be
+              <code>nil</code>). If <var>content</var> is non
+              <code>nil</code>, a child list containing the
+              TEXTs and ENTITY_REFs node will be created. Return
+              previous node.
+                </p>
+    <p>
+      
+
+<pre>
+
+ GSXMLNode *n1, *n2;
+ GSXMLDocument *d, *d1;
+
+ d = [GSXMLDocument documentWithVersion: @&quot;1.0&quot;];
+ [d setRoot: [d makeNodeWithNamespace: nil
+                                 name: @&quot;plist&quot;
+                              content: nil]];
+ [[d root] setObject: @&quot;0.9&quot; forKey: @&quot;version&quot;];
+ n1 = [[d root] makeChildWithNamespace: nil
+                                  name: @&quot;dict&quot;
+                               content: nil];
+ [n1 makeChildWithNamespace: nil name: @&quot;key&quot; content: @&quot;Year Of Birth&quot;];
+ [n1 makeChildWithNamespace: nil name: @&quot;integer&quot; content: @&quot;65&quot;];
+
+ [n1 makeChildWithNamespace: nil name: @&quot;key&quot; content: @&quot;Pets Names&quot;];
+ [n1 makeChildWithNamespace: nil name: @&quot;array&quot; content: nil];
+
+ </pre>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-makeComment$">makeComment:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLNode">GSXMLNode</a>*) <b>makeComment:</b> (NSString*)content;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Creation of a new comment element, added at the
+            end of parent children list.
+
+<pre>
+ d = [GSXMLDocument documentWithVersion: @&quot;1.0&quot;];
+
+ [d setRoot: [d makeNodeWithNamespace: nil name: @&quot;plist&quot; content: nil]];
+ [[d root] setObject: @&quot;0.9&quot; forKey: @&quot;version&quot;];
+ n1 = [[d root] makeChildWithNamespace: nil name: @&quot;dict&quot; content: nil];
+ [n1 makeComment: @&quot; this is a comment &quot;];
+ </pre>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-makeNamespaceHref$prefix$">makeNamespaceHref:&nbsp;prefix:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLNamespace">GSXMLNamespace</a>*) <b>makeNamespaceHref:</b> (NSString*)href<b> prefix:</b> (NSString*)prefix;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Create a namespace attached to this node.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-makePI$content$">makePI:&nbsp;content:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLNode">GSXMLNode</a>*) <b>makePI:</b> (NSString*)name<b> content:</b> (NSString*)content;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Creation of a new process instruction element,
+            added at the end of parent children list.
+
+<pre>
+ d = [GSXMLDocument documentWithVersion: @&quot;1.0&quot;];
+
+ [d setRoot: [d makeNodeWithNamespace: nil name: @&quot;plist&quot; content: nil]];
+ [[d root] setObject: @&quot;0.9&quot; forKey: @&quot;version&quot;];
+ n1 = [[d root] makeChildWithNamespace: nil name: @&quot;dict&quot; content: nil];
+ [n1 makeComment: @&quot; this is a comment &quot;];
+ [n1 makePI: @&quot;pi1&quot; content: @&quot;this is a process instruction&quot;];
+ </pre>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-makeText$">makeText:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLNode">GSXMLNode</a>*) <b>makeText:</b> (NSString*)content;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Creation of a new text element, added at the end
+            of parent children list.
+
+<pre>
+ d = [GSXMLDocument documentWithVersion: @&quot;1.0&quot;];
+
+ [d setRoot: [d makeNodeWithNamespace: nil name: @&quot;plist&quot; content: nil]];
+ [[d root] setObject: @&quot;0.9&quot; forKey: @&quot;version&quot;];
+ n1 = [[d root] makeChildWithNamespace: nil name: @&quot;dict&quot; content: nil];
+ [n1 makeText: @&quot; this is a text &quot;];
+ </pre>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-name">name&nbsp;</a></h3>
+    - (NSString*) <b>name</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the node-name
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-namespace">namespace&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLNamespace">GSXMLNamespace</a>*) <b>namespace</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the namespace of the node.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-namespaceDefinitions">namespaceDefinitions&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLNamespace">GSXMLNamespace</a>*) <b>namespaceDefinitions</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return namespace definitions for the node
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-next">next&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLNode">GSXMLNode</a>*) <b>next</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the next node at this level. This method can
+            return any type of node, and it may be more
+            convenient to use the
+            <a rel="gsdoc" href="#method$GSXMLNode-nextElement">
+              -nextElement
+            </a>
+
+            node if you are parsing a document where you wish to
+            ignore non-element nodes such as whitespace text
+            separating elements.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-nextElement">nextElement&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLNode">GSXMLNode</a>*) <b>nextElement</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the next element node, skipping past any
+            other node types (such as text nodes). If there is no
+            element node to be returned, this method returns
+            <code>nil</code>. <br /> NB. This method is not
+            available in java, as the method name conflicts
+            with that of java&apos;s Enumerator class.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-objectForKey$">objectForKey:&nbsp;</a></h3>
+    - (NSString*) <b>objectForKey:</b> (NSString*)key;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the attribute value for the specified
+            <var>key</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-parent">parent&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLNode">GSXMLNode</a>*) <b>parent</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the parent of this node.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-previous">previous&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLNode">GSXMLNode</a>*) <b>previous</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the previous node at this level.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-previousElement">previousElement&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLNode">GSXMLNode</a>*) <b>previousElement</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the previous element node at this level.
+            <br /> NB. This method is not available in java, as
+            the method name conflicts with that of java&apos;s
+            Enumerator class.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-propertiesAsDictionaryWithKeyTransformationSel$">propertiesAsDictionaryWithKeyTransformationSel:&nbsp;</a></h3>
+    - (NSMutableDictionary*) <b>propertiesAsDictionaryWithKeyTransformationSel:</b> (SEL)keyTransformSel;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Return attributes and values as a dictionary, but
+              applies the specified selector to each key before
+              adding the key and value to the dictionary. The
+              selector must be a method of NSString taking no
+              arguments and returning an object suitable for
+              use as a dictionary key.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              This method exists for the use of GSWeb... it is
+              probably not of much use elsewhere.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-setNamespace$">setNamespace:&nbsp;</a></h3>
+    - (void) <b>setNamespace:</b> (<a rel="gsdoc" href="#class$GSXMLNamespace">GSXMLNamespace</a>*)space;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Sets the namespace of the receiver to the value
+            specified. <br /> Supplying a <code>nil</code>
+            namespace removes any namespace previously set or
+            any namespace that the node inherited from a parent
+            when it was created.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-setObject$forKey$">setObject:&nbsp;forKey:&nbsp;</a></h3>
+    - (void) <b>setObject:</b> (NSString*)value<b> forKey:</b> (NSString*)key;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Set (or reset) an attribute carried by a node.
+
+<pre>
+   [n1 setObject: @&quot;prop1&quot; forKey: @&quot;name1&quot;];
+   [n1 setObject: @&quot;prop2&quot; forKey: @&quot;name2&quot;];
+   [n1 setObject: @&quot;prop3&quot; forKey: @&quot;name3&quot;];
+ </pre>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-type">type&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>) <b>type</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return node-type. The most efficient way of testing
+            node types is to use this method and compare the
+            return value with a value you previously obtained
+            using the
+            <a rel="gsdoc" href="#method$GSXMLNode+typeFromDescription$">
+              +typeFromDescription:
+            </a>
+
+            method.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLNode-typeDescription">typeDescription&nbsp;</a></h3>
+    - (NSString*) <b>typeDescription</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return node type as a string.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<a name="_GSXMLNode_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for GSXMLNode Class</h2>
+    <h3><a name="ivariable$GSXMLNode*_parent">_parent</a></h3>
+    @protected id <b>_parent</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSXMLNode*lib">lib</a></h3>
+    @protected void* <b>lib</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <br/><hr width="50%" align="left" /><br/>
+
+          <h1><a name="010000000000">
+        Software documentation for the GSXMLParser class
+      </a></h1>
+    <h2><a name="class$GSXMLParser">GSXMLParser</a> : NSObject</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSXML.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            The XML parser object is the pivotal part of parsing an
+            XML document - it will either build a tree representing
+            the document (if initialized without a GSSAXHandler),
+            or will cooperate with a GSSAXHandler object to provide
+            parsing without the overhead of building a tree.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            The parser may be initialized with an input source (in
+            which case it will expect to be asked to parse the
+            entire input in a single operation), or without. If
+            it is initialised without an input source, incremental
+            parsing can be done by feeding successive parts of
+            the XML document into the parser as NSData objects.
+              </p>
+    <p>
+      
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_GSXMLParser_ivars">Instance Variables</a>
+    <br/><br/>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser+loadEntity$at$">+loadEntity:at:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser+parser">+parser</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser+parserWithContentsOfFile$">+parserWithContentsOfFile:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser+parserWithContentsOfURL$">+parserWithContentsOfURL:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser+parserWithData$">+parserWithData:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser+parserWithSAXHandler$">+parserWithSAXHandler:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser+parserWithSAXHandler$withContentsOfFile$">+parserWithSAXHandler:withContentsOfFile:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser+parserWithSAXHandler$withContentsOfURL$">+parserWithSAXHandler:withContentsOfURL:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser+parserWithSAXHandler$withData$">+parserWithSAXHandler:withData:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser+setDTDs$">+setDTDs:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser+xmlEncodingStringForStringEncoding$">+xmlEncodingStringForStringEncoding:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser-abortParsing">-abortParsing</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser-columnNumber">-columnNumber</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser-doValidityChecking$">-doValidityChecking:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser-document">-document</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser-errNo">-errNo</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser-getWarnings$">-getWarnings:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser-initWithSAXHandler$">-initWithSAXHandler:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser-initWithSAXHandler$withContentsOfFile$">-initWithSAXHandler:withContentsOfFile:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser-initWithSAXHandler$withContentsOfURL$">-initWithSAXHandler:withContentsOfURL:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser-initWithSAXHandler$withData$">-initWithSAXHandler:withData:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser-initWithSAXHandler$withInputStream$">-initWithSAXHandler:withInputStream:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser-keepBlanks$">-keepBlanks:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser-lineNumber">-lineNumber</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser-messages">-messages</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser-parse">-parse</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser-parse$">-parse:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser-publicID">-publicID</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser-resolveEntities$">-resolveEntities:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser-saveMessages$">-saveMessages:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser-substituteEntities$">-substituteEntities:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLParser-systemID">-systemID</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSXMLParser+loadEntity$at$">loadEntity:&nbsp;at:&nbsp;</a></h3>
+    + (NSString*) <b>loadEntity:</b> (NSString*)publicId<b> at:</b> (NSString*)location;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              This method controls the loading of external
+              entities into the system. If it returns an empty
+              string, the entity is not loaded. If it returns a
+              filename, the entity is loaded from that file.
+              If it returns <code>nil</code>, the default entity
+              loading mechanism is used.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The default entity loading mechanism is to construct
+              a file name from the locationURL, by replacing all path
+              separators with underscores, then attempt to
+              locate that file in the DTDs resource directory of
+              the main bundle, and all the standard system
+              locations.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              As a special case, the default loader examines the
+              publicID and if it is a GNUstep DTD, the loader
+              constructs a special name from the ID (by
+              replacing dots with underscores and spaces with
+              hyphens) and looks for a file with that name and
+              a &apos;.dtd&apos; extension in the GNUstep bundles.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              NB. This method will only be called if there is no
+              SAX handler in use, or if the corresponding method in
+              the SAX handler returns <code>nil</code>.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser+parser">parser&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$GSXMLParser">GSXMLParser</a>*) <b>parser</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Creation of a new Parser (for incremental parsing)
+            by calling
+            <a rel="gsdoc" href="#method$GSXMLParser-initWithSAXHandler$">
+              -initWithSAXHandler:
+            </a>
+
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser+parserWithContentsOfFile$">parserWithContentsOfFile:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$GSXMLParser">GSXMLParser</a>*) <b>parserWithContentsOfFile:</b> (NSString*)path;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Creation of a new Parser by calling
+            <a rel="gsdoc" href="#method$GSXMLParser-initWithSAXHandler$withContentsOfFile$">-initWithSAXHandler:withContentsOfFile:</a>
+
+
+<pre>
+ GSXMLParser       *p = [GSXMLParser parserWithContentsOfFile: @&quot;macos.xml&quot;];
+
+ if ([p parse])
+   {
+     [[p document] dump];
+   }
+ else
+   {
+     printf(&quot;error parse file\n&quot;);
+   }
+ </pre>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser+parserWithContentsOfURL$">parserWithContentsOfURL:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$GSXMLParser">GSXMLParser</a>*) <b>parserWithContentsOfURL:</b> (NSURL*)url;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Creation of a new Parser by calling
+            <a rel="gsdoc" href="#method$GSXMLParser-initWithSAXHandler$withContentsOfURL$">-initWithSAXHandler:withContentsOfURL:</a>
+
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser+parserWithData$">parserWithData:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$GSXMLParser">GSXMLParser</a>*) <b>parserWithData:</b> (NSData*)data;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Creation of a new Parser by calling
+            <a rel="gsdoc" href="#method$GSXMLParser-initWithSAXHandler$withData$">
+              -initWithSAXHandler:withData:
+            </a>
+
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser+parserWithSAXHandler$">parserWithSAXHandler:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$GSXMLParser">GSXMLParser</a>*) <b>parserWithSAXHandler:</b> (<a rel="gsdoc" href="#class$GSSAXHandler">GSSAXHandler</a>*)handler;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Creation of a new Parser by calling
+              <a rel="gsdoc" href="#method$GSXMLParser-initWithSAXHandler$">
+                -initWithSAXHandler:
+              </a>
+
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              If the <var>handler</var> object supplied is
+              <code>nil</code>, the parser will build a tree
+              representing the parsed file rather than
+              attempting to get the <var>handler</var> to
+              deal with the parsed elements and entities.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser+parserWithSAXHandler$withContentsOfFile$">parserWithSAXHandler:&nbsp;withContentsOfFile:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$GSXMLParser">GSXMLParser</a>*) <b>parserWithSAXHandler:</b> (<a rel="gsdoc" href="#class$GSSAXHandler">GSSAXHandler</a>*)handler<b> withContentsOfFile:</b> (NSString*)path;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Creation of a new Parser by calling
+            <a rel="gsdoc" href="#method$GSXMLParser-initWithSAXHandler$withContentsOfFile$">-initWithSAXHandler:withContentsOfFile:</a>
+
+
+<pre>
+ NSAutoreleasePool *arp = [NSAutoreleasePool new];
+ GSSAXHandler *h = [GSDebugSAXHandler handler];
+ GSXMLParser  *p = [GSXMLParser parserWithSAXHandler: h
+                                  withContentsOfFile: @&quot;macos.xml&quot;];
+ if ([p parse])
+   {
+      printf(&quot;ok\n&quot;);
+   }
+ RELEASE(arp);
+ </pre>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser+parserWithSAXHandler$withContentsOfURL$">parserWithSAXHandler:&nbsp;withContentsOfURL:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$GSXMLParser">GSXMLParser</a>*) <b>parserWithSAXHandler:</b> (<a rel="gsdoc" href="#class$GSSAXHandler">GSSAXHandler</a>*)handler<b> withContentsOfURL:</b> (NSURL*)url;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Creation of a new Parser by calling
+            <a rel="gsdoc" href="#method$GSXMLParser-initWithSAXHandler$withContentsOfURL$">-initWithSAXHandler:withContentsOfURL:</a>
+
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser+parserWithSAXHandler$withData$">parserWithSAXHandler:&nbsp;withData:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$GSXMLParser">GSXMLParser</a>*) <b>parserWithSAXHandler:</b> (<a rel="gsdoc" href="#class$GSSAXHandler">GSSAXHandler</a>*)handler<b> withData:</b> (NSData*)data;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Creation of a new Parser by calling
+            <a rel="gsdoc" href="#method$GSXMLParser-initWithSAXHandler$withData$">
+              -initWithSAXHandler:withData:
+            </a>
+
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser+setDTDs$">setDTDs:&nbsp;</a></h3>
+    + (void) <b>setDTDs:</b> (NSString*)aPath;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Sets a directory in which to look for DTDs when
+            resolving external references. Can be used whjen
+            DTDs have not been installed in the normal locatioons.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser+xmlEncodingStringForStringEncoding$">xmlEncodingStringForStringEncoding:&nbsp;</a></h3>
+    + (NSString*) <b>xmlEncodingStringForStringEncoding:</b> (NSStringEncoding)encoding;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the name of the string <var>encoding</var>
+            (for XML) to use for the specified OpenStep
+            <var>encoding</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser-abortParsing">abortParsing&nbsp;</a></h3>
+    - (void) <b>abortParsing</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            If called by a SAX callback routine, this method will
+            terminate the parsiong process.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser-columnNumber">columnNumber&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>) <b>columnNumber</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            If executed during a parse operation, returns the
+            current column number.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser-doValidityChecking$">doValidityChecking:&nbsp;</a></h3>
+    - (BOOL) <b>doValidityChecking:</b> (BOOL)yesno;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Sets whether the document needs to be validated.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser-document">document&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLDocument">GSXMLDocument</a>*) <b>document</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the document produced as a result of parsing
+            data.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser-errNo">errNo&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>) <b>errNo</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return error code for last parse operation.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser-getWarnings$">getWarnings:&nbsp;</a></h3>
+    - (BOOL) <b>getWarnings:</b> (BOOL)yesno;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Sets whether warnings are generated.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser-initWithSAXHandler$">initWithSAXHandler:&nbsp;</a></h3>
+    - (id) <b>initWithSAXHandler:</b> (<a rel="gsdoc" href="#class$GSSAXHandler">GSSAXHandler</a>*)handler;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+This is a designated initialiser for the class.<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Initialisation of a new Parser with SAX
+              <var>handler</var>.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              If the <var>handler</var> object supplied is
+              <code>nil</code>, the parser will use an instance
+              of
+              <a rel="gsdoc" href="#class$GSTreeSAXHandler">GSTreeSAXHandler</a>
+
+                to build a tree representing the parsed file. This
+                tree will then be available (via the
+                <a rel="gsdoc" href="#method$GSXMLParser-document">
+                  -document
+                </a>
+
+                method) as a
+                <a rel="gsdoc" href="#class$GSXMLDocument">GSXMLDocument</a>
+on completion of parsing.    </p>
+    <p>
+      
+                
+    </p>
+    <p>
+
+                  The source for the parsing process is not
+                  specified - so parsing must be done
+                  incrementally by feeding data to the
+                  parser.
+                    </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser-initWithSAXHandler$withContentsOfFile$">initWithSAXHandler:&nbsp;withContentsOfFile:&nbsp;</a></h3>
+    - (id) <b>initWithSAXHandler:</b> (<a rel="gsdoc" href="#class$GSSAXHandler">GSSAXHandler</a>*)handler<b> withContentsOfFile:</b> (NSString*)path;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Initialisation of a new Parser with SAX
+              <var>handler</var> (if not <code>nil</code>) by
+              calling
+              <a rel="gsdoc" href="#method$GSXMLParser-initWithSAXHandler$">
+                -initWithSAXHandler:
+              </a>
+
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Sets the input source for the parser to be the
+              specified file - so parsing of the entire file
+              will be performed rather than incremental parsing.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser-initWithSAXHandler$withContentsOfURL$">initWithSAXHandler:&nbsp;withContentsOfURL:&nbsp;</a></h3>
+    - (id) <b>initWithSAXHandler:</b> (<a rel="gsdoc" href="#class$GSSAXHandler">GSSAXHandler</a>*)handler<b> withContentsOfURL:</b> (NSURL*)url;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Initialisation of a new Parser with SAX
+              <var>handler</var> (if not <code>nil</code>) by
+              calling
+              <a rel="gsdoc" href="#method$GSXMLParser-initWithSAXHandler$">
+                -initWithSAXHandler:
+              </a>
+
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Sets the input source for the parser to be the
+              specified URL - so parsing of the entire
+              document will be performed rather than
+              incremental parsing.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser-initWithSAXHandler$withData$">initWithSAXHandler:&nbsp;withData:&nbsp;</a></h3>
+    - (id) <b>initWithSAXHandler:</b> (<a rel="gsdoc" href="#class$GSSAXHandler">GSSAXHandler</a>*)handler<b> withData:</b> (NSData*)data;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Initialisation of a new Parser with SAX
+              <var>handler</var> (if not <code>nil</code>) by
+              calling
+              <a rel="gsdoc" href="#method$GSXMLParser-initWithSAXHandler$">
+                -initWithSAXHandler:
+              </a>
+
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Sets the input source for the parser to be the
+              specified <var>data</var> object (which must
+              contain an XML document), so parsing of the
+              entire document will be performed rather than
+              incremental parsing.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser-initWithSAXHandler$withInputStream$">initWithSAXHandler:&nbsp;withInputStream:&nbsp;</a></h3>
+    - (id) <b>initWithSAXHandler:</b> (<a rel="gsdoc" href="#class$GSSAXHandler">GSSAXHandler</a>*)handler<b> withInputStream:</b> (NSInputStream*)stream;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Initialisation of a new Parser with SAX
+              <var>handler</var> (if not <code>nil</code>) by
+              calling
+              <a rel="gsdoc" href="#method$GSXMLParser-initWithSAXHandler$">
+                -initWithSAXHandler:
+              </a>
+
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Sets the input source for the parser to be the
+              specified input <var>stream</var>, so parsing
+              of the entire document will be performed rather than
+              incremental parsing.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser-keepBlanks$">keepBlanks:&nbsp;</a></h3>
+    - (BOOL) <b>keepBlanks:</b> (BOOL)yesno;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Set and return the previous value for blank text nodes
+            support. ignorableWhitespace nodes are only
+            generated when running the parser in validating
+            mode and when the current element doesn&apos;t allow CDATA
+            or mixed content.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser-lineNumber">lineNumber&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>) <b>lineNumber</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            If executed during a parse operation, returns the
+            current line number.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser-messages">messages&nbsp;</a></h3>
+    - (NSString*) <b>messages</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the string into which warning and error
+            messages are saved, or <code>nil</code> if they
+            are being written to stderr.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser-parse">parse&nbsp;</a></h3>
+    - (BOOL) <b>parse</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Parse source. Return <code>YES</code> if parsed as
+            valid, otherwise <code>NO</code>. If validation
+            against a DTD is not enabled, the return value
+            simply indicates whether the xml was well formed.
+            <br /> This method should be called once to parse
+            the entire document.
+
+<pre>
+ GSXMLParser       *p = [GSXMLParser parserWithContentsOfFile:@&quot;macos.xml&quot;];
+
+ if ([p parse])
+   {
+     [[p doc] dump];
+   }
+ else
+   {
+     printf(&quot;error parse file\n&quot;);
+   }
+ </pre>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser-parse$">parse:&nbsp;</a></h3>
+    - (BOOL) <b>parse:</b> (NSData*)data;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Pass <var>data</var> to the parser for incremental
+              parsing. This method should be called many
+              times, with each call passing another block of
+              <var>data</var> from the same document. After the
+              whole of the document has been parsed, the method
+              should be called with an empty or <code>nil</code>
+              <var>data</var> object to indicate end of parsing.
+              On this final call, the return value indicates whether
+              the document was valid or not. If validation to a DTD
+              is not enabled, the return value simply indicates
+              whether the xml was well formed.
+                </p>
+    <p>
+      
+
+<pre>
+ GSXMLParser       *p = [GSXMLParser parserWithSAXHandler: nil source: nil];
+
+ while ((data = getMoreData()) != nil)
+   {
+     if ([p parse: data] == NO)
+       {
+         NSLog(@&quot;parse error&quot;);
+       }
+   }
+   // Do something with document parsed
+ [p parse: nil];  // Completed parsing of document.
+ </pre>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser-publicID">publicID&nbsp;</a></h3>
+    - (NSString*) <b>publicID</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the public ID of the document being parsed.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser-resolveEntities$">resolveEntities:&nbsp;</a></h3>
+    - (BOOL) <b>resolveEntities:</b> (BOOL)yesno;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser-saveMessages$">saveMessages:&nbsp;</a></h3>
+    - (void) <b>saveMessages:</b> (BOOL)yesno;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Sets up (or removes) a mutable string to which error
+            and warning messages are saved. Using an argument of
+            <code>NO</code> will cause these messages to be
+            written to stderr (the default). <br /> NB. A SAX
+            handler which overrides the error and warning
+            logging messages may stop this mechanism operating.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser-substituteEntities$">substituteEntities:&nbsp;</a></h3>
+    - (BOOL) <b>substituteEntities:</b> (BOOL)yesno;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Set and return the previous value for entity support.
+            Initially the parser always keeps entity
+            references instead of substituting entity values
+            in the output.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLParser-systemID">systemID&nbsp;</a></h3>
+    - (NSString*) <b>systemID</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the system ID of the document being parsed.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<a name="_GSXMLParser_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for GSXMLParser Class</h2>
+    <h3><a name="ivariable$GSXMLParser*lib">lib</a></h3>
+    @protected void* <b>lib</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSXMLParser*messages">messages</a></h3>
+    @protected NSMutableString* <b>messages</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSXMLParser*saxHandler">saxHandler</a></h3>
+    @protected GSSAXHandler* <b>saxHandler</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSXMLParser*src">src</a></h3>
+    @protected id <b>src</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <br/><hr width="50%" align="left" /><br/>
+
+          <h1><a name="011000000000">
+        Software documentation for the GSXMLRPC class
+      </a></h1>
+    <h2><a name="class$GSXMLRPC">GSXMLRPC</a> : NSObject</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSXML.h</dd>
+      </dl>
+    </blockquote>
+    <blockquote>
+      <dl>
+        <dt><b>Conforms to:</b></dt>
+        <dd>NSURLHandleClient</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            The GSXMLRPC class provides methods for constructing
+            and parsing XMLRPC method call and response documents
+            ... so that calls may be constructed of standard
+            objects.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            The correspondence between XMLRPC values and
+            Objective-C objects is as follows -
+              </p>
+    <p>
+      
+          
+      <ul>
+        <li>
+          
+              <strong>i4</strong> (or
+              <em><strong>int</strong></em>) is an
+              NSNumber
+
+                other than a real/float or boolean.
+              
+        </li>
+        <li>
+          
+                <strong>boolean</strong> is an
+                NSNumber
+
+                  created as a BOOL.
+                
+        </li>
+        <li>
+          
+                  <strong>string</strong> is an
+                  NSString
+
+                    object.
+                  
+        </li>
+        <li>
+          
+                    <strong>double</strong> is an
+                    NSNumber
+
+                      created as a <strong>float</strong> or
+                      <strong>double</strong>.
+                    
+        </li>
+        <li>
+          
+                      <strong>dateTime.iso8601</strong> is an
+                      NSDate
+
+                        object.
+                      
+        </li>
+        <li>
+          
+                        <strong>base64</strong> is an
+                        NSData
+
+                          object.
+                        
+        </li>
+        <li>
+          
+                          <strong>array</strong> is an
+                          NSArray
+
+                            object.
+                          
+        </li>
+        <li>
+          
+                            <strong>struct</strong> is an
+                            NSDictionary
+object.
+        </li>
+      </ul>
+      
+                          
+    </p>
+    <p>
+
+                            If you attempt to use any other type of
+                            object in the construction of an
+                            XMLRPC document, the
+                            [NSObject -description]
+ method of that object will be used to create a striong, and the resulting object will be encoded as an XMLRPC <em>string</em> element.
+                              </p>
+    <p>
+      
+                          
+    </p>
+    <p>
+
+                            In particular, the names of members in a
+                            <em>struct</em> must be strings, so if
+                            you provide an
+                            NSDictionary
+object to represent a <em>struct</em> the keys of the dictionary will be converted to strings if necessary.    </p>
+    <p>
+      
+                            
+    </p>
+    <p>
+
+                              The class also provides a method for
+                              making a synchronous XMLRPC method
+                              call (with timeout), or an
+                              asynchronous call in which
+                              the call completion is handled by a
+                              delegate.
+                                </p>
+    <p>
+      
+                            
+    </p>
+    <p>
+
+                              You may also use the class to
+                              implement an XMLRPC server, by
+                              calling the
+                              <a rel="gsdoc" href="#method$GSXMLRPC-parseMethod$params$">-parseMethod:params:</a>
+ method to parse the data POSTed to your server, and <a rel="gsdoc" href="#method$GSXMLRPC-buildResponseWithParams$">-buildResponseWithParams:</a>
+ (or -buildResponseWithFaultCode:andString:) to produce the data to be sent back to the client.
+                                </p>
+    <p>
+      
+                            
+    </p>
+    <p>
+
+                              In order to simply make a synchronous
+                              XMLRPC call to a server, all you
+                              need to do is write code like:
+                                </p>
+    <p>
+      
+
+<pre>
+   GSXMLRPC	*server = [[GSXMLRPC alloc] initWithURL: @&quot;http://server/path&quot;];
+   id		result = [server makeMethodCall: name params: p timeout: 30];
+ </pre>
+      
+          
+    </p>
+    <p>
+
+            Saying that you want to call the specified method
+            (&apos;name&apos;) on the server, passing the parameters
+            (&apos;p&apos;) and with a 30 second timeout. <br /> If there
+            is a network or http-level error or a timeout, the
+            result will be an error string, otherwise it will be
+            an array (on success) or a dictionary containing the
+            fault details.
+              </p>
+    <p>
+      
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC(Delegate)-completedXMLRPC$">-completedXMLRPC:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-URLHandle$resourceDataDidBecomeAvailable$">-URLHandle:resourceDataDidBecomeAvailable:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-URLHandle$resourceDidFailLoadingWithReason$">-URLHandle:resourceDidFailLoadingWithReason:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-URLHandleResourceDidBeginLoading$">-URLHandleResourceDidBeginLoading:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-URLHandleResourceDidCancelLoading$">-URLHandleResourceDidCancelLoading:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-URLHandleResourceDidFinishLoading$">-URLHandleResourceDidFinishLoading:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-buildMethod$params$">-buildMethod:params:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-buildMethodCall$params$">-buildMethodCall:params:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-buildResponseWithFaultCode$andString$">-buildResponseWithFaultCode:andString:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-buildResponseWithParams$">-buildResponseWithParams:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-compact">-compact</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-delegate">-delegate</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-initWithURL$">-initWithURL:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-initWithURL$certificate$privateKey$password$">-initWithURL:certificate:privateKey:password:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-makeMethodCall$params$timeout$">-makeMethodCall:params:timeout:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-parseMethod$params$">-parseMethod:params:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-parseResponse$params$">-parseResponse:params:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-result">-result</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-sendMethodCall$params$timeout$">-sendMethodCall:params:timeout:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-setCompact$">-setCompact:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-setDebug$">-setDebug:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-setDelegate$">-setDelegate:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-setTimeZone$">-setTimeZone:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-timeZone">-timeZone</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC-timeout$">-timeout:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSXMLRPC-URLHandle$resourceDataDidBecomeAvailable$">URLHandle:&nbsp;resourceDataDidBecomeAvailable:&nbsp;</a></h3>
+    - (void) <b>URLHandle:</b> (NSURLHandle*)sender<b> resourceDataDidBecomeAvailable:</b> (NSData*)newData;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            Allows GSXMLRPC to act as a client of NSURLHandle.
+            Internal use only.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-URLHandle$resourceDidFailLoadingWithReason$">URLHandle:&nbsp;resourceDidFailLoadingWithReason:&nbsp;</a></h3>
+    - (void) <b>URLHandle:</b> (NSURLHandle*)sender<b> resourceDidFailLoadingWithReason:</b> (NSString*)reason;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            Allows GSXMLRPC to act as a client of NSURLHandle.
+            Internal use only.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-URLHandleResourceDidBeginLoading$">URLHandleResourceDidBeginLoading:&nbsp;</a></h3>
+    - (void) <b>URLHandleResourceDidBeginLoading:</b> (NSURLHandle*)sender;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            Allows GSXMLRPC to act as a client of NSURLHandle.
+            Internal use only.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-URLHandleResourceDidCancelLoading$">URLHandleResourceDidCancelLoading:&nbsp;</a></h3>
+    - (void) <b>URLHandleResourceDidCancelLoading:</b> (NSURLHandle*)sender;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            Allows GSXMLRPC to act as a client of NSURLHandle.
+            Internal use only.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-URLHandleResourceDidFinishLoading$">URLHandleResourceDidFinishLoading:&nbsp;</a></h3>
+    - (void) <b>URLHandleResourceDidFinishLoading:</b> (NSURLHandle*)sender;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            Allows GSXMLRPC to act as a client of NSURLHandle.
+            Internal use only.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-buildMethod$params$">buildMethod:&nbsp;params:&nbsp;</a></h3>
+    - (NSData*) <b>buildMethod:</b> (NSString*)method<b> params:</b> (NSArray*)params;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Given a <var>method</var> name and an array of
+            parameters, this <var>method</var> constructs
+            the XML document for the corresponding XMLRPC call and
+            returns the document as an NSData object containing
+            UTF-8 text. <br /> The <var>params</var> array may be
+            empty or <code>nil</code> if there are no parameters
+            to be passed. <br /> The <var>method</var> returns
+            <code>nil</code> if passed an invalid
+            <var>method</var> name (a <var>method</var> name may
+            contain any of the ascii alphanumeric characters
+            and underscore, fullstop, colon, or slash). <br /> This
+            <var>method</var> is used internally when sending an
+            XMLRPC <var>method</var> call to a remote system,
+            but you can also call it yourself.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-buildMethodCall$params$">buildMethodCall:&nbsp;params:&nbsp;</a></h3>
+    - (NSString*) <b>buildMethodCall:</b> (NSString*)method<b> params:</b> (NSArray*)params;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Given a <var>method</var> name and an array of
+            parameters, this <var>method</var> constructs
+            the XML document for the corresponding XMLRPC call and
+            returns the document as a string. <br /> The
+            <var>params</var> array may be empty or
+            <code>nil</code> if there are no parameters to be
+            passed. <br /> The <var>method</var> returns
+            <code>nil</code> if passed an invalid
+            <var>method</var> name (a <var>method</var> name may
+            contain any of the ascii alphanumeric characters
+            and underscore, fullstop, colon, or slash). <br />
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-buildResponseWithFaultCode$andString$">buildResponseWithFaultCode:&nbsp;andString:&nbsp;</a></h3>
+    - (NSString*) <b>buildResponseWithFaultCode:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)code<b> andString:</b> (NSString*)s;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Constructs an XML document for an XMLRPC fault
+            response with the specified <var>code</var> and
+            string. The resulting document is returned as a
+            string. <br /> This method is intended for use by
+            applications acting as XMLRPC servers.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-buildResponseWithParams$">buildResponseWithParams:&nbsp;</a></h3>
+    - (NSString*) <b>buildResponseWithParams:</b> (NSArray*)params;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Builds an XMLRPC response with the specified array
+            of parameters and returns the document as a string.
+            <br /> The <var>params</var> array may be empty or
+            <code>nil</code> if there are no parameters to be
+            returned (an empty <var>params</var> element will
+            be created). <br /> This method is intended for use by
+            applications acting as XMLRPC servers.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-compact">compact&nbsp;</a></h3>
+    - (BOOL) <b>compact</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the value set by a prior call to
+            <a rel="gsdoc" href="#method$GSXMLRPC-setCompact$">
+              -setCompact:
+            </a>
+
+            (or <code>NO</code>... the default).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-delegate">delegate&nbsp;</a></h3>
+    - (id) <b>delegate</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the delegate previously set by the
+            <a rel="gsdoc" href="#method$GSXMLRPC-setDelegate$">
+              -setDelegate:
+            </a>
+
+            method. <br /> The delegate handles completion of
+            asynchronous method calls to the URL specified
+            when the receiver was initialised (if any).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-initWithURL$">initWithURL:&nbsp;</a></h3>
+    - (id) <b>initWithURL:</b> (NSString*)url;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Initialise the receiver to make XMLRPC calls to
+            the specified URL. <br /> This method just calls
+            <a rel="gsdoc" href="#method$GSXMLRPC-initWithURL$certificate$privateKey$password$">-initWithURL:certificate:privateKey:password:</a>
+ with <code>nil</code> arguments for the SSL credentials.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-initWithURL$certificate$privateKey$password$">initWithURL:&nbsp;certificate:&nbsp;privateKey:&nbsp;password:&nbsp;</a></h3>
+    - (id) <b>initWithURL:</b> (NSString*)url<b> certificate:</b> (NSString*)cert<b> privateKey:</b> (NSString*)pKey<b> password:</b> (NSString*)pwd;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+This is a designated initialiser for the class.<br />
+    <div class="desc">
+      
+            Initialise the receiver to make XMLRPC calls to
+            the specified <var>url</var> and (optionally) with the
+            specified SSL parameters. <br /> The
+            <var>url</var> argument may be <code>nil</code>, in
+            which case the receiver will be unable to make XMLRPC
+            calls, but can be used to parse incoming requests
+            and build responses. <br /> If the SSL credentials are
+            non-nil, connections to the remote server will be
+            authenticated using the supplied certificate
+            so that the remote system knows who is contacting it.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-makeMethodCall$params$timeout$">makeMethodCall:&nbsp;params:&nbsp;timeout:&nbsp;</a></h3>
+    - (id) <b>makeMethodCall:</b> (NSString*)method<b> params:</b> (NSArray*)params<b> timeout:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)seconds;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Calls
+            <a rel="gsdoc" href="#method$GSXMLRPC-sendMethodCall$params$timeout$">
+              -sendMethodCall:params:timeout:
+            </a>
+
+            and waits for the response. <br /> Returns the response
+            parameters (an array), the response fault (a
+            dictionary), or a failure reason (a string).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-parseMethod$params$">parseMethod:&nbsp;params:&nbsp;</a></h3>
+    - (NSString*) <b>parseMethod:</b> (NSData*)request<b> params:</b> (NSMutableArray*)params;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Parses XML data containing an XMLRPC method call.
+            <br /> Returns the name of the method call. <br />
+            Empties, and then places the method parameters (if
+            any) in the <var>params</var> argument. <br /> NB. Any
+            containers (arrays or dictionaries) in the
+            parsed parameters will be mutable, so you can modify
+            this data structure as you like. <br /> Raises an
+            exception if parsing fails. <br /> This method is
+            intended for the use of XMLRPC server
+            applications.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-parseResponse$params$">parseResponse:&nbsp;params:&nbsp;</a></h3>
+    - (NSDictionary*) <b>parseResponse:</b> (NSData*)resp<b> params:</b> (NSMutableArray*)params;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Parses XML data containing an XMLRPC method
+            response. <br /> Returns <code>nil</code> for
+            success, the fault dictionary on failure. <br />
+            Places the response parameters (if any) in the
+            <var>params</var> argument. <br /> NB. Any containers
+            (arrays or dictionaries) in the parsed parameters
+            will be mutable, so you can modify this data structure
+            as you like. <br /> Raises an exception if parsing
+            fails. <br /> Used internally when making a method
+            call to a remote server.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-result">result&nbsp;</a></h3>
+    - (id) <b>result</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the result of the last method call, or
+            <code>nil</code> if there has been no method call or
+            one is in progress. <br /> The result may be one of -
+            
+      <ul>
+        <li>
+          
+                A mutable array... the parameters of a success
+                response.
+              
+        </li>
+        <li>
+          
+                A dictionary... containing a fault response.
+              
+        </li>
+        <li>
+          
+                A string... describing a low-level failure (eg.
+                timeout).
+              
+        </li>
+      </ul>
+      
+            NB. Any containers (arrays or dictionaries) in the
+            parsed parameters of a success response will be
+            mutable, so you can modify this data structure as
+            you like.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-sendMethodCall$params$timeout$">sendMethodCall:&nbsp;params:&nbsp;timeout:&nbsp;</a></h3>
+    - (BOOL) <b>sendMethodCall:</b> (NSString*)method<b> params:</b> (NSArray*)params<b> timeout:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)seconds;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Send an asynchronous XMLRPC <var>method</var> call
+            with the specified timeout. <br /> A delegate should
+            have been set to handle the result of this call, but
+            if one was not set the state of the asynchronous call
+            may be polled by calling the
+            <a rel="gsdoc" href="#method$GSXMLRPC-result">
+              -result
+            </a>
+
+            <var>method</var>, which will return <code>nil</code>
+            as <strong>long</strong> as the call has not completed.
+            <br /> The call may be cancelled by calling the
+            <a rel="gsdoc" href="#method$GSXMLRPC-timeout$">
+              -timeout:
+            </a>
+
+            <var>method</var> <br /> This <var>method</var>
+            returns <code>YES</code> if the call was started,
+            <code>NO</code> if it could not be started (eg
+            because another call is in progress or because of
+            bad arguments). <br /> NB. For the asynchronous
+            operation to proceed, the current
+            NSRunLoop
+
+              must be run.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-setCompact$">setCompact:&nbsp;</a></h3>
+    - (void) <b>setCompact:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Specify whether to generate compact XML (omit
+            indentation and other white space and omit
+            &lt;string&gt; element markup). <br />
+            Compact representation saves some space (can be
+            important when sent over slow/low bandwidth
+            connections), but sacrifices readability.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-setDebug$">setDebug:&nbsp;</a></h3>
+    - (int) <b>setDebug:</b> (int)flag;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Specify whether to perform debug trace on I/O
+            <br /> Return the previous value
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-setDelegate$">setDelegate:&nbsp;</a></h3>
+    - (void) <b>setDelegate:</b> (id)aDelegate;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Sets the delegate object which will receive callbacks
+            when an XMLRPC call completes. <br /> NB. this
+            delegate is <em>not</em> retained, and should be
+            removed before it is deallocated (call
+            <a rel="gsdoc" href="#method$GSXMLRPC-setDelegate$">
+              -setDelegate:
+            </a>
+
+            again with a <code>nil</code> argument to remove the
+            delegate).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-setTimeZone$">setTimeZone:&nbsp;</a></h3>
+    - (void) <b>setTimeZone:</b> (NSTimeZone*)timeZone;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Sets the time zone for use when sending/receiving
+            date/time values. <br /> The XMLRPC specification
+            says that timezone is server dependent so you will
+            need to set it according to the server you are
+            connecting to. <br /> If this is not set, UCT is
+            assumed.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-timeZone">timeZone&nbsp;</a></h3>
+    - (NSTimeZone*) <b>timeZone</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the time zone currently set.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLRPC-timeout$">timeout:&nbsp;</a></h3>
+    - (void) <b>timeout:</b> (NSTimer*)t;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Handles timeouts, passing information to delegate
+            ... you don&apos;t need to call this method, but you
+            <em>may</em> call it in order to cancel an
+            asynchronous request as if it had timed out.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="012000000000">
+        Software documentation for the GSXPathBoolean class
+      </a></h1>
+    <h2><a name="class$GSXPathBoolean">GSXPathBoolean</a> : <a rel="gsdoc" href="#class$GSXPathObject">GSXPathObject</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSXML.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          For XPath queries returning true/false.
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXPathBoolean-booleanValue">-booleanValue</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSXPathBoolean-booleanValue">booleanValue&nbsp;</a></h3>
+    - (BOOL) <b>booleanValue</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the the value of the receiver... YES/NO,
+            true/false.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="013000000000">
+        Software documentation for the GSXPathContext class
+      </a></h1>
+    <h2><a name="class$GSXPathContext">GSXPathContext</a> : NSObject</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSXML.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            Use of the GSXPathContext class is simple... you just
+            need to look up xpath to learn the syntax of xpath
+            expressions, then you can apply those
+            expressions to a context to retrieve data from
+            a document.
+              </p>
+    <p>
+      
+
+<pre>
+ GSXMLParser       *p = [GSXMLParser parserWithContentsOfFile: @&quot;xp.xml&quot;];
+
+ if ([p parse])
+   {
+     GSXMLDocument *d = [p document];
+     GSXPathContext *c = [[GSXPathContext alloc] initWithDocument: document];
+     GSXPathString *result = [c evaluateExpression: @&quot;string(/body/text())&quot;];
+
+     GSPrintf(stdout, @&quot;Got %@&quot;, [result stringValue]);
+   }
+ else
+   {
+     GSPrintf(stderr, &quot;error parsing file\n&quot;);
+   }
+ </pre>
+      
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_GSXPathContext_ivars">Instance Variables</a>
+    <br/><br/>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXPathContext-evaluateExpression$">-evaluateExpression:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXPathContext-initWithDocument$">-initWithDocument:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXPathContext-registerNamespaceWithPrefix$href$">-registerNamespaceWithPrefix:href:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSXPathContext-evaluateExpression$">evaluateExpression:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXPathObject">GSXPathObject</a>*) <b>evaluateExpression:</b> (NSString*)XPathExpression;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Evaluates the supplied expression and returns the
+            resulting node or node set. If the expression is
+            invalid, returns <code>nil</code>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXPathContext-initWithDocument$">initWithDocument:&nbsp;</a></h3>
+    - (id) <b>initWithDocument:</b> (<a rel="gsdoc" href="#class$GSXMLDocument">GSXMLDocument</a>*)d;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Initialises the receiver as an xpath parser for
+            the supplied document.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXPathContext-registerNamespaceWithPrefix$href$">registerNamespaceWithPrefix:&nbsp;href:&nbsp;</a></h3>
+    - (BOOL) <b>registerNamespaceWithPrefix:</b> (NSString*)prefix<b> href:</b> (NSString*)href;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<a name="_GSXPathContext_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for GSXPathContext Class</h2>
+    <h3><a name="ivariable$GSXPathContext*_document">_document</a></h3>
+    @protected GSXMLDocument* <b>_document</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSXPathContext*_lib">_lib</a></h3>
+    @protected void* <b>_lib</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <br/><hr width="50%" align="left" /><br/>
+
+          <h1><a name="014000000000">
+        Software documentation for the GSXPathNodeSet class
+      </a></h1>
+    <h2><a name="class$GSXPathNodeSet">GSXPathNodeSet</a> : <a rel="gsdoc" href="#class$GSXPathObject">GSXPathObject</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSXML.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          For XPath queries returning a node set. <br /> An XPATH
+          node set is an ordered set of nodes returned as a result
+          of an expression. The order of the nodes in the set is the
+          same as the order in the xml document from which they
+          were extracted.
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXPathNodeSet-count">-count</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXPathNodeSet-length">-length</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXPathNodeSet-nodeAtIndex$">-nodeAtIndex:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSXPathNodeSet-count">count&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>count</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the number of nodes in the receiver.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXPathNodeSet-length">length&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>length</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Deprecated
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXPathNodeSet-nodeAtIndex$">nodeAtIndex:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLNode">GSXMLNode</a>*) <b>nodeAtIndex:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)index;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Please note that <var>index</var> starts from 0.
+            <br /> Returns the node from the receiver at the
+            specified <var>index</var>, or <code>nil</code>
+            if no such node exists.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="015000000000">
+        Software documentation for the GSXPathNumber class
+      </a></h1>
+    <h2><a name="class$GSXPathNumber">GSXPathNumber</a> : <a rel="gsdoc" href="#class$GSXPathObject">GSXPathObject</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSXML.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          For XPath queries returning a number.
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXPathNumber-doubleValue">-doubleValue</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSXPathNumber-doubleValue">doubleValue&nbsp;</a></h3>
+    - (double) <b>doubleValue</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the floating point (<strong>double</strong>
+            ) value of the receiver.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="016000000000">
+        Software documentation for the GSXPathObject class
+      </a></h1>
+    <h2><a name="class$GSXPathObject">GSXPathObject</a> : NSObject</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSXML.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          XPath queries return a GSXPathObject. GSXPathObject in
+          itself is an abstract class; there are four types of
+          completely different GSXPathObject types, listed
+          below. I&apos;m afraid you need to check the returned type
+          of each GSXPath query to make sure it&apos;s what you meant it
+          to be. <br />
+          
+    </p>
+    <p>
+
+            You don&apos;t create GSXPathObject instances, instead the
+            XPATH system creates them and returns them as the
+            result of the
+            <a rel="gsdoc" href="#method$GSXPathContext-evaluateExpression$">[GSXPathContext -evaluateExpression:]</a>
+ method.
+              </p>
+    <p>
+      
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_GSXPathObject_ivars">Instance Variables</a>
+    <br/><br/>
+<a name="_GSXPathObject_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for GSXPathObject Class</h2>
+    <h3><a name="ivariable$GSXPathObject*_context">_context</a></h3>
+    @protected GSXPathContext* <b>_context</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$GSXPathObject*_lib">_lib</a></h3>
+    @protected void* <b>_lib</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <br/><hr width="50%" align="left" /><br/>
+
+          <h1><a name="017000000000">
+        Software documentation for the GSXPathString class
+      </a></h1>
+    <h2><a name="class$GSXPathString">GSXPathString</a> : <a rel="gsdoc" href="#class$GSXPathObject">GSXPathObject</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSXML.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          For XPath queries returning a string.
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXPathString-stringValue">-stringValue</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSXPathString-stringValue">stringValue&nbsp;</a></h3>
+    - (NSString*) <b>stringValue</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the string value of the receiver.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="018000000000">
+        Software documentation for the GSXMLDocument(XSLT)
+        category
+      </a></h1>
+    <h2><a rel="gsdoc" href="#class$GSXMLDocument">GSXMLDocument</a>(<a name="category$GSXMLDocument(XSLT)">XSLT</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSXML.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument(XSLT)+xsltTransformFile$stylesheet$">+xsltTransformFile:stylesheet:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument(XSLT)+xsltTransformFile$stylesheet$params$">+xsltTransformFile:stylesheet:params:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument(XSLT)+xsltTransformXml$stylesheet$">+xsltTransformXml:stylesheet:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument(XSLT)+xsltTransformXml$stylesheet$params$">+xsltTransformXml:stylesheet:params:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument(XSLT)-xsltTransform$">-xsltTransform:</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLDocument(XSLT)-xsltTransform$params$">-xsltTransform:params:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSXMLDocument(XSLT)+xsltTransformFile$stylesheet$">xsltTransformFile:&nbsp;stylesheet:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$GSXMLDocument">GSXMLDocument</a>*) <b>xsltTransformFile:</b> (NSString*)xmlFile<b> stylesheet:</b> (NSString*)xsltStylesheet;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Performs an XSLT transformation on the specified
+            file using the stylesheet provided. <br /> Returns an
+            autoreleased GSXMLDocument containing the
+            transformed XML, or <code>nil</code> on
+            failure.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLDocument(XSLT)+xsltTransformFile$stylesheet$params$">xsltTransformFile:&nbsp;stylesheet:&nbsp;params:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$GSXMLDocument">GSXMLDocument</a>*) <b>xsltTransformFile:</b> (NSString*)xmlFile<b> stylesheet:</b> (NSString*)xsltStylesheet<b> params:</b> (NSDictionary*)params;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Performs an XSLT transformation on the specified
+            file using the stylesheet and parameters provided. See
+            the libxslt documentation for details of the supported
+            parameters. <br /> Returns an autoreleased
+            GSXMLDocument containing the transformed XML,
+            or <code>nil</code> on failure.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLDocument(XSLT)+xsltTransformXml$stylesheet$">xsltTransformXml:&nbsp;stylesheet:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$GSXMLDocument">GSXMLDocument</a>*) <b>xsltTransformXml:</b> (NSData*)xmlData<b> stylesheet:</b> (NSData*)xsltStylesheet;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Performs an XSLT transformation on the specified
+            file using the stylesheet provided. <br /> Returns an
+            autoreleased GSXMLDocument containing the
+            transformed XML, or <code>nil</code> on
+            failure.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLDocument(XSLT)+xsltTransformXml$stylesheet$params$">xsltTransformXml:&nbsp;stylesheet:&nbsp;params:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$GSXMLDocument">GSXMLDocument</a>*) <b>xsltTransformXml:</b> (NSData*)xmlData<b> stylesheet:</b> (NSData*)xsltStylesheet<b> params:</b> (NSDictionary*)params;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Performs an XSLT transformation on the specified
+            file using the stylesheet and parameters provided.See
+            the libxslt documentation for details of the supported
+            parameters. <br /> Returns an autoreleased
+            GSXMLDocument containing the transformed XML,
+            or <code>nil</code> on failure.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLDocument(XSLT)-xsltTransform$">xsltTransform:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLDocument">GSXMLDocument</a>*) <b>xsltTransform:</b> (<a rel="gsdoc" href="#class$GSXMLDocument">GSXMLDocument</a>*)xsltStylesheet;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Performs an XSLT transformation on the current
+            document using the supplied stylesheet. <br />
+            Returns an autoreleased GSXMLDocument containing
+            the transformed XML, or <code>nil</code> on failure.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$GSXMLDocument(XSLT)-xsltTransform$params$">xsltTransform:&nbsp;params:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSXMLDocument">GSXMLDocument</a>*) <b>xsltTransform:</b> (<a rel="gsdoc" href="#class$GSXMLDocument">GSXMLDocument</a>*)xsltStylesheet<b> params:</b> (NSDictionary*)params;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Performs an XSLT transformation on the current
+            document using the supplied stylesheet and
+            paramaters (<var>params</var> may be
+            <code>nil</code>). See the libxslt documentation for
+            details of the supported parameters. <br /> Returns
+            an autoreleased GSXMLDocument containing the transformed
+            XML, or <code>nil</code> on failure.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="019000000000">
+        Software documentation for the GSXMLRPC(Delegate)
+        category
+      </a></h1>
+    <h2><a rel="gsdoc" href="#class$GSXMLRPC">GSXMLRPC</a>(<a name="category$GSXMLRPC(Delegate)">Delegate</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSXML.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          Delegates should implement this method in order to
+          be informed of the success or failure of an XMLRPC method
+          call which was initiated by the
+          <a rel="gsdoc" href="#method$GSXMLRPC-sendMethodCall$params$timeout$">
+            -sendMethodCall:params:timeout:
+          </a>
+
+          method. <br />
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSXML.html#method$GSXMLRPC(Delegate)-completedXMLRPC$">-completedXMLRPC:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSXMLRPC(Delegate)-completedXMLRPC$">completedXMLRPC:&nbsp;</a></h3>
+    - (void) <b>completedXMLRPC:</b> (<a rel="gsdoc" href="#class$GSXMLRPC">GSXMLRPC</a>*)sender;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            Called by the <var>sender</var> when an XMLRPC
+            method call completes (either success or failure).
+            The delegate may then call the
+            <a rel="gsdoc" href="#method$GSXMLRPC-result">
+              -result
+            </a>
+
+            method to retrieve the result of the method call
+            from the <var>sender</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="020000000000">
+        Software documentation for the NSString(GSXML)
+        category
+      </a></h1>
+    <h2>NSString(<a name="category$NSString(GSXML)">GSXML</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSXML.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          Convenience methods for managing XML escape
+          sequences in an NSString.
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSXML.html#method$NSString(GSXML)-stringByEscapingXML">-stringByEscapingXML</a></li>
+      <li><a rel="gsdoc" href="GSXML.html#method$NSString(GSXML)-stringByUnescapingXML">-stringByUnescapingXML</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSString(GSXML)-stringByEscapingXML">stringByEscapingXML&nbsp;</a></h3>
+    - (NSString*) <b>stringByEscapingXML</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Deals with standard XML internal entities. <br />
+            Converts the five XML special characters in the
+            receiver (&apos;&gt;&apos;, &apos;&lt;&apos;, &apos;&amp;&apos;, &apos;&apos;&apos; and
+            &apos;&quot;&apos;) to their escaped equivalents, and
+            return the escaped string. <br /> Also converts
+            non-ascii characters to the corresponding numeric
+            entity escape sequences. <br /> You should perform
+            any non-standard entity substitution you require
+            <em>after</em> you have called this method.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSString(GSXML)-stringByUnescapingXML">stringByUnescapingXML&nbsp;</a></h3>
+    - (NSString*) <b>stringByUnescapingXML</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Deals with standard XML internal entities. <br />
+            Converts the five XML escape sequences
+            (&apos;&amp;gt;&apos;, &apos;&amp;lt;&apos;, &apos;&amp;amp;&apos;,
+            &apos;&amp;apos;&apos; and &apos;&amp;quot;&apos;) to the unicode
+            characters they represent, and returns the
+            unescaped string. <br /> Also converts numeric
+            entity escape sequences to the corresponding unicode
+            characters. <br /> You should perform any
+            non-standard entity substitution you require
+            <em>before</em> you have called this method.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+    <br />
+    <a href="BaseAdditions.html">Up</a>
+    </font>
+</body>
+</html>

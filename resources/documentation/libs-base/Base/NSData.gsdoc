@@ -1,0 +1,860 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSData" up="Base">
+  <head>
+    <title>NSData class reference</title>
+    <author name="Andrew Kachites McCallum">
+      <email address="mccallum@gnu.ai.mit.edu">
+        mccallum@gnu.ai.mit.edu
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <copy>1995-2015 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSData class
+      </heading>
+      <class name="NSData" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSData.h</declared>
+        <conform>NSCoding</conform>
+        <conform>NSCopying</conform>
+        <conform>NSMutableCopying</conform>
+        <desc>
+          <p>
+            <strong>Class</strong> for storing a byte array.
+            Methods for initializing from memory a file, or the
+            network are provided, as well as the ability to
+            write to a file or the network. If desired, object
+            can take over management of a pre-allocated buffer
+            (with malloc or similar), free'ing it when
+            deallocated.
+          </p>
+          <p>
+            The data buffer at any given time has a
+            <em>capacity</em>, which is the size of its allocated
+            memory area, in bytes, and a <em>length</em>, which
+            is the length of data it is currently storing.
+          </p>
+        </desc>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>data</sel>
+          <desc>
+            Returns an empty data object.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>dataWithBytes:</sel>
+          <arg type="const void*">bytes</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">length</arg>
+          <desc>
+            Returns an autoreleased data object containing data
+            copied from <var>bytes</var> and with the specified
+            <var>length</var>. Invokes
+            <ref type="method" id="-initWithBytes:length:">
+              -initWithBytes:length:
+            </ref>
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>dataWithBytesNoCopy:</sel>
+          <arg type="void*">bytes</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">length</arg>
+          <desc>
+            Returns an autoreleased data object encapsulating
+            the data at <var>bytes</var> and with the specified
+            <var>length</var>. Invokes
+            <ref type="method" id="-initWithBytesNoCopy:length:freeWhenDone:">-initWithBytesNoCopy:length:freeWhenDone:</ref> with <code>YES</code>
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="10.0.0">
+          <sel>dataWithBytesNoCopy:</sel>
+          <arg type="void*">aBuffer</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">bufferSize</arg>
+          <sel>freeWhenDone:</sel>
+          <arg type="BOOL">shouldFree</arg>
+          <desc>
+            Returns an autoreleased data object encapsulating
+            the data at bytes and with the specified length.
+            Invokes
+            <ref type="method" id="-initWithBytesNoCopy:length:freeWhenDone:">-initWithBytesNoCopy:length:freeWhenDone:</ref>
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>dataWithContentsOfFile:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Returns a data object encapsulating the contents of
+            the specified file. Invokes
+            <ref type="method" id="-initWithContentsOfFile:">
+              -initWithContentsOfFile:
+            </ref>
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>dataWithContentsOfMappedFile:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Returns a data object encapsulating the contents of
+            the specified file mapped directly into memory. Invokes
+            <ref type="method" id="-initWithContentsOfMappedFile:">
+              -initWithContentsOfMappedFile:
+            </ref>
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="10.0.0">
+          <sel>dataWithContentsOfURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <desc>
+            Retrieves the information at the specified
+            <var>url</var> and returns an NSData instance
+            encapsulating it.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>dataWithData:</sel>
+          <arg type="NSData*">data</arg>
+          <desc>
+            Returns an autoreleased instance initialised by
+            copying the contents of <var>data</var>.
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="0.0.0">
+          <sel>base64EncodedDataWithOptions:</sel>
+          <arg type="NSDataBase64EncodingOptions">options</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>base64EncodedStringWithOptions:</sel>
+          <arg type="NSDataBase64EncodingOptions">options</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="const void*" override="subclass" ovadd="1.0.0">
+          <sel>bytes</sel>
+          <desc>
+            Returns a pointer to the data encapsulated by the
+            receiver.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>description</sel>
+          <desc>
+            Returns a <strong>short</strong> description of
+            this object.
+          </desc>
+        </method>
+        <method type="unsigned int" ovadd="1.0.0">
+          <sel>deserializeAlignedBytesLengthAtCursor:</sel>
+          <arg type="unsigned int*">cursor</arg>
+          <desc>
+            Copies data from buffer starting from
+            <var>cursor</var>. <strong>Deprecated</strong>. Use
+            <ref type="method" id="-getBytes:">
+              [-getBytes:]
+            </ref>
+            and related methods instead.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>deserializeBytes:</sel>
+          <arg type="void*">buffer</arg>
+          <sel>length:</sel>
+          <arg type="unsigned int">bytes</arg>
+          <sel>atCursor:</sel>
+          <arg type="unsigned int*">cursor</arg>
+          <desc>
+            Copies data from <var>buffer</var> starting from
+            <var>cursor</var>. <strong>Deprecated</strong>. Use
+            <ref type="method" id="-getBytes:">
+              [-getBytes:]
+            </ref>
+            and related methods instead.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>deserializeDataAt:</sel>
+          <arg type="void*">data</arg>
+          <sel>ofObjCType:</sel>
+          <arg type="const char*">type</arg>
+          <sel>atCursor:</sel>
+          <arg type="unsigned int*">cursor</arg>
+          <sel>context:</sel>
+          <arg type="id&lt;NSObjCTypeSerializationCallBack&gt;">callback</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="int" ovadd="1.0.0">
+          <sel>deserializeIntAtCursor:</sel>
+          <arg type="unsigned int*">cursor</arg>
+          <desc>
+            Retrieve an <strong>int</strong> from this data,
+            which is assumed to be in network (big-endian) byte
+            order. Cursor refers to byte position.
+          </desc>
+        </method>
+        <method type="int" ovadd="1.0.0">
+          <sel>deserializeIntAtIndex:</sel>
+          <arg type="unsigned int">index</arg>
+          <desc>
+            Retrieve an <strong>int</strong> from this data,
+            which is assumed to be in network (big-endian) byte
+            order. Index refers to byte position.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>deserializeInts:</sel>
+          <arg type="int*">intBuffer</arg>
+          <sel>count:</sel>
+          <arg type="unsigned int">numInts</arg>
+          <sel>atCursor:</sel>
+          <arg type="unsigned int*">cursor</arg>
+          <desc>
+            Retrieve ints from <var>intBuffer</var>, which is
+            assumed to be in network (big-endian) byte order.
+            Count refers to number of ints, but index refers to
+            byte position.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>deserializeInts:</sel>
+          <arg type="int*">intBuffer</arg>
+          <sel>count:</sel>
+          <arg type="unsigned int">numInts</arg>
+          <sel>atIndex:</sel>
+          <arg type="unsigned int">index</arg>
+          <desc>
+            Retrieve ints from <var>intBuffer</var>, which is
+            assumed to be in network (big-endian) byte order.
+            Count refers to number of ints, but <var>index</var>
+            refers to byte position.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>getBytes:</sel>
+          <arg type="void*">buffer</arg>
+          <desc>
+            Copies the contents of the memory encapsulated by
+            the receiver into the specified <var>buffer</var>. The
+            <var>buffer</var> must be large enough to contain
+            <ref type="method" id="-length">
+              -length
+            </ref>
+            bytes of data... if it isn't then a crash is likely
+            to occur. <br /> Invokes
+            <ref type="method" id="-getBytes:range:">
+              -getBytes:range:
+            </ref>
+            with the range set to the whole of the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>getBytes:</sel>
+          <arg type="void*">buffer</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">length</arg>
+          <desc>
+            Copies <var>length</var> bytes of data from the
+            memory encapsulated by the receiver into the
+            specified <var>buffer</var>. The
+            <var>buffer</var> must be large enough to contain
+            <var>length</var> bytes of data... if it isn't then a
+            crash is likely to occur. <br /> If <var>length</var>
+            is greater than the size of the receiver, only the
+            available bytes are copied.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>getBytes:</sel>
+          <arg type="void*">buffer</arg>
+          <sel>range:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Copies data from the memory encapsulated by the
+            receiver (in the range specified by
+            <var>aRange</var>) into the specified
+            <var>buffer</var>. <br /> The <var>buffer</var> must
+            be large enough to contain the data... if it isn't then
+            a crash is likely to occur. <br /> If <var>aRange</var>
+            specifies a range which does not entirely lie
+            within the receiver, an exception is raised.
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>initWithBase64EncodedData:</sel>
+          <arg type="NSData*">base64Data</arg>
+          <sel>options:</sel>
+          <arg type="NSDataBase64DecodingOptions">options</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>initWithBase64EncodedString:</sel>
+          <arg type="NSString*">base64String</arg>
+          <sel>options:</sel>
+          <arg type="NSDataBase64DecodingOptions">options</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithBytes:</sel>
+          <arg type="const void*">aBuffer</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">bufferSize</arg>
+          <desc>
+            Makes a copy of <var>bufferSize</var> bytes of data
+            at <var>aBuffer</var>, and passes it to
+            <ref type="method" id="-initWithBytesNoCopy:length:freeWhenDone:">-initWithBytesNoCopy:length:freeWhenDone:</ref> with a <code>YES</code> argument in order to initialise the receiver. Returns the result.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithBytesNoCopy:</sel>
+          <arg type="void*">aBuffer</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">bufferSize</arg>
+          <desc>
+            Invokes
+            <ref type="method" id="-initWithBytesNoCopy:length:freeWhenDone:">-initWithBytesNoCopy:length:freeWhenDone:</ref> with the last argument set to <code>YES</code>. Returns the resulting initialised data object (which may not be the receiver).
+          </desc>
+        </method>
+        <method type="instancetype" override="subclass" ovadd="0.0.0">
+          <sel>initWithBytesNoCopy:</sel>
+          <arg type="void*">bytes</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">length</arg>
+          <sel>deallocator:</sel>
+          <arg type="GSDataDeallocatorBlock">deallocator</arg>
+          <desc>
+            Initialize the receiver to hold memory pointed
+            to by <var>bytes</var> without copying. When the
+            receiver is deallocated, the memory will be freed
+            using the user supplied deallocBlock. Note that
+            passing a block that (either directly or
+            indirectly) holds a strong reference the
+            receiver will cause a retain cycle.
+          </desc>
+        </method>
+        <method type="id" init="yes" override="subclass" ovadd="10.0.0">
+          <sel>initWithBytesNoCopy:</sel>
+          <arg type="void*">aBuffer</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">bufferSize</arg>
+          <sel>freeWhenDone:</sel>
+          <arg type="BOOL">shouldFree</arg>
+          <desc>
+            Initialises the receiver. <br /> The value of
+            <var>aBuffer</var> is a pointer to something to be
+            stored. <br /> The value of <var>bufferSize</var>
+            is the number of bytes to use. <br /> The value of
+            <var>shouldFree</var> specifies whether the receiver
+            should attempt to free the memory pointer to by
+            <var>aBuffer</var> when the receiver is deallocated
+            ... ie. it says whether the receiver <em>owns</em> the
+            memory. Supplying the wrong value here will lead to
+            memory leaks or crashes.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithContentsOfFile:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Initialises the receiver with the contents of
+            the specified file. <br /> Returns the resulting
+            object. <br /> Returns <code>nil</code> if the file
+            does not exist or can not be read for some reason.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithContentsOfMappedFile:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Initialize with data pointing to contents of
+            file at <var>path</var>. Bytes are only "swapped in"
+            as needed. File should not be moved or deleted for the
+            life of this object.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>initWithContentsOfURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <desc>
+            Initialize with data pointing to contents of
+            URL, which will be retrieved immediately in a blocking
+            manner.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithData:</sel>
+          <arg type="NSData*">data</arg>
+          <desc>
+            Initializes by copying data's bytes into a new
+            buffer.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isEqualToData:</sel>
+          <arg type="NSData*">other</arg>
+          <desc>
+            Returns a boolean value indicating if the receiver
+            and <var>other</var> contain identical data (using a
+            byte by byte comparison). Assumes that the
+            <var>other</var> object is an NSData instance... may
+            raise an exception if it isn't.
+          </desc>
+        </method>
+        <method type="NSUInteger" override="subclass" ovadd="1.0.0">
+          <sel>length</sel>
+          <desc>
+            Returns the number of bytes of data encapsulated by
+            the receiver.
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="10.6.0">
+          <sel>rangeOfData:</sel>
+          <arg type="NSData*">dataToFind</arg>
+          <sel>options:</sel>
+          <arg type="NSDataSearchOptions">mask</arg>
+          <sel>range:</sel>
+          <arg type="NSRange">searchRange</arg>
+          <desc>
+            Finds and returns the range of the first occurrence
+            of the given data, within the given range, subject to
+            given options.
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="1.0.0">
+          <sel>subdataWithRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Returns an NSData instance encapsulating the memory
+            from the receiver specified by the range
+            <var>aRange</var>. <br /> If <var>aRange</var>
+            specifies a range which does not entirely lie
+            within the receiver, an exception is raised.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>writeToFile:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>atomically:</sel>
+          <arg type="BOOL">useAuxiliaryFile</arg>
+          <desc>
+            <p>
+              Writes a copy of the data encapsulated by the
+              receiver to a file at <var>path</var>. If the
+              <var>useAuxiliaryFile</var> flag is
+              <code>YES</code>, this writes to a temporary file
+              and then renames that to the file at <var>path</var>,
+              thus ensuring that <var>path</var> exists and does
+              not contain partially written data at any point.
+            </p>
+            <p>
+              On success returns <code>YES</code>, on failure
+              returns <code>NO</code>.
+            </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0">
+          <sel>writeToFile:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>options:</sel>
+          <arg type="NSUInteger">writeOptionsMask</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">errorPtr</arg>
+          <desc>
+            <p>
+              Writes a copy of the data encapsulated by the
+              receiver to a file at <var>path</var>. If the
+              NSDataWritingAtomic option is set,
+              this writes to a temporary file and then renames
+              that to the file at <var>path</var>, thus ensuring
+              that <var>path</var> exists and does not contain
+              partially written data at any point.
+            </p>
+            <p>
+              On success returns <code>YES</code>, on failure
+              returns <code>NO</code>.
+            </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>writeToURL:</sel>
+          <arg type="NSURL*">anURL</arg>
+          <sel>atomically:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Writes a copy of the contents of the receiver to the
+            specified URL.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0">
+          <sel>writeToURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>options:</sel>
+          <arg type="NSUInteger">writeOptionsMask</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">errorPtr</arg>
+          <desc>
+            Writes a copy of the contents of the receiver to the
+            specified URL.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSMutableData class
+      </heading>
+      <class name="NSMutableData" super="NSData" ovadd="1.0.0">
+        <declared>Foundation/NSData.h</declared>
+        <desc>
+          Mutable version of
+          <ref type="class" id="NSData">NSData</ref>
+            . Methods are provided for appending and replacing bytes
+            in the buffer, which will be grown as needed.
+        </desc>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>dataWithCapacity:</sel>
+          <arg type="NSUInteger">numBytes</arg>
+          <desc>
+            New instance with buffer of given <var>numBytes</var>
+            with length of valid data set to zero. Note that
+            capacity will be automatically increased as
+            necessary.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>dataWithLength:</sel>
+          <arg type="NSUInteger">length</arg>
+          <desc>
+            New instance with buffer of capacity and valid data
+            size equal to given <var>length</var> in bytes. The
+            buffer contents are set to zero. The
+            <var>length</var> of valid data is set to zero. Note
+            that buffer will be automatically increased as
+            necessary.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>appendBytes:</sel>
+          <arg type="const void*">aBuffer</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">bufferSize</arg>
+          <desc>
+            Appends <var>bufferSize</var> bytes from
+            <var>aBuffer</var> to data, increasing capacity if
+            necessary.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>appendData:</sel>
+          <arg type="NSData*">other</arg>
+          <desc>
+            Copies and appends data from <var>other</var> to
+            data, increasing capacity if necessary.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>increaseLengthBy:</sel>
+          <arg type="NSUInteger">extraLength</arg>
+          <desc>
+            Increases buffer length by given number of bytes,
+            filling the new space with zeros.
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="1.0.0">
+          <sel>initWithCapacity:</sel>
+          <arg type="NSUInteger">capacity</arg>
+          <desc>
+            Initialize with buffer capable of holding size
+            bytes. The length of valid data is initially set to
+            zero.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithLength:</sel>
+          <arg type="NSUInteger">length</arg>
+          <desc>
+            Initialize with buffer of capacity equal to
+            <var>length</var>, and with the <var>length</var> of
+            valid data set to <var>length</var>. Data is set to
+            zero.
+          </desc>
+        </method>
+        <method type="void*" ovadd="1.0.0">
+          <sel>mutableBytes</sel>
+          <desc>
+            <p>
+              Returns a pointer to the data storage of the
+              receiver. <br /> Modifications to the memory
+              pointed to by this pointer will change the
+              contents of the object. It is important that
+              your code should not try to modify the memory beyond
+              the number of bytes given by the
+              <code>
+                <ref type="method" id="-length">
+                  -length
+                </ref>
+              </code>
+              method.
+            </p>
+            <p>
+              NB. if the object is released, or any method that
+              changes its size or content is called, then the
+              pointer previously returned by this method may
+              cease to be valid.
+            </p>
+            <p>
+              This is a 'primitive' method... you need to
+              implement it if you write a subclass of
+              NSMutableData.
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>replaceBytesInRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <sel>withBytes:</sel>
+          <arg type="const void*">bytes</arg>
+          <desc>
+            Replaces the <var>bytes</var> of data in the
+            specified range with a copy of the new
+            <var>bytes</var> supplied. <br /> If the location of
+            the range specified lies beyond the end of the data (
+            <code>[self length] &lt; range.location</code>) then
+            a range exception is raised. <br /> Otherwise, if the
+            range specified extends beyond the end of the data,
+            then the size of the data is increased to accommodate
+            the new <var>bytes</var>. <br />
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>replaceBytesInRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <sel>withBytes:</sel>
+          <arg type="const void*">bytes</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">length</arg>
+          <desc>
+            Replace the content of the receiver which lies in
+            <var>aRange</var> with the specified
+            <var>length</var> of data from the buffer pointed to
+            by <var>bytes</var>. <br /> The size of the receiver is
+            adjusted to allow for the change.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>resetBytesInRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Set bytes in <var>aRange</var> to 0.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>serializeAlignedBytesLength:</sel>
+          <arg type="unsigned int">length</arg>
+          <desc>
+            Does not act as the name suggests. Instead, serializes
+            <var>length</var> itself as an <strong>int</strong>
+            into buffer.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>serializeDataAt:</sel>
+          <arg type="const void*">data</arg>
+          <sel>ofObjCType:</sel>
+          <arg type="const char*">type</arg>
+          <sel>context:</sel>
+          <arg type="id&lt;NSObjCTypeSerializationCallBack&gt;">callback</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>serializeInt:</sel>
+          <arg type="int">value</arg>
+          <desc>
+            Serialize an <strong>int</strong> into this
+            object's data buffer, swapping it to network
+            (big-endian) byte order first.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>serializeInt:</sel>
+          <arg type="int">value</arg>
+          <sel>atIndex:</sel>
+          <arg type="unsigned int">index</arg>
+          <desc>
+            Serialize an <strong>int</strong> into this
+            object's data buffer at <var>index</var>
+            (replacing anything there currently), swapping
+            it to network (big-endian) byte order first.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>serializeInts:</sel>
+          <arg type="int*">intBuffer</arg>
+          <sel>count:</sel>
+          <arg type="unsigned int">numInts</arg>
+          <desc>
+            Serialize one or more ints into this object's
+            data buffer, swapping them to network (big-endian)
+            byte order first.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>serializeInts:</sel>
+          <arg type="int*">intBuffer</arg>
+          <sel>count:</sel>
+          <arg type="unsigned int">numInts</arg>
+          <sel>atIndex:</sel>
+          <arg type="unsigned int">index</arg>
+          <desc>
+            Serialize one or more ints into this object's
+            data buffer at <var>index</var> (replacing anything
+            there currently), swapping them to network
+            (big-endian) byte order first.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setData:</sel>
+          <arg type="NSData*">data</arg>
+          <desc>
+            Replaces contents of buffer with contents of
+            data's buffer, increasing or shrinking capacity to
+            match.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setLength:</sel>
+          <arg type="NSUInteger">size</arg>
+          <desc>
+            <p>
+              Sets the length of the NSMutableData object. If the
+              length is increased, the newly allocated data area
+              is filled with zero bytes.
+            </p>
+            <p>
+              This is a 'primitive' method... you need to
+              implement it if you write a subclass of
+              NSMutableData.
+            </p>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSData(GNUstepExtensions) category
+      </heading>
+      <category name="GNUstepExtensions" class="NSData" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>Foundation/NSData.h</declared>
+        <desc>
+          Provides some shared-memory extensions to
+          <ref type="class" id="NSData">NSData</ref>
+            .
+        </desc>
+        <method type="id" factory="yes" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>dataWithSharedBytes:</sel>
+          <arg type="const void*">bytes</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">length</arg>
+          <desc>
+            New instance with given <var>bytes</var> in shared
+            memory.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>dataWithShmID:</sel>
+          <arg type="int">anID</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">length</arg>
+          <desc>
+            New instance with given shared memory ID.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>deserializeTypeTag:</sel>
+          <arg type="unsigned char*">tag</arg>
+          <sel>andCrossRef:</sel>
+          <arg type="unsigned int*">ref</arg>
+          <sel>atCursor:</sel>
+          <arg type="unsigned int*">cursor</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSMutableData(GNUstepExtensions)
+        category
+      </heading>
+      <category name="GNUstepExtensions" class="NSMutableData" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>Foundation/NSData.h</declared>
+        <desc>
+          Provides some additional methods to
+          <ref type="class" id="NSData">NSData</ref>
+            .
+        </desc>
+        <method type="NSUInteger" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>capacity</sel>
+          <desc>
+            Returns current capacity of data buffer.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>serializeTypeTag:</sel>
+          <arg type="unsigned char">tag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>serializeTypeTag:</sel>
+          <arg type="unsigned char">tag</arg>
+          <sel>andCrossRef:</sel>
+          <arg type="unsigned int">xref</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>setCapacity:</sel>
+          <arg type="NSUInteger">newCapacity</arg>
+          <desc>
+            Sets current capacity of data buffer. Unlike
+            <ref type="method" id="-setLength:">
+              -setLength:
+            </ref>
+            , this will shrink the buffer if requested.
+          </desc>
+        </method>
+        <method type="int" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>shmID</sel>
+          <desc>
+            Return shared memory ID, if using one, else -1.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

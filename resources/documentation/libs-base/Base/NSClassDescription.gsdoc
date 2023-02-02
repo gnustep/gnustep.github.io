@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSClassDescription" up="Base">
+  <head>
+    <title>NSClassDescription class reference</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <copy>2000 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSClassDescription
+        class
+      </heading>
+      <class name="NSClassDescription" super="NSObject" ovadd="10.0.0">
+        <declared>Foundation/NSClassDescription.h</declared>
+        <desc>
+          Each instance of this class provides descriptive
+          information for an Objective C class. This is
+          used for key-value coding, a framework used in Cocoa for
+          scripting with Objective-C objects. Scripting is
+          available in GNUstep in many ways, however those
+          implementations do not make use of class
+          descriptions. Therefore the primary purpose of
+          this class is to smooth the process of porting between
+          GNUstep and other OpenStep-derived systems.
+        </desc>
+        <method type="NSClassDescription*" factory="yes" ovadd="10.0.0">
+          <sel>classDescriptionForClass:</sel>
+          <arg type="Class">aClass</arg>
+          <desc>
+            Returns the class description for <var>aClass</var>
+            . If there is no such description available, sends an
+            <code>
+              NSClassDescriptionNeededForClassNotification
+            </code>
+            (with <var>aClass</var> as its object) so that
+            objects providing class descriptions can register
+            one, and tries again to find one. <br /> Returns
+            <code>nil</code> if there is no description found.
+            <br /> Handles locking to ensure thread safety and
+            ensures that the returned object will not be
+            destroyed by other threads.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="10.0.0">
+          <sel>invalidateClassDescriptionCache</sel>
+          <desc>
+            Invalidates the cache of class descriptions so
+            the new descriptions will be fetched as required and
+            begin to refill the cache. You need this only if you
+            suspect that a class description should have
+            changed.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="10.0.0">
+          <sel>registerClassDescription:</sel>
+          <arg type="NSClassDescription*">aDescription</arg>
+          <sel>forClass:</sel>
+          <arg type="Class">aClass</arg>
+          <desc>
+            Registers <var>aDescription</var> for
+            <var>aClass</var>... placing it in the cache and
+            replacing any previous version.
+          </desc>
+        </method>
+        <method type="NSArray*" override="subclass" ovadd="10.0.0">
+          <sel>attributeKeys</sel>
+          <desc>
+            Returns the attribute keys - default implementation
+            returns <code>nil</code>.
+          </desc>
+        </method>
+        <method type="NSString*" override="subclass" ovadd="10.0.0">
+          <sel>inverseForRelationshipKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns the inverse relationship keys - default
+            implementation returns <code>nil</code>.
+          </desc>
+        </method>
+        <method type="NSArray*" override="subclass" ovadd="10.0.0">
+          <sel>toManyRelationshipKeys</sel>
+          <desc>
+            Returns the to many relationship keys - default
+            implementation returns <code>nil</code>.
+          </desc>
+        </method>
+        <method type="NSArray*" override="subclass" ovadd="10.0.0">
+          <sel>toOneRelationshipKeys</sel>
+          <desc>
+            Returns the to one relationship keys - default
+            implementation returns <code>nil</code>.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSClassDescriptionPrimitives)
+        category
+      </heading>
+      <category name="NSClassDescriptionPrimitives" class="NSObject" ovadd="10.0.0">
+        <declared>Foundation/NSClassDescription.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>attributeKeys</sel>
+          <desc>
+            Returns the attribute keys supplied by the
+            <ref id="NSClassDescription" type="class" />
+            object for the receivers class.
+          </desc>
+        </method>
+        <method type="NSClassDescription*" ovadd="10.0.0">
+          <sel>classDescription</sel>
+          <desc>
+            Returns the
+            <ref id="NSClassDescription" type="class" />
+            object for the receivers class.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>inverseForRelationshipKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns the inverse relationship keys supplied by
+            the <ref id="NSClassDescription" type="class" /> object
+            for the receivers class.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>toManyRelationshipKeys</sel>
+          <desc>
+            Returns the to many relationship keys supplied by
+            the <ref id="NSClassDescription" type="class" /> object
+            for the receivers class.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>toOneRelationshipKeys</sel>
+          <desc>
+            Returns the to one relationship keys supplied by
+            the <ref id="NSClassDescription" type="class" /> object
+            for the receivers class.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

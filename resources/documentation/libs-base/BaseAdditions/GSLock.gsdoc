@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="GSLock" up="BaseAdditions">
+  <head>
+    <title>GSLock documentation</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <copy>2003 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the GSLazyLock class
+      </heading>
+      <class name="GSLazyLock" super="NSLock" ovadd="1.0.0">
+        <declared>GNUstepBase/GSLock.h</declared>
+        <desc>
+          This implements a class which, when used in
+          single-threaded mode, acts like a lock while
+          avoiding the overheads of actually using a real
+          lock. However, when the programm in which the class is
+          used becomes multi-threaded, all instances of this class
+          transform themselves into real locks in the correct
+          state (locked/unlocked) corresponding to whether the
+          lazy lock was locked or not at the point where the
+          program became multi threadeed. <br /> Use of this
+          class allows you to write thread-safe code which avoids
+          locking inefficiencies when used in a single threaded
+          application, without having to worry about
+          dealing with the issue yourself.
+        </desc>
+        <ivariable type="int" name="locked" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <method type="void" ovadd="1.0.0">
+          <sel>_becomeThreaded:</sel>
+          <arg type="NSNotification*">n</arg>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code. <br /> Do not use this method
+            ... it is used internally to handle the transition from
+            a single threaded system to a multi threaded one.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSLazyRecursiveLock
+        class
+      </heading>
+      <class name="GSLazyRecursiveLock" super="NSRecursiveLock" ovadd="1.0.0">
+        <declared>GNUstepBase/GSLock.h</declared>
+        <desc>
+          This implements a class which, when used in
+          single-threaded mode, acts like a recursive
+          lock while avoiding the overheads of using a real lock.
+          However, when the programm in which the class is
+          used becomes multi-threaded, all instances of this class
+          transform themselves into real locks in the correct
+          state (locked/unlocked) corresponding to whether the
+          lazy recursive lock was locked or not at the point where
+          the program became multi threadeed. <br /> Use of this
+          class allows you to write thread-safe code which avoids
+          locking inefficiencies when used in a single threaded
+          application, without having to worry about
+          dealing with the issue yourself.
+        </desc>
+        <ivariable type="int" name="counter" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <method type="void" ovadd="1.0.0">
+          <sel>_becomeThreaded:</sel>
+          <arg type="NSNotification*">n</arg>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code. <br /> Do not use this method
+            ... it is used internally to handle the transition from
+            a single threaded system to a multi threaded one.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

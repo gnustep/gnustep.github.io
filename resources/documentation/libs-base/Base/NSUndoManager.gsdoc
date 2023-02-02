@@ -1,0 +1,506 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSUndoManager" up="Base">
+  <head>
+    <title>NSUndoManager class reference</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <copy>1998 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSUndoManager class
+      </heading>
+      <class name="NSUndoManager" super="NSObject" ovadd="10.0.0">
+        <declared>Foundation/NSUndoManager.h</declared>
+        <desc>
+          NSUndoManager provides a general mechanism
+          supporting implementation of user action "undo" in
+          applications. Essentially, it allows you to
+          store sequences of messages and receivers that need to
+          be invoked to undo or redo an action. The various methods
+          in this class provide for grouping of sets of actions,
+          execution of undo or redo actions, and tuning
+          behavior parameters such as the size of the undo
+          stack. Each application entity with its own editing
+          history (e.g., a document) should have its own undo
+          manager instance. Obtain an instance through a simple
+          <code>[[NSUndoManager alloc] init]</code> message.
+        </desc>
+        <method type="void" ovadd="10.0.0">
+          <sel>beginUndoGrouping</sel>
+          <desc>
+            Starts a new grouping of undo actions which can be
+            atomically undone by an
+            <ref type="method" id="-undo">
+              [-undo]
+            </ref>
+            invocation. <br /> This method posts an
+            NSUndoManagerDidOpenUndoGroupNotification
+            upon creating the grouping. <br /> It first posts an
+            NSUndoManagerCheckpointNotification
+            unless an undo is currently in progress. <br /> The
+            order of these notifications is undefined, but the
+            GNUstep implementation currently mimics the
+            observed order in MacOS X 10.5
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>canRedo</sel>
+          <desc>
+            Returns whether the receiver can service redo
+            requests and posts a
+            NSUndoManagerCheckpointNotification.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>canUndo</sel>
+          <desc>
+            Returns whether the receiver has any action
+            groupings on the stack to undo. It does not
+            imply, that the receiver is currently in a state to
+            service an undo request. Make sure
+            <ref type="method" id="-endUndoGrouping">
+              [-endUndoGrouping]
+            </ref>
+            is invoked before requesting either an
+            <ref type="method" id="-undo">
+              [-undo]
+            </ref>
+            or an
+            <ref type="method" id="-undoNestedGroup">
+              -undoNestedGroup
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>disableUndoRegistration</sel>
+          <desc>
+            Disables the registration of operations with with
+            either
+            <ref type="method" id="-registerUndoWithTarget:selector:object:">[-registerUndoWithTarget:selector:object:]</ref> or <ref type="method" id="-forwardInvocation:">-forwardInvocation:</ref>. This method may be called multiple times. Each will need to be paired to a call of <ref type="method" id="-enableUndoRegistration">[-enableUndoRegistration]</ref> before registration is actually reenabled.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>enableUndoRegistration</sel>
+          <desc>
+            Matches previous calls of to
+            <ref type="method" id="-disableUndoRegistration">
+              -disableUndoRegistration
+            </ref>
+            . Only call this method to that end. Once all are
+            matched, the registration of
+            <ref type="method" id="-registerUndoWithTarget:selector:object:">[-registerUndoWithTarget:selector:object:]</ref> and <ref type="method" id="-forwardInvocation:">[-forwardInvocation:]</ref> are reenabled. If this method is called without a matching <ref type="method" id="-disableUndoRegistration">-disableUndoRegistration</ref>, it will raise an NSInternalInconsistencyException.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>endUndoGrouping</sel>
+          <desc>
+            Matches previous calls of to
+            <ref type="method" id="-beginUndoGrouping">
+              [-beginUndoGrouping]
+            </ref>
+            and puts the group on the undo stack. This method posts
+            an NSUndoManagerCheckpointNotification and a
+            NSUndoManagerWillCloseUndoGroupNotification.
+            If there was no matching call to
+            <ref type="method" id="-beginUndoGrouping">
+              -beginUndoGrouping
+            </ref>
+            , this method will raise an
+            NSInternalInconsistencyException.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>forwardInvocation:</sel>
+          <arg type="NSInvocation*">anInvocation</arg>
+          <desc>
+            Registers the invocation with the current undo
+            grouping. This method is part of the
+            NSInvocation-based undo registration as
+            opposed to the simpler
+            <ref type="method" id="-registerUndoWithTarget:selector:object:">[-registerUndoWithTarget:selector:object:]</ref> technique. <br /> You generally never invoke this method directly. Instead invoke <ref type="method" id="-prepareWithInvocationTarget:">[-prepareWithInvocationTarget:]</ref> with the target of the undo action and then invoke the targets method to undo the action on the return value of <ref type="method" id="-prepareWithInvocationTarget:">-prepareWithInvocationTarget:</ref> which actually is the undo manager. The runtime will then fallback to <ref type="method" id="-forwardInvocation:">-forwardInvocation:</ref> to do the actual registration of the invocation. The invocation will added to the current grouping. <br /> If the registrations have been disabled through <ref type="method" id="-disableUndoRegistration">-disableUndoRegistration</ref>, this method does nothing. <br /> Unless the receiver implicitly groups operations by event, the this method must have been preceded with a <ref type="method" id="-beginUndoGrouping">[-beginUndoGrouping]</ref> message. Otherwise it will raise an NSInternalInconsistencyException. <br /> Unless this method is invoked as part of a <ref type="method" id="-undo">[-undo]</ref> or <ref type="method" id="-undoNestedGroup">[-undoNestedGroup]</ref> processing, the redo stack is cleared. <br /> If the receiver <ref type="method" id="-groupsByEvent">[-groupsByEvent]</ref> and this is the first call to this method since the last run loop processing, this method sets up the receiver to process the <ref type="method" id="-endUndoGrouping">[-endUndoGrouping]</ref> at the end of the event loop.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.0.0">
+          <sel>groupingLevel</sel>
+          <desc>
+            Returns the current number of groupings. These are
+            the current groupings which can be nested, not the
+            number of of groups on either the undo or redo
+            stack.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>groupsByEvent</sel>
+          <desc>
+            Returns whether the receiver currently groups undo
+            operations by events. When it does, so it
+            implicitly invokes
+            <ref type="method" id="-beginUndoGrouping">
+              [-beginUndoGrouping]
+            </ref>
+            upon registration of undo operations and registers an
+            internal call to insure the invocation of
+            <ref type="method" id="-endUndoGrouping">
+              [-endUndoGrouping]
+            </ref>
+            at the end of the run loop.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>isRedoing</sel>
+          <desc>
+            Returns whether the receiver is currently
+            processing a redo.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>isUndoRegistrationEnabled</sel>
+          <desc>
+            Returns whether the receiver will currently
+            register undo operations.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>isUndoing</sel>
+          <desc>
+            Returns whether the receiver is currently
+            processing an undo.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.0.0">
+          <sel>levelsOfUndo</sel>
+          <desc>
+            Returns the maximum number of undo groupings the
+            receiver will maintain. The default value is 0
+            meaning the number is only limited by memory
+            availability.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>prepareWithInvocationTarget:</sel>
+          <arg type="id">target</arg>
+          <desc>
+            Prepares the receiver to registers an
+            invocation-based undo operation. This
+            method is part of the NSInvocation-based undo
+            registration as opposed to the simpler
+            <ref type="method" id="-registerUndoWithTarget:selector:object:">[-registerUndoWithTarget:selector:object:]</ref> technique. <br /> You invoke this method with the <var>target</var> of the undo action and then invoke the targets method to undo the action on the return value of this invocation which actually is the undo manager. The runtime will then fallback to <ref type="method" id="-forwardInvocation:">[-forwardInvocation:]</ref> to do the actual registration of the invocation.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>redo</sel>
+          <desc>
+            Performs a redo of previous undo request by taking
+            the top grouping from the redo stack and invoking them.
+            This method posts an
+            NSUndoManagerCheckpointNotification
+            notification to allow the client to process
+            any pending changes before proceeding. If there are
+            groupings on the redo stack, the top object is
+            popped off the stack and invoked within a nested
+            <ref type="method" id="-beginUndoGrouping">
+              -beginUndoGrouping
+            </ref>
+            /[-endUndoGrouping]. During this
+            processing, the operations registered for undo
+            are recorded on the undo stack again. <br />
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>redoActionName</sel>
+          <desc>
+            If the receiver can perform a redo, this method returns
+            the action name previously associated with the top
+            grouping with
+            <ref type="method" id="-setActionName:">
+              -setActionName:
+            </ref>
+            . This name should identify the action to be redone. If
+            there are no items on the redo stack this method
+            returns <code>nil</code>. If no action name has
+            been set, this method returns an empty string.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>redoMenuItemTitle</sel>
+          <desc>
+            Returns the full localized title of the actions to
+            be displayed as a menu item. This method first invokes
+            <ref type="method" id="-redoActionName">
+              [-redoActionName]
+            </ref>
+            and passes it to
+            <ref type="method" id="-redoMenuTitleForUndoActionName:">
+              [-redoMenuTitleForUndoActionName:]
+            </ref>
+            and returns the result.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>redoMenuTitleForUndoActionName:</sel>
+          <arg type="NSString*">actionName</arg>
+          <desc>
+            Returns the localized title of the actions to be
+            displayed as a menu item identified by
+            <var>actionName</var>, by appending a localized
+            command string like @"Redo &lt;localized(
+            <var>actionName</var>)&gt;".
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>registerUndoWithTarget:</sel>
+          <arg type="id">target</arg>
+          <sel>selector:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>object:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Registers an undo operation. This method is the
+            simple target-action-based undo registration as
+            opposed to the sophisticated
+            <ref type="method" id="-forwardInvocation:">
+              [-forwardInvocation:]
+            </ref>
+            mechanism. <br /> You invoke this method with
+            the <var>target</var> of the undo action providing the
+            selector which can perform the undo with the
+            provided object. The object is often a dictionary
+            of the identifying the attribute and their values before
+            the change. The object will be retained. The invocation
+            will added to the current grouping. <br /> If the
+            registrations have been disabled through
+            <ref type="method" id="-disableUndoRegistration">
+              -disableUndoRegistration
+            </ref>
+            , this method does nothing. <br /> Unless the receiver
+            implicitly groups operations by event, the this
+            method must have been preceded with a
+            <ref type="method" id="-beginUndoGrouping">
+              [-beginUndoGrouping]
+            </ref>
+            message. Otherwise it will raise an
+            NSInternalInconsistencyException.
+            <br /> Unless this method is invoked as part of a
+            <ref type="method" id="-undo">
+              [-undo]
+            </ref>
+            or
+            <ref type="method" id="-undoNestedGroup">
+              [-undoNestedGroup]
+            </ref>
+            processing, the redo stack is cleared. <br />
+            If the receiver
+            <ref type="method" id="-groupsByEvent">
+              [-groupsByEvent]
+            </ref>
+            and this is the first call to this method since the
+            last run loop processing, this method sets up the
+            receiver to process the
+            <ref type="method" id="-endUndoGrouping">
+              [-endUndoGrouping]
+            </ref>
+            at the end of the event loop.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>removeAllActions</sel>
+          <desc>
+            Removes all grouping stored in the receiver. This
+            clears the both the undo and the redo stacks. This
+            method is if the sole client of the undo manager
+            will be unable to service any undo or redo events. The
+            client can call this method in its
+            <ref type="method" id="-dealloc">
+              -dealloc
+            </ref>
+            method, unless the undo manager has several
+            clients, in which case
+            <ref type="method" id="-removeAllActionsWithTarget:">
+              [-removeAllActionsWithTarget:]
+            </ref>
+            is more appropriate.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>removeAllActionsWithTarget:</sel>
+          <arg type="id">target</arg>
+          <desc>
+            Removes all actions recorded for the given
+            <var>target</var>. This method is is useful when a
+            client of the undo manager will be unable to service
+            any undo or redo events. Clients should call this
+            method in their dealloc method, unless they are the
+            sole client of the undo manager in which case
+            <ref type="method" id="-removeAllActions">
+              [-removeAllActions]
+            </ref>
+            is more appropriate.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>runLoopModes</sel>
+          <desc>
+            Returns the run loop modes in which the receiver
+            registers the
+            <ref type="method" id="-endUndoGrouping">
+              [-endUndoGrouping]
+            </ref>
+            processing when it
+            <ref type="method" id="-groupsByEvent">
+              -groupsByEvent
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setActionName:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            Sets the <var>name</var> associated with the actions
+            of the current group. Typically you can call this method
+            while registering the actions for the current group.
+            This <var>name</var> will be used to determine the
+            <var>name</var> in the
+            <ref type="method" id="-undoMenuTitleForUndoActionName:">
+              [-undoMenuTitleForUndoActionName:]
+            </ref>
+            and
+            <ref type="method" id="-redoMenuTitleForUndoActionName:">
+              [-redoMenuTitleForUndoActionName:]
+            </ref>
+            names typically displayed in the menu.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setGroupsByEvent:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Sets whether the receiver should implicitly call
+            <ref type="method" id="-beginUndoGrouping">
+              [-beginUndoGrouping]
+            </ref>
+            when necessary and register a call to invoke
+            <ref type="method" id="-endUndoGrouping">
+              [-endUndoGrouping]
+            </ref>
+            at the end of the current event loop. The grouping is
+            turned on by default.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setLevelsOfUndo:</sel>
+          <arg type="NSUInteger">num</arg>
+          <desc>
+            Sets the maximum number of groups in either the undo
+            or redo stack. Use this method to limit memory usage if
+            you either expect very many actions to be recorded or
+            the recorded objects require a lot of memory. When set
+            to 0 the stack size is limited by the range of a
+            <strong>unsigned</strong> <strong>int</strong>,
+            available memory.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setRunLoopModes:</sel>
+          <arg type="NSArray*">newModes</arg>
+          <desc>
+            Sets the modes in which the receiver registers the
+            calls with the current run loop to invoke
+            <ref type="method" id="-endUndoGrouping">
+              [-endUndoGrouping]
+            </ref>
+            when it
+            <ref type="method" id="-groupsByEvent">
+              -groupsByEvent
+            </ref>
+            . This method first cancels any pending registrations in
+            the old modes and registers the invocation in the new
+            modes.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>undo</sel>
+          <desc>
+            This method performs an undo by invoking
+            <ref type="method" id="-undoNestedGroup">
+              -undoNestedGroup
+            </ref>
+            . If current group of the receiver is the top group this
+            method first calls
+            <ref type="method" id="-endUndoGrouping">
+              -endUndoGrouping
+            </ref>
+            . This method may only be called on the top level group,
+            otherwise it will raise an
+            NSInternalInconsistencyException.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>undoActionName</sel>
+          <desc>
+            If the receiver can perform an undo, this method returns
+            the action name previously associated with the top
+            grouping with
+            <ref type="method" id="-setActionName:">
+              -setActionName:
+            </ref>
+            . This name should identify the action to be undone. If
+            there are no items on the undo stack this method
+            returns <code>nil</code>. If no action name has
+            been set, this method returns an empty string.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>undoMenuItemTitle</sel>
+          <desc>
+            Returns the full localized title of the actions to
+            be displayed as a menu item. This method first invokes
+            <ref type="method" id="-undoActionName">
+              [-undoActionName]
+            </ref>
+            and passes it to
+            <ref type="method" id="-undoMenuTitleForUndoActionName:">
+              [-undoMenuTitleForUndoActionName:]
+            </ref>
+            and returns the result.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>undoMenuTitleForUndoActionName:</sel>
+          <arg type="NSString*">actionName</arg>
+          <desc>
+            Returns the localized title of the actions to be
+            displayed as a menu item identified by
+            <var>actionName</var>, by appending a localized
+            command string like @"Undo &lt;localized(
+            <var>actionName</var>)&gt;".
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>undoNestedGroup</sel>
+          <desc>
+            Performs an undo by taking the top grouping from
+            the undo stack and invoking them. This method posts an
+            NSUndoManagerCheckpointNotification
+            notification to allow the client to process
+            any pending changes before proceeding. If there are
+            groupings on the undo stack, the top object is
+            popped off the stack and invoked within a nested
+            beginUndoGrouping/endUndoGrouping.
+            During this processing, the undo operations
+            registered for undo are recorded on the redo
+            stack. <br />
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

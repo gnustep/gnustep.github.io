@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSNotificationQueue" up="Base">
+  <head>
+    <title>NSNotificationQueue class reference</title>
+    <author name="Mircea Oancea">
+      <email address="mircea@jupiter.elcom.pub.ro">
+        mircea@jupiter.elcom.pub.ro
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <copy>1995-1999 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSNotificationQueue
+        class
+      </heading>
+      <class name="NSNotificationQueue" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSNotificationQueue.h</declared>
+        <desc>
+          This class supports asynchronous posting of
+          <ref type="class" id="NSNotification">NSNotification</ref>
+            s to an
+            <ref type="class" id="NSNotificationCenter">NSNotificationCenter</ref>
+              . The method to add a notification to the queue returns
+              immediately. The queue will periodically
+              post its oldest notification to the notification
+              center. In a multithreaded process, notifications
+              are always sent on the thread that they are posted
+              from.
+        </desc>
+        <ivariable type="struct _NSNotificationQueueList*" name="_asapQueue" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSNotificationCenter*" name="_center" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="struct _NSNotificationQueueList*" name="_idleQueue" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSZone*" name="_zone" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="NSNotificationQueue*" factory="yes" ovadd="1.0.0">
+          <sel>defaultQueue</sel>
+          <desc>
+            Returns the default notification queue for use in
+            this thread. It will always post notifications to the
+            default notification center (for the entire task,
+            which may have multiple threads and therefore
+            multiple notification queues).
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>dequeueNotificationsMatching:</sel>
+          <arg type="NSNotification*">notification</arg>
+          <sel>coalesceMask:</sel>
+          <arg type="NSUInteger">coalesceMask</arg>
+          <desc>
+            Immediately remove all notifications from queue
+            matching <var>notification</var> on name and/or
+            object as specified by coalesce mask, which is an OR
+            (' <code>|</code> ') of the options
+            <code>NSNotificationCoalescingOnName</code>,
+            <code>NSNotificationCoalescingOnSender</code>
+            (object), and
+            <code>NSNotificationNoCoalescing</code> (match only
+            the given instance exactly). If both of the first
+            options are specified, notifications must match on
+            both attributes (not just either one). Removed
+            notifications are <em>not</em> posted.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>enqueueNotification:</sel>
+          <arg type="NSNotification*">notification</arg>
+          <sel>postingStyle:</sel>
+          <arg type="NSPostingStyle">postingStyle</arg>
+          <desc>
+            Sets <var>notification</var> to be posted to
+            <var>notification</var> center at time dependent on
+            <var>postingStyle</var>, which may be either
+            <code>NSPostNow</code> (synchronous post),
+            <code>NSPostASAP</code> (post soon), or
+            <code>NSPostWhenIdle</code> (post when runloop is
+            idle).
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>enqueueNotification:</sel>
+          <arg type="NSNotification*">notification</arg>
+          <sel>postingStyle:</sel>
+          <arg type="NSPostingStyle">postingStyle</arg>
+          <sel>coalesceMask:</sel>
+          <arg type="NSUInteger">coalesceMask</arg>
+          <sel>forModes:</sel>
+          <arg type="NSArray*">modes</arg>
+          <desc>
+            Sets <var>notification</var> to be posted to
+            <var>notification</var> center at time dependent on
+            <var>postingStyle</var>, which may be either
+            <code>NSPostNow</code> (synchronous post),
+            <code>NSPostASAP</code> (post soon), or
+            <code>NSPostWhenIdle</code> (post when runloop is
+            idle). <var>coalesceMask</var> determines whether
+            this <var>notification</var> should be considered same
+            as other ones already on the queue, in which case they
+            are removed through a call to
+            <ref type="method" id="-dequeueNotificationsMatching:coalesceMask:">-dequeueNotificationsMatching:coalesceMask:</ref>. The <var>modes</var> argument determines which
+            <ref type="class" id="NSRunLoop">NSRunLoop</ref>
+              mode <var>notification</var> may be posted in (
+              <code>nil</code> means NSDefaultRunLoopMode).
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithNotificationCenter:</sel>
+          <arg type="NSNotificationCenter*">notificationCenter</arg>
+          <desc>
+            Initialize a new instance to post notifications
+            to the given <var>notificationCenter</var> (instead of
+            the default).
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

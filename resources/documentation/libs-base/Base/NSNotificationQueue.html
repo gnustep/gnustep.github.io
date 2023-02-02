@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>NSNotificationQueue class reference</title>
+  </head>
+  <body>
+    <font face="serif">
+    <a href="Base.html">Up</a>
+    <br />
+    <h1><a name="title$NSNotificationQueue">NSNotificationQueue class reference</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Mircea Oancea (<a href="mailto:mircea@jupiter.elcom.pub.ro"><code>mircea@jupiter.elcom.pub.ro</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Richard Frith-Macdonald (<a href="mailto:richard@brainstorm.co.uk"><code>richard@brainstorm.co.uk</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Copyright:</b> (C) 1995-1999 Free Software Foundation, Inc.</p>
+
+        <div>
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSNotificationQueue
+        class
+      </a></h1>
+    <h2><a name="class$NSNotificationQueue">NSNotificationQueue</a> : <a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSNotificationQueue.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          This class supports asynchronous posting of
+          <a rel="gsdoc" href="NSNotification.html#class$NSNotification">NSNotification</a>
+
+            s to an
+            <a rel="gsdoc" href="NSNotification.html#class$NSNotificationCenter">NSNotificationCenter</a>
+
+              . The method to add a notification to the queue returns
+              immediately. The queue will periodically
+              post its oldest notification to the notification
+              center. In a multithreaded process, notifications
+              are always sent on the thread that they are posted
+              from.
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_NSNotificationQueue_ivars">Instance Variables</a>
+    <br/><br/>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSNotificationQueue.html#method$NSNotificationQueue+defaultQueue">+defaultQueue</a></li>
+      <li><a rel="gsdoc" href="NSNotificationQueue.html#method$NSNotificationQueue-dequeueNotificationsMatching$coalesceMask$">-dequeueNotificationsMatching:coalesceMask:</a></li>
+      <li><a rel="gsdoc" href="NSNotificationQueue.html#method$NSNotificationQueue-enqueueNotification$postingStyle$">-enqueueNotification:postingStyle:</a></li>
+      <li><a rel="gsdoc" href="NSNotificationQueue.html#method$NSNotificationQueue-enqueueNotification$postingStyle$coalesceMask$forModes$">-enqueueNotification:postingStyle:coalesceMask:forModes:</a></li>
+      <li><a rel="gsdoc" href="NSNotificationQueue.html#method$NSNotificationQueue-initWithNotificationCenter$">-initWithNotificationCenter:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSNotificationQueue+defaultQueue">defaultQueue&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSNotificationQueue">NSNotificationQueue</a>*) <b>defaultQueue</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the default notification queue for use in
+            this thread. It will always post notifications to the
+            default notification center (for the entire task,
+            which may have multiple threads and therefore
+            multiple notification queues).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSNotificationQueue-dequeueNotificationsMatching$coalesceMask$">dequeueNotificationsMatching:&nbsp;coalesceMask:&nbsp;</a></h3>
+    - (void) <b>dequeueNotificationsMatching:</b> (<a rel="gsdoc" href="NSNotification.html#class$NSNotification">NSNotification</a>*)notification<b> coalesceMask:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)coalesceMask;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Immediately remove all notifications from queue
+            matching <var>notification</var> on name and/or
+            object as specified by coalesce mask, which is an OR
+            (&apos; <code>|</code> &apos;) of the options
+            <code>NSNotificationCoalescingOnName</code>,
+            <code>NSNotificationCoalescingOnSender</code>
+            (object), and
+            <code>NSNotificationNoCoalescing</code> (match only
+            the given instance exactly). If both of the first
+            options are specified, notifications must match on
+            both attributes (not just either one). Removed
+            notifications are <em>not</em> posted.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSNotificationQueue-enqueueNotification$postingStyle$">enqueueNotification:&nbsp;postingStyle:&nbsp;</a></h3>
+    - (void) <b>enqueueNotification:</b> (<a rel="gsdoc" href="NSNotification.html#class$NSNotification">NSNotification</a>*)notification<b> postingStyle:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPostingStyle">NSPostingStyle</a>)postingStyle;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Sets <var>notification</var> to be posted to
+            <var>notification</var> center at time dependent on
+            <var>postingStyle</var>, which may be either
+            <code>NSPostNow</code> (synchronous post),
+            <code>NSPostASAP</code> (post soon), or
+            <code>NSPostWhenIdle</code> (post when runloop is
+            idle).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSNotificationQueue-enqueueNotification$postingStyle$coalesceMask$forModes$">enqueueNotification:&nbsp;postingStyle:&nbsp;coalesceMask:&nbsp;forModes:&nbsp;</a></h3>
+    - (void) <b>enqueueNotification:</b> (<a rel="gsdoc" href="NSNotification.html#class$NSNotification">NSNotification</a>*)notification<b> postingStyle:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPostingStyle">NSPostingStyle</a>)postingStyle<b> coalesceMask:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)coalesceMask<b> forModes:</b> (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*)modes;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Sets <var>notification</var> to be posted to
+            <var>notification</var> center at time dependent on
+            <var>postingStyle</var>, which may be either
+            <code>NSPostNow</code> (synchronous post),
+            <code>NSPostASAP</code> (post soon), or
+            <code>NSPostWhenIdle</code> (post when runloop is
+            idle). <var>coalesceMask</var> determines whether
+            this <var>notification</var> should be considered same
+            as other ones already on the queue, in which case they
+            are removed through a call to
+            <a rel="gsdoc" href="#method$NSNotificationQueue-dequeueNotificationsMatching$coalesceMask$">-dequeueNotificationsMatching:coalesceMask:</a>
+. The <var>modes</var> argument determines which
+            <a rel="gsdoc" href="NSRunLoop.html#class$NSRunLoop">NSRunLoop</a>
+
+              mode <var>notification</var> may be posted in (
+              <code>nil</code> means NSDefaultRunLoopMode).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSNotificationQueue-initWithNotificationCenter$">initWithNotificationCenter:&nbsp;</a></h3>
+    - (id) <b>initWithNotificationCenter:</b> (<a rel="gsdoc" href="NSNotification.html#class$NSNotificationCenter">NSNotificationCenter</a>*)notificationCenter;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Initialize a new instance to post notifications
+            to the given <var>notificationCenter</var> (instead of
+            the default).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<a name="_NSNotificationQueue_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for NSNotificationQueue Class</h2>
+    <h3><a name="ivariable$NSNotificationQueue*_asapQueue">_asapQueue</a></h3>
+    @public struct _NSNotificationQueueList* <b>_asapQueue</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$NSNotificationQueue*_center">_center</a></h3>
+    @public NSNotificationCenter* <b>_center</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$NSNotificationQueue*_idleQueue">_idleQueue</a></h3>
+    @public struct _NSNotificationQueueList* <b>_idleQueue</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$NSNotificationQueue*_zone">_zone</a></h3>
+    @public NSZone* <b>_zone</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <br/><hr width="50%" align="left" /><br/>
+    <br />
+    <a href="Base.html">Up</a>
+    </font>
+</body>
+</html>

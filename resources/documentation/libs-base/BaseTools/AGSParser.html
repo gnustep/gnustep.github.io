@@ -1,0 +1,1073 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>
+      AGSParser...a class to get documention info from ObjC
+      source
+    </title>
+  </head>
+  <body>
+    <font face="serif">
+    <a href="BaseTools.html">Up</a>
+    <br />
+    <h1><a name="title$AGSParser">
+      AGSParser...a class to get documention info from ObjC
+      source
+    </a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Richard Frith-Macdonald (<a href="mailto:richard@brainstorm.co.uk"><code>richard@brainstorm.co.uk</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <blockquote>
+      
+      This is the AGSParser class... and some autogsdoc examples.
+      The AGSParser class is designed to produce a property-list
+      which can be handled by AGSOutput... one class is not much
+      use without the other.
+    
+    </blockquote>
+    <p><b>Copyright:</b> (C) 2001 Free Software Foundation, Inc.</p>
+
+        <div>
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the AGSParser class
+      </a></h1>
+    <h2><a name="class$AGSParser">AGSParser</a> : NSObject</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AGSParser.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          The AGSParser class parses Objective-C header and source
+          files to produce a property-list which can be handled
+          by
+          <a rel="gsdoc" href="AGSOutput.html#class$AGSOutput">AGSOutput</a>
+
+            .
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_AGSParser_ivars">Instance Variables</a>
+    <br/><br/>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-info">-info</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-init">-init</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-orderedSymbolDeclarationsByUnit">-orderedSymbolDeclarationsByUnit</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-outputs">-outputs</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-parseComment">-parseComment</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-parseDeclaration">-parseDeclaration</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-parseFile$isSource$">-parseFile:isSource:</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-parseIdentifier">-parseIdentifier</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-parseImplementation">-parseImplementation</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-parseInstanceVariables">-parseInstanceVariables</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-parseInterface">-parseInterface</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-parseMacro">-parseMacro</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-parseMethodIsDeclaration$">-parseMethodIsDeclaration:</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-parseMethodType">-parseMethodType</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-parseMethodsAreDeclarations$">-parseMethodsAreDeclarations:</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-parsePreprocessor">-parsePreprocessor</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-parseProtocol">-parseProtocol</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-parseProtocolList">-parseProtocolList</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-parseSpace">-parseSpace</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-parseSpace$">-parseSpace:</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-parseVersion">-parseVersion</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-reset">-reset</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-setDeclared$">-setDeclared:</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-setDocumentAllInstanceVariables$">-setDocumentAllInstanceVariables:</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-setDocumentInstanceVariables$">-setDocumentInstanceVariables:</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-setGenerateStandards$">-setGenerateStandards:</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-setStandards$">-setStandards:</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-setWordMap$">-setWordMap:</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-setupBuffer">-setupBuffer</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-skipArray">-skipArray</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-skipBlock">-skipBlock</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-skipBlock$">-skipBlock:</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-skipLiteral">-skipLiteral</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-skipRemainderOfLine">-skipRemainderOfLine</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-skipSpaces">-skipSpaces</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-skipStatement">-skipStatement</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-skipStatementLine">-skipStatementLine</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-skipToEndOfLine">-skipToEndOfLine</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-skipUnit">-skipUnit</a></li>
+      <li><a rel="gsdoc" href="AGSParser.html#method$AGSParser-sources">-sources</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$AGSParser-info">info&nbsp;</a></h3>
+    - (NSMutableDictionary*) <b>info</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-init">init&nbsp;</a></h3>
+    - (id) <b>init</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+This is a designated initialiser for the class.<br />
+    <div class="desc">
+      
+            Simple initialiser
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-orderedSymbolDeclarationsByUnit">orderedSymbolDeclarationsByUnit&nbsp;</a></h3>
+    - (NSDictionary*) <b>orderedSymbolDeclarationsByUnit</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the methods, functions and C data types in
+            their header declaration order, by organizing them
+            into arrays as described below. Methods are grouped by
+            class, category or protocol references. For example,
+            valid keys could be <em>ClassName</em>,
+            <em>ClassName(CategoryName)</em> and
+            <em>(ProtocolName)</em>. Functions and C data types
+            are grouped by header file names. For example,
+            <em>AGParser.h</em> would a valid key. TODO: Collect
+            functions and C data types. Only methods are
+            currently included in the returned dictionary.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-outputs">outputs&nbsp;</a></h3>
+    - (NSMutableArray*) <b>outputs</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Return the list of known output files depending on
+            this source/header. <br /> If there are any classes,
+            categories, or protocols, there will be an
+            output file for them whose name is based on the name
+            of the header. <br /> If there are any constants,
+            variables, typedefs or functions, there will
+            either be a shared output file for them (defined by
+            a template name set in the user defaults system), or they
+            will go in the same file as classes etc.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-parseComment">parseComment&nbsp;</a></h3>
+    - (unsigned) <b>parseComment</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            In spite of its trivial name, this is one of the key
+            methods - it parses and skips past comments, but it
+            also recognizes special comments (with an additional
+            asterisk after the start of the block comment) and
+            extracts their contents, accumulating them into
+            the &apos;comment&apos; instance variable. <br /> When the data
+            provided by a comment is appended to the data
+            stored in the &apos;comment&apos; instance variable, a line
+            break (&lt;br /&gt;)is automatically forced to
+            separate it from the proceding info. <br /> In
+            addition, the first extracted documentation is
+            checked for the prsence of file header markup,
+            which is extracted into the &apos;info&apos; dictionary. <br />
+            There are various sections we can extract from the
+            document - at most one of each. If date and
+            version are not supplied RCS Date and Revision tags
+            will be extracted where available.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-parseDeclaration">parseDeclaration&nbsp;</a></h3>
+    - (NSMutableDictionary*) <b>parseDeclaration</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            We handle struct, union, and enum declarations by
+            skipping the stuff enclosed in curly braces. If
+            there was an identifier after the keyword we use it
+            as the struct name, otherwise we use &apos;...&apos; to denote a
+            nameless type.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-parseFile$isSource$">parseFile:&nbsp;isSource:&nbsp;</a></h3>
+    - (NSMutableDictionary*) <b>parseFile:</b> (NSString*)name<b> isSource:</b> (BOOL)isSource;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            If this is parsing a header file (<var>isSource</var> ==
+            <code>NO</code>) then we reset the list of known
+            source files associated with the header before
+            proceeding. <br /> We initially assume that the
+            location of a source file is the same as the
+            header, but if there is no file at that location,
+            we expect the source to be in the documentatation
+            directory or the current directory instead.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-parseIdentifier">parseIdentifier&nbsp;</a></h3>
+    - (NSString*) <b>parseIdentifier</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Attempt to parse an identifier/keyword (with
+            optional whitespace in front of it). Perform
+            mappings using the wordMap dictionary. If a
+            mapping produces an empty string, we treat it as if
+            we had read whitespace and try again. If we read end of
+            data, or anything which is invalid inside an
+            identifier, we return <code>nil</code>. If we
+            read a GS_GENERIC... macro, we return its first
+            argument.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-parseImplementation">parseImplementation&nbsp;</a></h3>
+    - (NSMutableDictionary*) <b>parseImplementation</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-parseInstanceVariables">parseInstanceVariables&nbsp;</a></h3>
+    - (NSMutableDictionary*) <b>parseInstanceVariables</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-parseInterface">parseInterface&nbsp;</a></h3>
+    - (NSMutableDictionary*) <b>parseInterface</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-parseMacro">parseMacro&nbsp;</a></h3>
+    - (NSMutableDictionary*) <b>parseMacro</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Parse a macro definition... we are expected to have
+            read #define already <br /> It&apos;s common to have macros
+            which don&apos;t need commenting... like the ones used to
+            protect a header against multiple inclusion for
+            instance. For this reason, we ignore any macro
+            which is not preceded by a documentation comment.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-parseMethodIsDeclaration$">parseMethodIsDeclaration:&nbsp;</a></h3>
+    - (NSMutableDictionary*) <b>parseMethodIsDeclaration:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-parseMethodType">parseMethodType&nbsp;</a></h3>
+    - (NSString*) <b>parseMethodType</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-parseMethodsAreDeclarations$">parseMethodsAreDeclarations:&nbsp;</a></h3>
+    - (NSMutableDictionary*) <b>parseMethodsAreDeclarations:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-parsePreprocessor">parsePreprocessor&nbsp;</a></h3>
+    - (unsigned) <b>parsePreprocessor</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Parse a preprocessor statement, handling preprocessor
+            conditionals in a rudimentary way. We keep
+            track of the level of conditional nesting, and we
+            also track the use of #ifdef and #ifndef with some
+            well-known constants to tell us which standards
+            are currently supported.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-parseProtocol">parseProtocol&nbsp;</a></h3>
+    - (NSMutableDictionary*) <b>parseProtocol</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-parseProtocolList">parseProtocolList&nbsp;</a></h3>
+    - (NSMutableArray*) <b>parseProtocolList</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-parseSpace">parseSpace&nbsp;</a></h3>
+    - (unsigned) <b>parseSpace</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-parseSpace$">parseSpace:&nbsp;</a></h3>
+    - (unsigned) <b>parseSpace:</b> (NSCharacterSet*)spaceSet;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Skip past any whitespace characters (as defined by the
+            supplied set) including comments. <br /> Calls
+            parseComment if neccesary, ensuring that any
+            documentation in comments is appended to our
+            &apos;comment&apos; ivar.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-parseVersion">parseVersion&nbsp;</a></h3>
+    - (NSString*) <b>parseVersion</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-reset">reset&nbsp;</a></h3>
+    - (void) <b>reset</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-setDeclared$">setDeclared:&nbsp;</a></h3>
+    - (void) <b>setDeclared:</b> (NSString*)name;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Set the <var>name</var> of the file in which classes
+            are to be documented as being declared. The default
+            value of this is the last part of the path of the
+            source file being parsed.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-setDocumentAllInstanceVariables$">setDocumentAllInstanceVariables:&nbsp;</a></h3>
+    - (void) <b>setDocumentAllInstanceVariables:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            This method is used to enable (or disable)
+            documentation of all instance variables. If
+            it is turned off, only those instance variables that are
+            explicitly declared &apos;public&apos; or &apos;protected&apos; will
+            be documented.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-setDocumentInstanceVariables$">setDocumentInstanceVariables:&nbsp;</a></h3>
+    - (void) <b>setDocumentInstanceVariables:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            This method is used to enable (or disable)
+            documentation of instance variables. If it is
+            turned off, instance variables will not be
+            documented.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-setGenerateStandards$">setGenerateStandards:&nbsp;</a></h3>
+    - (void) <b>setGenerateStandards:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Turn on or off parsing of preprocessor conditional
+            compilation info indicating the standards
+            complied with. When this is turned on, we assume
+            that all standards are complied with by default.
+            <br /> You should only turn this on while parsing
+            the GNUstep source code.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-setStandards$">setStandards:&nbsp;</a></h3>
+    - (void) <b>setStandards:</b> (NSMutableDictionary*)dict;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Store the current standards information derived from
+            preprocessor conditionals in the supplied
+            dictionary... this will be used by the AGSOutput
+            class to put standards markup in the gsdoc output.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-setWordMap$">setWordMap:&nbsp;</a></h3>
+    - (void) <b>setWordMap:</b> (NSDictionary*)map;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Sets up a dictionary used for mapping
+            identifiers/keywords to other words.
+            This is used to help cope with cases where C
+            preprocessor definitions are confusing the
+            parsing process.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-setupBuffer">setupBuffer&nbsp;</a></h3>
+    - (void) <b>setupBuffer</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Read in the file to be parsed and store it in a
+            temporary unicode buffer. Perform basic
+            transformations on the buffer to simplify
+            the parsing process later - including stripping out of
+            escaped end-of-line sequences. Create mapping
+            information to convert positions in the new
+            character buffer to line numbers in the original
+            data (for logging purposes).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-skipArray">skipArray&nbsp;</a></h3>
+    - (unsigned) <b>skipArray</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Skip until we encounter an &apos;]&apos; marking the end of an
+            array. Expect the current character position to be
+            pointing to the &apos;[&apos; at the start of an array.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-skipBlock">skipBlock&nbsp;</a></h3>
+    - (unsigned) <b>skipBlock</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Skip a bracketed block. Expect the current character
+            position to be pointing to the bracket at the
+            start of a block.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-skipBlock$">skipBlock:&nbsp;</a></h3>
+    - (unsigned) <b>skipBlock:</b> (BOOL*)isEmpty;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-skipLiteral">skipLiteral&nbsp;</a></h3>
+    - (unsigned) <b>skipLiteral</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-skipRemainderOfLine">skipRemainderOfLine&nbsp;</a></h3>
+    - (unsigned) <b>skipRemainderOfLine</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-skipSpaces">skipSpaces&nbsp;</a></h3>
+    - (unsigned) <b>skipSpaces</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-skipStatement">skipStatement&nbsp;</a></h3>
+    - (unsigned) <b>skipStatement</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Skip until we encounter a semicolon or closing brace.
+            Strictly speaking, we don&apos;t skip all statements
+            that way, since we only skip part of an if...else
+            statement.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-skipStatementLine">skipStatementLine&nbsp;</a></h3>
+    - (unsigned) <b>skipStatementLine</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Special method to skip a statement and up to the
+            end of the last line it was on, discarding any comments
+            so they don&apos;t get used by the next construct that
+            actually needs documenting.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-skipToEndOfLine">skipToEndOfLine&nbsp;</a></h3>
+    - (unsigned) <b>skipToEndOfLine</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-skipUnit">skipUnit&nbsp;</a></h3>
+    - (unsigned) <b>skipUnit</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Skip until we encounter an &apos;@end&apos; marking the end of
+            an interface, implementation, or protocol.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$AGSParser-sources">sources&nbsp;</a></h3>
+    - (NSMutableArray*) <b>sources</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<a name="_AGSParser_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for AGSParser Class</h2>
+    <h3><a name="ivariable$AGSParser*buffer">buffer</a></h3>
+    @protected unichar* <b>buffer</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*comment">comment</a></h3>
+    @protected NSString* <b>comment</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Documentation accumulator.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*commentsRead">commentsRead</a></h3>
+    @protected BOOL <b>commentsRead</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*declared">declared</a></h3>
+    @protected NSString* <b>declared</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Where classes were declared.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*documentAllInstanceVariables">documentAllInstanceVariables</a></h3>
+    @protected BOOL <b>documentAllInstanceVariables</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*documentInstanceVariables">documentInstanceVariables</a></h3>
+    @protected BOOL <b>documentInstanceVariables</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*fileName">fileName</a></h3>
+    @protected NSString* <b>fileName</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            The file being parsed.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*haveOutput">haveOutput</a></h3>
+    @protected BOOL <b>haveOutput</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*haveSource">haveSource</a></h3>
+    @protected BOOL <b>haveSource</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*identStart">identStart</a></h3>
+    @protected NSCharacterSet* <b>identStart</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Legit initial <strong>char</strong> of identifier
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*identifier">identifier</a></h3>
+    @protected NSCharacterSet* <b>identifier</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Legit <strong>char</strong> in identifier
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*ifStack">ifStack</a></h3>
+    @protected NSMutableArray* <b>ifStack</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Track preprocessor conditionals.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*inArgList">inArgList</a></h3>
+    @protected BOOL <b>inArgList</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*inHeader">inHeader</a></h3>
+    @protected BOOL <b>inHeader</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*inInstanceVariables">inInstanceVariables</a></h3>
+    @protected BOOL <b>inInstanceVariables</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*inUnclosedExample">inUnclosedExample</a></h3>
+    @protected BOOL <b>inUnclosedExample</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*info">info</a></h3>
+    @protected NSMutableDictionary* <b>info</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            All information parsed.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*itemName">itemName</a></h3>
+    @protected NSString* <b>itemName</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            The item being parsed.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*length">length</a></h3>
+    @protected unsigned int <b>length</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*lines">lines</a></h3>
+    @protected NSArray* <b>lines</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            The line number mapping.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*orderedSymbolDeclsByUnit">orderedSymbolDeclsByUnit</a></h3>
+    @protected NSMutableDictionary* <b>orderedSymbolDeclsByUnit</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*pos">pos</a></h3>
+    @protected unsigned int <b>pos</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*source">source</a></h3>
+    @protected NSMutableArray* <b>source</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Names of source files.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*spacenl">spacenl</a></h3>
+    @protected NSCharacterSet* <b>spacenl</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Blanks excluding newline
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*spaces">spaces</a></h3>
+    @protected NSCharacterSet* <b>spaces</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            All blank characters
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*standards">standards</a></h3>
+    @protected BOOL <b>standards</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*unitName">unitName</a></h3>
+    @protected NSString* <b>unitName</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            The unit being parsed.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*verbose">verbose</a></h3>
+    @protected BOOL <b>verbose</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*warn">warn</a></h3>
+    @protected BOOL <b>warn</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$AGSParser*wordMap">wordMap</a></h3>
+    @protected NSDictionary* <b>wordMap</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <br/><hr width="50%" align="left" /><br/>
+    <br />
+    <a href="BaseTools.html">Up</a>
+    </font>
+</body>
+</html>

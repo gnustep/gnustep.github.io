@@ -1,0 +1,452 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>NSPropertyListSerialization class documentation</title>
+  </head>
+  <body>
+    <font face="serif">
+    <a href="Base.html">Up</a>
+    <br />
+    <h1><a name="title$NSPropertyList">NSPropertyListSerialization class documentation</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Richard Frith-Macdonald (<a href="mailto:rfm@gnu.org"><code>rfm@gnu.org</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Copyright:</b> (C) 2004-2020 Free Software Foundation, Inc.</p>
+
+        <div>
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the
+        NSPropertyListSerialization class
+      </a></h1>
+    <h2><a name="class$NSPropertyListSerialization">NSPropertyListSerialization</a> : <a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSPropertyList.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            The NSPropertyListSerialization class provides
+            facilities for serialising and deserializing
+            property list data in a number of formats. A
+            property list is roughly an
+            <a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>
+
+              or
+              <a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>
+
+                object, with these or
+                <a rel="gsdoc" href="NSValue.html#class$NSNumber">NSNumber</a>
+
+                  ,
+                  <a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>
+
+                    ,
+                    <a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>
+
+                      , or
+                      <a rel="gsdoc" href="NSDate.html#class$NSDate">NSDate</a>
+
+                        objects as members. (See below.)
+                          </p>
+    <p>
+      
+                      
+    </p>
+    <p>
+
+                        You do not work with instances of this
+                        class, instead you use a small number of
+                        class methods to serialize and
+                        deserialize property lists.
+                          </p>
+    <p>
+      
+                      <br /> A <em>property list</em> may only
+                      be one of the following classes -
+                      
+      <dl>
+        <dt>
+                          <a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>
+
+                          </dt>
+        <dd>
+          
+                            An array which is either empty or
+                            contains only
+                            <em>property list</em> objects. <br />
+                            An array is delimited by round brackets
+                            and its contents are comma
+                            <em>separated</em> (there is no comma
+                            after the last array element).
+
+<pre>
+       ( &quot;one&quot;, &quot;two&quot;, &quot;three&quot; )
+     </pre>
+          
+          In XML format, an array is an element whose name is
+          <code>array</code> and whose content is the array
+          content.
+
+<pre>
+       &lt;array&gt;&lt;string&gt;one&lt;/string&gt;&lt;string&gt;two&lt;/string&gt;&lt;string&gt;three&lt;/string&gt;&lt;/array&gt;
+     </pre>
+          
+        
+        </dd>
+        <dt>
+          <a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>
+
+          </dt>
+        <dd>
+          
+            A data object is represented as a series of pairs of
+            hexadecimal characters (each pair representing
+            a byte of data) enclosed in angle brackets. (Spaces are
+            ignored).
+
+<pre>
+       &lt; 54637374 696D67 &gt;
+     </pre>
+          
+          Base64 can be used since Base 1.24.9:
+
+<pre>
+       &lt;[VGNzdGltZw==]&gt;
+     </pre>
+          
+          In XML format, a data object is an element whose name is
+          <code>data</code> and whose content is a stream of
+          base64 encoded bytes.
+        
+        </dd>
+        <dt>
+          <a rel="gsdoc" href="NSDate.html#class$NSDate">NSDate</a>
+
+          </dt>
+        <dd>
+          
+            Date objects were not traditionally allowed in
+            <em>property lists</em> but were added when the XML
+            format was introduced. GNUstep provides an extension
+            to the traditional <em>property list</em> format to
+            support date objects, but older code will not read
+            <em>property lists</em> containing this extension.
+            <br /> This format consists of an asterisk followed
+            by the letter &apos;D&apos; then a date/time in YYYY-MM-DD
+            HH:MM:SS +/-ZZZZ format, all enclosed within angle
+            brackets.
+
+<pre>
+       &lt;*D2002-03-22 11:30:00 +0100&gt;
+     </pre>
+          
+          In XML format, a date object is an element whose name is
+          <code>date</code> and whose content is a date in the
+          format YYYY-MM-DDTHH:MM:SSZ (or the above dfate
+          format).
+
+<pre>
+       &lt;date&gt;2002-03-22T11:30:00Z&lt;/date&gt;
+     </pre>
+          
+        
+        </dd>
+        <dt>
+          <a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>
+
+          </dt>
+        <dd>
+          
+            A dictionary which is either empty or contains only
+            <em>string</em> keys and <em>property list</em>
+            objects. <br /> A dictionary is delimited by curly
+            brackets and its contents are semicolon
+            <em>terminated</em> (there is a semicolon after each
+            value). Each item in the dictionary is a key/value
+            pair with an equals sign after the key and before the
+            value.
+
+<pre>
+       {
+         &quot;key1&quot; = &quot;value1&quot;;
+       }
+     </pre>
+          
+          In XML format, a dictionary is an element whose name is
+          <code>dict</code> and whose content consists of pairs
+          of string <code>key</code> and other
+          <em>property list</em> objects.
+
+<pre>
+       &lt;dict&gt;
+         &lt;key&gt;key1&lt;/key&gt;
+         &lt;string&gt;value1&lt;/string&gt;
+       &lt;/dict&gt;
+     </pre>
+          
+        
+        </dd>
+        <dt>
+          <a rel="gsdoc" href="NSValue.html#class$NSNumber">NSNumber</a>
+
+          </dt>
+        <dd>
+          
+            Number objects were not traditionally allowed in
+            <em>property lists</em> but were added when the XML
+            format was introduced. GNUstep provides an extension
+            to the traditional <em>property list</em> format to
+            support number objects, but older code will not
+            read <em>property lists</em> containing this
+            extension. <br /> Numbers are stored in a
+            variety of formats depending on their values.
+            
+          <ul>
+            <li>
+              
+                boolean... either <code>&lt;*BY&gt;</code> for
+                <code>YES</code> or <code>&lt;*BN&gt;</code> for
+                <code>NO</code>. <br /> In XML format this is
+                either <code>&lt;true /&gt;</code> or
+                <code>&lt;false /&gt;</code>
+              
+            </li>
+            <li>
+              
+                integer... <code>&lt;*INNN&gt;</code> where NNN
+                is an integer. <br /> In XML format this is
+                <code>&lt;integer&gt;NNN&lt;integer&gt;</code>
+              
+            </li>
+            <li>
+              
+                real... <code>&lt;*RNNN&gt;</code> where NNN is a
+                real number. <br /> In XML format this is
+                <code>&lt;real&gt;NNN&lt;real&gt;</code>
+              
+            </li>
+          </ul>
+          
+          
+        </dd>
+        <dt>
+            <a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>
+
+            </dt>
+        <dd>
+          
+              A string is either stored literally (if it contains no
+              spaces or special characters), or is stored as a
+              quoted string with special characters escaped
+              where necessary. <br /> Escape conventions are
+              similar to those normally used in ObjectiveC
+              programming, using a backslash followed by -
+              
+          <ul>
+            <li>
+              
+                  <strong>\</strong> a backslash character
+                
+            </li>
+            <li>
+              
+                  <strong>&quot;</strong> a quote character
+                
+            </li>
+            <li>
+              
+                  <strong>b</strong> a backspace character
+                
+            </li>
+            <li>
+              
+                  <strong>n</strong> a newline character
+                
+            </li>
+            <li>
+              
+                  <strong>r</strong> a carriage return
+                  character
+                
+            </li>
+            <li>
+              <strong>t</strong> a tab character
+            </li>
+            <li>
+              
+                  <strong>OOO</strong> (three octal digits) an
+                  arbitrary ascii character
+                
+            </li>
+            <li>
+              
+                  <strong>UXXXX</strong> (where X is a
+                  hexadecimal digit) a an arbitrary unicode
+                  character
+                
+            </li>
+          </ul>
+          
+
+<pre>
+       &quot;hello world &amp; others&quot;
+     </pre>
+          
+          In XML format, the string is simply stored in UTF8 format
+          as the content of a <code>string</code> element, and the
+          only character escapes required are those used by XML
+          such as the &apos;&amp;lt;&apos; markup representing a &apos;&lt;&apos;
+          character.
+
+<pre>
+       &lt;string&gt;hello world &amp;amp; others&lt;/string&gt;&quot;
+     </pre>
+          
+        
+        </dd>
+      </dl>
+      
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSPropertyList.html#method$NSPropertyListSerialization+dataFromPropertyList$format$errorDescription$">+dataFromPropertyList:format:errorDescription:</a></li>
+      <li><a rel="gsdoc" href="NSPropertyList.html#method$NSPropertyListSerialization+dataWithPropertyList$format$options$error$">+dataWithPropertyList:format:options:error:</a></li>
+      <li><a rel="gsdoc" href="NSPropertyList.html#method$NSPropertyListSerialization+propertyList$isValidForFormat$">+propertyList:isValidForFormat:</a></li>
+      <li><a rel="gsdoc" href="NSPropertyList.html#method$NSPropertyListSerialization+propertyListFromData$mutabilityOption$format$errorDescription$">+propertyListFromData:mutabilityOption:format:errorDescription:</a></li>
+      <li><a rel="gsdoc" href="NSPropertyList.html#method$NSPropertyListSerialization+propertyListWithData$options$format$error$">+propertyListWithData:options:format:error:</a></li>
+      <li><a rel="gsdoc" href="NSPropertyList.html#method$NSPropertyListSerialization+propertyListWithStream$options$format$error$">+propertyListWithStream:options:format:error:</a></li>
+      <li><a rel="gsdoc" href="NSPropertyList.html#method$NSPropertyListSerialization+writePropertyList$toStream$format$options$error$">+writePropertyList:toStream:format:options:error:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSPropertyListSerialization+dataFromPropertyList$format$errorDescription$">dataFromPropertyList:&nbsp;format:&nbsp;errorDescription:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*) <b>dataFromPropertyList:</b> (id)aPropertyList<b> format:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPropertyListFormat">NSPropertyListFormat</a>)aFormat<b> errorDescription:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>**)anErrorString;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Creates and returns a data object containing a
+            serialized representation of plist. The argument
+            <var>aFormat</var> is used to determine the way in
+            which the data is serialised, and the
+            <var>anErrorString</var> argument is a pointer in
+            which an error message is returned on failure (
+            <code>nil</code> is returned on success).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSPropertyListSerialization+dataWithPropertyList$format$options$error$">dataWithPropertyList:&nbsp;format:&nbsp;options:&nbsp;error:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*) <b>dataWithPropertyList:</b> (id)aPropertyList<b> format:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPropertyListFormat">NSPropertyListFormat</a>)aFormat<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPropertyListWriteOptions">NSPropertyListWriteOptions</a>)anOption<b> error:</b> (out <a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSPropertyListSerialization+propertyList$isValidForFormat$">propertyList:&nbsp;isValidForFormat:&nbsp;</a></h3>
+    + (BOOL) <b>propertyList:</b> (id)aPropertyList<b> isValidForFormat:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPropertyListFormat">NSPropertyListFormat</a>)aFormat;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns a flag indicating whether it is possible to
+            serialize <var>aPropertyList</var> in the format
+            <var>aFormat</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSPropertyListSerialization+propertyListFromData$mutabilityOption$format$errorDescription$">propertyListFromData:&nbsp;mutabilityOption:&nbsp;format:&nbsp;errorDescription:&nbsp;</a></h3>
+    + (id) <b>propertyListFromData:</b> (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*)data<b> mutabilityOption:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPropertyListMutabilityOptions">NSPropertyListMutabilityOptions</a>)anOption<b> format:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPropertyListFormat">NSPropertyListFormat</a>*)aFormat<b> errorDescription:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>**)anErrorString;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Deserialises dataItem and returns the
+            resulting property list (or <code>nil</code> if
+            the <var>data</var> does not contain a property list
+            serialised in a supported format). <br /> The
+            argument <var>anOption</var> is used to control
+            whether the objects making up the deserialized
+            property list are mutable or not. <br /> The
+            argument <var>aFormat</var> is either null or a
+            pointer to a location in which the format of the
+            serialized property list will be returned.
+            <br /> Either <code>nil</code> or an error message
+            will be returned in <var>anErrorString</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSPropertyListSerialization+propertyListWithData$options$format$error$">propertyListWithData:&nbsp;options:&nbsp;format:&nbsp;error:&nbsp;</a></h3>
+    + (id) <b>propertyListWithData:</b> (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*)data<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPropertyListReadOptions">NSPropertyListReadOptions</a>)anOption<b> format:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPropertyListFormat">NSPropertyListFormat</a>*)aFormat<b> error:</b> (out <a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSPropertyListSerialization+propertyListWithStream$options$format$error$">propertyListWithStream:&nbsp;options:&nbsp;format:&nbsp;error:&nbsp;</a></h3>
+    + (id) <b>propertyListWithStream:</b> (<a rel="gsdoc" href="NSStream.html#class$NSInputStream">NSInputStream</a>*)stream<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPropertyListReadOptions">NSPropertyListReadOptions</a>)anOption<b> format:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPropertyListFormat">NSPropertyListFormat</a>*)aFormat<b> error:</b> (out <a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSPropertyListSerialization+writePropertyList$toStream$format$options$error$">writePropertyList:&nbsp;toStream:&nbsp;format:&nbsp;options:&nbsp;error:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>) <b>writePropertyList:</b> (id)aPropertyList<b> toStream:</b> (<a rel="gsdoc" href="NSStream.html#class$NSOutputStream">NSOutputStream</a>*)stream<b> format:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPropertyListFormat">NSPropertyListFormat</a>)aFormat<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPropertyListWriteOptions">NSPropertyListWriteOptions</a>)anOption<b> error:</b> (out <a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+    <br />
+    <a href="Base.html">Up</a>
+    </font>
+</body>
+</html>

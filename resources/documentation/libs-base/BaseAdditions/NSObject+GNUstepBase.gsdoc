@@ -1,0 +1,460 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSObject+GNUstepBase" up="BaseAdditions">
+  <head>
+    <title>NSObject+GNUstepBase documentation</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <copy>2003-2010 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSObject(GNUstepBase)
+        informal protocol
+      </heading>
+      <category name="GNUstepBase" class="NSObject" ovadd="0.0.0">
+        <declared>GNUstepBase/NSObject+GNUstepBase.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="NSComparisonResult" ovadd="0.0.0">
+          <sel>compare:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            WARNING: The
+            <ref type="method" id="-compare:">
+              -compare:
+            </ref>
+            method for NSObject is deprecated due to subclasses
+            declaring the same selector with conflicting
+            signatures. Comparision of arbitrary objects is
+            not just meaningless but also dangerous as most
+            concrete implementations expect comparable objects
+            as arguments often accessing instance variables
+            directly. This method will be removed in a future
+            release.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>isInstance</sel>
+          <desc>
+            For backward compatibility only... use
+            <ref type="function" id="class_isMetaClass">
+              class_isMetaClass()
+            </ref>
+            on the class of the receiver instead.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>makeImmutable</sel>
+          <desc>
+            Transmutes the receiver into an immutable
+            version of the same object. Returns
+            <code>YES</code> if the receiver has become
+            immutable, <code>NO</code> otherwise. <br /> The
+            default implementation returns <code>NO</code>.
+            <br /> Mutable classes which have an immutable
+            counterpart they can efficiently change into,
+            should override to transmute themselves and return
+            <code>YES</code>. <br /> Immutable classes should
+            override this to simply return <code>YES</code>
+            with no further action. <br /> This method is used in
+            methods which are declared to return immutable
+            objects (eg. an NSArray), but which create and
+            build mutable ones internally.
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>makeImmutableCopyOnFail:</sel>
+          <arg type="BOOL">force</arg>
+          <desc>
+            DEPRECATED... do not use. Transmutes the
+            receiver into an immutable version of the same
+            object and returns the result. <br /> If the
+            receiver is not a mutable object or cannot be
+            simply transmuted, then this method either returns
+            the receiver unchanged or, if the <var>force</var> flag
+            is set to <code>YES</code>, returns an autoreleased copy
+            of the receiver. <br /> Mutable classes should override
+            this default implementation. <br /> This method is
+            used in methods which are declared to return immutable
+            objects (eg. an NSArray), but which create and
+            build mutable ones internally.
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>notImplemented:</sel>
+          <arg type="SEL">aSel</arg>
+          <desc>
+            Message sent when an implementation wants to
+            explicitly exclude a method (but cannot due to
+            compiler constraint), and wants to make sure it is
+            not called by mistake. Default implementation raises an
+            exception at runtime.
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>shouldNotImplement:</sel>
+          <arg type="SEL">aSel</arg>
+          <desc>
+            Message sent when an implementation wants to
+            explicitly exclude a method (but cannot due to
+            compiler constraint) and forbid that subclasses
+            implement it. Default implementation raises an
+            exception at runtime. If a subclass <em>does</em>
+            implement this method, however, the superclass's
+            implementation will not be called, so this
+            is not a perfect mechanism.
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>subclassResponsibility:</sel>
+          <arg type="SEL">aSel</arg>
+          <desc>
+            Message sent when an implementation wants to
+            explicitly require a subclass to implement a
+            method (but cannot at compile time since there is no
+            <code>abstract</code> keyword in Objective-C).
+            Default implementation raises an exception at
+            runtime to alert developer that he/she forgot to
+            override a method.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSObject(GSAtExit)
+        informal protocol
+      </heading>
+      <category name="GSAtExit" class="NSObject" ovadd="0.0.0">
+        <declared>GNUstepBase/NSObject+GNUstepBase.h</declared>
+        <desc>
+          This is an informal protocol... classes may implement
+          the method and register themselves to have it called on
+          process exit.
+        </desc>
+        <method type="void" factory="yes" ovadd="0.0.0">
+          <sel>atExit</sel>
+          <desc>
+            This method is called on exit for any class which
+            implements it and which has called
+            <ref type="method" id="+registerAtExit">
+              +registerAtExit
+            </ref>
+            to register it to be called. <br /> The order in which
+            methods for different classes is called is the
+            reverse of the order in which the classes were
+            registered, but it's best to assume the method
+            can not depend on any other class being in a usable
+            state at the point when the method is called (rather
+            like +load). <br /> Typical use would be to release
+            memory occupied by class data structures so that
+            memory usage analysis software will not think the
+            memory has been leaked.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSObject(GSCleanup)
+        informal protocol
+      </heading>
+      <category name="GSCleanup" class="NSObject" ovadd="0.0.0">
+        <declared>GNUstepBase/NSObject+GNUstepBase.h</declared>
+        <desc>
+          Category for methods handling leaked memory cleanup
+          on exit of process (for use when debugging memory leaks).
+          <br /> You enable this by calling the
+          <ref type="method" id="+setShouldCleanUp:">
+            +setShouldCleanUp:
+          </ref>
+          method (done implicitly by gnustep-base if the
+          GNUSTEP_SHOULD_CLEAN_UP environment
+          variable is set to <code>YES</code>). <br /> Your
+          class then has two options for performing cleanup when
+          the process ends:
+          <p>
+            1. Use the <ref type="method" id="+leak:">+leak:</ref>
+            method to register objects which are simply to be
+            retained until the process ends, and then either
+            ignored or released depending on the cleanup
+            setting in force. This mechanism is simple and
+            should be sufficient for many classes.
+          </p>
+          <p>
+            2. Implement a
+            <ref type="method" id="+atExit">
+              +atExit
+            </ref>
+            method to be run when the process ends and, within
+            your
+            <ref type="method" id="+initialize">
+              +initialize
+            </ref>
+            implementation, call
+            <ref type="method" id="+shouldCleanUp">
+              +shouldCleanUp
+            </ref>
+            to determine whether cleanup should be done, and if it
+            returns <code>YES</code> then call
+            <ref type="method" id="+registerAtExit">
+              +registerAtExit
+            </ref>
+            to have your
+            <ref type="method" id="+atExit">
+              +atExit
+            </ref>
+            method called when the process terminates.
+          </p>
+          <p>
+            The order in which 'leaked' objects are released and
+            <ref type="method" id="+atExit">
+              +atExit
+            </ref>
+            methods are called on process exist is the reverse
+            of the order in which they werse set up suing this API.
+          </p>
+        </desc>
+        <method type="id" factory="yes" ovadd="0.0.0">
+          <sel>leak:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            This method simply retains its argument so that it
+            will never be deallocated during normal operation, but
+            keeps track of it so that it is released during
+            process exit if cleanup is enabled. <br /> Returns
+            its argument.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="0.0.0">
+          <sel>leakAt:</sel>
+          <arg type="id*">anAddress</arg>
+          <desc>
+            This method retains the object at *anAddress so that
+            it will never be deallocated during normal operation,
+            but keeps track of the address so that the object is
+            released and the address is zeroed during process
+            exit if cleanup is enabled. <br /> Returns the object
+            at *anAddress.
+          </desc>
+        </method>
+        <method type="BOOL" factory="yes" ovadd="0.0.0">
+          <sel>registerAtExit</sel>
+          <desc>
+            Sets the receiver to have its
+            <ref type="method" id="+atExit">
+              +atExit
+            </ref>
+            method called at the point when the process
+            terminates. <br /> Returns <code>YES</code> on
+            success and <code>NO</code> on failure (if the
+            class does not implement the method or if it is
+            already registered to call it). <br /> Implemented
+            as a call to
+            <ref type="method" id="+registerAtExit:">
+              +registerAtExit:
+            </ref>
+            with the selector for the
+            <ref type="method" id="+atExit">
+              +atExit
+            </ref>
+            method as its argument.
+          </desc>
+        </method>
+        <method type="BOOL" factory="yes" ovadd="0.0.0">
+          <sel>registerAtExit:</sel>
+          <arg type="SEL">aSelector</arg>
+          <desc>
+            Sets the receiver to have the specified method called
+            at the point when the process terminates. <br /> Returns
+            <code>YES</code> on success and <code>NO</code> on
+            failure (if the class does not implement the method
+            ir if it is already registered to call it).
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="0.0.0">
+          <sel>setShouldCleanUp:</sel>
+          <arg type="BOOL">aFlag</arg>
+          <desc>
+            Specifies the default cleanup behavior on process
+            exit... the value returned by the NSObject
+            implementation of the
+            <ref type="method" id="+shouldClanUp">
+              +shouldClanUp
+            </ref>
+            method. <br /> Calling this method with a
+            <code>YES</code> argument implicitly calls the
+            <ref type="method" id="+enableAtExit">
+              +enableAtExit
+            </ref>
+            method as well. <br /> The GNUstep Base library
+            calls this method with the value obtained from the
+            GNUSTEP_SHOULD_CLEAN_UP environment
+            variable when NSObject is initialised.
+          </desc>
+        </method>
+        <method type="BOOL" factory="yes" ovadd="0.0.0">
+          <sel>shouldCleanUp</sel>
+          <desc>
+            Returns a flag indicating whether the receiver
+            should clean up its data structures etc at process
+            exit. <br /> The NSObject implementation returns the
+            value set by the
+            <ref type="method" id="+setShouldCleanUp:">
+              +setShouldCleanUp:
+            </ref>
+            method but subclasses may override this.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(MemoryFootprint) informal
+        protocol
+      </heading>
+      <category name="MemoryFootprint" class="NSObject" ovadd="0.0.0">
+        <declared>GNUstepBase/NSObject+GNUstepBase.h</declared>
+        <desc>
+          This is an informal protocol; classes may implement the
+          <ref type="method" id="+contentSizeOf:declaredIn:excluding:">+contentSizeOf:declaredIn:excluding:</ref> method to report how much memory is used by any objects/pointers it acts as a container for. <br /> Code may call the <ref type="method" id="-sizeInBytesExcluding:">-sizeInBytesExcluding:</ref> or <ref type="method" id="-sizeinBytes">-sizeinBytes</ref> method to determine how much heap memory an object (and its content) occupies.
+        </desc>
+        <method type="NSUInteger" factory="yes" ovadd="0.0.0">
+          <sel>contentSizeOf:</sel>
+          <arg type="NSObject*">obj</arg>
+          <sel>excluding:</sel>
+          <arg type="NSHashTable*">exclude</arg>
+          <desc>
+            This method returns the size of the memory used by the
+            object instance variables of the target object
+            (excluding any in the specified set). <br />
+            This is not the memory occupied by instance variable
+            pointers. It is the memory referenced by any
+            objects inside the target. <br /> This method is
+            not intended to be overridden, rather it is provided
+            for use as a helper for the
+            <ref type="method" id="-sizeOfContentExcluding:">
+              -sizeOfContentExcluding:
+            </ref>
+            method. <br /> This method must not be called for a
+            mutable object unless it is protected by a locking
+            mechanism to prevent mutation while it is
+            examining the instance variables of the object.
+<example>
+ @interface	foo : bar
+ {
+   id	a;		// Some object
+   id b;		// More storage
+   unsigned capacity;	// Buffer size
+   char *p;		// The buffer
+ }
+ @end
+ @implementation foo
+ - (NSUInteger) sizeOfContentExcluding: (NSHashTable*)exclude
+{ 
+  NSUInteger	size;
+
+  // get the size of the objects (a and b)
+  size = [NSObject contentSizeOf: self
+			 excluding: exclude];
+  // add the memory pointed to by p
+  size += capacity * sizeof(char);
+  return size;
+}
+@end
+ </example>
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="0.0.0">
+          <sel>sizeInBytes</sel>
+          <desc>
+            Convenience method calling
+            <ref type="method" id="-sizeInBytesExcluding:">
+              -sizeInBytesExcluding:
+            </ref>
+            with a newly created exclusion hash table, and
+            destroying the table once the size is
+            calculated.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="0.0.0">
+          <sel>sizeInBytesExcluding:</sel>
+          <arg type="NSHashTable*">exclude</arg>
+          <desc>
+            This method returns the memory usage of the receiver,
+            excluding any objects already present in the
+            <var>exclude</var> table. <br /> The argument is a
+            hash table configured to hold non-retained pointer
+            objects and is used to inform the receiver that its
+            size should not be counted again if it's already in
+            the table. <br /> The NSObject implementation returns
+            zero if the receiver is in the table, but otherwise
+            adds itself to the table and returns its memory
+            footprint (the sum of all of its instance
+            variables, plus the result of calling
+            <ref type="method" id="-sizeOfContentExcluding:">
+              -sizeOfContentExcluding:
+            </ref>
+            for the instance). <br /> Classes should not override
+            this method, instead they should implement
+            <ref type="method" id="-sizeOfContentExcluding:">
+              -sizeOfContentExcluding:
+            </ref>
+            to return the extra memory usage of the pointer/object
+            instance variables (heap memory) they add to their
+            superclass. <br /> NB. mutable objects must
+            either prevent mutation while calculating their
+            content size, or must override
+            <ref type="method" id="-sizeOfContentExcluding:">
+              -sizeOfContentExcluding:
+            </ref>
+            to refrain from dealing with content which might change.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="0.0.0">
+          <sel>sizeOfContentExcluding:</sel>
+          <arg type="NSHashTable*">exclude</arg>
+          <desc>
+            This method is called by
+            <ref type="method" id="-sizeInBytesExcluding:">
+              -sizeInBytesExcluding:
+            </ref>
+            to calculate the size of any objects or heap memory
+            contained by the receiver. <br /> The base class
+            implementation simply returns zero (as it is
+            not possible to safely calculate content sizes of
+            mutable objects), but subclasses should override it
+            to provide correct information where possible (eg if the
+            object is immutable or if locking is used to prevent
+            mutation while calculating content size). <br />
+            Subclasses may use the
+            <ref type="method" id="+contentSizeOf:excluding:">
+              +contentSizeOf:excluding:
+            </ref>
+            method as a convenience to provide the sizes of
+            object instnce variables.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="0.0.0">
+          <sel>sizeOfInstance</sel>
+          <desc>
+            Helper method called by
+            <ref type="method" id="-sizeInBytesExcluding:">
+              -sizeInBytesExcluding:
+            </ref>
+            to return the size of the instance excluding any
+            contents (things referenced by pointers).
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

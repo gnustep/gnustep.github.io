@@ -1,0 +1,693 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSDateFormatter" up="Base">
+  <head>
+    <title>NSDateFormatter class reference</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <copy>1998 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSDateFormatter class
+      </heading>
+      <class name="NSDateFormatter" super="NSFormatter" ovadd="10.0.0">
+        <declared>Foundation/NSDateFormatter.h</declared>
+        <conform>NSCoding</conform>
+        <conform>NSCopying</conform>
+        <desc>
+          <p>
+            <strong>Class</strong> for generating text
+            representations of
+            <ref type="class" id="NSDate">NSDate</ref>
+              s and
+              <ref type="class" id="NSCalendarDate">NSCalendarDate</ref>
+                s, and for converting strings into instances of
+                these objects. Note that
+                <ref type="class" id="NSDate">NSDate</ref>
+                  and
+                  <ref type="class" id="NSCalendarDate">NSCalendarDate</ref>do contain some string conversion methods, but using this class provides more control over conversion.</p>
+                  <p>
+                    See the
+                    <ref type="class" id="NSFormatter">NSFormatter</ref>documentation for description of the basic methods for formatting and parsing that are available.</p>
+                    <p>
+                      The basic format of a format string uses "%"
+                      codes to represent components of the date.
+                      Thus, for example,
+                      <code>@"%b %d, %Y"</code> specifies
+                      strings similar to "June 18, 1991". The
+                      full list of codes is as follows:
+                    </p>
+                    <deflist>
+                      <term>%%</term>
+                      <desc>a '%' character</desc>
+                      <term>%a</term>
+                      <desc>abbreviated weekday name</desc>
+                      <term>%A</term>
+                      <desc>full weekday name</desc>
+                      <term>%b</term>
+                      <desc>abbreviated month name</desc>
+                      <term>%B</term>
+                      <desc>full month name</desc>
+                      <term>%c</term>
+                      <desc>
+                        shorthand for "%X %x", the locale
+                        format for date and time
+                      </desc>
+                      <term>%d</term>
+                      <desc>
+                        day of the month as a decimal number
+                        (01-31)
+                      </desc>
+                      <term>%e</term>
+                      <desc>
+                        same as %d but does not print the leading
+                        0 for days 1 through 9 (unlike
+                        <ref type="function" id="strftime">
+                          strftime()
+                        </ref>
+                        , does not print a leading space)
+                      </desc>
+                      <term>%F</term>
+                      <desc>
+                        milliseconds as a decimal number
+                        (000-999)
+                      </desc>
+                      <term>%H</term>
+                      <desc>
+                        hour based on a 24-hour clock as a decimal
+                        number (00-23)
+                      </desc>
+                      <term>%I</term>
+                      <desc>
+                        hour based on a 12-hour clock as a decimal
+                        number (01-12)
+                      </desc>
+                      <term>%j</term>
+                      <desc>
+                        day of the year as a decimal number
+                        (001-366)
+                      </desc>
+                      <term>%m</term>
+                      <desc>
+                        month as a decimal number (01-12)
+                      </desc>
+                      <term>%M</term>
+                      <desc>
+                        minute as a decimal number (00-59)
+                      </desc>
+                      <term>%p</term>
+                      <desc>
+                        AM/PM designation for the locale
+                      </desc>
+                      <term>%S</term>
+                      <desc>
+                        second as a decimal number (00-59)
+                      </desc>
+                      <term>%w</term>
+                      <desc>
+                        weekday as a decimal number (0-6),
+                        where Sunday is 0
+                      </desc>
+                      <term>%x</term>
+                      <desc>
+                        date using the date representation for the
+                        locale, including the time zone
+                        (produces different results from
+                        strftime())
+                      </desc>
+                      <term>%X</term>
+                      <desc>
+                        time using the time representation for the
+                        locale (produces different results from
+                        strftime())
+                      </desc>
+                      <term>%y</term>
+                      <desc>year without century (00-99)</desc>
+                      <term>%Y</term>
+                      <desc>
+                        year with century (such as 1990)
+                      </desc>
+                      <term>%Z</term>
+                      <desc>
+                        time zone name (such as Pacific Daylight
+                        Time; produces different results from
+                        strftime())
+                      </desc>
+                      <term>%z</term>
+                      <desc>
+                        time zone offset in hours and minutes from
+                        GMT (HHMM)
+                      </desc>
+                    </deflist>
+        </desc>
+        <ivariable type="BOOL" name="_allowsNaturalLanguage" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="_dateFormat" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="NSString*" factory="yes" ovadd="10.6.0">
+          <sel>dateFormatFromTemplate:</sel>
+          <arg type="NSString*">aTemplate</arg>
+          <sel>options:</sel>
+          <arg type="NSUInteger">opts</arg>
+          <sel>locale:</sel>
+          <arg type="NSLocale*">locale</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDateFormatterBehavior" factory="yes" ovadd="10.4.0">
+          <sel>defaultFormatterBehavior</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" factory="yes" ovadd="10.6.0">
+          <sel>localizedStringFromDate:</sel>
+          <arg type="NSDate*">date</arg>
+          <sel>dateStyle:</sel>
+          <arg type="NSDateFormatterStyle">dateStyle</arg>
+          <sel>timeStyle:</sel>
+          <arg type="NSDateFormatterStyle">timeStyle</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="10.4.0">
+          <sel>setDefaultFormatterBehavior:</sel>
+          <arg type="NSDateFormatterBehavior">behavior</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>AMSymbol</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>PMSymbol</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>allowsNaturalLanguage</sel>
+          <desc>
+            Returns whether initialized to support natural
+            language formatting. If <code>YES</code>,
+            string-to-object conversion will attempt
+            to process strings as natural language dates, such as
+            "yesterday", or "first Tuesday of next month"
+            if straight format-based conversion fails.
+          </desc>
+        </method>
+        <method type="NSCalendar*" ovadd="10.4.0">
+          <sel>calendar</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>dateFormat</sel>
+          <desc>
+            Returns format string initialized with, specifying
+            how dates are formatted, for object-to-string
+            conversion, and how they are parsed, for
+            string-to-object conversion. For example,
+            <code>@"%b %d, %Y"</code> specifies strings similar
+            to "June 18, 1991".
+          </desc>
+        </method>
+        <method type="NSDate*" ovadd="10.4.0">
+          <sel>dateFromString:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDateFormatterStyle" ovadd="10.4.0">
+          <sel>dateStyle</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDate*" ovadd="10.4.0">
+          <sel>defaultDate</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.6.0">
+          <sel>doesRelativeDateFormatting</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.4.0">
+          <sel>eraSymbols</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDateFormatterBehavior" ovadd="10.4.0">
+          <sel>formatterBehavior</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0">
+          <sel>generatesCalendarDates</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0">
+          <sel>getObjectValue:</sel>
+          <arg type="out id*">obj</arg>
+          <sel>forString:</sel>
+          <arg type="NSString*">string</arg>
+          <sel>range:</sel>
+          <arg type="inout NSRange*">range</arg>
+          <sel>error:</sel>
+          <arg type="out NSError**">error</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDate*" ovadd="10.5.0">
+          <sel>gregorianStartDate</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>initWithDateFormat:</sel>
+          <arg type="NSString*">format</arg>
+          <sel>allowNaturalLanguage:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Initialize with given specifier string
+            <var>format</var>. See class description for how to
+            specify a <var>format</var> string. If
+            <var>flag</var> is <code>YES</code>, string-to-object
+            conversion will attempt to process strings as
+            natural language dates, such as "yesterday", or
+            "first Tuesday of next month" if straight
+            format-based conversion fails.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0">
+          <sel>isLenient</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSLocale*" ovadd="10.4.0">
+          <sel>locale</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>longEraSymbols</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.4.0">
+          <sel>monthSymbols</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>quarterSymbols</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setAMSymbol:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setCalendar:</sel>
+          <arg type="NSCalendar*">calendar</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setDateFormat:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setDateStyle:</sel>
+          <arg type="NSDateFormatterStyle">style</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setDefaultDate:</sel>
+          <arg type="NSDate*">date</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>setDoesRelativeDateFormatting:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setEraSymbols:</sel>
+          <arg type="NSArray*">array</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setFormatterBehavior:</sel>
+          <arg type="NSDateFormatterBehavior">behavior</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setGeneratesCalendarDates:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setGregorianStartDate:</sel>
+          <arg type="NSDate*">date</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setLenient:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setLocale:</sel>
+          <arg type="NSLocale*">locale</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setLongEraSymbols:</sel>
+          <arg type="NSArray*">array</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setMonthSymbols:</sel>
+          <arg type="NSArray*">array</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setPMSymbol:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setQuarterSymbols:</sel>
+          <arg type="NSArray*">array</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setShortMonthSymbols:</sel>
+          <arg type="NSArray*">array</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setShortQuarterSymbols:</sel>
+          <arg type="NSArray*">array</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setShortStandaloneMonthSymbols:</sel>
+          <arg type="NSArray*">array</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setShortStandaloneQuarterSymbols:</sel>
+          <arg type="NSArray*">array</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setShortStandaloneWeekdaySymbols:</sel>
+          <arg type="NSArray*">array</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setShortWeekdaySymbols:</sel>
+          <arg type="NSArray*">array</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setStandaloneMonthSymbols:</sel>
+          <arg type="NSArray*">array</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setStandaloneQuarterSymbols:</sel>
+          <arg type="NSArray*">array</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setStandaloneWeekdaySymbols:</sel>
+          <arg type="NSArray*">array</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setTimeStyle:</sel>
+          <arg type="NSDateFormatterStyle">style</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setTimeZone:</sel>
+          <arg type="NSTimeZone*">tz</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setTwoDigitStartDate:</sel>
+          <arg type="NSDate*">date</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setVeryShortMonthSymbols:</sel>
+          <arg type="NSArray*">array</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setVeryShortStandaloneMonthSymbols:</sel>
+          <arg type="NSArray*">array</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setVeryShortStandaloneWeekdaySymbols:</sel>
+          <arg type="NSArray*">array</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setVeryShortWeekdaySymbols:</sel>
+          <arg type="NSArray*">array</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setWeekdaySymbols:</sel>
+          <arg type="NSArray*">array</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.4.0">
+          <sel>shortMonthSymbols</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>shortQuarterSymbols</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>shortStandaloneMonthSymbols</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>shortStandaloneQuarterSymbols</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>shortStandaloneWeekdaySymbols</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.4.0">
+          <sel>shortWeekdaySymbols</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>standaloneMonthSymbols</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>standaloneQuarterSymbols</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>standaloneWeekdaySymbols</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>stringFromDate:</sel>
+          <arg type="NSDate*">date</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDateFormatterStyle" ovadd="10.4.0">
+          <sel>timeStyle</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSTimeZone*" ovadd="10.4.0">
+          <sel>timeZone</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDate*" ovadd="10.4.0">
+          <sel>twoDigitStartDate</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>veryShortMonthSymbols</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>veryShortStandaloneMonthSymbols</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>veryShortStandaloneWeekdaySymbols</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>veryShortWeekdaySymbols</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.4.0">
+          <sel>weekdaySymbols</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

@@ -1,0 +1,155 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSFormatter" up="Base">
+  <head>
+    <title>NSFormatter class reference</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <copy>1998 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSFormatter class
+      </heading>
+      <class name="NSFormatter" super="NSObject" ovadd="10.0.0">
+        <declared>Foundation/NSFormatter.h</declared>
+        <conform>NSCopying</conform>
+        <conform>NSCoding</conform>
+        <desc>
+          This abstract class defines the interface for classes
+          that support conversion between strings and objects of
+          various types. GNUstep provides two concrete
+          implementations of this class:
+          <ref type="class" id="NSDateFormatter">NSDateFormatter</ref>
+            and
+            <ref type="class" id="NSNumberFormatter">NSNumberFormatter</ref>
+              . Others may be implemented for specialized
+              applications.
+        </desc>
+        <method type="NSAttributedString*" ovadd="10.0.0">
+          <sel>attributedStringForObjectValue:</sel>
+          <arg type="id">anObject</arg>
+          <sel>withDefaultAttributes:</sel>
+          <arg type="NSDictionary*">attr</arg>
+          <desc>
+            This method calls
+            <ref type="method" id="-stringForObjectValue:">
+              [-stringForObjectValue:]
+            </ref>
+            then marks up the string with attributes if it should
+            be displayed specially. For example, in an application
+            you may want to display out-of-range dates or numbers
+            in italics. This is an optional method and may return
+            <code>nil</code> to indicate that an attributed
+            string is not provided.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>editingStringForObjectValue:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            For use in applications where user interactively edits
+            a string. If the version of the string for editing
+            purposes should look different from the string
+            displayed (returned by
+            <ref type="method" id="-stringForObjectValue:">
+              [-stringForObjectValue:]
+            </ref>
+            or
+            <ref type="method" id="-attributedStringForObjectValue:withDefaultAttributes:">-attributedStringForObjectValue:withDefaultAttributes:</ref>), return that here. For example, the edited string may contain formatting codes or similar that are not displayed in the final string. The default implementation simply returns <ref type="method" id="-stringForObjectValue:">-stringForObjectValue:</ref>.
+          </desc>
+        </method>
+        <method type="BOOL" override="subclass" ovadd="10.0.0">
+          <sel>getObjectValue:</sel>
+          <arg type="id*">anObject</arg>
+          <sel>forString:</sel>
+          <arg type="NSString*">string</arg>
+          <sel>errorDescription:</sel>
+          <arg type="NSString**">error</arg>
+          <desc>
+            Primary method for converting a <var>string</var>
+            to an object through parsing. <var>anObject</var> and
+            <var>error</var> are output parameters; you should
+            allocate memory for one pointer each for the
+            variables passed into these methods. The returned
+            object will have been created through
+            <code>alloc-init</code>. If there is a problem with
+            conversion, a constant-string description of
+            what went wrong is returned through <var>error</var>,
+            and <code>NO</code> is returned, otherwise
+            <code>YES</code>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>isPartialStringValid:</sel>
+          <arg type="NSString*">partialString</arg>
+          <sel>newEditingString:</sel>
+          <arg type="NSString**">newString</arg>
+          <sel>errorDescription:</sel>
+          <arg type="NSString**">error</arg>
+          <desc>
+            Checks whether <var>partialString</var>
+            <em>could</em>, if it were completed, be parsed into a
+            valid object. <var>newString</var> and
+            <var>error</var> are output parameters; you should
+            allocate memory for one pointer each for the
+            variables passed into these methods. This method
+            is set up to be called after every keystroke during user
+            editing. If it returns <code>NO</code>, it
+            optionally returns <var>newString</var> to
+            replace what the user was editing; if it doesn't,
+            the editor should delete the last character the user
+            typed.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>isPartialStringValid:</sel>
+          <arg type="NSString**">partialStringPtr</arg>
+          <sel>proposedSelectedRange:</sel>
+          <arg type="NSRange*">proposedSelRangePtr</arg>
+          <sel>originalString:</sel>
+          <arg type="NSString*">origString</arg>
+          <sel>originalSelectedRange:</sel>
+          <arg type="NSRange">originalSelRangePtr</arg>
+          <sel>errorDescription:</sel>
+          <arg type="NSString**">error</arg>
+          <desc>
+            Checks whether a change to a string leaves it a
+            valid string that, if it were completed, could be
+            parsed into a valid object. <var>origString</var>
+            contains the string before the proposed change,
+            and origSelRange contains the range that is updated in
+            the proposed change. <var>partialStringPtr</var>
+            contains the new string to validate and
+            <var>proposedSelRangePtr</var> holds the selection
+            range that will be used if the string is accepted or
+            replaced. Basically, this method returns
+            <code>YES</code> if <var>partialStringPtr</var> is
+            valid, otherwise <code>NO</code> and may replace
+            <var>partialStringPtr</var> and proposedSelectedRange
+            with improved values, and may report the reason in
+            <var>error</var>.
+          </desc>
+        </method>
+        <method type="NSString*" override="subclass" ovadd="10.0.0">
+          <sel>stringForObjectValue:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Primary method for converting an object to a string
+            through formatting. Object will be converted to
+            string according to the formatter's implementation
+            and init parameters. There is no default handling if
+            the class of <var>anObject</var> is not what the
+            formatter expects, and usually <code>nil</code>
+            will be returned in this case.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

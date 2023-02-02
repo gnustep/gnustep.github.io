@@ -1,0 +1,978 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSKeyedArchiver" up="Base">
+  <head>
+    <title>NSKeyedArchiver documentation</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <copy>2004 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSKeyedArchiver class
+      </heading>
+      <class name="NSKeyedArchiver" super="NSCoder" ovadd="10.0.0">
+        <declared>Foundation/NSKeyedArchiver.h</declared>
+        <desc>
+          Implements <em>keyed</em> archiving of object
+          graphs. This archiver should be used instead of
+          <ref type="class" id="NSArchiver">NSArchiver</ref>
+            for new implementations. Classes implementing
+            <ref type="protocol" id="(NSCoding)">&lt;NSCoding&gt;</ref>
+              should check the
+              <ref type="method" id="-allowsKeyedCoding" class="NSCoder">[NSCoder -allowsKeyedCoding]</ref> method and if the response is <code>YES</code>, encode/decode their fields using the <code>...forKey:</code>
+              <ref type="class" id="NSCoder">NSCoder</ref>
+                methods, which provide for more robust
+                forwards and backwards compatibility.
+        </desc>
+        <method type="BOOL" factory="yes" ovadd="10.0.0">
+          <sel>archiveRootObject:</sel>
+          <arg type="id">anObject</arg>
+          <sel>toFile:</sel>
+          <arg type="NSString*">aPath</arg>
+          <desc>
+            Encodes <var>anObject</var> and writes the
+            resulting data ti <var>aPath</var>.
+          </desc>
+        </method>
+        <method type="NSData*" factory="yes" ovadd="10.0.0">
+          <sel>archivedDataWithRootObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Encodes <var>anObject</var> and returns the
+            resulting data object.
+          </desc>
+        </method>
+        <method type="NSData*" factory="yes" ovadd="0.0.0">
+          <sel>archivedDataWithRootObject:</sel>
+          <arg type="id">anObject</arg>
+          <sel>requiringSecureCoding:</sel>
+          <arg type="BOOL">requiresSecureCoding</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            Encodes <var>anObject</var> and returns the
+            resulting data object. Allows secure coding if
+            specified. Returns an <var>error</var> if an
+            object violates secure coding rules.
+          </desc>
+        </method>
+        <method type="NSString*" factory="yes" ovadd="10.0.0">
+          <sel>classNameForClass:</sel>
+          <arg type="Class">aClass</arg>
+          <desc>
+            Returns the class name with which the
+            NSKeyedArchiver class will encode instances
+            of <var>aClass</var>, or <code>nil</code> if no name
+            mapping has been set using the
+            <ref type="method" id="+setClassName:forClass:">
+              +setClassName:forClass:
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="10.0.0">
+          <sel>setClassName:</sel>
+          <arg type="NSString*">aString</arg>
+          <sel>forClass:</sel>
+          <arg type="Class">aClass</arg>
+          <desc>
+            Sets the class name with which the NSKeyedArchiver
+            class will encode instances of <var>aClass</var>.
+            This mapping is used only if no class name mapping has
+            been set for the individual instance of
+            NSKeyedArchiver being used. <br /> The
+            value of <var>aString</var> must be the name of an
+            existing class. <br /> If the value of
+            <var>aString</var> is <code>nil</code>, any mapping
+            for <var>aClass</var> is removed.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>classNameForClass:</sel>
+          <arg type="Class">aClass</arg>
+          <desc>
+            Returns any mapping for the name of
+            <var>aClass</var> which was previously set for the
+            receiver using the
+            <ref type="method" id="-setClassName:forClass:">
+              -setClassName:forClass:
+            </ref>
+            method. <br /> Returns <code>nil</code> if no such
+            mapping exists, even if one has been set using the
+            class method
+            <ref type="method" id="+setClassName:forClass:">
+              +setClassName:forClass:
+            </ref>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>delegate</sel>
+          <desc>
+            Returns the delegate set for the receiver, or
+            <code>nil</code> of none is set.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>encodeBool:</sel>
+          <arg type="BOOL">aBool</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Encodes <var>aBool</var> and associates the encoded
+            value with <var>aKey</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>encodeBytes:</sel>
+          <arg type="const uint8_t*">aPointer</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">length</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Encodes the data of the specified <var>length</var>
+            and pointed to by <var>aPointer</var>, and associates
+            the encoded value with <var>aKey</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>encodeConditionalObject:</sel>
+          <arg type="id">anObject</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Encodes <var>anObject</var> and associates the
+            encoded value with <var>aKey</var>, but only if
+            <var>anObject</var> has already been encoded using
+            <ref type="method" id="-encodeObject:forKey:">
+              -encodeObject:forKey:
+            </ref>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>encodeDouble:</sel>
+          <arg type="double">aDouble</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Encodes <var>aDouble</var> and associates the
+            encoded value with <var>aKey</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>encodeFloat:</sel>
+          <arg type="float">aFloat</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Encodes <var>aFloat</var> and associates the
+            encoded value with <var>aKey</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>encodeInt32:</sel>
+          <arg type="int32_t">anInteger</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Encodes <var>anInteger</var> and associates the
+            encoded value with <var>aKey</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>encodeInt64:</sel>
+          <arg type="int64_t">anInteger</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Encodes <var>anInteger</var> and associates the
+            encoded value with <var>aKey</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>encodeInt:</sel>
+          <arg type="int">anInteger</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Encodes <var>anInteger</var> and associates the
+            encoded value with <var>aKey</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>encodeObject:</sel>
+          <arg type="id">anObject</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Encodes <var>anObject</var> and associates the
+            encoded value with <var>aKey</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>finishEncoding</sel>
+          <desc>
+            Ends the encoding process and causes the encoded
+            archive to be placed in the mutable data object
+            supplied when the receiver was initialised. <br />
+            This method must be called at the end of encoding, and
+            nothing may be encoded after this method is called.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>initForWritingWithMutableData:</sel>
+          <arg type="NSMutableData*">data</arg>
+          <desc>
+            Initialise the receiver to encode an archive
+            into the supplied <var>data</var> object.
+          </desc>
+        </method>
+        <method type="NSPropertyListFormat" ovadd="10.0.0">
+          <sel>outputFormat</sel>
+          <desc>
+            Returns the output format of the archived data...
+            this should default to the MacOS-X binary format, but
+            we don't support that yet, so the
+            <ref type="method" id="-setOutputFormat:">
+              -setOutputFormat:
+            </ref>
+            method should be used to set a supported format.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>requiresSecureCoding</sel>
+          <desc>
+            Returns whether the current instance of the
+            archiver needs secure coding.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setClassName:</sel>
+          <arg type="NSString*">aString</arg>
+          <sel>forClass:</sel>
+          <arg type="Class">aClass</arg>
+          <desc>
+            Sets the name with which instances of
+            <var>aClass</var> are encoded. <br /> The value of
+            <var>aString</var> must be the name of an existing
+            class.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setDelegate:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Sets the receivers delegate. The delegate should
+            conform to the NSObject(NSKeyedArchiverDelegate)
+            informal protocol. <br /> NB. the delegate is not
+            retained, so you must ensure that it is not
+            deallocated before the archiver has finished
+            with it.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setOutputFormat:</sel>
+          <arg type="NSPropertyListFormat">format</arg>
+          <desc>
+            Specifies the output <var>format</var> of the
+            archived data... this should default to the
+            MacOS-X binary <var>format</var>, but we don't
+            support that yet, so the
+            <ref type="method" id="-setOutputFormat:">
+              -setOutputFormat:
+            </ref>
+            method should be used to set a supported
+            <var>format</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setRequiresSecureCoding:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Sets whether the current instance of the archiver
+            needs secure coding.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSKeyedUnarchiver class
+      </heading>
+      <class name="NSKeyedUnarchiver" super="NSCoder" ovadd="10.0.0">
+        <declared>Foundation/NSKeyedArchiver.h</declared>
+        <desc>
+          Implements <em>keyed</em> unarchiving of object
+          graphs. The keyed archiver should be used instead of
+          <ref type="class" id="NSArchiver">NSArchiver</ref>
+            for new implementations. Classes implementing
+            <ref type="protocol" id="(NSCoding)">&lt;NSCoding&gt;</ref>
+              should check the
+              <ref type="method" id="-allowsKeyedCoding" class="NSCoder">[NSCoder -allowsKeyedCoding]</ref> method and if the response is <code>YES</code>, encode/decode their fields using the <code>...forKey:</code>
+              <ref type="class" id="NSCoder">NSCoder</ref>
+                methods, which provide for more robust
+                forwards and backwards compatibility.
+        </desc>
+        <method type="Class" factory="yes" ovadd="10.0.0">
+          <sel>classForClassName:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            Returns class substituted for class name specified
+            by <var>aString</var> when encountered in the archive
+            being decoded from, or <code>nil</code> if there is
+            no specific translation mapping. Each instance also
+            maintains a translation map, which is searched
+            first for a match during decoding.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="10.0.0">
+          <sel>setClass:</sel>
+          <arg type="Class">aClass</arg>
+          <sel>forClassName:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            Sets class substituted for class name specified by
+            <var>aString</var> when encountered in the archive
+            being decoded from, or <code>nil</code> if there is
+            no specific translation mapping. Each instance also
+            maintains a translation map, which is searched
+            first for a match during decoding.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="10.0.0">
+          <sel>unarchiveObjectWithData:</sel>
+          <arg type="NSData*">data</arg>
+          <desc>
+            Decodes from byte array in <var>data</var> and
+            returns resulting root object.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="10.0.0">
+          <sel>unarchiveObjectWithFile:</sel>
+          <arg type="NSString*">aPath</arg>
+          <desc>
+            Decodes from file contents at <var>aPath</var> and
+            returns resulting root object.
+          </desc>
+        </method>
+        <method type="Class" ovadd="10.0.0">
+          <sel>classForClassName:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            Returns class substituted for class name specified
+            by <var>aString</var> when encountered in the archive
+            being decoded from, or <code>nil</code> if there is
+            no specific translation mapping. The class as a whole
+            also maintains a translation map, which is searched on
+            decoding if no match found here.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>containsValueForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Sets class substituted for class name specified by
+            aString when encountered in the archive being
+            decoded from, or <code>nil</code> if there is no
+            specific translation mapping. Each instance also
+            maintains a translation map, which is searched
+            first for a match during decoding.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>decodeBoolForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns a boolean value associated with
+            <var>aKey</var>. This value must previously have been
+            encoded using
+            <ref type="method" id="-encodeBool:forKey:">
+              -encodeBool:forKey:
+            </ref>
+          </desc>
+        </method>
+        <method type="const uint8_t*" ovadd="10.0.0">
+          <sel>decodeBytesForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <sel>returnedLength:</sel>
+          <arg type="NSUInteger*">length</arg>
+          <desc>
+            Returns a pointer to a byte array associated with
+            <var>aKey</var>. <br /> Returns the <var>length</var>
+            of the data in aLength. <br /> This value must
+            previously have been encoded using
+            <ref type="method" id="-encodeBytes:length:forKey:">
+              -encodeBytes:length:forKey:
+            </ref>
+          </desc>
+        </method>
+        <method type="double" ovadd="10.0.0">
+          <sel>decodeDoubleForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns a <strong>double</strong> value associated
+            with <var>aKey</var>. This value must previously have
+            been encoded using
+            <ref type="method" id="-encodeDouble:forKey:">
+              -encodeDouble:forKey:
+            </ref>
+            or
+            <ref type="method" id="-encodeFloat:forKey:">
+              -encodeFloat:forKey:
+            </ref>
+          </desc>
+        </method>
+        <method type="float" ovadd="10.0.0">
+          <sel>decodeFloatForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns a <strong>float</strong> value associated
+            with <var>aKey</var>. This value must previously have
+            been encoded using
+            <ref type="method" id="-encodeFloat:forKey:">
+              -encodeFloat:forKey:
+            </ref>
+            or
+            <ref type="method" id="-encodeDouble:forKey:">
+              -encodeDouble:forKey:
+            </ref>
+            <br /> Precision may be lost (or an exception raised
+            if the value will not fit in a <strong>float</strong>)
+            if the value was encoded using
+            <ref type="method" id="-encodeDouble:forKey:">
+              -encodeDouble:forKey:
+            </ref>
+            ,
+          </desc>
+        </method>
+        <method type="int32_t" ovadd="10.0.0">
+          <sel>decodeInt32ForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns a 32-bit integer value associated with
+            <var>aKey</var>. This value must previously have been
+            encoded using
+            <ref type="method" id="-encodeInt:forKey:">
+              -encodeInt:forKey:
+            </ref>
+            ,
+            <ref type="method" id="-encodeInt32:forKey:">
+              -encodeInt32:forKey:
+            </ref>
+            , or
+            <ref type="method" id="-encodeInt64:forKey:">
+              -encodeInt64:forKey:
+            </ref>
+            . <br /> An exception will be raised if the value does
+            not fit in a 32-bit integer.
+          </desc>
+        </method>
+        <method type="int64_t" ovadd="10.0.0">
+          <sel>decodeInt64ForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns a 64-bit integer value associated with
+            <var>aKey</var>. This value must previously have been
+            encoded using
+            <ref type="method" id="-encodeInt:forKey:">
+              -encodeInt:forKey:
+            </ref>
+            ,
+            <ref type="method" id="-encodeInt32:forKey:">
+              -encodeInt32:forKey:
+            </ref>
+            , or
+            <ref type="method" id="-encodeInt64:forKey:">
+              -encodeInt64:forKey:
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="int" ovadd="10.0.0">
+          <sel>decodeIntForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns an integer value associated with
+            <var>aKey</var>. This value must previously have been
+            encoded using
+            <ref type="method" id="-encodeInt:forKey:">
+              -encodeInt:forKey:
+            </ref>
+            ,
+            <ref type="method" id="-encodeInt32:forKey:">
+              -encodeInt32:forKey:
+            </ref>
+            , or
+            <ref type="method" id="-encodeInt64:forKey:">
+              -encodeInt64:forKey:
+            </ref>
+            . <br /> An exception will be raised if the value does
+            not fit in an integer.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>decodeObjectForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns an object value associated with
+            <var>aKey</var>. This value must previously have been
+            encoded using
+            <ref type="method" id="-encodeObject:forKey:">
+              -encodeObject:forKey:
+            </ref>
+            or
+            <ref type="method" id="-encodeConditionalObject:forKey:">
+              -encodeConditionalObject:forKey:
+            </ref>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>delegate</sel>
+          <desc>
+            Returns the delegate of the unarchiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>finishDecoding</sel>
+          <desc>
+            Tells receiver that you are done retrieving from
+            archive, so the delegate should be allowed to
+            perform close-up operations.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>initForReadingWithData:</sel>
+          <arg type="NSData*">data</arg>
+          <desc>
+            Prepare to read <var>data</var> from key archive
+            (created by
+            <ref type="class" id="NSKeyedArchiver">NSKeyedArchiver</ref>
+              ). Be sure to call
+              <ref type="method" id="-finishDecoding">
+                -finishDecoding
+              </ref>
+              when done.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>requiresSecureCoding</sel>
+          <desc>
+            Returns whether the current instance of the
+            archiver needs secure coding.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setClass:</sel>
+          <arg type="Class">aClass</arg>
+          <sel>forClassName:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            Sets class substituted for class name specified by
+            <var>aString</var> when encountered in the archive
+            being decoded from, or <code>nil</code> if there is
+            no specific translation mapping. Each instance also
+            maintains a translation map, which is searched
+            first for a match during decoding.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setDelegate:</sel>
+          <arg type="id">delegate</arg>
+          <desc>
+            Sets the receivers <var>delegate</var>. The
+            <var>delegate</var> should conform to the
+            NSObject(NSKeyedUnarchiverDelegate)
+            informal protocol. <br /> NB. the
+            <var>delegate</var> is not retained, so you must
+            ensure that it is not deallocated before the
+            unarchiver has finished with it.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setRequiresSecureCoding:</sel>
+          <arg type="BOOL">secure</arg>
+          <desc>
+            Sets whether the current instance of the archiver
+            needs <var>secure</var> coding.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSCoder(NSGeometryKeyedCoding)
+        category
+      </heading>
+      <category name="NSGeometryKeyedCoding" class="NSCoder" ovadd="10.0.0">
+        <declared>Foundation/NSKeyedArchiver.h</declared>
+        <desc>
+          Methods for encoding/decoding points, rectangles, and
+          sizes.
+        </desc>
+        <method type="NSPoint" ovadd="10.0.0">
+          <sel>decodePointForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Decodes an <code>NSPoint</code> object.
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="10.0.0">
+          <sel>decodeRectForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Decodes an <code>NSRect</code> object.
+          </desc>
+        </method>
+        <method type="NSSize" ovadd="10.0.0">
+          <sel>decodeSizeForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Decodes an <code>NSSize</code> object.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>encodePoint:</sel>
+          <arg type="NSPoint">aPoint</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Encodes an <code>NSPoint</code> object.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>encodeRect:</sel>
+          <arg type="NSRect">aRect</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Encodes an <code>NSRect</code> object.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>encodeSize:</sel>
+          <arg type="NSSize">aSize</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Encodes an <code>NSSize</code> object.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSKeyedArchiver(Internal) category
+      </heading>
+      <category name="Internal" class="NSKeyedArchiver" ovadd="10.0.0">
+        <declared>Foundation/NSKeyedArchiver.h</declared>
+        <desc>
+          Internal methods. Do not use.
+        </desc>
+        <method type="void" ovadd="10.0.0">
+          <sel>_encodeArrayOfObjects:</sel>
+          <arg type="NSArray*">anArray</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code. <br /> Internal method used to
+            encode an array relatively efficiently. <br /> Some
+            MacOS-X library classes seem to use this.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>_encodePropertyList:</sel>
+          <arg type="id">anObject</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSKeyedUnarchiver(Internal)
+        category
+      </heading>
+      <category name="Internal" class="NSKeyedUnarchiver" ovadd="10.0.0">
+        <declared>Foundation/NSKeyedArchiver.h</declared>
+        <desc>
+          Internal methods. Do not use.
+        </desc>
+        <method type="id" ovadd="10.0.0">
+          <sel>_decodeArrayOfObjectsForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code. <br /> Internal method used to
+            decode an array relatively efficiently. <br /> Some
+            MacOS-X library classes seem to use this.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>_decodePropertyListForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>replaceObject:</sel>
+          <arg type="id">oldObj</arg>
+          <sel>withObject:</sel>
+          <arg type="id">newObj</arg>
+          <desc>
+            This method is used to replace <var>oldObj</var> with
+            <var>newObj</var> in the map that is maintained in
+            NSKeyedUnarchiver.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSKeyedArchiverDelegate)
+        category
+      </heading>
+      <category name="NSKeyedArchiverDelegate" class="NSObject" ovadd="10.0.0">
+        <declared>Foundation/NSKeyedArchiver.h</declared>
+        <desc>
+          Informal protocol implemented by delegates of
+          <ref type="class" id="NSKeyedArchiver">NSKeyedArchiver</ref>
+            .
+        </desc>
+        <method type="void" override="dummy" ovadd="10.0.0">
+          <sel>archiver:</sel>
+          <arg type="NSKeyedArchiver*">anArchiver</arg>
+          <sel>didEncodeObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Sent when encoding of <var>anObject</var> has
+            completed <em>except</em> in the case of
+            conditional encoding. <br />
+          </desc>
+        </method>
+        <method type="id" override="dummy" ovadd="10.0.0">
+          <sel>archiver:</sel>
+          <arg type="NSKeyedArchiver*">anArchiver</arg>
+          <sel>willEncodeObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Sent when <var>anObject</var> is about to be encoded
+            (or conditionally encoded) and provides the receiver
+            with an opportunity to change the actual object stored
+            into the archive by returning a different value
+            (otherwise it should return <var>anObject</var>
+            ). <br /> The method is not called for encoding of
+            <code>nil</code> or for encoding of any object for
+            which has already been called. <br /> The method is
+            called <em>after</em> the
+            <ref type="method" id="-replacementObjectForKeyedArchiver:">-replacementObjectForKeyedArchiver:</ref> method. <br />
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="10.0.0">
+          <sel>archiver:</sel>
+          <arg type="NSKeyedArchiver*">anArchiver</arg>
+          <sel>willReplaceObject:</sel>
+          <arg type="id">anObject</arg>
+          <sel>withObject:</sel>
+          <arg type="id">newObject</arg>
+          <desc>
+            Sent whenever object replacement occurs during
+            encoding, either by the
+            <ref type="method" id="-replacementObjectForKeyedArchiver:">-replacementObjectForKeyedArchiver:</ref> method or because the delegate has returned a changed value using the <ref type="method" id="-archiver:willEncodeObject:">-archiver:willEncodeObject:</ref> method. <br />
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="10.0.0">
+          <sel>archiverDidFinish:</sel>
+          <arg type="NSKeyedArchiver*">anArchiver</arg>
+          <desc>
+            Sent when the encoding process is complete. <br />
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="10.0.0">
+          <sel>archiverWillFinish:</sel>
+          <arg type="NSKeyedArchiver*">anArchiver</arg>
+          <desc>
+            Sent when the encoding process is about to finish.
+            <br />
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSKeyedArchiverObjectSubstitution)
+        category
+      </heading>
+      <category name="NSKeyedArchiverObjectSubstitution" class="NSObject" ovadd="10.0.0">
+        <declared>Foundation/NSKeyedArchiver.h</declared>
+        <desc>
+          Methods by which a class may control its archiving by
+          the
+          <ref type="class" id="NSKeyedArchiver">NSKeyedArchiver</ref>
+            .
+        </desc>
+        <method type="Class" ovadd="10.0.0">
+          <sel>classForKeyedArchiver</sel>
+          <desc>
+            This message is sent to objects being encoded, to
+            allow them to choose to be encoded a different class.
+            If this returns <code>nil</code> it is treated as if it
+            returned the class of the object. <br /> After
+            this method is applied, any class name mapping set in
+            the archiver is applied to its result. <br /> The
+            default implementation returns the result of the
+            <ref type="method" id="-classForArchiver">
+              -classForArchiver
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>replacementObjectForKeyedArchiver:</sel>
+          <arg type="NSKeyedArchiver*">archiver</arg>
+          <desc>
+            This message is sent to objects being encoded, to
+            allow them to choose to be encoded a different object
+            by returning the alternative object. <br /> The default
+            implementation returns the result of calling
+            the
+            <ref type="method" id="-replacementObjectForArchiver:">
+              -replacementObjectForArchiver:
+            </ref>
+            method with a <code>nil</code> argument. <br /> This
+            is called only if no mapping has been set up in the
+            <var>archiver</var> already.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSKeyedUnarchiverDelegate)
+        category
+      </heading>
+      <category name="NSKeyedUnarchiverDelegate" class="NSObject" ovadd="10.0.0">
+        <declared>Foundation/NSKeyedArchiver.h</declared>
+        <desc>
+          Informal protocol implemented by delegates of
+          <ref type="class" id="NSKeyedUnarchiver">NSKeyedUnarchiver</ref>
+            .
+        </desc>
+        <method type="Class" override="dummy" ovadd="10.0.0">
+          <sel>unarchiver:</sel>
+          <arg type="NSKeyedUnarchiver*">anUnarchiver</arg>
+          <sel>cannotDecodeObjectOfClassName:</sel>
+          <arg type="NSString*">aName</arg>
+          <sel>originalClasses:</sel>
+          <arg type="NSArray*">classNames</arg>
+          <desc>
+            Sent if the named class is not available during
+            decoding. <br /> The value of <var>aName</var> is
+            the class name being decoded (after any name mapping
+            has been applied). <br /> The <var>classNames</var>
+            array contains the original name of the class encoded
+            in the archive, and is followed by each of its
+            superclasses in turn. <br /> The delegate may
+            either return a class object for the unarchiver to
+            use to continue decoding, or may return
+            <code>nil</code> to abort the decoding process.
+            <br />
+          </desc>
+        </method>
+        <method type="id" override="dummy" ovadd="10.0.0">
+          <sel>unarchiver:</sel>
+          <arg type="NSKeyedUnarchiver*">anUnarchiver</arg>
+          <sel>didDecodeObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Sent when <var>anObject</var> is decoded. The receiver
+            may return either <var>anObject</var> or some other
+            object (including <code>nil</code>). If a value
+            other than <var>anObject</var> is returned, it is
+            used to replace <var>anObject</var>. <br />
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="10.0.0">
+          <sel>unarchiver:</sel>
+          <arg type="NSKeyedUnarchiver*">anUnarchiver</arg>
+          <sel>willReplaceObject:</sel>
+          <arg type="id">anObject</arg>
+          <sel>withObject:</sel>
+          <arg type="id">newObject</arg>
+          <desc>
+            Sent whenever object replacement occurs during
+            decoding, eg by the
+            <ref type="method" id="-replacementObjectForKeyedArchiver:">-replacementObjectForKeyedArchiver:</ref> method. <br />
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="10.0.0">
+          <sel>unarchiverDidFinish:</sel>
+          <arg type="NSKeyedUnarchiver*">anUnarchiver</arg>
+          <desc>
+            Sent when unarchiving is about to complete. <br />
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="10.0.0">
+          <sel>unarchiverWillFinish:</sel>
+          <arg type="NSKeyedUnarchiver*">anUnarchiver</arg>
+          <desc>
+            Sent when unarchiving has been completed. <br />
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSKeyedUnarchiverObjectSubstitution)
+        category
+      </heading>
+      <category name="NSKeyedUnarchiverObjectSubstitution" class="NSObject" ovadd="10.0.0">
+        <declared>Foundation/NSKeyedArchiver.h</declared>
+        <desc>
+          Methods by which a class may control its unarchiving
+          by the
+          <ref type="class" id="NSKeyedArchiver">NSKeyedArchiver</ref>
+            .
+        </desc>
+        <method type="Class" factory="yes" ovadd="10.0.0">
+          <sel>classForKeyedUnarchiver</sel>
+          <desc>
+            Sent during unarchiving to permit classes to
+            substitute a different class for decoded
+            instances of themselves. <br /> Default
+            implementation returns the receiver. <br />
+            Overrides the mappings set up within the
+            receiver.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

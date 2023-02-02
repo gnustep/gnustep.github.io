@@ -1,0 +1,795 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>NSURLHandle class reference</title>
+  </head>
+  <body>
+    <font face="serif">
+    <a href="Base.html">Up</a>
+    <br />
+    <h1><a name="title$NSURLHandle">NSURLHandle class reference</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Manuel Guesdon (<a href="mailto:mguesdon@sbuilders.com"><code>mguesdon@sbuilders.com</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Richard Frith-Macdonald (<a href="mailto:rfm@gnu.org"><code>rfm@gnu.org</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Copyright:</b> (C) 1999 Free Software Foundation, Inc.</p>
+
+        <div>
+      <hr width="50%" align="left" />
+      <h3>Contents -</h3>
+      <ol>
+        <li>
+          <a href="#001000000000">Software documentation for the NSURLHandle class</a>
+        </li>
+        <li>
+          <a href="#002000000000">Software documentation for the NSURLHandleClient
+        protocol</a>
+        </li>
+      </ol>
+      <hr width="50%" align="left" />
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSURLHandle class
+      </a></h1>
+    <h2><a name="class$NSURLHandle">NSURLHandle</a> : <a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSURLHandle.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            An NSURLHandle instance is used to manage the resource
+            data corresponding to an NSURL object. A single
+            NSURLHandle can be used to manage multiple
+            NSURL objects as <strong>long</strong> as those
+            objects all refer to the same resource.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            Different NSURLHandle subclasses are used to
+            manage different types of URL (usually based on the
+            scheme of the URL), and you can register new
+            subclasses to extend (or replace) the standard
+            ones.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            GNUstep comes with private subclasses to handle the
+            common URL schemes -
+              </p>
+    <p>
+      
+          
+      <ul>
+        <li>
+          <code>file:</code> (local file I/O)
+        </li>
+        <li>
+          
+              <code>http:</code> and <code>https:</code>
+              (webserver) access.
+            
+        </li>
+        <li>
+          <code>ftp:</code> (FTP server) access.
+        </li>
+      </ul>
+      
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_NSURLHandle_ivars">Instance Variables</a>
+    <br/><br/>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle+URLHandleClassForURL$">+URLHandleClassForURL:</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle+cachedHandleForURL$">+cachedHandleForURL:</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle+canInitWithURL$">+canInitWithURL:</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle+registerURLHandleClass$">+registerURLHandleClass:</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-addClient$">-addClient:</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-availableResourceData">-availableResourceData</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-backgroundLoadDidFailWithReason$">-backgroundLoadDidFailWithReason:</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-beginLoadInBackground">-beginLoadInBackground</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-cancelLoadInBackground">-cancelLoadInBackground</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-didLoadBytes$loadComplete$">-didLoadBytes:loadComplete:</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-endLoadInBackground">-endLoadInBackground</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-failureReason">-failureReason</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-flushCachedData">-flushCachedData</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-initWithURL$cached$">-initWithURL:cached:</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-loadInBackground">-loadInBackground</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-loadInForeground">-loadInForeground</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-propertyForKey$">-propertyForKey:</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-propertyForKeyIfAvailable$">-propertyForKeyIfAvailable:</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-removeClient$">-removeClient:</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-resourceData">-resourceData</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-setDebug$">-setDebug:</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-setReturnAll$">-setReturnAll:</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-setURL$">-setURL:</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-status">-status</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-writeData$">-writeData:</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-writeProperty$forKey$">-writeProperty:forKey:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSURLHandle+URLHandleClassForURL$">URLHandleClassForURL:&nbsp;</a></h3>
+    + (Class) <b>URLHandleClassForURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)url;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the most recently registered NSURLHandle
+            subclass that responds to
+            <a rel="gsdoc" href="#method$NSURLHandle+canInitWithURL$">
+              +canInitWithURL:
+            </a>
+
+            with <code>YES</code>. If there is no such subclass,
+            returns <code>nil</code>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle+cachedHandleForURL$">cachedHandleForURL:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSURLHandle">NSURLHandle</a>*) <b>cachedHandleForURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)url;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Return a handle for the specified URL from the cache
+            if possible. If the cache does not contain a matching
+            handle, returns <code>nil</code>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle+canInitWithURL$">canInitWithURL:&nbsp;</a></h3>
+    + (BOOL) <b>canInitWithURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)url;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+Subclasses <strong>must</strong> override this method.<br />
+    <div class="desc">
+      
+            Implemented by subclasses to say which URLs
+            they can handle. This method is used to determine
+            which subclasses can be used to handle a particular
+            URL.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle+registerURLHandleClass$">registerURLHandleClass:&nbsp;</a></h3>
+    + (void) <b>registerURLHandleClass:</b> (Class)urlHandleSubclass;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Used to register a subclass as being available to
+            handle URLs.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-addClient$">addClient:&nbsp;</a></h3>
+    - (void) <b>addClient:</b> (id<<a rel="gsdoc" href="#protocol$(NSURLHandleClient)">NSURLHandleClient</a>>)client;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Add a <var>client</var> object, making sure that it
+            doesn&apos;t occur more than once. <br /> The
+            <var>client</var> object will receive messages
+            notifying it of events on the handle.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-availableResourceData">availableResourceData&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*) <b>availableResourceData</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the resource data that is currently
+            available for the handle. This may be a partially
+            loaded resource or may be empty if no data has been
+            loaded yet or the last load failed.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-backgroundLoadDidFailWithReason$">backgroundLoadDidFailWithReason:&nbsp;</a></h3>
+    - (void) <b>backgroundLoadDidFailWithReason:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)reason;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            This method should be called when a background load
+            fails. <br /> The method passes the failure
+            notification to the clients of the handle - so
+            subclasses should call super&apos;s implementation at
+            the end of their implementation of this method.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-beginLoadInBackground">beginLoadInBackground&nbsp;</a></h3>
+    - (void) <b>beginLoadInBackground</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            This method is called by when a background load
+            begins. Subclasses should call super&apos;s
+            implementation at the end of their
+            implementation of this method.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-cancelLoadInBackground">cancelLoadInBackground&nbsp;</a></h3>
+    - (void) <b>cancelLoadInBackground</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            This method should be called to cancel a load
+            currently in progress. The method calls
+            <a rel="gsdoc" href="#method$NSURLHandle-endLoadInBackground">
+              -endLoadInBackground
+            </a>
+
+            Subclasses should call super&apos;s implementation at
+            the end of their implementation of this method.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-didLoadBytes$loadComplete$">didLoadBytes:&nbsp;loadComplete:&nbsp;</a></h3>
+    - (void) <b>didLoadBytes:</b> (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*)newData<b> loadComplete:</b> (BOOL)loadComplete;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Method called by subclasses during process of
+            loading a resource. The base class maintains a copy
+            of the data being read in and accumulates separate parts
+            of the data.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-endLoadInBackground">endLoadInBackground&nbsp;</a></h3>
+    - (void) <b>endLoadInBackground</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            This method is called to stop any background loading
+            process.
+            <a rel="gsdoc" href="#method$NSURLHandle-cancelLoadInBackground">
+              -cancelLoadInBackground
+            </a>
+
+            uses this method to cancel loading. Subclasses should
+            call super&apos;s implementation at the end of their
+            implementation of this method.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-failureReason">failureReason&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>failureReason</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the failure reason for the last failure to
+            load the resource data.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-flushCachedData">flushCachedData&nbsp;</a></h3>
+    - (void) <b>flushCachedData</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Flushes any cached resource data.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-initWithURL$cached$">initWithURL:&nbsp;cached:&nbsp;</a></h3>
+    - (id) <b>initWithURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)url<b> cached:</b> (BOOL)cached;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+This is a designated initialiser for the class.<br />
+    <div class="desc">
+      
+            Initialises a handle with the specified URL.
+            <br /> The flag determines whether the handle will
+            cache resource data and respond to requests from
+            equivalent URLs for the <var>cached</var> data.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-loadInBackground">loadInBackground&nbsp;</a></h3>
+    - (void) <b>loadInBackground</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Starts (or queues) loading of the handle&apos;s resource
+            data in the background (asynchronously). <br /> The
+            default implementation uses loadInForeground - if
+            this method is not overridden, loadInForeground MUST
+            be.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-loadInForeground">loadInForeground&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*) <b>loadInForeground</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Loads the handle&apos;s resource data in the foreground
+            (synchronously). <br /> The default
+            implementation starts a background load and
+            waits for it to complete - if this method is not
+            overridden, loadInBackground MUST be.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-propertyForKey$">propertyForKey:&nbsp;</a></h3>
+    - (id) <b>propertyForKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)propertyKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+Subclasses <strong>must</strong> override this method.<br />
+    <div class="desc">
+      
+            Returns the property for the specified key, or
+            <code>nil</code> if the key does not exist.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-propertyForKeyIfAvailable$">propertyForKeyIfAvailable:&nbsp;</a></h3>
+    - (id) <b>propertyForKeyIfAvailable:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)propertyKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+Subclasses <strong>must</strong> override this method.<br />
+    <div class="desc">
+      
+            Returns the property for the specified key, but
+            only if the handle does not need to do any work to
+            retrieve it.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-removeClient$">removeClient:&nbsp;</a></h3>
+    - (void) <b>removeClient:</b> (id<<a rel="gsdoc" href="#protocol$(NSURLHandleClient)">NSURLHandleClient</a>>)client;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Removes an object from them list of clients
+            notified of resource loading events by the URL
+            handle.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-resourceData">resourceData&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*) <b>resourceData</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the resource data belonging to the handle.
+            Calls
+            <a rel="gsdoc" href="#method$NSURLHandle-loadInForeground">
+              -loadInForeground
+            </a>
+
+            if necessary.
+            
+    </p>
+    <p>
+
+              The GNUstep implementation treats an <em>ftp:</em>
+              request for a directory as a request to list the
+              names of the directory contents.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-setDebug$">setDebug:&nbsp;</a></h3>
+    - (int) <b>setDebug:</b> (int)aFlag;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            GNUstep extension to turn on debug logging for a
+            handle. Returns the previous debug setting for the
+            handle. Implemented for http/https only.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-setReturnAll$">setReturnAll:&nbsp;</a></h3>
+    - (void) <b>setReturnAll:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            GNUstep extension to turn on returning of complete
+            http/https response even when the status code is
+            not in the 200 to 299 success range.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-setURL$">setURL:&nbsp;</a></h3>
+    - (void) <b>setURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)newUrl;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            GNUstep extension to change the URL that the handle
+            sends requests to. Implemented for http/https only.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-status">status&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSURLHandleStatus">NSURLHandleStatus</a>) <b>status</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the current status of the handle.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-writeData$">writeData:&nbsp;</a></h3>
+    - (BOOL) <b>writeData:</b> (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*)data;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Writes resource <var>data</var> to the handle.
+              Returns <code>YES</code> on success,
+              <code>NO</code> on failure.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The GNUstep implementation for <em>file:</em> writes
+              the <var>data</var> directly to the local filesystem,
+              and the return status reflects the result of that
+              write operation.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The GNUstep implementation for <em>http:</em> and
+              <em>https:</em> sets the specified <var>data</var>
+              as information to be POSTed to the URL next time it is
+              loaded - so the method always returns
+              <code>YES</code>.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The GNUstep implementation for <em>ftp:</em> sets the
+              specified <var>data</var> as information to be
+              written to the URL next time it is loaded - so
+              the method always returns <code>YES</code>.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSURLHandle-writeProperty$forKey$">writeProperty:&nbsp;forKey:&nbsp;</a></h3>
+    - (BOOL) <b>writeProperty:</b> (id)propertyValue<b> forKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)propertyKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Sets a property for handle. Returns <code>YES</code>
+              on success, <code>NO</code> on failure.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The GNUstep implementation sets the property as a
+              header to be sent the next time the URL is loaded,
+              and recognizes some special property keys which
+              control the behavior of the next load.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<a name="_NSURLHandle_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for NSURLHandle Class</h2>
+    <h3><a name="ivariable$NSURLHandle*_clients">_clients</a></h3>
+    @protected NSMutableArray* <b>_clients</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$NSURLHandle*_data">_data</a></h3>
+    @protected id <b>_data</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$NSURLHandle*_failure">_failure</a></h3>
+    @protected NSString* <b>_failure</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$NSURLHandle*_status">_status</a></h3>
+    @protected NSURLHandleStatus <b>_status</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <br/><hr width="50%" align="left" /><br/>
+
+          <h1><a name="002000000000">
+        Software documentation for the NSURLHandleClient
+        protocol
+      </a></h1>
+    <h2><a name="protocol$(NSURLHandleClient)">NSURLHandleClient</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSURLHandle.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+          A protocol to which clients of a handle must conform in
+          order to receive notification of events on the handle.
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$(NSURLHandleClient)-URLHandle$resourceDataDidBecomeAvailable$">-URLHandle:resourceDataDidBecomeAvailable:</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$(NSURLHandleClient)-URLHandle$resourceDidFailLoadingWithReason$">-URLHandle:resourceDidFailLoadingWithReason:</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$(NSURLHandleClient)-URLHandleResourceDidBeginLoading$">-URLHandleResourceDidBeginLoading:</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$(NSURLHandleClient)-URLHandleResourceDidCancelLoading$">-URLHandleResourceDidCancelLoading:</a></li>
+      <li><a rel="gsdoc" href="NSURLHandle.html#method$(NSURLHandleClient)-URLHandleResourceDidFinishLoading$">-URLHandleResourceDidFinishLoading:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$(NSURLHandleClient)-URLHandle$resourceDataDidBecomeAvailable$">URLHandle:&nbsp;resourceDataDidBecomeAvailable:&nbsp;</a></h3>
+    - (void) <b>URLHandle:</b> (<a rel="gsdoc" href="#class$NSURLHandle">NSURLHandle</a>*)sender<b> resourceDataDidBecomeAvailable:</b> (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*)newData;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sent by the NSURLHandle object when some data becomes
+            available from the handle. Note that this does
+            not mean that all data has become available, only that
+            a chunk of data has arrived.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$(NSURLHandleClient)-URLHandle$resourceDidFailLoadingWithReason$">URLHandle:&nbsp;resourceDidFailLoadingWithReason:&nbsp;</a></h3>
+    - (void) <b>URLHandle:</b> (<a rel="gsdoc" href="#class$NSURLHandle">NSURLHandle</a>*)sender<b> resourceDidFailLoadingWithReason:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)reason;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sent by the NSURLHandle object on resource load
+            failure. Supplies a human readable failure
+            <var>reason</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$(NSURLHandleClient)-URLHandleResourceDidBeginLoading$">URLHandleResourceDidBeginLoading:&nbsp;</a></h3>
+    - (void) <b>URLHandleResourceDidBeginLoading:</b> (<a rel="gsdoc" href="#class$NSURLHandle">NSURLHandle</a>*)sender;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sent by the NSURLHandle object when it begins loading
+            resource data.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$(NSURLHandleClient)-URLHandleResourceDidCancelLoading$">URLHandleResourceDidCancelLoading:&nbsp;</a></h3>
+    - (void) <b>URLHandleResourceDidCancelLoading:</b> (<a rel="gsdoc" href="#class$NSURLHandle">NSURLHandle</a>*)sender;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sent by the NSURLHandle object when resource loading
+            is cancelled by programmatic request (rather than by
+            failure).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$(NSURLHandleClient)-URLHandleResourceDidFinishLoading$">URLHandleResourceDidFinishLoading:&nbsp;</a></h3>
+    - (void) <b>URLHandleResourceDidFinishLoading:</b> (<a rel="gsdoc" href="#class$NSURLHandle">NSURLHandle</a>*)sender;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sent by the NSURLHandle object when it completes
+            loading resource data.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+    <br />
+    <a href="Base.html">Up</a>
+    </font>
+</body>
+</html>

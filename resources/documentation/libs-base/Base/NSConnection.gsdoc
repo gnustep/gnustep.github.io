@@ -1,0 +1,678 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSConnection" up="Base">
+  <head>
+    <title>NSConnection class reference</title>
+    <author name="Andrew Kachites McCallum">
+      <email address="mccallum@gnu.ai.mit.edu">
+        mccallum@gnu.ai.mit.edu
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <copy>1994-2017 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSConnection class
+      </heading>
+      <class name="NSConnection" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSConnection.h</declared>
+        <desc>
+          NSConnection objects are used to manage
+          communications between objects in different
+          processes, in different machines, or in different
+          threads.
+        </desc>
+        <method type="NSArray*" factory="yes" ovadd="1.0.0">
+          <sel>allConnections</sel>
+          <desc>
+            Returns an array containing all the NSConnection
+            objects known to the system. These connections will
+            be valid at the time that the array was created, but may
+            be invalidated by other threads before you get to
+            examine the array.
+          </desc>
+        </method>
+        <method type="NSConnection*" factory="yes" ovadd="1.0.0">
+          <sel>connectionWithReceivePort:</sel>
+          <arg type="NSPort*">r</arg>
+          <sel>sendPort:</sel>
+          <arg type="NSPort*">s</arg>
+          <desc>
+            Returns a connection initialised using
+            <ref type="method" id="-initWithReceivePort:sendPort:">
+              -initWithReceivePort:sendPort:
+            </ref>
+            <br /> Both ports must be of the same type.
+          </desc>
+        </method>
+        <method type="NSConnection*" factory="yes" ovadd="1.0.0">
+          <sel>connectionWithRegisteredName:</sel>
+          <arg type="NSString*">n</arg>
+          <sel>host:</sel>
+          <arg type="NSString*">h</arg>
+          <desc>
+            <p>
+              Returns an NSConnection object whose send port is
+              that of the NSConnection registered under the name
+              <var>n</var> on the host <var>h</var>
+            </p>
+            <p>
+              This method calls
+              <ref type="method" id="+connectionWithRegisteredName:host:usingNameServer:">+connectionWithRegisteredName:host:usingNameServer:</ref> using the default system name server.
+            </p>
+            <p>
+              Use
+              <ref type="class" id="NSSocketPortNameServer">NSSocketPortNameServer</ref>for connections to remote hosts.</p>
+          </desc>
+        </method>
+        <method type="NSConnection*" factory="yes" ovadd="1.0.0">
+          <sel>connectionWithRegisteredName:</sel>
+          <arg type="NSString*">n</arg>
+          <sel>host:</sel>
+          <arg type="NSString*">h</arg>
+          <sel>usingNameServer:</sel>
+          <arg type="NSPortNameServer*">s</arg>
+          <desc>
+            <p>
+              Returns an NSConnection object whose send port is
+              that of the NSConnection registered under
+              <em>name</em> on <em>host</em>.
+            </p>
+            <p>
+              The nameserver <em>server</em> is used to look up the
+              send port to be used for the connection. <br /> Use
+              <ref type="method" id="+sharedInstance" class="NSSocketPortNameServer">[NSSocketPortNameServer +sharedInstance]</ref> for connections to remote hosts.
+            </p>
+            <p>
+              If <em>host</em> is <code>nil</code> or an empty
+              string, the host is taken to be the local
+              machine. <br /> If it is an asterisk ('*') then
+              the nameserver checks all hosts on the local subnet
+              (unless the nameserver is one that only manages
+              local ports). <br /> In the GNUstep implementation,
+              the local host is searched before any other hosts.
+              <br /> NB. if the nameserver does not support
+              connections to remote hosts (the default
+              situation) the host argeument should be
+              omitted.
+            </p>
+            <p>
+              If no NSConnection can be found for <em>name</em> and
+              <em>host</em> host, the method returns
+              <code>nil</code>.
+            </p>
+            <p>
+              The returned object has the default NSConnection of
+              the current thread as its parent (it has the same
+              receive port as the default connection).
+            </p>
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>currentConversation</sel>
+          <desc>
+            Return the current conversation... not implemented
+            in GNUstep
+          </desc>
+        </method>
+        <method type="NSConnection*" factory="yes" ovadd="1.0.0">
+          <sel>defaultConnection</sel>
+          <desc>
+            Returns the default connection for a thread. <br />
+            Creates a new instance if necessary. <br /> The
+            default connection has a single NSPort object used
+            for both sending and receiving - this it can't be used
+            to connect to a remote process, but can be used to vend
+            objects. <br /> Possible problem - if the
+            connection is invalidated, it won't be cleaned
+            up until this thread calls this method again. The
+            connection and it's ports could hang around for
+            a very <strong>long</strong> time.
+          </desc>
+        </method>
+        <method type="NSDistantObject*" factory="yes" ovadd="1.0.0">
+          <sel>rootProxyForConnectionWithRegisteredName:</sel>
+          <arg type="NSString*">n</arg>
+          <sel>host:</sel>
+          <arg type="NSString*">h</arg>
+          <desc>
+            This method calls
+            <ref type="method" id="+rootProxyForConnectionWithRegisteredName:host:usingNameServer:">+rootProxyForConnectionWithRegisteredName:host:usingNameServer:</ref> to return a proxy for a root object on the remote connection with the send port registered under name <var>n</var> on host <var>h</var>.
+          </desc>
+        </method>
+        <method type="NSDistantObject*" factory="yes" ovadd="1.0.0">
+          <sel>rootProxyForConnectionWithRegisteredName:</sel>
+          <arg type="NSString*">n</arg>
+          <sel>host:</sel>
+          <arg type="NSString*">h</arg>
+          <sel>usingNameServer:</sel>
+          <arg type="NSPortNameServer*">s</arg>
+          <desc>
+            This method calls
+            <ref type="method" id="+connectionWithRegisteredName:host:usingNameServer:">+connectionWithRegisteredName:host:usingNameServer:</ref> to get a connection, then sends it a <ref type="method" id="-rootProxy">-rootProxy</ref> message to get a proxy for the root object being vended by the remote connection. Returns the proxy or <code>nil</code> if it couldn't find a connection or if the root object for the connection has not been set. <br /> Use <ref type="method" id="+sharedInstance" class="NSSocketPortNameServer">[NSSocketPortNameServer +sharedInstance]</ref> for connections to remote hosts.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="10.5.0">
+          <sel>serviceConnectionWithName:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>rootObject:</sel>
+          <arg type="id">root</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="10.5.0">
+          <sel>serviceConnectionWithName:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>rootObject:</sel>
+          <arg type="id">root</arg>
+          <sel>usingNameServer:</sel>
+          <arg type="NSPortNameServer*">server</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>addRequestMode:</sel>
+          <arg type="NSString*">mode</arg>
+          <desc>
+            Adds <var>mode</var> to the run loop modes that the
+            NSConnection will listen to for incoming
+            messages.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>addRunLoop:</sel>
+          <arg type="NSRunLoop*">loop</arg>
+          <desc>
+            Adds <var>loop</var> to the set of run loops that the
+            NSConnection will listen to for incoming
+            messages.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>delegate</sel>
+          <desc>
+            Returns the delegate of the NSConnection.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>enableMultipleThreads</sel>
+          <desc>
+            Sets the NSConnection configuration so that multiple
+            threads may use the connection to send requests to
+            the remote connection. <br /> This option is inherited
+            by child connections. <br /> NB. A connection with
+            multiple threads enabled will run slower than a
+            normal connection.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>independentConversationQueueing</sel>
+          <desc>
+            Returns <code>YES</code> if the NSConnection is
+            configured to handle remote messages atomically,
+            <code>NO</code> otherwise. <br /> This option is
+            inherited by child connections.
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="1.0.0">
+          <sel>initWithReceivePort:</sel>
+          <arg type="NSPort*">r</arg>
+          <sel>sendPort:</sel>
+          <arg type="NSPort*">s</arg>
+          <desc>
+            Initialises an NSConnection with the receive
+            port <var>r</var> and the send port <var>s</var>.
+            <br /> Behavior varies with the port values as
+            follows -
+            <deflist>
+              <term><var>r</var> is <code>nil</code></term>
+              <desc>
+                The NSConnection is released and the method returns
+                <code>nil</code>.
+              </desc>
+              <term><var>s</var> is <code>nil</code></term>
+              <desc>
+                The NSConnection uses <var>r</var> as the send port
+                as well as the receive port.
+              </desc>
+              <term>
+                <var>s</var> is the same as <var>r</var>
+              </term>
+              <desc>
+                The NSConnection is usable only for vending
+                objects.
+              </desc>
+              <term>
+                A connection with the same ports exists
+              </term>
+              <desc>
+                The new connection is released and the old
+                connection is retained and returned.
+              </desc>
+              <term>
+                A connection with the same ports (swapped) exists
+              </term>
+              <desc>
+                The new connection is initialised as normal, and
+                will communicate with the old connection.
+              </desc>
+            </deflist>
+            <p>
+              If a connection exists whose send and receive ports
+              are both the same as the new connections receive
+              port, that existing connection is deemed to be the
+              parent of the new connection. The new connection
+              inherits configuration information from the
+              parent, and the delegate of the parent has a
+              chance to adjust the configuration of the new
+              connection or veto its creation. <br />
+              NSConnectionDidInitializeNotification
+              is posted once a new connection is initialised.
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>invalidate</sel>
+          <desc>
+            Marks the receiving NSConnection as invalid. <br />
+            Removes the NSConnections ports from any run loops.
+            <br /> Posts an NSConnectionDidDieNotification.
+            <br /> Invalidates all remote objects and local
+            proxies.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isValid</sel>
+          <desc>
+            Returns <code>YES</code> if the connection is
+            valid, <code>NO</code> otherwise. A connection is
+            valid until it has been sent an
+            <ref type="method" id="-invalidate">
+              -invalidate
+            </ref>
+            message.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>localObjects</sel>
+          <desc>
+            Returns an array of all the local objects that have
+            proxies at the remote end of the connection because
+            they have been sent over the connection and not yet
+            released by the far end.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>multipleThreadsEnabled</sel>
+          <desc>
+            Returns <code>YES</code> if the connection permits
+            multiple threads to use it to send requests,
+            <code>NO</code> otherwise. <br /> See the
+            <ref type="method" id="-enableMultipleThreads">
+              -enableMultipleThreads
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="NSPort*" ovadd="1.0.0">
+          <sel>receivePort</sel>
+          <desc>
+            Returns the NSPort object on which incoming
+            messages are received.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>registerName:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            Simply invokes
+            <ref type="method" id="-registerName:withNameServer:">
+              -registerName:withNameServer:
+            </ref>
+            passing it the default system nameserver.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>registerName:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>withNameServer:</sel>
+          <arg type="NSPortNameServer*">svr</arg>
+          <desc>
+            Registers the receive port of the NSConnection as
+            <var>name</var> and unregisters the previous value
+            (if any). <br /> Returns <code>YES</code> on success,
+            <code>NO</code> on failure. <br /> On failure, the
+            connection remains registered under the previous
+            <var>name</var>. <br /> Supply <code>nil</code> as
+            <var>name</var> to unregister the NSConnection.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>remoteObjects</sel>
+          <desc>
+            Returns an array of proxies to all the remote
+            objects known to the NSConnection.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeRequestMode:</sel>
+          <arg type="NSString*">mode</arg>
+          <desc>
+            Removes <var>mode</var> from the run loop modes
+            used to receive incoming messages.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeRunLoop:</sel>
+          <arg type="NSRunLoop*">loop</arg>
+          <desc>
+            Removes <var>loop</var> from the run loops used to
+            receive incoming messages.
+          </desc>
+        </method>
+        <method type="NSTimeInterval" ovadd="1.0.0">
+          <sel>replyTimeout</sel>
+          <desc>
+            Returns the timeout interval used when waiting for
+            a reply to a request sent on the NSConnection. This value
+            is inherited from the parent connection or may be set
+            using the
+            <ref type="method" id="-setReplyTimeout:">
+              -setReplyTimeout:
+            </ref>
+            method. <br /> The default value is the maximum
+            delay (effectively infinite).
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>requestModes</sel>
+          <desc>
+            Returns an array of all the run loop modes that the
+            NSConnection uses when waiting for an incoming
+            request.
+          </desc>
+        </method>
+        <method type="NSTimeInterval" ovadd="1.0.0">
+          <sel>requestTimeout</sel>
+          <desc>
+            Returns the timeout interval used when trying to
+            send a request on the NSConnection. This value is
+            inherited from the parent connection or may be
+            set using the
+            <ref type="method" id="-setRequestTimeout:">
+              -setRequestTimeout:
+            </ref>
+            method. <br /> The default value is the maximum
+            delay (effectively infinite).
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>rootObject</sel>
+          <desc>
+            Returns the object that is made available by this
+            connection or by its parent (the object is
+            associated with the receive port). <br />
+            Returns <code>nil</code> if no root object has been
+            set.
+          </desc>
+        </method>
+        <method type="NSDistantObject*" ovadd="1.0.0">
+          <sel>rootProxy</sel>
+          <desc>
+            Returns the proxy for the root object of the remote
+            NSConnection. <br /> Generally you will wish
+            to call
+            <ref type="method" id="-setProtocolForProxy:" class="NSDistantObject">[NSDistantObject -setProtocolForProxy:]</ref> immediately after obtaining such a root proxy.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>runInNewThread</sel>
+          <desc>
+            Removes the NSConnection from the current threads
+            default run loop, then creates a new thread and
+            runs the NSConnection in it.
+          </desc>
+        </method>
+        <method type="NSPort*" ovadd="1.0.0">
+          <sel>sendPort</sel>
+          <desc>
+            Returns the port on which the NSConnection sends
+            messages.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setDelegate:</sel>
+          <arg type="id">anObj</arg>
+          <desc>
+            Sets the NSConnection's delegate (without retaining
+            it). <br /> The delegate is able to control some of
+            the NSConnection's behavior by implementing methods in
+            an informal protocol.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setIndependentConversationQueueing:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Sets whether or not the NSConnection should handle
+            requests arriving from the remote NSConnection
+            atomically. <br /> By default, this is set to
+            <code>NO</code>... if set to <code>YES</code> then
+            any messages arriving while one message is being dealt
+            with, will be queued. <br /> NB. careful - use of
+            this option can cause deadlocks.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setReplyTimeout:</sel>
+          <arg type="NSTimeInterval">to</arg>
+          <desc>
+            Sets the time interval that the NSConnection will wait
+            for a reply for one of its requests before raising an
+            NSPortTimeoutException. <br /> NB.
+            In GNUstep you may also get such an exception if the
+            connection becomes invalidated while waiting for
+            a reply <var>to</var> a request.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setRequestMode:</sel>
+          <arg type="NSString*">mode</arg>
+          <desc>
+            Sets the runloop <var>mode</var> in which requests
+            will be sent to the remote end of the connection.
+            Normally this is NSDefaultRunloopMode
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setRequestTimeout:</sel>
+          <arg type="NSTimeInterval">to</arg>
+          <desc>
+            Sets the time interval that the NSConnection will wait
+            <var>to</var> send one of its requests before raising
+            an NSPortTimeoutException.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setRootObject:</sel>
+          <arg type="id">anObj</arg>
+          <desc>
+            Sets the root object that is vended by the connection.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="1.0.0">
+          <sel>statistics</sel>
+          <desc>
+            Returns an object containing various statistics for
+            the NSConnection. <br /> On GNUstep the dictionary
+            contains -
+            <deflist>
+              <term>NSConnectionRepliesReceived</term>
+              <desc>
+                The number of messages replied to by the remote
+                NSConnection.
+              </desc>
+              <term>NSConnectionRepliesSent</term>
+              <desc>
+                The number of replies sent to the remote
+                NSConnection.
+              </desc>
+              <term>NSConnectionRequestsReceived</term>
+              <desc>
+                The number of messages received from the remote
+                NSConnection.
+              </desc>
+              <term>NSConnectionRequestsSent</term>
+              <desc>
+                The number of messages sent to the remote
+                NSConnection.
+              </desc>
+              <term>NSConnectionLocalCount</term>
+              <desc>
+                The number of local objects currently vended.
+              </desc>
+              <term>NSConnectionProxyCount</term>
+              <desc>
+                The number of remote objects currently in use.
+              </desc>
+            </deflist>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSConnectionDelegate)
+        informal protocol
+      </heading>
+      <category name="NSConnectionDelegate" class="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSConnection.h</declared>
+        <desc>
+          This category represents an informal protocol to which
+          NSConnection delegates may conform... These
+          methods are not actually implemented by NSObject, so
+          implementing these methods in your class has the
+          effect documented.
+        </desc>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>authenticateComponents:</sel>
+          <arg type="NSMutableArray*">components</arg>
+          <sel>withData:</sel>
+          <arg type="NSData*">authenticationData</arg>
+          <desc>
+            <p>
+              This is not an NSConnection method, but is a method
+              that may be implemented by the delegate of an
+              NSConnection object.
+            </p>
+            <p>
+              If the delegate implements this method, the
+              NSConnection will invoke the method for
+              every message request or reply it receives from the
+              remote NSConnection. The delegate should use the
+              authentication data to check all the
+              NSData objects in the <var>components</var> array
+              (ignoring NSPort objects), and return
+              <code>YES</code> if they are valid,
+              <code>NO</code> otherwise.
+            </p>
+            <p>
+              If the method returns <code>NO</code> then an
+              NSFailedAuthentication exception
+              will be raised.
+            </p>
+            <p>
+              In GNUstep the <var>components</var> array is mutable,
+              allowing you to replace the NSData objects with
+              your own version.
+            </p>
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="1.0.0">
+          <sel>authenticationDataForComponents:</sel>
+          <arg type="NSMutableArray*">components</arg>
+          <desc>
+            <p>
+              This is not an NSConnection method, but is a method
+              that may be implemented by the delegate of an
+              NSConnection object.
+            </p>
+            <p>
+              If the delegate implements this method, the
+              NSConnection will invoke the method for
+              every message request to reply it sends to the
+              remote NSConnection. The delegate should generate
+              authentication data by examining all the
+              NSData objects in the <var>components</var> array
+              (ignoring NSPort objects), and return the
+              authentication data that can be used by
+              the remote NSConnection.
+            </p>
+            <p>
+              If the method returns <code>nil</code> then an
+              NSGenericException exception will be
+              raised.
+            </p>
+            <p>
+              In GNUstep the <var>components</var> array is mutable,
+              allowing you to replace the NSData objects with
+              your own version.
+            </p>
+          </desc>
+        </method>
+        <method type="NSConnection*" ovadd="1.0.0">
+          <sel>connection:</sel>
+          <arg type="NSConnection*">ancestorConn</arg>
+          <sel>didConnect:</sel>
+          <arg type="NSConnection*">newConn</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>connection:</sel>
+          <arg type="NSConnection*">parent</arg>
+          <sel>shouldMakeNewConnection:</sel>
+          <arg type="NSConnection*">newConnection</arg>
+          <desc>
+            <p>
+              This is not an NSConnection method, but is a method
+              that may be implemented by the delegate of an
+              NSConnection object.
+            </p>
+            <p>
+              If the delegate implements this method, it will be
+              called whenever a new NSConnection is created that
+              has this NSConnection as its <var>parent</var>. The
+              delegate may take this opportunity to adjust the
+              configuration of the new connection and may
+              return a boolean value to tell the
+              <var>parent</var> whether the creation of the new
+              connection is to be permitted or not.
+            </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>makeNewConnection:</sel>
+          <arg type="NSConnection*">newConnection</arg>
+          <sel>sender:</sel>
+          <arg type="NSConnection*">parent</arg>
+          <desc>
+            An old fashioned synonym for
+            <ref type="method" id="-connection:shouldMakeNewConnection:">-connection:shouldMakeNewConnection:</ref> - don't use this.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

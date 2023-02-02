@@ -1,0 +1,222 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSDistantObject" up="Base">
+  <head>
+    <title>NSDistantObject class reference</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <author name="Andrew Kachites McCallum">
+      <email address="mccallum@gnu.ai.mit.edu">
+        mccallum@gnu.ai.mit.edu
+      </email>
+    </author>
+    <copy>1997 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSDistantObject class
+      </heading>
+      <class name="NSDistantObject" super="NSProxy" ovadd="1.0.0">
+        <declared>Foundation/NSDistantObject.h</declared>
+        <conform>NSCoding</conform>
+        <desc>
+          Instances of this class act as proxies to remote
+          objects using the Distributed Objects system. They
+          also hold references to local objects which are vended
+          to remote processes.
+        </desc>
+        <ivariable type="NSConnection*" name="_connection" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="_counter" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="_handle" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_object" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="Protocol*" name="_protocol" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="void*" name="_sigs" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="NSDistantObject*" factory="yes" ovadd="1.0.0">
+          <sel>proxyWithLocal:</sel>
+          <arg type="id">anObject</arg>
+          <sel>connection:</sel>
+          <arg type="NSConnection*">aConnection</arg>
+          <desc>
+            Creates and returns a proxy associated with
+            <var>aConnection</var> which will hold a reference to
+            the local object <var>anObject</var>.
+          </desc>
+        </method>
+        <method type="NSDistantObject*" factory="yes" ovadd="1.0.0">
+          <sel>proxyWithTarget:</sel>
+          <arg type="unsigned">anObject</arg>
+          <sel>connection:</sel>
+          <arg type="NSConnection*">aConnection</arg>
+          <desc>
+            Creates and returns a proxy associated with
+            <var>aConnection</var> which will provide a link to a
+            remote object whose reference locally is
+            <var>anObject</var>.
+          </desc>
+        </method>
+        <method type="NSConnection*" ovadd="1.0.0">
+          <sel>connectionForProxy</sel>
+          <desc>
+            Returns the
+            <ref type="class" id="NSConnection">NSConnection</ref>
+              instance with which the receiver is associated.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithLocal:</sel>
+          <arg type="id">anObject</arg>
+          <sel>connection:</sel>
+          <arg type="NSConnection*">aConnection</arg>
+          <desc>
+            Initialises and returns a proxy associated with
+            <var>aConnection</var> which will hold a reference to
+            the local object <var>anObject</var>.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithTarget:</sel>
+          <arg type="unsigned">target</arg>
+          <sel>connection:</sel>
+          <arg type="NSConnection*">aConnection</arg>
+          <desc>
+            Initialises and returns a proxy associated with
+            <var>aConnection</var> which will provide a link to a
+            remote object whose reference locally is
+            <var>target</var>.
+          </desc>
+        </method>
+        <method type="NSMethodSignature*" ovadd="1.0.0">
+          <sel>methodSignatureForSelector:</sel>
+          <arg type="SEL">aSelector</arg>
+          <desc>
+            <p>
+              Returns the method signature describing the
+              arguments and return types of the method in the
+              object referred to by the receiver which
+              implements the <var>aSelector</var> message.
+            </p>
+            <p>
+              This method may need to refer to another process
+              (causing relatively slow network communication)
+              and approximately <strong>double</strong> the time
+              taken for sending a distributed objects message, so
+              you are advised to use the
+              <ref type="method" id="-setProtocolForProxy:">
+                -setProtocolForProxy:
+              </ref>
+              method to avoid this occurring.
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setProtocolForProxy:</sel>
+          <arg type="Protocol*">aProtocol</arg>
+          <desc>
+            <p>
+              A key method for Distributed Objects performance. This
+              sets the a protocol that the distant object referred
+              to by the proxy should conform to. When messages in
+              that protocol are sent to the proxy, the proxy knows
+              that it does not need to ask the remote object for
+              the method signature in order to send the message to
+              it, but can send the message straight away based on
+              the local method signature information obtained from
+              the protocol.
+            </p>
+<example>
+   if ([anObj isProxy] == YES)
+     {
+       [anObj setProtocolForProxy: @protocol(MyProtocol)];
+     }
+ </example>
+            <p>
+              It is <em>highly recommended</em> that you make use of
+              this facility, but you must beware that versions of
+              the compiler prior to 3.3 suffer a serious bug with
+              respect to the @protocol directive. If the
+              protocol referred to is not declared and
+              implemented in the file where @protocol is
+              used to refer to the protocol by name, a runtime
+              error will occur when you try to use it.
+            </p>
+            <p>
+              Beware, if you don't use this method to set the
+              protocol, the system might well ask the remote
+              process for method signature information, and the
+              remote process might get it <em>wrong</em>. This
+              is because the class of the remote object needs to
+              have been declared to conform to the protocol in
+              order for it to know about any protocol qualifiers
+              (the keywords
+              <code>bycopy, byref, in, out, inout,</code> and
+              <code>oneway</code>). If the author of the server
+              process forgot to do this, the type information
+              returned from that process may not be what you
+              are expecting.
+            </p>
+            The class of the server object should be declared like
+            this...
+<example>
+ @interface MyServerClass : NSObject &lt;MyProtocol&gt;
+ ...
+ @end
+ </example>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

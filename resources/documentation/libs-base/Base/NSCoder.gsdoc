@@ -1,0 +1,628 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSCoder" up="Base">
+  <head>
+    <title>NSCoder class reference</title>
+    <author name="Andrew Kachites McCallum">
+      <email address="mccallum@gnu.ai.mit.edu">
+        mccallum@gnu.ai.mit.edu
+      </email>
+    </author>
+    <author name="Adam Fedor">
+      <email address="fedor@boulder.colorado.edu">
+        fedor@boulder.colorado.edu
+      </email>
+    </author>
+    <copy>1995, 1996 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSCoder class
+      </heading>
+      <class name="NSCoder" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSCoder.h</declared>
+        <desc>
+          <p>
+            Top-level class defining methods for use when
+            archiving (encoding) objects to a byte array or
+            file, and when restoring (decoding) objects.
+            Generally only subclasses of this class are used
+            directly -
+            <ref type="class" id="NSArchiver">NSArchiver</ref>
+              ,
+              <ref type="class" id="NSUnarchiver">NSUnarchiver</ref>
+                ,
+                <ref type="class" id="NSKeyedArchiver">NSKeyedArchiver</ref>
+                  ,
+                  <ref type="class" id="NSKeyedUnarchiver">NSKeyedUnarchiver</ref>
+                    , or
+                    <ref type="class" id="NSPortCoder">NSPortCoder</ref>.</p>
+                    <p>
+                      <code>NSPortCoder</code> is used within
+                      the distributed objects framework. For
+                      archiving to/from disk, the
+                      <em>Keyed...</em> classes are preferred for
+                      new implementations, since they provide
+                      greater forward/backward compatibility in
+                      the face of class changes.
+                    </p>
+        </desc>
+        <method type="BOOL" override="subclass" ovadd="10.0.0">
+          <sel>allowsKeyedCoding</sel>
+          <desc>
+            Returns a flag indicating whether the receiver
+            supported keyed coding. the default
+            implementation returns <code>NO</code>.
+            Subclasses supporting keyed coding must override
+            this to return <code>YES</code>.
+          </desc>
+        </method>
+        <method type="BOOL" override="subclass" ovadd="10.0.0">
+          <sel>containsValueForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns a class indicating whether an encoded value
+            corresponding to <var>aKey</var> exists.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>decodeArrayOfObjCType:</sel>
+          <arg type="const char*">type</arg>
+          <sel>count:</sel>
+          <arg type="NSUInteger">count</arg>
+          <sel>at:</sel>
+          <arg type="void*">address</arg>
+          <desc>
+            Decodes array of <var>count</var> structures or
+            objects of given <var>type</var>, which may be
+            obtained through the ' <code>@encode(...)</code> '
+            compile-time operator. Usually this is used
+            for primitives though it can be used for objects as
+            well. Objects will be retained and you must release
+            them.
+          </desc>
+        </method>
+        <method type="BOOL" override="subclass" ovadd="10.0.0">
+          <sel>decodeBoolForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns a boolean value associated with
+            <var>aKey</var>. This value must previously have been
+            encoded using
+            <ref type="method" id="-encodeBool:forKey:">
+              -encodeBool:forKey:
+            </ref>
+          </desc>
+        </method>
+        <method type="const uint8_t*" override="subclass" ovadd="10.0.0">
+          <sel>decodeBytesForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <sel>returnedLength:</sel>
+          <arg type="NSUInteger*">alength</arg>
+          <desc>
+            Returns a pointer to a byte array associated with
+            <var>aKey</var>. <br /> Returns the length of the
+            data in aLength. <br /> This value must previously
+            have been encoded using
+            <ref type="method" id="-encodeBytes:length:forKey:">
+              -encodeBytes:length:forKey:
+            </ref>
+          </desc>
+        </method>
+        <method type="void*" ovadd="1.0.0">
+          <sel>decodeBytesWithReturnedLength:</sel>
+          <arg type="NSUInteger*">l</arg>
+          <desc>
+            Retrieve bytes directly from archive.
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="1.0.0">
+          <sel>decodeDataObject</sel>
+          <desc>
+            Decode an instance of
+            <ref type="class" id="NSData">NSData</ref>
+              .
+          </desc>
+        </method>
+        <method type="double" override="subclass" ovadd="10.0.0">
+          <sel>decodeDoubleForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns a <strong>double</strong> value associated
+            with <var>aKey</var>. This value must previously have
+            been encoded using
+            <ref type="method" id="-encodeDouble:forKey:">
+              -encodeDouble:forKey:
+            </ref>
+            or
+            <ref type="method" id="-encodeFloat:forKey:">
+              -encodeFloat:forKey:
+            </ref>
+          </desc>
+        </method>
+        <method type="float" override="subclass" ovadd="10.0.0">
+          <sel>decodeFloatForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns a <strong>float</strong> value associated
+            with <var>aKey</var>. This value must previously have
+            been encoded using
+            <ref type="method" id="-encodeFloat:forKey:">
+              -encodeFloat:forKey:
+            </ref>
+            or
+            <ref type="method" id="-encodeDouble:forKey:">
+              -encodeDouble:forKey:
+            </ref>
+            <br /> Precision may be lost (or an exception raised
+            if the value will not fit in a <strong>float</strong>)
+            if the value was encoded using
+            <ref type="method" id="-encodeDouble:forKey:">
+              -encodeDouble:forKey:
+            </ref>
+            ,
+          </desc>
+        </method>
+        <method type="int32_t" override="subclass" ovadd="10.0.0">
+          <sel>decodeInt32ForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns a 32-bit integer value associated with
+            <var>aKey</var>. This value must previously have been
+            encoded using
+            <ref type="method" id="-encodeInt:forKey:">
+              -encodeInt:forKey:
+            </ref>
+            ,
+            <ref type="method" id="-encodeInt32:forKey:">
+              -encodeInt32:forKey:
+            </ref>
+            , or
+            <ref type="method" id="-encodeInt64:forKey:">
+              -encodeInt64:forKey:
+            </ref>
+            . <br /> An exception will be raised if the value does
+            not fit in a 32-bit integer.
+          </desc>
+        </method>
+        <method type="int64_t" override="subclass" ovadd="10.0.0">
+          <sel>decodeInt64ForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns a 64-bit integer value associated with
+            <var>aKey</var>. This value must previously have been
+            encoded using
+            <ref type="method" id="-encodeInt:forKey:">
+              -encodeInt:forKey:
+            </ref>
+            ,
+            <ref type="method" id="-encodeInt32:forKey:">
+              -encodeInt32:forKey:
+            </ref>
+            , or
+            <ref type="method" id="-encodeInt64:forKey:">
+              -encodeInt64:forKey:
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="int" override="subclass" ovadd="10.0.0">
+          <sel>decodeIntForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns an integer value associated with
+            <var>aKey</var>. This value must previously have been
+            encoded using
+            <ref type="method" id="-encodeInt:forKey:">
+              -encodeInt:forKey:
+            </ref>
+            ,
+            <ref type="method" id="-encodeInt32:forKey:">
+              -encodeInt32:forKey:
+            </ref>
+            , or
+            <ref type="method" id="-encodeInt64:forKey:">
+              -encodeInt64:forKey:
+            </ref>
+            . <br /> An exception will be raised if the value does
+            not fit in an integer.
+          </desc>
+        </method>
+        <method type="NSInteger" override="subclass" ovadd="10.5.0">
+          <sel>decodeIntegerForKey:</sel>
+          <arg type="NSString*">key</arg>
+          <desc>
+            Decodes an NSInteger associated with the
+            <var>key</var>.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>decodeObject</sel>
+          <desc>
+            Decodes a generic object. Usually the class will be
+            read from the archive, an object will be created
+            through an <code>alloc</code> call, then that class
+            will be sent an
+            <ref type="method" id="-initWithCoder:" class="(NSCoding)">[&lt;NSCoding&gt;-initWithCoder:]</ref> message.
+          </desc>
+        </method>
+        <method type="id" override="subclass" ovadd="10.0.0">
+          <sel>decodeObjectForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns an object value associated with
+            <var>aKey</var>. This value must previously have been
+            encoded using
+            <ref type="method" id="-encodeObject:forKey:">
+              -encodeObject:forKey:
+            </ref>
+            or
+            <ref type="method" id="-encodeConditionalObject:forKey:">
+              -encodeConditionalObject:forKey:
+            </ref>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.8.0">
+          <sel>decodeObjectOfClass:</sel>
+          <arg type="Class">cls</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.8.0">
+          <sel>decodeObjectOfClasses:</sel>
+          <arg type="NSSet*">classes</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSPoint" ovadd="1.0.0">
+          <sel>decodePoint</sel>
+          <desc>
+            Decodes a point structure.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>decodePropertyList</sel>
+          <desc>
+            Decodes a property list from the archive previously
+            stored through a call to
+            <ref type="method" id="-encodePropertyList:">
+              -encodePropertyList:
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="1.0.0">
+          <sel>decodeRect</sel>
+          <desc>
+            Decodes a rectangle structure.
+          </desc>
+        </method>
+        <method type="NSSize" ovadd="1.0.0">
+          <sel>decodeSize</sel>
+          <desc>
+            Decodes a size structure.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>decodeValueOfObjCType:</sel>
+          <arg type="const char*">type</arg>
+          <sel>at:</sel>
+          <arg type="void*">address</arg>
+          <desc>
+            Decodes structure or object of given
+            <var>type</var>, which may be obtained through the '
+            <code>@encode(...)</code> ' compile-time operator.
+            Usually this is used for primitives though it can
+            be used for objects as well, in which case you are
+            responsible for releasing them.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>decodeValuesOfObjCTypes:</sel>
+          <arg type="const char*">types</arg>
+          <vararg />
+          <desc>
+            Multiple version of
+            <ref type="method" id="-decodeValueOfObjCType:at:">
+              -decodeValueOfObjCType:at:
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>encodeArrayOfObjCType:</sel>
+          <arg type="const char*">type</arg>
+          <sel>count:</sel>
+          <arg type="NSUInteger">count</arg>
+          <sel>at:</sel>
+          <arg type="const void*">array</arg>
+          <desc>
+            Encodes <var>array</var> of <var>count</var>
+            structures or objects of given <var>type</var>,
+            which may be obtained through the '
+            <code>@encode(...)</code> ' compile-time operator.
+            Usually this is used for primitives though it can
+            be used for objects as well.
+          </desc>
+        </method>
+        <method type="void" override="subclass" ovadd="10.0.0">
+          <sel>encodeBool:</sel>
+          <arg type="BOOL">aBool</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Encodes <var>aBool</var> and associates the encoded
+            value with <var>aKey</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>encodeBycopyObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Can be ignored.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>encodeByrefObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Can be ignored.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>encodeBytes:</sel>
+          <arg type="void*">d</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">l</arg>
+          <desc>
+            Stores bytes directly into archive.
+          </desc>
+        </method>
+        <method type="void" override="subclass" ovadd="10.0.0">
+          <sel>encodeBytes:</sel>
+          <arg type="const uint8_t*">aPointer</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">length</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Encodes the data of the specified <var>length</var>
+            and pointed to by <var>aPointer</var>, and associates
+            the encoded value with <var>aKey</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>encodeConditionalObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Encode object if it is/will be encoded
+            unconditionally by this coder, otherwise
+            store a <code>nil</code>.
+          </desc>
+        </method>
+        <method type="void" override="subclass" ovadd="10.0.0">
+          <sel>encodeConditionalObject:</sel>
+          <arg type="id">anObject</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Encodes <var>anObject</var> and associates the
+            encoded value with <var>aKey</var>, but only if
+            <var>anObject</var> has already been encoded using
+            <ref type="method" id="-encodeObject:forKey:">
+              -encodeObject:forKey:
+            </ref>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>encodeDataObject:</sel>
+          <arg type="NSData*">data</arg>
+          <desc>
+            Encode an instance of
+            <ref type="class" id="NSData">NSData</ref>
+              .
+          </desc>
+        </method>
+        <method type="void" override="subclass" ovadd="10.0.0">
+          <sel>encodeDouble:</sel>
+          <arg type="double">aDouble</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Encodes <var>aDouble</var> and associates the
+            encoded value with <var>aKey</var>.
+          </desc>
+        </method>
+        <method type="void" override="subclass" ovadd="10.0.0">
+          <sel>encodeFloat:</sel>
+          <arg type="float">aFloat</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Encodes <var>aFloat</var> and associates the
+            encoded value with <var>aKey</var>.
+          </desc>
+        </method>
+        <method type="void" override="subclass" ovadd="10.0.0">
+          <sel>encodeInt32:</sel>
+          <arg type="int32_t">anInteger</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Encodes 32 bit integer and associates the encoded
+            value with <var>aKey</var>.
+          </desc>
+        </method>
+        <method type="void" override="subclass" ovadd="10.0.0">
+          <sel>encodeInt64:</sel>
+          <arg type="int64_t">anInteger</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Encodes a 64 bit integer and associates the encoded
+            value with <var>aKey</var>.
+          </desc>
+        </method>
+        <method type="void" override="subclass" ovadd="10.0.0">
+          <sel>encodeInt:</sel>
+          <arg type="int">anInteger</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Encodes an <strong>int</strong> and associates the
+            encoded value with <var>aKey</var>.
+          </desc>
+        </method>
+        <method type="void" override="subclass" ovadd="10.5.0">
+          <sel>encodeInteger:</sel>
+          <arg type="NSInteger">anInteger</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">key</arg>
+          <desc>
+            Encodes an NSInteger and associates the encoded
+            value with <var>key</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>encodeObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Encodes a generic object. This will usually result
+            in an
+            <ref type="method" id="-encodeWithCoder:" class="(NSCoding)">[&lt;NSCoding&gt;-encodeWithCoder:]</ref> message being sent to <var>anObject</var> so it can encode itself.
+          </desc>
+        </method>
+        <method type="void" override="subclass" ovadd="10.0.0">
+          <sel>encodeObject:</sel>
+          <arg type="id">anObject</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Encodes <var>anObject</var> and associates the
+            encoded value with <var>aKey</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>encodePoint:</sel>
+          <arg type="NSPoint">point</arg>
+          <desc>
+            Encodes a <var>point</var> structure.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>encodePropertyList:</sel>
+          <arg type="id">plist</arg>
+          <desc>
+            Encodes a property list by calling [NSSerializer
+            -serializePropertyList:], then
+            encoding the resulting
+            <ref type="class" id="NSData">NSData</ref>
+              object.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>encodeRect:</sel>
+          <arg type="NSRect">rect</arg>
+          <desc>
+            Encodes a rectangle structure.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>encodeRootObject:</sel>
+          <arg type="id">rootObject</arg>
+          <desc>
+            Store object and objects it refers to in archive
+            (i.e., complete object graph).
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>encodeSize:</sel>
+          <arg type="NSSize">size</arg>
+          <desc>
+            Encodes a <var>size</var> structure.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>encodeValueOfObjCType:</sel>
+          <arg type="const char*">type</arg>
+          <sel>at:</sel>
+          <arg type="const void*">address</arg>
+          <desc>
+            Encodes structure or object of given
+            <var>type</var>, which may be obtained through the '
+            <code>@encode(...)</code> ' compile-time operator.
+            Usually this is used for primitives though it can
+            be used for objects as well.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>encodeValuesOfObjCTypes:</sel>
+          <arg type="const char*">types</arg>
+          <vararg />
+          <desc>
+            Multiple version of
+            <ref type="method" id="-encodeValueOfObjCType:at:">
+              -encodeValueOfObjCType:at:
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="NSZone*" ovadd="1.0.0">
+          <sel>objectZone</sel>
+          <desc>
+            Returns zone being used to allocate memory for
+            decoded objects.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.8.0">
+          <sel>requiresSecureCoding</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setObjectZone:</sel>
+          <arg type="NSZone*">zone</arg>
+          <desc>
+            Sets <var>zone</var> to use for allocating memory for
+            decoded objects.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.8.0">
+          <sel>setRequiresSecureCoding:</sel>
+          <arg type="BOOL">secure</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="unsigned int" ovadd="1.0.0">
+          <sel>systemVersion</sel>
+          <desc>
+            Returns *Step version, which is not the release
+            version, but a large number, by specification
+            &lt;1000 for pre-OpenStep. This implementation
+            returns a number based on the GNUstep major, minor,
+            and subminor versions.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>versionForClassName:</sel>
+          <arg type="NSString*">className</arg>
+          <desc>
+            Returns current version of class (when encoding) or
+            version of decoded class (decoded). Version comes
+            from [NSObject -getVersion].
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

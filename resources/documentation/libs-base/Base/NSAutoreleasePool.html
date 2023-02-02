@@ -1,0 +1,617 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>NSAutoreleasePool class reference</title>
+  </head>
+  <body>
+    <font face="serif">
+    <a href="Base.html">Up</a>
+    <br />
+    <h1><a name="title$NSAutoreleasePool">NSAutoreleasePool class reference</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Andrew Kachites McCallum (<a href="mailto:mccallum@gnu.ai.mit.edu"><code>mccallum@gnu.ai.mit.edu</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Richard Frith-Macdonald (<a href="mailto:rfm@gnu.org"><code>rfm@gnu.org</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Copyright:</b> (C) 1995, 1996, 1997 Free Software Foundation, Inc.</p>
+
+        <div>
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSAutoreleasePool class
+      </a></h1>
+    <h2><a name="class$NSAutoreleasePool">NSAutoreleasePool</a> : <a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSAutoreleasePool.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            The standard OpenStep system of memory management
+            employs retain counts. When an object is created,
+            it has a retain count of 1. When an object is retained,
+            the retain count is incremented. When it is released
+            the retain count is decremented, and when the retain
+            count goes to zero the object gets deallocated.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            A simple retain/release mechanism has problems with
+            passing objects from one scope to another, so it&apos;s
+            augmented with autorelease pools. You can use the
+            
+              AUTORELEASE()
+            
+
+            macro to call the
+            
+              [NSObject -autorelease]
+            
+
+            method, which adds an object to the current
+            autorelease pool by calling
+            <a rel="gsdoc" href="#method$NSAutoreleasePool+addObject$">[NSAutoreleasePool +addObject:]</a>
+. <br /> An autorelease pool simply maintains a reference to each object added to it, and for each addition, the autorelease pool will call the [NSObject -release]
+ method of the object when the pool is released. So doing an AUTORELEASE()
+ is just the same as doing a RELEASE()
+, but deferred until the current autorelease pool is deallocated.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            The NSAutoreleasePool class maintains a separate stack
+            of autorelease pools objects in each thread.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            When an autorelease pool is created, it is
+            automatically added to the stack of pools in
+            the thread.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            When a pool is destroyed, it (and any pool later in
+            the stack) is removed from the stack.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            This mechanism provides a simple but controllable and
+            reasonably efficient way of managing temporary
+            objects. An object can be autoreleased and then
+            passed around and used until the topmost pool in the
+            stack is destroyed.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            Most methods return objects which are either owned by
+            autorelease pools or by the receiver of the
+            method, so the lifetime of the returned object can
+            be assumed to be the shorter of the lifetime of the
+            current autorelease pool, or that of the receiver
+            on which the method was called. <br /> The exceptions to
+            this are those object returned by -
+              </p>
+    <p>
+      
+          
+      <dl>
+        <dt>
+              <a rel="gsdoc" href="NSObject.html#method$NSObject+alloc">
+                [NSObject +alloc]
+              </a>
+
+              ,
+              <a rel="gsdoc" href="NSObject.html#method$NSObject+allocWithZone$">[NSObject +allocWithZone:]</a>
+
+            </dt>
+        <dd>
+          
+              Methods whose names begin with alloc return an
+              uninitialised object, owned by the caller.
+            
+        </dd>
+        <dt>
+              <a rel="gsdoc" href="NSObject.html#method$NSObject-init">
+                [NSObject -init]
+              </a>
+
+            </dt>
+        <dd>
+          
+              Methods whose names begin with init return an
+              initialised version of the receiving object,
+              owned by the caller. <br /> NB. The returned object
+              may not actually be the same as the receiver...
+              sometimes an init method releases the original
+              receiver and returns an alternative.
+            
+        </dd>
+        <dt>
+              <a rel="gsdoc" href="NSObject.html#method$NSObject+new">
+                [NSObject +new]
+              </a>
+
+            </dt>
+        <dd>
+          
+              Methods whose names begin with new combine the
+              effects of allocation and initialisation.
+            
+        </dd>
+        <dt>
+              <a rel="gsdoc" href="NSObject.html#method$NSObject-copy">
+                [NSObject -copy]
+              </a>
+
+              ,
+              <a rel="gsdoc" href="NSObject.html#method$(NSCopying)-copyWithZone$">[&lt;NSCopying&gt;-copyWithZone:]</a>
+
+            </dt>
+        <dd>
+          
+              Methods whose names begin with copy create a copy
+              of the receiver which is owned by the caller.
+            
+        </dd>
+        <dt>
+              <a rel="gsdoc" href="NSObject.html#method$NSObject-mutableCopy">
+                [NSObject -mutableCopy]
+              </a>
+
+              ,
+              <a rel="gsdoc" href="NSObject.html#method$(NSMutableCopying)-mutableCopyWithZone$">[&lt;NSMutableCopying&gt;-mutableCopyWithZone:]</a>
+
+            </dt>
+        <dd>
+          
+              Methods whose names begin with mutableCopy create
+              a copy of the receiver which is owned by the caller.
+            
+        </dd>
+      </dl>
+      
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_NSAutoreleasePool_ivars">Instance Variables</a>
+    <br/><br/>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSAutoreleasePool.html#method$NSAutoreleasePool+addObject$">+addObject:</a></li>
+      <li><a rel="gsdoc" href="NSAutoreleasePool.html#method$NSAutoreleasePool+allocWithZone$">+allocWithZone:</a></li>
+      <li><a rel="gsdoc" href="NSAutoreleasePool.html#method$NSAutoreleasePool+autoreleaseCountForObject$">+autoreleaseCountForObject:</a></li>
+      <li><a rel="gsdoc" href="NSAutoreleasePool.html#method$NSAutoreleasePool+currentPool">+currentPool</a></li>
+      <li><a rel="gsdoc" href="NSAutoreleasePool.html#method$NSAutoreleasePool+enableRelease$">+enableRelease:</a></li>
+      <li><a rel="gsdoc" href="NSAutoreleasePool.html#method$NSAutoreleasePool+freeCache">+freeCache</a></li>
+      <li><a rel="gsdoc" href="NSAutoreleasePool.html#method$NSAutoreleasePool+setPoolCountThreshold$">+setPoolCountThreshold:</a></li>
+      <li><a rel="gsdoc" href="NSAutoreleasePool.html#method$NSAutoreleasePool-addObject$">-addObject:</a></li>
+      <li><a rel="gsdoc" href="NSAutoreleasePool.html#method$NSAutoreleasePool-autorelease">-autorelease</a></li>
+      <li><a rel="gsdoc" href="NSAutoreleasePool.html#method$NSAutoreleasePool-autoreleaseCount">-autoreleaseCount</a></li>
+      <li><a rel="gsdoc" href="NSAutoreleasePool.html#method$NSAutoreleasePool-drain">-drain</a></li>
+      <li><a rel="gsdoc" href="NSAutoreleasePool.html#method$NSAutoreleasePool-emptyPool">-emptyPool</a></li>
+      <li><a rel="gsdoc" href="NSAutoreleasePool.html#method$NSAutoreleasePool-release">-release</a></li>
+      <li><a rel="gsdoc" href="NSAutoreleasePool.html#method$NSAutoreleasePool-retain">-retain</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSAutoreleasePool+addObject$">addObject:&nbsp;</a></h3>
+    + (void) <b>addObject:</b> (id)anObj;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Adds <var>anObj</var> to the current autorelease pool.
+            <br /> If there is no autorelease pool in the
+            thread, a warning is logged and the object is
+            leaked (ie it will not be released).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSAutoreleasePool+allocWithZone$">allocWithZone:&nbsp;</a></h3>
+    + (id) <b>allocWithZone:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSZone">NSZone</a>*)zone;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Allocate and return an autorelease pool instance.
+            <br /> If there is an already-allocated
+            NSAutoreleasePool available, save time by
+            just returning that, rather than allocating a new one.
+            <br /> The pool instance becomes the current
+            autorelease pool for this thread.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSAutoreleasePool+autoreleaseCountForObject$">autoreleaseCountForObject:&nbsp;</a></h3>
+    + (unsigned) <b>autoreleaseCountForObject:</b> (id)anObject;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Counts the number of times that the specified
+              object occurs in autorelease pools in the current
+              thread.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              This method is <em>slow</em> and should probably
+              only be used for debugging purposes.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSAutoreleasePool+currentPool">currentPool&nbsp;</a></h3>
+    + (id) <b>currentPool</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the currently active autorelease pool.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSAutoreleasePool+enableRelease$">enableRelease:&nbsp;</a></h3>
+    + (void) <b>enableRelease:</b> (BOOL)enable;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Specifies whether objects contained in
+              autorelease pools are to be released when the
+              pools are deallocated (by default <code>YES</code>
+              ).
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              You can set this to <code>NO</code> for debugging
+              purposes.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSAutoreleasePool+freeCache">freeCache&nbsp;</a></h3>
+    + (void) <b>freeCache</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              When autorelease pools are deallocated, the memory
+              they used is retained in a cache for re-use so that
+              new polls can be created very quickly.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              This method may be used to empty that cache,
+              ensuring that the minimum memory is used by the
+              application.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSAutoreleasePool+setPoolCountThreshold$">setPoolCountThreshold:&nbsp;</a></h3>
+    + (void) <b>setPoolCountThreshold:</b> (unsigned)c;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Specifies a limit to the number of objects that
+              may be added to an autorelease pool. When this limit
+              is reached an exception is raised.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              You can set this to a smallish value to catch
+              problems with code that autoreleases too many
+              objects to operate efficiently.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Default value is maxint.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSAutoreleasePool-addObject$">addObject:&nbsp;</a></h3>
+    - (void) <b>addObject:</b> (id)anObj;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Adds <var>anObj</var> to this autorelease pool.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSAutoreleasePool-autorelease">autorelease&nbsp;</a></h3>
+    - (id) <b>autorelease</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Raises an exception - pools should not be
+            autoreleased.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSAutoreleasePool-autoreleaseCount">autoreleaseCount&nbsp;</a></h3>
+    - (unsigned) <b>autoreleaseCount</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the number of objects in this pool.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSAutoreleasePool-drain">drain&nbsp;</a></h3>
+    - (void) <b>drain</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            Intended to trigger a garbage collection run (if
+            needed) when called in a garbage collected
+            environment. <br /> In a non-garbage collected
+            environment, this method implements the
+            undocumented MacOS-X behavior, and releases
+            the receiver.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSAutoreleasePool-emptyPool">emptyPool&nbsp;</a></h3>
+    - (void) <b>emptyPool</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Empties the current pool by releasing all the
+            autoreleased objects in it. Also destroys any
+            child pools (ones created after the receiver in the
+            same thread) causing any objects in those pools to be
+            released. <br /> This is a low cost (efficient)
+            method which may be used to get rid of autoreleased
+            objects in the pool, but carry on using the pool.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSAutoreleasePool-release">release&nbsp;</a></h3>
+    - (oneway void) <b>release</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Destroys the receiver (calls -dealloc).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSAutoreleasePool-retain">retain&nbsp;</a></h3>
+    - (id) <b>retain</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Raises an exception... pools should not be retained.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<a name="_NSAutoreleasePool_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for NSAutoreleasePool Class</h2>
+    <h3><a name="ivariable$NSAutoreleasePool*_addImp">_addImp</a></h3>
+    @protected void(* <b>_addImp</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$NSAutoreleasePool*_child">_child</a></h3>
+    @protected NSAutoreleasePool* <b>_child</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$NSAutoreleasePool*_parent">_parent</a></h3>
+    @protected NSAutoreleasePool* <b>_parent</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$NSAutoreleasePool*_released">_released</a></h3>
+    @protected struct autorelease_array_list* <b>_released</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$NSAutoreleasePool*_released_count">_released_count</a></h3>
+    @protected unsigned int <b>_released_count</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <h3><a name="ivariable$NSAutoreleasePool*_released_head">_released_head</a></h3>
+    @protected struct autorelease_array_list* <b>_released_head</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr width="25%" align="left" />
+    <br/><hr width="50%" align="left" /><br/>
+    <br />
+    <a href="Base.html">Up</a>
+    </font>
+</body>
+</html>

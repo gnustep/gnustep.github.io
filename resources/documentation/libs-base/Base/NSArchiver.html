@@ -1,0 +1,685 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>NSArchiver class reference</title>
+  </head>
+  <body>
+    <font face="serif">
+    <a href="Base.html">Up</a>
+    <br />
+    <h1><a name="title$NSArchiver">NSArchiver class reference</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Andrew Kachites McCallum (<a href="mailto:mccallum@gnu.ai.mit.edu"><code>mccallum@gnu.ai.mit.edu</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Richard Frith-Macdonald (<a href="mailto:rfm@gnu.org"><code>rfm@gnu.org</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Richard Frith-Macdonald (<a href="mailto:richard@brainstorm.co.uk"><code>richard@brainstorm.co.uk</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Copyright:</b> (C) 
+      1995, 1996, 1997, 1998 Free Software Foundation, Inc.
+    </p>
+
+        <div>
+      <hr width="50%" align="left" />
+      <h3>Contents -</h3>
+      <ol>
+        <li>
+          <a href="#001000000000">Software documentation for the NSArchiver class</a>
+        </li>
+        <li>
+          <a href="#002000000000">Software documentation for the NSUnarchiver class</a>
+        </li>
+        <li>
+          <a href="#003000000000">Software documentation for the NSArchiver(GNUstep)
+        category</a>
+        </li>
+        <li>
+          <a href="#004000000000">Software documentation for the NSUnarchiver(GNUstep)
+        category</a>
+        </li>
+      </ol>
+      <hr width="50%" align="left" />
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSArchiver class
+      </a></h1>
+    <h2><a name="class$NSArchiver">NSArchiver</a> : <a rel="gsdoc" href="NSCoder.html#class$NSCoder">NSCoder</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSArchiver.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            Implementation of
+            <a rel="gsdoc" href="NSCoder.html#class$NSCoder">NSCoder</a>
+
+              capable of creating sequential archives which
+              must be read in the same order they were written.
+              This class implements methods for saving to and
+              restoring from a serial archive (usually a file
+              on disk, but can be an
+              <a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>
+
+                object) as well as methods that can be used by
+                objects that need to write/restore themselves.
+                  </p>
+    <p>
+      
+              
+    </p>
+    <p>
+
+                Note, the sibling class
+                <a rel="gsdoc" href="NSKeyedArchiver.html#class$NSKeyedArchiver">NSKeyedArchiver</a>
+supports a form of archive that is more robust to class changes, and is recommended over this one.    </p>
+    <p>
+      
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSArchiver(GNUstep)-directDataAccess">-directDataAccess</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSArchiver(GNUstep)-resetArchiver">-resetArchiver</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSArchiver(GNUstep)-serializeHeaderAt$version$classes$objects$pointers$">-serializeHeaderAt:version:classes:objects:pointers:</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSArchiver+archiveRootObject$toFile$">+archiveRootObject:toFile:</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSArchiver+archivedDataWithRootObject$">+archivedDataWithRootObject:</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSArchiver-archiverData">-archiverData</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSArchiver-classNameEncodedForTrueClassName$">-classNameEncodedForTrueClassName:</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSArchiver-encodeClassName$intoClassName$">-encodeClassName:intoClassName:</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSArchiver-initForWritingWithMutableData$">-initForWritingWithMutableData:</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSArchiver-replaceObject$withObject$">-replaceObject:withObject:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSArchiver+archiveRootObject$toFile$">archiveRootObject:&nbsp;toFile:&nbsp;</a></h3>
+    + (BOOL) <b>archiveRootObject:</b> (id)rootObject<b> toFile:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Writes out serialized representation of object and,
+            recursively, any other objects it holds
+            references to.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSArchiver+archivedDataWithRootObject$">archivedDataWithRootObject:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*) <b>archivedDataWithRootObject:</b> (id)rootObject;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Writes serialized representation of object and,
+            recursively, any other objects it holds
+            references to, to byte array.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSArchiver-archiverData">archiverData&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSData.html#class$NSMutableData">NSMutableData</a>*) <b>archiverData</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns whatever data has been encoded thus far.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSArchiver-classNameEncodedForTrueClassName$">classNameEncodedForTrueClassName:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>classNameEncodedForTrueClassName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)trueName;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns substitute class used to encode objects of
+            given class. This would have been set through an
+            earlier call to [NSArchiver
+            -encodeClassName:intoClassName:].
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSArchiver-encodeClassName$intoClassName$">encodeClassName:&nbsp;intoClassName:&nbsp;</a></h3>
+    - (void) <b>encodeClassName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)trueName<b> intoClassName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)inArchiveName;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Specify substitute class used in archiving objects
+            of given class. This class is written to the archive as
+            the class to use for restoring the object, instead of
+            what is returned from [NSObject -classForArchiver].
+            This can be used to provide backward compatibility
+            across class name changes. The object is still
+            encoded by calling <code>encodeWithCoder:</code> as
+            normal.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSArchiver-initForWritingWithMutableData$">initForWritingWithMutableData:&nbsp;</a></h3>
+    - (id) <b>initForWritingWithMutableData:</b> (<a rel="gsdoc" href="NSData.html#class$NSMutableData">NSMutableData</a>*)mdata;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Init instance that will archive its data to
+            <var>mdata</var>. (Even if
+            [archiveRootObject:toFile:] is
+            called, this still gets written to.)
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSArchiver-replaceObject$withObject$">replaceObject:&nbsp;withObject:&nbsp;</a></h3>
+    - (void) <b>replaceObject:</b> (id)object<b> withObject:</b> (id)newObject;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Set encoder to write out <var>newObject</var> in place
+            of <var>object</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="002000000000">
+        Software documentation for the NSUnarchiver class
+      </a></h1>
+    <h2><a name="class$NSUnarchiver">NSUnarchiver</a> : <a rel="gsdoc" href="NSCoder.html#class$NSCoder">NSCoder</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSArchiver.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            This class reconstructs objects from an archive.
+              </p>
+    <p>
+      
+          <br /> <strong>Re-using the archiver</strong>
+          
+    </p>
+    <p>
+
+            The
+            <a rel="gsdoc" href="#method$NSUnarchiver(GNUstep)-resetUnarchiverWithData$atIndex$">
+              -resetUnarchiverWithData:atIndex:
+            </a>
+
+            method lets you re-use the archive to decode a new
+            data object or, in conjunction with the &apos;cursor&apos;
+            method (which reports the current decoding position
+            in the archive), decode a second archive that exists in
+            the data object after the first one.
+              </p>
+    <p>
+      
+          <strong>
+            Subclassing with different input format.
+          </strong>
+          <br /> <br /> <code>NSUnarchiver</code> normally reads
+          directly from an
+          <a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>
+
+            object using the methods -
+            
+      <dl>
+        <dt>
+                <a rel="gsdoc" href="NSData.html#method$NSData(GNUstepExtensions)-deserializeTypeTag$andCrossRef$atCursor$">-deserializeTypeTag:andCrossRef:atCursor:</a>
+
+              </dt>
+        <dd>
+          
+                to decode type tags for data items, the tag is the
+                first byte of the character encoding string for
+                the data type (as provided by &apos;@encode(xxx)&apos;),
+                possibly with the top bit set to indicate that
+                what follows is a crossreference to an item
+                already encoded. <br /> Also decode a
+                crossreference number either to identify
+                the following item, or to refer to a previously
+                encoded item. Objects, Classes, Selectors,
+                CStrings and Pointer items have crossreference
+                encoding, other types do not. <br />
+              
+        </dd>
+        <dt>
+                <a rel="gsdoc" href="NSData.html#method$NSData-deserializeDataAt$ofObjCType$atCursor$context$">[NSData -deserializeDataAt:ofObjCType:atCursor:context:]</a>
+
+              </dt>
+        <dd>
+          to decode all other information.
+        </dd>
+      </dl>
+      
+            
+    </p>
+    <p>
+
+              <code>NSUnarchiver</code> normally uses other
+              <a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>
+
+                methods to read the archive header information
+                from within the method:
+                <a rel="gsdoc" href="#method$NSUnarchiver(GNUstep)-deserializeHeaderAt$version$classes$objects$pointers$">[-deserializeHeaderAt:version:classes:objects:pointers:]</a>
+ to read a fixed size header including archiver version (obtained by <code>[self systemVersion]</code>) and crossreference table sizes.
+                  </p>
+    <p>
+      
+              
+    </p>
+    <p>
+
+                To subclass <code>NSUnarchiver</code>, you must
+                implement your own versions of the four
+                methods above, and override the
+                &apos;directDataAccess&apos; method to return
+                <code>NO</code> so that the archiver knows to
+                use your serialization methods rather than those in
+                the
+                <a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>
+
+                  object.
+                    </p>
+    <p>
+      
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSUnarchiver(GNUstep)-cursor">-cursor</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSUnarchiver(GNUstep)-deserializeHeaderAt$version$classes$objects$pointers$">-deserializeHeaderAt:version:classes:objects:pointers:</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSUnarchiver(GNUstep)-directDataAccess">-directDataAccess</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSUnarchiver(GNUstep)-resetUnarchiverWithData$atIndex$">-resetUnarchiverWithData:atIndex:</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSUnarchiver+classNameDecodedForArchiveClassName$">+classNameDecodedForArchiveClassName:</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSUnarchiver+decodeClassName$asClassName$">+decodeClassName:asClassName:</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSUnarchiver+unarchiveObjectWithData$">+unarchiveObjectWithData:</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSUnarchiver+unarchiveObjectWithFile$">+unarchiveObjectWithFile:</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSUnarchiver-classNameDecodedForArchiveClassName$">-classNameDecodedForArchiveClassName:</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSUnarchiver-decodeClassName$asClassName$">-decodeClassName:asClassName:</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSUnarchiver-initForReadingWithData$">-initForReadingWithData:</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSUnarchiver-isAtEnd">-isAtEnd</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSUnarchiver-objectZone">-objectZone</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSUnarchiver-replaceObject$withObject$">-replaceObject:withObject:</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSUnarchiver-setObjectZone$">-setObjectZone:</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSUnarchiver-systemVersion">-systemVersion</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSUnarchiver+classNameDecodedForArchiveClassName$">classNameDecodedForArchiveClassName:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>classNameDecodedForArchiveClassName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)nameInArchive;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns class name unarchivers will use to
+            instantiate encoded objects when they report
+            their class name as <var>nameInArchive</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUnarchiver+decodeClassName$asClassName$">decodeClassName:&nbsp;asClassName:&nbsp;</a></h3>
+    + (void) <b>decodeClassName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)nameInArchive<b> asClassName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)trueName;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Sets class name unarchivers will use to instantiate
+            encoded objects when they report their class name
+            as <var>nameInArchive</var>. This can be used to support
+            backwards compatibility across class name
+            changes.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUnarchiver+unarchiveObjectWithData$">unarchiveObjectWithData:&nbsp;</a></h3>
+    + (id) <b>unarchiveObjectWithData:</b> (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*)anObject;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Creates an NSUnarchiver to read from
+            <var>anObject</var> and returns result of sending
+            [NSCoder -decodeObject] to it.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUnarchiver+unarchiveObjectWithFile$">unarchiveObjectWithFile:&nbsp;</a></h3>
+    + (id) <b>unarchiveObjectWithFile:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Creates an NSUnarchiver to read from
+            <var>path</var> and returns result of sending
+            [NSCoder -decodeObject] to it.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUnarchiver-classNameDecodedForArchiveClassName$">classNameDecodedForArchiveClassName:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>classNameDecodedForArchiveClassName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)nameInArchive;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns class name this unarchiver uses to
+            instantiate encoded objects when they report
+            their class name as <var>nameInArchive</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUnarchiver-decodeClassName$asClassName$">decodeClassName:&nbsp;asClassName:&nbsp;</a></h3>
+    - (void) <b>decodeClassName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)nameInArchive<b> asClassName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)trueName;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Set class name this unarchiver uses to instantiate
+            encoded objects when they report their class name
+            as <var>nameInArchive</var>. This can be used to provide
+            backward compatibility across class name changes.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUnarchiver-initForReadingWithData$">initForReadingWithData:&nbsp;</a></h3>
+    - (id) <b>initForReadingWithData:</b> (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*)anObject;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Set up to read objects from data buffer
+            <var>anObject</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUnarchiver-isAtEnd">isAtEnd&nbsp;</a></h3>
+    - (BOOL) <b>isAtEnd</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns whether have currently read through all of
+            data buffer or file this unarchiver was initialized
+            with.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUnarchiver-objectZone">objectZone&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSZone">NSZone</a>*) <b>objectZone</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns zone unarchived objects will be allocated
+            from.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUnarchiver-replaceObject$withObject$">replaceObject:&nbsp;withObject:&nbsp;</a></h3>
+    - (void) <b>replaceObject:</b> (id)anObject<b> withObject:</b> (id)replacement;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Set unarchiver to replace <var>anObject</var> with
+            <var>replacement</var> whenever it is found decoded
+            from the archive.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUnarchiver-setObjectZone$">setObjectZone:&nbsp;</a></h3>
+    - (void) <b>setObjectZone:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSZone">NSZone</a>*)aZone;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Sets zone unarchived objects will be allocated from.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUnarchiver-systemVersion">systemVersion&nbsp;</a></h3>
+    - (unsigned int) <b>systemVersion</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns system version archive was encoded by.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="003000000000">
+        Software documentation for the NSArchiver(GNUstep)
+        category
+      </a></h1>
+    <h2><a rel="gsdoc" href="#class$NSArchiver">NSArchiver</a>(<a name="category$NSArchiver(GNUstep)">GNUstep</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSArchiver.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep, Base Likely to be changed/moved/removed at 1.17.0</div>
+<br />
+    <div class="desc">
+      
+          Category for compatibility with old GNUstep
+          encoding.
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSArchiver(GNUstep)-directDataAccess">-directDataAccess</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSArchiver(GNUstep)-resetArchiver">-resetArchiver</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSArchiver(GNUstep)-serializeHeaderAt$version$classes$objects$pointers$">-serializeHeaderAt:version:classes:objects:pointers:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSArchiver(GNUstep)-directDataAccess">directDataAccess&nbsp;</a></h3>
+    - (BOOL) <b>directDataAccess</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep, Base Likely to be changed/moved/removed at 1.17.0</div>
+<br />
+    <div class="desc">
+      
+            Returns <code>YES</code>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSArchiver(GNUstep)-resetArchiver">resetArchiver&nbsp;</a></h3>
+    - (void) <b>resetArchiver</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep, Base Likely to be changed/moved/removed at 1.17.0</div>
+<br />
+    <div class="desc">
+      
+            Allow reuse of archiver (clears class substitution
+            maps, etc.) but do not clear out current serialized
+            data.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSArchiver(GNUstep)-serializeHeaderAt$version$classes$objects$pointers$">serializeHeaderAt:&nbsp;version:&nbsp;classes:&nbsp;objects:&nbsp;pointers:&nbsp;</a></h3>
+    - (void) <b>serializeHeaderAt:</b> (unsigned)positionInData<b> version:</b> (unsigned)systemVersion<b> classes:</b> (unsigned)classCount<b> objects:</b> (unsigned)objectCount<b> pointers:</b> (unsigned)pointerCount;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep, Base Likely to be changed/moved/removed at 1.17.0</div>
+<br />
+    <div class="desc">
+      
+            Writes out header for GNUstep archive format.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="004000000000">
+        Software documentation for the NSUnarchiver(GNUstep)
+        category
+      </a></h1>
+    <h2><a rel="gsdoc" href="#class$NSUnarchiver">NSUnarchiver</a>(<a name="category$NSUnarchiver(GNUstep)">GNUstep</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSArchiver.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X, Base 0.0.1</div>
+<br />
+    <div class="desc">
+      
+          Category for compatibility with old GNUstep
+          encoding.
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSUnarchiver(GNUstep)-cursor">-cursor</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSUnarchiver(GNUstep)-deserializeHeaderAt$version$classes$objects$pointers$">-deserializeHeaderAt:version:classes:objects:pointers:</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSUnarchiver(GNUstep)-directDataAccess">-directDataAccess</a></li>
+      <li><a rel="gsdoc" href="NSArchiver.html#method$NSUnarchiver(GNUstep)-resetUnarchiverWithData$atIndex$">-resetUnarchiverWithData:atIndex:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSUnarchiver(GNUstep)-cursor">cursor&nbsp;</a></h3>
+    - (unsigned) <b>cursor</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X, Base 0.0.1</div>
+<br />
+    <div class="desc">
+      
+            Return current position within archive byte array.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUnarchiver(GNUstep)-deserializeHeaderAt$version$classes$objects$pointers$">deserializeHeaderAt:&nbsp;version:&nbsp;classes:&nbsp;objects:&nbsp;pointers:&nbsp;</a></h3>
+    - (void) <b>deserializeHeaderAt:</b> (unsigned*)pos<b> version:</b> (unsigned*)v<b> classes:</b> (unsigned*)c<b> objects:</b> (unsigned*)o<b> pointers:</b> (unsigned*)p;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X, Base 0.0.1</div>
+<br />
+    <div class="desc">
+      
+            Reads in header for GNUstep archive format.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUnarchiver(GNUstep)-directDataAccess">directDataAccess&nbsp;</a></h3>
+    - (BOOL) <b>directDataAccess</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X, Base 0.0.1</div>
+<br />
+    <div class="desc">
+      
+            Returns <code>YES</code>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUnarchiver(GNUstep)-resetUnarchiverWithData$atIndex$">resetUnarchiverWithData:&nbsp;atIndex:&nbsp;</a></h3>
+    - (void) <b>resetUnarchiverWithData:</b> (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*)anObject<b> atIndex:</b> (unsigned)pos;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X, Base 0.0.1</div>
+<br />
+    <div class="desc">
+      
+            Prepare for reuse of the unarchiver to unpack a new
+            archive, specified in <var>anObject</var>,
+            starting at <var>pos</var>. Reads archive header.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+    <br />
+    <a href="Base.html">Up</a>
+    </font>
+</body>
+</html>

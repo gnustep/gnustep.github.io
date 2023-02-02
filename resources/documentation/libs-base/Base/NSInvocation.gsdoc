@@ -1,0 +1,462 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSInvocation" up="Base">
+  <head>
+    <title>NSInvocation class reference</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <author name="Andrew Kachites McCallum">
+      <email address="mccallum@gnu.ai.mit.edu">
+        mccallum@gnu.ai.mit.edu
+      </email>
+    </author>
+    <copy>1998,2003 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSInvocation class
+      </heading>
+      <class name="NSInvocation" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSInvocation.h</declared>
+        <desc>
+          <p>
+            The <code>NSInvocation</code> class implements a
+            mechanism of constructing messages (as
+            <code>NSInvocation</code> instances), sending these
+            to other objects, and handling the returned values.
+          </p>
+          <p>
+            An <code>NSInvocation</code> object may contain a target
+            object to which a message can be sent, or may send
+            the message to an arbitrary object. <br /> Each message
+            consists of a selector for that method and an
+            argument list. Once the message has been sent, the
+            invocation will contain a return value whose
+            contents may be copied out of it.
+          </p>
+          <p>
+            The target, selector, and arguments of an instance be
+            constructed dynamically, providing a great deal
+            of power/flexibility.
+          </p>
+          <p>
+            The sending of the message to the target object (using
+            the <ref type="method" id="-invoke">-invoke</ref> or
+            <ref type="method" id="-invokeWithTarget:">
+              -invokeWithTarget:
+            </ref>
+            method) can be done at any time, but a standard use
+            of this is by the
+            <ref type="method" id="-forwardInvocation:" class="NSObject">[NSObject -forwardInvocation:]</ref> method which is called whenever a method is not implemented by the class of the object to which it was sent.
+          </p>
+          <p>
+            Related to the class are two convenience macros...
+            <ref type="function" id="NS_MESSAGE">
+              NS_MESSAGE()
+            </ref>
+            and
+            <ref type="function" id="NS_INVOCATION">
+              NS_INVOCATION()
+            </ref>
+            ... to allow easy construction of invocations with all
+            the arguments set up.
+          </p>
+        </desc>
+        <ivariable type="BOOL" name="_argsRetained" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="void*" name="_cframe" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="void*" name="_info" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="_numArgs" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="void*" name="_retptr" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="void*" name="_retval" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="SEL" name="_selector" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_sendToSuper" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMethodSignature*" name="_sig" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_target" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_targetRetained" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_validReturn" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="NSInvocation*" factory="yes" ovadd="1.0.0">
+          <sel>invocationWithMethodSignature:</sel>
+          <arg type="NSMethodSignature*">_signature</arg>
+          <desc>
+            Returns an invocation instance which can be used to
+            send messages to a target object using the described
+            signature. <br /> You must set the target and
+            selector (using
+            <ref type="method" id="-setTarget:">
+              -setTarget:
+            </ref>
+            and -setSelector:) before you attempt to use the
+            invocation. <br /> Raises an
+            NSInvalidArgumentException if
+            the signature is <code>nil</code>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>argumentsRetained</sel>
+          <desc>
+            Returns a flag to indicate whether object arguments
+            of the invocation (including its target) are retained by
+            the invocation.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>getArgument:</sel>
+          <arg type="void*">buffer</arg>
+          <sel>atIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Copies the argument identified by <var>index</var>
+            into the memory location specified by the
+            <var>buffer</var> argument. <br /> An
+            <var>index</var> of zero is the target object, an
+            <var>index</var> of one is the selector, so the
+            actual method arguments start at <var>index</var> 2.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>getReturnValue:</sel>
+          <arg type="void*">buffer</arg>
+          <desc>
+            Copies the invocations return value to the location
+            pointed to by <var>buffer</var> if a return value
+            has been set (see the
+            <ref type="method" id="-setReturnValue:">
+              -setReturnValue:
+            </ref>
+            method). <br /> If there isn't a return value then
+            this method raises an exception.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>invoke</sel>
+          <desc>
+            Sends the message encapsulated in the invocation to
+            its target.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>invokeWithTarget:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Sends the message encapsulated in the invocation to
+            <var>anObject</var>.
+          </desc>
+        </method>
+        <method type="NSMethodSignature*" ovadd="1.0.0">
+          <sel>methodSignature</sel>
+          <desc>
+            Returns the method signature of the invocation.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>retainArguments</sel>
+          <desc>
+            Instructs the invocation to retain its object
+            arguments (including the target). The default is
+            not to retain them.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0" gvadd="1.11.1">
+          <sel>retainArgumentsIncludingTarget:</sel>
+          <arg type="BOOL">retainTargetFlag</arg>
+          <desc>
+            Similar to -[NSInvocation retainArguments], but
+            allows the sender to explicitly control whether the
+            target is retained as well. Retaining the target is
+            sometimes not desirable (such as in
+            NSUndoManager), as retain loops could
+            result.
+          </desc>
+        </method>
+        <method type="SEL" ovadd="1.0.0">
+          <sel>selector</sel>
+          <desc>
+            Returns the selector of the invocation (the
+            argument at index 1)
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setArgument:</sel>
+          <arg type="void*">buffer</arg>
+          <sel>atIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Sets the argument identified by <var>index</var> from
+            the memory location specified by the <var>buffer</var>
+            argument. <br /> Using an <var>index</var> of 0
+            is equivalent to calling
+            <ref type="method" id="-setTarget:">
+              -setTarget:
+            </ref>
+            and using an argument of 1 is equivalent to
+            <ref type="method" id="-setSelector:">
+              -setSelector:
+            </ref>
+            <br /> Proper arguments start at <var>index</var> 2.
+            <br /> NB. Unlike
+            <ref type="method" id="-setTarget:">
+              -setTarget:
+            </ref>
+            and
+            <ref type="method" id="-setSelector:">
+              -setSelector:
+            </ref>
+            the value of <var>buffer</var> must be
+            <em>a pointer to</em> the argument to be set in the
+            invocation. <br /> If
+            <ref type="method" id="-retainArguments">
+              -retainArguments
+            </ref>
+            was called, then any object argument set in the
+            receiver is retained by it.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setReturnValue:</sel>
+          <arg type="void*">buffer</arg>
+          <desc>
+            Sets the return value of the invocation to the item
+            that <var>buffer</var> points to.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setSelector:</sel>
+          <arg type="SEL">aSelector</arg>
+          <desc>
+            Sets the selector for the invocation.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setTarget:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Sets the target object for the invocation. <br /> If
+            <ref type="method" id="-retainArguments">
+              -retainArguments
+            </ref>
+            was called, then the target is retained.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>target</sel>
+          <desc>
+            Returns the target object of the invocation.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0" gvadd="1.11.1">
+          <sel>targetRetained</sel>
+          <desc>
+            Returns <code>YES</code> if target has been
+            retained yet, <code>NO</code> otherwise.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSInvocation(GNUstep)
+        category
+      </heading>
+      <category name="GNUstep" class="NSInvocation" gvadd="0.0.0" gvrem="1.17.0">
+        <declared>Foundation/NSInvocation.h</declared>
+        <desc>
+          Provides some minor extensions and some utility
+          methods to aid integration of
+          <code>NSInvocation</code> with the Objective-C
+          runtime.
+        </desc>
+        <method type="BOOL" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>sendsToSuper</sel>
+          <desc>
+            Returns the status of the flag set by
+            <ref type="method" id="-setSendsToSuper:">
+              -setSendsToSuper:
+            </ref>
+          </desc>
+        </method>
+        <method type="void" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>setSendsToSuper:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Sets the <var>flag</var> to tell the invocation that
+            it should actually invoke a method in the superclass of
+            the target rather than the method of the target itself.
+            <br /> This extension permits an invocation to act
+            like a regular method call sent to <em>super</em> in
+            the method of a class.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSInvocation(MacroSetup) category
+      </heading>
+      <category name="MacroSetup" class="NSInvocation" ovadd="1.0.0">
+        <declared>Foundation/NSInvocation.h</declared>
+        <desc>
+          For use by macros only. <br /> These methods are for
+          internal use only... not public API <br /> They are
+          used by the
+          <ref type="function" id="NS_INVOCATION">
+            NS_INVOCATION()
+          </ref>
+          and
+          <ref type="function" id="NS_MESSAGE">
+            NS_MESSAGE()
+          </ref>
+          macros to help create invocations.
+        </desc>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>_newProxyForInvocation:</sel>
+          <arg type="id">target</arg>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code. <br /> Internal use.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>_newProxyForMessage:</sel>
+          <arg type="id">target</arg>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          </desc>
+        </method>
+        <method type="NSInvocation*" factory="yes" ovadd="1.0.0">
+          <sel>_returnInvocationAndDestroyProxy:</sel>
+          <arg type="id">proxy</arg>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          </desc>
+        </method>
+        <method type="id" init="yes" override="subclass" ovadd="1.0.0">
+          <sel>initWithMethodSignature:</sel>
+          <arg type="NSMethodSignature*">aSignature</arg>
+          <desc>
+            Initialised an invocation instance which can be
+            used to send messages to a target object using
+            <var>aSignature</var>. <br /> You must set the target
+            and selector (using
+            <ref type="method" id="-setTarget:">
+              -setTarget:
+            </ref>
+            and -setSelector:) before you attempt to use the
+            invocation. <br /> Raises an
+            NSInvalidArgumentException if
+            <var>aSignature</var> is <code>nil</code>.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

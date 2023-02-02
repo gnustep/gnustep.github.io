@@ -1,0 +1,501 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>NSAssertionHandler class reference</title>
+  </head>
+  <body>
+    <font face="serif">
+    <a href="Base.html">Up</a>
+    <br />
+    <h1><a name="title$NSException">NSAssertionHandler class reference</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Adam Fedor (<a href="mailto:fedor@boulder.colorado.edu"><code>fedor@boulder.colorado.edu</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Copyright:</b> (C) 1995, 1996 Free Software Foundation, Inc.</p>
+
+        <div>
+      <hr width="50%" align="left" />
+      <h3>Contents -</h3>
+      <ol>
+        <li>
+          <a href="#001000000000">Software documentation for the NSAssertionHandler
+        class</a>
+        </li>
+        <li>
+          <a href="#002000000000">Software documentation for the NSException class</a>
+        </li>
+      </ol>
+      <hr width="50%" align="left" />
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSAssertionHandler
+        class
+      </a></h1>
+    <h2><a name="class$NSAssertionHandler">NSAssertionHandler</a> : <a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSException.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            NSAssertionHandler objects are used to
+            raise exceptions on behalf of macros implementing
+            assertions. <br /> Each thread has its own
+            assertion handler instance. <br />
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            The macros work together with the assertion handler
+            object to produce meaningful exception messages
+            containing the name of the source file, the
+            position within that file, and the name of the
+            ObjC method or C function in which the assertion
+            failed.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            An NSAssertionHandler instance is created on demand for
+            each thread and is stored in the thread&apos;s dictionary
+            under the key NSAssertionHandler. A custom
+            NSAssertionHandler can be used by adding
+            it to the thread dictionary under this key.
+              </p>
+    <p>
+      
+          The assertion macros are:
+          <a rel="gsdoc" href="Functions.html#macro$NSAssert">
+            NSAssert()
+          </a>
+
+          , <a rel="gsdoc" href="Functions.html#macro$NSCAssert">NSCAssert()</a>
+,
+          <a rel="gsdoc" href="Functions.html#macro$NSAssert1">
+            NSAssert1()
+          </a>
+
+          , <a rel="gsdoc" href="Functions.html#macro$NSCAssert1">NSCAssert1()</a>
+,
+          <a rel="gsdoc" href="Functions.html#macro$NSAssert2">
+            NSAssert2()
+          </a>
+
+          , <a rel="gsdoc" href="Functions.html#macro$NSCAssert2">NSCAssert2()</a>
+,
+          <a rel="gsdoc" href="Functions.html#macro$NSAssert3">
+            NSAssert3()
+          </a>
+
+          , <a rel="gsdoc" href="Functions.html#macro$NSCAssert3">NSCAssert3()</a>
+,
+          <a rel="gsdoc" href="Functions.html#macro$NSAssert4">
+            NSAssert4()
+          </a>
+
+          , <a rel="gsdoc" href="Functions.html#macro$NSCAssert4">NSCAssert4()</a>
+,
+          <a rel="gsdoc" href="Functions.html#macro$NSAssert5">
+            NSAssert5()
+          </a>
+
+          , <a rel="gsdoc" href="Functions.html#macro$NSCAssert5">NSCAssert5()</a>
+,
+          <a rel="gsdoc" href="Functions.html#macro$NSParameterAssert">
+            NSParameterAssert()
+          </a>
+
+          ,
+          <a rel="gsdoc" href="Functions.html#macro$NSCParameterAssert">
+            NSCParameterAssert()
+          </a>
+
+          <br /> The numbered macros arre obsolete, dating from
+          a time when
+          <a rel="gsdoc" href="Functions.html#macro$NSAssert">
+            NSAssert()
+          </a>
+
+          and <a rel="gsdoc" href="Functions.html#macro$NSCAssert">NSCAssert()</a>
+
+          did not support a variable number of arguments.
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSException.html#method$NSAssertionHandler+currentHandler">+currentHandler</a></li>
+      <li><a rel="gsdoc" href="NSException.html#method$NSAssertionHandler-handleFailureInFunction$file$lineNumber$description$,...">-handleFailureInFunction:file:lineNumber:description:,...</a></li>
+      <li><a rel="gsdoc" href="NSException.html#method$NSAssertionHandler-handleFailureInMethod$object$file$lineNumber$description$,...">-handleFailureInMethod:object:file:lineNumber:description:,...</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSAssertionHandler+currentHandler">currentHandler&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSAssertionHandler">NSAssertionHandler</a>*) <b>currentHandler</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the assertion handler object for the
+            current thread. <br /> If none exists, creates one
+            and returns it.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSAssertionHandler-handleFailureInFunction$file$lineNumber$description$,...">handleFailureInFunction:&nbsp;file:&nbsp;lineNumber:&nbsp;description:&nbsp;,...</a></h3>
+    - (void) <b>handleFailureInFunction:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)functionName<b> file:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)fileName<b> lineNumber:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)line<b> description:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)format<b>,...</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Handles an assertion failure by using
+            <a rel="gsdoc" href="Functions.html#function$NSLogv">
+              NSLogv()
+            </a>
+
+            to print an error message built from the supplied
+            arguments, and then raising an
+            NSInternalInconsistencyException
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSAssertionHandler-handleFailureInMethod$object$file$lineNumber$description$,...">handleFailureInMethod:&nbsp;object:&nbsp;file:&nbsp;lineNumber:&nbsp;description:&nbsp;,...</a></h3>
+    - (void) <b>handleFailureInMethod:</b> (SEL)aSelector<b> object:</b> (id)object<b> file:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)fileName<b> lineNumber:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)line<b> description:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)format<b>,...</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Handles an assertion failure by using
+            <a rel="gsdoc" href="Functions.html#function$NSLogv">
+              NSLogv()
+            </a>
+
+            to print an error message built from the supplied
+            arguments, and then raising an
+            NSInternalInconsistencyException
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="002000000000">
+        Software documentation for the NSException class
+      </a></h1>
+    <h2><a name="class$NSException">NSException</a> : <a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSException.h</dd>
+      </dl>
+    </blockquote>
+    <blockquote>
+      <dl>
+        <dt><b>Conforms to:</b></dt>
+        <dd><a rel="gsdoc" href="NSObject.html#protocol$(NSCoding)">NSCoding</a></dd>
+        <dd><a rel="gsdoc" href="NSObject.html#protocol$(NSCopying)">NSCopying</a></dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            The <code>NSException</code> class helps manage errors
+            in a program. It provides a mechanism for lower-level
+            methods to provide information about problems to
+            higher-level methods, which more often than
+            not, have a better ability to decide what to do about
+            the problems.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            Exceptions are typically handled by enclosing a
+            sensitive section of code inside the macros
+            <code>NS_DURING</code> and <code>NS_HANDLER</code>,
+            and then handling any problems after this, up to the
+            <code>NS_ENDHANDLER</code> macro:
+              </p>
+    <p>
+      
+
+<pre>
+   NS_DURING
+    code that might cause an exception
+   NS_HANDLER
+    code that deals with the exception. If this code cannot deal with
+    it, you can re-raise the exception like this
+    [localException raise]
+    so the next higher level of code can handle it
+   NS_ENDHANDLER
+   </pre>
+      
+          
+    </p>
+    <p>
+
+            The local variable <code>localException</code> is the
+            name of the exception object you can use in the
+            <code>NS_HANDLER</code> section. The easiest way to
+            cause an exception is using the
+            <a rel="gsdoc" href="#method$NSException+raise$format$,...">
+              +raise:format:,...
+            </a>
+
+            method.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            If there is no NS_HANDLER... NS_ENDHANDLER block
+            enclosing (directly or indirectly) code where an
+            exception is raised, then control passes to the
+            <em>uncaught exception handler</em> function and the
+            program is then terminated. <br /> The uncaught
+            exception handler is set using
+            <a rel="gsdoc" href="Functions.html#function$NSSetUncaughtExceptionHandler">
+              NSSetUncaughtExceptionHandler()
+            </a>
+
+            and if not set, defaults to a function which will
+            simply print an error message before the program
+            terminates.
+              </p>
+    <p>
+      
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSException.html#method$NSException+exceptionWithName$reason$userInfo$">+exceptionWithName:reason:userInfo:</a></li>
+      <li><a rel="gsdoc" href="NSException.html#method$NSException+raise$format$,...">+raise:format:,...</a></li>
+      <li><a rel="gsdoc" href="NSException.html#method$NSException+raise$format$arguments$">+raise:format:arguments:</a></li>
+      <li><a rel="gsdoc" href="NSException.html#method$NSException-callStackReturnAddresses">-callStackReturnAddresses</a></li>
+      <li><a rel="gsdoc" href="NSException.html#method$NSException-callStackSymbols">-callStackSymbols</a></li>
+      <li><a rel="gsdoc" href="NSException.html#method$NSException-initWithName$reason$userInfo$">-initWithName:reason:userInfo:</a></li>
+      <li><a rel="gsdoc" href="NSException.html#method$NSException-name">-name</a></li>
+      <li><a rel="gsdoc" href="NSException.html#method$NSException-raise">-raise</a></li>
+      <li><a rel="gsdoc" href="NSException.html#method$NSException-reason">-reason</a></li>
+      <li><a rel="gsdoc" href="NSException.html#method$NSException-userInfo">-userInfo</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSException+exceptionWithName$reason$userInfo$">exceptionWithName:&nbsp;reason:&nbsp;userInfo:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSException">NSException</a>*) <b>exceptionWithName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)name<b> reason:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)reason<b> userInfo:</b> (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*)userInfo;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Create an an exception object with a <var>name</var>
+            , <var>reason</var> and a dictionary <var>userInfo</var>
+            which can be used to provide additional information
+            or access to objects needed to handle the exception.
+            After the exception is created you must
+            <a rel="gsdoc" href="#method$NSException-raise">
+              -raise
+            </a>
+
+            it.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSException+raise$format$,...">raise:&nbsp;format:&nbsp;,...</a></h3>
+    + (void) <b>raise:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)name<b> format:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)format<b>,...</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Creates an exception with a <var>name</var> and a
+            reason using the <var>format</var> string and any
+            additional arguments. The exception is then
+            <em>raised</em> using the
+            <a rel="gsdoc" href="#method$NSException-raise">
+              -raise
+            </a>
+
+            method.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSException+raise$format$arguments$">raise:&nbsp;format:&nbsp;arguments:&nbsp;</a></h3>
+    + (void) <b>raise:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)name<b> format:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)format<b> arguments:</b> (va_list)argList;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Creates an exception with a <var>name</var> and a
+            reason string using the <var>format</var> string and
+            additional arguments specified as a variable
+            argument list <var>argList</var>. The exception is
+            then <em>raised</em> using the
+            <a rel="gsdoc" href="#method$NSException-raise">
+              -raise
+            </a>
+
+            method.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSException-callStackReturnAddresses">callStackReturnAddresses&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>callStackReturnAddresses</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0, Base 1.15.1</div>
+<br />
+    <div class="desc">
+      
+            Returns an array of the call stack return addresses
+            at the point when the exception was raised. Re-raising
+            the exception does not change this value.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSException-callStackSymbols">callStackSymbols&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>callStackSymbols</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0, Base 1.19.3</div>
+<br />
+    <div class="desc">
+      
+            Returns an array of the symbolic names of the call
+            stack return addresses. Note that, on some platforms,
+            symbols are only exported in position-independent
+            code and so these may only return numeric addresses
+            for code in static libraries or the main application.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSException-initWithName$reason$userInfo$">initWithName:&nbsp;reason:&nbsp;userInfo:&nbsp;</a></h3>
+    - (id) <b>initWithName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)name<b> reason:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)reason<b> userInfo:</b> (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*)userInfo;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+This is a designated initialiser for the class.<br />
+    <div class="desc">
+      
+            Initializes a newly allocated NSException
+            object with a <var>name</var>, <var>reason</var> and
+            a dictionary <var>userInfo</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSException-name">name&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>name</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the name of the exception.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSException-raise">raise&nbsp;</a></h3>
+    - (void) <b>raise</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Raises the exception. All code following the raise
+            will not be executed and program control will be
+            transfered to the closest calling method which
+            encapsulates the exception code in an
+            NS_DURING macro. <br /> If the exception was not
+            caught in a macro, the currently set uncaught
+            exception handler is called to perform final
+            logging and the program is then terminated. <br />
+            If the uncaught exception handler fails to terminate the
+            program, then the default behavior is to terminate
+            the program as soon as the uncaught exception handler
+            function returns. <br /> NB. all other exception
+            raising methods call this one, so if you want to
+            set a breakpoint when debugging, set it in this method.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSException-reason">reason&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>reason</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the exception reason.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSException-userInfo">userInfo&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*) <b>userInfo</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the exception userInfo dictionary. <br />
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+    <br />
+    <a href="Base.html">Up</a>
+    </font>
+</body>
+</html>

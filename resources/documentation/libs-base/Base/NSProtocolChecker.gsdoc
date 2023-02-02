@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSProtocolChecker" up="Base">
+  <head>
+    <title>NSProtocolChecker class reference</title>
+    <author name="Mike Kienenberger">
+    </author>
+    <copy>1995 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSProtocolChecker class
+      </heading>
+      <class name="NSProtocolChecker" super="NSProxy" ovadd="1.0.0">
+        <declared>Foundation/NSProtocolChecker.h</declared>
+        <desc>
+          The NSProtocolChecker and NSProxy classes provide message
+          filtering and forwarding capabilities. If you wish
+          to ensure at runtime that a given object will only be sent
+          messages in a certain protocol, you create an
+          <code>NSProtocolChecker</code> instance with the
+          protocol and the object as arguments-
+<example>
+    id versatileObject = [[ClassWithManyMethods alloc] init];
+    id narrowObject = [NSProtocolChecker protocolCheckerWithTarget: versatileObject
+                                         protocol: @protocol(SomeSpecificProtocol)];
+    return narrowObject;
+</example>
+          This is often used in conjunction with distributed
+          objects to expose only a subset of an objects methods
+          to remote processes
+        </desc>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>protocolCheckerWithTarget:</sel>
+          <arg type="NSObject*">anObject</arg>
+          <sel>protocol:</sel>
+          <arg type="Protocol*">aProtocol</arg>
+          <desc>
+            Allocates and initializes an NSProtocolChecker
+            instance by calling
+            <ref type="method" id="-initWithTarget:protocol:">
+              -initWithTarget:protocol:
+            </ref>
+            <br /> Autoreleases and returns the new instance.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>forwardInvocation:</sel>
+          <arg type="NSInvocation*">anInvocation</arg>
+          <desc>
+            Forwards any message to the delegate if the method
+            is declared in the checker's protocol; otherwise raises
+            an <code>NSInvalidArgumentException</code>.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithTarget:</sel>
+          <arg type="NSObject*">anObject</arg>
+          <sel>protocol:</sel>
+          <arg type="Protocol*">aProtocol</arg>
+          <desc>
+            Initializes a newly allocated NSProtocolChecker
+            instance that will forward any messages in the
+            <var>aProtocol</var> protocol to <var>anObject</var>,
+            its delegate. Thus, the checker can be vended in lieu
+            of <var>anObject</var> to restrict the messages that can
+            be sent to <var>anObject</var>. If any method in the
+            protocol returns <var>anObject</var>, the checker
+            will replace the returned value with itself rather
+            than the target object. <br /> Returns the new
+            instance.
+          </desc>
+        </method>
+        <method type="Protocol*" ovadd="1.0.0">
+          <sel>protocol</sel>
+          <desc>
+            Returns the protocol object the checker uses to
+            verify whether a given message should be forwarded
+            to its delegate.
+          </desc>
+        </method>
+        <method type="NSObject*" ovadd="1.0.0">
+          <sel>target</sel>
+          <desc>
+            Returns the target of the NSProtocolChecker.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

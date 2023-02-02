@@ -1,0 +1,817 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>NSUndoManager class reference</title>
+  </head>
+  <body>
+    <font face="serif">
+    <a href="Base.html">Up</a>
+    <br />
+    <h1><a name="title$NSUndoManager">NSUndoManager class reference</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Richard Frith-Macdonald (<a href="mailto:richard@brainstorm.co.uk"><code>richard@brainstorm.co.uk</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Copyright:</b> (C) 1998 Free Software Foundation, Inc.</p>
+
+        <div>
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSUndoManager class
+      </a></h1>
+    <h2><a name="class$NSUndoManager">NSUndoManager</a> : <a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSUndoManager.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+          NSUndoManager provides a general mechanism
+          supporting implementation of user action &quot;undo&quot; in
+          applications. Essentially, it allows you to
+          store sequences of messages and receivers that need to
+          be invoked to undo or redo an action. The various methods
+          in this class provide for grouping of sets of actions,
+          execution of undo or redo actions, and tuning
+          behavior parameters such as the size of the undo
+          stack. Each application entity with its own editing
+          history (e.g., a document) should have its own undo
+          manager instance. Obtain an instance through a simple
+          <code>[[NSUndoManager alloc] init]</code> message.
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-beginUndoGrouping">-beginUndoGrouping</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-canRedo">-canRedo</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-canUndo">-canUndo</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-disableUndoRegistration">-disableUndoRegistration</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-enableUndoRegistration">-enableUndoRegistration</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-endUndoGrouping">-endUndoGrouping</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-forwardInvocation$">-forwardInvocation:</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-groupingLevel">-groupingLevel</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-groupsByEvent">-groupsByEvent</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-isRedoing">-isRedoing</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-isUndoRegistrationEnabled">-isUndoRegistrationEnabled</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-isUndoing">-isUndoing</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-levelsOfUndo">-levelsOfUndo</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-prepareWithInvocationTarget$">-prepareWithInvocationTarget:</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-redo">-redo</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-redoActionName">-redoActionName</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-redoMenuItemTitle">-redoMenuItemTitle</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-redoMenuTitleForUndoActionName$">-redoMenuTitleForUndoActionName:</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-registerUndoWithTarget$selector$object$">-registerUndoWithTarget:selector:object:</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-removeAllActions">-removeAllActions</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-removeAllActionsWithTarget$">-removeAllActionsWithTarget:</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-runLoopModes">-runLoopModes</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-setActionName$">-setActionName:</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-setGroupsByEvent$">-setGroupsByEvent:</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-setLevelsOfUndo$">-setLevelsOfUndo:</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-setRunLoopModes$">-setRunLoopModes:</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-undo">-undo</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-undoActionName">-undoActionName</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-undoMenuItemTitle">-undoMenuItemTitle</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-undoMenuTitleForUndoActionName$">-undoMenuTitleForUndoActionName:</a></li>
+      <li><a rel="gsdoc" href="NSUndoManager.html#method$NSUndoManager-undoNestedGroup">-undoNestedGroup</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSUndoManager-beginUndoGrouping">beginUndoGrouping&nbsp;</a></h3>
+    - (void) <b>beginUndoGrouping</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Starts a new grouping of undo actions which can be
+            atomically undone by an
+            <a rel="gsdoc" href="#method$NSUndoManager-undo">
+              [-undo]
+            </a>
+
+            invocation. <br /> This method posts an
+            NSUndoManagerDidOpenUndoGroupNotification
+            upon creating the grouping. <br /> It first posts an
+            NSUndoManagerCheckpointNotification
+            unless an undo is currently in progress. <br /> The
+            order of these notifications is undefined, but the
+            GNUstep implementation currently mimics the
+            observed order in MacOS X 10.5
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-canRedo">canRedo&nbsp;</a></h3>
+    - (BOOL) <b>canRedo</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns whether the receiver can service redo
+            requests and posts a
+            NSUndoManagerCheckpointNotification.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-canUndo">canUndo&nbsp;</a></h3>
+    - (BOOL) <b>canUndo</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns whether the receiver has any action
+            groupings on the stack to undo. It does not
+            imply, that the receiver is currently in a state to
+            service an undo request. Make sure
+            <a rel="gsdoc" href="#method$NSUndoManager-endUndoGrouping">
+              [-endUndoGrouping]
+            </a>
+
+            is invoked before requesting either an
+            <a rel="gsdoc" href="#method$NSUndoManager-undo">
+              [-undo]
+            </a>
+
+            or an
+            <a rel="gsdoc" href="#method$NSUndoManager-undoNestedGroup">
+              -undoNestedGroup
+            </a>
+
+            .
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-disableUndoRegistration">disableUndoRegistration&nbsp;</a></h3>
+    - (void) <b>disableUndoRegistration</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Disables the registration of operations with with
+            either
+            <a rel="gsdoc" href="#method$NSUndoManager-registerUndoWithTarget$selector$object$">[-registerUndoWithTarget:selector:object:]</a>
+ or <a rel="gsdoc" href="#method$NSUndoManager-forwardInvocation$">-forwardInvocation:</a>
+. This method may be called multiple times. Each will need to be paired to a call of <a rel="gsdoc" href="#method$NSUndoManager-enableUndoRegistration">[-enableUndoRegistration]</a>
+ before registration is actually reenabled.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-enableUndoRegistration">enableUndoRegistration&nbsp;</a></h3>
+    - (void) <b>enableUndoRegistration</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Matches previous calls of to
+            <a rel="gsdoc" href="#method$NSUndoManager-disableUndoRegistration">
+              -disableUndoRegistration
+            </a>
+
+            . Only call this method to that end. Once all are
+            matched, the registration of
+            <a rel="gsdoc" href="#method$NSUndoManager-registerUndoWithTarget$selector$object$">[-registerUndoWithTarget:selector:object:]</a>
+ and <a rel="gsdoc" href="#method$NSUndoManager-forwardInvocation$">[-forwardInvocation:]</a>
+ are reenabled. If this method is called without a matching <a rel="gsdoc" href="#method$NSUndoManager-disableUndoRegistration">-disableUndoRegistration</a>
+, it will raise an NSInternalInconsistencyException.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-endUndoGrouping">endUndoGrouping&nbsp;</a></h3>
+    - (void) <b>endUndoGrouping</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Matches previous calls of to
+            <a rel="gsdoc" href="#method$NSUndoManager-beginUndoGrouping">
+              [-beginUndoGrouping]
+            </a>
+
+            and puts the group on the undo stack. This method posts
+            an NSUndoManagerCheckpointNotification and a
+            NSUndoManagerWillCloseUndoGroupNotification.
+            If there was no matching call to
+            <a rel="gsdoc" href="#method$NSUndoManager-beginUndoGrouping">
+              -beginUndoGrouping
+            </a>
+
+            , this method will raise an
+            NSInternalInconsistencyException.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-forwardInvocation$">forwardInvocation:&nbsp;</a></h3>
+    - (void) <b>forwardInvocation:</b> (<a rel="gsdoc" href="NSInvocation.html#class$NSInvocation">NSInvocation</a>*)anInvocation;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Registers the invocation with the current undo
+            grouping. This method is part of the
+            NSInvocation-based undo registration as
+            opposed to the simpler
+            <a rel="gsdoc" href="#method$NSUndoManager-registerUndoWithTarget$selector$object$">[-registerUndoWithTarget:selector:object:]</a>
+ technique. <br /> You generally never invoke this method directly. Instead invoke <a rel="gsdoc" href="#method$NSUndoManager-prepareWithInvocationTarget$">[-prepareWithInvocationTarget:]</a>
+ with the target of the undo action and then invoke the targets method to undo the action on the return value of <a rel="gsdoc" href="#method$NSUndoManager-prepareWithInvocationTarget$">-prepareWithInvocationTarget:</a>
+ which actually is the undo manager. The runtime will then fallback to <a rel="gsdoc" href="#method$NSUndoManager-forwardInvocation$">-forwardInvocation:</a>
+ to do the actual registration of the invocation. The invocation will added to the current grouping. <br /> If the registrations have been disabled through <a rel="gsdoc" href="#method$NSUndoManager-disableUndoRegistration">-disableUndoRegistration</a>
+, this method does nothing. <br /> Unless the receiver implicitly groups operations by event, the this method must have been preceded with a <a rel="gsdoc" href="#method$NSUndoManager-beginUndoGrouping">[-beginUndoGrouping]</a>
+ message. Otherwise it will raise an NSInternalInconsistencyException. <br /> Unless this method is invoked as part of a <a rel="gsdoc" href="#method$NSUndoManager-undo">[-undo]</a>
+ or <a rel="gsdoc" href="#method$NSUndoManager-undoNestedGroup">[-undoNestedGroup]</a>
+ processing, the redo stack is cleared. <br /> If the receiver <a rel="gsdoc" href="#method$NSUndoManager-groupsByEvent">[-groupsByEvent]</a>
+ and this is the first call to this method since the last run loop processing, this method sets up the receiver to process the <a rel="gsdoc" href="#method$NSUndoManager-endUndoGrouping">[-endUndoGrouping]</a>
+ at the end of the event loop.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-groupingLevel">groupingLevel&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>) <b>groupingLevel</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the current number of groupings. These are
+            the current groupings which can be nested, not the
+            number of of groups on either the undo or redo
+            stack.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-groupsByEvent">groupsByEvent&nbsp;</a></h3>
+    - (BOOL) <b>groupsByEvent</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns whether the receiver currently groups undo
+            operations by events. When it does, so it
+            implicitly invokes
+            <a rel="gsdoc" href="#method$NSUndoManager-beginUndoGrouping">
+              [-beginUndoGrouping]
+            </a>
+
+            upon registration of undo operations and registers an
+            internal call to insure the invocation of
+            <a rel="gsdoc" href="#method$NSUndoManager-endUndoGrouping">
+              [-endUndoGrouping]
+            </a>
+
+            at the end of the run loop.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-isRedoing">isRedoing&nbsp;</a></h3>
+    - (BOOL) <b>isRedoing</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns whether the receiver is currently
+            processing a redo.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-isUndoRegistrationEnabled">isUndoRegistrationEnabled&nbsp;</a></h3>
+    - (BOOL) <b>isUndoRegistrationEnabled</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns whether the receiver will currently
+            register undo operations.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-isUndoing">isUndoing&nbsp;</a></h3>
+    - (BOOL) <b>isUndoing</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns whether the receiver is currently
+            processing an undo.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-levelsOfUndo">levelsOfUndo&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>levelsOfUndo</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the maximum number of undo groupings the
+            receiver will maintain. The default value is 0
+            meaning the number is only limited by memory
+            availability.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-prepareWithInvocationTarget$">prepareWithInvocationTarget:&nbsp;</a></h3>
+    - (id) <b>prepareWithInvocationTarget:</b> (id)target;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Prepares the receiver to registers an
+            invocation-based undo operation. This
+            method is part of the NSInvocation-based undo
+            registration as opposed to the simpler
+            <a rel="gsdoc" href="#method$NSUndoManager-registerUndoWithTarget$selector$object$">[-registerUndoWithTarget:selector:object:]</a>
+ technique. <br /> You invoke this method with the <var>target</var> of the undo action and then invoke the targets method to undo the action on the return value of this invocation which actually is the undo manager. The runtime will then fallback to <a rel="gsdoc" href="#method$NSUndoManager-forwardInvocation$">[-forwardInvocation:]</a>
+ to do the actual registration of the invocation.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-redo">redo&nbsp;</a></h3>
+    - (void) <b>redo</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Performs a redo of previous undo request by taking
+            the top grouping from the redo stack and invoking them.
+            This method posts an
+            NSUndoManagerCheckpointNotification
+            notification to allow the client to process
+            any pending changes before proceeding. If there are
+            groupings on the redo stack, the top object is
+            popped off the stack and invoked within a nested
+            <a rel="gsdoc" href="#method$NSUndoManager-beginUndoGrouping">
+              -beginUndoGrouping
+            </a>
+
+            /[-endUndoGrouping]. During this
+            processing, the operations registered for undo
+            are recorded on the undo stack again. <br />
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-redoActionName">redoActionName&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>redoActionName</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            If the receiver can perform a redo, this method returns
+            the action name previously associated with the top
+            grouping with
+            <a rel="gsdoc" href="#method$NSUndoManager-setActionName$">
+              -setActionName:
+            </a>
+
+            . This name should identify the action to be redone. If
+            there are no items on the redo stack this method
+            returns <code>nil</code>. If no action name has
+            been set, this method returns an empty string.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-redoMenuItemTitle">redoMenuItemTitle&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>redoMenuItemTitle</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the full localized title of the actions to
+            be displayed as a menu item. This method first invokes
+            <a rel="gsdoc" href="#method$NSUndoManager-redoActionName">
+              [-redoActionName]
+            </a>
+
+            and passes it to
+            <a rel="gsdoc" href="#method$NSUndoManager-redoMenuTitleForUndoActionName$">
+              [-redoMenuTitleForUndoActionName:]
+            </a>
+
+            and returns the result.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-redoMenuTitleForUndoActionName$">redoMenuTitleForUndoActionName:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>redoMenuTitleForUndoActionName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)actionName;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the localized title of the actions to be
+            displayed as a menu item identified by
+            <var>actionName</var>, by appending a localized
+            command string like @&quot;Redo &lt;localized(
+            <var>actionName</var>)&gt;&quot;.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-registerUndoWithTarget$selector$object$">registerUndoWithTarget:&nbsp;selector:&nbsp;object:&nbsp;</a></h3>
+    - (void) <b>registerUndoWithTarget:</b> (id)target<b> selector:</b> (SEL)aSelector<b> object:</b> (id)anObject;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Registers an undo operation. This method is the
+            simple target-action-based undo registration as
+            opposed to the sophisticated
+            <a rel="gsdoc" href="#method$NSUndoManager-forwardInvocation$">
+              [-forwardInvocation:]
+            </a>
+
+            mechanism. <br /> You invoke this method with
+            the <var>target</var> of the undo action providing the
+            selector which can perform the undo with the
+            provided object. The object is often a dictionary
+            of the identifying the attribute and their values before
+            the change. The object will be retained. The invocation
+            will added to the current grouping. <br /> If the
+            registrations have been disabled through
+            <a rel="gsdoc" href="#method$NSUndoManager-disableUndoRegistration">
+              -disableUndoRegistration
+            </a>
+
+            , this method does nothing. <br /> Unless the receiver
+            implicitly groups operations by event, the this
+            method must have been preceded with a
+            <a rel="gsdoc" href="#method$NSUndoManager-beginUndoGrouping">
+              [-beginUndoGrouping]
+            </a>
+
+            message. Otherwise it will raise an
+            NSInternalInconsistencyException.
+            <br /> Unless this method is invoked as part of a
+            <a rel="gsdoc" href="#method$NSUndoManager-undo">
+              [-undo]
+            </a>
+
+            or
+            <a rel="gsdoc" href="#method$NSUndoManager-undoNestedGroup">
+              [-undoNestedGroup]
+            </a>
+
+            processing, the redo stack is cleared. <br />
+            If the receiver
+            <a rel="gsdoc" href="#method$NSUndoManager-groupsByEvent">
+              [-groupsByEvent]
+            </a>
+
+            and this is the first call to this method since the
+            last run loop processing, this method sets up the
+            receiver to process the
+            <a rel="gsdoc" href="#method$NSUndoManager-endUndoGrouping">
+              [-endUndoGrouping]
+            </a>
+
+            at the end of the event loop.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-removeAllActions">removeAllActions&nbsp;</a></h3>
+    - (void) <b>removeAllActions</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Removes all grouping stored in the receiver. This
+            clears the both the undo and the redo stacks. This
+            method is if the sole client of the undo manager
+            will be unable to service any undo or redo events. The
+            client can call this method in its
+            <a rel="gsdoc" href="NSObject.html#method$NSObject-dealloc">
+              -dealloc
+            </a>
+
+            method, unless the undo manager has several
+            clients, in which case
+            <a rel="gsdoc" href="#method$NSUndoManager-removeAllActionsWithTarget$">
+              [-removeAllActionsWithTarget:]
+            </a>
+
+            is more appropriate.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-removeAllActionsWithTarget$">removeAllActionsWithTarget:&nbsp;</a></h3>
+    - (void) <b>removeAllActionsWithTarget:</b> (id)target;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Removes all actions recorded for the given
+            <var>target</var>. This method is is useful when a
+            client of the undo manager will be unable to service
+            any undo or redo events. Clients should call this
+            method in their dealloc method, unless they are the
+            sole client of the undo manager in which case
+            <a rel="gsdoc" href="#method$NSUndoManager-removeAllActions">
+              [-removeAllActions]
+            </a>
+
+            is more appropriate.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-runLoopModes">runLoopModes&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>runLoopModes</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the run loop modes in which the receiver
+            registers the
+            <a rel="gsdoc" href="#method$NSUndoManager-endUndoGrouping">
+              [-endUndoGrouping]
+            </a>
+
+            processing when it
+            <a rel="gsdoc" href="#method$NSUndoManager-groupsByEvent">
+              -groupsByEvent
+            </a>
+
+            .
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-setActionName$">setActionName:&nbsp;</a></h3>
+    - (void) <b>setActionName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)name;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets the <var>name</var> associated with the actions
+            of the current group. Typically you can call this method
+            while registering the actions for the current group.
+            This <var>name</var> will be used to determine the
+            <var>name</var> in the
+            <a rel="gsdoc" href="#method$NSUndoManager-undoMenuTitleForUndoActionName$">
+              [-undoMenuTitleForUndoActionName:]
+            </a>
+
+            and
+            <a rel="gsdoc" href="#method$NSUndoManager-redoMenuTitleForUndoActionName$">
+              [-redoMenuTitleForUndoActionName:]
+            </a>
+
+            names typically displayed in the menu.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-setGroupsByEvent$">setGroupsByEvent:&nbsp;</a></h3>
+    - (void) <b>setGroupsByEvent:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets whether the receiver should implicitly call
+            <a rel="gsdoc" href="#method$NSUndoManager-beginUndoGrouping">
+              [-beginUndoGrouping]
+            </a>
+
+            when necessary and register a call to invoke
+            <a rel="gsdoc" href="#method$NSUndoManager-endUndoGrouping">
+              [-endUndoGrouping]
+            </a>
+
+            at the end of the current event loop. The grouping is
+            turned on by default.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-setLevelsOfUndo$">setLevelsOfUndo:&nbsp;</a></h3>
+    - (void) <b>setLevelsOfUndo:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)num;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets the maximum number of groups in either the undo
+            or redo stack. Use this method to limit memory usage if
+            you either expect very many actions to be recorded or
+            the recorded objects require a lot of memory. When set
+            to 0 the stack size is limited by the range of a
+            <strong>unsigned</strong> <strong>int</strong>,
+            available memory.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-setRunLoopModes$">setRunLoopModes:&nbsp;</a></h3>
+    - (void) <b>setRunLoopModes:</b> (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*)newModes;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets the modes in which the receiver registers the
+            calls with the current run loop to invoke
+            <a rel="gsdoc" href="#method$NSUndoManager-endUndoGrouping">
+              [-endUndoGrouping]
+            </a>
+
+            when it
+            <a rel="gsdoc" href="#method$NSUndoManager-groupsByEvent">
+              -groupsByEvent
+            </a>
+
+            . This method first cancels any pending registrations in
+            the old modes and registers the invocation in the new
+            modes.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-undo">undo&nbsp;</a></h3>
+    - (void) <b>undo</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            This method performs an undo by invoking
+            <a rel="gsdoc" href="#method$NSUndoManager-undoNestedGroup">
+              -undoNestedGroup
+            </a>
+
+            . If current group of the receiver is the top group this
+            method first calls
+            <a rel="gsdoc" href="#method$NSUndoManager-endUndoGrouping">
+              -endUndoGrouping
+            </a>
+
+            . This method may only be called on the top level group,
+            otherwise it will raise an
+            NSInternalInconsistencyException.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-undoActionName">undoActionName&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>undoActionName</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            If the receiver can perform an undo, this method returns
+            the action name previously associated with the top
+            grouping with
+            <a rel="gsdoc" href="#method$NSUndoManager-setActionName$">
+              -setActionName:
+            </a>
+
+            . This name should identify the action to be undone. If
+            there are no items on the undo stack this method
+            returns <code>nil</code>. If no action name has
+            been set, this method returns an empty string.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-undoMenuItemTitle">undoMenuItemTitle&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>undoMenuItemTitle</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the full localized title of the actions to
+            be displayed as a menu item. This method first invokes
+            <a rel="gsdoc" href="#method$NSUndoManager-undoActionName">
+              [-undoActionName]
+            </a>
+
+            and passes it to
+            <a rel="gsdoc" href="#method$NSUndoManager-undoMenuTitleForUndoActionName$">
+              [-undoMenuTitleForUndoActionName:]
+            </a>
+
+            and returns the result.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-undoMenuTitleForUndoActionName$">undoMenuTitleForUndoActionName:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>undoMenuTitleForUndoActionName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)actionName;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the localized title of the actions to be
+            displayed as a menu item identified by
+            <var>actionName</var>, by appending a localized
+            command string like @&quot;Undo &lt;localized(
+            <var>actionName</var>)&gt;&quot;.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSUndoManager-undoNestedGroup">undoNestedGroup&nbsp;</a></h3>
+    - (void) <b>undoNestedGroup</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Performs an undo by taking the top grouping from
+            the undo stack and invoking them. This method posts an
+            NSUndoManagerCheckpointNotification
+            notification to allow the client to process
+            any pending changes before proceeding. If there are
+            groupings on the undo stack, the top object is
+            popped off the stack and invoked within a nested
+            beginUndoGrouping/endUndoGrouping.
+            During this processing, the undo operations
+            registered for undo are recorded on the redo
+            stack. <br />
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+    <br />
+    <a href="Base.html">Up</a>
+    </font>
+</body>
+</html>

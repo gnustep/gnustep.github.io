@@ -1,0 +1,1043 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSNumberFormatter" up="Base">
+  <head>
+    <title>NSNumberFormatter class reference</title>
+    <author name="Fred Kiefer">
+      <email address="FredKiefer@gmx.de">
+        FredKiefer@gmx.de
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <copy>2000 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSNumberFormatter class
+      </heading>
+      <class name="NSNumberFormatter" super="NSFormatter" ovadd="10.0.0">
+        <declared>Foundation/NSNumberFormatter.h</declared>
+        <desc>
+          <p>
+            <em>
+              <strong>
+                This class is currently not fully implemented! All
+                set methods will work, but stringForObject: will
+                ignore the format completely. The documentation
+                below describes what the behavior SHOULD be...
+              </strong>
+            </em>
+          </p>
+          <p>
+            A specialization of the
+            <ref type="class" id="NSFormatter">NSFormatter</ref>
+              class for generating string representations of
+              numbers ([NSNumber] and
+              <ref type="class" id="NSDecimalNumber">NSDecimalNumber</ref>instances) and for parsing numeric values in strings.</p>
+              <p>
+                See the
+                <ref type="class" id="NSFormatter">NSFormatter</ref>
+                  documentation for description of the
+                  basic methods for formatting and parsing that
+                  are available.
+                </p>
+                <p>
+                  There are no convenience initializers or
+                  constructors for this class. Instead, to
+                  obtain an instance, call alloc init and then
+                  <ref type="method" id="-setFormat:">
+                    -setFormat:
+                  </ref>
+                  .
+                </p>
+                <p>
+                  The basic format of a format string uses "#"
+                  signs to represent digits, and other characters
+                  to represent themselves, in a context-dependent
+                  way. Thus, for example, <code>@"#,###.00"</code>
+                  means to print the number ending in.00 if it
+                  has no decimal part, otherwise print two decimal
+                  places, and to print one comma if it is
+                  greater than 1000. Thus, 1000 prints as
+                  "1,000.00", and 1444555.979 prints as
+                  "1444,555.98" (see
+                  -setRoundingBehavior:).
+                </p>
+                <p>
+                  After setting the format, you may change the
+                  thousands separator and decimal point using
+                  set methods, or by calling
+                  <ref type="method" id="-setLocalizesFormat:">
+                    -setLocalizesFormat:
+                  </ref>
+                  .
+                </p>
+                <p>
+                  You may set separate formats to be used for
+                  positive numbers, negative numbers, and zero
+                  independently.
+                </p>
+                <p>
+                  In addition, this class supports attributed
+                  strings (see
+                  <ref type="class" id="NSAttributedString">NSAttributedString</ref>), so that you can specify font and color attributes, among others, to display aspects of a number. You can assign specific sets of attributes for positive and negative numbers, and for specific cases including 0, NaN, and <code>nil</code>...</p>
+        </desc>
+        <method type="NSNumberFormatterBehavior" factory="yes" ovadd="10.4.0">
+          <sel>defaultFormatterBehavior</sel>
+          <desc>
+            Returns the formatter behavior previously set as
+            the default using the
+            <ref type="method" id="+setDefaultFormatterBehavior:">
+              +setDefaultFormatterBehavior:
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="NSString*" factory="yes" ovadd="10.6.0">
+          <sel>localizedStringFromNumber:</sel>
+          <arg type="NSNumber*">num</arg>
+          <sel>numberStyle:</sel>
+          <arg type="NSNumberFormatterStyle">localizationStyle</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="10.4.0">
+          <sel>setDefaultFormatterBehavior:</sel>
+          <arg type="NSNumberFormatterBehavior">behavior</arg>
+          <desc>
+            Sets the default <var>behavior</var> of number
+            formatters. <br /> NB. If GNUstep has been
+            built without the ICU library,
+            NSNumberFormatterBehavior10_0
+            is currently used irrespective of this setting.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>allowsFloats</sel>
+          <desc>
+            Returns whether number parsing will accept floating
+            point values or generate an exception (only
+            <strong>int</strong> values are valid). Default is
+            <code>YES</code>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0">
+          <sel>alwaysShowsDecimalSeparator</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSAttributedString*" ovadd="10.0.0">
+          <sel>attributedStringForNil</sel>
+          <desc>
+            Returns the exact attributed string used for
+            <code>nil</code> values. By default this is an empty
+            string.
+          </desc>
+        </method>
+        <method type="NSAttributedString*" ovadd="10.0.0">
+          <sel>attributedStringForNotANumber</sel>
+          <desc>
+            Returns the exact attributed string used for NaN
+            values. By default this is the string "NaN" with no
+            attributes.
+          </desc>
+        </method>
+        <method type="NSAttributedString*" ovadd="10.0.0">
+          <sel>attributedStringForZero</sel>
+          <desc>
+            Returns the exact attributed string used for zero
+            values. By default this is based on the format for
+            zero values, if set, or the format for positive values
+            otherwise.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>currencyCode</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>currencyDecimalSeparator</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.5.0">
+          <sel>currencyGroupingSeparator</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>currencySymbol</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>decimalSeparator</sel>
+          <desc>
+            Returns thousands separator used; default is '.'.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>exponentSymbol</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>format</sel>
+          <desc>
+            Returns the format string this instance was
+            initialized with.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.4.0">
+          <sel>formatWidth</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSNumberFormatterBehavior" ovadd="10.4.0">
+          <sel>formatterBehavior</sel>
+          <desc>
+            Returns the behavior of the receiver, either the
+            default behavior set for number formatters, or the
+            behavior specified by an earlier call to the
+            <ref type="method" id="-setFormatterBehavior:">
+              -setFormatterBehavior:
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0">
+          <sel>generatesDecimalNumbers</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0">
+          <sel>getObjectValue:</sel>
+          <arg type="out id*">anObject</arg>
+          <sel>forString:</sel>
+          <arg type="NSString*">aString</arg>
+          <sel>range:</sel>
+          <arg type="NSRange*">rangep</arg>
+          <sel>error:</sel>
+          <arg type="out NSError**">error</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>groupingSeparator</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.4.0">
+          <sel>groupingSize</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>hasThousandSeparators</sel>
+          <desc>
+            Returns whether thousands separator should be used,
+            regardless of whether it is set in format.
+            (Default is <code>YES</code> if explicitly set in
+            format.)
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>internationalCurrencySymbol</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>isLenient</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>isPartialStringValidationEnabled</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSLocale*" ovadd="10.4.0">
+          <sel>locale</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>localizesFormat</sel>
+          <desc>
+            Returns whether this format should defer to the
+            locale in determining thousands separator and
+            decimal point. The default is to NOT localize.
+          </desc>
+        </method>
+        <method type="NSDecimalNumber*" ovadd="10.0.0">
+          <sel>maximum</sel>
+          <desc>
+            Returns maximum value that will be accepted as
+            valid in number parsing. Default is none.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.4.0">
+          <sel>maximumFractionDigits</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.4.0">
+          <sel>maximumIntegerDigits</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.5.0">
+          <sel>maximumSignificantDigits</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDecimalNumber*" ovadd="10.0.0">
+          <sel>minimum</sel>
+          <desc>
+            Returns minimum value that will be accepted as
+            valid in number parsing. Default is none.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.4.0">
+          <sel>minimumFractionDigits</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.4.0">
+          <sel>minimumIntegerDigits</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.5.0">
+          <sel>minimumSignificantDigits</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>minusSign</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSNumber*" ovadd="10.4.0">
+          <sel>multiplier</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>negativeFormat</sel>
+          <desc>
+            Returns format used for negative numbers.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>negativeInfinitySymbol</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>negativePrefix</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>negativeSuffix</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>nilSymbol</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>notANumberSymbol</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSNumber*" ovadd="10.4.0">
+          <sel>numberFromString:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            Returns the number for this <var>string</var>.
+          </desc>
+        </method>
+        <method type="NSNumberFormatterStyle" ovadd="10.4.0">
+          <sel>numberStyle</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>paddingCharacter</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSNumberFormatterPadPosition" ovadd="10.4.0">
+          <sel>paddingPosition</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>perMillSymbol</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>percentSymbol</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>plusSign</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>positiveFormat</sel>
+          <desc>
+            Returns format used for positive numbers.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>positiveInfinitySymbol</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>positivePrefix</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>positiveSuffix</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDecimalNumberHandler*" ovadd="10.0.0">
+          <sel>roundingBehavior</sel>
+          <desc>
+            Returns object specifying the rounding behavior
+            used when truncating decimal digits in formats.
+            Default is
+            <ref type="method" id="+defaultDecimalNumberHandler" class="NSDecimalNumberHandler">[NSDecimalNumberHandler +defaultDecimalNumberHandler]</ref>.
+          </desc>
+        </method>
+        <method type="NSNumber*" ovadd="10.4.0">
+          <sel>roundingIncrement</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSNumberFormatterRoundingMode" ovadd="10.4.0">
+          <sel>roundingMode</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.4.0">
+          <sel>secondaryGroupingSize</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setAllowsFloats:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Sets whether number parsing will accept floating point
+            values or generate an exception (only
+            <strong>int</strong> values are valid). Default is
+            <code>YES</code>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setAlwaysShowsDecimalSeparator:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setAttributedStringForNil:</sel>
+          <arg type="NSAttributedString*">newAttributedString</arg>
+          <desc>
+            Sets the exact attributed string used for
+            <code>nil</code> values. By default this is an empty
+            string.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setAttributedStringForNotANumber:</sel>
+          <arg type="NSAttributedString*">newAttributedString</arg>
+          <desc>
+            Sets the exact attributed string used for NaN values.
+            By default this is the string "NaN" with no attributes.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setAttributedStringForZero:</sel>
+          <arg type="NSAttributedString*">newAttributedString</arg>
+          <desc>
+            Sets the exact attributed string used for zero values.
+            By default this is based on the format for zero values,
+            if set, or the format for positive values otherwise.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setCurrencyCode:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setCurrencyDecimalSeparator:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setCurrencyGroupingSeparator:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setCurrencySymbol:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setDecimalSeparator:</sel>
+          <arg type="NSString*">newSeparator</arg>
+          <desc>
+            Sets thousands separator used; default is '.'.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setExponentSymbol:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setFormat:</sel>
+          <arg type="NSString*">aFormat</arg>
+          <desc>
+            Sets format string. See class description for more
+            information.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setFormatWidth:</sel>
+          <arg type="NSUInteger">number</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setFormatterBehavior:</sel>
+          <arg type="NSNumberFormatterBehavior">behavior</arg>
+          <desc>
+            Sets the <var>behavior</var> of the formatter. <br />
+            NB. If GNUstep has been built without the ICU library,
+            NSNumberFormatterBehavior10_0
+            is currently used irrespective of this setting.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setGeneratesDecimalNumbers:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setGroupingSeparator:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setGroupingSize:</sel>
+          <arg type="NSUInteger">number</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setHasThousandSeparators:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Sets whether thousands separator should be used,
+            regardless of whether it is set in format.
+            (Default is <code>YES</code> if explicitly set in
+            format.)
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setInternationalCurrencySymbol:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setLenient:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setLocale:</sel>
+          <arg type="NSLocale*">locale</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setLocalizesFormat:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Set whether this format should defer to the locale in
+            determining thousands separator and decimal
+            point. The default is to NOT localize.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setMaximum:</sel>
+          <arg type="NSDecimalNumber*">aMaximum</arg>
+          <desc>
+            Sets maximum value that will be accepted as valid in
+            number parsing. Default is none.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setMaximumFractionDigits:</sel>
+          <arg type="NSUInteger">number</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setMaximumIntegerDigits:</sel>
+          <arg type="NSUInteger">number</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setMaximumSignificantDigits:</sel>
+          <arg type="NSUInteger">number</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setMinimum:</sel>
+          <arg type="NSDecimalNumber*">aMinimum</arg>
+          <desc>
+            Sets minimum value that will be accepted as valid in
+            number parsing. Default is none.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setMinimumFractionDigits:</sel>
+          <arg type="NSUInteger">number</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setMinimumIntegerDigits:</sel>
+          <arg type="NSUInteger">number</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setMinimumSignificantDigits:</sel>
+          <arg type="NSUInteger">number</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setMinusSign:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setMultiplier:</sel>
+          <arg type="NSNumber*">number</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setNegativeFormat:</sel>
+          <arg type="NSString*">aFormat</arg>
+          <desc>
+            Sets format used for negative numbers. See class
+            description for more information.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setNegativeInfinitySymbol:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setNegativePrefix:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setNegativeSuffix:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setNilSymbol:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setNotANumberSymbol:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setNumberStyle:</sel>
+          <arg type="NSNumberFormatterStyle">style</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setPaddingCharacter:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setPaddingPosition:</sel>
+          <arg type="NSNumberFormatterPadPosition">position</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setPartialStringValidationEnabled:</sel>
+          <arg type="BOOL">enabled</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setPerMillSymbol:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setPercentSymbol:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setPlusSign:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setPositiveFormat:</sel>
+          <arg type="NSString*">aFormat</arg>
+          <desc>
+            Sets format used for positive numbers. See class
+            description for more information.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setPositiveInfinitySymbol:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setPositivePrefix:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setPositiveSuffix:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setRoundingBehavior:</sel>
+          <arg type="NSDecimalNumberHandler*">newRoundingBehavior</arg>
+          <desc>
+            Sets object specifying the rounding behavior used when
+            truncating decimal digits in formats. Default is
+            <ref type="method" id="+defaultDecimalNumberHandler" class="NSDecimalNumberHandler">[NSDecimalNumberHandler +defaultDecimalNumberHandler]</ref>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setRoundingIncrement:</sel>
+          <arg type="NSNumber*">number</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setRoundingMode:</sel>
+          <arg type="NSNumberFormatterRoundingMode">mode</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setSecondaryGroupingSize:</sel>
+          <arg type="NSUInteger">number</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setTextAttributesForNegativeInfinity:</sel>
+          <arg type="NSDictionary*">newAttributes</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setTextAttributesForNegativeValues:</sel>
+          <arg type="NSDictionary*">newAttributes</arg>
+          <desc>
+            Sets the attributes to apply to negative values (whole
+            string), when
+            <ref type="method" id="-attributedStringForObjectValue:withDefaultAttributes:">-attributedStringForObjectValue:withDefaultAttributes:</ref> is called. Default is none.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setTextAttributesForNil:</sel>
+          <arg type="NSDictionary*">newAttributes</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setTextAttributesForNotANumber:</sel>
+          <arg type="NSDictionary*">newAttributes</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setTextAttributesForPositiveInfinity:</sel>
+          <arg type="NSDictionary*">newAttributes</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setTextAttributesForPositiveValues:</sel>
+          <arg type="NSDictionary*">newAttributes</arg>
+          <desc>
+            Sets the attributes to apply to positive values (whole
+            string), when
+            <ref type="method" id="-attributedStringForObjectValue:withDefaultAttributes:">-attributedStringForObjectValue:withDefaultAttributes:</ref> is called. Default is none.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setTextAttributesForZero:</sel>
+          <arg type="NSDictionary*">newAttributes</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setThousandSeparator:</sel>
+          <arg type="NSString*">newSeparator</arg>
+          <desc>
+            Sets thousands separator used; default is ','.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setUsesGroupingSeparator:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setUsesSignificantDigits:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setZeroSymbol:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>stringFromNumber:</sel>
+          <arg type="NSNumber*">number</arg>
+          <desc>
+            Returns the string version of this
+            <var>number</var> based on the format specified.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.4.0">
+          <sel>textAttributesForNegativeInfinity</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.0.0">
+          <sel>textAttributesForNegativeValues</sel>
+          <desc>
+            Returns the attributes to apply to negative values
+            (whole string), when
+            <ref type="method" id="-attributedStringForObjectValue:withDefaultAttributes:">-attributedStringForObjectValue:withDefaultAttributes:</ref> is called. Default is none.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.4.0">
+          <sel>textAttributesForNil</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.4.0">
+          <sel>textAttributesForNotANumber</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.4.0">
+          <sel>textAttributesForPositiveInfinity</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.0.0">
+          <sel>textAttributesForPositiveValues</sel>
+          <desc>
+            Returns the attributes to apply to positive values
+            (whole string), when
+            <ref type="method" id="-attributedStringForObjectValue:withDefaultAttributes:">-attributedStringForObjectValue:withDefaultAttributes:</ref> is called. Default is none.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.4.0">
+          <sel>textAttributesForZero</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>thousandSeparator</sel>
+          <desc>
+            Returns thousands separator used; default is ','.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0">
+          <sel>usesGroupingSeparator</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>usesSignificantDigits</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>zeroSymbol</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

@@ -1,0 +1,1627 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>NSKeyedArchiver documentation</title>
+  </head>
+  <body>
+    <font face="serif">
+    <a href="Base.html">Up</a>
+    <br />
+    <h1><a name="title$NSKeyedArchiver">NSKeyedArchiver documentation</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Richard Frith-Macdonald (<a href="mailto:rfm@gnu.org"><code>rfm@gnu.org</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Copyright:</b> (C) 2004 Free Software Foundation, Inc.</p>
+
+        <div>
+      <hr width="50%" align="left" />
+      <h3>Contents -</h3>
+      <ol>
+        <li>
+          <a href="#001000000000">Software documentation for the NSKeyedArchiver class</a>
+        </li>
+        <li>
+          <a href="#002000000000">Software documentation for the NSKeyedUnarchiver class</a>
+        </li>
+        <li>
+          <a href="#003000000000">Software documentation for the
+        NSCoder(NSGeometryKeyedCoding)
+        category</a>
+        </li>
+        <li>
+          <a href="#004000000000">Software documentation for the
+        NSKeyedArchiver(Internal) category</a>
+        </li>
+        <li>
+          <a href="#005000000000">Software documentation for the
+        NSKeyedUnarchiver(Internal)
+        category</a>
+        </li>
+        <li>
+          <a href="#006000000000">Software documentation for the
+        NSObject(NSKeyedArchiverDelegate)
+        category</a>
+        </li>
+        <li>
+          <a href="#007000000000">Software documentation for the
+        NSObject(NSKeyedArchiverObjectSubstitution)
+        category</a>
+        </li>
+        <li>
+          <a href="#008000000000">Software documentation for the
+        NSObject(NSKeyedUnarchiverDelegate)
+        category</a>
+        </li>
+        <li>
+          <a href="#009000000000">Software documentation for the
+        NSObject(NSKeyedUnarchiverObjectSubstitution)
+        category</a>
+        </li>
+      </ol>
+      <hr width="50%" align="left" />
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSKeyedArchiver class
+      </a></h1>
+    <h2><a name="class$NSKeyedArchiver">NSKeyedArchiver</a> : <a rel="gsdoc" href="NSCoder.html#class$NSCoder">NSCoder</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSKeyedArchiver.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+          Implements <em>keyed</em> archiving of object
+          graphs. This archiver should be used instead of
+          <a rel="gsdoc" href="NSArchiver.html#class$NSArchiver">NSArchiver</a>
+
+            for new implementations. Classes implementing
+            <a rel="gsdoc" href="NSObject.html#protocol$(NSCoding)">&lt;NSCoding&gt;</a>
+
+              should check the
+              <a rel="gsdoc" href="NSCoder.html#method$NSCoder-allowsKeyedCoding">[NSCoder -allowsKeyedCoding]</a>
+ method and if the response is <code>YES</code>, encode/decode their fields using the <code>...forKey:</code>
+              <a rel="gsdoc" href="NSCoder.html#class$NSCoder">NSCoder</a>
+
+                methods, which provide for more robust
+                forwards and backwards compatibility.
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver(Internal)-_encodeArrayOfObjects$forKey$">-_encodeArrayOfObjects:forKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver(Internal)-_encodePropertyList$forKey$">-_encodePropertyList:forKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver+archiveRootObject$toFile$">+archiveRootObject:toFile:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver+archivedDataWithRootObject$">+archivedDataWithRootObject:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver+archivedDataWithRootObject$requiringSecureCoding$error$">+archivedDataWithRootObject:requiringSecureCoding:error:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver+classNameForClass$">+classNameForClass:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver+setClassName$forClass$">+setClassName:forClass:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver-classNameForClass$">-classNameForClass:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver-delegate">-delegate</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver-encodeBool$forKey$">-encodeBool:forKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver-encodeBytes$length$forKey$">-encodeBytes:length:forKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver-encodeConditionalObject$forKey$">-encodeConditionalObject:forKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver-encodeDouble$forKey$">-encodeDouble:forKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver-encodeFloat$forKey$">-encodeFloat:forKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver-encodeInt32$forKey$">-encodeInt32:forKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver-encodeInt64$forKey$">-encodeInt64:forKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver-encodeInt$forKey$">-encodeInt:forKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver-encodeObject$forKey$">-encodeObject:forKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver-finishEncoding">-finishEncoding</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver-initForWritingWithMutableData$">-initForWritingWithMutableData:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver-outputFormat">-outputFormat</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver-requiresSecureCoding">-requiresSecureCoding</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver-setClassName$forClass$">-setClassName:forClass:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver-setDelegate$">-setDelegate:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver-setOutputFormat$">-setOutputFormat:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver-setRequiresSecureCoding$">-setRequiresSecureCoding:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver+archiveRootObject$toFile$">archiveRootObject:&nbsp;toFile:&nbsp;</a></h3>
+    + (BOOL) <b>archiveRootObject:</b> (id)anObject<b> toFile:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aPath;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Encodes <var>anObject</var> and writes the
+            resulting data ti <var>aPath</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver+archivedDataWithRootObject$">archivedDataWithRootObject:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*) <b>archivedDataWithRootObject:</b> (id)anObject;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Encodes <var>anObject</var> and returns the
+            resulting data object.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver+archivedDataWithRootObject$requiringSecureCoding$error$">archivedDataWithRootObject:&nbsp;requiringSecureCoding:&nbsp;error:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*) <b>archivedDataWithRootObject:</b> (id)anObject<b> requiringSecureCoding:</b> (BOOL)requiresSecureCoding<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Encodes <var>anObject</var> and returns the
+            resulting data object. Allows secure coding if
+            specified. Returns an <var>error</var> if an
+            object violates secure coding rules.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver+classNameForClass$">classNameForClass:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>classNameForClass:</b> (Class)aClass;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the class name with which the
+            NSKeyedArchiver class will encode instances
+            of <var>aClass</var>, or <code>nil</code> if no name
+            mapping has been set using the
+            <a rel="gsdoc" href="#method$NSKeyedArchiver+setClassName$forClass$">
+              +setClassName:forClass:
+            </a>
+
+            method.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver+setClassName$forClass$">setClassName:&nbsp;forClass:&nbsp;</a></h3>
+    + (void) <b>setClassName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aString<b> forClass:</b> (Class)aClass;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets the class name with which the NSKeyedArchiver
+            class will encode instances of <var>aClass</var>.
+            This mapping is used only if no class name mapping has
+            been set for the individual instance of
+            NSKeyedArchiver being used. <br /> The
+            value of <var>aString</var> must be the name of an
+            existing class. <br /> If the value of
+            <var>aString</var> is <code>nil</code>, any mapping
+            for <var>aClass</var> is removed.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver-classNameForClass$">classNameForClass:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>classNameForClass:</b> (Class)aClass;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns any mapping for the name of
+            <var>aClass</var> which was previously set for the
+            receiver using the
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-setClassName$forClass$">
+              -setClassName:forClass:
+            </a>
+
+            method. <br /> Returns <code>nil</code> if no such
+            mapping exists, even if one has been set using the
+            class method
+            <a rel="gsdoc" href="#method$NSKeyedArchiver+setClassName$forClass$">
+              +setClassName:forClass:
+            </a>
+
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver-delegate">delegate&nbsp;</a></h3>
+    - (id) <b>delegate</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the delegate set for the receiver, or
+            <code>nil</code> of none is set.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver-encodeBool$forKey$">encodeBool:&nbsp;forKey:&nbsp;</a></h3>
+    - (void) <b>encodeBool:</b> (BOOL)aBool<b> forKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Encodes <var>aBool</var> and associates the encoded
+            value with <var>aKey</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver-encodeBytes$length$forKey$">encodeBytes:&nbsp;length:&nbsp;forKey:&nbsp;</a></h3>
+    - (void) <b>encodeBytes:</b> (const uint8_t*)aPointer<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)length<b> forKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Encodes the data of the specified <var>length</var>
+            and pointed to by <var>aPointer</var>, and associates
+            the encoded value with <var>aKey</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver-encodeConditionalObject$forKey$">encodeConditionalObject:&nbsp;forKey:&nbsp;</a></h3>
+    - (void) <b>encodeConditionalObject:</b> (id)anObject<b> forKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Encodes <var>anObject</var> and associates the
+            encoded value with <var>aKey</var>, but only if
+            <var>anObject</var> has already been encoded using
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-encodeObject$forKey$">
+              -encodeObject:forKey:
+            </a>
+
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver-encodeDouble$forKey$">encodeDouble:&nbsp;forKey:&nbsp;</a></h3>
+    - (void) <b>encodeDouble:</b> (double)aDouble<b> forKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Encodes <var>aDouble</var> and associates the
+            encoded value with <var>aKey</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver-encodeFloat$forKey$">encodeFloat:&nbsp;forKey:&nbsp;</a></h3>
+    - (void) <b>encodeFloat:</b> (float)aFloat<b> forKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Encodes <var>aFloat</var> and associates the
+            encoded value with <var>aKey</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver-encodeInt32$forKey$">encodeInt32:&nbsp;forKey:&nbsp;</a></h3>
+    - (void) <b>encodeInt32:</b> (int32_t)anInteger<b> forKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Encodes <var>anInteger</var> and associates the
+            encoded value with <var>aKey</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver-encodeInt64$forKey$">encodeInt64:&nbsp;forKey:&nbsp;</a></h3>
+    - (void) <b>encodeInt64:</b> (int64_t)anInteger<b> forKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Encodes <var>anInteger</var> and associates the
+            encoded value with <var>aKey</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver-encodeInt$forKey$">encodeInt:&nbsp;forKey:&nbsp;</a></h3>
+    - (void) <b>encodeInt:</b> (int)anInteger<b> forKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Encodes <var>anInteger</var> and associates the
+            encoded value with <var>aKey</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver-encodeObject$forKey$">encodeObject:&nbsp;forKey:&nbsp;</a></h3>
+    - (void) <b>encodeObject:</b> (id)anObject<b> forKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Encodes <var>anObject</var> and associates the
+            encoded value with <var>aKey</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver-finishEncoding">finishEncoding&nbsp;</a></h3>
+    - (void) <b>finishEncoding</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Ends the encoding process and causes the encoded
+            archive to be placed in the mutable data object
+            supplied when the receiver was initialised. <br />
+            This method must be called at the end of encoding, and
+            nothing may be encoded after this method is called.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver-initForWritingWithMutableData$">initForWritingWithMutableData:&nbsp;</a></h3>
+    - (id) <b>initForWritingWithMutableData:</b> (<a rel="gsdoc" href="NSData.html#class$NSMutableData">NSMutableData</a>*)data;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Initialise the receiver to encode an archive
+            into the supplied <var>data</var> object.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver-outputFormat">outputFormat&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPropertyListFormat">NSPropertyListFormat</a>) <b>outputFormat</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the output format of the archived data...
+            this should default to the MacOS-X binary format, but
+            we don&apos;t support that yet, so the
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-setOutputFormat$">
+              -setOutputFormat:
+            </a>
+
+            method should be used to set a supported format.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver-requiresSecureCoding">requiresSecureCoding&nbsp;</a></h3>
+    - (BOOL) <b>requiresSecureCoding</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns whether the current instance of the
+            archiver needs secure coding.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver-setClassName$forClass$">setClassName:&nbsp;forClass:&nbsp;</a></h3>
+    - (void) <b>setClassName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aString<b> forClass:</b> (Class)aClass;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets the name with which instances of
+            <var>aClass</var> are encoded. <br /> The value of
+            <var>aString</var> must be the name of an existing
+            class.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver-setDelegate$">setDelegate:&nbsp;</a></h3>
+    - (void) <b>setDelegate:</b> (id)anObject;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets the receivers delegate. The delegate should
+            conform to the NSObject(NSKeyedArchiverDelegate)
+            informal protocol. <br /> NB. the delegate is not
+            retained, so you must ensure that it is not
+            deallocated before the archiver has finished
+            with it.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver-setOutputFormat$">setOutputFormat:&nbsp;</a></h3>
+    - (void) <b>setOutputFormat:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPropertyListFormat">NSPropertyListFormat</a>)format;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Specifies the output <var>format</var> of the
+            archived data... this should default to the
+            MacOS-X binary <var>format</var>, but we don&apos;t
+            support that yet, so the
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-setOutputFormat$">
+              -setOutputFormat:
+            </a>
+
+            method should be used to set a supported
+            <var>format</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver-setRequiresSecureCoding$">setRequiresSecureCoding:&nbsp;</a></h3>
+    - (void) <b>setRequiresSecureCoding:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets whether the current instance of the archiver
+            needs secure coding.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="002000000000">
+        Software documentation for the NSKeyedUnarchiver class
+      </a></h1>
+    <h2><a name="class$NSKeyedUnarchiver">NSKeyedUnarchiver</a> : <a rel="gsdoc" href="NSCoder.html#class$NSCoder">NSCoder</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSKeyedArchiver.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+          Implements <em>keyed</em> unarchiving of object
+          graphs. The keyed archiver should be used instead of
+          <a rel="gsdoc" href="NSArchiver.html#class$NSArchiver">NSArchiver</a>
+
+            for new implementations. Classes implementing
+            <a rel="gsdoc" href="NSObject.html#protocol$(NSCoding)">&lt;NSCoding&gt;</a>
+
+              should check the
+              <a rel="gsdoc" href="NSCoder.html#method$NSCoder-allowsKeyedCoding">[NSCoder -allowsKeyedCoding]</a>
+ method and if the response is <code>YES</code>, encode/decode their fields using the <code>...forKey:</code>
+              <a rel="gsdoc" href="NSCoder.html#class$NSCoder">NSCoder</a>
+
+                methods, which provide for more robust
+                forwards and backwards compatibility.
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver(Internal)-_decodeArrayOfObjectsForKey$">-_decodeArrayOfObjectsForKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver(Internal)-_decodePropertyListForKey$">-_decodePropertyListForKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver(Internal)-replaceObject$withObject$">-replaceObject:withObject:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver+classForClassName$">+classForClassName:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver+setClass$forClassName$">+setClass:forClassName:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver+unarchiveObjectWithData$">+unarchiveObjectWithData:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver+unarchiveObjectWithFile$">+unarchiveObjectWithFile:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver-classForClassName$">-classForClassName:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver-containsValueForKey$">-containsValueForKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver-decodeBoolForKey$">-decodeBoolForKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver-decodeBytesForKey$returnedLength$">-decodeBytesForKey:returnedLength:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver-decodeDoubleForKey$">-decodeDoubleForKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver-decodeFloatForKey$">-decodeFloatForKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver-decodeInt32ForKey$">-decodeInt32ForKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver-decodeInt64ForKey$">-decodeInt64ForKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver-decodeIntForKey$">-decodeIntForKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver-decodeObjectForKey$">-decodeObjectForKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver-delegate">-delegate</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver-finishDecoding">-finishDecoding</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver-initForReadingWithData$">-initForReadingWithData:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver-requiresSecureCoding">-requiresSecureCoding</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver-setClass$forClassName$">-setClass:forClassName:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver-setDelegate$">-setDelegate:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver-setRequiresSecureCoding$">-setRequiresSecureCoding:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver+classForClassName$">classForClassName:&nbsp;</a></h3>
+    + (Class) <b>classForClassName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aString;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns class substituted for class name specified
+            by <var>aString</var> when encountered in the archive
+            being decoded from, or <code>nil</code> if there is
+            no specific translation mapping. Each instance also
+            maintains a translation map, which is searched
+            first for a match during decoding.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver+setClass$forClassName$">setClass:&nbsp;forClassName:&nbsp;</a></h3>
+    + (void) <b>setClass:</b> (Class)aClass<b> forClassName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aString;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets class substituted for class name specified by
+            <var>aString</var> when encountered in the archive
+            being decoded from, or <code>nil</code> if there is
+            no specific translation mapping. Each instance also
+            maintains a translation map, which is searched
+            first for a match during decoding.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver+unarchiveObjectWithData$">unarchiveObjectWithData:&nbsp;</a></h3>
+    + (id) <b>unarchiveObjectWithData:</b> (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*)data;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Decodes from byte array in <var>data</var> and
+            returns resulting root object.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver+unarchiveObjectWithFile$">unarchiveObjectWithFile:&nbsp;</a></h3>
+    + (id) <b>unarchiveObjectWithFile:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aPath;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Decodes from file contents at <var>aPath</var> and
+            returns resulting root object.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver-classForClassName$">classForClassName:&nbsp;</a></h3>
+    - (Class) <b>classForClassName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aString;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns class substituted for class name specified
+            by <var>aString</var> when encountered in the archive
+            being decoded from, or <code>nil</code> if there is
+            no specific translation mapping. The class as a whole
+            also maintains a translation map, which is searched on
+            decoding if no match found here.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver-containsValueForKey$">containsValueForKey:&nbsp;</a></h3>
+    - (BOOL) <b>containsValueForKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets class substituted for class name specified by
+            aString when encountered in the archive being
+            decoded from, or <code>nil</code> if there is no
+            specific translation mapping. Each instance also
+            maintains a translation map, which is searched
+            first for a match during decoding.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver-decodeBoolForKey$">decodeBoolForKey:&nbsp;</a></h3>
+    - (BOOL) <b>decodeBoolForKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns a boolean value associated with
+            <var>aKey</var>. This value must previously have been
+            encoded using
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-encodeBool$forKey$">
+              -encodeBool:forKey:
+            </a>
+
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver-decodeBytesForKey$returnedLength$">decodeBytesForKey:&nbsp;returnedLength:&nbsp;</a></h3>
+    - (const uint8_t*) <b>decodeBytesForKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey<b> returnedLength:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>*)length;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns a pointer to a byte array associated with
+            <var>aKey</var>. <br /> Returns the <var>length</var>
+            of the data in aLength. <br /> This value must
+            previously have been encoded using
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-encodeBytes$length$forKey$">
+              -encodeBytes:length:forKey:
+            </a>
+
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver-decodeDoubleForKey$">decodeDoubleForKey:&nbsp;</a></h3>
+    - (double) <b>decodeDoubleForKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns a <strong>double</strong> value associated
+            with <var>aKey</var>. This value must previously have
+            been encoded using
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-encodeDouble$forKey$">
+              -encodeDouble:forKey:
+            </a>
+
+            or
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-encodeFloat$forKey$">
+              -encodeFloat:forKey:
+            </a>
+
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver-decodeFloatForKey$">decodeFloatForKey:&nbsp;</a></h3>
+    - (float) <b>decodeFloatForKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns a <strong>float</strong> value associated
+            with <var>aKey</var>. This value must previously have
+            been encoded using
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-encodeFloat$forKey$">
+              -encodeFloat:forKey:
+            </a>
+
+            or
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-encodeDouble$forKey$">
+              -encodeDouble:forKey:
+            </a>
+
+            <br /> Precision may be lost (or an exception raised
+            if the value will not fit in a <strong>float</strong>)
+            if the value was encoded using
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-encodeDouble$forKey$">
+              -encodeDouble:forKey:
+            </a>
+
+            ,
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver-decodeInt32ForKey$">decodeInt32ForKey:&nbsp;</a></h3>
+    - (int32_t) <b>decodeInt32ForKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns a 32-bit integer value associated with
+            <var>aKey</var>. This value must previously have been
+            encoded using
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-encodeInt$forKey$">
+              -encodeInt:forKey:
+            </a>
+
+            ,
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-encodeInt32$forKey$">
+              -encodeInt32:forKey:
+            </a>
+
+            , or
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-encodeInt64$forKey$">
+              -encodeInt64:forKey:
+            </a>
+
+            . <br /> An exception will be raised if the value does
+            not fit in a 32-bit integer.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver-decodeInt64ForKey$">decodeInt64ForKey:&nbsp;</a></h3>
+    - (int64_t) <b>decodeInt64ForKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns a 64-bit integer value associated with
+            <var>aKey</var>. This value must previously have been
+            encoded using
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-encodeInt$forKey$">
+              -encodeInt:forKey:
+            </a>
+
+            ,
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-encodeInt32$forKey$">
+              -encodeInt32:forKey:
+            </a>
+
+            , or
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-encodeInt64$forKey$">
+              -encodeInt64:forKey:
+            </a>
+
+            .
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver-decodeIntForKey$">decodeIntForKey:&nbsp;</a></h3>
+    - (int) <b>decodeIntForKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns an integer value associated with
+            <var>aKey</var>. This value must previously have been
+            encoded using
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-encodeInt$forKey$">
+              -encodeInt:forKey:
+            </a>
+
+            ,
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-encodeInt32$forKey$">
+              -encodeInt32:forKey:
+            </a>
+
+            , or
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-encodeInt64$forKey$">
+              -encodeInt64:forKey:
+            </a>
+
+            . <br /> An exception will be raised if the value does
+            not fit in an integer.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver-decodeObjectForKey$">decodeObjectForKey:&nbsp;</a></h3>
+    - (id) <b>decodeObjectForKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns an object value associated with
+            <var>aKey</var>. This value must previously have been
+            encoded using
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-encodeObject$forKey$">
+              -encodeObject:forKey:
+            </a>
+
+            or
+            <a rel="gsdoc" href="#method$NSKeyedArchiver-encodeConditionalObject$forKey$">
+              -encodeConditionalObject:forKey:
+            </a>
+
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver-delegate">delegate&nbsp;</a></h3>
+    - (id) <b>delegate</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the delegate of the unarchiver.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver-finishDecoding">finishDecoding&nbsp;</a></h3>
+    - (void) <b>finishDecoding</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Tells receiver that you are done retrieving from
+            archive, so the delegate should be allowed to
+            perform close-up operations.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver-initForReadingWithData$">initForReadingWithData:&nbsp;</a></h3>
+    - (id) <b>initForReadingWithData:</b> (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*)data;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Prepare to read <var>data</var> from key archive
+            (created by
+            <a rel="gsdoc" href="#class$NSKeyedArchiver">NSKeyedArchiver</a>
+
+              ). Be sure to call
+              <a rel="gsdoc" href="#method$NSKeyedUnarchiver-finishDecoding">
+                -finishDecoding
+              </a>
+
+              when done.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver-requiresSecureCoding">requiresSecureCoding&nbsp;</a></h3>
+    - (BOOL) <b>requiresSecureCoding</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns whether the current instance of the
+            archiver needs secure coding.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver-setClass$forClassName$">setClass:&nbsp;forClassName:&nbsp;</a></h3>
+    - (void) <b>setClass:</b> (Class)aClass<b> forClassName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aString;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets class substituted for class name specified by
+            <var>aString</var> when encountered in the archive
+            being decoded from, or <code>nil</code> if there is
+            no specific translation mapping. Each instance also
+            maintains a translation map, which is searched
+            first for a match during decoding.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver-setDelegate$">setDelegate:&nbsp;</a></h3>
+    - (void) <b>setDelegate:</b> (id)delegate;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets the receivers <var>delegate</var>. The
+            <var>delegate</var> should conform to the
+            NSObject(NSKeyedUnarchiverDelegate)
+            informal protocol. <br /> NB. the
+            <var>delegate</var> is not retained, so you must
+            ensure that it is not deallocated before the
+            unarchiver has finished with it.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver-setRequiresSecureCoding$">setRequiresSecureCoding:&nbsp;</a></h3>
+    - (void) <b>setRequiresSecureCoding:</b> (BOOL)secure;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets whether the current instance of the archiver
+            needs <var>secure</var> coding.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="003000000000">
+        Software documentation for the
+        NSCoder(NSGeometryKeyedCoding)
+        category
+      </a></h1>
+    <h2><a rel="gsdoc" href="NSCoder.html#class$NSCoder">NSCoder</a>(<a name="category$NSCoder(NSGeometryKeyedCoding)">NSGeometryKeyedCoding</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSKeyedArchiver.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+          Methods for encoding/decoding points, rectangles, and
+          sizes.
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSCoder(NSGeometryKeyedCoding)-decodePointForKey$">-decodePointForKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSCoder(NSGeometryKeyedCoding)-decodeRectForKey$">-decodeRectForKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSCoder(NSGeometryKeyedCoding)-decodeSizeForKey$">-decodeSizeForKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSCoder(NSGeometryKeyedCoding)-encodePoint$forKey$">-encodePoint:forKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSCoder(NSGeometryKeyedCoding)-encodeRect$forKey$">-encodeRect:forKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSCoder(NSGeometryKeyedCoding)-encodeSize$forKey$">-encodeSize:forKey:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSCoder(NSGeometryKeyedCoding)-decodePointForKey$">decodePointForKey:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPoint">NSPoint</a>) <b>decodePointForKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Decodes an <code>NSPoint</code> object.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSCoder(NSGeometryKeyedCoding)-decodeRectForKey$">decodeRectForKey:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRect">NSRect</a>) <b>decodeRectForKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Decodes an <code>NSRect</code> object.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSCoder(NSGeometryKeyedCoding)-decodeSizeForKey$">decodeSizeForKey:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSSize">NSSize</a>) <b>decodeSizeForKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Decodes an <code>NSSize</code> object.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSCoder(NSGeometryKeyedCoding)-encodePoint$forKey$">encodePoint:&nbsp;forKey:&nbsp;</a></h3>
+    - (void) <b>encodePoint:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPoint">NSPoint</a>)aPoint<b> forKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Encodes an <code>NSPoint</code> object.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSCoder(NSGeometryKeyedCoding)-encodeRect$forKey$">encodeRect:&nbsp;forKey:&nbsp;</a></h3>
+    - (void) <b>encodeRect:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRect">NSRect</a>)aRect<b> forKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Encodes an <code>NSRect</code> object.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSCoder(NSGeometryKeyedCoding)-encodeSize$forKey$">encodeSize:&nbsp;forKey:&nbsp;</a></h3>
+    - (void) <b>encodeSize:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSSize">NSSize</a>)aSize<b> forKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Encodes an <code>NSSize</code> object.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="004000000000">
+        Software documentation for the
+        NSKeyedArchiver(Internal) category
+      </a></h1>
+    <h2><a rel="gsdoc" href="#class$NSKeyedArchiver">NSKeyedArchiver</a>(<a name="category$NSKeyedArchiver(Internal)">Internal</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSKeyedArchiver.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+          Internal methods. Do not use.
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver(Internal)-_encodeArrayOfObjects$forKey$">-_encodeArrayOfObjects:forKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedArchiver(Internal)-_encodePropertyList$forKey$">-_encodePropertyList:forKey:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver(Internal)-_encodeArrayOfObjects$forKey$">_encodeArrayOfObjects:&nbsp;forKey:&nbsp;</a></h3>
+    - (void) <b>_encodeArrayOfObjects:</b> (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*)anArray<b> forKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code. <br /> Internal method used to
+            encode an array relatively efficiently. <br /> Some
+            MacOS-X library classes seem to use this.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedArchiver(Internal)-_encodePropertyList$forKey$">_encodePropertyList:&nbsp;forKey:&nbsp;</a></h3>
+    - (void) <b>_encodePropertyList:</b> (id)anObject<b> forKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="005000000000">
+        Software documentation for the
+        NSKeyedUnarchiver(Internal)
+        category
+      </a></h1>
+    <h2><a rel="gsdoc" href="#class$NSKeyedUnarchiver">NSKeyedUnarchiver</a>(<a name="category$NSKeyedUnarchiver(Internal)">Internal</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSKeyedArchiver.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+          Internal methods. Do not use.
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver(Internal)-_decodeArrayOfObjectsForKey$">-_decodeArrayOfObjectsForKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver(Internal)-_decodePropertyListForKey$">-_decodePropertyListForKey:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSKeyedUnarchiver(Internal)-replaceObject$withObject$">-replaceObject:withObject:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver(Internal)-_decodeArrayOfObjectsForKey$">_decodeArrayOfObjectsForKey:&nbsp;</a></h3>
+    - (id) <b>_decodeArrayOfObjectsForKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code. <br /> Internal method used to
+            decode an array relatively efficiently. <br /> Some
+            MacOS-X library classes seem to use this.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver(Internal)-_decodePropertyListForKey$">_decodePropertyListForKey:&nbsp;</a></h3>
+    - (id) <b>_decodePropertyListForKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSKeyedUnarchiver(Internal)-replaceObject$withObject$">replaceObject:&nbsp;withObject:&nbsp;</a></h3>
+    - (BOOL) <b>replaceObject:</b> (id)oldObj<b> withObject:</b> (id)newObj;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            This method is used to replace <var>oldObj</var> with
+            <var>newObj</var> in the map that is maintained in
+            NSKeyedUnarchiver.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="006000000000">
+        Software documentation for the
+        NSObject(NSKeyedArchiverDelegate)
+        category
+      </a></h1>
+    <h2><a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a>(<a name="category$NSObject(NSKeyedArchiverDelegate)">NSKeyedArchiverDelegate</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSKeyedArchiver.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+          Informal protocol implemented by delegates of
+          <a rel="gsdoc" href="#class$NSKeyedArchiver">NSKeyedArchiver</a>
+
+            .
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSObject(NSKeyedArchiverDelegate)-archiver$didEncodeObject$">-archiver:didEncodeObject:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSObject(NSKeyedArchiverDelegate)-archiver$willEncodeObject$">-archiver:willEncodeObject:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSObject(NSKeyedArchiverDelegate)-archiver$willReplaceObject$withObject$">-archiver:willReplaceObject:withObject:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSObject(NSKeyedArchiverDelegate)-archiverDidFinish$">-archiverDidFinish:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSObject(NSKeyedArchiverDelegate)-archiverWillFinish$">-archiverWillFinish:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSObject(NSKeyedArchiverDelegate)-archiver$didEncodeObject$">archiver:&nbsp;didEncodeObject:&nbsp;</a></h3>
+    - (void) <b>archiver:</b> (<a rel="gsdoc" href="#class$NSKeyedArchiver">NSKeyedArchiver</a>*)anArchiver<b> didEncodeObject:</b> (id)anObject;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            Sent when encoding of <var>anObject</var> has
+            completed <em>except</em> in the case of
+            conditional encoding. <br />
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSKeyedArchiverDelegate)-archiver$willEncodeObject$">archiver:&nbsp;willEncodeObject:&nbsp;</a></h3>
+    - (id) <b>archiver:</b> (<a rel="gsdoc" href="#class$NSKeyedArchiver">NSKeyedArchiver</a>*)anArchiver<b> willEncodeObject:</b> (id)anObject;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            Sent when <var>anObject</var> is about to be encoded
+            (or conditionally encoded) and provides the receiver
+            with an opportunity to change the actual object stored
+            into the archive by returning a different value
+            (otherwise it should return <var>anObject</var>
+            ). <br /> The method is not called for encoding of
+            <code>nil</code> or for encoding of any object for
+            which has already been called. <br /> The method is
+            called <em>after</em> the
+            <a rel="gsdoc" href="#method$NSObject(NSKeyedArchiverObjectSubstitution)-replacementObjectForKeyedArchiver$">-replacementObjectForKeyedArchiver:</a>
+ method. <br />
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSKeyedArchiverDelegate)-archiver$willReplaceObject$withObject$">archiver:&nbsp;willReplaceObject:&nbsp;withObject:&nbsp;</a></h3>
+    - (void) <b>archiver:</b> (<a rel="gsdoc" href="#class$NSKeyedArchiver">NSKeyedArchiver</a>*)anArchiver<b> willReplaceObject:</b> (id)anObject<b> withObject:</b> (id)newObject;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            Sent whenever object replacement occurs during
+            encoding, either by the
+            <a rel="gsdoc" href="#method$NSObject(NSKeyedArchiverObjectSubstitution)-replacementObjectForKeyedArchiver$">-replacementObjectForKeyedArchiver:</a>
+ method or because the delegate has returned a changed value using the <a rel="gsdoc" href="#method$NSObject(NSKeyedArchiverDelegate)-archiver$willEncodeObject$">-archiver:willEncodeObject:</a>
+ method. <br />
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSKeyedArchiverDelegate)-archiverDidFinish$">archiverDidFinish:&nbsp;</a></h3>
+    - (void) <b>archiverDidFinish:</b> (<a rel="gsdoc" href="#class$NSKeyedArchiver">NSKeyedArchiver</a>*)anArchiver;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            Sent when the encoding process is complete. <br />
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSKeyedArchiverDelegate)-archiverWillFinish$">archiverWillFinish:&nbsp;</a></h3>
+    - (void) <b>archiverWillFinish:</b> (<a rel="gsdoc" href="#class$NSKeyedArchiver">NSKeyedArchiver</a>*)anArchiver;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            Sent when the encoding process is about to finish.
+            <br />
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="007000000000">
+        Software documentation for the
+        NSObject(NSKeyedArchiverObjectSubstitution)
+        category
+      </a></h1>
+    <h2><a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a>(<a name="category$NSObject(NSKeyedArchiverObjectSubstitution)">NSKeyedArchiverObjectSubstitution</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSKeyedArchiver.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+          Methods by which a class may control its archiving by
+          the
+          <a rel="gsdoc" href="#class$NSKeyedArchiver">NSKeyedArchiver</a>
+
+            .
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSObject(NSKeyedArchiverObjectSubstitution)-classForKeyedArchiver">-classForKeyedArchiver</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSObject(NSKeyedArchiverObjectSubstitution)-replacementObjectForKeyedArchiver$">-replacementObjectForKeyedArchiver:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSObject(NSKeyedArchiverObjectSubstitution)-classForKeyedArchiver">classForKeyedArchiver&nbsp;</a></h3>
+    - (Class) <b>classForKeyedArchiver</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            This message is sent to objects being encoded, to
+            allow them to choose to be encoded a different class.
+            If this returns <code>nil</code> it is treated as if it
+            returned the class of the object. <br /> After
+            this method is applied, any class name mapping set in
+            the archiver is applied to its result. <br /> The
+            default implementation returns the result of the
+            <a rel="gsdoc" href="NSObject.html#method$NSObject-classForArchiver">
+              -classForArchiver
+            </a>
+
+            method.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSKeyedArchiverObjectSubstitution)-replacementObjectForKeyedArchiver$">replacementObjectForKeyedArchiver:&nbsp;</a></h3>
+    - (id) <b>replacementObjectForKeyedArchiver:</b> (<a rel="gsdoc" href="#class$NSKeyedArchiver">NSKeyedArchiver</a>*)archiver;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            This message is sent to objects being encoded, to
+            allow them to choose to be encoded a different object
+            by returning the alternative object. <br /> The default
+            implementation returns the result of calling
+            the
+            <a rel="gsdoc" href="NSObject.html#method$NSObject-replacementObjectForArchiver$">
+              -replacementObjectForArchiver:
+            </a>
+
+            method with a <code>nil</code> argument. <br /> This
+            is called only if no mapping has been set up in the
+            <var>archiver</var> already.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="008000000000">
+        Software documentation for the
+        NSObject(NSKeyedUnarchiverDelegate)
+        category
+      </a></h1>
+    <h2><a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a>(<a name="category$NSObject(NSKeyedUnarchiverDelegate)">NSKeyedUnarchiverDelegate</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSKeyedArchiver.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+          Informal protocol implemented by delegates of
+          <a rel="gsdoc" href="#class$NSKeyedUnarchiver">NSKeyedUnarchiver</a>
+
+            .
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSObject(NSKeyedUnarchiverDelegate)-unarchiver$cannotDecodeObjectOfClassName$originalClasses$">-unarchiver:cannotDecodeObjectOfClassName:originalClasses:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSObject(NSKeyedUnarchiverDelegate)-unarchiver$didDecodeObject$">-unarchiver:didDecodeObject:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSObject(NSKeyedUnarchiverDelegate)-unarchiver$willReplaceObject$withObject$">-unarchiver:willReplaceObject:withObject:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSObject(NSKeyedUnarchiverDelegate)-unarchiverDidFinish$">-unarchiverDidFinish:</a></li>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSObject(NSKeyedUnarchiverDelegate)-unarchiverWillFinish$">-unarchiverWillFinish:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSObject(NSKeyedUnarchiverDelegate)-unarchiver$cannotDecodeObjectOfClassName$originalClasses$">unarchiver:&nbsp;cannotDecodeObjectOfClassName:&nbsp;originalClasses:&nbsp;</a></h3>
+    - (Class) <b>unarchiver:</b> (<a rel="gsdoc" href="#class$NSKeyedUnarchiver">NSKeyedUnarchiver</a>*)anUnarchiver<b> cannotDecodeObjectOfClassName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aName<b> originalClasses:</b> (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*)classNames;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            Sent if the named class is not available during
+            decoding. <br /> The value of <var>aName</var> is
+            the class name being decoded (after any name mapping
+            has been applied). <br /> The <var>classNames</var>
+            array contains the original name of the class encoded
+            in the archive, and is followed by each of its
+            superclasses in turn. <br /> The delegate may
+            either return a class object for the unarchiver to
+            use to continue decoding, or may return
+            <code>nil</code> to abort the decoding process.
+            <br />
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSKeyedUnarchiverDelegate)-unarchiver$didDecodeObject$">unarchiver:&nbsp;didDecodeObject:&nbsp;</a></h3>
+    - (id) <b>unarchiver:</b> (<a rel="gsdoc" href="#class$NSKeyedUnarchiver">NSKeyedUnarchiver</a>*)anUnarchiver<b> didDecodeObject:</b> (id)anObject;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            Sent when <var>anObject</var> is decoded. The receiver
+            may return either <var>anObject</var> or some other
+            object (including <code>nil</code>). If a value
+            other than <var>anObject</var> is returned, it is
+            used to replace <var>anObject</var>. <br />
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSKeyedUnarchiverDelegate)-unarchiver$willReplaceObject$withObject$">unarchiver:&nbsp;willReplaceObject:&nbsp;withObject:&nbsp;</a></h3>
+    - (void) <b>unarchiver:</b> (<a rel="gsdoc" href="#class$NSKeyedUnarchiver">NSKeyedUnarchiver</a>*)anUnarchiver<b> willReplaceObject:</b> (id)anObject<b> withObject:</b> (id)newObject;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            Sent whenever object replacement occurs during
+            decoding, eg by the
+            <a rel="gsdoc" href="#method$NSObject(NSKeyedArchiverObjectSubstitution)-replacementObjectForKeyedArchiver$">-replacementObjectForKeyedArchiver:</a>
+ method. <br />
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSKeyedUnarchiverDelegate)-unarchiverDidFinish$">unarchiverDidFinish:&nbsp;</a></h3>
+    - (void) <b>unarchiverDidFinish:</b> (<a rel="gsdoc" href="#class$NSKeyedUnarchiver">NSKeyedUnarchiver</a>*)anUnarchiver;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            Sent when unarchiving is about to complete. <br />
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSKeyedUnarchiverDelegate)-unarchiverWillFinish$">unarchiverWillFinish:&nbsp;</a></h3>
+    - (void) <b>unarchiverWillFinish:</b> (<a rel="gsdoc" href="#class$NSKeyedUnarchiver">NSKeyedUnarchiver</a>*)anUnarchiver;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+An empty method provided for subclasses to override.<br />
+    <div class="desc">
+      
+            Sent when unarchiving has been completed. <br />
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="009000000000">
+        Software documentation for the
+        NSObject(NSKeyedUnarchiverObjectSubstitution)
+        category
+      </a></h1>
+    <h2><a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a>(<a name="category$NSObject(NSKeyedUnarchiverObjectSubstitution)">NSKeyedUnarchiverObjectSubstitution</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSKeyedArchiver.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+          Methods by which a class may control its unarchiving
+          by the
+          <a rel="gsdoc" href="#class$NSKeyedArchiver">NSKeyedArchiver</a>
+
+            .
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSKeyedArchiver.html#method$NSObject(NSKeyedUnarchiverObjectSubstitution)+classForKeyedUnarchiver">+classForKeyedUnarchiver</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSObject(NSKeyedUnarchiverObjectSubstitution)+classForKeyedUnarchiver">classForKeyedUnarchiver&nbsp;</a></h3>
+    + (Class) <b>classForKeyedUnarchiver</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sent during unarchiving to permit classes to
+            substitute a different class for decoded
+            instances of themselves. <br /> Default
+            implementation returns the receiver. <br />
+            Overrides the mappings set up within the
+            receiver.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+    <br />
+    <a href="Base.html">Up</a>
+    </font>
+</body>
+</html>

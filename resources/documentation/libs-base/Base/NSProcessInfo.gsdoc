@@ -1,0 +1,368 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSProcessInfo" up="Base">
+  <head>
+    <title>NSProcessInfo class reference</title>
+    <author name="Georg Tuparev">
+      <email address="Tuparev@EMBL-Heidelberg.de">
+        Tuparev@EMBL-Heidelberg.de
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <copy>1995-2017 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSProcessInfo class
+      </heading>
+      <class name="NSProcessInfo" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSProcessInfo.h</declared>
+        <desc>
+          Instances of this class encapsulate information on
+          the current process. For example, you can get the
+          arguments, environment variables, host name, or
+          process name. There is only one instance per process,
+          for obvious reasons, and it may be obtained through the
+          <ref type="method" id="+processInfo">
+            +processInfo
+          </ref>
+          method.
+        </desc>
+        <method type="NSProcessInfo*" factory="yes" ovadd="1.0.0">
+          <sel>processInfo</sel>
+          <desc>
+            Returns the shared NSProcessInfo object for the
+            current process.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.5.0">
+          <sel>activeProcessorCount</sel>
+          <desc>
+            Not implemented
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>arguments</sel>
+          <desc>
+            Returns an array containing the arguments supplied
+            to start this process. <br /> NB. In GNUstep, any
+            arguments of the form --GNU-Debug=... are
+            <em>not</em> included in this array... they are part
+            of the debug mechanism, and are hidden so that setting
+            debug variables will not effect the normal operation
+            of the program. <br /> Please note, the special
+            <code>--GNU-Debug=...</code> syntax differs from
+            that which is used to specify values for the
+            <ref type="class" id="NSUserDefaults">NSUserDefaults</ref>
+              system. <br /> User defaults are set on the
+              command line by specifying the default name (with
+              a leading hyphen) as one argument, and the default
+              value as the following argument. The arguments used
+              to set user defaults are present in the array returned
+              by this method.
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>beginActivityWithOptions:</sel>
+          <arg type="NSActivityOptions">options</arg>
+          <sel>reason:</sel>
+          <arg type="NSString*">reason</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>disableSuddenTermination</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>enableSuddenTermination</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>endActivity:</sel>
+          <arg type="id&lt;NSObject&gt;">activity</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="1.0.0">
+          <sel>environment</sel>
+          <desc>
+            Returns a dictionary giving the environment
+            variables which were provided for the process to
+            use.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>globallyUniqueString</sel>
+          <desc>
+            Returns a string which may be used as a globally
+            unique identifier. <br /> The string contains the
+            host name, the process ID, a timestamp and a counter.
+            <br /> The first three values identify the process
+            in which the string is generated, while the fourth
+            ensures that multiple strings generated within the
+            same process are unique.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>hostName</sel>
+          <desc>
+            Returns the name of the machine on which this
+            process is running.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.0.0">
+          <sel>operatingSystem</sel>
+          <desc>
+            Return a number representing the operating system
+            type. <br /> The known types are listed in the header
+            file, but not all of the listed types are actually
+            implemented... some are present for MacOS-X
+            compatibility only. <br />
+            <list>
+              <item>
+                NSWindowsNTOperatingSystem -
+                used for Windows NT, and later
+              </item>
+              <item>
+                NSWindows95OperatingSystem -
+                probably never to be implemented
+              </item>
+              <item>
+                NSSolarisOperatingSystem -
+                used for Sun Solaris
+              </item>
+              <item>
+                NSHPUXOperatingSystem - used for
+                HP/UX
+              </item>
+              <item>
+                NSMACHOperatingSystem - MacOSX
+                and perhaps Hurd in future?
+              </item>
+              <item>
+                NSSunOSOperatingSystem - Used
+                for Sun Sun/OS
+              </item>
+              <item>
+                NSOSF1OperatingSystem - Used for
+                OSF/1 (probably obsolete)
+              </item>
+              <item>
+                GSGNULinuxOperatingSystem -
+                the GNUstep 'standard'
+              </item>
+              <item>
+                GSBSDOperatingSystem - BSD derived
+                operating systems
+              </item>
+              <item>
+                GSBeperatingSystem - Used for Be-OS
+                (probably obsolete)
+              </item>
+              <item>
+                GSCygwinOperatingSystem -
+                cygwin unix-like environment
+              </item>
+            </list>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>operatingSystemName</sel>
+          <desc>
+            Return a human readable string representing the
+            operating system type. <br /> The supported types
+            are -
+            <list>
+              <item>
+                NSWindowsNTOperatingSystem -
+                used for Windows NT, and later
+              </item>
+              <item>
+                NSWindows95OperatingSystem -
+                probably never to be implemented
+              </item>
+              <item>
+                NSSolarisOperatingSystem -
+                used for Sun Solaris
+              </item>
+              <item>
+                NSHPUXOperatingSystem - used for
+                HP/UX
+              </item>
+              <item>
+                NSMACHOperatingSystem - MacOSX
+                and perhaps Hurd in future?
+              </item>
+              <item>
+                NSSunOSOperatingSystem - Used
+                for Sun Sun/OS
+              </item>
+              <item>
+                NSOSF1OperatingSystem - Used for
+                OSF/1 (probably obsolete)
+              </item>
+              <item>
+                GSGNULinuxOperatingSystem -
+                the GNUstep 'standard'
+              </item>
+              <item>
+                GSBSDOperatingSystem - BSD derived
+                operating systems
+              </item>
+              <item>
+                GSBeperatingSystem - Used for Be-OS
+                (probably obsolete)
+              </item>
+              <item>
+                GSCygwinOperatingSystem -
+                cygwin unix-like environment
+              </item>
+            </list>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.2.0">
+          <sel>operatingSystemVersionString</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>performActivityWithOptions:</sel>
+          <arg type="NSActivityOptions">options</arg>
+          <sel>reason:</sel>
+          <arg type="NSString*">reason</arg>
+          <sel>usingBlock:</sel>
+          <arg type="GSPerformActivityBlock">block</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>performExpiringActivityWithReason:</sel>
+          <arg type="NSString*">reason</arg>
+          <sel>usingBlock:</sel>
+          <arg type="GSPerformExpiringActivityBlock">block</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="unsigned long long" ovadd="10.5.0">
+          <sel>physicalMemory</sel>
+          <desc>
+            Not implemented
+          </desc>
+        </method>
+        <method type="int" ovadd="10.0.0">
+          <sel>processIdentifier</sel>
+          <desc>
+            Returns the process identifier number which
+            uniquely identifies this process on this machine.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>processName</sel>
+          <desc>
+            Returns the process name for this process. This may
+            have been set using the
+            <ref type="method" id="-setProcessName:">
+              -setProcessName:
+            </ref>
+            method, or may be the default process name (the
+            file name of the binary being executed).
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.5.0">
+          <sel>processorCount</sel>
+          <desc>
+            Not implemented
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setProcessName:</sel>
+          <arg type="NSString*">newName</arg>
+          <desc>
+            Change the name of the current process to
+            <var>newName</var>.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.6.0">
+          <sel>systemUptime</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSProcessInfo(GNUstep)
+        category
+      </heading>
+      <category name="GNUstep" class="NSProcessInfo" gvadd="0.0.0" gvrem="1.17.0">
+        <declared>Foundation/NSProcessInfo.h</declared>
+        <desc>
+          Provides GNUstep-specific methods for controlled
+          debug logging (a GNUstep facility) and an
+          internal/developer-related method.
+        </desc>
+        <method type="void" factory="yes" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>initializeWithArguments:</sel>
+          <arg type="char**">argv</arg>
+          <sel>count:</sel>
+          <arg type="int">argc</arg>
+          <sel>environment:</sel>
+          <arg type="char**">env</arg>
+          <desc>
+            Obsolete... the
+            <ref type="function" id="GSInitializeProcess">
+              GSInitializeProcess()
+            </ref>
+            function has the same effect and can be called
+            more easily from other languages (particularly C).
+          </desc>
+        </method>
+        <method type="NSString*" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>androidCacheDir</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="jobject" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>androidContext</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>androidFilesDir</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>setLogFile:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Set the file to which NSLog output should be directed.
+            <br /> Returns <code>YES</code> on success,
+            <code>NO</code> on failure. <br /> By default
+            logging goes to standard error.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

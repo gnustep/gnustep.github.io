@@ -1,0 +1,419 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSDate" up="Base">
+  <head>
+    <title>NSDate class reference</title>
+    <author name="Jeremy Bettis">
+      <email address="jeremy@hksys.com">
+        jeremy@hksys.com
+      </email>
+    </author>
+    <author name="Scott Christley">
+      <email address="scottc@net-community.com">
+        scottc@net-community.com
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <copy>
+      1995, 1996, 1997, 1998 Free Software Foundation, Inc.
+    </copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSDate class
+      </heading>
+      <class name="NSDate" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSDate.h</declared>
+        <conform>NSCoding</conform>
+        <conform>NSCopying</conform>
+        <desc>
+          An <code>NSDate</code> object encapsulates a constant
+          date/time to a high resolution represented by the
+          <code>NSTimeInterval</code> typedef.
+          <code>NSDate</code> has methods relating to times and
+          time differences in the abstract, but not calendar dates
+          or time zones. These features are added in the
+          <ref type="class" id="NSCalendarDate">NSCalendarDate</ref>
+            subclass. The
+            <ref type="class" id="NSTimeZone">NSTimeZone</ref>
+              class handles time zone information.
+        </desc>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>date</sel>
+          <desc>
+            Returns an autoreleased instance with the current
+            date/time.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.0.0">
+          <sel>dateWithNaturalLanguageString:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            Returns an autoreleased instance representing the
+            date and time given by <var>string</var>. The value of
+            <var>string</var> may be a 'natural' specification as
+            specified by the preferences in the user defaults
+            database, allowing phrases like 'last tuesday'
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.0.0">
+          <sel>dateWithNaturalLanguageString:</sel>
+          <arg type="NSString*">string</arg>
+          <sel>locale:</sel>
+          <arg type="NSDictionary*">locale</arg>
+          <desc>
+            <p>
+              Returns an autoreleased instance representing the
+              date and time given by <var>string</var>. The value
+              of <var>string</var> may be a 'natural' specification
+              as specified by the preferences in the user defaults
+              database, allowing phrases like 'last tuesday'
+            </p>
+            The <var>locale</var> contains keys such as -
+            <deflist>
+              <term>NSDateTimeOrdering</term>
+              <desc>
+                Controls the use of ambiguous numbers. This is
+                done as a sequence of the letters D(ay), M(onth),
+                Y(ear), and H(our). YMDH means that the first
+                number encountered is assumed to be a year, the
+                second a month, the third a day, and the last an
+                hour.
+              </desc>
+              <term>NSEarlierTimeDesignations</term>
+              <desc>
+                An array of strings for times in the past. <br />
+                Defaults are <em>ago</em>, <em>last</em>,
+                <em>past</em>, <em>prior</em>
+              </desc>
+              <term>NSHourNameDesignations</term>
+              <desc>
+                An array of arrays of strings identifying the time
+                of day. Each array has an hour as its first value,
+                and one or more words as subsequent values. <br />
+                Defaults are: (0, midnight), (10, morning),
+                (12, noon, lunch), (14, afternoon), (19, dinner).
+              </desc>
+              <term>NSLaterTimeDesignations</term>
+              <desc>
+                An array of strings for times in the future. <br />
+                Default is <em>next</em>
+              </desc>
+              <term>NSNextDayDesignations</term>
+              <desc>
+                The day after today. Default is <em>tomorrow.</em>
+              </desc>
+              <term>NSNextNextDayDesignations</term>
+              <desc>
+                The day after tomorrow. Default is
+                <em>nextday.</em>
+              </desc>
+              <term>NSPriorDayDesignations</term>
+              <desc>
+                The day before today. Default is
+                <em>yesterday.</em>
+              </desc>
+              <term>NSThisDayDesignations</term>
+              <desc>
+                Identifies the current day. Default is
+                <em>today.</em>
+              </desc>
+              <term>NSYearMonthWeekDesignations</term>
+              <desc>
+                An array giving the word for year, month, and week.
+                <br /> Defaults are <em>year</em>,
+                <em>month</em> and <em>week</em>.
+              </desc>
+            </deflist>
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>dateWithString:</sel>
+          <arg type="NSString*">description</arg>
+          <desc>
+            Returns an autoreleased instance with the date and
+            time value given by the string using the ISO standard
+            format YYYY-MM-DD HH:MM:SS +/-HHHMM (all the fields
+            of which must be present).
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.6.0">
+          <sel>dateWithTimeInterval:</sel>
+          <arg type="NSTimeInterval">seconds</arg>
+          <sel>sinceDate:</sel>
+          <arg type="NSDate*">date</arg>
+          <desc>
+            Returns an autoreleased NSDate instance whose value
+            is offset from that of the given <var>date</var> by the
+            specified interval in <var>seconds</var>.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>dateWithTimeIntervalSince1970:</sel>
+          <arg type="NSTimeInterval">seconds</arg>
+          <desc>
+            Returns an autoreleased instance with the offset
+            from the unix system reference date of 1 January 1970,
+            GMT.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>dateWithTimeIntervalSinceNow:</sel>
+          <arg type="NSTimeInterval">seconds</arg>
+          <desc>
+            Returns an autoreleased instance with the offset
+            from the current date/time given by <var>seconds</var>
+            (which may be fractional).
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>dateWithTimeIntervalSinceReferenceDate:</sel>
+          <arg type="NSTimeInterval">seconds</arg>
+          <desc>
+            Returns an autoreleased instance with the offset
+            from the OpenStep reference date of 1 January 2001,
+            GMT.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>distantFuture</sel>
+          <desc>
+            Returns an autoreleased instance with the date/time
+            set in the far future.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>distantPast</sel>
+          <desc>
+            Returns an autoreleased instance with the date/time
+            set in the far past.
+          </desc>
+        </method>
+        <method type="NSTimeInterval" factory="yes" ovadd="1.0.0">
+          <sel>timeIntervalSinceReferenceDate</sel>
+          <desc>
+            Returns the time interval between the reference
+            date and the current time. <br /> Returns the time
+            interval between the current date and the
+            reference date (1 January 2001, GMT).
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>addTimeInterval:</sel>
+          <arg type="NSTimeInterval">seconds</arg>
+          <desc>
+            Returns an autorelease date instance formed by
+            adding the specified time interval in
+            <var>seconds</var> to the receiver's time interval.
+          </desc>
+        </method>
+        <method type="NSComparisonResult" ovadd="1.0.0">
+          <sel>compare:</sel>
+          <arg type="NSDate*">otherDate</arg>
+          <desc>
+            Returns the time interval between the receivers
+            value and the OpenStep reference date of 1 Jan 2001
+            GMT.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.6.0">
+          <sel>dateByAddingTimeInterval:</sel>
+          <arg type="NSTimeInterval">ti</arg>
+          <desc>
+            Returns an autoreleased NSDate instance whose value
+            is offset from that of the receiver by the specified
+            interval.
+          </desc>
+        </method>
+        <method type="NSCalendarDate*" ovadd="1.0.0">
+          <sel>dateWithCalendarFormat:</sel>
+          <arg type="NSString*">formatString</arg>
+          <sel>timeZone:</sel>
+          <arg type="NSTimeZone*">timeZone</arg>
+          <desc>
+            Returns an autoreleased instance of the
+            <ref type="class" id="NSCalendarDate">NSCalendarDate</ref>
+              class whose date/time value is the same as that of
+              the receiver, and which uses the
+              <var>formatString</var> and <var>timeZone</var>
+              specified.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>description</sel>
+          <desc>
+            Returns a string representation of the receiver
+            formatted according to the default format string,
+            time zone, and locale.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>descriptionWithCalendarFormat:</sel>
+          <arg type="NSString*">format</arg>
+          <sel>timeZone:</sel>
+          <arg type="NSTimeZone*">aTimeZone</arg>
+          <sel>locale:</sel>
+          <arg type="NSDictionary*">l</arg>
+          <desc>
+            Returns a string representation of the receiver
+            formatted according to the specified
+            <var>format</var> string, time zone, and locale.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>descriptionWithLocale:</sel>
+          <arg type="id">locale</arg>
+          <desc>
+            Returns a string representation of the receiver
+            formatted according to the default format string
+            and time zone, but using the given <var>locale</var>.
+          </desc>
+        </method>
+        <method type="NSDate*" ovadd="1.0.0">
+          <sel>earlierDate:</sel>
+          <arg type="NSDate*">otherDate</arg>
+          <desc>
+            Returns the earlier of the receiver and
+            <var>otherDate</var>. <br /> If the two represent
+            identical date/time values, returns the receiver.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>init</sel>
+          <desc>
+            Returns an instance initialised with the current
+            date/time.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithString:</sel>
+          <arg type="NSString*">description</arg>
+          <desc>
+            Returns an instance with the date and time value
+            given by the string using the ISO standard format
+            YYYY-MM-DD HH:MM:SS +/-HHHMM (all the fields of
+            which must be present).
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithTimeInterval:</sel>
+          <arg type="NSTimeInterval">secsToBeAdded</arg>
+          <sel>sinceDate:</sel>
+          <arg type="NSDate*">anotherDate</arg>
+          <desc>
+            Returns an instance with the given offset from
+            <var>anotherDate</var>.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.0.0">
+          <sel>initWithTimeIntervalSince1970:</sel>
+          <arg type="NSTimeInterval">seconds</arg>
+          <desc>
+            Returns an instance with the offset from the unix
+            system reference date of 1 January 1970, GMT.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithTimeIntervalSinceNow:</sel>
+          <arg type="NSTimeInterval">secsToBeAdded</arg>
+          <desc>
+            Returns an instance with the offset from the
+            current date/time.
+          </desc>
+        </method>
+        <method type="instancetype" init="yes" ovadd="1.0.0">
+          <sel>initWithTimeIntervalSinceReferenceDate:</sel>
+          <arg type="NSTimeInterval">secs</arg>
+          <desc>
+            Returns an instance with the given offset from the
+            OpenStep reference date of 1 January 2001, GMT.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isEqual:</sel>
+          <arg type="id">other</arg>
+          <desc>
+            Returns <code>NO</code> if <var>other</var> is not
+            a date, otherwise returns the result of calling the
+            <ref type="method" id="-isEqualtoDate:">
+              -isEqualtoDate:
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isEqualToDate:</sel>
+          <arg type="NSDate*">other</arg>
+          <desc>
+            Returns whether the receiver is exactly equal to
+            <var>other</var>, to the limit of the NSTimeInterval
+            precision. <br /> This is the behavior of the
+            current MacOS-X system, not that of the OpenStep
+            specification (which counted two dates within
+            a second of each <var>other</var> as being equal). <br />
+            The old behavior meant that two dates equal to a third
+            date were not necessarily equal to each
+            <var>other</var> (confusing), and meant that there
+            was no reasonable way to use a date as a dictionary key
+            or store dates in a set.
+          </desc>
+        </method>
+        <method type="NSDate*" ovadd="1.0.0">
+          <sel>laterDate:</sel>
+          <arg type="NSDate*">otherDate</arg>
+          <desc>
+            Returns the earlier of the receiver and
+            <var>otherDate</var>. <br /> If the two represent
+            identical date/time values, returns the receiver.
+          </desc>
+        </method>
+        <method type="NSTimeInterval" ovadd="1.0.0">
+          <sel>timeIntervalSince1970</sel>
+          <desc>
+            Returns the time interval between the receivers
+            value and the unix system reference date of 1 January
+            1970, GMT.
+          </desc>
+        </method>
+        <method type="NSTimeInterval" ovadd="1.0.0">
+          <sel>timeIntervalSinceDate:</sel>
+          <arg type="NSDate*">otherDate</arg>
+          <desc>
+            Returns the time interval between the receivers
+            value and that of the <var>otherDate</var> argument.
+            If <var>otherDate</var> is earlier than the receiver,
+            the returned value will be positive, if it is later it
+            will be negative. <br /> For current (2011) OSX
+            compatibility, this method returns NaN if
+            <var>otherDate</var> is <code>nil</code>... do not
+            write code depending on that behavior.
+          </desc>
+        </method>
+        <method type="NSTimeInterval" ovadd="1.0.0">
+          <sel>timeIntervalSinceNow</sel>
+          <desc>
+            Returns the time interval between the receivers
+            value and the current date/time. If the receiver
+            represents a date/time in the past this will be
+            negative, if it is in the future the returned
+            value will be positive.
+          </desc>
+        </method>
+        <method type="NSTimeInterval" ovadd="1.0.0">
+          <sel>timeIntervalSinceReferenceDate</sel>
+          <desc>
+            Returns the time interval between the receivers
+            value and the OpenStep reference date of 1 Jan 2001
+            GMT.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

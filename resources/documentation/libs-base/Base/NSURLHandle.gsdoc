@@ -1,0 +1,437 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSURLHandle" up="Base">
+  <head>
+    <title>NSURLHandle class reference</title>
+    <author name="Manuel Guesdon">
+      <email address="mguesdon@sbuilders.com">
+        mguesdon@sbuilders.com
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <copy>1999 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSURLHandle class
+      </heading>
+      <class name="NSURLHandle" super="NSObject" ovadd="10.0.0">
+        <declared>Foundation/NSURLHandle.h</declared>
+        <desc>
+          <p>
+            An NSURLHandle instance is used to manage the resource
+            data corresponding to an NSURL object. A single
+            NSURLHandle can be used to manage multiple
+            NSURL objects as <strong>long</strong> as those
+            objects all refer to the same resource.
+          </p>
+          <p>
+            Different NSURLHandle subclasses are used to
+            manage different types of URL (usually based on the
+            scheme of the URL), and you can register new
+            subclasses to extend (or replace) the standard
+            ones.
+          </p>
+          <p>
+            GNUstep comes with private subclasses to handle the
+            common URL schemes -
+          </p>
+          <list>
+            <item><code>file:</code> (local file I/O)</item>
+            <item>
+              <code>http:</code> and <code>https:</code>
+              (webserver) access.
+            </item>
+            <item><code>ftp:</code> (FTP server) access.</item>
+          </list>
+        </desc>
+        <ivariable type="NSMutableArray*" name="_clients" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_data" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="_failure" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSURLHandleStatus" name="_status" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="Class" factory="yes" ovadd="10.0.0">
+          <sel>URLHandleClassForURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <desc>
+            Returns the most recently registered NSURLHandle
+            subclass that responds to
+            <ref type="method" id="+canInitWithURL:">
+              +canInitWithURL:
+            </ref>
+            with <code>YES</code>. If there is no such subclass,
+            returns <code>nil</code>.
+          </desc>
+        </method>
+        <method type="NSURLHandle*" factory="yes" ovadd="10.0.0">
+          <sel>cachedHandleForURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <desc>
+            Return a handle for the specified URL from the cache
+            if possible. If the cache does not contain a matching
+            handle, returns <code>nil</code>.
+          </desc>
+        </method>
+        <method type="BOOL" factory="yes" override="subclass" ovadd="10.0.0">
+          <sel>canInitWithURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <desc>
+            Implemented by subclasses to say which URLs
+            they can handle. This method is used to determine
+            which subclasses can be used to handle a particular
+            URL.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="10.0.0">
+          <sel>registerURLHandleClass:</sel>
+          <arg type="Class">urlHandleSubclass</arg>
+          <desc>
+            Used to register a subclass as being available to
+            handle URLs.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>addClient:</sel>
+          <arg type="id&lt;NSURLHandleClient&gt;">client</arg>
+          <desc>
+            Add a <var>client</var> object, making sure that it
+            doesn't occur more than once. <br /> The
+            <var>client</var> object will receive messages
+            notifying it of events on the handle.
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="10.0.0">
+          <sel>availableResourceData</sel>
+          <desc>
+            Returns the resource data that is currently
+            available for the handle. This may be a partially
+            loaded resource or may be empty if no data has been
+            loaded yet or the last load failed.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>backgroundLoadDidFailWithReason:</sel>
+          <arg type="NSString*">reason</arg>
+          <desc>
+            This method should be called when a background load
+            fails. <br /> The method passes the failure
+            notification to the clients of the handle - so
+            subclasses should call super's implementation at
+            the end of their implementation of this method.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>beginLoadInBackground</sel>
+          <desc>
+            This method is called by when a background load
+            begins. Subclasses should call super's
+            implementation at the end of their
+            implementation of this method.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>cancelLoadInBackground</sel>
+          <desc>
+            This method should be called to cancel a load
+            currently in progress. The method calls
+            <ref type="method" id="-endLoadInBackground">
+              -endLoadInBackground
+            </ref>
+            Subclasses should call super's implementation at
+            the end of their implementation of this method.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>didLoadBytes:</sel>
+          <arg type="NSData*">newData</arg>
+          <sel>loadComplete:</sel>
+          <arg type="BOOL">loadComplete</arg>
+          <desc>
+            Method called by subclasses during process of
+            loading a resource. The base class maintains a copy
+            of the data being read in and accumulates separate parts
+            of the data.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>endLoadInBackground</sel>
+          <desc>
+            This method is called to stop any background loading
+            process.
+            <ref type="method" id="-cancelLoadInBackground">
+              -cancelLoadInBackground
+            </ref>
+            uses this method to cancel loading. Subclasses should
+            call super's implementation at the end of their
+            implementation of this method.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>failureReason</sel>
+          <desc>
+            Returns the failure reason for the last failure to
+            load the resource data.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>flushCachedData</sel>
+          <desc>
+            Flushes any cached resource data.
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="10.0.0">
+          <sel>initWithURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>cached:</sel>
+          <arg type="BOOL">cached</arg>
+          <desc>
+            Initialises a handle with the specified URL.
+            <br /> The flag determines whether the handle will
+            cache resource data and respond to requests from
+            equivalent URLs for the <var>cached</var> data.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>loadInBackground</sel>
+          <desc>
+            Starts (or queues) loading of the handle's resource
+            data in the background (asynchronously). <br /> The
+            default implementation uses loadInForeground - if
+            this method is not overridden, loadInForeground MUST
+            be.
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="10.0.0">
+          <sel>loadInForeground</sel>
+          <desc>
+            Loads the handle's resource data in the foreground
+            (synchronously). <br /> The default
+            implementation starts a background load and
+            waits for it to complete - if this method is not
+            overridden, loadInBackground MUST be.
+          </desc>
+        </method>
+        <method type="id" override="subclass" ovadd="10.0.0">
+          <sel>propertyForKey:</sel>
+          <arg type="NSString*">propertyKey</arg>
+          <desc>
+            Returns the property for the specified key, or
+            <code>nil</code> if the key does not exist.
+          </desc>
+        </method>
+        <method type="id" override="subclass" ovadd="10.0.0">
+          <sel>propertyForKeyIfAvailable:</sel>
+          <arg type="NSString*">propertyKey</arg>
+          <desc>
+            Returns the property for the specified key, but
+            only if the handle does not need to do any work to
+            retrieve it.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>removeClient:</sel>
+          <arg type="id&lt;NSURLHandleClient&gt;">client</arg>
+          <desc>
+            Removes an object from them list of clients
+            notified of resource loading events by the URL
+            handle.
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="10.0.0">
+          <sel>resourceData</sel>
+          <desc>
+            Returns the resource data belonging to the handle.
+            Calls
+            <ref type="method" id="-loadInForeground">
+              -loadInForeground
+            </ref>
+            if necessary.
+            <p>
+              The GNUstep implementation treats an <em>ftp:</em>
+              request for a directory as a request to list the
+              names of the directory contents.
+            </p>
+          </desc>
+        </method>
+        <method type="int" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>setDebug:</sel>
+          <arg type="int">aFlag</arg>
+          <desc>
+            GNUstep extension to turn on debug logging for a
+            handle. Returns the previous debug setting for the
+            handle. Implemented for http/https only.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>setReturnAll:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            GNUstep extension to turn on returning of complete
+            http/https response even when the status code is
+            not in the 200 to 299 success range.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>setURL:</sel>
+          <arg type="NSURL*">newUrl</arg>
+          <desc>
+            GNUstep extension to change the URL that the handle
+            sends requests to. Implemented for http/https only.
+          </desc>
+        </method>
+        <method type="NSURLHandleStatus" ovadd="10.0.0">
+          <sel>status</sel>
+          <desc>
+            Returns the current status of the handle.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>writeData:</sel>
+          <arg type="NSData*">data</arg>
+          <desc>
+            <p>
+              Writes resource <var>data</var> to the handle.
+              Returns <code>YES</code> on success,
+              <code>NO</code> on failure.
+            </p>
+            <p>
+              The GNUstep implementation for <em>file:</em> writes
+              the <var>data</var> directly to the local filesystem,
+              and the return status reflects the result of that
+              write operation.
+            </p>
+            <p>
+              The GNUstep implementation for <em>http:</em> and
+              <em>https:</em> sets the specified <var>data</var>
+              as information to be POSTed to the URL next time it is
+              loaded - so the method always returns
+              <code>YES</code>.
+            </p>
+            <p>
+              The GNUstep implementation for <em>ftp:</em> sets the
+              specified <var>data</var> as information to be
+              written to the URL next time it is loaded - so
+              the method always returns <code>YES</code>.
+            </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>writeProperty:</sel>
+          <arg type="id">propertyValue</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">propertyKey</arg>
+          <desc>
+            <p>
+              Sets a property for handle. Returns <code>YES</code>
+              on success, <code>NO</code> on failure.
+            </p>
+            <p>
+              The GNUstep implementation sets the property as a
+              header to be sent the next time the URL is loaded,
+              and recognizes some special property keys which
+              control the behavior of the next load.
+            </p>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSURLHandleClient
+        protocol
+      </heading>
+      <protocol name="NSURLHandleClient" ovadd="10.0.0">
+        <declared>Foundation/NSURLHandle.h</declared>
+        <desc>
+          A protocol to which clients of a handle must conform in
+          order to receive notification of events on the handle.
+        </desc>
+        <method type="void" ovadd="10.0.0">
+          <sel>URLHandle:</sel>
+          <arg type="NSURLHandle*">sender</arg>
+          <sel>resourceDataDidBecomeAvailable:</sel>
+          <arg type="NSData*">newData</arg>
+          <desc>
+            Sent by the NSURLHandle object when some data becomes
+            available from the handle. Note that this does
+            not mean that all data has become available, only that
+            a chunk of data has arrived.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>URLHandle:</sel>
+          <arg type="NSURLHandle*">sender</arg>
+          <sel>resourceDidFailLoadingWithReason:</sel>
+          <arg type="NSString*">reason</arg>
+          <desc>
+            Sent by the NSURLHandle object on resource load
+            failure. Supplies a human readable failure
+            <var>reason</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>URLHandleResourceDidBeginLoading:</sel>
+          <arg type="NSURLHandle*">sender</arg>
+          <desc>
+            Sent by the NSURLHandle object when it begins loading
+            resource data.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>URLHandleResourceDidCancelLoading:</sel>
+          <arg type="NSURLHandle*">sender</arg>
+          <desc>
+            Sent by the NSURLHandle object when resource loading
+            is cancelled by programmatic request (rather than by
+            failure).
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>URLHandleResourceDidFinishLoading:</sel>
+          <arg type="NSURLHandle*">sender</arg>
+          <desc>
+            Sent by the NSURLHandle object when it completes
+            loading resource data.
+          </desc>
+        </method>
+      </protocol>
+    </chapter>
+  </body>
+</gsdoc>

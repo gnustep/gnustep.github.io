@@ -1,0 +1,357 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="AGSHtml" up="BaseTools">
+  <head>
+    <title>
+      AGSHtml... a class to output html for a gsdoc file
+    </title>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <copy>2001 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the AGSHtml class
+      </heading>
+      <class name="AGSHtml" super="NSObject" ovadd="1.0.0">
+        <declared>AGSHtml.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <ivariable type="NSString*" name="base" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="category" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="chap" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="classname" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="AGSIndex*" name="globalRefs" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="heading" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableString*" name="indent" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="isContentsDoc" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="ivarsAtEnd" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="AGSIndex*" name="localRefs" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="nextFile" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="prevFile" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="project" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="AGSIndex*" name="projectRefs" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="sect" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="ssect" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="sssect" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="unit" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="upFile" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <method type="void" ovadd="1.0.0">
+          <sel>decIndent</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>incIndent</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>makeAnchor:</sel>
+          <arg type="NSString*">r</arg>
+          <sel>ofType:</sel>
+          <arg type="NSString*">t</arg>
+          <sel>name:</sel>
+          <arg type="NSString*">n</arg>
+          <desc>
+            Calls
+            <ref type="method" id="-makeLink:ofType:isRef:">
+              -makeLink:ofType:isRef:
+            </ref>
+            or
+            <ref type="method" id="-makeLink:ofType:inUnit:isRef:">
+              -makeLink:ofType:inUnit:isRef:
+            </ref>
+            to create the first part of an anchor, and fills in the
+            text content of the anchor with <var>n</var> (the
+            specified name). Returns an entire anchor string
+            as a result. <br /> This method is used to create all
+            the anchors in the html output.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>makeLink:</sel>
+          <arg type="NSString*">r</arg>
+          <sel>ofType:</sel>
+          <arg type="NSString*">t</arg>
+          <sel>inUnit:</sel>
+          <arg type="NSString*">u</arg>
+          <sel>isRef:</sel>
+          <arg type="BOOL">f</arg>
+          <desc>
+            Make a link for the element <var>r</var>, with the
+            specified type <var>t</var>, in a particular unit
+            <var>u</var>. Only the start of the html element is
+            returned (&lt;a...&gt;). <br /> If the boolean
+            <var>f</var> is <code>YES</code>, then the link is a
+            reference to somewhere, otherwise the link is an
+            anchor for some element being output. <br /> If
+            there is an error, the method returns
+            <code>nil</code>.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>makeLink:</sel>
+          <arg type="NSString*">r</arg>
+          <sel>ofType:</sel>
+          <arg type="NSString*">t</arg>
+          <sel>isRef:</sel>
+          <arg type="BOOL">f</arg>
+          <desc>
+            Make a link for the element <var>r</var> with the
+            specified type. Only the start of the html
+            element is returned (&lt;a...&gt;). If the boolean
+            <var>f</var> is <code>YES</code>, then the link is a
+            reference to somewhere, and the method will
+            return <code>nil</code> if the destination is not
+            found in the index. If <var>f</var> is
+            <code>NO</code>, then the link is an anchor for some
+            element being output, and the method is guaranteed
+            to succeed and return the link.
+          </desc>
+        </method>
+        <method type="GSXMLNode*" ovadd="1.0.0">
+          <sel>outputBlock:</sel>
+          <arg type="GSXMLNode*">node</arg>
+          <sel>to:</sel>
+          <arg type="NSMutableString*">buf</arg>
+          <sel>inPara:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Outputs zero or more nodes at the same level as
+            <strong>long</strong> as the nodes are valid
+            %block elements. Returns <code>nil</code> or the
+            first <var>node</var> not output. The value of
+            <var>flag</var> is used to control paragraph nesting
+            ... if <code>YES</code> we close a paragraph before
+            opening a new one, and open again once the new
+            paragraph closes.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>outputDocument:</sel>
+          <arg type="GSXMLNode*">node</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>outputIndex:</sel>
+          <arg type="NSString*">type</arg>
+          <sel>scope:</sel>
+          <arg type="NSString*">scope</arg>
+          <sel>title:</sel>
+          <arg type="NSString*">title</arg>
+          <sel>style:</sel>
+          <arg type="NSString*">style</arg>
+          <sel>target:</sel>
+          <arg type="NSString*">target</arg>
+          <sel>to:</sel>
+          <arg type="NSMutableString*">buf</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="GSXMLNode*" ovadd="1.0.0">
+          <sel>outputList:</sel>
+          <arg type="GSXMLNode*">node</arg>
+          <sel>to:</sel>
+          <arg type="NSMutableString*">buf</arg>
+          <desc>
+            Outputs a <var>node</var> as <strong>long</strong>
+            as it is a valid %list element. Returns next
+            <var>node</var> at this level.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>outputNode:</sel>
+          <arg type="GSXMLNode*">node</arg>
+          <sel>to:</sel>
+          <arg type="NSMutableString*">buf</arg>
+          <desc>
+            Css : TODO print.css <br /> Robots <br /> As a special
+            case, if we have a reference to a function, and we
+            can't find it, we check to see if there is actually a
+            macro of that name and refer to that instead.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>outputNodeList:</sel>
+          <arg type="GSXMLNode*">node</arg>
+          <sel>to:</sel>
+          <arg type="NSMutableString*">buf</arg>
+          <desc>
+            Output all the nodes from this one onwards... try to
+            output as text first, if not possible, call the main
+            method to output each <var>node</var>.
+          </desc>
+        </method>
+        <method type="GSXMLNode*" ovadd="1.0.0">
+          <sel>outputText:</sel>
+          <arg type="GSXMLNode*">node</arg>
+          <sel>to:</sel>
+          <arg type="NSMutableString*">buf</arg>
+          <desc>
+            Outputs zero or more nodes at the same level as
+            <strong>long</strong> as the nodes are valid %text
+            elements. Returns <code>nil</code> or the first
+            <var>node</var> not output.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>outputUnit:</sel>
+          <arg type="GSXMLNode*">node</arg>
+          <sel>to:</sel>
+          <arg type="NSMutableString*">buf</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>outputVersion:</sel>
+          <arg type="NSDictionary*">prop</arg>
+          <sel>to:</sel>
+          <arg type="NSMutableString*">buf</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>protocolRef:</sel>
+          <arg type="NSString*">t</arg>
+          <desc>
+            Try to make a link to the documentation for the
+            supplied protocol.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setGlobalRefs:</sel>
+          <arg type="AGSIndex*">r</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setInstanceVariablesAtEnd:</sel>
+          <arg type="BOOL">val</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setLocalRefs:</sel>
+          <arg type="AGSIndex*">r</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setProjectRefs:</sel>
+          <arg type="AGSIndex*">r</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>typeRef:</sel>
+          <arg type="NSString*">t</arg>
+          <desc>
+            Assuming that the supplied string contains type
+            information (as used in a method declaration or
+            type cast), we make an attempt at extracting the basic
+            type, and seeing if we can find a documented
+            declaration for it. If we can, we return a
+            modified version of the string containing a link
+            to the appropriate documentation. Otherwise, we just
+            return the plain type string. In all cases, we strip
+            leading and trailing white space.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

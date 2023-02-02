@@ -1,0 +1,398 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSArchiver" up="Base">
+  <head>
+    <title>NSArchiver class reference</title>
+    <author name="Andrew Kachites McCallum">
+      <email address="mccallum@gnu.ai.mit.edu">
+        mccallum@gnu.ai.mit.edu
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <copy>
+      1995, 1996, 1997, 1998 Free Software Foundation, Inc.
+    </copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSArchiver class
+      </heading>
+      <class name="NSArchiver" super="NSCoder" ovadd="1.0.0">
+        <declared>Foundation/NSArchiver.h</declared>
+        <desc>
+          <p>
+            Implementation of
+            <ref type="class" id="NSCoder">NSCoder</ref>
+              capable of creating sequential archives which
+              must be read in the same order they were written.
+              This class implements methods for saving to and
+              restoring from a serial archive (usually a file
+              on disk, but can be an
+              <ref type="class" id="NSData">NSData</ref>
+                object) as well as methods that can be used by
+                objects that need to write/restore themselves.
+              </p>
+              <p>
+                Note, the sibling class
+                <ref type="class" id="NSKeyedArchiver">NSKeyedArchiver</ref>supports a form of archive that is more robust to class changes, and is recommended over this one.</p>
+        </desc>
+        <method type="BOOL" factory="yes" ovadd="1.0.0">
+          <sel>archiveRootObject:</sel>
+          <arg type="id">rootObject</arg>
+          <sel>toFile:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Writes out serialized representation of object and,
+            recursively, any other objects it holds
+            references to.
+          </desc>
+        </method>
+        <method type="NSData*" factory="yes" ovadd="1.0.0">
+          <sel>archivedDataWithRootObject:</sel>
+          <arg type="id">rootObject</arg>
+          <desc>
+            Writes serialized representation of object and,
+            recursively, any other objects it holds
+            references to, to byte array.
+          </desc>
+        </method>
+        <method type="NSMutableData*" ovadd="1.0.0">
+          <sel>archiverData</sel>
+          <desc>
+            Returns whatever data has been encoded thus far.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>classNameEncodedForTrueClassName:</sel>
+          <arg type="NSString*">trueName</arg>
+          <desc>
+            Returns substitute class used to encode objects of
+            given class. This would have been set through an
+            earlier call to [NSArchiver
+            -encodeClassName:intoClassName:].
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>encodeClassName:</sel>
+          <arg type="NSString*">trueName</arg>
+          <sel>intoClassName:</sel>
+          <arg type="NSString*">inArchiveName</arg>
+          <desc>
+            Specify substitute class used in archiving objects
+            of given class. This class is written to the archive as
+            the class to use for restoring the object, instead of
+            what is returned from [NSObject -classForArchiver].
+            This can be used to provide backward compatibility
+            across class name changes. The object is still
+            encoded by calling <code>encodeWithCoder:</code> as
+            normal.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initForWritingWithMutableData:</sel>
+          <arg type="NSMutableData*">mdata</arg>
+          <desc>
+            Init instance that will archive its data to
+            <var>mdata</var>. (Even if
+            [archiveRootObject:toFile:] is
+            called, this still gets written to.)
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>replaceObject:</sel>
+          <arg type="id">object</arg>
+          <sel>withObject:</sel>
+          <arg type="id">newObject</arg>
+          <desc>
+            Set encoder to write out <var>newObject</var> in place
+            of <var>object</var>.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSUnarchiver class
+      </heading>
+      <class name="NSUnarchiver" super="NSCoder" ovadd="1.0.0">
+        <declared>Foundation/NSArchiver.h</declared>
+        <desc>
+          <p>
+            This class reconstructs objects from an archive.
+          </p>
+          <br /> <strong>Re-using the archiver</strong>
+          <p>
+            The
+            <ref type="method" id="-resetUnarchiverWithData:atIndex:">
+              -resetUnarchiverWithData:atIndex:
+            </ref>
+            method lets you re-use the archive to decode a new
+            data object or, in conjunction with the 'cursor'
+            method (which reports the current decoding position
+            in the archive), decode a second archive that exists in
+            the data object after the first one.
+          </p>
+          <strong>
+            Subclassing with different input format.
+          </strong>
+          <br /> <br /> <code>NSUnarchiver</code> normally reads
+          directly from an
+          <ref type="class" id="NSData">NSData</ref>
+            object using the methods -
+            <deflist>
+              <term>
+                <ref type="method" id="-deserializeTypeTag:andCrossRef:atCursor:">-deserializeTypeTag:andCrossRef:atCursor:</ref>
+              </term>
+              <desc>
+                to decode type tags for data items, the tag is the
+                first byte of the character encoding string for
+                the data type (as provided by '@encode(xxx)'),
+                possibly with the top bit set to indicate that
+                what follows is a crossreference to an item
+                already encoded. <br /> Also decode a
+                crossreference number either to identify
+                the following item, or to refer to a previously
+                encoded item. Objects, Classes, Selectors,
+                CStrings and Pointer items have crossreference
+                encoding, other types do not. <br />
+              </desc>
+              <term>
+                <ref type="method" id="-deserializeDataAt:ofObjCType:atCursor:context:" class="NSData">[NSData -deserializeDataAt:ofObjCType:atCursor:context:]</ref>
+              </term>
+              <desc>to decode all other information.</desc>
+            </deflist>
+            <p>
+              <code>NSUnarchiver</code> normally uses other
+              <ref type="class" id="NSData">NSData</ref>
+                methods to read the archive header information
+                from within the method:
+                <ref type="method" id="-deserializeHeaderAt:version:classes:objects:pointers:">[-deserializeHeaderAt:version:classes:objects:pointers:]</ref> to read a fixed size header including archiver version (obtained by <code>[self systemVersion]</code>) and crossreference table sizes.
+              </p>
+              <p>
+                To subclass <code>NSUnarchiver</code>, you must
+                implement your own versions of the four
+                methods above, and override the
+                'directDataAccess' method to return
+                <code>NO</code> so that the archiver knows to
+                use your serialization methods rather than those in
+                the
+                <ref type="class" id="NSData">NSData</ref>
+                  object.
+                </p>
+        </desc>
+        <method type="NSString*" factory="yes" ovadd="1.0.0">
+          <sel>classNameDecodedForArchiveClassName:</sel>
+          <arg type="NSString*">nameInArchive</arg>
+          <desc>
+            Returns class name unarchivers will use to
+            instantiate encoded objects when they report
+            their class name as <var>nameInArchive</var>.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="1.0.0">
+          <sel>decodeClassName:</sel>
+          <arg type="NSString*">nameInArchive</arg>
+          <sel>asClassName:</sel>
+          <arg type="NSString*">trueName</arg>
+          <desc>
+            Sets class name unarchivers will use to instantiate
+            encoded objects when they report their class name
+            as <var>nameInArchive</var>. This can be used to support
+            backwards compatibility across class name
+            changes.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>unarchiveObjectWithData:</sel>
+          <arg type="NSData*">anObject</arg>
+          <desc>
+            Creates an NSUnarchiver to read from
+            <var>anObject</var> and returns result of sending
+            [NSCoder -decodeObject] to it.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>unarchiveObjectWithFile:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Creates an NSUnarchiver to read from
+            <var>path</var> and returns result of sending
+            [NSCoder -decodeObject] to it.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>classNameDecodedForArchiveClassName:</sel>
+          <arg type="NSString*">nameInArchive</arg>
+          <desc>
+            Returns class name this unarchiver uses to
+            instantiate encoded objects when they report
+            their class name as <var>nameInArchive</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>decodeClassName:</sel>
+          <arg type="NSString*">nameInArchive</arg>
+          <sel>asClassName:</sel>
+          <arg type="NSString*">trueName</arg>
+          <desc>
+            Set class name this unarchiver uses to instantiate
+            encoded objects when they report their class name
+            as <var>nameInArchive</var>. This can be used to provide
+            backward compatibility across class name changes.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initForReadingWithData:</sel>
+          <arg type="NSData*">anObject</arg>
+          <desc>
+            Set up to read objects from data buffer
+            <var>anObject</var>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isAtEnd</sel>
+          <desc>
+            Returns whether have currently read through all of
+            data buffer or file this unarchiver was initialized
+            with.
+          </desc>
+        </method>
+        <method type="NSZone*" ovadd="1.0.0">
+          <sel>objectZone</sel>
+          <desc>
+            Returns zone unarchived objects will be allocated
+            from.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>replaceObject:</sel>
+          <arg type="id">anObject</arg>
+          <sel>withObject:</sel>
+          <arg type="id">replacement</arg>
+          <desc>
+            Set unarchiver to replace <var>anObject</var> with
+            <var>replacement</var> whenever it is found decoded
+            from the archive.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setObjectZone:</sel>
+          <arg type="NSZone*">aZone</arg>
+          <desc>
+            Sets zone unarchived objects will be allocated from.
+          </desc>
+        </method>
+        <method type="unsigned int" ovadd="1.0.0">
+          <sel>systemVersion</sel>
+          <desc>
+            Returns system version archive was encoded by.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSArchiver(GNUstep)
+        category
+      </heading>
+      <category name="GNUstep" class="NSArchiver" ovadd="1.0.0" gvadd="0.0.0" gvrem="1.17.0">
+        <declared>Foundation/NSArchiver.h</declared>
+        <desc>
+          Category for compatibility with old GNUstep
+          encoding.
+        </desc>
+        <method type="BOOL" ovadd="1.0.0" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>directDataAccess</sel>
+          <desc>
+            Returns <code>YES</code>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>resetArchiver</sel>
+          <desc>
+            Allow reuse of archiver (clears class substitution
+            maps, etc.) but do not clear out current serialized
+            data.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>serializeHeaderAt:</sel>
+          <arg type="unsigned">positionInData</arg>
+          <sel>version:</sel>
+          <arg type="unsigned">systemVersion</arg>
+          <sel>classes:</sel>
+          <arg type="unsigned">classCount</arg>
+          <sel>objects:</sel>
+          <arg type="unsigned">objectCount</arg>
+          <sel>pointers:</sel>
+          <arg type="unsigned">pointerCount</arg>
+          <desc>
+            Writes out header for GNUstep archive format.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSUnarchiver(GNUstep)
+        category
+      </heading>
+      <category name="GNUstep" class="NSUnarchiver" ovadd="0.0.0" ovrem="0.0.0" gvadd="0.0.1">
+        <declared>Foundation/NSArchiver.h</declared>
+        <desc>
+          Category for compatibility with old GNUstep
+          encoding.
+        </desc>
+        <method type="unsigned" ovadd="0.0.0" ovrem="0.0.0" gvadd="0.0.1">
+          <sel>cursor</sel>
+          <desc>
+            Return current position within archive byte array.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0" gvadd="0.0.1">
+          <sel>deserializeHeaderAt:</sel>
+          <arg type="unsigned*">pos</arg>
+          <sel>version:</sel>
+          <arg type="unsigned*">v</arg>
+          <sel>classes:</sel>
+          <arg type="unsigned*">c</arg>
+          <sel>objects:</sel>
+          <arg type="unsigned*">o</arg>
+          <sel>pointers:</sel>
+          <arg type="unsigned*">p</arg>
+          <desc>
+            Reads in header for GNUstep archive format.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0" gvadd="0.0.1">
+          <sel>directDataAccess</sel>
+          <desc>
+            Returns <code>YES</code>.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0" gvadd="0.0.1">
+          <sel>resetUnarchiverWithData:</sel>
+          <arg type="NSData*">anObject</arg>
+          <sel>atIndex:</sel>
+          <arg type="unsigned">pos</arg>
+          <desc>
+            Prepare for reuse of the unarchiver to unpack a new
+            archive, specified in <var>anObject</var>,
+            starting at <var>pos</var>. Reads archive header.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

@@ -1,0 +1,1411 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>NSData class reference</title>
+  </head>
+  <body>
+    <font face="serif">
+    <a href="Base.html">Up</a>
+    <br />
+    <h1><a name="title$NSData">NSData class reference</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Andrew Kachites McCallum (<a href="mailto:mccallum@gnu.ai.mit.edu"><code>mccallum@gnu.ai.mit.edu</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Richard Frith-Macdonald (<a href="mailto:richard@brainstorm.co.uk"><code>richard@brainstorm.co.uk</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Copyright:</b> (C) 1995-2015 Free Software Foundation, Inc.</p>
+
+        <div>
+      <hr width="50%" align="left" />
+      <h3>Contents -</h3>
+      <ol>
+        <li>
+          <a href="#001000000000">Software documentation for the NSData class</a>
+        </li>
+        <li>
+          <a href="#002000000000">Software documentation for the NSMutableData class</a>
+        </li>
+        <li>
+          <a href="#003000000000">Software documentation for the
+        NSData(GNUstepExtensions) category</a>
+        </li>
+        <li>
+          <a href="#004000000000">Software documentation for the
+        NSMutableData(GNUstepExtensions)
+        category</a>
+        </li>
+      </ol>
+      <hr width="50%" align="left" />
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSData class
+      </a></h1>
+    <h2><a name="class$NSData">NSData</a> : <a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSData.h</dd>
+      </dl>
+    </blockquote>
+    <blockquote>
+      <dl>
+        <dt><b>Conforms to:</b></dt>
+        <dd><a rel="gsdoc" href="NSObject.html#protocol$(NSCoding)">NSCoding</a></dd>
+        <dd><a rel="gsdoc" href="NSObject.html#protocol$(NSCopying)">NSCopying</a></dd>
+        <dd><a rel="gsdoc" href="NSObject.html#protocol$(NSMutableCopying)">NSMutableCopying</a></dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            <strong>Class</strong> for storing a byte array.
+            Methods for initializing from memory a file, or the
+            network are provided, as well as the ability to
+            write to a file or the network. If desired, object
+            can take over management of a pre-allocated buffer
+            (with malloc or similar), free&apos;ing it when
+            deallocated.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            The data buffer at any given time has a
+            <em>capacity</em>, which is the size of its allocated
+            memory area, in bytes, and a <em>length</em>, which
+            is the length of data it is currently storing.
+              </p>
+    <p>
+      
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData(GNUstepExtensions)+dataWithSharedBytes$length$">+dataWithSharedBytes:length:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData(GNUstepExtensions)+dataWithShmID$length$">+dataWithShmID:length:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData(GNUstepExtensions)-deserializeTypeTag$andCrossRef$atCursor$">-deserializeTypeTag:andCrossRef:atCursor:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData+data">+data</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData+dataWithBytes$length$">+dataWithBytes:length:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData+dataWithBytesNoCopy$length$">+dataWithBytesNoCopy:length:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData+dataWithBytesNoCopy$length$freeWhenDone$">+dataWithBytesNoCopy:length:freeWhenDone:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData+dataWithContentsOfFile$">+dataWithContentsOfFile:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData+dataWithContentsOfMappedFile$">+dataWithContentsOfMappedFile:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData+dataWithContentsOfURL$">+dataWithContentsOfURL:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData+dataWithData$">+dataWithData:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-base64EncodedDataWithOptions$">-base64EncodedDataWithOptions:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-base64EncodedStringWithOptions$">-base64EncodedStringWithOptions:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-bytes">-bytes</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-description">-description</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-deserializeAlignedBytesLengthAtCursor$">-deserializeAlignedBytesLengthAtCursor:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-deserializeBytes$length$atCursor$">-deserializeBytes:length:atCursor:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-deserializeDataAt$ofObjCType$atCursor$context$">-deserializeDataAt:ofObjCType:atCursor:context:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-deserializeIntAtCursor$">-deserializeIntAtCursor:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-deserializeIntAtIndex$">-deserializeIntAtIndex:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-deserializeInts$count$atCursor$">-deserializeInts:count:atCursor:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-deserializeInts$count$atIndex$">-deserializeInts:count:atIndex:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-getBytes$">-getBytes:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-getBytes$length$">-getBytes:length:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-getBytes$range$">-getBytes:range:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-initWithBase64EncodedData$options$">-initWithBase64EncodedData:options:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-initWithBase64EncodedString$options$">-initWithBase64EncodedString:options:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-initWithBytes$length$">-initWithBytes:length:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-initWithBytesNoCopy$length$">-initWithBytesNoCopy:length:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-initWithBytesNoCopy$length$deallocator$">-initWithBytesNoCopy:length:deallocator:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-initWithBytesNoCopy$length$freeWhenDone$">-initWithBytesNoCopy:length:freeWhenDone:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-initWithContentsOfFile$">-initWithContentsOfFile:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-initWithContentsOfMappedFile$">-initWithContentsOfMappedFile:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-initWithContentsOfURL$">-initWithContentsOfURL:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-initWithData$">-initWithData:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-isEqualToData$">-isEqualToData:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-length">-length</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-rangeOfData$options$range$">-rangeOfData:options:range:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-subdataWithRange$">-subdataWithRange:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-writeToFile$atomically$">-writeToFile:atomically:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-writeToFile$options$error$">-writeToFile:options:error:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-writeToURL$atomically$">-writeToURL:atomically:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData-writeToURL$options$error$">-writeToURL:options:error:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSData+data">data&nbsp;</a></h3>
+    + (id) <b>data</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns an empty data object.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData+dataWithBytes$length$">dataWithBytes:&nbsp;length:&nbsp;</a></h3>
+    + (id) <b>dataWithBytes:</b> (const void*)bytes<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)length;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns an autoreleased data object containing data
+            copied from <var>bytes</var> and with the specified
+            <var>length</var>. Invokes
+            <a rel="gsdoc" href="#method$NSData-initWithBytes$length$">
+              -initWithBytes:length:
+            </a>
+
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData+dataWithBytesNoCopy$length$">dataWithBytesNoCopy:&nbsp;length:&nbsp;</a></h3>
+    + (id) <b>dataWithBytesNoCopy:</b> (void*)bytes<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)length;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns an autoreleased data object encapsulating
+            the data at <var>bytes</var> and with the specified
+            <var>length</var>. Invokes
+            <a rel="gsdoc" href="#method$NSData-initWithBytesNoCopy$length$freeWhenDone$">-initWithBytesNoCopy:length:freeWhenDone:</a>
+ with <code>YES</code>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData+dataWithBytesNoCopy$length$freeWhenDone$">dataWithBytesNoCopy:&nbsp;length:&nbsp;freeWhenDone:&nbsp;</a></h3>
+    + (id) <b>dataWithBytesNoCopy:</b> (void*)aBuffer<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)bufferSize<b> freeWhenDone:</b> (BOOL)shouldFree;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns an autoreleased data object encapsulating
+            the data at bytes and with the specified length.
+            Invokes
+            <a rel="gsdoc" href="#method$NSData-initWithBytesNoCopy$length$freeWhenDone$">-initWithBytesNoCopy:length:freeWhenDone:</a>
+
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData+dataWithContentsOfFile$">dataWithContentsOfFile:&nbsp;</a></h3>
+    + (id) <b>dataWithContentsOfFile:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns a data object encapsulating the contents of
+            the specified file. Invokes
+            <a rel="gsdoc" href="#method$NSData-initWithContentsOfFile$">
+              -initWithContentsOfFile:
+            </a>
+
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData+dataWithContentsOfMappedFile$">dataWithContentsOfMappedFile:&nbsp;</a></h3>
+    + (id) <b>dataWithContentsOfMappedFile:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns a data object encapsulating the contents of
+            the specified file mapped directly into memory. Invokes
+            <a rel="gsdoc" href="#method$NSData-initWithContentsOfMappedFile$">
+              -initWithContentsOfMappedFile:
+            </a>
+
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData+dataWithContentsOfURL$">dataWithContentsOfURL:&nbsp;</a></h3>
+    + (id) <b>dataWithContentsOfURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)url;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Retrieves the information at the specified
+            <var>url</var> and returns an NSData instance
+            encapsulating it.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData+dataWithData$">dataWithData:&nbsp;</a></h3>
+    + (id) <b>dataWithData:</b> (<a rel="gsdoc" href="#class$NSData">NSData</a>*)data;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns an autoreleased instance initialised by
+            copying the contents of <var>data</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-base64EncodedDataWithOptions$">base64EncodedDataWithOptions:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSData">NSData</a>*) <b>base64EncodedDataWithOptions:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSDataBase64EncodingOptions">NSDataBase64EncodingOptions</a>)options;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-base64EncodedStringWithOptions$">base64EncodedStringWithOptions:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>base64EncodedStringWithOptions:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSDataBase64EncodingOptions">NSDataBase64EncodingOptions</a>)options;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-bytes">bytes&nbsp;</a></h3>
+    - (const void*) <b>bytes</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+Subclasses <strong>must</strong> override this method.<br />
+    <div class="desc">
+      
+            Returns a pointer to the data encapsulated by the
+            receiver.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-description">description&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>description</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns a <strong>short</strong> description of
+            this object.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-deserializeAlignedBytesLengthAtCursor$">deserializeAlignedBytesLengthAtCursor:&nbsp;</a></h3>
+    - (unsigned int) <b>deserializeAlignedBytesLengthAtCursor:</b> (unsigned int*)cursor;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Copies data from buffer starting from
+            <var>cursor</var>. <strong>Deprecated</strong>. Use
+            <a rel="gsdoc" href="#method$NSData-getBytes$">
+              [-getBytes:]
+            </a>
+
+            and related methods instead.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-deserializeBytes$length$atCursor$">deserializeBytes:&nbsp;length:&nbsp;atCursor:&nbsp;</a></h3>
+    - (void) <b>deserializeBytes:</b> (void*)buffer<b> length:</b> (unsigned int)bytes<b> atCursor:</b> (unsigned int*)cursor;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Copies data from <var>buffer</var> starting from
+            <var>cursor</var>. <strong>Deprecated</strong>. Use
+            <a rel="gsdoc" href="#method$NSData-getBytes$">
+              [-getBytes:]
+            </a>
+
+            and related methods instead.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-deserializeDataAt$ofObjCType$atCursor$context$">deserializeDataAt:&nbsp;ofObjCType:&nbsp;atCursor:&nbsp;context:&nbsp;</a></h3>
+    - (void) <b>deserializeDataAt:</b> (void*)data<b> ofObjCType:</b> (const char*)type<b> atCursor:</b> (unsigned int*)cursor<b> context:</b> (id<<a rel="gsdoc" href="NSSerialization.html#protocol$(NSObjCTypeSerializationCallBack)">NSObjCTypeSerializationCallBack</a>>)callback;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-deserializeIntAtCursor$">deserializeIntAtCursor:&nbsp;</a></h3>
+    - (int) <b>deserializeIntAtCursor:</b> (unsigned int*)cursor;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Retrieve an <strong>int</strong> from this data,
+            which is assumed to be in network (big-endian) byte
+            order. Cursor refers to byte position.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-deserializeIntAtIndex$">deserializeIntAtIndex:&nbsp;</a></h3>
+    - (int) <b>deserializeIntAtIndex:</b> (unsigned int)index;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Retrieve an <strong>int</strong> from this data,
+            which is assumed to be in network (big-endian) byte
+            order. Index refers to byte position.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-deserializeInts$count$atCursor$">deserializeInts:&nbsp;count:&nbsp;atCursor:&nbsp;</a></h3>
+    - (void) <b>deserializeInts:</b> (int*)intBuffer<b> count:</b> (unsigned int)numInts<b> atCursor:</b> (unsigned int*)cursor;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Retrieve ints from <var>intBuffer</var>, which is
+            assumed to be in network (big-endian) byte order.
+            Count refers to number of ints, but index refers to
+            byte position.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-deserializeInts$count$atIndex$">deserializeInts:&nbsp;count:&nbsp;atIndex:&nbsp;</a></h3>
+    - (void) <b>deserializeInts:</b> (int*)intBuffer<b> count:</b> (unsigned int)numInts<b> atIndex:</b> (unsigned int)index;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Retrieve ints from <var>intBuffer</var>, which is
+            assumed to be in network (big-endian) byte order.
+            Count refers to number of ints, but <var>index</var>
+            refers to byte position.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-getBytes$">getBytes:&nbsp;</a></h3>
+    - (void) <b>getBytes:</b> (void*)buffer;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Copies the contents of the memory encapsulated by
+            the receiver into the specified <var>buffer</var>. The
+            <var>buffer</var> must be large enough to contain
+            <a rel="gsdoc" href="#method$NSData-length">
+              -length
+            </a>
+
+            bytes of data... if it isn&apos;t then a crash is likely
+            to occur. <br /> Invokes
+            <a rel="gsdoc" href="#method$NSData-getBytes$range$">
+              -getBytes:range:
+            </a>
+
+            with the range set to the whole of the receiver.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-getBytes$length$">getBytes:&nbsp;length:&nbsp;</a></h3>
+    - (void) <b>getBytes:</b> (void*)buffer<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)length;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Copies <var>length</var> bytes of data from the
+            memory encapsulated by the receiver into the
+            specified <var>buffer</var>. The
+            <var>buffer</var> must be large enough to contain
+            <var>length</var> bytes of data... if it isn&apos;t then a
+            crash is likely to occur. <br /> If <var>length</var>
+            is greater than the size of the receiver, only the
+            available bytes are copied.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-getBytes$range$">getBytes:&nbsp;range:&nbsp;</a></h3>
+    - (void) <b>getBytes:</b> (void*)buffer<b> range:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)aRange;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Copies data from the memory encapsulated by the
+            receiver (in the range specified by
+            <var>aRange</var>) into the specified
+            <var>buffer</var>. <br /> The <var>buffer</var> must
+            be large enough to contain the data... if it isn&apos;t then
+            a crash is likely to occur. <br /> If <var>aRange</var>
+            specifies a range which does not entirely lie
+            within the receiver, an exception is raised.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-initWithBase64EncodedData$options$">initWithBase64EncodedData:&nbsp;options:&nbsp;</a></h3>
+    - (id) <b>initWithBase64EncodedData:</b> (<a rel="gsdoc" href="#class$NSData">NSData</a>*)base64Data<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSDataBase64DecodingOptions">NSDataBase64DecodingOptions</a>)options;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-initWithBase64EncodedString$options$">initWithBase64EncodedString:&nbsp;options:&nbsp;</a></h3>
+    - (id) <b>initWithBase64EncodedString:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)base64String<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSDataBase64DecodingOptions">NSDataBase64DecodingOptions</a>)options;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-initWithBytes$length$">initWithBytes:&nbsp;length:&nbsp;</a></h3>
+    - (id) <b>initWithBytes:</b> (const void*)aBuffer<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)bufferSize;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Makes a copy of <var>bufferSize</var> bytes of data
+            at <var>aBuffer</var>, and passes it to
+            <a rel="gsdoc" href="#method$NSData-initWithBytesNoCopy$length$freeWhenDone$">-initWithBytesNoCopy:length:freeWhenDone:</a>
+ with a <code>YES</code> argument in order to initialise the receiver. Returns the result.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-initWithBytesNoCopy$length$">initWithBytesNoCopy:&nbsp;length:&nbsp;</a></h3>
+    - (id) <b>initWithBytesNoCopy:</b> (void*)aBuffer<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)bufferSize;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Invokes
+            <a rel="gsdoc" href="#method$NSData-initWithBytesNoCopy$length$freeWhenDone$">-initWithBytesNoCopy:length:freeWhenDone:</a>
+ with the last argument set to <code>YES</code>. Returns the resulting initialised data object (which may not be the receiver).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-initWithBytesNoCopy$length$deallocator$">initWithBytesNoCopy:&nbsp;length:&nbsp;deallocator:&nbsp;</a></h3>
+    - (instancetype) <b>initWithBytesNoCopy:</b> (void*)bytes<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)length<b> deallocator:</b> (GSDataDeallocatorBlock)deallocator;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+Subclasses <strong>must</strong> override this method.<br />
+    <div class="desc">
+      
+            Initialize the receiver to hold memory pointed
+            to by <var>bytes</var> without copying. When the
+            receiver is deallocated, the memory will be freed
+            using the user supplied deallocBlock. Note that
+            passing a block that (either directly or
+            indirectly) holds a strong reference the
+            receiver will cause a retain cycle.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-initWithBytesNoCopy$length$freeWhenDone$">initWithBytesNoCopy:&nbsp;length:&nbsp;freeWhenDone:&nbsp;</a></h3>
+    - (id) <b>initWithBytesNoCopy:</b> (void*)aBuffer<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)bufferSize<b> freeWhenDone:</b> (BOOL)shouldFree;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+This is a designated initialiser for the class.<br />
+Subclasses <strong>must</strong> override this method.<br />
+    <div class="desc">
+      
+            Initialises the receiver. <br /> The value of
+            <var>aBuffer</var> is a pointer to something to be
+            stored. <br /> The value of <var>bufferSize</var>
+            is the number of bytes to use. <br /> The value of
+            <var>shouldFree</var> specifies whether the receiver
+            should attempt to free the memory pointer to by
+            <var>aBuffer</var> when the receiver is deallocated
+            ... ie. it says whether the receiver <em>owns</em> the
+            memory. Supplying the wrong value here will lead to
+            memory leaks or crashes.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-initWithContentsOfFile$">initWithContentsOfFile:&nbsp;</a></h3>
+    - (id) <b>initWithContentsOfFile:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Initialises the receiver with the contents of
+            the specified file. <br /> Returns the resulting
+            object. <br /> Returns <code>nil</code> if the file
+            does not exist or can not be read for some reason.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-initWithContentsOfMappedFile$">initWithContentsOfMappedFile:&nbsp;</a></h3>
+    - (id) <b>initWithContentsOfMappedFile:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Initialize with data pointing to contents of
+            file at <var>path</var>. Bytes are only &quot;swapped in&quot;
+            as needed. File should not be moved or deleted for the
+            life of this object.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-initWithContentsOfURL$">initWithContentsOfURL:&nbsp;</a></h3>
+    - (id) <b>initWithContentsOfURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)url;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Initialize with data pointing to contents of
+            URL, which will be retrieved immediately in a blocking
+            manner.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-initWithData$">initWithData:&nbsp;</a></h3>
+    - (id) <b>initWithData:</b> (<a rel="gsdoc" href="#class$NSData">NSData</a>*)data;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Initializes by copying data&apos;s bytes into a new
+            buffer.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-isEqualToData$">isEqualToData:&nbsp;</a></h3>
+    - (BOOL) <b>isEqualToData:</b> (<a rel="gsdoc" href="#class$NSData">NSData</a>*)other;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns a boolean value indicating if the receiver
+            and <var>other</var> contain identical data (using a
+            byte by byte comparison). Assumes that the
+            <var>other</var> object is an NSData instance... may
+            raise an exception if it isn&apos;t.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-length">length&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>length</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+Subclasses <strong>must</strong> override this method.<br />
+    <div class="desc">
+      
+            Returns the number of bytes of data encapsulated by
+            the receiver.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-rangeOfData$options$range$">rangeOfData:&nbsp;options:&nbsp;range:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>) <b>rangeOfData:</b> (<a rel="gsdoc" href="#class$NSData">NSData</a>*)dataToFind<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSDataSearchOptions">NSDataSearchOptions</a>)mask<b> range:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)searchRange;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+    <div class="desc">
+      
+            Finds and returns the range of the first occurrence
+            of the given data, within the given range, subject to
+            given options.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-subdataWithRange$">subdataWithRange:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSData">NSData</a>*) <b>subdataWithRange:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)aRange;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns an NSData instance encapsulating the memory
+            from the receiver specified by the range
+            <var>aRange</var>. <br /> If <var>aRange</var>
+            specifies a range which does not entirely lie
+            within the receiver, an exception is raised.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-writeToFile$atomically$">writeToFile:&nbsp;atomically:&nbsp;</a></h3>
+    - (BOOL) <b>writeToFile:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path<b> atomically:</b> (BOOL)useAuxiliaryFile;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Writes a copy of the data encapsulated by the
+              receiver to a file at <var>path</var>. If the
+              <var>useAuxiliaryFile</var> flag is
+              <code>YES</code>, this writes to a temporary file
+              and then renames that to the file at <var>path</var>,
+              thus ensuring that <var>path</var> exists and does
+              not contain partially written data at any point.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              On success returns <code>YES</code>, on failure
+              returns <code>NO</code>.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-writeToFile$options$error$">writeToFile:&nbsp;options:&nbsp;error:&nbsp;</a></h3>
+    - (BOOL) <b>writeToFile:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)writeOptionsMask<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)errorPtr;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Writes a copy of the data encapsulated by the
+              receiver to a file at <var>path</var>. If the
+              NSDataWritingAtomic option is set,
+              this writes to a temporary file and then renames
+              that to the file at <var>path</var>, thus ensuring
+              that <var>path</var> exists and does not contain
+              partially written data at any point.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              On success returns <code>YES</code>, on failure
+              returns <code>NO</code>.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-writeToURL$atomically$">writeToURL:&nbsp;atomically:&nbsp;</a></h3>
+    - (BOOL) <b>writeToURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)anURL<b> atomically:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Writes a copy of the contents of the receiver to the
+            specified URL.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData-writeToURL$options$error$">writeToURL:&nbsp;options:&nbsp;error:&nbsp;</a></h3>
+    - (BOOL) <b>writeToURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)url<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)writeOptionsMask<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)errorPtr;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            Writes a copy of the contents of the receiver to the
+            specified URL.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="002000000000">
+        Software documentation for the NSMutableData class
+      </a></h1>
+    <h2><a name="class$NSMutableData">NSMutableData</a> : <a rel="gsdoc" href="#class$NSData">NSData</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSData.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          Mutable version of
+          <a rel="gsdoc" href="#class$NSData">NSData</a>
+
+            . Methods are provided for appending and replacing bytes
+            in the buffer, which will be grown as needed.
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData(GNUstepExtensions)-capacity">-capacity</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData(GNUstepExtensions)-serializeTypeTag$">-serializeTypeTag:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData(GNUstepExtensions)-serializeTypeTag$andCrossRef$">-serializeTypeTag:andCrossRef:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData(GNUstepExtensions)-setCapacity$">-setCapacity:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData(GNUstepExtensions)-shmID">-shmID</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData+dataWithCapacity$">+dataWithCapacity:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData+dataWithLength$">+dataWithLength:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData-appendBytes$length$">-appendBytes:length:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData-appendData$">-appendData:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData-increaseLengthBy$">-increaseLengthBy:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData-initWithCapacity$">-initWithCapacity:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData-initWithLength$">-initWithLength:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData-mutableBytes">-mutableBytes</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData-replaceBytesInRange$withBytes$">-replaceBytesInRange:withBytes:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData-replaceBytesInRange$withBytes$length$">-replaceBytesInRange:withBytes:length:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData-resetBytesInRange$">-resetBytesInRange:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData-serializeAlignedBytesLength$">-serializeAlignedBytesLength:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData-serializeDataAt$ofObjCType$context$">-serializeDataAt:ofObjCType:context:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData-serializeInt$">-serializeInt:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData-serializeInt$atIndex$">-serializeInt:atIndex:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData-serializeInts$count$">-serializeInts:count:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData-serializeInts$count$atIndex$">-serializeInts:count:atIndex:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData-setData$">-setData:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData-setLength$">-setLength:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSMutableData+dataWithCapacity$">dataWithCapacity:&nbsp;</a></h3>
+    + (id) <b>dataWithCapacity:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)numBytes;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            New instance with buffer of given <var>numBytes</var>
+            with length of valid data set to zero. Note that
+            capacity will be automatically increased as
+            necessary.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData+dataWithLength$">dataWithLength:&nbsp;</a></h3>
+    + (id) <b>dataWithLength:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)length;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            New instance with buffer of capacity and valid data
+            size equal to given <var>length</var> in bytes. The
+            buffer contents are set to zero. The
+            <var>length</var> of valid data is set to zero. Note
+            that buffer will be automatically increased as
+            necessary.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData-appendBytes$length$">appendBytes:&nbsp;length:&nbsp;</a></h3>
+    - (void) <b>appendBytes:</b> (const void*)aBuffer<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)bufferSize;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Appends <var>bufferSize</var> bytes from
+            <var>aBuffer</var> to data, increasing capacity if
+            necessary.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData-appendData$">appendData:&nbsp;</a></h3>
+    - (void) <b>appendData:</b> (<a rel="gsdoc" href="#class$NSData">NSData</a>*)other;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Copies and appends data from <var>other</var> to
+            data, increasing capacity if necessary.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData-increaseLengthBy$">increaseLengthBy:&nbsp;</a></h3>
+    - (void) <b>increaseLengthBy:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)extraLength;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Increases buffer length by given number of bytes,
+            filling the new space with zeros.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData-initWithCapacity$">initWithCapacity:&nbsp;</a></h3>
+    - (id) <b>initWithCapacity:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)capacity;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+This is a designated initialiser for the class.<br />
+    <div class="desc">
+      
+            Initialize with buffer capable of holding size
+            bytes. The length of valid data is initially set to
+            zero.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData-initWithLength$">initWithLength:&nbsp;</a></h3>
+    - (id) <b>initWithLength:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)length;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Initialize with buffer of capacity equal to
+            <var>length</var>, and with the <var>length</var> of
+            valid data set to <var>length</var>. Data is set to
+            zero.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData-mutableBytes">mutableBytes&nbsp;</a></h3>
+    - (void*) <b>mutableBytes</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Returns a pointer to the data storage of the
+              receiver. <br /> Modifications to the memory
+              pointed to by this pointer will change the
+              contents of the object. It is important that
+              your code should not try to modify the memory beyond
+              the number of bytes given by the
+              <code>
+                <a rel="gsdoc" href="#method$NSData-length">
+                  -length
+                </a>
+
+              </code>
+              method.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              NB. if the object is released, or any method that
+              changes its size or content is called, then the
+              pointer previously returned by this method may
+              cease to be valid.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              This is a &apos;primitive&apos; method... you need to
+              implement it if you write a subclass of
+              NSMutableData.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData-replaceBytesInRange$withBytes$">replaceBytesInRange:&nbsp;withBytes:&nbsp;</a></h3>
+    - (void) <b>replaceBytesInRange:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)aRange<b> withBytes:</b> (const void*)bytes;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Replaces the <var>bytes</var> of data in the
+            specified range with a copy of the new
+            <var>bytes</var> supplied. <br /> If the location of
+            the range specified lies beyond the end of the data (
+            <code>[self length] &lt; range.location</code>) then
+            a range exception is raised. <br /> Otherwise, if the
+            range specified extends beyond the end of the data,
+            then the size of the data is increased to accommodate
+            the new <var>bytes</var>. <br />
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData-replaceBytesInRange$withBytes$length$">replaceBytesInRange:&nbsp;withBytes:&nbsp;length:&nbsp;</a></h3>
+    - (void) <b>replaceBytesInRange:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)aRange<b> withBytes:</b> (const void*)bytes<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)length;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Replace the content of the receiver which lies in
+            <var>aRange</var> with the specified
+            <var>length</var> of data from the buffer pointed to
+            by <var>bytes</var>. <br /> The size of the receiver is
+            adjusted to allow for the change.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData-resetBytesInRange$">resetBytesInRange:&nbsp;</a></h3>
+    - (void) <b>resetBytesInRange:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)aRange;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Set bytes in <var>aRange</var> to 0.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData-serializeAlignedBytesLength$">serializeAlignedBytesLength:&nbsp;</a></h3>
+    - (void) <b>serializeAlignedBytesLength:</b> (unsigned int)length;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Does not act as the name suggests. Instead, serializes
+            <var>length</var> itself as an <strong>int</strong>
+            into buffer.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData-serializeDataAt$ofObjCType$context$">serializeDataAt:&nbsp;ofObjCType:&nbsp;context:&nbsp;</a></h3>
+    - (void) <b>serializeDataAt:</b> (const void*)data<b> ofObjCType:</b> (const char*)type<b> context:</b> (id<<a rel="gsdoc" href="NSSerialization.html#protocol$(NSObjCTypeSerializationCallBack)">NSObjCTypeSerializationCallBack</a>>)callback;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData-serializeInt$">serializeInt:&nbsp;</a></h3>
+    - (void) <b>serializeInt:</b> (int)value;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Serialize an <strong>int</strong> into this
+            object&apos;s data buffer, swapping it to network
+            (big-endian) byte order first.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData-serializeInt$atIndex$">serializeInt:&nbsp;atIndex:&nbsp;</a></h3>
+    - (void) <b>serializeInt:</b> (int)value<b> atIndex:</b> (unsigned int)index;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Serialize an <strong>int</strong> into this
+            object&apos;s data buffer at <var>index</var>
+            (replacing anything there currently), swapping
+            it to network (big-endian) byte order first.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData-serializeInts$count$">serializeInts:&nbsp;count:&nbsp;</a></h3>
+    - (void) <b>serializeInts:</b> (int*)intBuffer<b> count:</b> (unsigned int)numInts;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Serialize one or more ints into this object&apos;s
+            data buffer, swapping them to network (big-endian)
+            byte order first.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData-serializeInts$count$atIndex$">serializeInts:&nbsp;count:&nbsp;atIndex:&nbsp;</a></h3>
+    - (void) <b>serializeInts:</b> (int*)intBuffer<b> count:</b> (unsigned int)numInts<b> atIndex:</b> (unsigned int)index;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Serialize one or more ints into this object&apos;s
+            data buffer at <var>index</var> (replacing anything
+            there currently), swapping them to network
+            (big-endian) byte order first.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData-setData$">setData:&nbsp;</a></h3>
+    - (void) <b>setData:</b> (<a rel="gsdoc" href="#class$NSData">NSData</a>*)data;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Replaces contents of buffer with contents of
+            data&apos;s buffer, increasing or shrinking capacity to
+            match.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData-setLength$">setLength:&nbsp;</a></h3>
+    - (void) <b>setLength:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)size;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Sets the length of the NSMutableData object. If the
+              length is increased, the newly allocated data area
+              is filled with zero bytes.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              This is a &apos;primitive&apos; method... you need to
+              implement it if you write a subclass of
+              NSMutableData.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="003000000000">
+        Software documentation for the
+        NSData(GNUstepExtensions) category
+      </a></h1>
+    <h2><a rel="gsdoc" href="#class$NSData">NSData</a>(<a name="category$NSData(GNUstepExtensions)">GNUstepExtensions</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSData.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          Provides some shared-memory extensions to
+          <a rel="gsdoc" href="#class$NSData">NSData</a>
+
+            .
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData(GNUstepExtensions)+dataWithSharedBytes$length$">+dataWithSharedBytes:length:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData(GNUstepExtensions)+dataWithShmID$length$">+dataWithShmID:length:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSData(GNUstepExtensions)-deserializeTypeTag$andCrossRef$atCursor$">-deserializeTypeTag:andCrossRef:atCursor:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSData(GNUstepExtensions)+dataWithSharedBytes$length$">dataWithSharedBytes:&nbsp;length:&nbsp;</a></h3>
+    + (id) <b>dataWithSharedBytes:</b> (const void*)bytes<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)length;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            New instance with given <var>bytes</var> in shared
+            memory.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData(GNUstepExtensions)+dataWithShmID$length$">dataWithShmID:&nbsp;length:&nbsp;</a></h3>
+    + (id) <b>dataWithShmID:</b> (int)anID<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)length;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            New instance with given shared memory ID.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSData(GNUstepExtensions)-deserializeTypeTag$andCrossRef$atCursor$">deserializeTypeTag:&nbsp;andCrossRef:&nbsp;atCursor:&nbsp;</a></h3>
+    - (void) <b>deserializeTypeTag:</b> (unsigned char*)tag<b> andCrossRef:</b> (unsigned int*)ref<b> atCursor:</b> (unsigned int*)cursor;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="004000000000">
+        Software documentation for the
+        NSMutableData(GNUstepExtensions)
+        category
+      </a></h1>
+    <h2><a rel="gsdoc" href="#class$NSMutableData">NSMutableData</a>(<a name="category$NSMutableData(GNUstepExtensions)">GNUstepExtensions</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSData.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          Provides some additional methods to
+          <a rel="gsdoc" href="#class$NSData">NSData</a>
+
+            .
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData(GNUstepExtensions)-capacity">-capacity</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData(GNUstepExtensions)-serializeTypeTag$">-serializeTypeTag:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData(GNUstepExtensions)-serializeTypeTag$andCrossRef$">-serializeTypeTag:andCrossRef:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData(GNUstepExtensions)-setCapacity$">-setCapacity:</a></li>
+      <li><a rel="gsdoc" href="NSData.html#method$NSMutableData(GNUstepExtensions)-shmID">-shmID</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSMutableData(GNUstepExtensions)-capacity">capacity&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>capacity</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns current capacity of data buffer.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData(GNUstepExtensions)-serializeTypeTag$">serializeTypeTag:&nbsp;</a></h3>
+    - (void) <b>serializeTypeTag:</b> (unsigned char)tag;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData(GNUstepExtensions)-serializeTypeTag$andCrossRef$">serializeTypeTag:&nbsp;andCrossRef:&nbsp;</a></h3>
+    - (void) <b>serializeTypeTag:</b> (unsigned char)tag<b> andCrossRef:</b> (unsigned int)xref;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData(GNUstepExtensions)-setCapacity$">setCapacity:&nbsp;</a></h3>
+    - (id) <b>setCapacity:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)newCapacity;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Sets current capacity of data buffer. Unlike
+            <a rel="gsdoc" href="#method$NSMutableData-setLength$">
+              -setLength:
+            </a>
+
+            , this will shrink the buffer if requested.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableData(GNUstepExtensions)-shmID">shmID&nbsp;</a></h3>
+    - (int) <b>shmID</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return shared memory ID, if using one, else -1.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+    <br />
+    <a href="Base.html">Up</a>
+    </font>
+</body>
+</html>

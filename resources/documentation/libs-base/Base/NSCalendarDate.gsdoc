@@ -1,0 +1,716 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSCalendarDate" up="Base">
+  <head>
+    <title>NSCalendarDate class reference</title>
+    <author name="Scott Christley">
+      <email address="scottc@net-community.com">
+        scottc@net-community.com
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <copy>
+      1996, 1998, 1999, 2000, 2002 Free Software Foundation, Inc.
+    </copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSCalendarDate class
+      </heading>
+      <class name="NSCalendarDate" super="NSDate" ovadd="1.0.0">
+        <declared>Foundation/NSCalendarDate.h</declared>
+        <desc>
+          An
+          <ref type="class" id="NSDate">NSDate</ref>
+            subclass which understands about timezones and
+            provides methods for dealing with date and time
+            information by calendar and with hours minutes
+            and seconds.
+        </desc>
+        <ivariable type="NSString*" name="_calendar_format" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSTimeInterval" name="_seconds_since_ref" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSTimeZone*" name="_time_zone" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>calendarDate</sel>
+          <desc>
+            Return an NSCalendarDate for the current date and
+            time using the default timezone.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>dateWithString:</sel>
+          <arg type="NSString*">description</arg>
+          <sel>calendarFormat:</sel>
+          <arg type="NSString*">format</arg>
+          <desc>
+            Return an NSCalendarDate generated from the supplied
+            <var>description</var> using the <var>format</var>
+            specified for parsing that string. <br /> Calls
+            <ref type="method" id="-initWithString:calendarFormat:">
+              -initWithString:calendarFormat:
+            </ref>
+            to create the date.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>dateWithString:</sel>
+          <arg type="NSString*">description</arg>
+          <sel>calendarFormat:</sel>
+          <arg type="NSString*">format</arg>
+          <sel>locale:</sel>
+          <arg type="NSDictionary*">dictionary</arg>
+          <desc>
+            Return an NSCalendarDate generated from the supplied
+            <var>description</var> using the <var>format</var>
+            specified for parsing that string and
+            interpreting it according to the
+            <var>dictionary</var> specified. <br /> Calls
+            <ref type="method" id="-initWithString:calendarFormat:locale:">-initWithString:calendarFormat:locale:</ref> to create the date.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>dateWithYear:</sel>
+          <arg type="NSInteger">year</arg>
+          <sel>month:</sel>
+          <arg type="NSUInteger">month</arg>
+          <sel>day:</sel>
+          <arg type="NSUInteger">day</arg>
+          <sel>hour:</sel>
+          <arg type="NSUInteger">hour</arg>
+          <sel>minute:</sel>
+          <arg type="NSUInteger">minute</arg>
+          <sel>second:</sel>
+          <arg type="NSUInteger">second</arg>
+          <sel>timeZone:</sel>
+          <arg type="NSTimeZone*">aTimeZone</arg>
+          <desc>
+            Creates and returns an NSCalendarDate from the
+            specified values by calling
+            <ref type="method" id="-initWithYear:month:day:hour:minute:second:timeZone:">-initWithYear:month:day:hour:minute:second:timeZone:</ref>
+          </desc>
+        </method>
+        <method type="NSCalendarDate*" ovadd="1.0.0">
+          <sel>addYear:</sel>
+          <arg type="NSInteger">year</arg>
+          <sel>month:</sel>
+          <arg type="NSInteger">month</arg>
+          <sel>day:</sel>
+          <arg type="NSInteger">day</arg>
+          <sel>hour:</sel>
+          <arg type="NSInteger">hour</arg>
+          <sel>minute:</sel>
+          <arg type="NSInteger">minute</arg>
+          <sel>second:</sel>
+          <arg type="NSInteger">second</arg>
+          <desc>
+            <p>
+              Returns a calendar date formed by adding the
+              specified offsets to the receiver. The offsets
+              are added in order, years, then months, then days,
+              then hours then minutes then seconds, so if you add
+              1 <var>month</var> and forty days to 20th September,
+              the result will be 9th November.
+            </p>
+            <p>
+              This method understands leap years and tries to
+              adjust for daylight savings time changes so that
+              it preserves expected clock time.
+            </p>
+            <p>
+              The returned date has the calendar format and
+              timezone of the receiver.
+            </p>
+            This method exists solely for conformance to the
+            OpenStep spec. Its use is deprecated... it simply
+            calls
+            <ref type="method" id="-dateByAddingYears:months:days:hours:minutes:seconds:">-dateByAddingYears:months:days:hours:minutes:seconds:</ref>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>calendarFormat</sel>
+          <desc>
+            Returns the format string associated with the
+            receiver. <br /> See
+            <ref type="method" id="-descriptionWithCalendarFormat:locale:">-descriptionWithCalendarFormat:locale:</ref> for details.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>dayOfCommonEra</sel>
+          <desc>
+            Return the day number (ie number of days since the
+            start of) in the 'common' era of the receiving date.
+            The era starts at 1 A.D.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>dayOfMonth</sel>
+          <desc>
+            Return the month (1 to 31) of the receiving date.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>dayOfWeek</sel>
+          <desc>
+            Return the day of the week (0 to 6) of the receiving
+            date.
+            <list>
+              <item>0 is sunday</item> <item>1 is monday</item>
+              <item>2 is tuesday</item>
+              <item>3 is wednesday</item>
+              <item>4 is thursday</item>
+              <item>5 is friday</item>
+              <item>6 is saturday</item>
+            </list>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>dayOfYear</sel>
+          <desc>
+            Return the day of the year (1 to 366) of the
+            receiving date.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>description</sel>
+          <desc>
+            Calls
+            <ref type="method" id="-descriptionWithCalendarFormat:locale:">-descriptionWithCalendarFormat:locale:</ref> passing the receiver's calendar format and a <code>nil</code> locale.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>descriptionWithCalendarFormat:</sel>
+          <arg type="NSString*">format</arg>
+          <desc>
+            Returns a string representation of the receiver
+            using the specified <var>format</var> string. <br />
+            Calls
+            <ref type="method" id="-descriptionWithCalendarFormat:locale:">-descriptionWithCalendarFormat:locale:</ref> with a <code>nil</code> locale.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>descriptionWithCalendarFormat:</sel>
+          <arg type="NSString*">format</arg>
+          <sel>locale:</sel>
+          <arg type="NSDictionary*">locale</arg>
+          <desc>
+            Returns a string representation of the receiver
+            using the specified <var>format</var> string and
+            <var>locale</var> dictionary. <br /> Format
+            specifiers are -
+            <list>
+              <item>
+                %a abbreviated weekday name according to
+                <var>locale</var>
+              </item>
+              <item>
+                %A full weekday name according to <var>locale</var>
+              </item>
+              <item>
+                %b abbreviated month name according to
+                <var>locale</var>
+              </item>
+              <item>%c this is the same as %X %x</item>
+              <item>
+                %B full month name according to <var>locale</var>
+              </item>
+              <item>
+                %d day of month as two digit decimal number (leading
+                zero)
+              </item>
+              <item>
+                %e day of month as decimal number (without leading
+                zero)
+              </item>
+              <item>%F milliseconds (000 to 999)</item>
+              <item>
+                %H hour as a decimal number using 24-hour clock
+              </item>
+              <item>
+                %I hour as a decimal number using 12-hour clock
+              </item>
+              <item>%j day of year as a decimal number</item>
+              <item>
+                %k same as %H with leading space instead of zero
+              </item>
+              <item>%m month as decimal number</item>
+              <item>%M minute as decimal number</item>
+              <item>%p 'am' or 'pm'</item>
+              <item>%S second as decimal number</item>
+              <item>
+                %U week of the current year as decimal number
+                (Sunday first day)
+              </item>
+              <item>
+                %W week of the current year as decimal number
+                (Monday first day)
+              </item>
+              <item>
+                %w day of the week as decimal number (Sunday = 0)
+              </item>
+              <item>
+                %x date formatted according to the <var>locale</var>
+              </item>
+              <item>
+                %X time formatted according to the <var>locale</var>
+              </item>
+              <item>
+                %y year as a decimal number without century (minimum
+                0)
+              </item>
+              <item>
+                %Y year as a decimal number with century, minimum 0,
+                maximum 9999
+              </item>
+              <item>%z time zone offset (HHMM)</item>
+              <item>%Z time zone</item>
+              <item>%% literal % character</item>
+            </list>
+            <p>
+              NB. If GSMacOSCompatible is set to <code>YES</code>,
+              the %k specifier is not recognized.
+            </p>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>descriptionWithLocale:</sel>
+          <arg type="id">locale</arg>
+          <desc>
+            Returns a description of the receiver using its
+            normal format but with the specified
+            <var>locale</var> dictionary. <br /> Calls
+            <ref type="method" id="-descriptionWithCalendarFormat:locale:">-descriptionWithCalendarFormat:locale:</ref> to do this.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>hourOfDay</sel>
+          <desc>
+            Return the hour of the day (0 to 23) of the
+            receiving date.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithString:</sel>
+          <arg type="NSString*">description</arg>
+          <desc>
+            Initializes an NSCalendarDate using the
+            specified <var>description</var> and the default
+            calendar format and locale. <br /> Calls
+            <ref type="method" id="-initWithString:calendarFormat:locale:">-initWithString:calendarFormat:locale:</ref>
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithString:</sel>
+          <arg type="NSString*">description</arg>
+          <sel>calendarFormat:</sel>
+          <arg type="NSString*">format</arg>
+          <desc>
+            Initializes an NSCalendarDate using the
+            specified <var>description</var> and
+            <var>format</var> string interpreted in the default
+            locale. <br /> Calls
+            <ref type="method" id="-initWithString:calendarFormat:locale:">-initWithString:calendarFormat:locale:</ref>
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithString:</sel>
+          <arg type="NSString*">description</arg>
+          <sel>calendarFormat:</sel>
+          <arg type="NSString*">fmt</arg>
+          <sel>locale:</sel>
+          <arg type="NSDictionary*">locale</arg>
+          <desc>
+            Initializes an NSCalendarDate using the
+            specified <var>description</var> and format
+            string interpreted in the given <var>locale</var>.
+            <br /> If <var>description</var> does not match
+            <var>fmt</var> exactly, this method returns
+            <code>nil</code>. <br /> Excess characters in the
+            <var>description</var> (after the format is matched)
+            are ignored. <br /> Format specifiers are -
+            <list>
+              <item>%% literal % character</item>
+              <item>
+                %a abbreviated weekday name according to
+                <var>locale</var>
+              </item>
+              <item>
+                %A full weekday name according to <var>locale</var>
+              </item>
+              <item>
+                %b abbreviated month name according to
+                <var>locale</var>
+              </item>
+              <item>
+                %B full month name according to <var>locale</var>
+              </item>
+              <item>%c same as '%X %x'</item>
+              <item>
+                %d day of month as a two digit decimal number
+              </item>
+              <item>%e same as %d without leading zero</item>
+              <item>%F milliseconds as a decimal number</item>
+              <item>
+                %H hour as a decimal number using 24-hour clock
+              </item>
+              <item>
+                %I hour as a decimal number using 12-hour clock
+              </item>
+              <item>%j day of year as a decimal number</item>
+              <item>
+                %k same as %H without leading zero (leading space is
+                used instead)
+              </item>
+              <item>%m month as decimal number</item>
+              <item>%M minute as decimal number</item>
+              <item>%p 'am' or 'pm'</item>
+              <item>%S second as decimal number</item>
+              <item>
+                %U week of the current year as decimal number
+                (Sunday first day)
+              </item>
+              <item>
+                %W week of the current year as decimal number
+                (Monday first day)
+              </item>
+              <item>
+                %w day of the week as decimal number (Sunday = 0)
+              </item>
+              <item>
+                %x date with date representation for
+                <var>locale</var>
+              </item>
+              <item>
+                %X time with time representation for
+                <var>locale</var>
+              </item>
+              <item>
+                %y year as a decimal number without century
+              </item>
+              <item>
+                %Y year as a decimal number with century
+              </item>
+              <item>
+                %z time zone offset in hours and minutes from GMT
+                (HHMM)
+              </item>
+              <item>%Z time zone abbreviation</item>
+            </list>
+            If no year is specified in the format, the current year
+            is assumed. <br /> If no month is specified in the
+            format, January is assumed. <br /> If no day is
+            specified in the format, 1 is assumed. <br /> If
+            no hour is specified in the format, 0 is assumed. <br />
+            If no minute is specified in the format, 0 is assumed.
+            <br /> If no second is specified in the format, 0 is
+            assumed. <br /> If no millisecond is specified in
+            the format, 0 is assumed. <br /> If no timezone is
+            specified in the format, the local timezone is
+            assumed.
+            <p>
+              If GSMacOSXCompatible is <code>YES</code>, the %k
+              specifier is not recognized.
+            </p>
+            <p>
+              NB. Where the format calls for a numeric value and
+              the string contains fewer digits than expected, the
+              value will be accepted and left padded with zeros
+              to the expected size. <br /> For instance, the '%z'
+              format implies four digits (two for the hour
+              offset and two for the digit offset) and if the
+              string contains '01' it will be treated as '0001'
+              ie. a timezone offset of 1 minute. <br /> Similarly,
+              the '%F' format implies three digits, so a value of
+              '1' would be treated as '001' or 1 millisecond, not a
+              tenth of a second (as you might assume as '%F' is
+              usually used after a decimal separator).
+            </p>
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithYear:</sel>
+          <arg type="NSInteger">year</arg>
+          <sel>month:</sel>
+          <arg type="NSUInteger">month</arg>
+          <sel>day:</sel>
+          <arg type="NSUInteger">day</arg>
+          <sel>hour:</sel>
+          <arg type="NSUInteger">hour</arg>
+          <sel>minute:</sel>
+          <arg type="NSUInteger">minute</arg>
+          <sel>second:</sel>
+          <arg type="NSUInteger">second</arg>
+          <sel>timeZone:</sel>
+          <arg type="NSTimeZone*">aTimeZone</arg>
+          <desc>
+            Returns an NSCalendarDate instance with the given
+            <var>year</var>, <var>month</var>, <var>day</var>,
+            <var>hour</var>, <var>minute</var>, and
+            <var>second</var>, using <var>aTimeZone</var>. <br />
+            The <var>year</var> includes the century (ie you can't
+            just say '02' when you mean '2002'). <br /> The
+            <var>month</var> is in the range 1 to 12, <br /> The
+            <var>day</var> is in the range 1 to 31, <br /> The
+            <var>hour</var> is in the range 0 to 23, <br /> The
+            <var>minute</var> is in the range 0 to 59, <br /> The
+            <var>second</var> is in the range 0 to 59. <br /> If
+            <var>aTimeZone</var> is <code>nil</code>, the
+            <ref type="method" id="+localTimeZone" class="NSTimeZone">
+              [NSTimeZone +localTimeZone]
+            </ref>
+            value is used.
+            <p>
+              GNUstep checks the validity of the method
+              arguments, and unless the base library was
+              built with 'warn=no' it generates a warning for bad
+              values. It tries to use those bad values to
+              generate a date anyway though, rather than
+              failing (this also appears to be the behavior of
+              MacOS-X).
+            </p>
+            The algorithm GNUstep uses to create the date is this
+            ... <br />
+            <list>
+              <item>
+                Convert the broken out date values into a time
+                interval since the reference date, as if those
+                values represent a GMT date/time.
+              </item>
+              <item>
+                Ask the time zone for the offset from GMT at the
+                resulting date, and apply that offset to the
+                time interval... so get the value for the
+                specified timezone.
+              </item>
+              <item>
+                Ask the time zone for the offset from GMT at the
+                new date... in case the new date is in a different
+                daylight savings time band from the original
+                date. If this offset differs from the previous
+                one, apply the difference so that the result is
+                corrected for daylight savings. This is the
+                final result used.
+              </item>
+              <item>
+                After establishing the time interval we will use
+                and completing initialisation, we ask the time zone
+                for the offset from GMT again. If it is not the
+                same as the last time, then the time specified by
+                the broken out date does not really exist... since
+                it's in the period lost by the transition to
+                daylight savings. The resulting date is
+                therefore not the date that was actually
+                asked for, but is the best approximation we can
+                do. If the base library was not built with
+                'warn=no' then a warning message is logged
+                for this condition.
+              </item>
+            </list>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>minuteOfHour</sel>
+          <desc>
+            Return the minute of the hour (0 to 59) of the
+            receiving date.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>monthOfYear</sel>
+          <desc>
+            Return the month of the year (1 to 12) of the
+            receiving date.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>secondOfMinute</sel>
+          <desc>
+            Return the second of the minute (0 to 59) of the
+            receiving date.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setCalendarFormat:</sel>
+          <arg type="NSString*">format</arg>
+          <desc>
+            Sets the <var>format</var> string associated with the
+            receiver. <br /> Providing a <code>nil</code>
+            argument sets the default calendar
+            <var>format</var>. <br /> See
+            <ref type="method" id="-descriptionWithCalendarFormat:locale:">-descriptionWithCalendarFormat:locale:</ref> for details.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setTimeZone:</sel>
+          <arg type="NSTimeZone*">aTimeZone</arg>
+          <desc>
+            Sets the time zone associated with the receiver.
+            <br /> Providing a <code>nil</code> argument sets
+            the local time zone.
+          </desc>
+        </method>
+        <method type="NSTimeZone*" ovadd="10.0.0">
+          <sel>timeZone</sel>
+          <desc>
+            Returns the time zone associated with the receiver.
+          </desc>
+        </method>
+        <method type="NSTimeZoneDetail*" ovadd="4.0.0" ovrem="10.0.0">
+          <sel>timeZoneDetail</sel>
+          <desc>
+            Returns the time zone detail associated with the
+            receiver.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>yearOfCommonEra</sel>
+          <desc>
+            Return the year of the 'common' era of the receiving
+            date. The era starts at 1 A.D.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSCalendarDate(GregorianDate)
+        category
+      </heading>
+      <category name="GregorianDate" class="NSCalendarDate" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>Foundation/NSCalendarDate.h</declared>
+        <desc>
+          Routines for manipulating Gregorian dates.
+        </desc>
+        <method type="NSInteger" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>absoluteGregorianDay:</sel>
+          <arg type="NSInteger">day</arg>
+          <sel>month:</sel>
+          <arg type="NSInteger">month</arg>
+          <sel>year:</sel>
+          <arg type="NSInteger">year</arg>
+          <desc>
+            Returns the number of days since the start of the
+            era for the specified <var>day</var>, <var>month</var>,
+            and <var>year</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>gregorianDateFromAbsolute:</sel>
+          <arg type="NSInteger">d</arg>
+          <sel>day:</sel>
+          <arg type="NSInteger*">day</arg>
+          <sel>month:</sel>
+          <arg type="NSInteger*">month</arg>
+          <sel>year:</sel>
+          <arg type="NSInteger*">year</arg>
+          <desc>
+            Given a <var>day</var> number since the start of the
+            era, returns the date as a <var>day</var>,
+            <var>month</var>, and <var>year</var>.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>lastDayOfGregorianMonth:</sel>
+          <arg type="NSInteger">month</arg>
+          <sel>year:</sel>
+          <arg type="NSInteger">year</arg>
+          <desc>
+            Returns the number of the last day of the
+            <var>month</var> in the specified <var>year</var>.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSCalendarDate(OPENSTEP) category
+      </heading>
+      <category name="OPENSTEP" class="NSCalendarDate" ovadd="4.0.0" ovrem="10.0.0">
+        <declared>Foundation/NSCalendarDate.h</declared>
+        <desc>
+          Methods present in OpenStep but later removed from
+          MacOS-X.
+        </desc>
+        <method type="NSCalendarDate*" ovadd="4.0.0" ovrem="10.0.0">
+          <sel>dateByAddingYears:</sel>
+          <arg type="NSInteger">years</arg>
+          <sel>months:</sel>
+          <arg type="NSInteger">months</arg>
+          <sel>days:</sel>
+          <arg type="NSInteger">days</arg>
+          <sel>hours:</sel>
+          <arg type="NSInteger">hours</arg>
+          <sel>minutes:</sel>
+          <arg type="NSInteger">minutes</arg>
+          <sel>seconds:</sel>
+          <arg type="NSInteger">seconds</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="4.0.0" ovrem="10.0.0">
+          <sel>years:</sel>
+          <arg type="NSInteger*">years</arg>
+          <sel>months:</sel>
+          <arg type="NSInteger*">months</arg>
+          <sel>days:</sel>
+          <arg type="NSInteger*">days</arg>
+          <sel>hours:</sel>
+          <arg type="NSInteger*">hours</arg>
+          <sel>minutes:</sel>
+          <arg type="NSInteger*">minutes</arg>
+          <sel>seconds:</sel>
+          <arg type="NSInteger*">seconds</arg>
+          <sel>sinceDate:</sel>
+          <arg type="NSDate*">date</arg>
+          <desc>
+            Returns the number of <var>years</var>,
+            <var>months</var>, <var>days</var>, <var>hours</var>,
+            <var>minutes</var>, and <var>seconds</var> between
+            the receiver and the given <var>date</var>. <br /> If
+            <var>date</var> is in the future of the receiver, the
+            returned values will be negative (or zero),
+            otherwise they are all positive. <br /> If any of
+            the pointers to return value in is null, the
+            corresponding value will not be returned, and
+            other return values will be adjusted accordingly. eg.
+            If a difference of 1 hour was to be returned but
+            <var>hours</var> is null, then the value returned in
+            <var>minutes</var> will be increased by 60.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

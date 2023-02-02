@@ -1,0 +1,2509 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="GSXML" up="BaseAdditions">
+  <head>
+    <title>The XML and HTML parsing system</title>
+    <author name="Michael Pakhantsov">
+      <email address="mishel@berest.dp.ua">
+        mishel@berest.dp.ua
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <copy>2000-2005 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>The XML and HTML parsing system</heading>
+      <p>
+        The GNUstep XML parser is a collection Objective-C classes
+        wrapping the C XML parsing library (libxml).
+      </p>
+      <p>
+        The underlying C library handles high performance parsing,
+        while the ObjectiveC classes provide ease of
+        use/integration.
+      </p>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSHTMLParser class
+      </heading>
+      <class name="GSHTMLParser" super="GSXMLParser" ovadd="0.0.0">
+        <declared>GNUstepBase/GSXML.h</declared>
+        <desc>
+          The GSHTMLParser class is a simple subclass of
+          GSXMLParser which should parse reasonably well
+          formed HTML documents. If you wish to parse XHTML
+          documents, you should use GSXMLParser... the
+          GSHTMLParser class is for older 'legacy'
+          documents.
+        </desc>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSHTMLSAXHandler class
+      </heading>
+      <class name="GSHTMLSAXHandler" super="GSSAXHandler" ovadd="0.0.0">
+        <declared>GNUstepBase/GSXML.h</declared>
+        <desc>
+          You may create a subclass of this class to handle
+          incremental parsing of html documents... this is
+          provided for handling legacy documents, as modern
+          html documents should use xhtml, and for those you
+          should simply subclass
+          <ref type="class" id="GSSAXHandler">GSSAXHandler</ref>
+        </desc>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSSAXHandler class
+      </heading>
+      <class name="GSSAXHandler" super="NSObject" ovadd="0.0.0">
+        <declared>GNUstepBase/GSXML.h</declared>
+        <desc>
+          <p>
+            XML SAX Handler.
+          </p>
+          <p>
+            GSSAXHandler is a callback-based interface to
+            the
+            <ref type="class" id="GSXMLParser">GSXMLParser</ref>
+              which operates in a similar (though not identical)
+              manner to SAX.
+            </p>
+            <p>
+              Each GSSAXHandler object is associated with a
+              GSXMLParser object. As parsing progresses,
+              the methods of the GSSAXHandler are invoked by the
+              parser, so the handler is able to deal with the
+              elements and entities being parsed.
+            </p>
+            <p>
+              The callback methods in the GSSAXHandler class do
+              nothing - it is intended that you subclass
+              GSSAXHandler and override them.
+            </p>
+            <p>
+              If you create a GSXMLParser passing <code>nil</code>
+              as the GSSAXHandler, the parser will parse data to
+              create a
+              <ref type="class" id="GSXMLDocument">GSXMLDocument</ref>
+                instance which you can then examine as a whole
+                ... this is generally the preferred mechanism for
+                parsing as it permits the parser to validate
+                the parsed document againts a DTD, and your
+                software can then examine the document secure
+                in the knowledge that it contains the expected
+                structure. Use of a GSSAXHandler is
+                preferred for very large documents with
+                simple structure... in which case incremental
+                parsing is more efficient.
+              </p>
+        </desc>
+        <ivariable type="BOOL" name="isHtmlHandler" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="void*" name="lib" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="GSXMLParser*" name="parser" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <method type="GSSAXHandler*" factory="yes" ovadd="0.0.0">
+          <sel>handler</sel>
+          <desc>
+            Create a new SAX handler.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>attribute:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>value:</sel>
+          <arg type="NSString*">value</arg>
+          <desc>
+            <br /> Handle an attribute that has been read by the
+            parser.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>attributeDecl:</sel>
+          <arg type="NSString*">nameElement</arg>
+          <sel>name:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>type:</sel>
+          <arg type="NSInteger">type</arg>
+          <sel>typeDefValue:</sel>
+          <arg type="NSInteger">defType</arg>
+          <sel>defaultValue:</sel>
+          <arg type="NSString*">value</arg>
+          <desc>
+            <br /> An attribute definition has been parsed.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>cdataBlock:</sel>
+          <arg type="NSData*">value</arg>
+          <desc>
+            <br /> Called when a cdata block has been parsed.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>characters:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            <br /> Receiving some chars from the parser.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>comment:</sel>
+          <arg type="NSString*">value</arg>
+          <desc>
+            <br /> A comment has been parsed.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>elementDecl:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>type:</sel>
+          <arg type="NSInteger">type</arg>
+          <desc>
+            <br /> An element definition has been parsed.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>endDocument</sel>
+          <desc>
+            <br /> Called when the document end has been
+            detected.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>endElement:</sel>
+          <arg type="NSString*">elementName</arg>
+          <desc>
+            <br /> Called when a closing tag has been processed.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>endElement:</sel>
+          <arg type="NSString*">elementName</arg>
+          <sel>prefix:</sel>
+          <arg type="NSString*">prefix</arg>
+          <sel>href:</sel>
+          <arg type="NSString*">href</arg>
+          <desc>
+            <br /> Called when a closing tag has been processed.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>entityDecl:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>type:</sel>
+          <arg type="NSInteger">type</arg>
+          <sel>public:</sel>
+          <arg type="NSString*">publicId</arg>
+          <sel>system:</sel>
+          <arg type="NSString*">systemId</arg>
+          <sel>content:</sel>
+          <arg type="NSString*">content</arg>
+          <desc>
+            <br /> An entity definition has been parsed.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>error:</sel>
+          <arg type="NSString*">e</arg>
+          <desc>
+            Called when an error message needs to be output.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>error:</sel>
+          <arg type="NSString*">e</arg>
+          <sel>colNumber:</sel>
+          <arg type="NSInteger">colNumber</arg>
+          <sel>lineNumber:</sel>
+          <arg type="NSInteger">lineNumber</arg>
+          <desc>
+            Called when an error message needs to be output.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>externalSubset:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>externalID:</sel>
+          <arg type="NSString*">externalID</arg>
+          <sel>systemID:</sel>
+          <arg type="NSString*">systemID</arg>
+          <desc>
+            Called to find out whether there is an external
+            subset.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>fatalError:</sel>
+          <arg type="NSString*">e</arg>
+          <desc>
+            Called when a fatal error message needs to be
+            output.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>fatalError:</sel>
+          <arg type="NSString*">e</arg>
+          <sel>colNumber:</sel>
+          <arg type="NSInteger">colNumber</arg>
+          <sel>lineNumber:</sel>
+          <arg type="NSInteger">lineNumber</arg>
+          <desc>
+            Called when a fatal error message needs to be
+            output.
+          </desc>
+        </method>
+        <method type="void*" ovadd="0.0.0">
+          <sel>getEntity:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            get an entity by <var>name</var>
+          </desc>
+        </method>
+        <method type="void*" ovadd="0.0.0">
+          <sel>getParameterEntity:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            get a parameter entity by <var>name</var>
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>globalNamespace:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>href:</sel>
+          <arg type="NSString*">href</arg>
+          <sel>prefix:</sel>
+          <arg type="NSString*">prefix</arg>
+          <desc>
+            <br /> An old global namespace has been parsed.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="0.0.0">
+          <sel>hasExternalSubset</sel>
+          <desc>
+            Called to find out whether there is an external
+            subset.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="0.0.0">
+          <sel>hasInternalSubset</sel>
+          <desc>
+            Called to find out whether there is an internal
+            subset.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>ignoreWhitespace:</sel>
+          <arg type="NSString*">ch</arg>
+          <desc>
+            <br /> Receiving some ignorable whitespaces from the
+            parser.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>internalSubset:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>externalID:</sel>
+          <arg type="NSString*">externalID</arg>
+          <sel>systemID:</sel>
+          <arg type="NSString*">systemID</arg>
+          <desc>
+            Called to find out whether there is an internal
+            subset.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="0.0.0">
+          <sel>isStandalone</sel>
+          <desc>
+            Called to detemrine if the document is standalone.
+          </desc>
+        </method>
+        <method type="void*" ovadd="0.0.0">
+          <sel>lib</sel>
+          <desc>
+            Returns a pointer to the raw libxml data used by
+            this document. <br /> Only for use by libxml experts!
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>loadEntity:</sel>
+          <arg type="NSString*">publicId</arg>
+          <sel>at:</sel>
+          <arg type="NSString*">location</arg>
+          <desc>
+            Called to return the filename from which an entity
+            should be loaded.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>namespaceDecl:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>href:</sel>
+          <arg type="NSString*">href</arg>
+          <sel>prefix:</sel>
+          <arg type="NSString*">prefix</arg>
+          <desc>
+            <br /> An old global namespace has been parsed.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>notationDecl:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>public:</sel>
+          <arg type="NSString*">publicId</arg>
+          <sel>system:</sel>
+          <arg type="NSString*">systemId</arg>
+          <desc>
+            <br /> What to do when a notation declaration has
+            been parsed.
+          </desc>
+        </method>
+        <method type="GSXMLParser*" ovadd="0.0.0">
+          <sel>parser</sel>
+          <desc>
+            Return the parser object with which this handler is
+            associated. This may occasionally be useful.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>processInstruction:</sel>
+          <arg type="NSString*">targetName</arg>
+          <sel>data:</sel>
+          <arg type="NSString*">PIdata</arg>
+          <desc>
+            <br /> A processing instruction has been parsed.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>reference:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            <br /> Called when an entity reference is detected.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>startDocument</sel>
+          <desc>
+            <br /> Called when the document starts being
+            processed.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>startElement:</sel>
+          <arg type="NSString*">elementName</arg>
+          <sel>attributes:</sel>
+          <arg type="NSMutableDictionary*">elementAttributes</arg>
+          <desc>
+            <br /> Called when an opening tag has been
+            processed.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>startElement:</sel>
+          <arg type="NSString*">elementName</arg>
+          <sel>prefix:</sel>
+          <arg type="NSString*">prefix</arg>
+          <sel>href:</sel>
+          <arg type="NSString*">href</arg>
+          <sel>attributes:</sel>
+          <arg type="NSMutableDictionary*">elementAttributes</arg>
+          <sel>namespaces:</sel>
+          <arg type="NSMutableDictionary*">elementNamespaces</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>unparsedEntityDecl:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>public:</sel>
+          <arg type="NSString*">publicId</arg>
+          <sel>system:</sel>
+          <arg type="NSString*">systemId</arg>
+          <sel>notationName:</sel>
+          <arg type="NSString*">notation</arg>
+          <desc>
+            <br /> What to do when an unparsed entity
+            declaration is parsed.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>warning:</sel>
+          <arg type="NSString*">e</arg>
+          <desc>
+            Called when a warning message needs to be output.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>warning:</sel>
+          <arg type="NSString*">e</arg>
+          <sel>colNumber:</sel>
+          <arg type="NSInteger">colNumber</arg>
+          <sel>lineNumber:</sel>
+          <arg type="NSInteger">lineNumber</arg>
+          <desc>
+            Called when a warning message needs to be output.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSTreeSAXHandler class
+      </heading>
+      <class name="GSTreeSAXHandler" super="GSSAXHandler" ovadd="0.0.0">
+        <declared>GNUstepBase/GSXML.h</declared>
+        <desc>
+          The default handler for parsing documents... this will
+          build a GSXMLDocument for you. This handler may not
+          currently be subclassed, though that capability may
+          be added at a later date.
+        </desc>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSXMLAttribute class
+      </heading>
+      <class name="GSXMLAttribute" super="GSXMLNode" ovadd="0.0.0">
+        <declared>GNUstepBase/GSXML.h</declared>
+        <desc>
+          A class wrapping attributes of an XML element node.
+          Generally when examining a GSXMLDocument, you need
+          not concern yourself with GSXMLAttribute objects as you
+          will probably use the
+          <ref type="method" id="-objectForKey:" class="GSXMLNode">
+            [GSXMLNode -objectForKey:]
+          </ref>
+          method to return the string value of any attribute you
+          are interested in.
+        </desc>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>value</sel>
+          <desc>
+            Returns the string value of the attribute.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSXMLDocument class
+      </heading>
+      <class name="GSXMLDocument" super="NSObject" ovadd="0.0.0">
+        <declared>GNUstepBase/GSXML.h</declared>
+        <conform>NSCopying</conform>
+        <desc>
+          A GSXML document wraps the document structure of the
+          underlying libxml library.
+        </desc>
+        <ivariable type="BOOL" name="_ownsLib" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_parent" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="void*" name="lib" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <method type="GSXMLDocument*" factory="yes" ovadd="0.0.0">
+          <sel>documentWithVersion:</sel>
+          <arg type="NSString*">version</arg>
+          <desc>
+            Create a new document with the specified
+            <var>version</var>.
+<example>
+ id d = [GSXMLDocument documentWithVersion: @"1.0"];
+
+ [d setRoot: [d makeNodeWithNamespace: nil name: @"plist" content: nil]];
+ [[d root] setObject: @"0.9" forKey: @"version"];
+ n1 = [[d root] makeChildWithNamespace: nil name: @"dict" content: nil];
+ [n1 makeComment: @" this is a comment "];
+ [n1 makePI: @"pi1" content: @"this is a process instruction"];
+ [n1 makeChildWithNamespace: nil name: @"key" content: @"Year Of Birth"];
+ [n1 makeChildWithNamespace: nil name: @"integer" content: @"65"];
+ [n1 makeChildWithNamespace: nil name: @"key" content: @"Pets Names"];
+ </example>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>description</sel>
+          <desc>
+            Returns a string representation of the document (ie
+            the XML) or <code>nil</code> if the document does not
+            have reasonable contents.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>encoding</sel>
+          <desc>
+            Returns the name of the encoding for this document.
+          </desc>
+        </method>
+        <method type="void*" ovadd="0.0.0">
+          <sel>lib</sel>
+          <desc>
+            Returns a pointer to the raw libxml data used by
+            this document. <br /> Only for use by libxml experts!
+          </desc>
+        </method>
+        <method type="GSXMLNode*" ovadd="0.0.0">
+          <sel>makeNodeWithNamespace:</sel>
+          <arg type="GSXMLNamespace*">ns</arg>
+          <sel>name:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>content:</sel>
+          <arg type="NSString*">content</arg>
+          <desc>
+            Creates a new node within the document.
+<example>
+ GSXMLNode *n1, *n2;
+ GSXMLDocument *d;
+
+ d = [GSXMLDocument documentWithVersion: @"1.0"];
+ [d setRoot: [d makeNodeWithNamespace: nil name: @"plist" content: nil]];
+ [[d root] setObject: @"0.9" forKey: @"version"];
+ n1 = [[d root] makeChildWithNamespace: nil name: @"dict" content: nil];
+ </example>
+          </desc>
+        </method>
+        <method type="GSXMLNode*" ovadd="0.0.0">
+          <sel>root</sel>
+          <desc>
+            Returns the root node of the document.
+          </desc>
+        </method>
+        <method type="GSXMLNode*" ovadd="0.0.0">
+          <sel>setRoot:</sel>
+          <arg type="GSXMLNode*">node</arg>
+          <desc>
+            Sets the root of the document. <br /> NB. The
+            <var>node</var> must have been created as part of the
+            receiving document (eg. using the
+            <ref type="method" id="-makeNodeWithNamespace:name:content:">-makeNodeWithNamespace:name:content:</ref> method).
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>version</sel>
+          <desc>
+            Returns the version string for this document.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>writeToFile:</sel>
+          <arg type="NSString*">filename</arg>
+          <sel>atomically:</sel>
+          <arg type="BOOL">useAuxilliaryFile</arg>
+          <desc>
+            Uses the
+            <ref type="method" id="-description">
+              -description
+            </ref>
+            method to produce a string representation of the
+            document and writes that to <var>filename</var>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>writeToURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>atomically:</sel>
+          <arg type="BOOL">useAuxilliaryFile</arg>
+          <desc>
+            Uses the
+            <ref type="method" id="-description">
+              -description
+            </ref>
+            method to produce a string representation of the
+            document and writes that to <var>url</var>.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSXMLNamespace class
+      </heading>
+      <class name="GSXMLNamespace" super="NSObject" ovadd="0.0.0">
+        <declared>GNUstepBase/GSXML.h</declared>
+        <conform>NSCopying</conform>
+        <desc>
+          A GSXMLNamespace object wraps part of the document
+          structure of the underlying libxml library.
+        </desc>
+        <ivariable type="id" name="_parent" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="void*" name="lib" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <method type="NSString*" factory="yes" ovadd="0.0.0">
+          <sel>descriptionFromType:</sel>
+          <arg type="NSInteger">type</arg>
+          <desc>
+            Return the string representation of the specified
+            numeric <var>type</var>.
+          </desc>
+        </method>
+        <method type="NSInteger" factory="yes" ovadd="0.0.0">
+          <sel>typeFromDescription:</sel>
+          <arg type="NSString*">desc</arg>
+          <desc>
+            Return the numeric constant value for the namespace
+            type named. This method is inefficient, so the
+            returned value should be saved for re-use later.
+            The possible values are -
+            <list><item>XML_LOCAL_NAMESPACE</item></list>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>href</sel>
+          <desc>
+            Returns the namespace reference
+          </desc>
+        </method>
+        <method type="void*" ovadd="0.0.0">
+          <sel>lib</sel>
+          <desc>
+            Returns a pointer to the raw libxml data used by
+            this document. <br /> Only for use by libxml experts!
+          </desc>
+        </method>
+        <method type="GSXMLNamespace*" ovadd="0.0.0">
+          <sel>next</sel>
+          <desc>
+            return the next namespace.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>prefix</sel>
+          <desc>
+            Return the namespace prefix.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="0.0.0">
+          <sel>type</sel>
+          <desc>
+            Return type of namespace
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>typeDescription</sel>
+          <desc>
+            Return string representation of the type of the
+            namespace.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSXMLNode class
+      </heading>
+      <class name="GSXMLNode" super="NSObject" ovadd="0.0.0">
+        <declared>GNUstepBase/GSXML.h</declared>
+        <conform>NSCopying</conform>
+        <desc>
+          A GSXMLNode object wraps part of the document structure of
+          the underlying libxml library. It may have a parent,
+          siblings, and children.
+        </desc>
+        <ivariable type="id" name="_parent" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="void*" name="lib" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <method type="NSString*" factory="yes" ovadd="0.0.0">
+          <sel>descriptionFromType:</sel>
+          <arg type="NSInteger">type</arg>
+          <desc>
+            Return the string constant value for the node
+            <var>type</var> given.
+          </desc>
+        </method>
+        <method type="NSInteger" factory="yes" ovadd="0.0.0">
+          <sel>typeFromDescription:</sel>
+          <arg type="NSString*">desc</arg>
+          <desc>
+            <p>
+              Converts a node type string to a numeric
+              constant which can be compared with the result
+              of the <ref type="method" id="-type">-type</ref>
+              method to determine what sort of node an instance
+              is. Because this method is quite inefficient, you
+              should cache the numeric type returned and re-use
+              the cached value.
+            </p>
+            The node type names are -
+            <list>
+              <item>XML_ELEMENT_NODE</item>
+              <item>XML_ATTRIBUTE_NODE</item>
+              <item>XML_TEXT_NODE</item>
+              <item>XML_CDATA_SECTION_NODE</item>
+              <item>XML_ENTITY_REF_NODE</item>
+              <item>XML_ENTITY_NODE</item>
+              <item>XML_PI_NODE</item>
+              <item>XML_COMMENT_NODE</item>
+              <item>XML_DOCUMENT_NODE</item>
+              <item>XML_DOCUMENT_TYPE_NODE</item>
+              <item>XML_DOCUMENT_FRAG_NODE</item>
+              <item>XML_NOTATION_NODE</item>
+              <item>XML_HTML_DOCUMENT_NODE</item>
+              <item>XML_DTD_NODE</item>
+              <item>XML_ELEMENT_DECL</item>
+              <item>XML_ATTRIBUTE_DECL</item>
+              <item>XML_ENTITY_DECL</item>
+            </list>
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="0.0.0">
+          <sel>attributes</sel>
+          <desc>
+            <p>
+              Return attributes and values as a dictionary
+            </p>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>content</sel>
+          <desc>
+            Return node content as a string. This should return
+            meaningful information for text nodes and for
+            entity nodes containing only text nodes. <br /> If
+            entity substitution was not enabled during parsing,
+            an element containing text may actually contain both
+            text nodes and entity reference nodes, in this case
+            you should not use this method to get the content of
+            the element, but should examine the child nodes of the
+            element individually and perform any entity
+            reference you need to do explicitly. <br /> NB.
+            There are five standard entities which are
+            automatically substituted into the content
+            text rather than appearing as entity nodes in their
+            own right. These are '&lt;', '&gt;', '&apos;', '&quot;'
+            and '&amp;'. If you with to receive content in which
+            these characters are represented by the original
+            entity escapes, you need to use the
+            <ref type="method" id="-escapedContent">
+              -escapedContent
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>description</sel>
+          <desc>
+            Returns a string representation of the node and all
+            its children (ie the XML text) or <code>nil</code> if
+            the node does not have reasonable contents.
+          </desc>
+        </method>
+        <method type="GSXMLDocument*" ovadd="0.0.0">
+          <sel>document</sel>
+          <desc>
+            Return the document in which this node exists.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>escapedContent</sel>
+          <desc>
+            This performs the same function as the
+            <ref type="method" id="-content">
+              -content
+            </ref>
+            method, but retains escaped character information
+            (the standard five entities &amp;lt;, &amp;gt;,
+            &amp;apos;, &amp;quot;, and &amp;amp;) which
+            are normally replaced with their standard equivalents
+            (&lt;, &gt;, &apos;, &quot;, and &amp;).
+          </desc>
+        </method>
+        <method type="GSXMLAttribute*" ovadd="0.0.0">
+          <sel>firstAttribute</sel>
+          <desc>
+            Return the first attribute in this node.
+          </desc>
+        </method>
+        <method type="GSXMLNode*" ovadd="0.0.0">
+          <sel>firstChild</sel>
+          <desc>
+            Return the first child node of this node.
+<example>
+    - (GSXMLNode*) elementRecursive: (GSXMLNode*)node
+    {
+      while (node != nil)
+        {
+          if ([node type] == XML_ELEMENT_NODE)
+            {
+              return node;
+            }
+          if ([node firstChild] != nil)
+            {
+              node = [self elementRecursive: [node firstChild]];
+            }
+          else
+            {
+              node = [node next];
+            }
+        }
+      return node;
+    }
+  </example>
+          </desc>
+        </method>
+        <method type="GSXMLNode*" ovadd="0.0.0">
+          <sel>firstChildElement</sel>
+          <desc>
+            Return the first child element of this node. If you
+            wish to step through all children of the node
+            (including non-element nodes) you should use the
+            <ref type="method" id="-firstChild">
+              -firstChild
+            </ref>
+            method instead.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>isElement</sel>
+          <desc>
+            Convenience method, equivalent to calling
+            <ref type="method" id="-type">
+              -type
+            </ref>
+            and comparing it with the result of passing
+            "XML_ELEMENT_NODE" to
+            <ref type="method" id="+typeFromDescription:">
+              +typeFromDescription:
+            </ref>
+            (but faster).
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>isText</sel>
+          <desc>
+            Convenience method, equivalent to calling
+            <ref type="method" id="-type">
+              -type
+            </ref>
+            and comparing it with the result of passing
+            "XML_TEXT_NODE" to
+            <ref type="method" id="+typeFromDescription:">
+              +typeFromDescription:
+            </ref>
+            (but faster).
+          </desc>
+        </method>
+        <method type="void*" ovadd="0.0.0">
+          <sel>lib</sel>
+          <desc>
+            Returns a pointer to the raw libxml data used by
+            this document. <br /> Only for use by libxml experts!
+          </desc>
+        </method>
+        <method type="GSXMLAttribute*" ovadd="0.0.0">
+          <sel>makeAttributeWithName:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>value:</sel>
+          <arg type="NSString*">value</arg>
+          <desc>
+            Create and return an attribute (unless the named
+            attribute already exists, in which case we update
+            them <var>value</var> of the existing attribute and
+            return it.
+          </desc>
+        </method>
+        <method type="GSXMLNode*" ovadd="0.0.0">
+          <sel>makeChildWithNamespace:</sel>
+          <arg type="GSXMLNamespace*">ns</arg>
+          <sel>name:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>content:</sel>
+          <arg type="NSString*">content</arg>
+          <desc>
+            <p>
+              Creation of a new child element, added at the
+              end of parent children list. <var>ns</var> and
+              <var>content</var> parameters are optional (may be
+              <code>nil</code>). If <var>content</var> is non
+              <code>nil</code>, a child list containing the
+              TEXTs and ENTITY_REFs node will be created. Return
+              previous node.
+            </p>
+<example>
+
+ GSXMLNode *n1, *n2;
+ GSXMLDocument *d, *d1;
+
+ d = [GSXMLDocument documentWithVersion: @"1.0"];
+ [d setRoot: [d makeNodeWithNamespace: nil
+                                 name: @"plist"
+                              content: nil]];
+ [[d root] setObject: @"0.9" forKey: @"version"];
+ n1 = [[d root] makeChildWithNamespace: nil
+                                  name: @"dict"
+                               content: nil];
+ [n1 makeChildWithNamespace: nil name: @"key" content: @"Year Of Birth"];
+ [n1 makeChildWithNamespace: nil name: @"integer" content: @"65"];
+
+ [n1 makeChildWithNamespace: nil name: @"key" content: @"Pets Names"];
+ [n1 makeChildWithNamespace: nil name: @"array" content: nil];
+
+ </example>
+          </desc>
+        </method>
+        <method type="GSXMLNode*" ovadd="0.0.0">
+          <sel>makeComment:</sel>
+          <arg type="NSString*">content</arg>
+          <desc>
+            Creation of a new comment element, added at the
+            end of parent children list.
+<example>
+ d = [GSXMLDocument documentWithVersion: @"1.0"];
+
+ [d setRoot: [d makeNodeWithNamespace: nil name: @"plist" content: nil]];
+ [[d root] setObject: @"0.9" forKey: @"version"];
+ n1 = [[d root] makeChildWithNamespace: nil name: @"dict" content: nil];
+ [n1 makeComment: @" this is a comment "];
+ </example>
+          </desc>
+        </method>
+        <method type="GSXMLNamespace*" ovadd="0.0.0">
+          <sel>makeNamespaceHref:</sel>
+          <arg type="NSString*">href</arg>
+          <sel>prefix:</sel>
+          <arg type="NSString*">prefix</arg>
+          <desc>
+            Create a namespace attached to this node.
+          </desc>
+        </method>
+        <method type="GSXMLNode*" ovadd="0.0.0">
+          <sel>makePI:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>content:</sel>
+          <arg type="NSString*">content</arg>
+          <desc>
+            Creation of a new process instruction element,
+            added at the end of parent children list.
+<example>
+ d = [GSXMLDocument documentWithVersion: @"1.0"];
+
+ [d setRoot: [d makeNodeWithNamespace: nil name: @"plist" content: nil]];
+ [[d root] setObject: @"0.9" forKey: @"version"];
+ n1 = [[d root] makeChildWithNamespace: nil name: @"dict" content: nil];
+ [n1 makeComment: @" this is a comment "];
+ [n1 makePI: @"pi1" content: @"this is a process instruction"];
+ </example>
+          </desc>
+        </method>
+        <method type="GSXMLNode*" ovadd="0.0.0">
+          <sel>makeText:</sel>
+          <arg type="NSString*">content</arg>
+          <desc>
+            Creation of a new text element, added at the end
+            of parent children list.
+<example>
+ d = [GSXMLDocument documentWithVersion: @"1.0"];
+
+ [d setRoot: [d makeNodeWithNamespace: nil name: @"plist" content: nil]];
+ [[d root] setObject: @"0.9" forKey: @"version"];
+ n1 = [[d root] makeChildWithNamespace: nil name: @"dict" content: nil];
+ [n1 makeText: @" this is a text "];
+ </example>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>name</sel>
+          <desc>
+            Return the node-name
+          </desc>
+        </method>
+        <method type="GSXMLNamespace*" ovadd="0.0.0">
+          <sel>namespace</sel>
+          <desc>
+            Return the namespace of the node.
+          </desc>
+        </method>
+        <method type="GSXMLNamespace*" ovadd="0.0.0">
+          <sel>namespaceDefinitions</sel>
+          <desc>
+            Return namespace definitions for the node
+          </desc>
+        </method>
+        <method type="GSXMLNode*" ovadd="0.0.0">
+          <sel>next</sel>
+          <desc>
+            Return the next node at this level. This method can
+            return any type of node, and it may be more
+            convenient to use the
+            <ref type="method" id="-nextElement">
+              -nextElement
+            </ref>
+            node if you are parsing a document where you wish to
+            ignore non-element nodes such as whitespace text
+            separating elements.
+          </desc>
+        </method>
+        <method type="GSXMLNode*" ovadd="0.0.0">
+          <sel>nextElement</sel>
+          <desc>
+            Returns the next element node, skipping past any
+            other node types (such as text nodes). If there is no
+            element node to be returned, this method returns
+            <code>nil</code>. <br /> NB. This method is not
+            available in java, as the method name conflicts
+            with that of java's Enumerator class.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>objectForKey:</sel>
+          <arg type="NSString*">key</arg>
+          <desc>
+            Return the attribute value for the specified
+            <var>key</var>.
+          </desc>
+        </method>
+        <method type="GSXMLNode*" ovadd="0.0.0">
+          <sel>parent</sel>
+          <desc>
+            Return the parent of this node.
+          </desc>
+        </method>
+        <method type="GSXMLNode*" ovadd="0.0.0">
+          <sel>previous</sel>
+          <desc>
+            Return the previous node at this level.
+          </desc>
+        </method>
+        <method type="GSXMLNode*" ovadd="0.0.0">
+          <sel>previousElement</sel>
+          <desc>
+            Return the previous element node at this level.
+            <br /> NB. This method is not available in java, as
+            the method name conflicts with that of java's
+            Enumerator class.
+          </desc>
+        </method>
+        <method type="NSMutableDictionary*" ovadd="0.0.0">
+          <sel>propertiesAsDictionaryWithKeyTransformationSel:</sel>
+          <arg type="SEL">keyTransformSel</arg>
+          <desc>
+            <p>
+              Return attributes and values as a dictionary, but
+              applies the specified selector to each key before
+              adding the key and value to the dictionary. The
+              selector must be a method of NSString taking no
+              arguments and returning an object suitable for
+              use as a dictionary key.
+            </p>
+            <p>
+              This method exists for the use of GSWeb... it is
+              probably not of much use elsewhere.
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setNamespace:</sel>
+          <arg type="GSXMLNamespace*">space</arg>
+          <desc>
+            Sets the namespace of the receiver to the value
+            specified. <br /> Supplying a <code>nil</code>
+            namespace removes any namespace previously set or
+            any namespace that the node inherited from a parent
+            when it was created.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setObject:</sel>
+          <arg type="NSString*">value</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">key</arg>
+          <desc>
+            Set (or reset) an attribute carried by a node.
+<example>
+   [n1 setObject: @"prop1" forKey: @"name1"];
+   [n1 setObject: @"prop2" forKey: @"name2"];
+   [n1 setObject: @"prop3" forKey: @"name3"];
+ </example>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="0.0.0">
+          <sel>type</sel>
+          <desc>
+            Return node-type. The most efficient way of testing
+            node types is to use this method and compare the
+            return value with a value you previously obtained
+            using the
+            <ref type="method" id="+typeFromDescription:">
+              +typeFromDescription:
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>typeDescription</sel>
+          <desc>
+            Return node type as a string.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSXMLParser class
+      </heading>
+      <class name="GSXMLParser" super="NSObject" ovadd="0.0.0">
+        <declared>GNUstepBase/GSXML.h</declared>
+        <desc>
+          <p>
+            The XML parser object is the pivotal part of parsing an
+            XML document - it will either build a tree representing
+            the document (if initialized without a GSSAXHandler),
+            or will cooperate with a GSSAXHandler object to provide
+            parsing without the overhead of building a tree.
+          </p>
+          <p>
+            The parser may be initialized with an input source (in
+            which case it will expect to be asked to parse the
+            entire input in a single operation), or without. If
+            it is initialised without an input source, incremental
+            parsing can be done by feeding successive parts of
+            the XML document into the parser as NSData objects.
+          </p>
+        </desc>
+        <ivariable type="void*" name="lib" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableString*" name="messages" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="GSSAXHandler*" name="saxHandler" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="src" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <method type="NSString*" factory="yes" ovadd="0.0.0">
+          <sel>loadEntity:</sel>
+          <arg type="NSString*">publicId</arg>
+          <sel>at:</sel>
+          <arg type="NSString*">location</arg>
+          <desc>
+            <p>
+              This method controls the loading of external
+              entities into the system. If it returns an empty
+              string, the entity is not loaded. If it returns a
+              filename, the entity is loaded from that file.
+              If it returns <code>nil</code>, the default entity
+              loading mechanism is used.
+            </p>
+            <p>
+              The default entity loading mechanism is to construct
+              a file name from the locationURL, by replacing all path
+              separators with underscores, then attempt to
+              locate that file in the DTDs resource directory of
+              the main bundle, and all the standard system
+              locations.
+            </p>
+            <p>
+              As a special case, the default loader examines the
+              publicID and if it is a GNUstep DTD, the loader
+              constructs a special name from the ID (by
+              replacing dots with underscores and spaces with
+              hyphens) and looks for a file with that name and
+              a '.dtd' extension in the GNUstep bundles.
+            </p>
+            <p>
+              NB. This method will only be called if there is no
+              SAX handler in use, or if the corresponding method in
+              the SAX handler returns <code>nil</code>.
+            </p>
+          </desc>
+        </method>
+        <method type="GSXMLParser*" factory="yes" ovadd="0.0.0">
+          <sel>parser</sel>
+          <desc>
+            Creation of a new Parser (for incremental parsing)
+            by calling
+            <ref type="method" id="-initWithSAXHandler:">
+              -initWithSAXHandler:
+            </ref>
+          </desc>
+        </method>
+        <method type="GSXMLParser*" factory="yes" ovadd="0.0.0">
+          <sel>parserWithContentsOfFile:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Creation of a new Parser by calling
+            <ref type="method" id="-initWithSAXHandler:withContentsOfFile:">-initWithSAXHandler:withContentsOfFile:</ref>
+<example>
+ GSXMLParser       *p = [GSXMLParser parserWithContentsOfFile: @"macos.xml"];
+
+ if ([p parse])
+   {
+     [[p document] dump];
+   }
+ else
+   {
+     printf("error parse file\n");
+   }
+ </example>
+          </desc>
+        </method>
+        <method type="GSXMLParser*" factory="yes" ovadd="0.0.0">
+          <sel>parserWithContentsOfURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <desc>
+            Creation of a new Parser by calling
+            <ref type="method" id="-initWithSAXHandler:withContentsOfURL:">-initWithSAXHandler:withContentsOfURL:</ref>
+          </desc>
+        </method>
+        <method type="GSXMLParser*" factory="yes" ovadd="0.0.0">
+          <sel>parserWithData:</sel>
+          <arg type="NSData*">data</arg>
+          <desc>
+            Creation of a new Parser by calling
+            <ref type="method" id="-initWithSAXHandler:withData:">
+              -initWithSAXHandler:withData:
+            </ref>
+          </desc>
+        </method>
+        <method type="GSXMLParser*" factory="yes" ovadd="0.0.0">
+          <sel>parserWithSAXHandler:</sel>
+          <arg type="GSSAXHandler*">handler</arg>
+          <desc>
+            <p>
+              Creation of a new Parser by calling
+              <ref type="method" id="-initWithSAXHandler:">
+                -initWithSAXHandler:
+              </ref>
+            </p>
+            <p>
+              If the <var>handler</var> object supplied is
+              <code>nil</code>, the parser will build a tree
+              representing the parsed file rather than
+              attempting to get the <var>handler</var> to
+              deal with the parsed elements and entities.
+            </p>
+          </desc>
+        </method>
+        <method type="GSXMLParser*" factory="yes" ovadd="0.0.0">
+          <sel>parserWithSAXHandler:</sel>
+          <arg type="GSSAXHandler*">handler</arg>
+          <sel>withContentsOfFile:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Creation of a new Parser by calling
+            <ref type="method" id="-initWithSAXHandler:withContentsOfFile:">-initWithSAXHandler:withContentsOfFile:</ref>
+<example>
+ NSAutoreleasePool *arp = [NSAutoreleasePool new];
+ GSSAXHandler *h = [GSDebugSAXHandler handler];
+ GSXMLParser  *p = [GSXMLParser parserWithSAXHandler: h
+                                  withContentsOfFile: @"macos.xml"];
+ if ([p parse])
+   {
+      printf("ok\n");
+   }
+ RELEASE(arp);
+ </example>
+          </desc>
+        </method>
+        <method type="GSXMLParser*" factory="yes" ovadd="0.0.0">
+          <sel>parserWithSAXHandler:</sel>
+          <arg type="GSSAXHandler*">handler</arg>
+          <sel>withContentsOfURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <desc>
+            Creation of a new Parser by calling
+            <ref type="method" id="-initWithSAXHandler:withContentsOfURL:">-initWithSAXHandler:withContentsOfURL:</ref>
+          </desc>
+        </method>
+        <method type="GSXMLParser*" factory="yes" ovadd="0.0.0">
+          <sel>parserWithSAXHandler:</sel>
+          <arg type="GSSAXHandler*">handler</arg>
+          <sel>withData:</sel>
+          <arg type="NSData*">data</arg>
+          <desc>
+            Creation of a new Parser by calling
+            <ref type="method" id="-initWithSAXHandler:withData:">
+              -initWithSAXHandler:withData:
+            </ref>
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="0.0.0">
+          <sel>setDTDs:</sel>
+          <arg type="NSString*">aPath</arg>
+          <desc>
+            Sets a directory in which to look for DTDs when
+            resolving external references. Can be used whjen
+            DTDs have not been installed in the normal locatioons.
+          </desc>
+        </method>
+        <method type="NSString*" factory="yes" ovadd="0.0.0">
+          <sel>xmlEncodingStringForStringEncoding:</sel>
+          <arg type="NSStringEncoding">encoding</arg>
+          <desc>
+            Return the name of the string <var>encoding</var>
+            (for XML) to use for the specified OpenStep
+            <var>encoding</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>abortParsing</sel>
+          <desc>
+            If called by a SAX callback routine, this method will
+            terminate the parsiong process.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="0.0.0">
+          <sel>columnNumber</sel>
+          <desc>
+            If executed during a parse operation, returns the
+            current column number.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>doValidityChecking:</sel>
+          <arg type="BOOL">yesno</arg>
+          <desc>
+            Sets whether the document needs to be validated.
+          </desc>
+        </method>
+        <method type="GSXMLDocument*" ovadd="0.0.0">
+          <sel>document</sel>
+          <desc>
+            Return the document produced as a result of parsing
+            data.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="0.0.0">
+          <sel>errNo</sel>
+          <desc>
+            Return error code for last parse operation.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>getWarnings:</sel>
+          <arg type="BOOL">yesno</arg>
+          <desc>
+            Sets whether warnings are generated.
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="0.0.0">
+          <sel>initWithSAXHandler:</sel>
+          <arg type="GSSAXHandler*">handler</arg>
+          <desc>
+            <p>
+              Initialisation of a new Parser with SAX
+              <var>handler</var>.
+            </p>
+            <p>
+              If the <var>handler</var> object supplied is
+              <code>nil</code>, the parser will use an instance
+              of
+              <ref type="class" id="GSTreeSAXHandler">GSTreeSAXHandler</ref>
+                to build a tree representing the parsed file. This
+                tree will then be available (via the
+                <ref type="method" id="-document">
+                  -document
+                </ref>
+                method) as a
+                <ref type="class" id="GSXMLDocument">GSXMLDocument</ref>on completion of parsing.</p>
+                <p>
+                  The source for the parsing process is not
+                  specified - so parsing must be done
+                  incrementally by feeding data to the
+                  parser.
+                </p>
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>initWithSAXHandler:</sel>
+          <arg type="GSSAXHandler*">handler</arg>
+          <sel>withContentsOfFile:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            <p>
+              Initialisation of a new Parser with SAX
+              <var>handler</var> (if not <code>nil</code>) by
+              calling
+              <ref type="method" id="-initWithSAXHandler:">
+                -initWithSAXHandler:
+              </ref>
+            </p>
+            <p>
+              Sets the input source for the parser to be the
+              specified file - so parsing of the entire file
+              will be performed rather than incremental parsing.
+            </p>
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>initWithSAXHandler:</sel>
+          <arg type="GSSAXHandler*">handler</arg>
+          <sel>withContentsOfURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <desc>
+            <p>
+              Initialisation of a new Parser with SAX
+              <var>handler</var> (if not <code>nil</code>) by
+              calling
+              <ref type="method" id="-initWithSAXHandler:">
+                -initWithSAXHandler:
+              </ref>
+            </p>
+            <p>
+              Sets the input source for the parser to be the
+              specified URL - so parsing of the entire
+              document will be performed rather than
+              incremental parsing.
+            </p>
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>initWithSAXHandler:</sel>
+          <arg type="GSSAXHandler*">handler</arg>
+          <sel>withData:</sel>
+          <arg type="NSData*">data</arg>
+          <desc>
+            <p>
+              Initialisation of a new Parser with SAX
+              <var>handler</var> (if not <code>nil</code>) by
+              calling
+              <ref type="method" id="-initWithSAXHandler:">
+                -initWithSAXHandler:
+              </ref>
+            </p>
+            <p>
+              Sets the input source for the parser to be the
+              specified <var>data</var> object (which must
+              contain an XML document), so parsing of the
+              entire document will be performed rather than
+              incremental parsing.
+            </p>
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>initWithSAXHandler:</sel>
+          <arg type="GSSAXHandler*">handler</arg>
+          <sel>withInputStream:</sel>
+          <arg type="NSInputStream*">stream</arg>
+          <desc>
+            <p>
+              Initialisation of a new Parser with SAX
+              <var>handler</var> (if not <code>nil</code>) by
+              calling
+              <ref type="method" id="-initWithSAXHandler:">
+                -initWithSAXHandler:
+              </ref>
+            </p>
+            <p>
+              Sets the input source for the parser to be the
+              specified input <var>stream</var>, so parsing
+              of the entire document will be performed rather than
+              incremental parsing.
+            </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>keepBlanks:</sel>
+          <arg type="BOOL">yesno</arg>
+          <desc>
+            Set and return the previous value for blank text nodes
+            support. ignorableWhitespace nodes are only
+            generated when running the parser in validating
+            mode and when the current element doesn't allow CDATA
+            or mixed content.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="0.0.0">
+          <sel>lineNumber</sel>
+          <desc>
+            If executed during a parse operation, returns the
+            current line number.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>messages</sel>
+          <desc>
+            Returns the string into which warning and error
+            messages are saved, or <code>nil</code> if they
+            are being written to stderr.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>parse</sel>
+          <desc>
+            Parse source. Return <code>YES</code> if parsed as
+            valid, otherwise <code>NO</code>. If validation
+            against a DTD is not enabled, the return value
+            simply indicates whether the xml was well formed.
+            <br /> This method should be called once to parse
+            the entire document.
+<example>
+ GSXMLParser       *p = [GSXMLParser parserWithContentsOfFile:@"macos.xml"];
+
+ if ([p parse])
+   {
+     [[p doc] dump];
+   }
+ else
+   {
+     printf("error parse file\n");
+   }
+ </example>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>parse:</sel>
+          <arg type="NSData*">data</arg>
+          <desc>
+            <p>
+              Pass <var>data</var> to the parser for incremental
+              parsing. This method should be called many
+              times, with each call passing another block of
+              <var>data</var> from the same document. After the
+              whole of the document has been parsed, the method
+              should be called with an empty or <code>nil</code>
+              <var>data</var> object to indicate end of parsing.
+              On this final call, the return value indicates whether
+              the document was valid or not. If validation to a DTD
+              is not enabled, the return value simply indicates
+              whether the xml was well formed.
+            </p>
+<example>
+ GSXMLParser       *p = [GSXMLParser parserWithSAXHandler: nil source: nil];
+
+ while ((data = getMoreData()) != nil)
+   {
+     if ([p parse: data] == NO)
+       {
+         NSLog(@"parse error");
+       }
+   }
+   // Do something with document parsed
+ [p parse: nil];  // Completed parsing of document.
+ </example>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>publicID</sel>
+          <desc>
+            Return the public ID of the document being parsed.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>resolveEntities:</sel>
+          <arg type="BOOL">yesno</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>saveMessages:</sel>
+          <arg type="BOOL">yesno</arg>
+          <desc>
+            Sets up (or removes) a mutable string to which error
+            and warning messages are saved. Using an argument of
+            <code>NO</code> will cause these messages to be
+            written to stderr (the default). <br /> NB. A SAX
+            handler which overrides the error and warning
+            logging messages may stop this mechanism operating.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>substituteEntities:</sel>
+          <arg type="BOOL">yesno</arg>
+          <desc>
+            Set and return the previous value for entity support.
+            Initially the parser always keeps entity
+            references instead of substituting entity values
+            in the output.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>systemID</sel>
+          <desc>
+            Return the system ID of the document being parsed.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSXMLRPC class
+      </heading>
+      <class name="GSXMLRPC" super="NSObject" ovadd="0.0.0">
+        <declared>GNUstepBase/GSXML.h</declared>
+        <conform>NSURLHandleClient</conform>
+        <desc>
+          <p>
+            The GSXMLRPC class provides methods for constructing
+            and parsing XMLRPC method call and response documents
+            ... so that calls may be constructed of standard
+            objects.
+          </p>
+          <p>
+            The correspondence between XMLRPC values and
+            Objective-C objects is as follows -
+          </p>
+          <list>
+            <item>
+              <strong>i4</strong> (or
+              <em><strong>int</strong></em>) is an
+              <ref type="class" id="NSNumber">NSNumber</ref>
+                other than a real/float or boolean.
+              </item>
+              <item>
+                <strong>boolean</strong> is an
+                <ref type="class" id="NSNumber">NSNumber</ref>
+                  created as a BOOL.
+                </item>
+                <item>
+                  <strong>string</strong> is an
+                  <ref type="class" id="NSString">NSString</ref>
+                    object.
+                  </item>
+                  <item>
+                    <strong>double</strong> is an
+                    <ref type="class" id="NSNumber">NSNumber</ref>
+                      created as a <strong>float</strong> or
+                      <strong>double</strong>.
+                    </item>
+                    <item>
+                      <strong>dateTime.iso8601</strong> is an
+                      <ref type="class" id="NSDate">NSDate</ref>
+                        object.
+                      </item>
+                      <item>
+                        <strong>base64</strong> is an
+                        <ref type="class" id="NSData">NSData</ref>
+                          object.
+                        </item>
+                        <item>
+                          <strong>array</strong> is an
+                          <ref type="class" id="NSArray">NSArray</ref>
+                            object.
+                          </item>
+                          <item>
+                            <strong>struct</strong> is an
+                            <ref type="class" id="NSDictionary">NSDictionary</ref>object.</item>
+                          </list>
+                          <p>
+                            If you attempt to use any other type of
+                            object in the construction of an
+                            XMLRPC document, the
+                            <ref type="method" id="-description" class="NSObject">[NSObject -description]</ref> method of that object will be used to create a striong, and the resulting object will be encoded as an XMLRPC <em>string</em> element.
+                          </p>
+                          <p>
+                            In particular, the names of members in a
+                            <em>struct</em> must be strings, so if
+                            you provide an
+                            <ref type="class" id="NSDictionary">NSDictionary</ref>object to represent a <em>struct</em> the keys of the dictionary will be converted to strings if necessary.</p>
+                            <p>
+                              The class also provides a method for
+                              making a synchronous XMLRPC method
+                              call (with timeout), or an
+                              asynchronous call in which
+                              the call completion is handled by a
+                              delegate.
+                            </p>
+                            <p>
+                              You may also use the class to
+                              implement an XMLRPC server, by
+                              calling the
+                              <ref type="method" id="-parseMethod:params:">-parseMethod:params:</ref> method to parse the data POSTed to your server, and <ref type="method" id="-buildResponseWithParams:">-buildResponseWithParams:</ref> (or -buildResponseWithFaultCode:andString:) to produce the data to be sent back to the client.
+                            </p>
+                            <p>
+                              In order to simply make a synchronous
+                              XMLRPC call to a server, all you
+                              need to do is write code like:
+                            </p>
+<example>
+   GSXMLRPC	*server = [[GSXMLRPC alloc] initWithURL: @"http://server/path"];
+   id		result = [server makeMethodCall: name params: p timeout: 30];
+ </example>
+          <p>
+            Saying that you want to call the specified method
+            ('name') on the server, passing the parameters
+            ('p') and with a 30 second timeout. <br /> If there
+            is a network or http-level error or a timeout, the
+            result will be an error string, otherwise it will be
+            an array (on success) or a dictionary containing the
+            fault details.
+          </p>
+        </desc>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>URLHandle:</sel>
+          <arg type="NSURLHandle*">sender</arg>
+          <sel>resourceDataDidBecomeAvailable:</sel>
+          <arg type="NSData*">newData</arg>
+          <desc>
+            Allows GSXMLRPC to act as a client of NSURLHandle.
+            Internal use only.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>URLHandle:</sel>
+          <arg type="NSURLHandle*">sender</arg>
+          <sel>resourceDidFailLoadingWithReason:</sel>
+          <arg type="NSString*">reason</arg>
+          <desc>
+            Allows GSXMLRPC to act as a client of NSURLHandle.
+            Internal use only.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>URLHandleResourceDidBeginLoading:</sel>
+          <arg type="NSURLHandle*">sender</arg>
+          <desc>
+            Allows GSXMLRPC to act as a client of NSURLHandle.
+            Internal use only.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>URLHandleResourceDidCancelLoading:</sel>
+          <arg type="NSURLHandle*">sender</arg>
+          <desc>
+            Allows GSXMLRPC to act as a client of NSURLHandle.
+            Internal use only.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>URLHandleResourceDidFinishLoading:</sel>
+          <arg type="NSURLHandle*">sender</arg>
+          <desc>
+            Allows GSXMLRPC to act as a client of NSURLHandle.
+            Internal use only.
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="0.0.0">
+          <sel>buildMethod:</sel>
+          <arg type="NSString*">method</arg>
+          <sel>params:</sel>
+          <arg type="NSArray*">params</arg>
+          <desc>
+            Given a <var>method</var> name and an array of
+            parameters, this <var>method</var> constructs
+            the XML document for the corresponding XMLRPC call and
+            returns the document as an NSData object containing
+            UTF-8 text. <br /> The <var>params</var> array may be
+            empty or <code>nil</code> if there are no parameters
+            to be passed. <br /> The <var>method</var> returns
+            <code>nil</code> if passed an invalid
+            <var>method</var> name (a <var>method</var> name may
+            contain any of the ascii alphanumeric characters
+            and underscore, fullstop, colon, or slash). <br /> This
+            <var>method</var> is used internally when sending an
+            XMLRPC <var>method</var> call to a remote system,
+            but you can also call it yourself.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>buildMethodCall:</sel>
+          <arg type="NSString*">method</arg>
+          <sel>params:</sel>
+          <arg type="NSArray*">params</arg>
+          <desc>
+            Given a <var>method</var> name and an array of
+            parameters, this <var>method</var> constructs
+            the XML document for the corresponding XMLRPC call and
+            returns the document as a string. <br /> The
+            <var>params</var> array may be empty or
+            <code>nil</code> if there are no parameters to be
+            passed. <br /> The <var>method</var> returns
+            <code>nil</code> if passed an invalid
+            <var>method</var> name (a <var>method</var> name may
+            contain any of the ascii alphanumeric characters
+            and underscore, fullstop, colon, or slash). <br />
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>buildResponseWithFaultCode:</sel>
+          <arg type="NSInteger">code</arg>
+          <sel>andString:</sel>
+          <arg type="NSString*">s</arg>
+          <desc>
+            Constructs an XML document for an XMLRPC fault
+            response with the specified <var>code</var> and
+            string. The resulting document is returned as a
+            string. <br /> This method is intended for use by
+            applications acting as XMLRPC servers.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>buildResponseWithParams:</sel>
+          <arg type="NSArray*">params</arg>
+          <desc>
+            Builds an XMLRPC response with the specified array
+            of parameters and returns the document as a string.
+            <br /> The <var>params</var> array may be empty or
+            <code>nil</code> if there are no parameters to be
+            returned (an empty <var>params</var> element will
+            be created). <br /> This method is intended for use by
+            applications acting as XMLRPC servers.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>compact</sel>
+          <desc>
+            Return the value set by a prior call to
+            <ref type="method" id="-setCompact:">
+              -setCompact:
+            </ref>
+            (or <code>NO</code>... the default).
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>delegate</sel>
+          <desc>
+            Returns the delegate previously set by the
+            <ref type="method" id="-setDelegate:">
+              -setDelegate:
+            </ref>
+            method. <br /> The delegate handles completion of
+            asynchronous method calls to the URL specified
+            when the receiver was initialised (if any).
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>initWithURL:</sel>
+          <arg type="NSString*">url</arg>
+          <desc>
+            Initialise the receiver to make XMLRPC calls to
+            the specified URL. <br /> This method just calls
+            <ref type="method" id="-initWithURL:certificate:privateKey:password:">-initWithURL:certificate:privateKey:password:</ref> with <code>nil</code> arguments for the SSL credentials.
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="0.0.0">
+          <sel>initWithURL:</sel>
+          <arg type="NSString*">url</arg>
+          <sel>certificate:</sel>
+          <arg type="NSString*">cert</arg>
+          <sel>privateKey:</sel>
+          <arg type="NSString*">pKey</arg>
+          <sel>password:</sel>
+          <arg type="NSString*">pwd</arg>
+          <desc>
+            Initialise the receiver to make XMLRPC calls to
+            the specified <var>url</var> and (optionally) with the
+            specified SSL parameters. <br /> The
+            <var>url</var> argument may be <code>nil</code>, in
+            which case the receiver will be unable to make XMLRPC
+            calls, but can be used to parse incoming requests
+            and build responses. <br /> If the SSL credentials are
+            non-nil, connections to the remote server will be
+            authenticated using the supplied certificate
+            so that the remote system knows who is contacting it.
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>makeMethodCall:</sel>
+          <arg type="NSString*">method</arg>
+          <sel>params:</sel>
+          <arg type="NSArray*">params</arg>
+          <sel>timeout:</sel>
+          <arg type="NSInteger">seconds</arg>
+          <desc>
+            Calls
+            <ref type="method" id="-sendMethodCall:params:timeout:">
+              -sendMethodCall:params:timeout:
+            </ref>
+            and waits for the response. <br /> Returns the response
+            parameters (an array), the response fault (a
+            dictionary), or a failure reason (a string).
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>parseMethod:</sel>
+          <arg type="NSData*">request</arg>
+          <sel>params:</sel>
+          <arg type="NSMutableArray*">params</arg>
+          <desc>
+            Parses XML data containing an XMLRPC method call.
+            <br /> Returns the name of the method call. <br />
+            Empties, and then places the method parameters (if
+            any) in the <var>params</var> argument. <br /> NB. Any
+            containers (arrays or dictionaries) in the
+            parsed parameters will be mutable, so you can modify
+            this data structure as you like. <br /> Raises an
+            exception if parsing fails. <br /> This method is
+            intended for the use of XMLRPC server
+            applications.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="0.0.0">
+          <sel>parseResponse:</sel>
+          <arg type="NSData*">resp</arg>
+          <sel>params:</sel>
+          <arg type="NSMutableArray*">params</arg>
+          <desc>
+            Parses XML data containing an XMLRPC method
+            response. <br /> Returns <code>nil</code> for
+            success, the fault dictionary on failure. <br />
+            Places the response parameters (if any) in the
+            <var>params</var> argument. <br /> NB. Any containers
+            (arrays or dictionaries) in the parsed parameters
+            will be mutable, so you can modify this data structure
+            as you like. <br /> Raises an exception if parsing
+            fails. <br /> Used internally when making a method
+            call to a remote server.
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>result</sel>
+          <desc>
+            Returns the result of the last method call, or
+            <code>nil</code> if there has been no method call or
+            one is in progress. <br /> The result may be one of -
+            <list>
+              <item>
+                A mutable array... the parameters of a success
+                response.
+              </item>
+              <item>
+                A dictionary... containing a fault response.
+              </item>
+              <item>
+                A string... describing a low-level failure (eg.
+                timeout).
+              </item>
+            </list>
+            NB. Any containers (arrays or dictionaries) in the
+            parsed parameters of a success response will be
+            mutable, so you can modify this data structure as
+            you like.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>sendMethodCall:</sel>
+          <arg type="NSString*">method</arg>
+          <sel>params:</sel>
+          <arg type="NSArray*">params</arg>
+          <sel>timeout:</sel>
+          <arg type="NSInteger">seconds</arg>
+          <desc>
+            Send an asynchronous XMLRPC <var>method</var> call
+            with the specified timeout. <br /> A delegate should
+            have been set to handle the result of this call, but
+            if one was not set the state of the asynchronous call
+            may be polled by calling the
+            <ref type="method" id="-result">
+              -result
+            </ref>
+            <var>method</var>, which will return <code>nil</code>
+            as <strong>long</strong> as the call has not completed.
+            <br /> The call may be cancelled by calling the
+            <ref type="method" id="-timeout:">
+              -timeout:
+            </ref>
+            <var>method</var> <br /> This <var>method</var>
+            returns <code>YES</code> if the call was started,
+            <code>NO</code> if it could not be started (eg
+            because another call is in progress or because of
+            bad arguments). <br /> NB. For the asynchronous
+            operation to proceed, the current
+            <ref type="class" id="NSRunLoop">NSRunLoop</ref>
+              must be run.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setCompact:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Specify whether to generate compact XML (omit
+            indentation and other white space and omit
+            &lt;string&gt; element markup). <br />
+            Compact representation saves some space (can be
+            important when sent over slow/low bandwidth
+            connections), but sacrifices readability.
+          </desc>
+        </method>
+        <method type="int" ovadd="0.0.0">
+          <sel>setDebug:</sel>
+          <arg type="int">flag</arg>
+          <desc>
+            Specify whether to perform debug trace on I/O
+            <br /> Return the previous value
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setDelegate:</sel>
+          <arg type="id">aDelegate</arg>
+          <desc>
+            Sets the delegate object which will receive callbacks
+            when an XMLRPC call completes. <br /> NB. this
+            delegate is <em>not</em> retained, and should be
+            removed before it is deallocated (call
+            <ref type="method" id="-setDelegate:">
+              -setDelegate:
+            </ref>
+            again with a <code>nil</code> argument to remove the
+            delegate).
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setTimeZone:</sel>
+          <arg type="NSTimeZone*">timeZone</arg>
+          <desc>
+            Sets the time zone for use when sending/receiving
+            date/time values. <br /> The XMLRPC specification
+            says that timezone is server dependent so you will
+            need to set it according to the server you are
+            connecting to. <br /> If this is not set, UCT is
+            assumed.
+          </desc>
+        </method>
+        <method type="NSTimeZone*" ovadd="0.0.0">
+          <sel>timeZone</sel>
+          <desc>
+            Return the time zone currently set.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>timeout:</sel>
+          <arg type="NSTimer*">t</arg>
+          <desc>
+            Handles timeouts, passing information to delegate
+            ... you don't need to call this method, but you
+            <em>may</em> call it in order to cancel an
+            asynchronous request as if it had timed out.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSXPathBoolean class
+      </heading>
+      <class name="GSXPathBoolean" super="GSXPathObject" ovadd="0.0.0">
+        <declared>GNUstepBase/GSXML.h</declared>
+        <desc>
+          For XPath queries returning true/false.
+        </desc>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>booleanValue</sel>
+          <desc>
+            Returns the the value of the receiver... YES/NO,
+            true/false.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSXPathContext class
+      </heading>
+      <class name="GSXPathContext" super="NSObject" ovadd="0.0.0">
+        <declared>GNUstepBase/GSXML.h</declared>
+        <desc>
+          <p>
+            Use of the GSXPathContext class is simple... you just
+            need to look up xpath to learn the syntax of xpath
+            expressions, then you can apply those
+            expressions to a context to retrieve data from
+            a document.
+          </p>
+<example>
+ GSXMLParser       *p = [GSXMLParser parserWithContentsOfFile: @"xp.xml"];
+
+ if ([p parse])
+   {
+     GSXMLDocument *d = [p document];
+     GSXPathContext *c = [[GSXPathContext alloc] initWithDocument: document];
+     GSXPathString *result = [c evaluateExpression: @"string(/body/text())"];
+
+     GSPrintf(stdout, @"Got %@", [result stringValue]);
+   }
+ else
+   {
+     GSPrintf(stderr, "error parsing file\n");
+   }
+ </example>
+        </desc>
+        <ivariable type="GSXMLDocument*" name="_document" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="void*" name="_lib" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="GSXPathObject*" ovadd="0.0.0">
+          <sel>evaluateExpression:</sel>
+          <arg type="NSString*">XPathExpression</arg>
+          <desc>
+            Evaluates the supplied expression and returns the
+            resulting node or node set. If the expression is
+            invalid, returns <code>nil</code>.
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>initWithDocument:</sel>
+          <arg type="GSXMLDocument*">d</arg>
+          <desc>
+            Initialises the receiver as an xpath parser for
+            the supplied document.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>registerNamespaceWithPrefix:</sel>
+          <arg type="NSString*">prefix</arg>
+          <sel>href:</sel>
+          <arg type="NSString*">href</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSXPathNodeSet class
+      </heading>
+      <class name="GSXPathNodeSet" super="GSXPathObject" ovadd="0.0.0">
+        <declared>GNUstepBase/GSXML.h</declared>
+        <desc>
+          For XPath queries returning a node set. <br /> An XPATH
+          node set is an ordered set of nodes returned as a result
+          of an expression. The order of the nodes in the set is the
+          same as the order in the xml document from which they
+          were extracted.
+        </desc>
+        <method type="NSUInteger" ovadd="0.0.0">
+          <sel>count</sel>
+          <desc>
+            Returns the number of nodes in the receiver.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="0.0.0">
+          <sel>length</sel>
+          <desc>
+            Deprecated
+          </desc>
+        </method>
+        <method type="GSXMLNode*" ovadd="0.0.0">
+          <sel>nodeAtIndex:</sel>
+          <arg type="NSUInteger">index</arg>
+          <desc>
+            Please note that <var>index</var> starts from 0.
+            <br /> Returns the node from the receiver at the
+            specified <var>index</var>, or <code>nil</code>
+            if no such node exists.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSXPathNumber class
+      </heading>
+      <class name="GSXPathNumber" super="GSXPathObject" ovadd="0.0.0">
+        <declared>GNUstepBase/GSXML.h</declared>
+        <desc>
+          For XPath queries returning a number.
+        </desc>
+        <method type="double" ovadd="0.0.0">
+          <sel>doubleValue</sel>
+          <desc>
+            Returns the floating point (<strong>double</strong>
+            ) value of the receiver.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSXPathObject class
+      </heading>
+      <class name="GSXPathObject" super="NSObject" ovadd="0.0.0">
+        <declared>GNUstepBase/GSXML.h</declared>
+        <desc>
+          XPath queries return a GSXPathObject. GSXPathObject in
+          itself is an abstract class; there are four types of
+          completely different GSXPathObject types, listed
+          below. I'm afraid you need to check the returned type
+          of each GSXPath query to make sure it's what you meant it
+          to be. <br />
+          <p>
+            You don't create GSXPathObject instances, instead the
+            XPATH system creates them and returns them as the
+            result of the
+            <ref type="method" id="-evaluateExpression:" class="GSXPathContext">[GSXPathContext -evaluateExpression:]</ref> method.
+          </p>
+        </desc>
+        <ivariable type="GSXPathContext*" name="_context" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="void*" name="_lib" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSXPathString class
+      </heading>
+      <class name="GSXPathString" super="GSXPathObject" ovadd="0.0.0">
+        <declared>GNUstepBase/GSXML.h</declared>
+        <desc>
+          For XPath queries returning a string.
+        </desc>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>stringValue</sel>
+          <desc>
+            Returns the string value of the receiver.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSXMLDocument(XSLT)
+        category
+      </heading>
+      <category name="XSLT" class="GSXMLDocument" ovadd="0.0.0">
+        <declared>GNUstepBase/GSXML.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="GSXMLDocument*" factory="yes" ovadd="0.0.0">
+          <sel>xsltTransformFile:</sel>
+          <arg type="NSString*">xmlFile</arg>
+          <sel>stylesheet:</sel>
+          <arg type="NSString*">xsltStylesheet</arg>
+          <desc>
+            Performs an XSLT transformation on the specified
+            file using the stylesheet provided. <br /> Returns an
+            autoreleased GSXMLDocument containing the
+            transformed XML, or <code>nil</code> on
+            failure.
+          </desc>
+        </method>
+        <method type="GSXMLDocument*" factory="yes" ovadd="0.0.0">
+          <sel>xsltTransformFile:</sel>
+          <arg type="NSString*">xmlFile</arg>
+          <sel>stylesheet:</sel>
+          <arg type="NSString*">xsltStylesheet</arg>
+          <sel>params:</sel>
+          <arg type="NSDictionary*">params</arg>
+          <desc>
+            Performs an XSLT transformation on the specified
+            file using the stylesheet and parameters provided. See
+            the libxslt documentation for details of the supported
+            parameters. <br /> Returns an autoreleased
+            GSXMLDocument containing the transformed XML,
+            or <code>nil</code> on failure.
+          </desc>
+        </method>
+        <method type="GSXMLDocument*" factory="yes" ovadd="0.0.0">
+          <sel>xsltTransformXml:</sel>
+          <arg type="NSData*">xmlData</arg>
+          <sel>stylesheet:</sel>
+          <arg type="NSData*">xsltStylesheet</arg>
+          <desc>
+            Performs an XSLT transformation on the specified
+            file using the stylesheet provided. <br /> Returns an
+            autoreleased GSXMLDocument containing the
+            transformed XML, or <code>nil</code> on
+            failure.
+          </desc>
+        </method>
+        <method type="GSXMLDocument*" factory="yes" ovadd="0.0.0">
+          <sel>xsltTransformXml:</sel>
+          <arg type="NSData*">xmlData</arg>
+          <sel>stylesheet:</sel>
+          <arg type="NSData*">xsltStylesheet</arg>
+          <sel>params:</sel>
+          <arg type="NSDictionary*">params</arg>
+          <desc>
+            Performs an XSLT transformation on the specified
+            file using the stylesheet and parameters provided.See
+            the libxslt documentation for details of the supported
+            parameters. <br /> Returns an autoreleased
+            GSXMLDocument containing the transformed XML,
+            or <code>nil</code> on failure.
+          </desc>
+        </method>
+        <method type="GSXMLDocument*" ovadd="0.0.0">
+          <sel>xsltTransform:</sel>
+          <arg type="GSXMLDocument*">xsltStylesheet</arg>
+          <desc>
+            Performs an XSLT transformation on the current
+            document using the supplied stylesheet. <br />
+            Returns an autoreleased GSXMLDocument containing
+            the transformed XML, or <code>nil</code> on failure.
+          </desc>
+        </method>
+        <method type="GSXMLDocument*" ovadd="0.0.0">
+          <sel>xsltTransform:</sel>
+          <arg type="GSXMLDocument*">xsltStylesheet</arg>
+          <sel>params:</sel>
+          <arg type="NSDictionary*">params</arg>
+          <desc>
+            Performs an XSLT transformation on the current
+            document using the supplied stylesheet and
+            paramaters (<var>params</var> may be
+            <code>nil</code>). See the libxslt documentation for
+            details of the supported parameters. <br /> Returns
+            an autoreleased GSXMLDocument containing the transformed
+            XML, or <code>nil</code> on failure.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSXMLRPC(Delegate)
+        category
+      </heading>
+      <category name="Delegate" class="GSXMLRPC" ovadd="0.0.0">
+        <declared>GNUstepBase/GSXML.h</declared>
+        <desc>
+          Delegates should implement this method in order to
+          be informed of the success or failure of an XMLRPC method
+          call which was initiated by the
+          <ref type="method" id="-sendMethodCall:params:timeout:">
+            -sendMethodCall:params:timeout:
+          </ref>
+          method. <br />
+        </desc>
+        <method type="void" override="dummy" ovadd="0.0.0">
+          <sel>completedXMLRPC:</sel>
+          <arg type="GSXMLRPC*">sender</arg>
+          <desc>
+            Called by the <var>sender</var> when an XMLRPC
+            method call completes (either success or failure).
+            The delegate may then call the
+            <ref type="method" id="-result">
+              -result
+            </ref>
+            method to retrieve the result of the method call
+            from the <var>sender</var>.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSString(GSXML)
+        category
+      </heading>
+      <category name="GSXML" class="NSString" ovadd="0.0.0">
+        <declared>GNUstepBase/GSXML.h</declared>
+        <desc>
+          Convenience methods for managing XML escape
+          sequences in an NSString.
+        </desc>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>stringByEscapingXML</sel>
+          <desc>
+            Deals with standard XML internal entities. <br />
+            Converts the five XML special characters in the
+            receiver ('&gt;', '&lt;', '&amp;', '&apos;' and
+            '&quot;') to their escaped equivalents, and
+            return the escaped string. <br /> Also converts
+            non-ascii characters to the corresponding numeric
+            entity escape sequences. <br /> You should perform
+            any non-standard entity substitution you require
+            <em>after</em> you have called this method.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>stringByUnescapingXML</sel>
+          <desc>
+            Deals with standard XML internal entities. <br />
+            Converts the five XML escape sequences
+            ('&amp;gt;', '&amp;lt;', '&amp;amp;',
+            '&amp;apos;' and '&amp;quot;') to the unicode
+            characters they represent, and returns the
+            unescaped string. <br /> Also converts numeric
+            entity escape sequences to the corresponding unicode
+            characters. <br /> You should perform any
+            non-standard entity substitution you require
+            <em>before</em> you have called this method.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

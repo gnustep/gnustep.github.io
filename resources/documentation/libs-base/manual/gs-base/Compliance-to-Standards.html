@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.7, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Compliance to Standards (Objective-C GNUstep Base Programming Manual)</title>
+
+<meta name="description" content="Compliance to Standards (Objective-C GNUstep Base Programming Manual)">
+<meta name="keywords" content="Compliance to Standards (Objective-C GNUstep Base Programming Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html" rel="start" title="Top">
+<link href="Make.html" rel="index" title="Make">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html" rel="up" title="Top">
+<link href="Make.html" rel="next" title="Make">
+<link href="Java-and-Guile.html" rel="prev" title="Java and Guile">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<span id="Compliance-to-Standards"></span><div class="header">
+<p>
+Next: <a href="Make.html" accesskey="n" rel="next">Make</a>, Previous: <a href="Java-and-Guile.html" accesskey="p" rel="prev">Java and Guile</a>, Up: <a href="index.html" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Make.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="GNUstep-Compliance-to-Standards"></span><h2 class="appendix">Appendix E GNUstep Compliance to Standards</h2>
+<span id="index-standards_002c-GNUstep-compliance-to"></span>
+<span id="index-standards-compliance"></span>
+<span id="index-OpenStep-compliance"></span>
+<span id="index-OS-X-compatibility"></span>
+
+<p>GNUstep is generally compatible with the OpenStep specification and with
+recent developments of the MacOS-X (Cocoa) API. Where MacOS deviates from the
+OpenStep API, GNUstep generally attempts to support both versions. In some
+cases the newer MacOS APIs are incompatible with OpenStep, and GNUstep usually
+supports the richer version.
+</p>
+<p>In order to deal with compatiblity issues, GNUstep uses two mechanisms - it
+provides conditionally compiled sections of the library header files, so that
+software can be built that will conform strictly to a particular API, and it
+provides user default settings to control the behavior of the library at
+runtime.
+</p>
+<span id="Conditional-Compilation"></span><h3 class="section">E.1 Conditional Compilation</h3>
+<span id="index-compilation_002c-conditional"></span>
+
+<p>Adding an option to a makefile to define one of the following preprocessor
+constants will modify the API visible to software being compiled -
+</p>
+<dl>
+<dt id="index-NO_005fGNUSTEP">preprocessor: <strong>NO_GNUSTEP</strong></dt>
+<dd><p>GNUstep specific extensions to the OpenStep and MacOS cocoa APIs are
+    excluded from the headers if this is defined to a non-zero value.
+</p></dd></dl>
+
+<dl>
+<dt id="index-STRICT_005fMACOS_005fX">preprocessor: <strong>STRICT_MACOS_X</strong></dt>
+<dd><p>Only methods and classes that are part of the MacOS cocoa API are made
+available in the headers if this is defined.
+</p></dd></dl>
+
+<dl>
+<dt id="index-STRICT_005fOPENSTEP">preprocessor: <strong>STRICT_OPENSTEP</strong></dt>
+<dd><p>Only methods and classes that are part of the OpenStep specification are
+made available in the headers if this is defined.
+</p></dd></dl>
+
+<p>Note, these preprocessor constants are used in developer code (ie the code
+that users of GNUstep write) rather than by the GNUstep software itself. They
+permit a developer to ensure that he/she does not write code which depends
+upon API not present on other implementations (in practice, MacOS-X or some
+old OPENSTEP systems).  The actual GNUstep libraries are always built with the
+full GNUstep API in place, so that the feature set is as consistent as
+possible.
+</p>
+
+<span id="User-Defaults"></span><h3 class="section">E.2 User Defaults</h3>
+<span id="index-user-defaults_002c-API-compliance"></span>
+
+<p>User defaults may be specified ...
+</p>
+<dl>
+<dt id="index-GNU_002dDebug">defaults: <strong>GNU-Debug</strong></dt>
+<dd><p>An array of strings that lists debug levels to be used within the
+program. These debug levels are merged with any which were set on the command
+line or added programmatically to the set given by the
+[NSProcessInfo-debugSet] method.
+</p></dd></dl>
+
+<dl>
+<dt id="index-GSLogSyslog">defaults: <strong>GSLogSyslog</strong></dt>
+<dd><p>Setting the user default GSLogSyslog to YES will cause log/debug output to be
+sent to the syslog facility (on systems which support it), rather than to the
+standard error stream. This is useful in environments where stderr has been
+re-used strangely for some reason.
+</p></dd></dl>
+
+<dl>
+<dt id="index-GSMacOSXCompatible">defaults: <strong>GSMacOSXCompatible</strong></dt>
+<dd><p>Setting the user default GSMacOSXCompatible to YES will cause MacOS compatible
+behavior to be the default at runtime. This default may however be overridden
+to provide more fine grained control of system behavior.
+</p></dd></dl>
+
+<dl>
+<dt id="index-GSOldStyleGeometry">defaults: <strong>GSOldStyleGeometry</strong></dt>
+<dd><p>Specifies whether the functions for producing strings describing geometric
+structures (NSStringFromPoint(), NSStringFromSize(), and NSStringFromRect())
+should produce strings conforming to the OpenStep specification or to MacOS-X
+behavior. The functions for parsing those strings should cope with both cases
+anyway.
+</p></dd></dl>
+
+<dl>
+<dt id="index-GSSOCKS">defaults: <strong>GSSOCKS</strong></dt>
+<dd><p>May be used to specify a default SOCKS5 server (and optionally a port
+separated from the server by a colon) to which tcp/ip connections made using
+the NSFileHandle extension methods should be directed.
+</p>
+<p>This default overrides the SOCKS5_SERVER and SOCKS_SERVER environment variables.
+</p></dd></dl>
+
+<dl>
+<dt id="index-Local-Time-Zone">defaults: <strong>Local Time Zone</strong></dt>
+<dd><p>Used to specify the name of the timezone to be used by the NSTimeZone class.
+</p></dd></dl>
+
+<dl>
+<dt id="index-NSWriteOldStylePropertyLists">defaults: <strong>NSWriteOldStylePropertyLists</strong></dt>
+<dd><p>Specifies whether text property-list output should be in the default MacOS-X
+format (XML), or in the more human readable (but less powerful) original
+OpenStep format.
+</p>
+<p>Reading of property lists is supported in either format, but only if GNUstep
+is built with the libxml library (which is needed to handle XML parsing).
+</p>
+<p>NB. MacOS-X generates illegal XML for some strings - those which contain
+characters not legal in XML. GNUstep always generates legal XML, at the cost
+of a certain degree of compatibility. GNUstep XML property lists use a
+backslash to escape illegal chatracters, and consequently any string
+containing either a backslash or an illegal character will be written
+differently to the same string on MacOS-X.
+</p></dd></dl>
+
+<dl>
+<dt id="index-NSLanguages">defaults: <strong>NSLanguages</strong></dt>
+<dd><p>An array of strings that lists the users prefered languages, in order or
+preference. If not found the default is just English.
+</p></dd></dl>
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Make.html" accesskey="n" rel="next">Make</a>, Previous: <a href="Java-and-Guile.html" accesskey="p" rel="prev">Java and Guile</a>, Up: <a href="index.html" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Make.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

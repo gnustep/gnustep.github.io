@@ -1,0 +1,321 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSException" up="Base">
+  <head>
+    <title>NSAssertionHandler class reference</title>
+    <author name="Adam Fedor">
+      <email address="fedor@boulder.colorado.edu">
+        fedor@boulder.colorado.edu
+      </email>
+    </author>
+    <copy>1995, 1996 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSAssertionHandler
+        class
+      </heading>
+      <class name="NSAssertionHandler" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSException.h</declared>
+        <desc>
+          <p>
+            NSAssertionHandler objects are used to
+            raise exceptions on behalf of macros implementing
+            assertions. <br /> Each thread has its own
+            assertion handler instance. <br />
+          </p>
+          <p>
+            The macros work together with the assertion handler
+            object to produce meaningful exception messages
+            containing the name of the source file, the
+            position within that file, and the name of the
+            ObjC method or C function in which the assertion
+            failed.
+          </p>
+          <p>
+            An NSAssertionHandler instance is created on demand for
+            each thread and is stored in the thread's dictionary
+            under the key NSAssertionHandler. A custom
+            NSAssertionHandler can be used by adding
+            it to the thread dictionary under this key.
+          </p>
+          The assertion macros are:
+          <ref type="function" id="NSAssert">
+            NSAssert()
+          </ref>
+          , <ref type="function" id="NSCAssert">NSCAssert()</ref>,
+          <ref type="function" id="NSAssert1">
+            NSAssert1()
+          </ref>
+          , <ref type="function" id="NSCAssert1">NSCAssert1()</ref>,
+          <ref type="function" id="NSAssert2">
+            NSAssert2()
+          </ref>
+          , <ref type="function" id="NSCAssert2">NSCAssert2()</ref>,
+          <ref type="function" id="NSAssert3">
+            NSAssert3()
+          </ref>
+          , <ref type="function" id="NSCAssert3">NSCAssert3()</ref>,
+          <ref type="function" id="NSAssert4">
+            NSAssert4()
+          </ref>
+          , <ref type="function" id="NSCAssert4">NSCAssert4()</ref>,
+          <ref type="function" id="NSAssert5">
+            NSAssert5()
+          </ref>
+          , <ref type="function" id="NSCAssert5">NSCAssert5()</ref>,
+          <ref type="function" id="NSParameterAssert">
+            NSParameterAssert()
+          </ref>
+          ,
+          <ref type="function" id="NSCParameterAssert">
+            NSCParameterAssert()
+          </ref>
+          <br /> The numbered macros arre obsolete, dating from
+          a time when
+          <ref type="function" id="NSAssert">
+            NSAssert()
+          </ref>
+          and <ref type="function" id="NSCAssert">NSCAssert()</ref>
+          did not support a variable number of arguments.
+        </desc>
+        <method type="NSAssertionHandler*" factory="yes" ovadd="1.0.0">
+          <sel>currentHandler</sel>
+          <desc>
+            Returns the assertion handler object for the
+            current thread. <br /> If none exists, creates one
+            and returns it.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>handleFailureInFunction:</sel>
+          <arg type="NSString*">functionName</arg>
+          <sel>file:</sel>
+          <arg type="NSString*">fileName</arg>
+          <sel>lineNumber:</sel>
+          <arg type="NSInteger">line</arg>
+          <sel>description:</sel>
+          <arg type="NSString*">format</arg>
+          <vararg />
+          <desc>
+            Handles an assertion failure by using
+            <ref type="function" id="NSLogv">
+              NSLogv()
+            </ref>
+            to print an error message built from the supplied
+            arguments, and then raising an
+            NSInternalInconsistencyException
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>handleFailureInMethod:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>object:</sel>
+          <arg type="id">object</arg>
+          <sel>file:</sel>
+          <arg type="NSString*">fileName</arg>
+          <sel>lineNumber:</sel>
+          <arg type="NSInteger">line</arg>
+          <sel>description:</sel>
+          <arg type="NSString*">format</arg>
+          <vararg />
+          <desc>
+            Handles an assertion failure by using
+            <ref type="function" id="NSLogv">
+              NSLogv()
+            </ref>
+            to print an error message built from the supplied
+            arguments, and then raising an
+            NSInternalInconsistencyException
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSException class
+      </heading>
+      <class name="NSException" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSException.h</declared>
+        <conform>NSCoding</conform>
+        <conform>NSCopying</conform>
+        <desc>
+          <p>
+            The <code>NSException</code> class helps manage errors
+            in a program. It provides a mechanism for lower-level
+            methods to provide information about problems to
+            higher-level methods, which more often than
+            not, have a better ability to decide what to do about
+            the problems.
+          </p>
+          <p>
+            Exceptions are typically handled by enclosing a
+            sensitive section of code inside the macros
+            <code>NS_DURING</code> and <code>NS_HANDLER</code>,
+            and then handling any problems after this, up to the
+            <code>NS_ENDHANDLER</code> macro:
+          </p>
+<example>
+   NS_DURING
+    code that might cause an exception
+   NS_HANDLER
+    code that deals with the exception. If this code cannot deal with
+    it, you can re-raise the exception like this
+    [localException raise]
+    so the next higher level of code can handle it
+   NS_ENDHANDLER
+   </example>
+          <p>
+            The local variable <code>localException</code> is the
+            name of the exception object you can use in the
+            <code>NS_HANDLER</code> section. The easiest way to
+            cause an exception is using the
+            <ref type="method" id="+raise:format:,...">
+              +raise:format:,...
+            </ref>
+            method.
+          </p>
+          <p>
+            If there is no NS_HANDLER... NS_ENDHANDLER block
+            enclosing (directly or indirectly) code where an
+            exception is raised, then control passes to the
+            <em>uncaught exception handler</em> function and the
+            program is then terminated. <br /> The uncaught
+            exception handler is set using
+            <ref type="function" id="NSSetUncaughtExceptionHandler">
+              NSSetUncaughtExceptionHandler()
+            </ref>
+            and if not set, defaults to a function which will
+            simply print an error message before the program
+            terminates.
+          </p>
+        </desc>
+        <method type="NSException*" factory="yes" ovadd="1.0.0">
+          <sel>exceptionWithName:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>reason:</sel>
+          <arg type="NSString*">reason</arg>
+          <sel>userInfo:</sel>
+          <arg type="NSDictionary*">userInfo</arg>
+          <desc>
+            Create an an exception object with a <var>name</var>
+            , <var>reason</var> and a dictionary <var>userInfo</var>
+            which can be used to provide additional information
+            or access to objects needed to handle the exception.
+            After the exception is created you must
+            <ref type="method" id="-raise">
+              -raise
+            </ref>
+            it.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="1.0.0">
+          <sel>raise:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>format:</sel>
+          <arg type="NSString*">format</arg>
+          <vararg />
+          <desc>
+            Creates an exception with a <var>name</var> and a
+            reason using the <var>format</var> string and any
+            additional arguments. The exception is then
+            <em>raised</em> using the
+            <ref type="method" id="-raise">
+              -raise
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="1.0.0">
+          <sel>raise:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>format:</sel>
+          <arg type="NSString*">format</arg>
+          <sel>arguments:</sel>
+          <arg type="va_list">argList</arg>
+          <desc>
+            Creates an exception with a <var>name</var> and a
+            reason string using the <var>format</var> string and
+            additional arguments specified as a variable
+            argument list <var>argList</var>. The exception is
+            then <em>raised</em> using the
+            <ref type="method" id="-raise">
+              -raise
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0" gvadd="1.15.1">
+          <sel>callStackReturnAddresses</sel>
+          <desc>
+            Returns an array of the call stack return addresses
+            at the point when the exception was raised. Re-raising
+            the exception does not change this value.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.6.0" gvadd="1.19.3">
+          <sel>callStackSymbols</sel>
+          <desc>
+            Returns an array of the symbolic names of the call
+            stack return addresses. Note that, on some platforms,
+            symbols are only exported in position-independent
+            code and so these may only return numeric addresses
+            for code in static libraries or the main application.
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="1.0.0">
+          <sel>initWithName:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>reason:</sel>
+          <arg type="NSString*">reason</arg>
+          <sel>userInfo:</sel>
+          <arg type="NSDictionary*">userInfo</arg>
+          <desc>
+            Initializes a newly allocated NSException
+            object with a <var>name</var>, <var>reason</var> and
+            a dictionary <var>userInfo</var>.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>name</sel>
+          <desc>
+            Returns the name of the exception.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>raise</sel>
+          <desc>
+            Raises the exception. All code following the raise
+            will not be executed and program control will be
+            transfered to the closest calling method which
+            encapsulates the exception code in an
+            NS_DURING macro. <br /> If the exception was not
+            caught in a macro, the currently set uncaught
+            exception handler is called to perform final
+            logging and the program is then terminated. <br />
+            If the uncaught exception handler fails to terminate the
+            program, then the default behavior is to terminate
+            the program as soon as the uncaught exception handler
+            function returns. <br /> NB. all other exception
+            raising methods call this one, so if you want to
+            set a breakpoint when debugging, set it in this method.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>reason</sel>
+          <desc>
+            Returns the exception reason.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="1.0.0">
+          <sel>userInfo</sel>
+          <desc>
+            Returns the exception userInfo dictionary. <br />
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

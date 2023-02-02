@@ -1,0 +1,724 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>NSObject+GNUstepBase documentation</title>
+  </head>
+  <body>
+    <font face="serif">
+    <a href="BaseAdditions.html">Up</a>
+    <br />
+    <h1><a name="title$NSObject+GNUstepBase">NSObject+GNUstepBase documentation</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Richard Frith-Macdonald (<a href="mailto:rfm@gnu.org"><code>rfm@gnu.org</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Copyright:</b> (C) 2003-2010 Free Software Foundation, Inc.</p>
+
+        <div>
+      <hr width="50%" align="left" />
+      <h3>Contents -</h3>
+      <ol>
+        <li>
+          <a href="#001000000000">Software documentation for the NSObject(GNUstepBase)
+        informal protocol</a>
+        </li>
+        <li>
+          <a href="#002000000000">Software documentation for the NSObject(GSAtExit)
+        informal protocol</a>
+        </li>
+        <li>
+          <a href="#003000000000">Software documentation for the NSObject(GSCleanup)
+        informal protocol</a>
+        </li>
+        <li>
+          <a href="#004000000000">Software documentation for the
+        NSObject(MemoryFootprint) informal
+        protocol</a>
+        </li>
+      </ol>
+      <hr width="50%" align="left" />
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSObject(GNUstepBase)
+        informal protocol
+      </a></h1>
+    <h2>NSObject(<a name="category$NSObject(GNUstepBase)">GNUstepBase</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/NSObject+GNUstepBase.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSObject+GNUstepBase.html#method$NSObject(GNUstepBase)-compare$">-compare:</a></li>
+      <li><a rel="gsdoc" href="NSObject+GNUstepBase.html#method$NSObject(GNUstepBase)-isInstance">-isInstance</a></li>
+      <li><a rel="gsdoc" href="NSObject+GNUstepBase.html#method$NSObject(GNUstepBase)-makeImmutable">-makeImmutable</a></li>
+      <li><a rel="gsdoc" href="NSObject+GNUstepBase.html#method$NSObject(GNUstepBase)-makeImmutableCopyOnFail$">-makeImmutableCopyOnFail:</a></li>
+      <li><a rel="gsdoc" href="NSObject+GNUstepBase.html#method$NSObject(GNUstepBase)-notImplemented$">-notImplemented:</a></li>
+      <li><a rel="gsdoc" href="NSObject+GNUstepBase.html#method$NSObject(GNUstepBase)-shouldNotImplement$">-shouldNotImplement:</a></li>
+      <li><a rel="gsdoc" href="NSObject+GNUstepBase.html#method$NSObject(GNUstepBase)-subclassResponsibility$">-subclassResponsibility:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSObject(GNUstepBase)-compare$">compare:&nbsp;</a></h3>
+    - (NSComparisonResult) <b>compare:</b> (id)anObject;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            WARNING: The
+            <a rel="gsdoc" href="#method$NSObject(GNUstepBase)-compare$">
+              -compare:
+            </a>
+
+            method for NSObject is deprecated due to subclasses
+            declaring the same selector with conflicting
+            signatures. Comparision of arbitrary objects is
+            not just meaningless but also dangerous as most
+            concrete implementations expect comparable objects
+            as arguments often accessing instance variables
+            directly. This method will be removed in a future
+            release.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(GNUstepBase)-isInstance">isInstance&nbsp;</a></h3>
+    - (BOOL) <b>isInstance</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            For backward compatibility only... use
+            
+              class_isMetaClass()
+            
+
+            on the class of the receiver instead.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(GNUstepBase)-makeImmutable">makeImmutable&nbsp;</a></h3>
+    - (BOOL) <b>makeImmutable</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Transmutes the receiver into an immutable
+            version of the same object. Returns
+            <code>YES</code> if the receiver has become
+            immutable, <code>NO</code> otherwise. <br /> The
+            default implementation returns <code>NO</code>.
+            <br /> Mutable classes which have an immutable
+            counterpart they can efficiently change into,
+            should override to transmute themselves and return
+            <code>YES</code>. <br /> Immutable classes should
+            override this to simply return <code>YES</code>
+            with no further action. <br /> This method is used in
+            methods which are declared to return immutable
+            objects (eg. an NSArray), but which create and
+            build mutable ones internally.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(GNUstepBase)-makeImmutableCopyOnFail$">makeImmutableCopyOnFail:&nbsp;</a></h3>
+    - (id) <b>makeImmutableCopyOnFail:</b> (BOOL)force;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            DEPRECATED... do not use. Transmutes the
+            receiver into an immutable version of the same
+            object and returns the result. <br /> If the
+            receiver is not a mutable object or cannot be
+            simply transmuted, then this method either returns
+            the receiver unchanged or, if the <var>force</var> flag
+            is set to <code>YES</code>, returns an autoreleased copy
+            of the receiver. <br /> Mutable classes should override
+            this default implementation. <br /> This method is
+            used in methods which are declared to return immutable
+            objects (eg. an NSArray), but which create and
+            build mutable ones internally.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(GNUstepBase)-notImplemented$">notImplemented:&nbsp;</a></h3>
+    - (id) <b>notImplemented:</b> (SEL)aSel;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Message sent when an implementation wants to
+            explicitly exclude a method (but cannot due to
+            compiler constraint), and wants to make sure it is
+            not called by mistake. Default implementation raises an
+            exception at runtime.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(GNUstepBase)-shouldNotImplement$">shouldNotImplement:&nbsp;</a></h3>
+    - (id) <b>shouldNotImplement:</b> (SEL)aSel;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Message sent when an implementation wants to
+            explicitly exclude a method (but cannot due to
+            compiler constraint) and forbid that subclasses
+            implement it. Default implementation raises an
+            exception at runtime. If a subclass <em>does</em>
+            implement this method, however, the superclass&apos;s
+            implementation will not be called, so this
+            is not a perfect mechanism.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(GNUstepBase)-subclassResponsibility$">subclassResponsibility:&nbsp;</a></h3>
+    - (id) <b>subclassResponsibility:</b> (SEL)aSel;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Message sent when an implementation wants to
+            explicitly require a subclass to implement a
+            method (but cannot at compile time since there is no
+            <code>abstract</code> keyword in Objective-C).
+            Default implementation raises an exception at
+            runtime to alert developer that he/she forgot to
+            override a method.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="002000000000">
+        Software documentation for the NSObject(GSAtExit)
+        informal protocol
+      </a></h1>
+    <h2>NSObject(<a name="category$NSObject(GSAtExit)">GSAtExit</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/NSObject+GNUstepBase.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          This is an informal protocol... classes may implement
+          the method and register themselves to have it called on
+          process exit.
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSObject+GNUstepBase.html#method$NSObject(GSAtExit)+atExit">+atExit</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSObject(GSAtExit)+atExit">atExit&nbsp;</a></h3>
+    + (void) <b>atExit</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            This method is called on exit for any class which
+            implements it and which has called
+            <a rel="gsdoc" href="#method$NSObject(GSCleanup)+registerAtExit">
+              +registerAtExit
+            </a>
+
+            to register it to be called. <br /> The order in which
+            methods for different classes is called is the
+            reverse of the order in which the classes were
+            registered, but it&apos;s best to assume the method
+            can not depend on any other class being in a usable
+            state at the point when the method is called (rather
+            like +load). <br /> Typical use would be to release
+            memory occupied by class data structures so that
+            memory usage analysis software will not think the
+            memory has been leaked.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="003000000000">
+        Software documentation for the NSObject(GSCleanup)
+        informal protocol
+      </a></h1>
+    <h2>NSObject(<a name="category$NSObject(GSCleanup)">GSCleanup</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/NSObject+GNUstepBase.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          Category for methods handling leaked memory cleanup
+          on exit of process (for use when debugging memory leaks).
+          <br /> You enable this by calling the
+          <a rel="gsdoc" href="#method$NSObject(GSCleanup)+setShouldCleanUp$">
+            +setShouldCleanUp:
+          </a>
+
+          method (done implicitly by gnustep-base if the
+          GNUSTEP_SHOULD_CLEAN_UP environment
+          variable is set to <code>YES</code>). <br /> Your
+          class then has two options for performing cleanup when
+          the process ends:
+          
+    </p>
+    <p>
+
+            1. Use the <a rel="gsdoc" href="#method$NSObject(GSCleanup)+leak$">+leak:</a>
+
+            method to register objects which are simply to be
+            retained until the process ends, and then either
+            ignored or released depending on the cleanup
+            setting in force. This mechanism is simple and
+            should be sufficient for many classes.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            2. Implement a
+            <a rel="gsdoc" href="#method$NSObject(GSAtExit)+atExit">
+              +atExit
+            </a>
+
+            method to be run when the process ends and, within
+            your
+            
+              +initialize
+            
+
+            implementation, call
+            <a rel="gsdoc" href="#method$NSObject(GSCleanup)+shouldCleanUp">
+              +shouldCleanUp
+            </a>
+
+            to determine whether cleanup should be done, and if it
+            returns <code>YES</code> then call
+            <a rel="gsdoc" href="#method$NSObject(GSCleanup)+registerAtExit">
+              +registerAtExit
+            </a>
+
+            to have your
+            <a rel="gsdoc" href="#method$NSObject(GSAtExit)+atExit">
+              +atExit
+            </a>
+
+            method called when the process terminates.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            The order in which &apos;leaked&apos; objects are released and
+            <a rel="gsdoc" href="#method$NSObject(GSAtExit)+atExit">
+              +atExit
+            </a>
+
+            methods are called on process exist is the reverse
+            of the order in which they werse set up suing this API.
+              </p>
+    <p>
+      
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSObject+GNUstepBase.html#method$NSObject(GSCleanup)+leak$">+leak:</a></li>
+      <li><a rel="gsdoc" href="NSObject+GNUstepBase.html#method$NSObject(GSCleanup)+leakAt$">+leakAt:</a></li>
+      <li><a rel="gsdoc" href="NSObject+GNUstepBase.html#method$NSObject(GSCleanup)+registerAtExit">+registerAtExit</a></li>
+      <li><a rel="gsdoc" href="NSObject+GNUstepBase.html#method$NSObject(GSCleanup)+registerAtExit$">+registerAtExit:</a></li>
+      <li><a rel="gsdoc" href="NSObject+GNUstepBase.html#method$NSObject(GSCleanup)+setShouldCleanUp$">+setShouldCleanUp:</a></li>
+      <li><a rel="gsdoc" href="NSObject+GNUstepBase.html#method$NSObject(GSCleanup)+shouldCleanUp">+shouldCleanUp</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSObject(GSCleanup)+leak$">leak:&nbsp;</a></h3>
+    + (id) <b>leak:</b> (id)anObject;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            This method simply retains its argument so that it
+            will never be deallocated during normal operation, but
+            keeps track of it so that it is released during
+            process exit if cleanup is enabled. <br /> Returns
+            its argument.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(GSCleanup)+leakAt$">leakAt:&nbsp;</a></h3>
+    + (id) <b>leakAt:</b> (id*)anAddress;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            This method retains the object at *anAddress so that
+            it will never be deallocated during normal operation,
+            but keeps track of the address so that the object is
+            released and the address is zeroed during process
+            exit if cleanup is enabled. <br /> Returns the object
+            at *anAddress.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(GSCleanup)+registerAtExit">registerAtExit&nbsp;</a></h3>
+    + (BOOL) <b>registerAtExit</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Sets the receiver to have its
+            <a rel="gsdoc" href="#method$NSObject(GSAtExit)+atExit">
+              +atExit
+            </a>
+
+            method called at the point when the process
+            terminates. <br /> Returns <code>YES</code> on
+            success and <code>NO</code> on failure (if the
+            class does not implement the method or if it is
+            already registered to call it). <br /> Implemented
+            as a call to
+            <a rel="gsdoc" href="#method$NSObject(GSCleanup)+registerAtExit$">
+              +registerAtExit:
+            </a>
+
+            with the selector for the
+            <a rel="gsdoc" href="#method$NSObject(GSAtExit)+atExit">
+              +atExit
+            </a>
+
+            method as its argument.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(GSCleanup)+registerAtExit$">registerAtExit:&nbsp;</a></h3>
+    + (BOOL) <b>registerAtExit:</b> (SEL)aSelector;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Sets the receiver to have the specified method called
+            at the point when the process terminates. <br /> Returns
+            <code>YES</code> on success and <code>NO</code> on
+            failure (if the class does not implement the method
+            ir if it is already registered to call it).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(GSCleanup)+setShouldCleanUp$">setShouldCleanUp:&nbsp;</a></h3>
+    + (void) <b>setShouldCleanUp:</b> (BOOL)aFlag;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Specifies the default cleanup behavior on process
+            exit... the value returned by the NSObject
+            implementation of the
+            
+              +shouldClanUp
+            
+
+            method. <br /> Calling this method with a
+            <code>YES</code> argument implicitly calls the
+            
+              +enableAtExit
+            
+
+            method as well. <br /> The GNUstep Base library
+            calls this method with the value obtained from the
+            GNUSTEP_SHOULD_CLEAN_UP environment
+            variable when NSObject is initialised.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(GSCleanup)+shouldCleanUp">shouldCleanUp&nbsp;</a></h3>
+    + (BOOL) <b>shouldCleanUp</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns a flag indicating whether the receiver
+            should clean up its data structures etc at process
+            exit. <br /> The NSObject implementation returns the
+            value set by the
+            <a rel="gsdoc" href="#method$NSObject(GSCleanup)+setShouldCleanUp$">
+              +setShouldCleanUp:
+            </a>
+
+            method but subclasses may override this.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="004000000000">
+        Software documentation for the
+        NSObject(MemoryFootprint) informal
+        protocol
+      </a></h1>
+    <h2>NSObject(<a name="category$NSObject(MemoryFootprint)">MemoryFootprint</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/NSObject+GNUstepBase.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          This is an informal protocol; classes may implement the
+          +contentSizeOf:declaredIn:excluding:
+ method to report how much memory is used by any objects/pointers it acts as a container for. <br /> Code may call the <a rel="gsdoc" href="#method$NSObject(MemoryFootprint)-sizeInBytesExcluding$">-sizeInBytesExcluding:</a>
+ or -sizeinBytes
+ method to determine how much heap memory an object (and its content) occupies.
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSObject+GNUstepBase.html#method$NSObject(MemoryFootprint)+contentSizeOf$excluding$">+contentSizeOf:excluding:</a></li>
+      <li><a rel="gsdoc" href="NSObject+GNUstepBase.html#method$NSObject(MemoryFootprint)-sizeInBytes">-sizeInBytes</a></li>
+      <li><a rel="gsdoc" href="NSObject+GNUstepBase.html#method$NSObject(MemoryFootprint)-sizeInBytesExcluding$">-sizeInBytesExcluding:</a></li>
+      <li><a rel="gsdoc" href="NSObject+GNUstepBase.html#method$NSObject(MemoryFootprint)-sizeOfContentExcluding$">-sizeOfContentExcluding:</a></li>
+      <li><a rel="gsdoc" href="NSObject+GNUstepBase.html#method$NSObject(MemoryFootprint)-sizeOfInstance">-sizeOfInstance</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSObject(MemoryFootprint)+contentSizeOf$excluding$">contentSizeOf:&nbsp;excluding:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>contentSizeOf:</b> (NSObject*)obj<b> excluding:</b> (NSHashTable*)exclude;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            This method returns the size of the memory used by the
+            object instance variables of the target object
+            (excluding any in the specified set). <br />
+            This is not the memory occupied by instance variable
+            pointers. It is the memory referenced by any
+            objects inside the target. <br /> This method is
+            not intended to be overridden, rather it is provided
+            for use as a helper for the
+            <a rel="gsdoc" href="#method$NSObject(MemoryFootprint)-sizeOfContentExcluding$">
+              -sizeOfContentExcluding:
+            </a>
+
+            method. <br /> This method must not be called for a
+            mutable object unless it is protected by a locking
+            mechanism to prevent mutation while it is
+            examining the instance variables of the object.
+
+<pre>
+ @interface	foo : bar
+ {
+   id	a;		// Some object
+   id b;		// More storage
+   unsigned capacity;	// Buffer size
+   char *p;		// The buffer
+ }
+ @end
+ @implementation foo
+ - (NSUInteger) sizeOfContentExcluding: (NSHashTable*)exclude
+{ 
+  NSUInteger	size;
+
+  // get the size of the objects (a and b)
+  size = [NSObject contentSizeOf: self
+			 excluding: exclude];
+  // add the memory pointed to by p
+  size += capacity * sizeof(char);
+  return size;
+}
+@end
+ </pre>
+      
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(MemoryFootprint)-sizeInBytes">sizeInBytes&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>sizeInBytes</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Convenience method calling
+            <a rel="gsdoc" href="#method$NSObject(MemoryFootprint)-sizeInBytesExcluding$">
+              -sizeInBytesExcluding:
+            </a>
+
+            with a newly created exclusion hash table, and
+            destroying the table once the size is
+            calculated.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(MemoryFootprint)-sizeInBytesExcluding$">sizeInBytesExcluding:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>sizeInBytesExcluding:</b> (NSHashTable*)exclude;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            This method returns the memory usage of the receiver,
+            excluding any objects already present in the
+            <var>exclude</var> table. <br /> The argument is a
+            hash table configured to hold non-retained pointer
+            objects and is used to inform the receiver that its
+            size should not be counted again if it&apos;s already in
+            the table. <br /> The NSObject implementation returns
+            zero if the receiver is in the table, but otherwise
+            adds itself to the table and returns its memory
+            footprint (the sum of all of its instance
+            variables, plus the result of calling
+            <a rel="gsdoc" href="#method$NSObject(MemoryFootprint)-sizeOfContentExcluding$">
+              -sizeOfContentExcluding:
+            </a>
+
+            for the instance). <br /> Classes should not override
+            this method, instead they should implement
+            <a rel="gsdoc" href="#method$NSObject(MemoryFootprint)-sizeOfContentExcluding$">
+              -sizeOfContentExcluding:
+            </a>
+
+            to return the extra memory usage of the pointer/object
+            instance variables (heap memory) they add to their
+            superclass. <br /> NB. mutable objects must
+            either prevent mutation while calculating their
+            content size, or must override
+            <a rel="gsdoc" href="#method$NSObject(MemoryFootprint)-sizeOfContentExcluding$">
+              -sizeOfContentExcluding:
+            </a>
+
+            to refrain from dealing with content which might change.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(MemoryFootprint)-sizeOfContentExcluding$">sizeOfContentExcluding:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>sizeOfContentExcluding:</b> (NSHashTable*)exclude;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            This method is called by
+            <a rel="gsdoc" href="#method$NSObject(MemoryFootprint)-sizeInBytesExcluding$">
+              -sizeInBytesExcluding:
+            </a>
+
+            to calculate the size of any objects or heap memory
+            contained by the receiver. <br /> The base class
+            implementation simply returns zero (as it is
+            not possible to safely calculate content sizes of
+            mutable objects), but subclasses should override it
+            to provide correct information where possible (eg if the
+            object is immutable or if locking is used to prevent
+            mutation while calculating content size). <br />
+            Subclasses may use the
+            <a rel="gsdoc" href="#method$NSObject(MemoryFootprint)+contentSizeOf$excluding$">
+              +contentSizeOf:excluding:
+            </a>
+
+            method as a convenience to provide the sizes of
+            object instnce variables.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(MemoryFootprint)-sizeOfInstance">sizeOfInstance&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>sizeOfInstance</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Helper method called by
+            <a rel="gsdoc" href="#method$NSObject(MemoryFootprint)-sizeInBytesExcluding$">
+              -sizeInBytesExcluding:
+            </a>
+
+            to return the size of the instance excluding any
+            contents (things referenced by pointers).
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+    <br />
+    <a href="BaseAdditions.html">Up</a>
+    </font>
+</body>
+</html>

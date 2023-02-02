@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>NSClassDescription class reference</title>
+  </head>
+  <body>
+    <font face="serif">
+    <a href="Base.html">Up</a>
+    <br />
+    <h1><a name="title$NSClassDescription">NSClassDescription class reference</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Richard Frith-Macdonald (<a href="mailto:rfm@gnu.org"><code>rfm@gnu.org</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Copyright:</b> (C) 2000 Free Software Foundation, Inc.</p>
+
+        <div>
+      <hr width="50%" align="left" />
+      <h3>Contents -</h3>
+      <ol>
+        <li>
+          <a href="#001000000000">Software documentation for the NSClassDescription
+        class</a>
+        </li>
+        <li>
+          <a href="#002000000000">Software documentation for the
+        NSObject(NSClassDescriptionPrimitives)
+        category</a>
+        </li>
+      </ol>
+      <hr width="50%" align="left" />
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSClassDescription
+        class
+      </a></h1>
+    <h2><a name="class$NSClassDescription">NSClassDescription</a> : <a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSClassDescription.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+          Each instance of this class provides descriptive
+          information for an Objective C class. This is
+          used for key-value coding, a framework used in Cocoa for
+          scripting with Objective-C objects. Scripting is
+          available in GNUstep in many ways, however those
+          implementations do not make use of class
+          descriptions. Therefore the primary purpose of
+          this class is to smooth the process of porting between
+          GNUstep and other OpenStep-derived systems.
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSClassDescription.html#method$NSClassDescription+classDescriptionForClass$">+classDescriptionForClass:</a></li>
+      <li><a rel="gsdoc" href="NSClassDescription.html#method$NSClassDescription+invalidateClassDescriptionCache">+invalidateClassDescriptionCache</a></li>
+      <li><a rel="gsdoc" href="NSClassDescription.html#method$NSClassDescription+registerClassDescription$forClass$">+registerClassDescription:forClass:</a></li>
+      <li><a rel="gsdoc" href="NSClassDescription.html#method$NSClassDescription-attributeKeys">-attributeKeys</a></li>
+      <li><a rel="gsdoc" href="NSClassDescription.html#method$NSClassDescription-inverseForRelationshipKey$">-inverseForRelationshipKey:</a></li>
+      <li><a rel="gsdoc" href="NSClassDescription.html#method$NSClassDescription-toManyRelationshipKeys">-toManyRelationshipKeys</a></li>
+      <li><a rel="gsdoc" href="NSClassDescription.html#method$NSClassDescription-toOneRelationshipKeys">-toOneRelationshipKeys</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSClassDescription+classDescriptionForClass$">classDescriptionForClass:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSClassDescription">NSClassDescription</a>*) <b>classDescriptionForClass:</b> (Class)aClass;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the class description for <var>aClass</var>
+            . If there is no such description available, sends an
+            <code>
+              NSClassDescriptionNeededForClassNotification
+            </code>
+            (with <var>aClass</var> as its object) so that
+            objects providing class descriptions can register
+            one, and tries again to find one. <br /> Returns
+            <code>nil</code> if there is no description found.
+            <br /> Handles locking to ensure thread safety and
+            ensures that the returned object will not be
+            destroyed by other threads.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSClassDescription+invalidateClassDescriptionCache">invalidateClassDescriptionCache&nbsp;</a></h3>
+    + (void) <b>invalidateClassDescriptionCache</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Invalidates the cache of class descriptions so
+            the new descriptions will be fetched as required and
+            begin to refill the cache. You need this only if you
+            suspect that a class description should have
+            changed.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSClassDescription+registerClassDescription$forClass$">registerClassDescription:&nbsp;forClass:&nbsp;</a></h3>
+    + (void) <b>registerClassDescription:</b> (<a rel="gsdoc" href="#class$NSClassDescription">NSClassDescription</a>*)aDescription<b> forClass:</b> (Class)aClass;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Registers <var>aDescription</var> for
+            <var>aClass</var>... placing it in the cache and
+            replacing any previous version.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSClassDescription-attributeKeys">attributeKeys&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>attributeKeys</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+Subclasses <strong>must</strong> override this method.<br />
+    <div class="desc">
+      
+            Returns the attribute keys - default implementation
+            returns <code>nil</code>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSClassDescription-inverseForRelationshipKey$">inverseForRelationshipKey:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>inverseForRelationshipKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+Subclasses <strong>must</strong> override this method.<br />
+    <div class="desc">
+      
+            Returns the inverse relationship keys - default
+            implementation returns <code>nil</code>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSClassDescription-toManyRelationshipKeys">toManyRelationshipKeys&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>toManyRelationshipKeys</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+Subclasses <strong>must</strong> override this method.<br />
+    <div class="desc">
+      
+            Returns the to many relationship keys - default
+            implementation returns <code>nil</code>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSClassDescription-toOneRelationshipKeys">toOneRelationshipKeys&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>toOneRelationshipKeys</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+Subclasses <strong>must</strong> override this method.<br />
+    <div class="desc">
+      
+            Returns the to one relationship keys - default
+            implementation returns <code>nil</code>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="002000000000">
+        Software documentation for the
+        NSObject(NSClassDescriptionPrimitives)
+        category
+      </a></h1>
+    <h2><a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a>(<a name="category$NSObject(NSClassDescriptionPrimitives)">NSClassDescriptionPrimitives</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSClassDescription.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSClassDescription.html#method$NSObject(NSClassDescriptionPrimitives)-attributeKeys">-attributeKeys</a></li>
+      <li><a rel="gsdoc" href="NSClassDescription.html#method$NSObject(NSClassDescriptionPrimitives)-classDescription">-classDescription</a></li>
+      <li><a rel="gsdoc" href="NSClassDescription.html#method$NSObject(NSClassDescriptionPrimitives)-inverseForRelationshipKey$">-inverseForRelationshipKey:</a></li>
+      <li><a rel="gsdoc" href="NSClassDescription.html#method$NSObject(NSClassDescriptionPrimitives)-toManyRelationshipKeys">-toManyRelationshipKeys</a></li>
+      <li><a rel="gsdoc" href="NSClassDescription.html#method$NSObject(NSClassDescriptionPrimitives)-toOneRelationshipKeys">-toOneRelationshipKeys</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSObject(NSClassDescriptionPrimitives)-attributeKeys">attributeKeys&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>attributeKeys</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the attribute keys supplied by the
+            <a rel="gsdoc" href="#class$NSClassDescription">NSClassDescription</a>
+
+            object for the receivers class.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSClassDescriptionPrimitives)-classDescription">classDescription&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSClassDescription">NSClassDescription</a>*) <b>classDescription</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the
+            <a rel="gsdoc" href="#class$NSClassDescription">NSClassDescription</a>
+
+            object for the receivers class.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSClassDescriptionPrimitives)-inverseForRelationshipKey$">inverseForRelationshipKey:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>inverseForRelationshipKey:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aKey;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the inverse relationship keys supplied by
+            the <a rel="gsdoc" href="#class$NSClassDescription">NSClassDescription</a>
+ object
+            for the receivers class.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSClassDescriptionPrimitives)-toManyRelationshipKeys">toManyRelationshipKeys&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>toManyRelationshipKeys</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the to many relationship keys supplied by
+            the <a rel="gsdoc" href="#class$NSClassDescription">NSClassDescription</a>
+ object
+            for the receivers class.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSClassDescriptionPrimitives)-toOneRelationshipKeys">toOneRelationshipKeys&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>toOneRelationshipKeys</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the to one relationship keys supplied by
+            the <a rel="gsdoc" href="#class$NSClassDescription">NSClassDescription</a>
+ object
+            for the receivers class.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+    <br />
+    <a href="Base.html">Up</a>
+    </font>
+</body>
+</html>

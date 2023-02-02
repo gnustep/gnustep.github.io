@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSPortMessage" up="Base">
+  <head>
+    <title>NSPortMessage class reference</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <copy>1998,2000 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSPortMessage class
+      </heading>
+      <class name="NSPortMessage" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSPortMessage.h</declared>
+        <desc>
+          <p>
+            The data transported for distributed objects
+            communications is sent over the network
+            encapsulated by NSPortMessage objects, which
+            consist of two
+            <ref type="class" id="NSPort">NSPort</ref>
+              s (sender and receiver, not sent over the network) and
+              a body consisting of one or more
+              <ref type="class" id="NSData">NSData</ref>
+                or
+                <ref type="class" id="NSPort">NSPort</ref>
+                  objects. (Data in the
+                  <ref type="class" id="NSData">NSData</ref>
+                    must be in network byte order.)
+                  </p>
+                  <p>
+                    See the
+                    <ref type="class" id="NSConnection">NSConnection</ref>
+                      and
+                      <ref type="class" id="NSPortCoder">NSPortCoder</ref>classes.</p>
+        </desc>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>components</sel>
+          <desc>
+            Returns the message components originally used to
+            constitute this message.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithMachMessage:</sel>
+          <arg type="void*">buffer</arg>
+          <desc>
+            OpenStep compatibility.
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="1.0.0">
+          <sel>initWithSendPort:</sel>
+          <arg type="NSPort*">aPort</arg>
+          <sel>receivePort:</sel>
+          <arg type="NSPort*">anotherPort</arg>
+          <sel>components:</sel>
+          <arg type="NSArray*">items</arg>
+          <desc>
+            Initializes to send message described by
+            <var>items</var> (which should contain only
+            <ref type="class" id="NSPort">NSPort</ref>
+              and/or
+              <ref type="class" id="NSData">NSData</ref>
+                objects, with contents in network byte order)
+                over <var>aPort</var>. If/when a reply to the
+                message is sent, it will arrive on
+                <var>anotherPort</var>.
+          </desc>
+        </method>
+        <method type="unsigned" ovadd="1.0.0">
+          <sel>msgid</sel>
+          <desc>
+            Returns ID for message. This is not used by the
+            distributed objects system, but may be used in
+            custom ways by cooperating applications to sort or
+            otherwise organize messages. Set to 0 initially.
+          </desc>
+        </method>
+        <method type="NSPort*" ovadd="1.0.0">
+          <sel>receivePort</sel>
+          <desc>
+            For an outgoing message, returns the port on which a
+            reply to this message will arrive. For an incoming
+            message, returns the port this message arrived on.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>sendBeforeDate:</sel>
+          <arg type="NSDate*">when</arg>
+          <desc>
+            Request that the message be sent before
+            <var>when</var>. Will block until either sends it
+            (returns <code>YES</code>) or <var>when</var>
+            expires (returns <code>NO</code>). The latter may
+            occur if many messages are queued up (by multiple
+            threads) faster than they can be sent over the
+            network.
+          </desc>
+        </method>
+        <method type="NSPort*" ovadd="1.0.0">
+          <sel>sendPort</sel>
+          <desc>
+            For an outgoing message, returns the port the receiver
+            will send itself through. For an incoming message,
+            returns the port replies to the receiver should be
+            sent through.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setMsgid:</sel>
+          <arg type="unsigned">anId</arg>
+          <desc>
+            Sets ID for message. This is not used by the
+            distributed objects system, but may be used in
+            custom ways by cooperating applications to sort or
+            otherwise organize messages.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

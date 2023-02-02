@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSDistributedLock" up="Base">
+  <head>
+    <title>NSDistributedLock class reference</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <copy>1997 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSDistributedLock class
+      </heading>
+      <class name="NSDistributedLock" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSDistributedLock.h</declared>
+        <desc>
+          This class does not adopt the
+          <ref type="protocol" id="(NSLocking)">&lt;NSLocking&gt;</ref>
+            protocol but supports locking across processes,
+            including processes on different machines, as
+            <strong>long</strong> as they can access a common
+            filesystem.
+        </desc>
+        <ivariable type="NSLock*" name="_localLock" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="_lockPath" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSDate*" name="_lockTime" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="NSDistributedLock*" factory="yes" ovadd="1.0.0">
+          <sel>lockWithPath:</sel>
+          <arg type="NSString*">aPath</arg>
+          <desc>
+            Return a distributed lock for <var>aPath</var>. See
+            <ref type="method" id="-initWithPath:">
+              -initWithPath:
+            </ref>
+            for details.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>breakLock</sel>
+          <desc>
+            Forces release of the lock whether the receiver owns
+            it or not. <br /> Raises an NSGenericException if unable
+            to remove the lock.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithPath:</sel>
+          <arg type="NSString*">aPath</arg>
+          <desc>
+            Initialises the receiver with the specified
+            filesystem path. <br /> The location in the
+            filesystem must be accessible for this to be
+            usable. That is, the processes using the lock must
+            be able to access, create, and destroy files at the
+            path. <br /> The directory in which the last path
+            component resides must already exist... create it
+            using NSFileManager if you need to.
+          </desc>
+        </method>
+        <method type="NSDate*" ovadd="1.0.0">
+          <sel>lockDate</sel>
+          <desc>
+            Returns the date at which the lock was acquired by
+            <em>any</em> NSDistributedLock using the same path. If
+            nothing has the lock, this returns <code>nil</code>
+            .
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>tryLock</sel>
+          <desc>
+            Attempt to acquire the lock and return
+            <code>YES</code> on success, <code>NO</code> on
+            failure. <br /> May raise an NSGenericException if
+            a problem occurs.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>unlock</sel>
+          <desc>
+            Releases the lock. Raises an NSGenericException if
+            unable to release the lock (for instance if the
+            receiver does not own it or another process has
+            broken it).
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

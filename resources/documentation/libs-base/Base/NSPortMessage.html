@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>NSPortMessage class reference</title>
+  </head>
+  <body>
+    <font face="serif">
+    <a href="Base.html">Up</a>
+    <br />
+    <h1><a name="title$NSPortMessage">NSPortMessage class reference</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Richard Frith-Macdonald (<a href="mailto:richard@brainstorm.co.uk"><code>richard@brainstorm.co.uk</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Copyright:</b> (C) 1998,2000 Free Software Foundation, Inc.</p>
+
+        <div>
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSPortMessage class
+      </a></h1>
+    <h2><a name="class$NSPortMessage">NSPortMessage</a> : <a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSPortMessage.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            The data transported for distributed objects
+            communications is sent over the network
+            encapsulated by NSPortMessage objects, which
+            consist of two
+            <a rel="gsdoc" href="NSPort.html#class$NSPort">NSPort</a>
+
+              s (sender and receiver, not sent over the network) and
+              a body consisting of one or more
+              <a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>
+
+                or
+                <a rel="gsdoc" href="NSPort.html#class$NSPort">NSPort</a>
+
+                  objects. (Data in the
+                  <a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>
+
+                    must be in network byte order.)
+                      </p>
+    <p>
+      
+                  
+    </p>
+    <p>
+
+                    See the
+                    <a rel="gsdoc" href="NSConnection.html#class$NSConnection">NSConnection</a>
+
+                      and
+                      <a rel="gsdoc" href="NSPortCoder.html#class$NSPortCoder">NSPortCoder</a>
+classes.    </p>
+    <p>
+      
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSPortMessage.html#method$NSPortMessage-components">-components</a></li>
+      <li><a rel="gsdoc" href="NSPortMessage.html#method$NSPortMessage-initWithMachMessage$">-initWithMachMessage:</a></li>
+      <li><a rel="gsdoc" href="NSPortMessage.html#method$NSPortMessage-initWithSendPort$receivePort$components$">-initWithSendPort:receivePort:components:</a></li>
+      <li><a rel="gsdoc" href="NSPortMessage.html#method$NSPortMessage-msgid">-msgid</a></li>
+      <li><a rel="gsdoc" href="NSPortMessage.html#method$NSPortMessage-receivePort">-receivePort</a></li>
+      <li><a rel="gsdoc" href="NSPortMessage.html#method$NSPortMessage-sendBeforeDate$">-sendBeforeDate:</a></li>
+      <li><a rel="gsdoc" href="NSPortMessage.html#method$NSPortMessage-sendPort">-sendPort</a></li>
+      <li><a rel="gsdoc" href="NSPortMessage.html#method$NSPortMessage-setMsgid$">-setMsgid:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSPortMessage-components">components&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>components</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the message components originally used to
+            constitute this message.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSPortMessage-initWithMachMessage$">initWithMachMessage:&nbsp;</a></h3>
+    - (id) <b>initWithMachMessage:</b> (void*)buffer;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            OpenStep compatibility.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSPortMessage-initWithSendPort$receivePort$components$">initWithSendPort:&nbsp;receivePort:&nbsp;components:&nbsp;</a></h3>
+    - (id) <b>initWithSendPort:</b> (<a rel="gsdoc" href="NSPort.html#class$NSPort">NSPort</a>*)aPort<b> receivePort:</b> (<a rel="gsdoc" href="NSPort.html#class$NSPort">NSPort</a>*)anotherPort<b> components:</b> (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*)items;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+This is a designated initialiser for the class.<br />
+    <div class="desc">
+      
+            Initializes to send message described by
+            <var>items</var> (which should contain only
+            <a rel="gsdoc" href="NSPort.html#class$NSPort">NSPort</a>
+
+              and/or
+              <a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>
+
+                objects, with contents in network byte order)
+                over <var>aPort</var>. If/when a reply to the
+                message is sent, it will arrive on
+                <var>anotherPort</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSPortMessage-msgid">msgid&nbsp;</a></h3>
+    - (unsigned) <b>msgid</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns ID for message. This is not used by the
+            distributed objects system, but may be used in
+            custom ways by cooperating applications to sort or
+            otherwise organize messages. Set to 0 initially.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSPortMessage-receivePort">receivePort&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSPort.html#class$NSPort">NSPort</a>*) <b>receivePort</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            For an outgoing message, returns the port on which a
+            reply to this message will arrive. For an incoming
+            message, returns the port this message arrived on.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSPortMessage-sendBeforeDate$">sendBeforeDate:&nbsp;</a></h3>
+    - (BOOL) <b>sendBeforeDate:</b> (<a rel="gsdoc" href="NSDate.html#class$NSDate">NSDate</a>*)when;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Request that the message be sent before
+            <var>when</var>. Will block until either sends it
+            (returns <code>YES</code>) or <var>when</var>
+            expires (returns <code>NO</code>). The latter may
+            occur if many messages are queued up (by multiple
+            threads) faster than they can be sent over the
+            network.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSPortMessage-sendPort">sendPort&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSPort.html#class$NSPort">NSPort</a>*) <b>sendPort</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            For an outgoing message, returns the port the receiver
+            will send itself through. For an incoming message,
+            returns the port replies to the receiver should be
+            sent through.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSPortMessage-setMsgid$">setMsgid:&nbsp;</a></h3>
+    - (void) <b>setMsgid:</b> (unsigned)anId;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Sets ID for message. This is not used by the
+            distributed objects system, but may be used in
+            custom ways by cooperating applications to sort or
+            otherwise organize messages.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+    <br />
+    <a href="Base.html">Up</a>
+    </font>
+</body>
+</html>

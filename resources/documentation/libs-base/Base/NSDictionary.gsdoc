@@ -1,0 +1,773 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSDictionary" up="Base">
+  <head>
+    <title>NSDictionary class reference</title>
+    <author name="Andrew Kachites McCallum">
+      <email address="mccallum@gnu.ai.mit.edu">
+        mccallum@gnu.ai.mit.edu
+      </email>
+    </author>
+    <author name="Adam Fedor">
+      <email address="fedor@boulder.colorado.edu">
+        fedor@boulder.colorado.edu
+      </email>
+    </author>
+    <copy>1995, 1996, 1997 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSDictionary class
+      </heading>
+      <class name="NSDictionary" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSDictionary.h</declared>
+        <conform>NSCoding</conform>
+        <conform>NSCopying</conform>
+        <conform>NSMutableCopying</conform>
+        <conform>NSFastEnumeration</conform>
+        <desc>
+          <p>
+            This class and its subclasses store key-value pairs,
+            where the key and the value are objects. A great many
+            utility methods for working with dictionaries are
+            provided as part of this class, including the
+            ability to retrieve multiple entries
+            simultaneously, obtain sorted contents, and
+            read/write from/to a serialized representation.
+          </p>
+          <p>
+            The keys are copied and values are retained by the
+            implementation, and both are released when
+            either their entry is dropped or the entire
+            dictionary is deallocated. <br /> As in the OS X
+            implementation, keys must therefore
+            implement the
+            <ref type="protocol" id="(NSCopying)">&lt;NSCopying&gt;</ref>protocol.</p>
+            <p>
+              Objects of this class are immutable. For a
+              mutable version, use the
+              <ref type="class" id="NSMutableDictionary">NSMutableDictionary</ref>subclass.</p>
+              <p>
+                The basic functionality in
+                <code>NSDictionary</code> is similar to that in
+                Java's <code>HashMap</code>, and like that class
+                it includes no locking code and is not thread-safe.
+                If the contents will be modified and accessed from
+                multiple threads you should enclose critical
+                operations within locks (see
+                <ref type="class" id="NSLock">NSLock</ref>
+                  ).
+                </p>
+        </desc>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>dictionary</sel>
+          <desc>
+            Returns a new autoreleased empty dictionary.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>dictionaryWithContentsOfFile:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Returns a dictionary using the file located at
+            <var>path</var>. The file must be a property list
+            containing a dictionary as its root object.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.0.0">
+          <sel>dictionaryWithContentsOfURL:</sel>
+          <arg type="NSURL*">aURL</arg>
+          <desc>
+            Returns a dictionary using the contents of
+            <var>aURL</var>. The URL must be a property list
+            containing a dictionary as its root object.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>dictionaryWithDictionary:</sel>
+          <arg type="NSDictionary*">otherDictionary</arg>
+          <desc>
+            Returns a newly created dictionary with the keys
+            and objects of <var>otherDictionary</var>. (The keys
+            and objects are not copied.)
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>dictionaryWithObject:</sel>
+          <arg type="id">object</arg>
+          <sel>forKey:</sel>
+          <arg type="id">key</arg>
+          <desc>
+            Returns a dictionary containing only one
+            <var>object</var> which is associated with a
+            <var>key</var>.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>dictionaryWithObjects:</sel>
+          <arg type="NSArray*">objects</arg>
+          <sel>forKeys:</sel>
+          <arg type="NSArray*">keys</arg>
+          <desc>
+            Returns a dictionary created using the given
+            <var>objects</var> and <var>keys</var>. The two
+            arrays must have the same length. The n th element
+            of the <var>objects</var> array is associated with the n
+            th element of the <var>keys</var> array.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>dictionaryWithObjects:</sel>
+          <arg type="const id[]">objects</arg>
+          <sel>forKeys:</sel>
+          <arg type="const id&lt;NSCopying&gt;[]">keys</arg>
+          <sel>count:</sel>
+          <arg type="NSUInteger">count</arg>
+          <desc>
+            Returns a dictionary created using the given
+            <var>objects</var> and <var>keys</var>. The two
+            arrays must have the same size. The n th element of
+            the <var>objects</var> array is associated with the n
+            th element of the <var>keys</var> array.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>dictionaryWithObjectsAndKeys:</sel>
+          <arg type="id">firstObject</arg>
+          <vararg />
+          <desc>
+            Returns a dictionary created using the list given
+            as argument. The list is alternately composed of objects
+            and keys and terminated by <code>nil</code>. Thus, the
+            list's length must be even, followed by
+            <code>nil</code>.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSArray,KeyT)*" ovadd="1.0.0">
+          <sel>allKeys</sel>
+          <desc>
+            Returns an array containing all the dictionary's
+            keys.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSArray,KeyT)*" ovadd="1.0.0">
+          <sel>allKeysForObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Returns an array containing all the dictionary's
+            keys that are associated with <var>anObject</var>.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSArray,ValT)*" ovadd="1.0.0">
+          <sel>allValues</sel>
+          <desc>
+            Returns an array containing all the dictionary's
+            objects.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="1.0.0">
+          <sel>count</sel>
+          <desc>
+            Returns an <strong>unsigned</strong> integer which
+            is the number of elements stored in the dictionary.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>description</sel>
+          <desc>
+            Returns the result of invoking
+            <ref type="method" id="-descriptionWithLocale:indent:">
+              -descriptionWithLocale:indent:
+            </ref>
+            with a <code>nil</code> locale and zero indent.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>descriptionInStringsFileFormat</sel>
+          <desc>
+            Returns the receiver as a text property list
+            strings file format. <br /> See
+            <ref type="method" id="-propertyListFromStringsFileFormat" class="NSString">[NSString -propertyListFromStringsFileFormat]</ref> for details. <br /> The order of the items is undefined.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>descriptionWithLocale:</sel>
+          <arg type="id">locale</arg>
+          <desc>
+            Returns the result of invoking
+            <ref type="method" id="-descriptionWithLocale:indent:">
+              -descriptionWithLocale:indent:
+            </ref>
+            with a zero indent.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>descriptionWithLocale:</sel>
+          <arg type="id">locale</arg>
+          <sel>indent:</sel>
+          <arg type="NSUInteger">level</arg>
+          <desc>
+            Returns the receiver as a text property list in the
+            traditional format. <br /> See
+            <ref type="method" id="-propertyList" class="NSString">
+              [NSString -propertyList]
+            </ref>
+            for details. <br /> If <var>locale</var> is
+            <code>nil</code>, no formatting is done, otherwise
+            entries are formatted according to the
+            <var>locale</var>, and indented according to
+            <var>level</var>. <br /> Unless <var>locale</var> is
+            <code>nil</code>, a <var>level</var> of zero indents
+            items by four spaces, while a <var>level</var> of one
+            indents them by a tab. <br /> If the keys in the
+            dictionary respond to
+            <ref type="method" id="-compare:" class="NSObject">
+              [NSObject -compare:]
+            </ref>
+            , the items are listed by key in ascending order. If not,
+            the order in which the items are listed is undefined.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>enumerateKeysAndObjectsUsingBlock:</sel>
+          <arg type="GSKeysAndObjectsEnumeratorBlock">aBlock</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>enumerateKeysAndObjectsWithOptions:</sel>
+          <arg type="NSEnumerationOptions">opts</arg>
+          <sel>usingBlock:</sel>
+          <arg type="GSKeysAndObjectsEnumeratorBlock">aBlock</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>getObjects:</sel>
+          <arg type="__unsafe_unretained id[]">objects</arg>
+          <sel>andKeys:</sel>
+          <arg type="__unsafe_unretained id&lt;NSCopying&gt;[]">keys</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>init</sel>
+          <desc>
+            <p>
+              In MacOS-X class clusters do not have designated
+              initialisers, and there is a general rule
+              that <ref type="method" id="-init">-init</ref> is
+              treated as the designated initialiser of the
+              class cluster, but that other intitialisers may not
+              work s expected an would need to be individually
+              overridden in any subclass.
+            </p>
+            <p>
+              GNUstep tries to make it easier to subclass a
+              class cluster, by making class clusters follow the
+              same convention as normal classes, so the designated
+              initialiser is the <em>richest</em>
+              initialiser. This means that all other
+              initialisers call the documented designated
+              initialiser (which calls
+              <ref type="method" id="-init">
+                -init
+              </ref>
+              only for MacOS-X compatibility), and anyone writing
+              a subclass only needs to override that one initialiser
+              in order to have all the other ones work.
+            </p>
+            <p>
+              For MacOS-X compatibility, you may also need to
+              override various other initialisers. Exactly
+              which ones, you will need to determine by trial on
+              a MacOS-X system... and may vary between releases of
+              MacOS-X. So to be safe, on MacOS-X you probably
+              need to re-implement <em>all</em> the class cluster
+              initialisers you might use in conjunction
+              with your subclass.
+            </p>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithContentsOfFile:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            <p>
+              Initialises the dictionary with the contents
+              of the specified file, which must contain a dictionary
+              in property-list format.
+            </p>
+            <p>
+              In GNUstep, the property-list format may be either the
+              OpenStep format (ASCII data), or the MacOS-X
+              format (UTF-8 XML data)... this method will
+              recognise which it is.
+            </p>
+            <p>
+              If there is a failure to load the file for any reason,
+              the receiver will be released and the method will
+              return <code>nil</code>.
+            </p>
+            <p>
+              Works by invoking
+              <ref type="method" id="-initWithContentsOfFile:" class="NSString">[NSString -initWithContentsOfFile:]</ref> and <ref type="method" id="-propertyList" class="NSString">[NSString -propertyList]</ref> then checking that the result is a dictionary.
+            </p>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.0.0">
+          <sel>initWithContentsOfURL:</sel>
+          <arg type="NSURL*">aURL</arg>
+          <desc>
+            <p>
+              Initialises the dictionary with the contents
+              of the specified URL, which must contain a dictionary
+              in property-list format.
+            </p>
+            <p>
+              In GNUstep, the property-list format may be either the
+              OpenStep format (ASCII data), or the MacOS-X
+              format (UTF-8 XML data)... this method will
+              recognise which it is.
+            </p>
+            <p>
+              If there is a failure to load the URL for any reason,
+              the receiver will be released and the method will
+              return <code>nil</code>.
+            </p>
+            <p>
+              Works by invoking
+              <ref type="method" id="-initWithContentsOfURL:" class="NSString">[NSString -initWithContentsOfURL:]</ref> and <ref type="method" id="-propertyList" class="NSString">[NSString -propertyList]</ref> then checking that the result is a dictionary.
+            </p>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithDictionary:</sel>
+          <arg type="NSDictionary*">otherDictionary</arg>
+          <desc>
+            Initializes with the keys and objects of
+            <var>otherDictionary</var>. (The keys and objects are
+            not copied.)
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithDictionary:</sel>
+          <arg type="NSDictionary*">other</arg>
+          <sel>copyItems:</sel>
+          <arg type="BOOL">shouldCopy</arg>
+          <desc>
+            Initialise dictionary with the keys and values
+            of otherDictionary. If the <var>shouldCopy</var> flag is
+            <code>YES</code> then the values are copied into the
+            newly initialised dictionary, otherwise they are
+            simply retained, on the assumption that it is safe
+            to retain the keys from another dictionary since that
+            <var>other</var> dictionary mwill have copied the
+            keys originally to ensure that they are immutable.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithObjects:</sel>
+          <arg type="NSArray*">objects</arg>
+          <sel>forKeys:</sel>
+          <arg type="NSArray*">keys</arg>
+          <desc>
+            Initialises a dictionary created using the
+            given <var>objects</var> and <var>keys</var>. The two
+            arrays must have the same size. The n th element of
+            the <var>objects</var> array is associated with the n
+            th element of the <var>keys</var> array.
+          </desc>
+        </method>
+        <method type="id" init="yes" override="subclass" ovadd="1.0.0">
+          <sel>initWithObjects:</sel>
+          <arg type="const id[]">objects</arg>
+          <sel>forKeys:</sel>
+          <arg type="const id&lt;NSCopying&gt;[]">keys</arg>
+          <sel>count:</sel>
+          <arg type="NSUInteger">count</arg>
+          <desc>
+            Initializes contents to the given
+            <var>objects</var> and <var>keys</var>. The two
+            arrays must have the same size. The n th element of
+            the <var>objects</var> array is associated with the n
+            th element of the <var>keys</var> array. <br /> Calls
+            <ref type="method" id="-init">
+              -init
+            </ref>
+            (which does nothing but maintain MacOS-X
+            compatibility), and needs to be
+            re-implemented in subclasses in order to
+            have all other initialisers work.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithObjectsAndKeys:</sel>
+          <arg type="id">firstObject</arg>
+          <vararg />
+          <desc>
+            Initialises a dictionary created using the list
+            given as argument. The list is alternately composed
+            of objects and keys and terminated by <code>nil</code>.
+            Thus, the list's length must be even, followed by
+            <code>nil</code>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isEqualToDictionary:</sel>
+          <arg type="NSDictionary*">other</arg>
+          <desc>
+            Two dictionaries are equal if they each hold the same
+            number of entries, each key in one
+            <code>isEqual</code> to a key in the
+            <var>other</var>, and, for a given key, the
+            corresponding value objects also satisfy
+            <code>isEqual</code>.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSEnumerator,KeyT)*" ovadd="1.0.0">
+          <sel>keyEnumerator</sel>
+          <desc>
+            Return an enumerator object containing all the keys
+            of the dictionary.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSSet,KeyT)*" ovadd="10.6.0">
+          <sel>keysOfEntriesPassingTest:</sel>
+          <arg type="GSKeysAndObjectsPredicateBlock">aPredicate</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSSet,KeyT)*" ovadd="10.6.0">
+          <sel>keysOfEntriesWithOptions:</sel>
+          <arg type="NSEnumerationOptions">opts</arg>
+          <sel>passingTest:</sel>
+          <arg type="GSKeysAndObjectsPredicateBlock">aPredicate</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSArray,ValT)*" ovadd="1.0.0">
+          <sel>keysSortedByValueUsingComparator:</sel>
+          <arg type="NSComparator">cmptr</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSArray,ValT)*" ovadd="1.0.0">
+          <sel>keysSortedByValueUsingSelector:</sel>
+          <arg type="SEL">comp</arg>
+          <desc>
+            Returns ordered array of the keys sorted according
+            to the values they correspond to. To sort the values, a
+            message with selector <var>comp</var> is send to
+            each value with another value as argument, as in
+            <code>[a comp: b]</code>. The <var>comp</var> method
+            should return <code>NSOrderedSame</code>,
+            <code>NSOrderedAscending</code>, or
+            <code>NSOrderedDescending</code> as appropriate.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSArray,ValT)*" ovadd="1.0.0">
+          <sel>keysSortedByValueWithOptions:</sel>
+          <arg type="NSSortOptions">opts</arg>
+          <sel>usingComparator:</sel>
+          <arg type="NSComparator">cmptr</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSEnumerator,ValT)*" ovadd="1.0.0">
+          <sel>objectEnumerator</sel>
+          <desc>
+            Return an enumerator object containing all the
+            objects of the dictionary.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_TYPE(ValT)" ovadd="1.0.0">
+          <sel>objectForKey:</sel>
+          <arg type="id">aKey</arg>
+          <desc>
+            Returns the object in the dictionary corresponding
+            to <var>aKey</var>, or <code>nil</code> if the key is
+            not present.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_TYPE(ValT)" ovadd="1.0.0">
+          <sel>objectForKeyedSubscript:</sel>
+          <arg type="id">aKey</arg>
+          <desc>
+            Method called by array subscripting.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSArray,ValT)*" ovadd="1.0.0">
+          <sel>objectsForKeys:</sel>
+          <arg type="NSArray*">keys</arg>
+          <sel>notFoundMarker:</sel>
+          <arg type="id">marker</arg>
+          <desc>
+            Multiple version of
+            <ref type="method" id="-objectForKey:">
+              -objectForKey:
+            </ref>
+            . Objects for each key in <var>keys</var> are looked up
+            and placed into return array in same order. For each
+            key that has no corresponding value in this dictionary,
+            <var>marker</var> is put into the array in its place.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_TYPE(ValT)" ovadd="10.0.0">
+          <sel>valueForKey:</sel>
+          <arg type="NSString*">key</arg>
+          <desc>
+            Default implementation for this class is to return
+            the value stored in the dictionary under the specified
+            <var>key</var>, or <code>nil</code> if there is no
+            value. <br /> However, if the <var>key</var> begins
+            with '@' that character is stripped from it and the
+            superclass implementation of the method is used.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>writeToFile:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>atomically:</sel>
+          <arg type="BOOL">useAuxiliaryFile</arg>
+          <desc>
+            <p>
+              Writes the contents of the dictionary to the file
+              specified by <var>path</var>. The file contents
+              will be in property-list format... under GNUstep
+              this is either OpenStep style (ASCII characters
+              using \U hexadecimal escape sequences for unicode),
+              or MacOS-X style (XML in the UTF8 character set).
+            </p>
+            <p>
+              If the <var>useAuxiliaryFile</var> flag is
+              <code>YES</code>, the file write operation is
+              atomic... the data is written to a temporary file,
+              which is then renamed to the actual file name.
+            </p>
+            <p>
+              If the conversion of data into the correct
+              property-list format fails or the write
+              operation fails, the method returns
+              <code>NO</code>, otherwise it returns
+              <code>YES</code>.
+            </p>
+            <p>
+              NB. The fact that the file is in property-list format
+              does not necessarily mean that it can be used to
+              reconstruct the dictionary using the
+              <ref type="method" id="-initWithContentsOfFile:">
+                -initWithContentsOfFile:
+              </ref>
+              method. If the original dictionary contains
+              non-property-list objects, the
+              descriptions of those objects will have been
+              written, and reading in the file as a
+              property-list will result in a new
+              dictionary containing the string descriptions.
+            </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>writeToURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>atomically:</sel>
+          <arg type="BOOL">useAuxiliaryFile</arg>
+          <desc>
+            <p>
+              Writes the contents of the dictionary to the
+              specified <var>url</var>. This functions just
+              like
+              <ref type="method" id="-writeToFile:atomically:">
+                -writeToFile:atomically:
+              </ref>
+              except that the output may be written to any URL,
+              not just a local file.
+            </p>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSMutableDictionary
+        class
+      </heading>
+      <class name="NSMutableDictionary" super="NSDictionary" ovadd="1.0.0">
+        <declared>Foundation/NSDictionary.h</declared>
+        <desc>
+          Mutable version of
+          <ref type="class" id="NSDictionary">NSDictionary</ref>
+            .
+        </desc>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>dictionaryWithCapacity:</sel>
+          <arg type="NSUInteger">numItems</arg>
+          <desc>
+            Returns an empty dictionary with memory
+            preallocated for given number of entries.
+            Although memory space will be grown as needed when
+            entries are added, this can avoid the
+            reallocate-and-copy process if the size
+            of the ultimate contents is known in advance.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>addEntriesFromDictionary:</sel>
+          <arg type="NSDictionary*">otherDictionary</arg>
+          <desc>
+            Merges information from <var>otherDictionary</var>
+            into the receiver. If a key exists in both
+            dictionaries, the value from
+            <var>otherDictionary</var> replaces that which was
+            originally in the receiver.
+          </desc>
+        </method>
+        <method type="instancetype" init="yes" override="subclass" ovadd="1.0.0">
+          <sel>initWithCapacity:</sel>
+          <arg type="NSUInteger">numItems</arg>
+          <desc>
+            Initializes an empty dictionary with memory
+            preallocated for given number of entries.
+            Although memory space will be grown as needed when
+            entries are added, this can avoid the
+            reallocate-and-copy process if the size
+            of the ultimate contents is known in advance. <br />
+            Calls <ref type="method" id="-init">-init</ref>
+            (which does nothing but maintain MacOS-X
+            compatibility), and needs to be
+            re-implemented in subclasses in order to
+            have all other initialisers work.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeAllObjects</sel>
+          <desc>
+            Clears out this dictionary by removing all entries.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeObjectForKey:</sel>
+          <arg type="id">aKey</arg>
+          <desc>
+            Removes the object with the specified key from the
+            receiver. This method is primitive. <br /> Remove
+            key-value mapping for given key <var>aKey</var>.
+            No error if there is no mapping for the key. A warning
+            will be generated if <var>aKey</var> is
+            <code>nil</code>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeObjectsForKeys:</sel>
+          <arg type="NSArray*">keyArray</arg>
+          <desc>
+            Remove entries specified by the given
+            <var>keyArray</var>. No error is generated if no
+            mapping exists for a key or one is <code>nil</code>
+            , although a console warning is produced in the latter
+            case.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setDictionary:</sel>
+          <arg type="NSDictionary*">otherDictionary</arg>
+          <desc>
+            Remove all entries, then add all entries from
+            <var>otherDictionary</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setObject:</sel>
+          <arg type="id">anObject</arg>
+          <sel>forKey:</sel>
+          <arg type="id">aKey</arg>
+          <desc>
+            Adds entry for <var>aKey</var>, mapping to
+            <var>anObject</var>. If either is <code>nil</code>,
+            an exception is raised. If <var>aKey</var> already in
+            dictionary, the value it maps to is silently
+            replaced. The value <var>anObject</var> is
+            retained, but <var>aKey</var> is copied (because
+            a dictionary key must be immutable) and must therefore
+            implement the
+            <ref type="protocol" id="(NSCopying)">&lt;NSCopying&gt;</ref>
+              protocol.)
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setObject:</sel>
+          <arg type="id">anObject</arg>
+          <sel>forKeyedSubscript:</sel>
+          <arg type="id">aKey</arg>
+          <desc>
+            Method called by array subscripting.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setValue:</sel>
+          <arg type="id">value</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">key</arg>
+          <desc>
+            Default implementation for this class is equivalent
+            to the
+            <ref type="method" id="-setObject:forKey:">
+              -setObject:forKey:
+            </ref>
+            method unless <var>value</var> is <code>nil</code>,
+            in which case it is equivalent to
+            <ref type="method" id="-removeObjectForKey:">
+              -removeObjectForKey:
+            </ref>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>takeStoredValue:</sel>
+          <arg type="id">value</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">key</arg>
+          <desc>
+            Default implementation for this class is equivalent
+            to the
+            <ref type="method" id="-setObject:forKey:">
+              -setObject:forKey:
+            </ref>
+            method unless <var>value</var> is <code>nil</code>,
+            in which case it is equivalent to
+            <ref type="method" id="-removeObjectForKey:">
+              -removeObjectForKey:
+            </ref>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>takeValue:</sel>
+          <arg type="id">value</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">key</arg>
+          <desc>
+            Default implementation for this class is equivalent
+            to the
+            <ref type="method" id="-setObject:forKey:">
+              -setObject:forKey:
+            </ref>
+            method unless <var>value</var> is <code>nil</code>,
+            in which case it is equivalent to
+            <ref type="method" id="-removeObjectForKey:">
+              -removeObjectForKey:
+            </ref>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

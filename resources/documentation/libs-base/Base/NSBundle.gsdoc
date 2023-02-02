@@ -1,0 +1,938 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSBundle" up="Base">
+  <head>
+    <title>NSBundle class reference</title>
+    <author name="Adam Fedor">
+      <email address="fedor@boulder.colorado.edu">
+        fedor@boulder.colorado.edu
+      </email>
+    </author>
+    <author name="Mirko Viviani">
+      <email address="mirko.viviani@rccr.cremona.it">
+        mirko.viviani@rccr.cremona.it
+      </email>
+    </author>
+    <author name="Nicola Pero">
+      <email address="nicola@brainstorm.co.uk">
+        nicola@brainstorm.co.uk
+      </email>
+    </author>
+    <copy>
+      1995, 1997, 1999, 2001, 2002 Free Software Foundation, Inc.
+    </copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSBundle class
+      </heading>
+      <class name="NSBundle" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSBundle.h</declared>
+        <desc>
+          <p>
+            NSBundle provides methods for locating and
+            handling application (and tool) resources at
+            runtime. Resources includes any time of file that
+            the application might need, such as images, nib (gorm
+            or gmodel) files, localization files, and any other type
+            of file that an application might need to use to
+            function. Resources also include executable code,
+            which can be dynamically linked into the application
+            at runtime. These files and executable code are commonly
+            put together into a directory called a bundle.
+          </p>
+          <p>
+            NSBundle knows how these bundles are organized and
+            can search for files inside a bundle. NSBundle also
+            handles locating the executable code, linking this
+            in and initializing any classes that are located in the
+            code. NSBundle also handles Frameworks, which are
+            basically a bundle that contains a library
+            archive. The organization of a framework is a
+            little difference, but in most respects there is no
+            difference between a bundle and a framework.
+          </p>
+          <p>
+            There is one special bundle, called the mainBundle,
+            which is basically the application itself. The
+            mainBundle is always loaded (of course), but you
+            can still perform other operations on the mainBundle,
+            such as searching for files, just as with any other
+            bundle.
+          </p>
+        </desc>
+        <ivariable type="NSMutableArray*" name="_bundleClasses" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="_bundleType" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_codeLoaded" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="_frameworkVersion" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSDictionary*" name="_infoDict" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableDictionary*" name="_localizations" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="_path" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="Class" name="_principalClass" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="_version" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="NSURL*" factory="yes" ovadd="10.6.0">
+          <sel>URLForResource:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>withExtension:</sel>
+          <arg type="NSString*">extension</arg>
+          <sel>subdirectory:</sel>
+          <arg type="NSString*">subpath</arg>
+          <sel>inBundleWithURL:</sel>
+          <arg type="NSURL*">bundleURL</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" factory="yes" ovadd="1.0.0">
+          <sel>allBundles</sel>
+          <desc>
+            Return an array enumerating all the bundles in the
+            application. This does not include frameworks.
+            <br /> Returns an array of all the bundles which do
+            not belong to frameworks. <br /> This always contains
+            the main bundle.
+          </desc>
+        </method>
+        <method type="NSArray*" factory="yes" ovadd="1.0.0">
+          <sel>allFrameworks</sel>
+          <desc>
+            Return an array enumerating all the frameworks in
+            the application. This does not include normal bundles.
+            <br /> Returns an array containing all the known
+            bundles representing frameworks.
+          </desc>
+        </method>
+        <method type="NSBundle*" factory="yes" ovadd="1.0.0">
+          <sel>bundleForClass:</sel>
+          <arg type="Class">aClass</arg>
+          <desc>
+            <p>
+              Return the bundle to which <var>aClass</var>
+              belongs. If <var>aClass</var> was loaded from a
+              bundle, return the bundle; if it belongs to a
+              framework (either a framework linked into the
+              application, or loaded dynamically), return
+              the framework; if it belongs to a library, return the
+              bundle for that library; in all other cases,
+              return the main bundle.
+            </p>
+            <p>
+              Please note that GNUstep supports plain shared
+              libraries, while the openstep standard, and
+              other openstep-like systems, do not; the behaviour
+              when <var>aClass</var> belongs to a plain shared
+              library is to return a bundle for that library,
+              but might be changed. :-)
+            </p>
+            Returns the bundle whose code contains the
+            specified class. <br /> NB: We will not find a
+            class if the bundle has not been loaded yet!
+          </desc>
+        </method>
+        <method type="NSBundle*" factory="yes" ovadd="1.0.0">
+          <sel>bundleWithIdentifier:</sel>
+          <arg type="NSString*">identifier</arg>
+          <desc>
+            Returns the bundle for the specified
+            <var>identifier</var> (see -bundleIdentifier) as
+            <strong>long</strong> as the bundle has already
+            been loaded. This never causes a bundle to be loaded.
+          </desc>
+        </method>
+        <method type="NSBundle*" factory="yes" ovadd="1.0.0">
+          <sel>bundleWithPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Return a bundle for the <var>path</var> at
+            <var>path</var>. If <var>path</var> doesn't exist or
+            is not readable, return <code>nil</code>. If you want
+            the main bundle of an application or a tool, it's
+            better if you use
+            <ref type="method" id="+mainBundle">
+              +mainBundle
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="NSBundle*" factory="yes" ovadd="10.6.0">
+          <sel>bundleWithURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSBundle*" factory="yes" ovadd="1.0.0">
+          <sel>mainBundle</sel>
+          <desc>
+            <p>
+              Return the bundle containing the resources for the
+              executable. If the executable is an
+              application, this is the main application
+              bundle (the xxx.app directory); if the executable
+              is a tool, this is a bundle 'naturally' associated
+              with the tool: if the tool executable is
+              xxx/Tools/ix86/linux-gnu/gnu-gnu-gnu/Control
+              then the tool's main bundle directory is
+              xxx/Tools/Resources/Control.
+            </p>
+            <p>
+              NB: traditionally tools didn't have a main bundle --
+              this is a recent GNUstep extension, but it's quite
+              nice and it's here to stay.
+            </p>
+            <p>
+              The main bundle is where the application should put
+              all of its resources, such as support files (images,
+              html, rtf, txt,...), localization tables,.gorm
+              (.nib) files, etc. gnustep-make (/ProjectCenter)
+              allows you to easily specify the resource files to
+              put in the main bundle when you create an application
+              or a tool.
+            </p>
+            For an application, returns the main bundle of the
+            application. <br /> For a tool, returns the
+            main bundle associated with the tool. <br /> <br />
+            For an application, the structure is as follows -
+            <p>
+              The executable is
+              Gomoku.app/ix86/linux-gnu/gnu-gnu-gnu/Gomoku
+              and the main bundle directory is Gomoku.app/.
+            </p>
+            For a tool, the structure is as follows -
+            <p>
+              The executable is
+              xxx/Tools/ix86/linux-gnu/gnu-gnu-gnu/Control
+              and the main bundle directory is
+              xxx/Tools/Resources/Control.
+            </p>
+            <p>
+              (when the tool has not yet been installed, it's
+              similar -
+              xxx/obj/ix86/linux-gnu/gnu-gnu-gnu/Control
+              and the main bundle directory is
+              xxx/Resources/Control).
+            </p>
+            <p>
+              (For a flattened structure, the structure is the
+              same without the ix86/linux-gnu/gnu-gnu-gnu
+              directories).
+            </p>
+          </desc>
+        </method>
+        <method type="NSString*" factory="yes" ovadd="1.0.0">
+          <sel>pathForResource:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>ofType:</sel>
+          <arg type="NSString*">extension</arg>
+          <sel>inDirectory:</sel>
+          <arg type="NSString*">bundlePath</arg>
+          <desc>
+            Returns an absolute path for a resource
+            <var>name</var> with the <var>extension</var> in the
+            specified <var>bundlePath</var>. See also
+            <ref type="method" id="-pathForResource:ofType:inDirectory:">-pathForResource:ofType:inDirectory:</ref> for more information on searching a bundle.
+          </desc>
+        </method>
+        <method type="NSString*" factory="yes" ovadd="1.0.0">
+          <sel>pathForResource:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>ofType:</sel>
+          <arg type="NSString*">extension</arg>
+          <sel>inDirectory:</sel>
+          <arg type="NSString*">bundlePath</arg>
+          <sel>withVersion:</sel>
+          <arg type="int">version</arg>
+          <desc>
+            This method has been deprecated. Version numbers were
+            never implemented so this method behaves exactly like
+            <ref type="method" id="+pathForResource:ofType:inDirectory:">+pathForResource:ofType:inDirectory:</ref>.
+          </desc>
+        </method>
+        <method type="NSArray*" factory="yes" ovadd="1.0.0">
+          <sel>pathsForResourcesOfType:</sel>
+          <arg type="NSString*">extension</arg>
+          <sel>inDirectory:</sel>
+          <arg type="NSString*">bundlePath</arg>
+          <desc>
+            <p>
+              Returns an array of paths for all resources with
+              the specified <var>extension</var> and residing in
+              the <var>bundlePath</var> directory.
+              <var>bundlePath</var> can be any type of directory
+              structure, but typically it is used to search
+              for resources in a application or framework. For
+              example, one could search for tiff files in the
+              MyApp.app application using [NSBundle
+              pathsForResourcesOfType: @"tiff"
+              inDirectory: @"MyApp.app"]. It will search
+              in any Resources subdirectory inside
+              <var>bundlePath</var> as well as the main directory
+              for resource files. If <var>extension</var> is
+              <code>nil</code> or empty, all resources are
+              returned.
+            </p>
+          </desc>
+        </method>
+        <method type="NSArray*" factory="yes" ovadd="10.0.0">
+          <sel>preferredLocalizationsFromArray:</sel>
+          <arg type="NSArray*">localizationsArray</arg>
+          <desc>
+            Returns subarray of given array containing those
+            localizations that are used to locate
+            resources given environment and user preferences.
+          </desc>
+        </method>
+        <method type="NSArray*" factory="yes" ovadd="10.0.0">
+          <sel>preferredLocalizationsFromArray:</sel>
+          <arg type="NSArray*">localizationsArray</arg>
+          <sel>forPreferences:</sel>
+          <arg type="NSArray*">preferencesArray</arg>
+          <desc>
+            Returns subarray of given array containing those
+            localizations that are used to locate
+            resources given environment given user
+            preferences (which are used instead of looking
+            up the preferences of the current user).
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.6.0">
+          <sel>URLForAuxiliaryExecutable:</sel>
+          <arg type="NSString*">executableName</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.6.0">
+          <sel>URLForResource:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>withExtension:</sel>
+          <arg type="NSString*">extension</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.6.0">
+          <sel>URLForResource:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>withExtension:</sel>
+          <arg type="NSString*">extension</arg>
+          <sel>subdirectory:</sel>
+          <arg type="NSString*">subpath</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.6.0">
+          <sel>URLForResource:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>withExtension:</sel>
+          <arg type="NSString*">extension</arg>
+          <sel>subdirectory:</sel>
+          <arg type="NSString*">subpath</arg>
+          <sel>localization:</sel>
+          <arg type="NSString*">localizationName</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>builtInPlugInsPath</sel>
+          <desc>
+            Returns the full path to the plug-in subdirectory
+            of the bundle.
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.6.0">
+          <sel>builtInPlugInsURL</sel>
+          <desc>
+            Returns the full path to the plug-in subdirectory
+            of the bundle.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>bundleIdentifier</sel>
+          <desc>
+            Returns the bundle identifier, as defined by the
+            CFBundleIdentifier key in the
+            infoDictionary
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>bundlePath</sel>
+          <desc>
+            Return the path to the bundle - an absolute path.
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.6.0">
+          <sel>bundleURL</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="unsigned" ovadd="1.0.0">
+          <sel>bundleVersion</sel>
+          <desc>
+            Returns the bundle version.
+          </desc>
+        </method>
+        <method type="Class" ovadd="1.0.0">
+          <sel>classNamed:</sel>
+          <arg type="NSString*">className</arg>
+          <desc>
+            Returns the class in the bundle with the given
+            name. If no class of this name exists in the bundle,
+            then Nil is returned.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.2.0">
+          <sel>developmentLocalization</sel>
+          <desc>
+            Not implemented
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>executableArchitectures</sel>
+          <desc>
+            Not implemented
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>executablePath</sel>
+          <desc>
+            Returns the path to the executable code in the
+            bundle
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.6.0">
+          <sel>executableURL</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.0.0">
+          <sel>infoDictionary</sel>
+          <desc>
+            Returns the info property list associated with the
+            bundle.
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="1.0.0">
+          <sel>initWithPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Init the bundle for reading resources from
+            <var>path</var>. <br /> The MacOS-X documentation
+            says that the <var>path</var> must be a full
+            <var>path</var> to a directory on disk. However, it
+            (in MacOS-X) version 10.3 at least) actually accepts
+            relative paths too. <br /> The GNUstep behavior is
+            similar in that it accepts a relative
+            <var>path</var>, but GNUstep converts it to an
+            absolute <var>path</var> by referring to the
+            current working directory when the is initialised,
+            so an absolute <var>path</var> is then used and a
+            warning message is printed. <br /> On MacOS-X using
+            a bundle initialised with a relative <var>path</var> will
+            cause a crash if the current working directory is
+            changed between the point at which the bundle was
+            initialised and that at which it is used.
+            <br /> If <var>path</var> is <code>nil</code> or
+            can't be accessed, initWithPath: deallocates the
+            receiver and returns <code>nil</code>. <br /> If a
+            bundle for that <var>path</var> already existed, it
+            is returned in place of the receiver (and the receiver
+            is deallocated). <br /> If the
+            <ref type="method" id="-bundleIdentifier">
+              -bundleIdentifier
+            </ref>
+            is not <code>nil</code>, and a bundle with the same
+            identifier already exists, the existing bundle
+            is returned in place of the receiver (and the receiver
+            is deallocated).
+          </desc>
+        </method>
+        <method type="id" ovadd="10.6.0">
+          <sel>initWithURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.2.0">
+          <sel>isLoaded</sel>
+          <desc>
+            Returns a boolean indicating whether code for the
+            bundle has been loaded. <br /> Returns
+            <code>YES</code> if the receiver's code is loaded,
+            otherwise, returns <code>NO</code>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>load</sel>
+          <desc>
+            Loads any executable code contained in the bundle
+            into the application. Load will be called implicitly
+            if any information about the bundle classes is
+            requested, such as
+            <ref type="method" id="-principalClass">
+              -principalClass
+            </ref>
+            or
+            <ref type="method" id="-classNamed:">
+              -classNamed:
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>loadAndReturnError:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            Not implemented
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>localizations</sel>
+          <desc>
+            Returns all the localizations in the bundle.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.2.0">
+          <sel>localizedInfoDictionary</sel>
+          <desc>
+            Returns a localized info property list based on the
+            preferred localization or the most appropriate
+            localization if the preferred one cannot be
+            found.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>localizedStringForKey:</sel>
+          <arg type="NSString*">key</arg>
+          <sel>value:</sel>
+          <arg type="NSString*">value</arg>
+          <sel>table:</sel>
+          <arg type="NSString*">tableName</arg>
+          <desc>
+            <p>
+              Returns the <var>value</var> for the
+              <var>key</var> found in the strings file
+              <var>tableName</var>, or Localizable.strings if
+              <var>tableName</var> is <code>nil</code>.
+            </p>
+            <p>
+              If the user default
+              <code>NSShowNonLocalizedStrings</code> is set, the
+              <var>value</var> of the <var>key</var> will be
+              returned as an uppercase string rather than any
+              localized equivalent found. This can be useful
+              during development to check where a given string
+              in the UI is "coming from".
+            </p>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.2.0">
+          <sel>objectForInfoDictionaryKey:</sel>
+          <arg type="NSString*">key</arg>
+          <desc>
+            Not implemented
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>pathForAuxiliaryExecutable:</sel>
+          <arg type="NSString*">executableName</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>pathForResource:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>ofType:</sel>
+          <arg type="NSString*">extension</arg>
+          <desc>
+            Returns an absolute path for a resource
+            <var>name</var> with the <var>extension</var> in the
+            receivers bundle path. See
+            <ref type="method" id="-pathForResource:ofType:inDirectory:">-pathForResource:ofType:inDirectory:</ref>.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>pathForResource:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>ofType:</sel>
+          <arg type="NSString*">extension</arg>
+          <sel>inDirectory:</sel>
+          <arg type="NSString*">subPath</arg>
+          <desc>
+            <p>
+              Returns an absolute path for a resource
+              <var>name</var> with the <var>extension</var> in
+              the specified bundlePath. Directories in the bundle
+              are searched in the following order:
+            </p>
+<example>
+     root path/Resources/subPath
+     root path/Resources/subPath/"language.lproj"
+     root path/subPath
+     root path/subPath/"language.lproj"
+   </example>
+            <p>
+              where language.lproj can be any localized language
+              directory inside the bundle.
+            </p>
+            <p>
+              If <var>extension</var> is <code>nil</code> or empty,
+              then the first file exactly matching <var>name</var>
+              (ie with no <var>extension</var>) is returned.
+            </p>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>pathForResource:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>ofType:</sel>
+          <arg type="NSString*">extension</arg>
+          <sel>inDirectory:</sel>
+          <arg type="NSString*">subPath</arg>
+          <sel>forLocalization:</sel>
+          <arg type="NSString*">localizationName</arg>
+          <desc>
+            This is like
+            <ref type="method" id="-pathForResource:ofType:inDirectory:">-pathForResource:ofType:inDirectory:</ref> but returns only resources matching <var>localizationName</var> (preferentially), or non-localized resources.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>pathsForResourcesOfType:</sel>
+          <arg type="NSString*">extension</arg>
+          <sel>inDirectory:</sel>
+          <arg type="NSString*">subPath</arg>
+          <desc>
+            <p>
+              Returns an array of paths for all resources with
+              the specified <var>extension</var> and residing in
+              the bundlePath directory. If <var>extension</var> is
+              <code>nil</code> or empty, all bundle resources
+              are returned.
+            </p>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>pathsForResourcesOfType:</sel>
+          <arg type="NSString*">extension</arg>
+          <sel>inDirectory:</sel>
+          <arg type="NSString*">subPath</arg>
+          <sel>forLocalization:</sel>
+          <arg type="NSString*">localizationName</arg>
+          <desc>
+            This method returns the same information as
+            <ref type="method" id="-pathsForResourcesOfType:inDirectory:">-pathsForResourcesOfType:inDirectory:</ref> except that only non-localized resources and resources that match the localization <var>localizationName</var> are returned. <br /> The GNUstep implementation places localised resources in the array before any non-localised resources.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>preferredLocalizations</sel>
+          <desc>
+            Returns the list of localizations that the bundle
+            uses to search for information. This is based on the
+            user's preferences.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>preflightAndReturnError:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            Not implemented
+          </desc>
+        </method>
+        <method type="Class" ovadd="1.0.0">
+          <sel>principalClass</sel>
+          <desc>
+            Returns the principal class of the bundle. This is
+            the class specified by the NSPrincipalClass key in the
+            Info-gnustep property list contained in the
+            bundle. If this key or the specified class is not
+            found, the class returned is arbitrary, although it
+            is typically the first class compiled into the archive.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>privateFrameworksPath</sel>
+          <desc>
+            Returns the full path to the private frameworks
+            subdirectory of the bundle.
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.6.0">
+          <sel>privateFrameworksURL</sel>
+          <desc>
+            Returns the full path to the private frameworks
+            subdirectory of the bundle.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>resourcePath</sel>
+          <desc>
+            Returns the absolute path to the resources
+            directory of the bundle.
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.6.0">
+          <sel>resourceURL</sel>
+          <desc>
+            Returns the absolute path to the resources
+            directory of the bundle.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setBundleVersion:</sel>
+          <arg type="unsigned">version</arg>
+          <desc>
+            Set the bundle <var>version</var>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.2.0">
+          <sel>unload</sel>
+          <desc>
+            * Not implemented
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSBundle(GNUstep)
+        category
+      </heading>
+      <category name="GNUstep" class="NSBundle" gvadd="0.0.0" gvrem="1.17.0">
+        <declared>Foundation/NSBundle.h</declared>
+        <desc>
+          Augments
+          <ref type="class" id="NSBundle">NSBundle</ref>
+            , including methods for handling libraries in the GNUstep
+            fashion, for rapid localization, and other
+            purposes.
+        </desc>
+        <method type="AAssetDir*" factory="yes" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>assetDirForPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Returns the Android asset dir for the given
+            <var>path</var> if <var>path</var> is in main bundle
+            resources and the asset directory exists. The
+            returned object must be released using
+            <ref type="function" id="AAssetDir_close">
+              AAssetDir_close()
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="AAsset*" factory="yes" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>assetForPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Returns the Android asset for the given
+            <var>path</var> if <var>path</var> is in main bundle
+            resources and asset exists. Uses
+            `AASSET_MODE_UNKNOWN` to open the
+            asset if it exists. The returned object must be
+            released using
+            <ref type="function" id="AAsset_close">
+              AAsset_close()
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="AAsset*" factory="yes" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>assetForPath:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>withMode:</sel>
+          <arg type="int">mode</arg>
+          <desc>
+            Returns the Android asset for the given
+            <var>path</var> if <var>path</var> is in main bundle
+            resources and asset exists. Uses the given
+            <var>mode</var> to open the AAsset if it exists. The
+            returned object must be released using
+            <ref type="function" id="AAsset_close">
+              AAsset_close()
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="AAssetManager*" factory="yes" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>assetManager</sel>
+          <desc>
+            Returns the native Android asset manager.
+          </desc>
+        </method>
+        <method type="NSBundle*" factory="yes" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>bundleForLibrary:</sel>
+          <arg type="NSString*">libraryName</arg>
+          <desc>
+            This method is a equivalent to
+            bundleForLibrary:version: with a
+            <code>nil</code> version.
+          </desc>
+        </method>
+        <method type="NSBundle*" factory="yes" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>bundleForLibrary:</sel>
+          <arg type="NSString*">libraryName</arg>
+          <sel>version:</sel>
+          <arg type="NSString*">interfaceVersion</arg>
+          <desc>
+            This method is an experimental GNUstep extension, and
+            might change.
+            <p>
+              Return a bundle to access the resources for the
+              (static or shared) library <var>libraryName</var>
+              , with interface version <var>interfaceVersion</var>.
+            </p>
+            <p>
+              Resources for shared libraries are stored into
+              GNUSTEP_LIBRARY/Libraries/libraryName/Versions/interfaceVersion/Resources/; this method will search for the first such existing directory and return it.
+            </p>
+            <p>
+              <var>libraryName</var> should be the name of a
+              library without the <em>lib</em> prefix or any
+              extensions; <var>interfaceVersion</var> is
+              the interface version of the library (eg, it's 1.13
+              in libgnustep-base.so.1.13; see library.make on how to
+              control it).
+            </p>
+            <p>
+              This method exists to provide resource bundles for
+              libraries and has no particular relationship to
+              the library code itsself. The named library could be
+              a dynamic library linked in to the running program, a
+              static library (whose code may not even exist on
+              the host machine except where it is linked in to the
+              program), or even a library which is not linked
+              into the program at all (eg. where you want to share
+              resources provided for a library you do not
+              actually use).
+            </p>
+            <p>
+              The bundle for the library <em>gnustep-base</em> is a
+              special case... for this bundle the
+              <ref type="method" id="-principalClass">
+                -principalClass
+              </ref>
+              method returns
+              <ref type="class" id="NSObject">NSObject</ref>
+                and the
+                <ref type="method" id="-executablePath">
+                  -executablePath
+                </ref>
+                method returns the path to the gnustep-base
+                dynamic library (if it can be found). As a
+                general rule, library bundles are not
+                guaranteed to return values for these
+                methods as the library may not exist on disk.
+              </p>
+          </desc>
+        </method>
+        <method type="NSString*" factory="yes" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>pathForLibraryResource:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>ofType:</sel>
+          <arg type="NSString*">extension</arg>
+          <sel>inDirectory:</sel>
+          <arg type="NSString*">bundlePath</arg>
+          <desc>
+            Find a resource in the "Library" directory.
+          </desc>
+        </method>
+        <method type="void" factory="yes" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>setJavaAssetManager:</sel>
+          <arg type="jobject">jassetManager</arg>
+          <sel>withJNIEnv:</sel>
+          <arg type="JNIEnv*">env</arg>
+          <desc>
+            Sets the Java Android asset manager. The developer can
+            call this method to enable asset loading via NSBundle.
+          </desc>
+        </method>
+        <method type="void" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>cleanPathCache</sel>
+          <desc>
+            Cleans up the path cache for the bundle.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

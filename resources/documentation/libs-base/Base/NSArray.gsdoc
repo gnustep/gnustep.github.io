@@ -1,0 +1,1189 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSArray" up="Base">
+  <head>
+    <title>NSArray class reference</title>
+    <author name="Andrew Kachites McCallum">
+      <email address="mccallum@gnu.ai.mit.edu">
+        mccallum@gnu.ai.mit.edu
+      </email>
+    </author>
+    <author name="Adam Fedor">
+      <email address="fedor@boulder.colorado.edu">
+        fedor@boulder.colorado.edu
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <copy>1995-2015 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSArray class
+      </heading>
+      <class name="NSArray" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSArray.h</declared>
+        <conform>NSCoding</conform>
+        <conform>NSCopying</conform>
+        <conform>NSMutableCopying</conform>
+        <conform>NSFastEnumeration</conform>
+        <desc>
+          A simple, low overhead, ordered container for objects. All
+          the objects in the container are retained by it. The
+          container may not contain <code>nil</code> (though
+          it may contain
+          <ref type="method" id="+null" class="NSNull">
+            [NSNull +null]
+          </ref>
+          ).
+        </desc>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>array</sel>
+          <desc>
+            Returns an empty autoreleased array.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>arrayWithArray:</sel>
+          <arg type="NSArray*">array</arg>
+          <desc>
+            Returns a new autoreleased NSArray instance
+            containing all the objects from <var>array</var>
+            , in the same order as the original.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>arrayWithContentsOfFile:</sel>
+          <arg type="NSString*">file</arg>
+          <desc>
+            Returns an autoreleased array based upon the
+            <var>file</var>. The new array is created using
+            <ref type="method" id="+allocWithZone:" class="NSObject">
+              [NSObject +allocWithZone:]
+            </ref>
+            and initialised using the
+            <ref type="method" id="-initWithContentsOfFile:" class="NSArray">[NSArray -initWithContentsOfFile:]</ref> method. See the documentation for those methods for more detail.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.0.0">
+          <sel>arrayWithContentsOfURL:</sel>
+          <arg type="NSURL*">aURL</arg>
+          <desc>
+            Returns an autoreleased array from the contents of
+            <var>aURL</var>. The new array is created using
+            <ref type="method" id="+allocWithZone:" class="NSObject">
+              [NSObject +allocWithZone:]
+            </ref>
+            and initialised using the
+            <ref type="method" id="-initWithContentsOfURL:">
+              -initWithContentsOfURL:
+            </ref>
+            method. See the documentation for those methods for
+            more detail.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>arrayWithObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Returns an autoreleased array containing
+            <var>anObject</var>.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>arrayWithObjects:</sel>
+          <arg type="id">firstObject</arg>
+          <vararg />
+          <desc>
+            Returns an autoreleased array containing the list
+            of objects, preserving order.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>arrayWithObjects:</sel>
+          <arg type="const id[]">objects</arg>
+          <sel>count:</sel>
+          <arg type="NSUInteger">count</arg>
+          <desc>
+            Returns an autoreleased array containing the
+            specified <var>objects</var>, preserving order.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSArray,ElementT)*" ovadd="1.0.0">
+          <sel>arrayByAddingObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Returns an autoreleased array formed from the
+            contents of the receiver and adding
+            <var>anObject</var> as the last item.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSArray,ElementT)*" ovadd="1.0.0">
+          <sel>arrayByAddingObjectsFromArray:</sel>
+          <arg type="NSArray*">anotherArray</arg>
+          <desc>
+            Returns a new array which is the concatenation of
+            self and otherArray (in this precise order).
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>componentsJoinedByString:</sel>
+          <arg type="NSString*">separator</arg>
+          <desc>
+            Returns a string formed by concatenating the
+            objects in the receiver, with the specified
+            <var>separator</var> string inserted between each
+            part.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>containsObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Returns <code>YES</code> if <var>anObject</var>
+            belongs to self. No otherwise. <br /> The
+            <ref type="method" id="-isEqual:" class="NSObject">
+              [NSObject -isEqual:]
+            </ref>
+            method of <var>anObject</var> is used to test for
+            equality.
+          </desc>
+        </method>
+        <method type="NSUInteger" override="subclass" ovadd="1.0.0">
+          <sel>count</sel>
+          <desc>
+            Returns the number of elements contained in the
+            receiver.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>description</sel>
+          <desc>
+            Returns the result of invoking
+            <ref type="method" id="-descriptionWithLocale:indent:">
+              -descriptionWithLocale:indent:
+            </ref>
+            with a <code>nil</code> locale and zero indent.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>descriptionWithLocale:</sel>
+          <arg type="id">locale</arg>
+          <desc>
+            Returns the result of invoking
+            <ref type="method" id="-descriptionWithLocale:indent:">
+              -descriptionWithLocale:indent:
+            </ref>
+            with a zero indent.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>descriptionWithLocale:</sel>
+          <arg type="id">locale</arg>
+          <sel>indent:</sel>
+          <arg type="NSUInteger">level</arg>
+          <desc>
+            Returns the receiver as a text property list in the
+            traditional format. <br /> See
+            <ref type="method" id="-propertyList" class="NSString">
+              [NSString -propertyList]
+            </ref>
+            for details. <br /> If <var>locale</var> is
+            <code>nil</code>, no formatting is done, otherwise
+            entries are formatted according to the
+            <var>locale</var>, and indented according to
+            <var>level</var>. <br /> Unless <var>locale</var> is
+            <code>nil</code>, a <var>level</var> of zero indents
+            items by four spaces, while a <var>level</var> of one
+            indents them by a tab. <br /> The items in the
+            property list string appear in the same order as
+            they appear in the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>enumerateObjectsAtIndexes:</sel>
+          <arg type="NSIndexSet*">indexSet</arg>
+          <sel>options:</sel>
+          <arg type="NSEnumerationOptions">opts</arg>
+          <sel>usingBlock:</sel>
+          <arg type="GSEnumeratorBlock">block</arg>
+          <desc>
+            Enumerate over the specified indexes in the
+            collection using the given <var>block</var>. The
+            first argument is the object and the second is the
+            index in the array. The final argument is a pointer
+            to a BOOL indicating whether the enumeration should
+            stop. Setting this to <code>YES</code> will interrupt
+            the enumeration. The <var>opts</var> argument is a
+            bitfield. Setting the NSNSEnumerationConcurrent
+            flag specifies that it is thread-safe. The
+            NSEnumerationReverse bit specifies
+            that it should be enumerated in reverse order.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>enumerateObjectsUsingBlock:</sel>
+          <arg type="GSEnumeratorBlock">aBlock</arg>
+          <desc>
+            Enumerate over the collection using the given
+            block. The first argument is the object and the
+            second is the index in the array. The final argument
+            is a pointer to a BOOL indicating whether the
+            enumeration should stop. Setting this to
+            <code>YES</code> will interrupt the enumeration.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>enumerateObjectsWithOptions:</sel>
+          <arg type="NSEnumerationOptions">opts</arg>
+          <sel>usingBlock:</sel>
+          <arg type="GSEnumeratorBlock">aBlock</arg>
+          <desc>
+            Enumerate over the collection using the given
+            block. The first argument is the object and the
+            second is the index in the array. The final argument
+            is a pointer to a BOOL indicating whether the
+            enumeration should stop. Setting this to
+            <code>YES</code> will interrupt the enumeration. The
+            <var>opts</var> argument is a bitfield. Setting the
+            NSNSEnumerationConcurrent flag
+            specifies that it is thread-safe. The
+            NSEnumerationReverse bit specifies
+            that it should be enumerated in reverse order.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_TYPE(ElementT)" ovadd="10.6.0">
+          <sel>firstObject</sel>
+          <desc>
+            Returns the first object in the receiver, or
+            <code>nil</code> if the receiver is empty.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_TYPE(ElementT)" ovadd="1.0.0">
+          <sel>firstObjectCommonWithArray:</sel>
+          <arg type="NSArray*">otherArray</arg>
+          <desc>
+            Returns the first object found in the receiver
+            (starting at index 0) which is present in the
+            <var>otherArray</var> as determined by using the
+            <ref type="method" id="-containsObject:">
+              -containsObject:
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>getObjects:</sel>
+          <arg type="__unsafe_unretained id[]">aBuffer</arg>
+          <desc>
+            Copies the objects from the receiver to
+            <var>aBuffer</var>, which must be an area of memory
+            large enough to hold them.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>getObjects:</sel>
+          <arg type="__unsafe_unretained id[]">aBuffer</arg>
+          <sel>range:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Copies the objects from the range <var>aRange</var>
+            of the receiver to <var>aBuffer</var>, which must be an
+            area of memory large enough to hold them.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="1.0.0">
+          <sel>indexOfObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Returns the index of the first object found in the
+            receiver which is equal to <var>anObject</var>
+            (using anObject's
+            <ref type="method" id="-isEqual:" class="NSObject">
+              [NSObject -isEqual:]
+            </ref>
+            method). Returns NSNotFound on failure.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="1.0.0">
+          <sel>indexOfObject:</sel>
+          <arg type="id">anObject</arg>
+          <sel>inRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Returns the index of the first object found in
+            <var>aRange</var> of receiver which is equal to
+            <var>anObject</var> (using anObject's
+            <ref type="method" id="-isEqual:" class="NSObject">
+              [NSObject -isEqual:]
+            </ref>
+            method). Returns NSNotFound on failure.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.6.0">
+          <sel>indexOfObject:</sel>
+          <arg type="id">key</arg>
+          <sel>inSortedRange:</sel>
+          <arg type="NSRange">range</arg>
+          <sel>options:</sel>
+          <arg type="NSBinarySearchingOptions">options</arg>
+          <sel>usingComparator:</sel>
+          <arg type="NSComparator">comparator</arg>
+          <desc>
+            Performs a binary search of the array within the
+            specified <var>range</var> for the index of an
+            object equal to obj according to cmp. If
+            NSBinarySearchingInsertionIndex
+            is specified, searches for the index at which such an
+            object should be inserted.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.6.0">
+          <sel>indexOfObjectAtIndexes:</sel>
+          <arg type="NSIndexSet*">indexSet</arg>
+          <sel>options:</sel>
+          <arg type="NSEnumerationOptions">opts</arg>
+          <sel>passingTest:</sel>
+          <arg type="GSPredicateBlock">predicate</arg>
+          <desc>
+            Returns the index of the first object in the
+            specified range in a collection that matches the
+            condition specified by the block. The
+            <var>opts</var> argument is a bitfield. Setting the
+            NSNSEnumerationConcurrent flag
+            specifies that it is thread-safe. The
+            NSEnumerationReverse bit specifies
+            that it should be enumerated in reverse order.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="1.0.0">
+          <sel>indexOfObjectIdenticalTo:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Returns the index of the specified object in the
+            receiver, or NSNotFound if the object is not
+            present.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="1.0.0">
+          <sel>indexOfObjectIdenticalTo:</sel>
+          <arg type="id">anObject</arg>
+          <sel>inRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Returns the index of the specified object in the
+            range of the receiver, or NSNotFound if the object is
+            not present.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.6.0">
+          <sel>indexOfObjectPassingTest:</sel>
+          <arg type="GSPredicateBlock">predicate</arg>
+          <desc>
+            Returns the index of the first object in the array
+            that matches the condition specified by the block.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.6.0">
+          <sel>indexOfObjectWithOptions:</sel>
+          <arg type="NSEnumerationOptions">opts</arg>
+          <sel>passingTest:</sel>
+          <arg type="GSPredicateBlock">predicate</arg>
+          <desc>
+            Returns the index of the first object in the array
+            that matches the condition specified by the block. The
+            <var>opts</var> argument is a bitfield. Setting the
+            NSNSEnumerationConcurrent flag
+            specifies that it is thread-safe. The
+            NSEnumerationReverse bit specifies
+            that it should be enumerated in reverse order.
+          </desc>
+        </method>
+        <method type="NSIndexSet*" ovadd="10.6.0">
+          <sel>indexesOfObjectsAtIndexes:</sel>
+          <arg type="NSIndexSet*">indexSet</arg>
+          <sel>options:</sel>
+          <arg type="NSEnumerationOptions">opts</arg>
+          <sel>passingTest:</sel>
+          <arg type="GSPredicateBlock">predicate</arg>
+          <desc>
+            Returns the indexes of the objects in a collection
+            that match the condition specified by the block and
+            are in the range specified by the index set. The
+            <var>opts</var> argument is a bitfield. Setting the
+            NSNSEnumerationConcurrent flag
+            specifies that it is thread-safe. The
+            NSEnumerationReverse bit specifies
+            that it should be enumerated in reverse order.
+          </desc>
+        </method>
+        <method type="NSIndexSet*" ovadd="10.6.0">
+          <sel>indexesOfObjectsPassingTest:</sel>
+          <arg type="GSPredicateBlock">predicate</arg>
+          <desc>
+            Returns the indexes of the objects in a collection
+            that match the condition specified by the block.
+          </desc>
+        </method>
+        <method type="NSIndexSet*" ovadd="10.6.0">
+          <sel>indexesOfObjectsWithOptions:</sel>
+          <arg type="NSEnumerationOptions">opts</arg>
+          <sel>passingTest:</sel>
+          <arg type="GSPredicateBlock">predicate</arg>
+          <desc>
+            Returns the indexes of the objects in a collection
+            that match the condition specified by the block. The
+            <var>opts</var> argument is a bitfield. Setting the
+            NSNSEnumerationConcurrent flag
+            specifies that it is thread-safe. The
+            NSEnumerationReverse bit specifies
+            that it should be enumerated in reverse order.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>init</sel>
+          <desc>
+            <p>
+              In MacOS-X class clusters do not have designated
+              initialisers, and there is a general rule
+              that <ref type="method" id="-init">-init</ref> is
+              treated as the designated initialiser of the
+              class cluster, but that other intitialisers may not
+              work s expected an would need to be individually
+              overridden in any subclass.
+            </p>
+            <p>
+              GNUstep tries to make it easier to subclass a
+              class cluster, by making class clusters follow the
+              same convention as normal classes, so the designated
+              initialiser is the <em>richest</em>
+              initialiser. This means that all other
+              initialisers call the documented designated
+              initialiser (which calls
+              <ref type="method" id="-init">
+                -init
+              </ref>
+              only for MacOS-X compatibility), and anyone writing
+              a subclass only needs to override that one initialiser
+              in order to have all the other ones work.
+            </p>
+            <p>
+              For MacOS-X compatibility, you may also need to
+              override various other initialisers. Exactly
+              which ones, you will need to determine by trial on
+              a MacOS-X system... and may vary between releases of
+              MacOS-X. So to be safe, on MacOS-X you probably
+              need to re-implement <em>all</em> the class cluster
+              initialisers you might use in conjunction
+              with your subclass.
+            </p>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithArray:</sel>
+          <arg type="NSArray*">array</arg>
+          <desc>
+            Initialize the receiver with the contents of
+            <var>array</var>. The order of <var>array</var> is
+            preserved. <br /> Invokes
+            <ref type="method" id="-initWithObjects:count:">
+              -initWithObjects:count:
+            </ref>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.0.0">
+          <sel>initWithArray:</sel>
+          <arg type="NSArray*">array</arg>
+          <sel>copyItems:</sel>
+          <arg type="BOOL">shouldCopy</arg>
+          <desc>
+            Initialize the receiver with the contents of
+            <var>array</var>. The order of <var>array</var> is
+            preserved. <br /> If <var>shouldCopy</var> is
+            <code>YES</code> then the objects are copied rather
+            than simply retained. <br /> Invokes
+            <ref type="method" id="-initWithObjects:count:">
+              -initWithObjects:count:
+            </ref>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithContentsOfFile:</sel>
+          <arg type="NSString*">file</arg>
+          <desc>
+            <p>
+              Initialises the array with the contents of
+              the specified <var>file</var>, which must contain an
+              array in property-list format.
+            </p>
+            <p>
+              In GNUstep, the property-list format may be either the
+              OpenStep format (ASCII data), or the MacOS-X
+              format (UTF-8 XML data)... this method will
+              recognise which it is.
+            </p>
+            <p>
+              If there is a failure to load the <var>file</var> for
+              any reason, the receiver will be released, the method
+              will return <code>nil</code>, and a warning may be
+              logged.
+            </p>
+            <p>
+              Works by invoking
+              <ref type="method" id="-initWithContentsOfFile:" class="NSString">[NSString -initWithContentsOfFile:]</ref> and <ref type="method" id="-propertyList" class="NSString">[NSString -propertyList]</ref> then checking that the result is an array.
+            </p>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.0.0">
+          <sel>initWithContentsOfURL:</sel>
+          <arg type="NSURL*">aURL</arg>
+          <desc>
+            <p>
+              Initialises the array with the contents of
+              the specified URL, which must contain an array in
+              property-list format.
+            </p>
+            <p>
+              In GNUstep, the property-list format may be either the
+              OpenStep format (ASCII data), or the MacOS-X
+              format (UTF8 XML data)... this method will
+              recognise which it is.
+            </p>
+            <p>
+              If there is a failure to load the URL for any reason,
+              the receiver will be released, the method will return
+              <code>nil</code>, and a warning may be logged.
+            </p>
+            <p>
+              Works by invoking
+              <ref type="method" id="-initWithContentsOfURL:" class="NSString">[NSString -initWithContentsOfURL:]</ref> and <ref type="method" id="-propertyList" class="NSString">[NSString -propertyList]</ref> then checking that the result is an array.
+            </p>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithObjects:</sel>
+          <arg type="id">firstObject</arg>
+          <vararg />
+          <desc>
+            Initialize the array the list of objects. <br />
+            May change the value of self before returning it.
+          </desc>
+        </method>
+        <method type="instancetype" init="yes" override="subclass" ovadd="1.0.0">
+          <sel>initWithObjects:</sel>
+          <arg type="const id[]">objects</arg>
+          <sel>count:</sel>
+          <arg type="NSUInteger">count</arg>
+          <desc>
+            This should initialize the array with <var>count</var>
+            (may be zero) <var>objects</var>. <br /> Retains each
+            object placed in the array. <br /> Calls
+            <ref type="method" id="-init">
+              -init
+            </ref>
+            (which does nothing but maintain MacOS-X
+            compatibility), and needs to be
+            re-implemented in subclasses in order to
+            have all other initialisers work.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isEqualToArray:</sel>
+          <arg type="NSArray*">otherArray</arg>
+          <desc>
+            Returns <code>YES</code> if the receiver is equal
+            to <var>otherArray</var>, <code>NO</code> otherwise.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_TYPE(ElementT)" ovadd="1.0.0">
+          <sel>lastObject</sel>
+          <desc>
+            Returns the last object in the receiver, or
+            <code>nil</code> if the receiver is empty.
+          </desc>
+        </method>
+        <method type="void" ovadd="4.0.0" ovrem="10.0.0">
+          <sel>makeObjectsPerform:</sel>
+          <arg type="SEL">aSelector</arg>
+          <desc>
+            Obsolete version of
+            <ref type="method" id="-makeObjectsPerformSelector:">
+              -makeObjectsPerformSelector:
+            </ref>
+          </desc>
+        </method>
+        <method type="void" ovadd="4.0.0" ovrem="10.0.0">
+          <sel>makeObjectsPerform:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>withObject:</sel>
+          <arg type="id">argument</arg>
+          <desc>
+            Obsolete version of
+            <ref type="method" id="-makeObjectsPerformSelector:withObject:">-makeObjectsPerformSelector:withObject:</ref>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>makeObjectsPerformSelector:</sel>
+          <arg type="SEL">aSelector</arg>
+          <desc>
+            Makes each object in the array perform
+            <var>aSelector</var>. <br /> This is done
+            sequentially from the first to the last
+            object.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>makeObjectsPerformSelector:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>withObject:</sel>
+          <arg type="id">arg</arg>
+          <desc>
+            Makes each object in the array perform
+            <var>aSelector</var> with <var>arg</var>. <br /> This
+            is done sequentially from the first to the last object.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_TYPE(ElementT)" override="subclass" ovadd="1.0.0">
+          <sel>objectAtIndex:</sel>
+          <arg type="NSUInteger">index</arg>
+          <desc>
+            Returns the object at the specified
+            <var>index</var>. Raises an exception of the
+            <var>index</var> is beyond the array.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_TYPE(ElementT)" ovadd="1.0.0">
+          <sel>objectAtIndexedSubscript:</sel>
+          <arg type="NSUInteger">anIndex</arg>
+          <desc>
+            Accessor for subscripting. This is called by the
+            compiler when you write code like anArray[12]. It
+            should not be called directly.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSEnumerator,ElementT)*" ovadd="1.0.0">
+          <sel>objectEnumerator</sel>
+          <desc>
+            Returns an enumerator describing the array
+            sequentially from the first to the last
+            element. <br /> If you use a mutable subclass of
+            NSArray, you should not modify the array during
+            enumeration.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSArray,ElementT)*" ovadd="10.4.0">
+          <sel>objectsAtIndexes:</sel>
+          <arg type="NSIndexSet*">indexes</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSArray,NSString*)*" ovadd="1.0.0">
+          <sel>pathsMatchingExtensions:</sel>
+          <arg type="NSArray*">extensions</arg>
+          <desc>
+            Assumes that the receiver is an array of paths, and
+            returns an array formed by selecting the subset of
+            those patch matching the specified array of
+            <var>extensions</var>.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSEnumerator,ElementT)*" ovadd="1.0.0">
+          <sel>reverseObjectEnumerator</sel>
+          <desc>
+            Returns an enumerator describing the array
+            sequentially from the last to the first
+            element. <br /> If you use a mutable subclass of
+            NSArray, you should not modify the array during
+            enumeration.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setValue:</sel>
+          <arg type="id">value</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">key</arg>
+          <desc>
+            Call setValue:forKey: on each of the receiver's items
+            with the <var>value</var> and <var>key</var>.
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="1.0.0">
+          <sel>sortedArrayHint</sel>
+          <desc>
+            Subclasses may provide a hint for sorting... The
+            default GNUstep implementation just returns
+            <code>nil</code>.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSArray,ElementT)*" ovadd="10.6.0">
+          <sel>sortedArrayUsingComparator:</sel>
+          <arg type="NSComparator">comparator</arg>
+          <desc>
+            Returns a sorted array using the
+            <var>comparator</var> to determine the order of
+            objects.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSArray,ElementT)*" ovadd="1.0.0">
+          <sel>sortedArrayUsingFunction:</sel>
+          <arg type="NSComparisonResult(*)(id,id,void*)">comparator</arg>
+          <sel>context:</sel>
+          <arg type="void*">context</arg>
+          <desc>
+            Returns an autoreleased array in which the objects
+            are ordered according to a sort with
+            <var>comparator</var>. This invokes
+            <ref type="method" id="-sortedArrayUsingFunction:context:hint:">-sortedArrayUsingFunction:context:hint:</ref> with a <code>nil</code> hint.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSArray,ElementT)*" ovadd="1.0.0">
+          <sel>sortedArrayUsingFunction:</sel>
+          <arg type="NSComparisonResult(*)(id,id,void*)">comparator</arg>
+          <sel>context:</sel>
+          <arg type="void*">context</arg>
+          <sel>hint:</sel>
+          <arg type="NSData*">hint</arg>
+          <desc>
+            Returns an autoreleased array in which the objects
+            are ordered according to a sort with
+            <var>comparator</var>, where the
+            <var>comparator</var> function is passed two objects
+            to compare, and the <var>context</var> as the third
+            argument. The <var>hint</var> argument is
+            currently ignored, and may be <code>nil</code>.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSArray,ElementT)*" ovadd="1.0.0">
+          <sel>sortedArrayUsingSelector:</sel>
+          <arg type="SEL">comparator</arg>
+          <desc>
+            Returns an autoreleased array in which the objects
+            are ordered according to a sort with
+            <var>comparator</var>.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSArray,ElementT)*" ovadd="10.6.0">
+          <sel>sortedArrayWithOptions:</sel>
+          <arg type="NSSortOptions">options</arg>
+          <sel>usingComparator:</sel>
+          <arg type="NSComparator">comparator</arg>
+          <desc>
+            Returns a sorted array using the block to determine
+            the order of objects. The opts argument is a bitfield.
+            Setting the NSSortConcurrent flag specifies that it
+            is thread-safe. The NSSortStable bit specifies that it
+            should keep equal objects in the same order.
+          </desc>
+        </method>
+        <method type="GS_GENERIC_CLASS(NSArray,ElementT)*" ovadd="1.0.0">
+          <sel>subarrayWithRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Returns a subarray of the receiver containing the
+            objects found in the specified range
+            <var>aRange</var>.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>valueForKey:</sel>
+          <arg type="NSString*">key</arg>
+          <desc>
+            This overrides NSObjects implementation of this
+            method. This method returns an array of objects
+            returned by invoking
+            <ref type="method" id="-valueForKey:">
+              -valueForKey:
+            </ref>
+            for each item in the receiver, substituting NSNull for
+            <code>nil</code>. A special case: the <var>key</var>
+            "count" is not forwarded to each object of the
+            receiver but returns the number of objects of the
+            receiver. <br />
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>writeToFile:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>atomically:</sel>
+          <arg type="BOOL">useAuxiliaryFile</arg>
+          <desc>
+            <p>
+              Writes the contents of the array to the file
+              specified by <var>path</var>. The file contents
+              will be in property-list format... under GNUstep
+              this is either OpenStep style (ASCII characters
+              using \U hexadecimal escape sequences for unicode),
+              or MacOS-X style (XML in the UTF8 character set).
+            </p>
+            <p>
+              If the <var>useAuxiliaryFile</var> flag is
+              <code>YES</code>, the file write operation is
+              atomic... the data is written to a temporary file,
+              which is then renamed to the actual file name.
+            </p>
+            <p>
+              If the conversion of data into the correct
+              property-list format fails or the write
+              operation fails, the method returns
+              <code>NO</code>, otherwise it returns
+              <code>YES</code>.
+            </p>
+            <p>
+              NB. The fact that the file is in property-list format
+              does not necessarily mean that it can be used to
+              reconstruct the array using the
+              <ref type="method" id="-initWithContentsOfFile:">
+                -initWithContentsOfFile:
+              </ref>
+              method. If the original array contains
+              non-property-list objects, the
+              descriptions of those objects will have been
+              written, and reading in the file as a
+              property-list will result in a new array
+              containing the string descriptions.
+            </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>writeToURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>atomically:</sel>
+          <arg type="BOOL">useAuxiliaryFile</arg>
+          <desc>
+            <p>
+              Writes the contents of the array to the specified
+              <var>url</var>. This functions just like
+              <ref type="method" id="-writeToFile:atomically:">
+                -writeToFile:atomically:
+              </ref>
+              except that the output may be written to any URL,
+              not just a local file.
+            </p>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSMutableArray class
+      </heading>
+      <class name="NSMutableArray" super="NSArray" ovadd="1.0.0">
+        <declared>Foundation/NSArray.h</declared>
+        <desc>
+          <code>NSMutableArray</code> is the mutable version of
+          <ref type="class" id="NSArray">NSArray</ref>
+            . It provides methods for altering the contents of the
+            array.
+        </desc>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>arrayWithCapacity:</sel>
+          <arg type="NSUInteger">numItems</arg>
+          <desc>
+            Creates an autoreleased mutable array able to store
+            at least <var>numItems</var>. See the
+            <ref type="method" id="-initWithCapacity:">
+              -initWithCapacity:
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="void" override="subclass" ovadd="1.0.0">
+          <sel>addObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Adds <var>anObject</var> at the end of the array, thus
+            increasing the size of the array. The object is
+            retained upon addition.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>addObjectsFromArray:</sel>
+          <arg type="NSArray*">otherArray</arg>
+          <desc>
+            Adds each object from <var>otherArray</var> to the
+            receiver, in first to last order.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>exchangeObjectAtIndex:</sel>
+          <arg type="NSUInteger">i1</arg>
+          <sel>withObjectAtIndex:</sel>
+          <arg type="NSUInteger">i2</arg>
+          <desc>
+            Swaps the positions of two objects in the array.
+            Raises an exception if either array index is out of
+            bounds.
+          </desc>
+        </method>
+        <method type="instancetype" init="yes" override="subclass" ovadd="1.0.0">
+          <sel>initWithCapacity:</sel>
+          <arg type="NSUInteger">numItems</arg>
+          <desc>
+            Initialise the array with the specified capacity
+            ... this should ensure that the array can have
+            <var>numItems</var> added efficiently. <br /> Calls
+            <ref type="method" id="-init">
+              -init
+            </ref>
+            (which does nothing but maintain MacOS-X
+            compatibility), and needs to be
+            re-implemented in subclasses in order to
+            have all other initialisers work.
+          </desc>
+        </method>
+        <method type="void" override="subclass" ovadd="1.0.0">
+          <sel>insertObject:</sel>
+          <arg type="id">anObject</arg>
+          <sel>atIndex:</sel>
+          <arg type="NSUInteger">index</arg>
+          <desc>
+            Inserts an object into the receiver at the
+            specified location. <br /> Raises an exception if
+            given an array <var>index</var> which is too large.
+            <br /> The size of the array increases by one.
+            <br /> The object is retained by the array.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>insertObjects:</sel>
+          <arg type="NSArray*">objects</arg>
+          <sel>atIndexes:</sel>
+          <arg type="NSIndexSet*">indexes</arg>
+          <desc>
+            Inserts the values from the <var>objects</var>
+            array into the receiver at the locations given by the
+            <var>indexes</var> set. <br /> The values are
+            inserted in the same order that they appear in the
+            array.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeAllObjects</sel>
+          <desc>
+            Removes all objects from the receiver, leaving an
+            empty array.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeLastObject</sel>
+          <desc>
+            Removes the last object in the array. Raises an
+            exception if the array is already empty.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Removes all occurrences of <var>anObject</var>
+            (found by anObject's
+            <ref type="method" id="-isEqual:" class="NSObject">
+              [NSObject -isEqual:]
+            </ref>
+            method) from the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeObject:</sel>
+          <arg type="id">anObject</arg>
+          <sel>inRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Removes all occurrences of <var>anObject</var>
+            (found by the
+            <ref type="method" id="-isEqual:" class="NSObject">
+              [NSObject -isEqual:]
+            </ref>
+            method of <var>anObject</var>) <var>aRange</var> in
+            the receiver.
+          </desc>
+        </method>
+        <method type="void" override="subclass" ovadd="1.0.0">
+          <sel>removeObjectAtIndex:</sel>
+          <arg type="NSUInteger">index</arg>
+          <desc>
+            Removes an object from the receiver at the
+            specified location. <br /> The size of the array
+            decreases by one. <br /> Raises an exception if
+            given an array <var>index</var> which is too large.
+            <br />
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeObjectIdenticalTo:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Removes all occurrences of <var>anObject</var>
+            (found by pointer equality) from the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeObjectIdenticalTo:</sel>
+          <arg type="id">anObject</arg>
+          <sel>inRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Removes all occurrences of <var>anObject</var>
+            (found by pointer equality) from <var>aRange</var>
+            in the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeObjectsAtIndexes:</sel>
+          <arg type="NSIndexSet*">indexes</arg>
+          <desc>
+            Removes objects from the receiver at the indices
+            supplied by an NSIndexSet
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeObjectsFromIndices:</sel>
+          <arg type="NSUInteger*">indices</arg>
+          <sel>numIndices:</sel>
+          <arg type="NSUInteger">count</arg>
+          <desc>
+            Supplied with a C array of <var>indices</var>
+            containing <var>count</var> values, this method
+            removes all corresponding objects from the
+            receiver. The objects are removed in such a way
+            that the removal is <em>safe</em> irrespective of the
+            order in which they are specified in the
+            <var>indices</var> array.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeObjectsInArray:</sel>
+          <arg type="NSArray*">otherArray</arg>
+          <desc>
+            Removes from the receiver, all the objects present
+            in <var>otherArray</var>, as determined by using the
+            <ref type="method" id="-isEqual:" class="NSObject">
+              [NSObject -isEqual:]
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeObjectsInRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Removes all the objects in <var>aRange</var> from
+            the receiver.
+          </desc>
+        </method>
+        <method type="void" override="subclass" ovadd="1.0.0">
+          <sel>replaceObjectAtIndex:</sel>
+          <arg type="NSUInteger">index</arg>
+          <sel>withObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Places an object into the receiver at the specified
+            location. <br /> Raises an exception if given an
+            array <var>index</var> which is too large. <br /> The
+            object is retained by the array.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>replaceObjectsAtIndexes:</sel>
+          <arg type="NSIndexSet*">indexes</arg>
+          <sel>withObjects:</sel>
+          <arg type="NSArray*">objects</arg>
+          <desc>
+            Replaces the values in the receiver at the
+            locations given by the <var>indexes</var> set
+            with values from the <var>objects</var> array.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>replaceObjectsInRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <sel>withObjectsFromArray:</sel>
+          <arg type="NSArray*">anArray</arg>
+          <desc>
+            Replaces objects in the receiver with those from
+            <var>anArray</var>. <br /> Raises an exception if
+            given a range extending beyond the array. <br />
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>replaceObjectsInRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <sel>withObjectsFromArray:</sel>
+          <arg type="NSArray*">anArray</arg>
+          <sel>range:</sel>
+          <arg type="NSRange">anotherRange</arg>
+          <desc>
+            Replaces objects in the receiver with some of
+            those from <var>anArray</var>. <br /> Raises an
+            exception if given a range extending beyond the
+            array. <br />
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setArray:</sel>
+          <arg type="NSArray*">otherArray</arg>
+          <desc>
+            Sets the contents of the receiver to be identical to
+            the contents of <var>otherArray</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.8.0">
+          <sel>setObject:</sel>
+          <arg type="id">anObject</arg>
+          <sel>atIndexedSubscript:</sel>
+          <arg type="NSUInteger">anIndex</arg>
+          <desc>
+            Set method called by the compiler with array
+            subscripting. <br /> Replaces the object at
+            <var>anIndex</var> or, if <var>anIndex</var> is the
+            length of the array, this method appends abObject to
+            the array.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>sortUsingComparator:</sel>
+          <arg type="NSComparator">comparator</arg>
+          <desc>
+            Sorts the array using the specified
+            <var>comparator</var> block.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>sortUsingFunction:</sel>
+          <arg type="NSComparisonResult(*)(id,id,void*)">compare</arg>
+          <sel>context:</sel>
+          <arg type="void*">context</arg>
+          <desc>
+            Sorts the array according to the supplied
+            <var>compare</var> function with the
+            <var>context</var> information.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>sortUsingSelector:</sel>
+          <arg type="SEL">comparator</arg>
+          <desc>
+            Sorts the array according to the supplied
+            <var>comparator</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>sortWithOptions:</sel>
+          <arg type="NSSortOptions">options</arg>
+          <sel>usingComparator:</sel>
+          <arg type="NSComparator">comparator</arg>
+          <desc>
+            Sorts the array using the specified
+            <var>comparator</var> block and <var>options</var>.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

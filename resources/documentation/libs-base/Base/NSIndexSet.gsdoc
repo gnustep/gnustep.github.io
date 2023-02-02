@@ -1,0 +1,328 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSIndexSet" up="Base">
+  <head>
+    <title>NSIndexSet documentation</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <copy>2004 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSIndexSet class
+      </heading>
+      <class name="NSIndexSet" super="NSObject" ovadd="10.0.0">
+        <declared>Foundation/NSIndexSet.h</declared>
+        <conform>NSCopying</conform>
+        <conform>NSMutableCopying</conform>
+        <conform>NSCoding</conform>
+        <desc>
+          Instances of this class are collections of
+          <strong>unsigned</strong> integers in the range 0 to
+          NSNotFound-1. <br /> Each integer can appear in
+          a collection only once.
+        </desc>
+        <ivariable type="void*" name="_data" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="id" factory="yes" ovadd="10.0.0">
+          <sel>indexSet</sel>
+          <desc>
+            Return an empty set.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="10.0.0">
+          <sel>indexSetWithIndex:</sel>
+          <arg type="NSUInteger">anIndex</arg>
+          <desc>
+            Return a set containing the single value
+            <var>anIndex</var>, or returns <code>nil</code> if
+            <var>anIndex</var> is NSNotFound.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="10.0.0">
+          <sel>indexSetWithIndexesInRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Return a set containing all the values in
+            <var>aRange</var>, or returns <code>nil</code> if
+            <var>aRange</var> contains NSNotFound.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>containsIndex:</sel>
+          <arg type="NSUInteger">anIndex</arg>
+          <desc>
+            Returns <code>YES</code> if the receiver contains
+            <var>anIndex</var>, <code>NO</code> otherwise.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>containsIndexes:</sel>
+          <arg type="NSIndexSet*">aSet</arg>
+          <desc>
+            Returns <code>YES</code> if the receiver contains
+            all the index values present in <var>aSet</var>,
+            <code>NO</code> otherwise.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>containsIndexesInRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Returns <code>YES</code> if the receiver contains
+            all the index values present in <var>aRange</var>,
+            <code>NO</code> otherwise.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.0.0">
+          <sel>count</sel>
+          <desc>
+            Returns the number of index values present in the
+            receiver.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.5.0">
+          <sel>countOfIndexesInRange:</sel>
+          <arg type="NSRange">range</arg>
+          <desc>
+            Not implemented Returns the number of indexes set
+            within the specified <var>range</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>enumerateIndexesInRange:</sel>
+          <arg type="NSRange">range</arg>
+          <sel>options:</sel>
+          <arg type="NSEnumerationOptions">opts</arg>
+          <sel>usingBlock:</sel>
+          <arg type="GSIndexSetEnumerationBlock">aBlock</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>enumerateIndexesUsingBlock:</sel>
+          <arg type="GSIndexSetEnumerationBlock">aBlock</arg>
+          <desc>
+            Enumerate all indices in the set by applying a
+            block to them.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>enumerateIndexesWithOptions:</sel>
+          <arg type="NSEnumerationOptions">opts</arg>
+          <sel>usingBlock:</sel>
+          <arg type="GSIndexSetEnumerationBlock">aBlock</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.0.0">
+          <sel>firstIndex</sel>
+          <desc>
+            Returns the first index value in the receiver or
+            NSNotFound if the receiver is empty.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.0.0">
+          <sel>getIndexes:</sel>
+          <arg type="NSUInteger*">aBuffer</arg>
+          <sel>maxCount:</sel>
+          <arg type="NSUInteger">aCount</arg>
+          <sel>inIndexRange:</sel>
+          <arg type="NSRangePointer">aRange</arg>
+          <desc>
+            Copies index values into <var>aBuffer</var> until
+            there are no index values left or <var>aBuffer</var>
+            is full (assuming that the size of <var>aBuffer</var> is
+            given by <var>aCount</var>). <br /> Only copies index
+            values present in <var>aRange</var> and copies them
+            in order. <br /> Returns the number of index values
+            placed in <var>aBuffer</var>. <br /> Modifies
+            <var>aRange</var> to start after the last index value
+            copied. <br /> If <var>aRange</var> is a null
+            pointer, this method attempts to get <em>all</em>
+            index values from the set (and of course no range can
+            be returned in it).
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.0.0">
+          <sel>indexGreaterThanIndex:</sel>
+          <arg type="NSUInteger">anIndex</arg>
+          <desc>
+            Return the first index value in the receiver which
+            is greater than <var>anIndex</var>.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.0.0">
+          <sel>indexGreaterThanOrEqualToIndex:</sel>
+          <arg type="NSUInteger">anIndex</arg>
+          <desc>
+            Return the first index value in the receiver which
+            is greater than or equal to <var>anIndex</var>.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.0.0">
+          <sel>indexLessThanIndex:</sel>
+          <arg type="NSUInteger">anIndex</arg>
+          <desc>
+            Return the first index value in the receiver which
+            is less than <var>anIndex</var>.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.0.0">
+          <sel>indexLessThanOrEqualToIndex:</sel>
+          <arg type="NSUInteger">anIndex</arg>
+          <desc>
+            Return the first index value in the receiver which
+            is less than or equal to <var>anIndex</var>.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>initWithIndex:</sel>
+          <arg type="NSUInteger">anIndex</arg>
+          <desc>
+            Initialise the receiver to contain
+            <var>anIndex</var>. Returns the initialised object or
+            <code>nil</code> if <var>anIndex</var> is
+            NSNotFound.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>initWithIndexSet:</sel>
+          <arg type="NSIndexSet*">aSet</arg>
+          <desc>
+            Initialises the receiver with the index values
+            from <var>aSet</var>.
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="10.0.0">
+          <sel>initWithIndexesInRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Initialise the receiver to contain all index
+            values in <var>aRange</var>. Returns the initialised
+            object or <code>nil</code> if <var>aRange</var>
+            contains NSNotFound.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>intersectsIndexesInRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Returns <code>YES</code> if the receiver contains
+            any index values which lie in <var>aRange</var>, No
+            otherwise.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>isEqualToIndexSet:</sel>
+          <arg type="NSIndexSet*">aSet</arg>
+          <desc>
+            Tests two index sets for equality and returns either
+            <code>YES</code> or <code>NO</code>.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.0.0">
+          <sel>lastIndex</sel>
+          <desc>
+            Returns the last index value in the receiver or
+            NSNotFound if the receiver is empty.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSMutableIndexSet class
+      </heading>
+      <class name="NSMutableIndexSet" super="NSIndexSet" ovadd="10.0.0">
+        <declared>Foundation/NSIndexSet.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="void" ovadd="10.0.0">
+          <sel>addIndex:</sel>
+          <arg type="NSUInteger">anIndex</arg>
+          <desc>
+            Adds <var>anIndex</var> to the set of indexes stored
+            in the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>addIndexes:</sel>
+          <arg type="NSIndexSet*">aSet</arg>
+          <desc>
+            Adds all the indexes from <var>aSet</var> to the set
+            of indexes stored in the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>addIndexesInRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Adds all the indexes in <var>aRange</var> to the set
+            of indexes stored in the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>removeAllIndexes</sel>
+          <desc>
+            Removes all indexes stored in the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>removeIndex:</sel>
+          <arg type="NSUInteger">anIndex</arg>
+          <desc>
+            Removes <var>anIndex</var> from the set of indexes
+            stored in the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>removeIndexes:</sel>
+          <arg type="NSIndexSet*">aSet</arg>
+          <desc>
+            Removes all the indexes in <var>aSet</var> from the
+            set of indexes stored in the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>removeIndexesInRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Removes all the indexes in <var>aRange</var> from
+            the set of indexes stored in the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>shiftIndexesStartingAtIndex:</sel>
+          <arg type="NSUInteger">anIndex</arg>
+          <sel>by:</sel>
+          <arg type="NSInteger">amount</arg>
+          <desc>
+            Moves all the indexes from <var>anIndex</var> upwards
+            by the <var>amount</var> specified. <br /> If
+            <var>amount</var> is negative, index values below
+            <var>anIndex</var> will be overwritten by the shifted
+            values. <br /> If <var>amount</var> is positive, a
+            'hole' will be left in the index range after
+            <var>anIndex</var>.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

@@ -1,0 +1,266 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="AGSIndex" up="BaseTools">
+  <head>
+    <title>
+      AGSIndex... a class to create references for a gsdoc
+      file
+    </title>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <copy>2001 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the AGSIndex class
+      </heading>
+      <class name="AGSIndex" super="NSObject" ovadd="1.0.0">
+        <declared>AGSIndex.h</declared>
+        <desc>
+          This class is used to build and manipulate a dictionary
+          of cross-reference information. <br /> The references are
+          held in a nested dictionary with strings at the leaves
+          (persisted to 'projectName'.igsdoc) - <br />
+          method : method-name - {class-name file-name} <br />
+          method : method-name - {protocol-name file-name}
+          <br /> ivariable : variable-name - {class-name
+          file-name} <br /> class : class-name - file-name
+          <br /> category : category-name - file-name <br />
+          protocol : protocol-name - file-name <br /> function
+          : function-name - file-name <br /> type : type-name -
+          file-name <br /> constant : constant-name -
+          file-name <br /> variable : variable-name -
+          file-name <br /> entry : entry-name - {file-name
+          ref} <br /> label : label-name - {file-name ref} <br />
+          contents : ref - text <br /> super : class-name -
+          superclass-name <br /> categories :
+          class-name - {category-name file-name} <br />
+          unitmethods : unit-name - method-name <br />
+          classvars : class-name - variables-name <br />
+          title : file-name - text <br /> source : file-name -
+          array-of-source-files <br />
+        </desc>
+        <ivariable type="NSString*" name="base" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="category" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="chap" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="classname" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableDictionary*" name="refs" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="sect" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="ssect" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="sssect" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="unit" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <method type="void" ovadd="1.0.0">
+          <sel>addInformalProtocols:</sel>
+          <arg type="NSArray*">protocolNames</arg>
+          <desc>
+            Informal protocols are not explicitly marked in
+            source, but are inferred to be those categories of
+            NSObject that receive no implementation.
+            <ref type="class" id="AGSOutput">AGSOutput</ref>
+              finds and accumulates them; autogsdoc passes them
+              here, where each entry is found in the 'category'
+              section of our refs and copied over to the
+              protocol section.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>globalRef:</sel>
+          <arg type="NSString*">ref</arg>
+          <sel>type:</sel>
+          <arg type="NSString*">type</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>makeRefs:</sel>
+          <arg type="GSXMLNode*">node</arg>
+          <desc>
+            Given the root <var>node</var> of a gsdoc document,
+            we traverse the tree looking for interesting nodes, and
+            recording their names in a dictionary of
+            references.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>mergeRefs:</sel>
+          <arg type="NSDictionary*">more</arg>
+          <sel>override:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Merge a dictionary containing references into the
+            current index. The <var>flag</var> may be used to
+            specify that references being merged in should
+            override any pre-existing values.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>methodsInUnit:</sel>
+          <arg type="NSString*">aUnit</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSMutableArray*" ovadd="1.0.0">
+          <sel>outputsForHeader:</sel>
+          <arg type="NSString*">h</arg>
+          <desc>
+            Return a list of output files for the header
+          </desc>
+        </method>
+        <method type="NSMutableDictionary*" ovadd="1.0.0">
+          <sel>refs</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setDirectory:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setGlobalRef:</sel>
+          <arg type="NSString*">ref</arg>
+          <sel>type:</sel>
+          <arg type="NSString*">type</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setOutputs:</sel>
+          <arg type="NSArray*">a</arg>
+          <sel>forHeader:</sel>
+          <arg type="NSString*">h</arg>
+          <desc>
+            Set up an array listing the output files for
+            <var>a</var> particular header.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setRelationship:</sel>
+          <arg type="NSString*">r</arg>
+          <sel>from:</sel>
+          <arg type="NSString*">from</arg>
+          <sel>to:</sel>
+          <arg type="NSString*">to</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setSources:</sel>
+          <arg type="NSArray*">a</arg>
+          <sel>forHeader:</sel>
+          <arg type="NSString*">h</arg>
+          <desc>
+            Set up an array listing the source files for
+            <var>a</var> particular header.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setUnitRef:</sel>
+          <arg type="NSString*">ref</arg>
+          <sel>type:</sel>
+          <arg type="NSString*">type</arg>
+          <desc>
+            Set up a reference for something inside a unit (class,
+            category or protocol) We store 'method' and
+            'ivariable' by <var>ref</var> then unit
+            (class), but we store 'unitmethods' * and
+            'classvars' by unit then <var>ref</var>.
+          </desc>
+        </method>
+        <method type="NSMutableArray*" ovadd="1.0.0">
+          <sel>sourcesForHeader:</sel>
+          <arg type="NSString*">h</arg>
+          <desc>
+            Return a list of source files for the header.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="1.0.0">
+          <sel>unitRef:</sel>
+          <arg type="NSString*">ref</arg>
+          <sel>type:</sel>
+          <arg type="NSString*">type</arg>
+          <desc>
+            Return a dictionary containing info on all the units
+            containing the specified method or instance
+            variable.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>unitRef:</sel>
+          <arg type="NSString*">ref</arg>
+          <sel>type:</sel>
+          <arg type="NSString*">type</arg>
+          <sel>unit:</sel>
+          <arg type="NSString**">u</arg>
+          <desc>
+            Return the name of the file containing the
+            <var>ref</var> and return the unit name in which it
+            was found. If not found, return <code>nil</code> for
+            both. <br /> If <var>ref</var> does not occur in the
+            index, this method returns <code>nil</code>. <br />
+            If the method was given no unit to look in, then it will
+            succeed and return a value if (and only if) the
+            required reference is defined only in one unit
+            (excluding protocols). In the case where it is
+            in two units (one of them a protocol) the class is taken
+            in preference to the protocol. <br /> If <var>ref</var>
+            exists in the unit specified, the method will
+            succeed and return the name of the file in which
+            the reference is located. <br /> If the unit that the
+            method has been asked to look in is a protocol which
+            is not found, the lookup must fail. <br /> Try all
+            superclasses in turn.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

@@ -1,0 +1,868 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.7, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Objective-C (Objective-C GNUstep Base Programming Manual)</title>
+
+<meta name="description" content="Objective-C (Objective-C GNUstep Base Programming Manual)">
+<meta name="keywords" content="Objective-C (Objective-C GNUstep Base Programming Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html" rel="start" title="Top">
+<link href="Make.html" rel="index" title="Make">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html" rel="up" title="Top">
+<link href="Objects.html" rel="next" title="Objects">
+<link href="Introduction.html" rel="prev" title="Introduction">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<span id="Objective_002dC"></span><div class="header">
+<p>
+Next: <a href="Objects.html" accesskey="n" rel="next">Objects</a>, Previous: <a href="Introduction.html" accesskey="p" rel="prev">Introduction</a>, Up: <a href="index.html" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Make.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="The-Objective_002dC-Language"></span><h2 class="chapter">2 The Objective-C Language</h2>
+
+<p>In the previous chapter you were introduced to some basic object-oriented
+programming terms. This chapter will expand on these terms, and introduce you
+to some new ones, while concentrating on how they apply to the Objective-C
+language and the GNUstep base library. First let us look at some non OO
+additions that Objective-C makes to ANSI C.
+</p>
+<span id="Non-OO-Additions"></span><h3 class="section">2.1 Non OO Additions</h3>
+
+<p>Objective-C makes a few non OO additions to the syntax of the C programming
+language that include:
+</p><ul>
+<li> A boolean data type (<code>BOOL</code>) capable of storing either of the
+values <code>YES</code> or <code>NO</code>.<br>
+A <code>BOOL</code> is a scalar value and can be used like the familiar
+<code>int</code> and <code>char</code> data types.<br>
+A <code>BOOL</code> value of <code>NO</code> is zero, while <code>YES</code> is non-zero.
+
+</li><li> The use of a pair of slashes (<code>//</code>) to mark text up to the end
+of the line as a comment.
+
+</li><li> The <code>#import</code> preprocessor directive was added; it directs the compiler
+to include a file only if it has not previously been included for the current
+compilation.  This directive should only be used for Objective-C headers and
+not ordinary C headers, since the latter may actually rely on being included
+more than once in certain cases to support their functionality.
+</li></ul>
+
+
+<span id="Objects-1"></span><h3 class="section">2.2 Objects</h3>
+<span id="index-objects"></span>
+
+<p>Object-oriented (OO) programming is based on the notion that a software system
+can be composed of objects that interact with each other in a manner that
+parallels the interaction of objects in the physical world.
+</p>
+<p>This model makes it easier for the programmer to understand how software works
+since it makes programming more intuitive. The use of objects also makes it
+easier during program design: take a big problem and consider it in small
+pieces, the individual objects, and how they relate to each other.
+</p>
+<p>Objects are like mini programs that can function on their own when requested
+by the program or even another object. An object can receive messages and then
+act on these messages to alter the state of itself (the size and position of a
+rectangle object in a drawing program for example).
+</p>
+<p>In software an object consists of instance variables (data) that represent the
+state of the object, and methods (like C functions) that act on these
+variables in response to messages.
+</p>
+<p>As a programmer creating an application or tool, all you need do is send
+messages to the appropriate objects rather than call functions that manipulate
+data as you would with a procedural program.
+</p>
+<p>The syntax for sending a message to an object, as shown below, is one of the
+additions that Objective-C adds to ANSI C.
+</p>
+<div class="example">
+<pre class="example">[objectName message]; 
+</pre></div>
+
+<p>Note the use of the square [ ] brackets surrounding the name of the object and
+message.
+</p>
+<p>Rather than &rsquo;calling&rsquo; one of its methods, an object is said to &rsquo;perform&rsquo; one
+of its methods in response to a message. The format that a message can take is
+discussed later in this section.
+</p>
+<span id="Id-and-nil"></span><h4 class="subsection">2.2.1 Id and nil</h4>
+
+<p>Objective-C defines a new type to identify an object: <code>id</code>, a type that
+points to an object&rsquo;s data (its instance variables). The following code
+declares the variable &rsquo;<code>button</code>&rsquo; as an object (as opposed to
+&rsquo;<code>button</code>&rsquo; being declared an integer, character or some other data type).
+</p>
+<div class="example">
+<pre class="example">id button;
+</pre></div>
+
+<p>When the button object is eventually created the variable name &rsquo;<code>button</code>&rsquo;
+will point to the object&rsquo;s data, but before it is created the variable could
+be assigned a special value to indicate to other code that the object does not
+yet exist.
+</p>
+<p>Objective-C defines a new keyword <code>nil</code> for this assignment, where
+<code>nil</code> is of type <code>id</code> with an unassigned value. In the button
+example, the assignment could look like this:
+</p>
+<div class="example">
+<pre class="example">id button = nil;
+</pre></div>
+
+<p>which assigns <code>nil</code> in the declaration of the variable.
+</p>
+<p>You can then test the value of an object to determine whether the object
+exists, perhaps before sending the object a message. If the test fails, then
+the object does not exist and your code can execute an alternative statement.
+</p>
+<div class="example">
+<pre class="example">if (anObject != nil)
+  ... /* send message */
+else
+  ... /* do something else */
+</pre></div>
+
+<p>The header file <code>objc/objc.h</code> defines <code>id</code>, <code>nil</code>, and other
+basic types of the Objective-C language. It is automatically included in your
+source code when you use the compiler directive <code>#include
+&lt;Foundation/Foundation.h&gt;</code> to include the GNUstep Base class definitions.
+</p>
+<span id="Messages"></span><h4 class="subsection">2.2.2 Messages</h4>
+<span id="index-messages"></span>
+
+<p>A message in Objective-C is the mechanism by which you pass instructions
+to objects.  You may tell the object to do something for you, tell it to
+change its internal state, or ask it for information.
+</p>
+<p>A message usually invokes a method, causing the receiving object to respond in
+some way.  Objects and data are manipulated by sending messages to them.  Like
+C-functions they have return types, but function specific to the object.
+</p>
+<p>Objects respond to messages that make specific requests.
+Message expressions are enclosed in square brackets and include the
+receiver or object name and the message or method name along with
+any arguments.
+</p>
+<p>To send a message to an object, use the syntax:
+</p>
+<p><code>[receiver messagename];</code>
+</p>
+<p>where <code>receiver</code> is the object.
+</p><br>
+
+<p>The run-time system invokes object methods that are specified by messages.
+For example, to invoke the display method of the mySquare object the
+following message is used:
+</p>
+<p><code>[mySquare display];</code>
+</p><br>
+
+<p>Messages may include arguments that are prefixed by colons, in which
+case the colons are part of the message name, so the following message
+is used to invoke the <code>setFrameOrigin::</code> method:
+</p>
+<p><code>[button setFrameOrigin: 10.0 : 10.0];</code>
+</p><br>
+
+<p>Labels describing arguments precede colons:
+</p>
+<p><code>[button setWidth: 20.0 height: 122.0];</code>
+</p>
+<p>invokes the method named <code>setWidth:height:</code>
+</p><br>
+
+<p>Messages that take a variable number of arguments are of the form:
+</p>
+<p><code>[receiver makeList: list, argOne, argTwo, argThree];</code>
+</p><br>
+
+<p>A message to <code>nil</code> does NOT crash the application (while in Java messages
+to <code>null</code> raise exceptions); the Objective-C application does nothing.
+</p>
+<p>For example:
+</p>
+<p><code>[nil display];</code>
+</p>
+<p>will do nothing.
+</p>
+<p>If a message to <code>nil</code> is supposed to return an object, it will return
+<code>nil</code>.  But if the method is supposed to return a primitive type such as
+an <code>int</code>, then the return value of that method when invoked on
+<code>nil</code>, is undefined.  The programmer therefore needs to avoid using the
+return value in this instance.
+</p>
+
+<span id="Polymorphism"></span><h4 class="subsection">2.2.3 Polymorphism</h4>
+<span id="index-polymorphism"></span>
+
+<p>Polymorphism refers to the fact that two different objects may
+respond differently to the same message. For example when client
+objects receive an alike message from a server object, they may
+respond differently. Using Dynamic Binding, the run-time system
+determines which code to execute according to the object type.
+</p>
+
+<span id="Classes-1"></span><h3 class="section">2.3 Classes</h3>
+<span id="index-classes"></span>
+
+<p>A <b>class</b> in Objective-C is a <i>type of object</i>, much like a structure
+definition in C except that in addition to variables, a class has code &ndash;
+method implementations &ndash; associated with it.  When you create an <i>instance</i>
+of a class, also known as an <i>object</i>, memory for each of its variables is
+allocated, including a pointer to the class definition itself, which tells the
+Objective-C runtime where to find the method code, among other things.
+Whenever an object is sent a message, the runtime finds this code and
+executes it, using the variable values that are set for this object.
+</p>
+
+<span id="Inheritance"></span><h4 class="subsection">2.3.1 Inheritance</h4>
+<span id="index-inheritance"></span>
+
+<p>Most of the programmer&rsquo;s time is spent defining classes.
+Inheritance helps reduce coding time by providing a convenient way of
+reusing code.
+For example, the <code>NSButton</code> class defines data (or instance variables) and methods to create button objects of a certain type, so a subclass of <code>NSButton</code> could be produced to create buttons of another type - which may perhaps have a different border colour. Equally <code>NSTextField</code> can be used to define a subclass that perhaps draws a different border, by reusing definitions and data in the superclass.
+</p>
+<p>Inheritance places all classes in a logical hierarchy or tree structure that
+may have the <code>NSObject</code> class at its root.  (The root object may be
+changed by the developer; in GNUstep it is <code>NSObject</code>, but in &ldquo;plain&rdquo;
+Objective-C it is a class called &ldquo;<code>Object</code>&rdquo; supplied with the runtime.)
+All classes may have subclasses, and all except the root class do have
+superclasses. When a class object creates a new instance, the new object holds
+the data for its class, superclass, and superclasses extending to the root
+class (typically <code>NSObject</code>).  Additional data may be added to classes so
+as to provide specific functions and application logic.
+</p>
+<p>When a new object is created, it is allocated memory space and its data in the
+form of its instance variables are initialised.  Every object has at least one
+instance variable (inherited from <code>NSObject</code>) called <code>isa</code>, which is
+initialized to refer to the object&rsquo;s class.  Through this reference, access is
+also afforded to classes in the object&rsquo;s inheritance path.
+</p>
+<p>In terms of source code, an Objective-C class definition has an:
+</p>
+<ul>
+<li> <i>interface</i> declaring instance variables, methods and the superclass name;
+and an
+
+</li><li> <i>implementation</i> that defines the class in terms of operational code that
+implements the methods.
+</li></ul>
+
+<p>Typically these entities are confined to separate files
+with <code>.h</code> and <code>.m</code> extensions for Interface and Implementation files,
+respectively. However they may be merged
+into one file, and a single file may implement multiple classes.
+</p>
+<span id="Inheritance-of-Methods"></span><h4 class="subsection">2.3.2 Inheritance of Methods</h4>
+<span id="index-inheriting-methods"></span>
+
+<p>Each new class inherits methods and instance variables from another class. This
+results in a class hierarchy with the root class at the core, and every class
+(except the root) has a superclass as its parent, and all classes may have
+numerous subclasses as their children. Each class therefore is a refinement of
+its superclass(es).
+</p>
+
+<span id="Overriding-Methods"></span><h4 class="subsection">2.3.3 Overriding Methods</h4>
+<span id="index-overriding-methods"></span>
+
+<p>Objects may access methods defined for their class, superclass,
+superclass&rsquo; superclass, extending to the root class.
+Classes may be defined with methods that overwrite their namesakes
+in ancestor classes. These new methods are then inherited by
+subclasses, but other methods in the new class can locate the
+overridden methods. Additionally redefined methods may include
+overridden methods.
+</p>
+
+<span id="Abstract-Classes"></span><h4 class="subsection">2.3.4 Abstract Classes</h4>
+<span id="index-abstract-class"></span>
+<span id="index-class_002c-abstract"></span>
+
+<p>Abstract classes or abstract superclasses such as <code>NSObject</code> define
+methods and instance variables used by multiple subclasses.
+Their purpose is to reduce the development effort required to
+create subclasses and application structures.
+When we get technical, we make a distinction between a pure abstract
+class whose methods are defined but instance variables are not,
+and a semi-abstract class where instance variables are defined).
+</p>
+<p>An abstract class is not expected to actually produce functional
+instances since crucial parts of the code are expected to be
+provided by subclasses.  In practice, abstract classes may either stub out key
+methods with no-op implementations, or leave them unimplemented entirely.  In
+the latter case, the compiler will produce a warning (but not an error).
+</p>
+<p>Abstract classes reduce the development effort required to create
+subclasses and application structures.
+</p>
+
+<span id="Class-Clusters"></span><h4 class="subsection">2.3.5 Class Clusters</h4>
+<span id="index-class-cluster"></span>
+<span id="index-cluster_002c-classes"></span>
+
+<p>A class cluster is an abstract base class, and a group of private, concrete
+subclasses.  It is used to hide implementation details from the programmer
+(who is only allowed to use the interface provided by the abstract class), so
+that the actual design can be modified (probably optimised) at a later date,
+without breaking any code that uses the cluster.
+</p>
+<p>Consider a scenario where it is necessary to create a class hierarchy to
+define objects holding different types including <b>chars</b>, <b>ints</b>,
+<b>shorts</b>, <b>longs</b>, <b>floats</b> and <b>doubles</b>.  Of course, different types
+could be defined in the same class since it is possible to <b>cast</b> or
+<b>change</b> them from one to the next.  Their allocated storage differs,
+however, so it would be inefficient to bundle them in the same class and to
+convert them in this way.
+</p>
+<p>The solution to this problem is to use a class cluster:
+define an abstract superclass that specifies and declares
+components for subclasses, but does not declare instance variables.
+Rather this declaration is left to its subclasses, which share the
+<b>programmatic interface</b> that is declared by the abstract superclass.
+</p>
+<p>When you create an object using a cluster interface, you are
+given an object of another class - from a concrete class in the cluster.
+</p>
+
+<span id="NSObject_003a-The-Root-Class"></span><h3 class="section">2.4 NSObject: The Root Class</h3>
+<span id="index-NSObject"></span>
+<span id="index-root-class"></span>
+<span id="index-class_002c-root"></span>
+
+<p>In GNUstep, <code>NSObject</code> is a root class that provides a base
+implementation for all objects, their interactions, and their integration in
+the run-time system.  <code>NSObject</code> defines the <code>isa</code> instance variable
+that connects every object with its class.
+</p>
+<p>In other Objective-C environments besides GNUstep, <code>NSObject</code> will be
+replaced by a different class.  In many cases this will be a default class
+provided with the Objective-C runtime.  In the GNU runtime for example, the
+base class is called <code>Object</code>.  Usually base classes define a similar set
+of methods to what is described here for <code>NSObject</code>, however there are
+variations.
+</p>
+<p>The most basic functions associated with the <code>NSObject</code> class (and
+inherited by all subclasses) are the following:
+</p>
+<ul>
+<li> allocate instances
+
+</li><li> connect instances to their classes
+
+</li></ul>
+
+<p>In addition, <code>NSObject</code> supports the following functionality:
+</p>
+<ul>
+<li> initialize instances
+
+</li><li> deallocate instances
+
+</li><li> compare self with another object
+
+</li><li> archive self
+
+</li><li> perform methods selected at run-time
+
+</li><li> provide reflective information at runtime to queries about declared methods
+
+</li><li> provide reflective information at runtime to queries about position in the
+inheritance hierarchy
+
+</li><li> forward messages to other objects.
+</li></ul>
+
+
+<span id="The-NSObject-Protocol"></span><h4 class="subsection">2.4.1 The NSObject Protocol</h4>
+
+<p>In fact, the <code>NSObject</code> class is a bit more complicated than just
+described.  In reality, its method declarations are split into two components:
+essential and ancillary.  The essential methods are those that are needed by
+<i>any</i> root class in the GNUstep/Objective-C environment.  They are declared
+in an &ldquo;<code>NSObject</code> protocol&rdquo; which should be implemented by any other
+root class you define (see <a href="Classes.html">Protocols</a>).  The ancillary
+methods are those specific to the <code>NSObject</code> class itself but need not be
+implemented by any other root class.  It is not important to know which
+methods are of which type unless you actually intend to write an alternative
+root class, something that is rarely done.
+</p>
+
+<span id="Static-Typing"></span><h3 class="section">2.5 Static Typing</h3>
+<span id="index-static-typing"></span>
+
+<p>Recall that the <code>id</code> type may be used to refer to any class of object.
+While this provides for great runtime flexibility (so that, for example, a
+generic <code>List</code> class may contain objcts of any instance), it prevents the
+compiler from checking whether objects implement the messages you send them.
+To allow type checking to take place, Objective-C therefore also allows you to
+use class names as variable types in code.  In the following example, type
+checking verifies that the <code>myString</code> object is an appropriate type.
+</p>
+<div class="example">
+<pre class="example"> // compiler verifies, if anObject's type is known, that it is an NSString:
+NSString *myString = anObject;
+ // now, compiler verifies that NSString declares an int 'length' method:
+int len = [myString length];
+</pre></div>
+
+<p>Note that objects are declared as pointers, unlike when <code>id</code> is used.
+This is because the pointer operator is implicit for <code>id</code>.  Also, when
+the compiler performs type checking, a subclass is always permissible where
+any ancestor class is expected, but not vice-versa.
+</p>
+
+<span id="Type-Introspection"></span><h4 class="subsection">2.5.1 Type Introspection</h4>
+
+<p>Static typing is not always appropriate.  For example, you may wish to store
+objects of multiple types within a list or other container structure.  In
+these situations, you can still perform type-checking manually if you need to
+send an untyped object a particular message.  The <code>isMemberOfClass:</code>
+method defined in the <code>NSObject</code> class verifies that the receiver is of a
+specific class:
+</p>
+<div class="example">
+<pre class="example">if ([namedObject isMemberOfClass: specificClass] == YES)
+  {
+    // code here
+  }
+</pre></div>
+
+<p>The test will return false if the object is a member of a subclass of the
+specific class given - an exact match is required.  If you are merely
+interested in whether a given object <i>descends</i> from a particular class, the
+<code>isKindOfClass:</code> method can be used instead:
+</p>
+<div class="example">
+<pre class="example">if ([namedObject isKindOfClass: specificClass] == YES)
+  {
+    // code here
+  }
+</pre></div>
+
+<p>There are other ways of determining whether an object responds to a particular
+method, as will be discussed in <a href="Advanced-Messaging.html">Advanced Messaging</a>.
+</p>
+
+<span id="Referring-to-Instance-Variables"></span><h4 class="subsection">2.5.2 Referring to Instance Variables</h4>
+<span id="index-instance-variables_002c-referring-to"></span>
+
+<p>As you will see later, classes may define some or all of their instance
+variables to be <i>public</i> if they wish.  This means that any other object or
+code block can access them using the standard &ldquo;<code>-&gt;</code>&rdquo; structure access
+operator from C.  For this to work, the object must be statically typed (not
+referred to by an <code>id</code> variable).
+</p>
+<div class="example">
+<pre class="example">   Bar *bar = [foo getBar];
+   int c = bar-&gt;value * 2;   // 'value' is an instance variable
+</pre></div>
+
+<p>In general, direct instance variable access from outside of a class is not
+recommended programming practice, aside from in exceptional cases where
+performance is at a premium.  Instead, you should define special methods
+called <i>accessors</i> that provide the ability to retrieve or set instance
+variables if necessary:
+</p>
+<div class="example">
+<pre class="example">- (int) value
+{
+    return value;
+}
+
+- (void) setValue: (int) newValue
+{
+    value = newValue;
+}
+</pre></div>
+
+<p>While it is not shown here, accessors may perform arbitrary operations before
+returning or setting internal variable values, and there need not even be a
+direct correspondence between the two.  Using accessor methods consistently
+allows this to take place when necessary for implementation reasons without
+external code being aware of it.  This property of <i>encapsulation</i> makes
+large code bases easier to maintain.
+</p>
+
+<span id="Working-with-Class-Objects"></span><h3 class="section">2.6 Working with Class Objects</h3>
+
+<p>Classes themselves are maintained internally as objects in their own right in
+Objective-C, however they do not possess the instance variables defined by the
+classes they represent, and they cannot be created or destroyed by user code.
+They do respond to class methods, as in the following:
+</p>
+<div class="example">
+<pre class="example">id result = [SomeClassName doSomething];
+</pre></div>
+
+<p>Classes respond to the class methods their class defines, as well as those
+defined by their superclasses.  However, it is not allowed to override an
+inherited class method.
+</p>
+<p>You may obtain the class object corresponding to an instance object at runtime
+by a method call; the class object is an instance of the &ldquo;<code>Class</code>&rdquo;
+class.
+</p>
+<div class="example">
+<pre class="example">  // all of these assign the same value
+id stringClass1 = [stringObject class];
+Class stringClass2 = [stringObject class];
+id stringClass3 = [NSString class];
+</pre></div>
+
+<p>Classes may also define a version number (by overriding that defined in
+<code>NSObject</code>):
+</p>
+<p><code>int versionNumber = [NSString version];</code>
+</p>
+<p>This facility allows developers to access the benefits of versioning for
+classes if they so choose.
+</p>
+
+<span id="Locating-Classes-Dynamically"></span><h4 class="subsection">2.6.1 Locating Classes Dynamically</h4>
+
+<p>Class names are about the only names with global visibility in Objective-C.
+If a class name is unknown at compilation but is available as a string at run
+time, the GNUstep library <code>NSClassFromString</code> function may be used to
+return the class object:
+</p>
+<div class="example">
+<pre class="example">if ([anObject isKindOf: NSClassFromString(&quot;SomeClassName&quot;)] == YES)
+  {
+    // do something ...
+  }
+</pre></div>
+
+<p>The function returns <code>Nil</code> if it is passed a string holding an invalid
+class name.  Class names, global variables and functions (but not methods)
+exist in the same name space, so no two of these entities may share the same
+name.
+</p>
+
+<span id="Naming-Constraints-and-Conventions"></span><h3 class="section">2.7 Naming Constraints and Conventions</h3>
+<span id="index-naming-constraints"></span>
+<span id="index-naming-conventions"></span>
+
+<p>The following lists the full uniqueness constraints on names in Objective-C.
+</p>
+<ul>
+<li> Neither gGlobal variables nor function names may share the same name as
+classes, because all three entities are allocated the same (global) name
+space.
+
+</li><li> A class may define methods using the same names as those held in other classes.
+(See <a href="#Objective_002dC">Overriding Methods</a> above.)
+
+</li><li> A class may define instance variables using the same names as those
+held in other classes.
+
+</li><li> A class category may have the same name as another class category.
+
+</li><li> An instance method and a class method may share the same name.
+
+</li><li> A protocol may have the same name as a class, category, or any other entity.
+
+</li><li> A method and an instance variable may share the same name.
+
+</li></ul>
+
+<p>There are also a number of conventions used in practice.  These help to make
+code more readable and also help avoid naming conflicts.  Conventions are
+particularly important since Objective-C does not have any namespace
+partitioning facilities like Java or other languages.
+</p>
+<ul>
+<li> Class, category and protocol names begin with an uppercase letter.
+
+</li><li> Methods, instance variables, and variables holding instances begin
+with a lowercase letter.
+
+</li><li> Second and subsequent words in a name should begin with a capital letter, as
+in &ldquo;ThisIsALongName&rdquo;, not &ldquo;Thisisalongname&rdquo;.  As can be seen, this makes
+long names more readable.
+
+</li><li> Classes intended to be used as libraries (Frameworks, in NeXTstep parlance)
+should utilize a unique two or three letter prefix.  For example, the
+Foundation classes all begin with &rsquo;NS&rsquo;, as in &ldquo;NSArray, and classes in the
+OmniFoundation from Omni Group (a popular library for OpenStep) began with
+&ldquo;OF&rdquo;.
+
+</li><li> Classes and methods intended to be used only be the developers maintaining
+them should be prefixed by an underscore, as in &ldquo;_SomePrivateClass&rdquo; or
+&ldquo;_somePrivateMethod&rdquo;.  Capitalization rules should still be followed.
+
+</li><li> Functions intended for global use should beging with a capital letter, and
+use prefixing conventions as for classes.
+
+</li></ul>
+
+
+
+
+<span id="Strings-in-GNUstep"></span><h3 class="section">2.8 Strings in GNUstep</h3>
+
+<p>Strings in GNUstep can be handled in one of two ways.  The first way is the C
+approach of using an array of <code>char</code>.  In this case you may use the
+&ldquo;<code>STR</code>&rdquo; type defined in Objective-C in place of <code>char[]</code>.
+</p>
+<p>The second approach is to rely on the <code>NSString</code> class and associated
+subclasses in the GNUstep Base library, and compiler support for them.  Using
+this approach allows use of the methods in the
+<a href="../Reference/NSString.html">NSString API</a>.  In addition, the
+<code>NSString</code> class provides the means to initialize strings using
+printf-like formats.
+</p>
+<p>The <code>NSString</code> class defines objects holding raw <b>Unicode</b> character
+streams or <b>strings</b>. Unicode is a 16-bit worldwide standard used to define
+character sets for all spoken languages.  In GNUstep parlance the Unicode
+character is of type <b>unichar</b>.
+</p>
+
+<span id="Creating-NSString-Static-Instances"></span><h4 class="subsection">2.8.1 Creating NSString Static Instances</h4>
+
+<p>A <b>static</b> instance is allocated at compile time. The creation of a static
+instance of <code>NSString</code> is achieved using the <code>@&quot;...&quot;</code>  construct
+and a pointer:
+</p>
+<div class="example">
+<pre class="example">NSString *w = @&quot;Brainstorm&quot;;
+</pre></div>
+
+<p>Here, <code>w</code> is a variable that refers to an <code>NSString</code> object
+representing the ASCII string &quot;Brainstorm&quot;.
+</p>
+
+<span id="NSString-_002bstringWithFormat_003a"></span><h4 class="subsection">2.8.2 NSString  +stringWithFormat:</h4>
+
+<p>The class method <code>stringWithFormat:</code> may also be used to create instances
+of <code>NSString</code>, and broadly echoes the <code>printf()</code> function in the C
+programming language. <code>stringWithFormat:</code> accepts a list of arguments
+whose processed result is placed in an <code>NSString</code> that becomes a return
+value as illustrated below:
+</p><div class="example">
+<pre class="example">int		qos = 5;
+NSString	*gprsChannel;
+
+gprschannel = [NSString stringWithFormat: @&quot;The GPRS channel is %d&quot;, 
+                qos];
+
+</pre></div>
+
+<p>The example will produce an <code>NSString</code> called <code>gprsChannel</code>
+holding the string &quot;The GPRS channel is 5&quot;. 
+</p>
+<p><code>stringWithFormat:</code> recognises the <code>%@</code> conversion specification
+that is used to specify an additional <code>NSString</code>: 
+</p>
+<div class="example">
+<pre class="example">NSString *one;
+NSString *two;
+
+one = @&quot;Brainstorm&quot;;
+two = [NSString stringWithFormat: @&quot;Our trading name is %@&quot;, one];
+</pre></div>
+
+<p>The example assigns the variable <code>two</code> the string &quot;Our trading name is
+Brainstorm.&quot;  The <code>%@</code> specification can be used to output an object&rsquo;s
+description - as returned by the <code>NSObject</code> <code>-description</code> method),
+which is useful when debugging, as in:
+</p>
+<div class="example">
+<pre class="example">NSObject *obj = [anObject aMethod];
+
+NSLog (@&quot;The method returned: %@&quot;, obj);
+</pre></div>
+
+
+<span id="C-String-Conversion"></span><h4 class="subsection">2.8.3 C String Conversion</h4>
+<p>When a program needs to call a C library function it is useful to convert
+between <code>NSString</code>s and standard ASCII C strings (not fixed at compile
+time).  To create an <code>NSString</code> using the contents of the returned C
+string (from the above example), use the <code>NSString</code> class method
+<code>stringWithCString:</code>:
+</p>
+<div class="example">
+<pre class="example">char *function (void);
+
+char *result;
+NSString *string;
+
+result = function ();
+string = [NSString stringWithCString: result];
+</pre></div>
+
+<p>To convert an <code>NSString</code> to a standard C ASCII string,
+use the <code>cString</code> method of the <code>NSString</code> class: 
+</p><div class="example">
+<pre class="example">char		*result;
+NSString	*string;
+
+string = @&quot;Hi!&quot;;
+result = [string cString];
+</pre></div>
+
+
+<span id="NSMutableString"></span><h4 class="subsection">2.8.4 NSMutableString</h4>
+<p><code>NSString</code>s are immutable objects; meaning that once they are created,
+they cannot be modified. This results in optimised <code>NSString</code> code. To
+modify a string, use the subclass of <code>NSString</code>, called
+<code>NSMutableString</code>.  Use a <code>NSMutableString</code> wherever a
+<code>NSString</code> could be used.
+</p>
+<p>An <code>NSMutableString</code> responds to methods that modify the string directly -
+which is not possible with a generic <code>NSString</code>. 
+To create a <code>NSMutableString</code>use <code>stringWithFormat:</code>: 
+</p>
+<div class="example">
+<pre class="example">NSString *name = @&quot;Brainstorm&quot;;
+NSMutableString *str;
+str = [NSMutableString stringWithFormat: @&quot;Hi!, %@&quot;, name];
+</pre></div>
+
+<p>While <code>NSString</code>&rsquo;s implementation of <code>stringWithFormat:</code> returns
+a <code>NSString</code>, <code>NSMutableString</code>&rsquo;s implementation returns an
+<code>NSMutableString</code>. 
+</p>
+<p><b>Note. Static strings created with the <code>@&quot;...&quot;</code> construct are
+always immutable.</b>
+</p>
+<p><code>NSMutableString</code>s are rarely used because to modify a string, you
+normally create a new string derived from an existing one.
+</p>
+<p>A useful method of the <code>NSMutableString</code> class is <code>appendString:</code>,
+which takes an <code>NSString</code> argument, and appends it to the receiver:
+</p>
+<div class="example">
+<pre class="example">NSString	*name = @&quot;Brainstorm&quot;;
+NSString	*greeting = @&quot;Hello&quot;;
+NSMutableString	*s;
+
+s = AUTORELEASE ([NSMutableString new]);
+[s appendString: greeting];
+[s appendString: @&quot;, &quot;];
+[s appendString: name];
+</pre></div>
+
+<p>This code produces the same result as:
+</p>
+<div class="example">
+<pre class="example">NSString *name = @&quot;Brainstorm&quot;;
+NSString *greeting = @&quot;Hello&quot;;
+NSMutableString *s;
+
+s = [NSMutableString stringWithFormat: @&quot;%@, %@&quot;, greeting, name];
+</pre></div>
+
+
+<span id="Loading-and-Saving-Strings"></span><h4 class="subsection">2.8.5 Loading and Saving Strings</h4>
+
+<p>The the GNUstep Base library has numerous string manipulation features,
+and among the most notable are those relating to writing/reading
+strings to/from files. To write the contents of a string to a file,
+use the <code>writeToFile:atomically:</code> method: 
+</p>
+<div class="example">
+<pre class="example">#include &lt;Foundation/Foundation.h&gt;
+
+int
+main (void)
+{
+  CREATE_AUTORELEASE_POOL(pool);
+  NSString *name = @&quot;This string was created by GNUstep&quot;;
+
+  if ([name writeToFile: @&quot;/home/nico/testing&quot; atomically: YES])
+    {
+      NSLog (@&quot;Success&quot;);
+    }
+  else 
+    {
+      NSLog (@&quot;Failure&quot;);
+    }
+  RELEASE(pool);
+  return 0;
+}
+</pre></div>
+
+<p><code>writeToFile:atomically:</code> returns YES for success, and NO for failure.
+If the atomically flag is YES, then the library first writes the string
+into a file with a temporary name, and, when the writing has been
+successfully done, renames the file to the specified filename.
+This prevents erasing the previous version of filename unless
+writing has been successful. This is a useful feature, which should be enabled.
+</p>
+<p>To read the contents of a file into a string, use
+<code>stringWithContentsOfFile:</code>, as shown in the following
+example that reads <code>@&quot;/home/Brainstorm/test&quot;</code>: 
+</p>
+
+<div class="example">
+<pre class="example">#include &lt;Foundation/Foundation.h&gt;
+
+int
+main (void)
+{
+  CREATE_AUTORELEASE_POOL(pool);
+  NSString *string;
+  NSString *filename = @&quot;/home/nico/test&quot;;
+
+  string = [NSString stringWithContentsOfFile: filename];
+  if (string == nil)
+    {
+      NSLog (@&quot;Problem reading file %@&quot;, filename);
+      /*
+       * &lt;missing code: do something to manage the error...&gt;
+       * &lt;exit perhaps ?&gt;
+       */
+    }
+
+  /*
+   * &lt;missing code: do something with string...&gt;
+   */
+
+  RELEASE(pool);
+  return 0;
+}
+
+</pre></div>
+
+
+
+<hr>
+<div class="header">
+<p>
+Next: <a href="Objects.html" accesskey="n" rel="next">Objects</a>, Previous: <a href="Introduction.html" accesskey="p" rel="prev">Introduction</a>, Up: <a href="index.html" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Make.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

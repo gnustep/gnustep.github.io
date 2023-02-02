@@ -1,0 +1,304 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSProxy" up="Base">
+  <head>
+    <title>NSProxy class reference</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <copy>1997 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSProxy class
+      </heading>
+      <class name="NSProxy" ovadd="1.0.0">
+        <declared>Foundation/NSProxy.h</declared>
+        <conform>NSObject</conform>
+        <desc>
+          <p>
+            The NSProxy class provides a basic implementation of a
+            class whose instances are used to <em>stand in</em>
+            for other objects. <br /> The class provides the most
+            basic methods of NSObject, and expects messages for
+            other methods to be forwarded to the <em>real</em>
+            object represented by the proxy. You must subclass
+            NSProxy to implement
+            <ref type="method" id="-forwardInvocation:">
+              -forwardInvocation:
+            </ref>
+            to these <em>real</em> objects.
+          </p>
+          <p>
+            Note that <code>NSProxy</code> is a different sort of
+            class than others in the GNUstep Base library in that
+            it is the only example of a root class besides
+            <ref type="class" id="NSObject">NSObject</ref>
+              . Thus, it implements the <code>NSObject</code>
+              protocol but is not a subclass of NSObject.
+            </p>
+        </desc>
+        <ivariable type="Class" name="isa" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>alloc</sel>
+          <desc>
+            Allocates and returns an NSProxy instance in the
+            default zone.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>allocWithZone:</sel>
+          <arg type="NSZone*">z</arg>
+          <desc>
+            Allocates and returns an NSProxy instance in the
+            specified zone <var>z</var>.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>autorelease</sel>
+          <desc>
+            Returns the receiver.
+          </desc>
+        </method>
+        <method type="Class" factory="yes" ovadd="1.0.0">
+          <sel>class</sel>
+          <desc>
+            Returns the receiver.
+          </desc>
+        </method>
+        <method type="NSString*" factory="yes" ovadd="1.0.0">
+          <sel>description</sel>
+          <desc>
+            Returns a string describing the receiver.
+          </desc>
+        </method>
+        <method type="BOOL" factory="yes" ovadd="1.0.0">
+          <sel>isKindOfClass:</sel>
+          <arg type="Class">aClass</arg>
+          <desc>
+            Returns <code>NO</code>... the NSProxy class cannot
+            be an instance of any class.
+          </desc>
+        </method>
+        <method type="BOOL" factory="yes" ovadd="1.0.0">
+          <sel>isMemberOfClass:</sel>
+          <arg type="Class">aClass</arg>
+          <desc>
+            Returns <code>YES</code> if <var>aClass</var> is
+            identical to the receiver, <code>NO</code>
+            otherwise.
+          </desc>
+        </method>
+        <method type="void" factory="yes" override="dummy" ovadd="1.0.0">
+          <sel>load</sel>
+          <desc>
+            <br /> A dummy method...
+          </desc>
+        </method>
+        <method type="oneway void" factory="yes" override="dummy" ovadd="1.0.0">
+          <sel>release</sel>
+          <desc>
+            <br /> A dummy method to ensure that the class can
+            safely be held in containers.
+          </desc>
+        </method>
+        <method type="BOOL" factory="yes" ovadd="1.0.0">
+          <sel>respondsToSelector:</sel>
+          <arg type="SEL">aSelector</arg>
+          <desc>
+            Returns <code>YES</code> if the receiver responds
+            to <var>aSelector</var>, <code>NO</code> otherwise.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>retain</sel>
+          <desc>
+            Returns the receiver.
+          </desc>
+        </method>
+        <method type="NSUInteger" factory="yes" ovadd="1.0.0">
+          <sel>retainCount</sel>
+          <desc>
+            Returns the maximum <strong>unsigned</strong>
+            integer value.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>autorelease</sel>
+          <desc>
+            Adds the receiver to the current autorelease pool and
+            returns self.
+          </desc>
+        </method>
+        <method type="Class" ovadd="1.0.0">
+          <sel>class</sel>
+          <desc>
+            Returns the class of the receiver.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>conformsToProtocol:</sel>
+          <arg type="Protocol*">aProtocol</arg>
+          <desc>
+            Calls the
+            <ref type="method" id="-forwardInvocation:">
+              -forwardInvocation:
+            </ref>
+            method to determine if the 'real' object referred to
+            by the proxy conforms to <var>aProtocol</var>. Returns
+            the result. <br /> NB. The default operation of
+            <ref type="method" id="-forwardInvocation:">
+              -forwardInvocation:
+            </ref>
+            is to raise an exception.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>dealloc</sel>
+          <desc>
+            Frees the memory used by the receiver.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>description</sel>
+          <desc>
+            Returns a text description of the receiver.
+          </desc>
+        </method>
+        <method type="void" override="subclass" ovadd="1.0.0">
+          <sel>forwardInvocation:</sel>
+          <arg type="NSInvocation*">anInvocation</arg>
+          <desc>
+            Raises an <code>NSInvalidArgumentException</code>.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="1.0.0">
+          <sel>hash</sel>
+          <desc>
+            Returns the address of the receiver... so it can be
+            stored in a dictionary.
+          </desc>
+        </method>
+        <method type="id" init="yes" override="subclass" ovadd="1.0.0">
+          <sel>init</sel>
+          <desc>
+            Initialises the receiver and returns the
+            resulting instance.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isEqual:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Tests for pointer equality with <var>anObject</var>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isKindOfClass:</sel>
+          <arg type="Class">aClass</arg>
+          <desc>
+            Calls the
+            <ref type="method" id="-forwardInvocation:">
+              -forwardInvocation:
+            </ref>
+            method to determine if the 'real' object referred to
+            by the proxy is an instance of the specified class.
+            Returns the result. <br /> NB. The default
+            operation of
+            <ref type="method" id="-forwardInvocation:">
+              -forwardInvocation:
+            </ref>
+            is to raise an exception.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isMemberOfClass:</sel>
+          <arg type="Class">aClass</arg>
+          <desc>
+            Calls the
+            <ref type="method" id="-forwardInvocation:">
+              -forwardInvocation:
+            </ref>
+            method to determine if the 'real' object referred to
+            by the proxy is an instance of the specified class.
+            Returns the result. <br /> NB. The default
+            operation of
+            <ref type="method" id="-forwardInvocation:">
+              -forwardInvocation:
+            </ref>
+            is to raise an exception.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isProxy</sel>
+          <desc>
+            Returns <code>YES</code>.
+          </desc>
+        </method>
+        <method type="NSMethodSignature*" ovadd="1.0.0">
+          <sel>methodSignatureForSelector:</sel>
+          <arg type="SEL">aSelector</arg>
+          <desc>
+            If we respond to the method directly, create and return
+            a method signature. Otherwise raise an exception.
+          </desc>
+        </method>
+        <method type="oneway void" ovadd="1.0.0">
+          <sel>release</sel>
+          <desc>
+            Decrement the retain count for the receiver...
+            deallocate if it would become negative.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>respondsToSelector:</sel>
+          <arg type="SEL">aSelector</arg>
+          <desc>
+            If we respond to the method directly, return
+            <code>YES</code>, otherwise forward this request to
+            the object we are acting as a proxy for.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>retain</sel>
+          <desc>
+            Increment the retain count for the receiver.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="1.0.0">
+          <sel>retainCount</sel>
+          <desc>
+            Return the retain count for the receiver.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>self</sel>
+          <desc>
+            Returns the receiver.
+          </desc>
+        </method>
+        <method type="Class" ovadd="1.0.0">
+          <sel>superclass</sel>
+          <desc>
+            Returns the superclass of the receiver's class.
+          </desc>
+        </method>
+        <method type="NSZone*" ovadd="1.0.0">
+          <sel>zone</sel>
+          <desc>
+            Returns the zone in which the receiver was
+            allocated.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

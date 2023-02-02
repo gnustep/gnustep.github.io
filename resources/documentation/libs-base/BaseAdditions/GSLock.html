@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>GSLock documentation</title>
+  </head>
+  <body>
+    <font face="serif">
+    <a href="BaseAdditions.html">Up</a>
+    <br />
+    <h1><a name="title$GSLock">GSLock documentation</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Richard Frith-Macdonald (<a href="mailto:rfm@gnu.org"><code>rfm@gnu.org</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Copyright:</b> (C) 2003 Free Software Foundation, Inc.</p>
+
+        <div>
+      <hr width="50%" align="left" />
+      <h3>Contents -</h3>
+      <ol>
+        <li>
+          <a href="#001000000000">Software documentation for the GSLazyLock class</a>
+        </li>
+        <li>
+          <a href="#002000000000">Software documentation for the GSLazyRecursiveLock
+        class</a>
+        </li>
+      </ol>
+      <hr width="50%" align="left" />
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the GSLazyLock class
+      </a></h1>
+    <h2><a name="class$GSLazyLock">GSLazyLock</a> : NSLock</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSLock.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          This implements a class which, when used in
+          single-threaded mode, acts like a lock while
+          avoiding the overheads of actually using a real
+          lock. However, when the programm in which the class is
+          used becomes multi-threaded, all instances of this class
+          transform themselves into real locks in the correct
+          state (locked/unlocked) corresponding to whether the
+          lazy lock was locked or not at the point where the
+          program became multi threadeed. <br /> Use of this
+          class allows you to write thread-safe code which avoids
+          locking inefficiencies when used in a single threaded
+          application, without having to worry about
+          dealing with the issue yourself.
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_GSLazyLock_ivars">Instance Variables</a>
+    <br/><br/>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSLock.html#method$GSLazyLock-_becomeThreaded$">-_becomeThreaded:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSLazyLock-_becomeThreaded$">_becomeThreaded:&nbsp;</a></h3>
+    - (void) <b>_becomeThreaded:</b> (NSNotification*)n;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code. <br /> Do not use this method
+            ... it is used internally to handle the transition from
+            a single threaded system to a multi threaded one.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<a name="_GSLazyLock_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for GSLazyLock Class</h2>
+    <h3><a name="ivariable$GSLazyLock*locked">locked</a></h3>
+    @protected int <b>locked</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <br/><hr width="50%" align="left" /><br/>
+
+          <h1><a name="002000000000">
+        Software documentation for the GSLazyRecursiveLock
+        class
+      </a></h1>
+    <h2><a name="class$GSLazyRecursiveLock">GSLazyRecursiveLock</a> : NSRecursiveLock</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSLock.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          This implements a class which, when used in
+          single-threaded mode, acts like a recursive
+          lock while avoiding the overheads of using a real lock.
+          However, when the programm in which the class is
+          used becomes multi-threaded, all instances of this class
+          transform themselves into real locks in the correct
+          state (locked/unlocked) corresponding to whether the
+          lazy recursive lock was locked or not at the point where
+          the program became multi threadeed. <br /> Use of this
+          class allows you to write thread-safe code which avoids
+          locking inefficiencies when used in a single threaded
+          application, without having to worry about
+          dealing with the issue yourself.
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_GSLazyRecursiveLock_ivars">Instance Variables</a>
+    <br/><br/>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSLock.html#method$GSLazyRecursiveLock-_becomeThreaded$">-_becomeThreaded:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSLazyRecursiveLock-_becomeThreaded$">_becomeThreaded:&nbsp;</a></h3>
+    - (void) <b>_becomeThreaded:</b> (NSNotification*)n;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code. <br /> Do not use this method
+            ... it is used internally to handle the transition from
+            a single threaded system to a multi threaded one.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<a name="_GSLazyRecursiveLock_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for GSLazyRecursiveLock Class</h2>
+    <h3><a name="ivariable$GSLazyRecursiveLock*counter">counter</a></h3>
+    @protected int <b>counter</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+    <br/><hr width="50%" align="left" /><br/>
+    <br />
+    <a href="BaseAdditions.html">Up</a>
+    </font>
+</body>
+</html>

@@ -1,0 +1,240 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSPortNameServer" up="Base">
+  <head>
+    <title>NSPortNameServer class reference</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <copy>1998,1999,2003 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSMessagePortNameServer
+        class
+      </heading>
+      <class name="NSMessagePortNameServer" super="NSPortNameServer" ovadd="10.0.0" ovrem="0.0.0">
+        <declared>Foundation/NSPortNameServer.h</declared>
+        <desc>
+          Subclass of
+          <ref type="class" id="NSPortNameServer">NSPortNameServer</ref>
+            taking/returning instances of
+            <ref type="class" id="NSMessagePort">NSMessagePort</ref>
+              . Port removal functionality is not supported; if you
+              want to cancel a service, you have to destroy the
+              port (invalidate the
+              <ref type="class" id="NSMessagePort">NSMessagePort</ref>
+                given to
+                <ref type="method" id="-registerPort:forName:" class="NSPortNameServer">[NSPortNameServer -registerPort:forName:]</ref>).
+        </desc>
+        <method type="id" factory="yes" ovadd="10.0.0" ovrem="0.0.0">
+          <sel>sharedInstance</sel>
+          <desc>
+            Obtain single instance for this host.
+          </desc>
+        </method>
+        <method type="NSPort*" ovadd="10.0.0" ovrem="0.0.0">
+          <sel>portForName:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            Returns the
+            <ref type="class" id="NSMessagePort">NSMessagePort</ref>
+              instance registered for the specified
+              <var>name</var> if it exists on the local host.
+          </desc>
+        </method>
+        <method type="NSPort*" ovadd="10.0.0" ovrem="0.0.0">
+          <sel>portForName:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>onHost:</sel>
+          <arg type="NSString*">host</arg>
+          <desc>
+            Returns the port registered for the specified
+            <var>name</var> (if it exists). <br /> The
+            <var>host</var> must be an empty string or
+            <code>nil</code>, since
+            <ref type="class" id="NSMessagePort">NSMessagePort</ref>
+              instances on other hosts are inaccessible from
+              the current <var>host</var>.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSPortNameServer class
+      </heading>
+      <class name="NSPortNameServer" super="NSObject" ovadd="10.0.0" ovrem="0.0.0">
+        <declared>Foundation/NSPortNameServer.h</declared>
+        <desc>
+          The abstract port name server class. This defines an API
+          for working with port name servers... objects used to
+          manage access to ports in the distributed objects
+          system (see
+          <ref type="class" id="NSConnection">NSConnection</ref>
+            ).
+        </desc>
+        <method type="id" factory="yes" ovadd="10.0.0" ovrem="0.0.0">
+          <sel>systemDefaultPortNameServer</sel>
+          <desc>
+            <p>
+              Returns the default port name server for the
+              process. <br /> This is a nameserver for
+              host-local connections private to the current
+              user. If you with to create public connections or
+              connections to other hosts, you must use
+              <ref type="method" id="+sharedInstance" class="NSSocketPortNameServer">[NSSocketPortNameServer +sharedInstance]</ref> instead.
+            </p>
+            This default behavior may be altered by setting the
+            <code>NSPortIsMessagePort</code> user default to
+            <code>NO</code>, in which case an
+            <ref type="class" id="NSSocketPortNameServer">NSSocketPortNameServer</ref>
+              will be used as the default system name server and
+              you will have to use
+              <ref type="method" id="+sharedInstance" class="NSMessagePortNameServer">[NSMessagePortNameServer +sharedInstance]</ref> for host-local, private connections.
+          </desc>
+        </method>
+        <method type="NSPort*" ovadd="10.0.0" ovrem="0.0.0">
+          <sel>portForName:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            Looks up the port with the specified <var>name</var>
+            on the local host and returns it or <code>nil</code> if
+            no port is found with that <var>name</var>. <br />
+            Different nameservers have different namespaces
+            appropriate to the type of port they deal with,
+            so failing to find a named port with one nameserver does
+            not guarantee that a port does with that
+            <var>name</var> does not exist. <br /> This is a
+            convenience method calling
+            <ref type="method" id="-portForName:onHost:">
+              -portForName:onHost:
+            </ref>
+            with a <code>nil</code> host argument.
+          </desc>
+        </method>
+        <method type="NSPort*" override="subclass" ovadd="10.0.0" ovrem="0.0.0">
+          <sel>portForName:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>onHost:</sel>
+          <arg type="NSString*">host</arg>
+          <desc>
+            Looks up the port with the specified <var>name</var>
+            on <var>host</var> and returns it or <code>nil</code> if
+            no port is found with that <var>name</var>. <br />
+            Different nameservers have different namespaces
+            appropriate to the type of port they deal with,
+            so failing to find a named port with one nameserver does
+            not guarantee that a port does with that
+            <var>name</var> does not exist.
+          </desc>
+        </method>
+        <method type="BOOL" override="subclass" ovadd="10.0.0" ovrem="0.0.0">
+          <sel>registerPort:</sel>
+          <arg type="NSPort*">port</arg>
+          <sel>forName:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            Registers <var>port</var> with the supplied
+            <var>name</var>, so that other processes can look it
+            up to contact it. A <var>port</var> may be registered
+            with more than one <var>name</var> by making multiple
+            calls to this method. <br /> Returns <code>YES</code>
+            on success, <code>NO</code> otherwise. <br /> The common
+            cause for failure is that another <var>port</var> is
+            already registered with the <var>name</var>. Raises
+            NSInvalidArgumentException if
+            given bad arguments.
+          </desc>
+        </method>
+        <method type="BOOL" override="subclass" ovadd="10.0.0" ovrem="0.0.0">
+          <sel>removePortForName:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            Removes any port registration for the supplied
+            <var>name</var> (whether registered in the current
+            process or another). <br /> The common cause for
+            failure is that no port is registered with the
+            <var>name</var>. <br /> Raises
+            NSInvalidArgumentException if
+            given bad arguments.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSSocketPortNameServer
+        class
+      </heading>
+      <class name="NSSocketPortNameServer" super="NSPortNameServer" ovadd="10.0.0" ovrem="0.0.0">
+        <declared>Foundation/NSPortNameServer.h</declared>
+        <desc>
+          This is the nameserver handling ports used for
+          distributed objects communications (see
+          <ref type="class" id="NSConnection">NSConnection</ref>
+            ) between hosts. <br /> Use the
+            <ref type="method" id="+sharedInstance" class="NSSocketPortNameServer">[NSSocketPortNameServer +sharedInstance]</ref> method to get a nameserver, rather than allocating and initialising one.
+        </desc>
+        <ivariable type="NSMapTable*" name="_nameMap" validity="protected" ovadd="10.0.0" ovrem="0.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMapTable*" name="_portMap" validity="protected" ovadd="10.0.0" ovrem="0.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="id" factory="yes" ovadd="10.0.0" ovrem="0.0.0">
+          <sel>sharedInstance</sel>
+          <desc>
+            Returns the shared name server object for
+            <ref type="class" id="NSSocketPort">NSSocketPort</ref>
+              objects.
+          </desc>
+        </method>
+        <method type="NSPort*" ovadd="10.0.0" ovrem="0.0.0">
+          <sel>portForName:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>onHost:</sel>
+          <arg type="NSString*">host</arg>
+          <desc>
+            Concrete implementation of
+            <ref type="method" id="-portForName:onHost:" class="NSPortNameServer">[NSPortNameServer -portForName:onHost:]</ref> <br /> Looks up and returns a port with the specified <var>name</var> and <var>host</var>. <br /> If <var>host</var> is <code>nil</code> or an empty string, this performs a lookup for a port on the current <var>host</var>. <br /> If <var>host</var> is an asterisk ('*') then the lookup returns the first port found with the specified <var>name</var> on any machine on the local network. <br /> Returns <code>nil</code> if no matching port could be found.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0" ovrem="0.0.0">
+          <sel>registerPort:</sel>
+          <arg type="NSPort*">port</arg>
+          <sel>forName:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            Concrete implementation of
+            <ref type="method" id="-registerPort:forName:" class="NSPortNameServer">[NSPortNameServer -registerPort:forName:]</ref> <br /> Registers the <var>port</var> with the specified <var>name</var> such that it is available on all the IP addresses of the host on which the process is running. <br /> Returns <code>YES</code> on success, <code>NO</code> on failure (eg the <var>name</var> is already in use or there is a problem registering for some reason).
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0" ovrem="0.0.0">
+          <sel>removePortForName:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            Concrete implementation of
+            <ref type="method" id="-removePortForName:" class="NSPortNameServer">[NSPortNameServer -removePortForName:]</ref> <br /> Unregisters the specified <var>name</var> from any associated port on the local host. <br /> Returns <code>YES</code> on success, <code>NO</code> on failure.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

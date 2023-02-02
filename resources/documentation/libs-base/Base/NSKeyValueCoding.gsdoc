@@ -1,0 +1,656 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSKeyValueCoding" up="Base">
+  <head>
+    <title>NSKeyValueCoding informal protocol reference</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <copy>2000,2002 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSKeyValueCoding) informal
+        protocol
+      </heading>
+      <category name="NSKeyValueCoding" class="NSObject" ovadd="10.0.0">
+        <declared>Foundation/NSKeyValueCoding.h</declared>
+        <desc>
+          <p>
+            This describes an informal protocol for
+            <em>key-value coding</em>, a mechanism whereby the
+            fields of an object may be accessed and set using
+            generic methods in conjunction with string keys
+            rather than field-specific methods. Key-based access
+            loses compile-time validity checking, but can be
+            convenient in certain kinds of situations.
+          </p>
+          <p>
+            The basic methods are implemented as a category of the
+            <ref type="class" id="NSObject">NSObject</ref>
+              class, but other classes override those default
+              implementations to perform more specific
+              operations.
+            </p>
+        </desc>
+        <method type="BOOL" factory="yes" ovadd="10.0.0">
+          <sel>accessInstanceVariablesDirectly</sel>
+          <desc>
+            Controls whether the NSKeyValueCoding methods may
+            attempt to access instance variables directly.
+            NSObject's implementation returns
+            <code>YES</code>.
+          </desc>
+        </method>
+        <method type="BOOL" factory="yes" ovadd="10.0.0">
+          <sel>useStoredAccessor</sel>
+          <desc>
+            Controls whether
+            <ref type="method" id="-storedValueForKey:">
+              -storedValueForKey:
+            </ref>
+            and
+            <ref type="method" id="-takeStoredValue:forKey:">
+              -takeStoredValue:forKey:
+            </ref>
+            may use the stored accessor mechanism. If not the calls
+            get redirected to
+            <ref type="method" id="-valueForKey:">
+              -valueForKey:
+            </ref>
+            and
+            <ref type="method" id="-takeValue:forKey:">
+              -takeValue:forKey:
+            </ref>
+            effectively changing the search order of
+            private/public accessor methods and instance
+            variables. NSObject's implementation returns
+            <code>YES</code>.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.0.0">
+          <sel>dictionaryWithValuesForKeys:</sel>
+          <arg type="NSArray*">keys</arg>
+          <desc>
+            Returns a dictionary built from values obtained for
+            the specified <var>keys</var>. <br /> By default this
+            is derived by calling
+            <ref type="method" id="-valueForKey:">
+              -valueForKey:
+            </ref>
+            for each key. Any <code>nil</code> values obtained are
+            represented by an
+            <ref type="class" id="NSNull">NSNull</ref>
+              instance.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>handleQueryWithUnboundKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Deprecated... use
+            <ref type="method" id="-valueForUndefinedKey:">
+              -valueForUndefinedKey:
+            </ref>
+            instead.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>handleTakeValue:</sel>
+          <arg type="id">anObject</arg>
+          <sel>forUnboundKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Deprecated, use
+            <ref type="method" id="-setValue:forUndefinedKey:">
+              -setValue:forUndefinedKey:
+            </ref>
+            instead.
+          </desc>
+        </method>
+        <method type="NSMutableArray*" ovadd="10.0.0">
+          <sel>mutableArrayValueForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns a mutable array value for a given key. This
+            method:
+            <list>
+              <item>
+                Searches the receiver for methods matching the
+                patterns insertObject:in&lt;Key&gt;AtIndex:
+                and removeObjectFrom&lt;Key&gt;AtIndex:. If both
+                methods are found, each message sent to the
+                proxy array will result in the invocation of one
+                or more of these methods. If
+                replaceObjectIn&lt;Key&gt;AtIndex:withObject:
+                is also found in the receiver it will be used when
+                appropriate for better performance.
+              </item>
+              <item>
+                If the set of methods is not found, searches the
+                receiver for a the method set&lt;Key&gt;:.
+                Each message sent to the proxy array will result
+                in the invocation of set&lt;Key&gt;:
+              </item>
+              <item>
+                If the previous do not match, and
+                accessInstanceVariablesDirectly
+                returns <code>YES</code>, searches for an
+                instance variable matching _&lt;key&gt; or
+                &lt;key&gt; (in that order). If the
+                instance variable is found, messages sent to
+                the proxy object will be forwarded to the instance
+                variable.
+              </item>
+              <item>
+                If none of the previous are found, raises an
+                NSUndefinedKeyException
+              </item>
+            </list>
+          </desc>
+        </method>
+        <method type="NSMutableArray*" ovadd="10.0.0">
+          <sel>mutableArrayValueForKeyPath:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns a mutable array value for the given key
+            path.
+          </desc>
+        </method>
+        <method type="NSMutableSet*" ovadd="10.0.0">
+          <sel>mutableSetValueForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns a mutable set value for a given key. This
+            method:
+            <list>
+              <item>
+                Searches the receiver for methods matching the
+                patterns add&lt;Key&gt;Object:,
+                remove&lt;Key&gt;Object:,
+                add&lt;Key&gt;:, and
+                remove&lt;Key&gt;:, which
+                correspond to the NSMutableSet methods
+                addObject:, removeObject:, unionSet:, and
+                minusSet:, respectively. If at least one
+                addition and one removal method are found,
+                each message sent to the proxy set will result in
+                the invocation of one or more of these methods. If
+                intersect&lt;Key&gt;: or
+                set&lt;Key&gt;: is also found in the
+                receiver, the method(s) will be used when
+                appropriate for better performance.
+              </item>
+              <item>
+                If the set of methods is not found, searches the
+                receiver for a the method set&lt;Key&gt;:.
+                Each message sent to the proxy set will result in
+                the invocation of set&lt;Key&gt;:
+              </item>
+              <item>
+                If the previous do not match, and
+                accessInstanceVariablesDirectly
+                returns <code>YES</code>, searches for an
+                instance variable matching _&lt;key&gt; or
+                &lt;key&gt; (in that order). If the
+                instance variable is found, messages sent to
+                the proxy object will be forwarded to the instance
+                variable.
+              </item>
+              <item>
+                If none of the previous are found, raises an
+                NSUndefinedKeyException
+              </item>
+            </list>
+          </desc>
+        </method>
+        <method type="NSMutableSet*" ovadd="10.0.0">
+          <sel>mutableSetValueForKeyPath:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns a mutable set value for the given key path.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setNilValueForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            This method is invoked by the NSKeyValueCoding
+            mechanism when an attempt is made to set an null
+            value for a scalar attribute. This implementation
+            raises an NSInvalidArgument exception. Subclasses my
+            override this method to do custom handling. (E.g.
+            setting the value to the equivalent of 0.)
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setValue:</sel>
+          <arg type="id">anObject</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Sets the value if the attribute associated with the
+            key in the receiver. The object is converted to a
+            scalar attribute where applicable (and
+            <ref type="method" id="-setNilValueForKey:">
+              -setNilValueForKey:
+            </ref>
+            is called if a <code>nil</code> value is supplied).
+            Tries to use a standard accessor of the form setKey:
+            where 'Key' is the supplied argument with the first
+            letter converted to uppercase. <br /> If the
+            receiver's class allows
+            <ref type="method" id="+accessInstanceVariablesDirectly">
+              +accessInstanceVariablesDirectly
+            </ref>
+            it continues with instance variables:
+            <list>
+              <item>_key</item> <item>_isKey</item>
+              <item>key</item> <item>isKey</item>
+            </list>
+            Invokes
+            <ref type="method" id="-setValue:forUndefinedKey:">
+              -setValue:forUndefinedKey:
+            </ref>
+            if no accessor mechanism can be found and raises
+            NSInvalidArgumentException if
+            the accessor method doesn't take exactly one argument
+            or the type is unsupported (e.g. structs). If the
+            receiver expects a scalar value and the value
+            supplied is the NSNull instance or
+            <code>nil</code>, this method invokes
+            <ref type="method" id="-setNilValueForKey:">
+              -setNilValueForKey:
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setValue:</sel>
+          <arg type="id">anObject</arg>
+          <sel>forKeyPath:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Retrieves the object returned by invoking
+            <ref type="method" id="-valueForKey:">
+              -valueForKey:
+            </ref>
+            on the receiver with the first key component supplied by
+            the key path. Then invokes
+            <ref type="method" id="-setValue:forKeyPath:">
+              -setValue:forKeyPath:
+            </ref>
+            recursively on the returned object with rest of
+            the key path. The key components are delimited by '.'.
+            If the key path doesn't contain any '.', this method
+            simply invokes
+            <ref type="method" id="-setValue:forKey:">
+              -setValue:forKey:
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setValue:</sel>
+          <arg type="id">anObject</arg>
+          <sel>forUndefinedKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Invoked when
+            <ref type="method" id="-setValue:forKey:">
+              -setValue:forKey:
+            </ref>
+            /
+            <ref type="method" id="-takeStoredValue:forKey:">
+              -takeStoredValue:forKey:
+            </ref>
+            are called with a key which can't be associated with an
+            accessor method or instance variable. Subclasses
+            may override this method to add custom handling.
+            NSObject raises an NSUndefinedKeyException, with a
+            userInfo dictionary containing
+            NSTargetObjectUserInfoKey with
+            the receiver an NSUnknownUserInfoKey with the supplied
+            key entries. <br /> Called when the key passed to
+            <ref type="method" id="-setValue:forKey:">
+              -setValue:forKey:
+            </ref>
+            cannot be used.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setValuesForKeysWithDictionary:</sel>
+          <arg type="NSDictionary*">aDictionary</arg>
+          <desc>
+            Uses
+            <ref type="method" id="-setValue:forKey:">
+              -setValue:forKey:
+            </ref>
+            to place the values from <var>aDictionary</var> in the
+            receiver.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>storedValueForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns the value associated with the supplied key
+            as an object. Scalar attributes are converted to
+            corresponding objects. Uses private accessors
+            in favor of the public ones, if the receiver's class
+            allows
+            <ref type="method" id="+useStoredAccessor">
+              +useStoredAccessor
+            </ref>
+            . Otherwise this method invokes
+            <ref type="method" id="-valueForKey:">
+              -valueForKey:
+            </ref>
+            . The search order is: <br /> Private accessor methods:
+            <list><item>_getKey</item> <item>_key</item></list>
+            If the receiver's class allows
+            <ref type="method" id="+accessInstanceVariablesDirectly">
+              +accessInstanceVariablesDirectly
+            </ref>
+            it continues with instance variables:
+            <list><item>_key</item> <item>key</item></list>
+            Public accessor methods:
+            <list><item>getKey</item> <item>key</item></list>
+            Invokes
+            <ref type="method" id="-handleTakeValue:forUnboundKey:">
+              -handleTakeValue:forUnboundKey:
+            </ref>
+            if no accessor mechanism can be found and raises
+            NSInvalidArgumentException if
+            the accessor method takes takes any arguments or the
+            type is unsupported (e.g. structs).
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>takeStoredValue:</sel>
+          <arg type="id">anObject</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Sets the value associated with the supplied in the
+            receiver. The object is converted to the scalar
+            attribute where applicable. Uses the private
+            accessors in favor of the public ones, if the
+            receiver's class allows
+            <ref type="method" id="+useStoredAccessor">
+              +useStoredAccessor
+            </ref>
+            . Otherwise this method invokes
+            <ref type="method" id="-takeValue:forKey:">
+              -takeValue:forKey:
+            </ref>
+            . The search order is: <br /> Private accessor methods:
+            <list><item>_setKey:</item></list> If the receiver's
+            class allows accessInstanceVariablesDirectly it
+            continues with instance variables:
+            <list><item>_key</item> <item>key</item></list>
+            Public accessor methods:
+            <list><item>setKey:</item></list> Invokes
+            <ref type="method" id="-handleTakeValue:forUnboundKey:">
+              -handleTakeValue:forUnboundKey:
+            </ref>
+            if no accessor mechanism can be found and raises
+            NSInvalidArgumentException if
+            the accessor method doesn't take exactly one argument
+            or the type is unsupported (e.g. structs). If the
+            receiver expects a scalar value and the value
+            supplied is the NSNull instance or
+            <code>nil</code>, this method invokes
+            <ref type="method" id="-unableToSetNilForKey:">
+              -unableToSetNilForKey:
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>takeStoredValuesFromDictionary:</sel>
+          <arg type="NSDictionary*">aDictionary</arg>
+          <desc>
+            Iterates over the dictionary invoking
+            <ref type="method" id="-takeStoredValue:forKey:">
+              -takeStoredValue:forKey:
+            </ref>
+            on the receiver for each key-value pair, converting
+            NSNull to <code>nil</code>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>takeValue:</sel>
+          <arg type="id">anObject</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Sets the value if the attribute associated with the
+            key in the receiver. The object is converted to a
+            scalar attribute where applicable. Uses the public
+            accessors in favor of the private ones. The
+            search order is: <br /> Accessor methods:
+            <list>
+              <item>setKey:</item> <item>_setKey:</item>
+            </list>
+            If the receiver's class allows
+            <ref type="method" id="+accessInstanceVariablesDirectly">
+              +accessInstanceVariablesDirectly
+            </ref>
+            it continues with instance variables:
+            <list><item>key</item> <item>_key</item></list>
+            Invokes
+            <ref type="method" id="-handleTakeValue:forUnboundKey:">
+              -handleTakeValue:forUnboundKey:
+            </ref>
+            if no accessor mechanism can be found and raises
+            NSInvalidArgumentException if
+            the accessor method doesn't take exactly one argument
+            or the type is unsupported (e.g. structs). If the
+            receiver expects a scalar value and the value
+            supplied is the NSNull instance or
+            <code>nil</code>, this method invokes
+            <ref type="method" id="-unableToSetNilForKey:">
+              -unableToSetNilForKey:
+            </ref>
+            . <br /> Deprecated... use
+            <ref type="method" id="-setValue:forKey:">
+              -setValue:forKey:
+            </ref>
+            instead.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>takeValue:</sel>
+          <arg type="id">anObject</arg>
+          <sel>forKeyPath:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Retrieves the object returned by invoking
+            <ref type="method" id="-valueForKey:">
+              -valueForKey:
+            </ref>
+            on the receiver with the first key component supplied by
+            the key path. Then invokes
+            <ref type="method" id="-takeValue:forKeyPath:">
+              -takeValue:forKeyPath:
+            </ref>
+            recursively on the returned object with rest of
+            the key path. The key components are delimited by '.'.
+            If the key path doesn't contain any '.', this method
+            simply invokes
+            <ref type="method" id="-takeValue:forKey:">
+              -takeValue:forKey:
+            </ref>
+            . <br /> Deprecated... use
+            <ref type="method" id="-setValue:forKeyPath:">
+              -setValue:forKeyPath:
+            </ref>
+            instead.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>takeValuesFromDictionary:</sel>
+          <arg type="NSDictionary*">aDictionary</arg>
+          <desc>
+            Iterates over the dictionary invoking
+            <ref type="method" id="-takeValue:forKey:">
+              -takeValue:forKey:
+            </ref>
+            on the receiver for each key-value pair, converting
+            NSNull to <code>nil</code>. <br /> Deprecated... use
+            <ref type="method" id="-setValuesForKeysWithDictionary:">
+              -setValuesForKeysWithDictionary:
+            </ref>
+            instead.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>unableToSetNilForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Deprecated... use
+            <ref type="method" id="-setNilValueForKey:">
+              -setNilValueForKey:
+            </ref>
+            instead.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>validateValue:</sel>
+          <arg type="id*">aValue</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <sel>error:</sel>
+          <arg type="out NSError**">anError</arg>
+          <desc>
+            Returns a boolean indicating whether the object
+            pointed to by <var>aValue</var> is valid for
+            setting as an attribute of the receiver using the
+            name <var>aKey</var>. On success (<code>YES</code>
+            response) it may return a new value to be used in
+            <var>aValue</var>. On failure (<code>NO</code>
+            response) it may return an error in
+            <var>anError</var>. <br /> The method works by
+            calling a method of the receiver whose name is of
+            the form validateKey:error: if the receiver has
+            implemented such a method, otherwise it simply
+            returns <code>YES</code>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>validateValue:</sel>
+          <arg type="id*">aValue</arg>
+          <sel>forKeyPath:</sel>
+          <arg type="NSString*">aKey</arg>
+          <sel>error:</sel>
+          <arg type="out NSError**">anError</arg>
+          <desc>
+            Returns the result of calling
+            <ref type="method" id="-validateValue:forKey:error:">
+              -validateValue:forKey:error:
+            </ref>
+            on the receiver using aPath to determine the key value
+            in the same manner as the
+            <ref type="method" id="-valueForKeyPath:">
+              -valueForKeyPath:
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>valueForKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns the value associated with the supplied key
+            as an object. Scalar attributes are converted to
+            corresponding objects. <br /> The search
+            order is: <br /> Accessor methods:
+            <list><item>getKey</item> <item>key</item></list> If
+            the receiver's class allows
+            <ref type="method" id="+accessInstanceVariablesDirectly">
+              +accessInstanceVariablesDirectly
+            </ref>
+            it continues with private accessors:
+            <list><item>_getKey</item> <item>_key</item></list>
+            and then instance variables:
+            <list><item>key</item> <item>_key</item></list>
+            Invokes
+            <ref type="method" id="-setValue:forUndefinedKey:">
+              -setValue:forUndefinedKey:
+            </ref>
+            if no accessor mechanism can be found and raises
+            NSInvalidArgumentException if
+            the accessor method takes any arguments or the type is
+            unsupported (e.g. structs).
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>valueForKeyPath:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Returns the object returned by invoking
+            <ref type="method" id="-valueForKeyPath:">
+              -valueForKeyPath:
+            </ref>
+            recursively on the object returned by invoking
+            <ref type="method" id="-valueForKey:">
+              -valueForKey:
+            </ref>
+            on the receiver with the first key component supplied by
+            the key path. The key components are delimited by '.'.
+            If the key path doesn't contain any '.', this method
+            simply invokes
+            <ref type="method" id="-valueForKey:">
+              -valueForKey:
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>valueForUndefinedKey:</sel>
+          <arg type="NSString*">aKey</arg>
+          <desc>
+            Invoked when
+            <ref type="method" id="-valueForKey:">
+              -valueForKey:
+            </ref>
+            /
+            <ref type="method" id="-storedValueForKey:">
+              -storedValueForKey:
+            </ref>
+            are called with a key, which can't be associated with
+            an accessor method or instance variable. Subclasses may
+            override this method to add custom handling.
+            NSObject raises an NSUndefinedKeyException, with a
+            userInfo dictionary containing
+            NSTargetObjectUserInfoKey with
+            the receiver an NSUnknownUserInfoKey with the supplied
+            key entries. <br />
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.0.0">
+          <sel>valuesForKeys:</sel>
+          <arg type="NSArray*">keys</arg>
+          <desc>
+            Iterates over the array sending the receiver
+            <ref type="method" id="-valueForKey:">
+              -valueForKey:
+            </ref>
+            for each object in the array and inserting the result
+            in a dictionary. All <code>nil</code> values returned by
+            <ref type="method" id="-valueForKey:">
+              -valueForKey:
+            </ref>
+            are replaced by the NSNull instance in the dictionary.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

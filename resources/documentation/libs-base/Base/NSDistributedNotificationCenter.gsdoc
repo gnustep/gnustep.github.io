@@ -1,0 +1,328 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSDistributedNotificationCenter" up="Base">
+  <head>
+    <title>
+      NSDistributedNotificationCenter
+      class reference
+    </title>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <copy>1998-2009 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSDistributedNotificationCenter
+        class
+      </heading>
+      <class name="NSDistributedNotificationCenter" super="NSNotificationCenter" ovadd="10.0.0">
+        <declared>Foundation/NSDistributedNotificationCenter.h</declared>
+        <desc>
+          <p>
+            The <code>NSDistributedNotificationCenter</code>
+            provides a versatile yet simple mechanism for
+            objects in different processes to communicate
+            effectively while knowing very little about
+            each others' internals. <br /> A distributed
+            notification center acts much like a normal
+            notification center, but it handles
+            notifications on a machine-wide (or local
+            network wide) basis rather than just notifications
+            within a single process. Objects are able to
+            register themselves as observers for particular
+            notification names and objects, and they will
+            then receive notifications (including optional user
+            information consisting of a dictionary of
+            property-list objects) as they are posted.
+          </p>
+          <p>
+            Since posting of distributed notifications involves
+            inter-process (and sometimes inter-host)
+            communication, it is fundamentally slower
+            than normal notifications, and should be used
+            relatively sparingly. In order to help with
+            this, the
+            <code>NSDistributedNotificationCenter</code>
+            provides a notion of 'suspension', whereby a
+            center can be suspended causing notifications for
+            observers in the process where the center was
+            suspended to cease receiving notifications.
+            Observers can specify how notifications are to be
+            handled in this case (queued or discarded) and
+            posters can specify that particular notifications
+            are to be delivered immediately irrespective of
+            suspension.
+          </p>
+          <p>
+            Distributed notifications are mediated by a
+            server process which handles all notifications for a
+            particular center type. In GNUstep this process
+            is the <code>gdnc</code> tool, and when started without
+            special options, a gdnc process acts as the local
+            centre for the host it is running on. When started
+            with the <code>GSNetwork</code> user default set to
+            <code>YES</code>, the <code>gdnc</code> tool acts as
+            a local network wide server (you should only run one copy
+            of <code>gdnc</code> like this on your LAN). <br /> The
+            <code>gdnc</code> process should be started at
+            machine boot time, but GNUstep will attempt to
+            start it automatically if it can't find it.
+          </p>
+          <p>
+            MacOS-X currently defines only a notification
+            center for the local host. GNUstep also defines a
+            local network center which can be used from multiple
+            hosts. By default the system sends this to any gdnc
+            process it can find which is configured as a
+            network-wide server, but the
+            <code>GDNCHost</code> user default may be used to
+            specify a particular host to be contacted... this
+            may be of use where you wish to have logically separate
+            clusters of machines on a shared LAN.
+          </p>
+        </desc>
+        <ivariable type="NSRecursiveLock*" name="_centerLock" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_remote" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_suspended" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="_type" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="id" factory="yes" ovadd="10.0.0">
+          <sel>defaultCenter</sel>
+          <desc>
+            Returns the default notification center... a shared
+            notification center for the local host. This
+            is simply a convenience method equivalent to calling
+            <ref type="method" id="+notificationCenterForType:">
+              +notificationCenterForType:
+            </ref>
+            with <code>NSLocalNotificationCenterType</code> as its
+            argument.
+          </desc>
+        </method>
+        <method type="NSDistributedNotificationCenter*" factory="yes" ovadd="10.0.0">
+          <sel>notificationCenterForType:</sel>
+          <arg type="NSString*">type</arg>
+          <desc>
+            Returns a notification center of the specified
+            <var>type</var>. <br /> The
+            <code>NSLocalNotificationCenterType</code> provides
+            a shared access to a notification center used by
+            processes on the local host which belong to the
+            current user. <br /> The
+            <code>GSPublicNotificationCenterType</code> provides
+            a shared access to a notification center used by
+            processes on the local host belonging to any
+            user. <br /> The
+            <code>GSNetworkNotificationCenterType</code>
+            provides a shared access to a notification center
+            used by processes on the local network. <br /> MacOS-X
+            supports only
+            <code>NSLocalNotificationCenterType</code>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>addObserver:</sel>
+          <arg type="id">anObserver</arg>
+          <sel>selector:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>name:</sel>
+          <arg type="NSString*">notificationName</arg>
+          <sel>object:</sel>
+          <arg type="NSString*">anObject</arg>
+          <desc>
+            Adds an observer to the receiver. Calls
+            <ref type="method" id="-addObserver:selector:name:object:suspensionBehavior:">-addObserver:selector:name:object:suspensionBehavior:</ref> with <code>NSNotificationSuspensionBehaviorCoalesce</code>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>addObserver:</sel>
+          <arg type="id">anObserver</arg>
+          <sel>selector:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>name:</sel>
+          <arg type="NSString*">notificationName</arg>
+          <sel>object:</sel>
+          <arg type="NSString*">anObject</arg>
+          <sel>suspensionBehavior:</sel>
+          <arg type="NSNotificationSuspensionBehavior">suspensionBehavior</arg>
+          <desc>
+            Adds an observer to the receiver. <br /> When a
+            notification matching
+            <var>notificationName</var> and <var>anObject</var>
+            is sent to the center, the object <var>anObserver</var>
+            is sent the message <var>aSelector</var> with the
+            notification info dictionary as its argument.
+            <br /> The <var>suspensionBehavior</var> governs how
+            the center deals with notifications when the process to
+            which the notification should be delivered is
+            suspended:
+            <deflist>
+              <term>
+                <code>
+                  NSNotificationSuspensionBehaviorDrop
+                </code>
+              </term>
+              <desc>
+                Discards the notification if the observing
+                process is suspended.
+              </desc>
+              <term>
+                <code>
+                  NSNotificationSuspensionBehaviorCoalesce
+                </code>
+              </term>
+              <desc>
+                Discards previously queued notifications when
+                the observing process is suspended, leaving only
+                the last notification posted in the queue. Delivers
+                this single notification when the process becomes
+                unsuspended.
+              </desc>
+              <term>
+                <code>
+                  NSNotificationSuspensionBehaviorHold
+                </code>
+              </term>
+              <desc>
+                Queues notifications when the observing process
+                is suspended, delivering all the queued
+                notifications when the process becomes
+                unsuspended again.
+              </desc>
+              <term>
+                <code>
+                  NSNotificationSuspensionBehaviorDeliverImmediately
+                </code>
+              </term>
+              <desc>
+                Deliver the notification immediately, even if
+                the destination process is suspended.
+              </desc>
+            </deflist>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>postNotification:</sel>
+          <arg type="NSNotification*">notification</arg>
+          <desc>
+            Posts the <var>notification</var> to the center using
+            postNotificationName:object:userInfo:deliverImmediately:
+            with the delivery flag set to <code>NO</code>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>postNotificationName:</sel>
+          <arg type="NSString*">notificationName</arg>
+          <sel>object:</sel>
+          <arg type="NSString*">anObject</arg>
+          <desc>
+            Posts the <var>notificationName</var> and
+            <var>anObject</var> to the center using
+            postNotificationName:object:userInfo:deliverImmediately:
+            with the user info set to <code>nil</code> and the
+            delivery flag set to <code>NO</code>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>postNotificationName:</sel>
+          <arg type="NSString*">notificationName</arg>
+          <sel>object:</sel>
+          <arg type="NSString*">anObject</arg>
+          <sel>userInfo:</sel>
+          <arg type="NSDictionary*">userInfo</arg>
+          <desc>
+            Posts the <var>notificationName</var>,
+            <var>anObject</var> and <var>userInfo</var> to the
+            center using
+            postNotificationName:object:userInfo:deliverImmediately:
+            with the delivery flag set to <code>NO</code>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>postNotificationName:</sel>
+          <arg type="NSString*">notificationName</arg>
+          <sel>object:</sel>
+          <arg type="NSString*">anObject</arg>
+          <sel>userInfo:</sel>
+          <arg type="NSDictionary*">userInfo</arg>
+          <sel>deliverImmediately:</sel>
+          <arg type="BOOL">deliverImmediately</arg>
+          <desc>
+            The primitive notification posting method... <br /> The
+            <var>userInfo</var> dictionary may contain only
+            property-list objects. <br /> The
+            <var>deliverImmediately</var> flag specifies whether
+            the suspension state of the receiving process is to be
+            ignored.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>removeObserver:</sel>
+          <arg type="id">anObserver</arg>
+          <sel>name:</sel>
+          <arg type="NSString*">notificationName</arg>
+          <sel>object:</sel>
+          <arg type="NSString*">anObject</arg>
+          <desc>
+            Removes the observer from the center.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setSuspended:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Sets the suspension state of the receiver... if the
+            receiver is suspended, it won't handle
+            notification until it is unsuspended again,
+            unless the notifications are posted to be delivered
+            immediately.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>suspended</sel>
+          <desc>
+            Returns the current suspension state of the
+            receiver.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

@@ -1,0 +1,196 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSPointerArray" up="Base">
+  <head>
+    <title>NSPointerArray class documentation</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <copy>2009 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSPointerArray class
+      </heading>
+      <class name="NSPointerArray" super="NSObject" ovadd="10.5.0">
+        <declared>Foundation/NSPointerArray.h</declared>
+        <conform>NSCopying</conform>
+        <conform>NSCoding</conform>
+        <desc>
+          An NSPointerArray acts like a standard mutable array
+          except that it can contain <code>nil</code> and even
+          non-object values. <br /> The count can also be
+          set causing the array to shrink (discarding items) or
+          grow (adding nil/zero items).
+        </desc>
+        <method type="id" factory="yes" ovadd="10.5.0">
+          <sel>pointerArrayWithOptions:</sel>
+          <arg type="NSPointerFunctionsOptions">options</arg>
+          <desc>
+            Allocate an instance, initialise using
+            initWithOptions: and return it
+            autoreleased.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="10.5.0">
+          <sel>pointerArrayWithPointerFunctions:</sel>
+          <arg type="NSPointerFunctions*">functions</arg>
+          <desc>
+            Allocate an instance, initialise using
+            initWithPointerFunctions: and
+            return it autoreleased.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="10.5.0">
+          <sel>strongObjectsPointerArray</sel>
+          <desc>
+            Returns a new pointer array for storing strong
+            (retained) references to objects.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="10.5.0">
+          <sel>weakObjectsPointerArray</sel>
+          <desc>
+            Returns a new pointer array for storing zeroing
+            weak references to objects.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>addPointer:</sel>
+          <arg type="void*">pointer</arg>
+          <desc>
+            Adds an item at the end of the array.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>compact</sel>
+          <desc>
+            Removes all nil/zero items from the array.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.5.0">
+          <sel>count</sel>
+          <desc>
+            Returns the number of items in the array.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.5.0">
+          <sel>initWithOptions:</sel>
+          <arg type="NSPointerFunctionsOptions">options</arg>
+          <desc>
+            Initialises the receiver with the specified
+            <var>options</var>.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.5.0">
+          <sel>initWithPointerFunctions:</sel>
+          <arg type="NSPointerFunctions*">functions</arg>
+          <desc>
+            Initialises the receiver using the supplied
+            object.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>insertPointer:</sel>
+          <arg type="void*">pointer</arg>
+          <sel>atIndex:</sel>
+          <arg type="NSUInteger">index</arg>
+          <desc>
+            Inserts an item at the specified <var>index</var>
+            causing all higher indexed items to be adjusted
+            upwards. <br /> WARNING... the Apple documented
+            (and implemented in MacOS-X 10.5) behavior is to raise
+            an exception if <var>index</var> is the same as the
+            count of items in the array. This is insane... for
+            arrays, data and strings you can insert at the end
+            of an object to append to it, so the behavior of this
+            class in MacOS is inconsistent and must be considered
+            buggy.
+          </desc>
+        </method>
+        <method type="void*" ovadd="10.5.0">
+          <sel>pointerAtIndex:</sel>
+          <arg type="NSUInteger">index</arg>
+          <desc>
+            Returns the item at the given <var>index</var> or
+            raises an exception if <var>index</var> is out of
+            range.
+          </desc>
+        </method>
+        <method type="NSPointerFunctions*" ovadd="10.5.0">
+          <sel>pointerFunctions</sel>
+          <desc>
+            Returns an autorelease NSPointerFunctions instance
+            giving the functions in use by the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>removePointerAtIndex:</sel>
+          <arg type="NSUInteger">index</arg>
+          <desc>
+            Removes the item at the specified <var>index</var>,
+            adjusting the positions of all higher indexed
+            items.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>replacePointerAtIndex:</sel>
+          <arg type="NSUInteger">index</arg>
+          <sel>withPointer:</sel>
+          <arg type="void*">item</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setCount:</sel>
+          <arg type="NSUInteger">count</arg>
+          <desc>
+            Sets the number of items in the receiver. Adds
+            nil/zero items to pad the end of the array, or
+            removes extraneous items from the end.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSPointerArray(NSArrayConveniences)
+        category
+      </heading>
+      <category name="NSArrayConveniences" class="NSPointerArray" ovadd="10.5.0">
+        <declared>Foundation/NSPointerArray.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="id" factory="yes" ovadd="10.5.0">
+          <sel>pointerArrayWithStrongObjects</sel>
+          <desc>
+            Creates an instance configured to hold objects and
+            prevent them from being garbage collected.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="10.5.0">
+          <sel>pointerArrayWithWeakObjects</sel>
+          <desc>
+            Creates an instance configured to hold objects,
+            allowing them to be garbage collected and replaced
+            by <code>nil</code> if/when they are collected.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>allObjects</sel>
+          <desc>
+            Returns an array containing all the non-nil objects
+            from the receiver.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

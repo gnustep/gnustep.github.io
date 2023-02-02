@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSData+GNUstepBase" up="BaseAdditions">
+  <head>
+    <title>NSData+GNUstepBase documentation</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <copy>2003-2010 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSData(GNUstepBase)
+        category
+      </heading>
+      <category name="GNUstepBase" class="NSData" ovadd="0.0.0">
+        <declared>GNUstepBase/NSData+GNUstepBase.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="id" factory="yes" ovadd="0.0.0">
+          <sel>dataWithRandomBytesOfLength:</sel>
+          <arg type="NSUInteger">length</arg>
+          <desc>
+            Returns an autoreleased data instance initialised
+            with pseudo-random bytes of the specified
+            <var>length</var>. <br /> On failure returns
+            <code>nil</code>. This may be due to: <br /> A zero
+            <var>length</var> or unreasonably large
+            <var>length</var> argument or, <br /> Failure to
+            allocate memory to hold the random data or, <br />
+            Failure of the underlying random data generation.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>escapedRepresentation</sel>
+          <desc>
+            Returns an NSString object containing a backslash
+            escaped representation of the receiver.
+          </desc>
+        </method>
+        <method type="char*" ovadd="0.0.0">
+          <sel>escapedRepresentation:</sel>
+          <arg type="NSUInteger*">length</arg>
+          <desc>
+            Returns a buffer containing an ASCII backslash
+            escaped representation of the receiver, (and
+            optionally the size of the buffer excluding the
+            trailing nul terminator).
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="0.0.0">
+          <sel>gunzipped</sel>
+          <desc>
+            Returns data formed by gunzipping the contents of
+            the receiver. <br /> If the receiver did not contain
+            data produced by gzip, this method simply returns the
+            receiver. <br /> If the gnuzipping failed, this
+            method returns <code>nil</code>. <br /> Otherwise,
+            the returned object is an autorelease mutable data
+            object.
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="0.0.0">
+          <sel>gzipped:</sel>
+          <arg type="int">level</arg>
+          <desc>
+            Returns data formed by gzipping the contents of the
+            receiver using the specified compression
+            <var>level</var> (from 0 to 9 with 0 meaning no
+            compression and 9 meaning maximum compression).
+            Use a value outside the 0 to 9 range (eg -1) to employ
+            the default compression. <br /> NB. It is permissable
+            to gzip an empty data object, and it is also permissable
+            to gzip a data object which already contains gzipped
+            data. <br /> Returns <code>nil</code> on failure.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>hexadecimalRepresentation</sel>
+          <desc>
+            Returns an NSString object containing an ASCII
+            hexadecimal representation of the receiver.
+            This means that the returned object will contain
+            exactly twice as many characters as there are bytes
+            as the receiver, as each byte in the receiver is
+            represented by two hexadecimal digits. <br />
+            The high order four bits of each byte is encoded before
+            the low order four bits. Capital letters 'A' to 'F' are
+            used to represent values from 10 to 15.
+          </desc>
+        </method>
+        <method type="char*" ovadd="0.0.0">
+          <sel>hexadecimalRepresentation:</sel>
+          <arg type="NSUInteger*">length</arg>
+          <desc>
+            Returns a buffer containing an ASCII string with a
+            nul terminated hexadecimal representation of the
+            receiver, (and optionally the size of the buffer
+            excluding the trailing nul terminator).
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>initWithHexadecimalRepresentation:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            Initialises the receiver with the supplied
+            <var>string</var> data which contains a hexadecimal
+            coding of the bytes. The parsing of the
+            <var>string</var> is fairly tolerant, ignoring
+            whitespace and permitting both upper and lower
+            case hexadecimal digits (the
+            <ref type="method" id="-hexadecimalRepresentation">
+              -hexadecimalRepresentation
+            </ref>
+            method produces a <var>string</var> using only
+            uppercase digits with no white space). <br /> If
+            the <var>string</var> does not contain one or more
+            pairs of hexadecimal digits then an exception is
+            raised.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>isGzipped</sel>
+          <desc>
+            Returns <code>YES</code> if the receiver is a
+            non-empty data object with a gzip header,
+            <code>NO</code> otherwise.
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="0.0.0">
+          <sel>md5Digest</sel>
+          <desc>
+            Creates an MD5 digest of the information stored in
+            the receiver and returns it as an autoreleased 16 byte
+            NSData object. <br /> If you need to produce a
+            digest of string information, you need to decide
+            what character encoding is to be used and convert your
+            string to a data object of that encoding type first
+            using the
+            <ref type="method" id="-dataUsingEncoding:" class="NSString">[NSString -dataUsingEncoding:]</ref> method -
+<example>
+   myDigest = [[myString dataUsingEncoding: NSUTF8StringEncoding] md5Digest];
+ </example>
+            If you need to use the digest in a human readable form,
+            you will probably want it to be seen as 32 hexadecimal
+            digits, and can do that using the
+            <ref type="method" id="-hexadecimalRepresentation">
+              -hexadecimalRepresentation
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>uudecodeInto:</sel>
+          <arg type="NSMutableData*">decoded</arg>
+          <sel>name:</sel>
+          <arg type="NSString**">namePtr</arg>
+          <sel>mode:</sel>
+          <arg type="NSInteger*">modePtr</arg>
+          <desc>
+            Decodes the source data from uuencoded and return
+            the result. <br /> Returns the encoded file name in
+            <var>namePtr</var> if it is not null. Returns the
+            encoded file mode in <var>modePtr</var> if it is
+            not null.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>uuencodeInto:</sel>
+          <arg type="NSMutableData*">encoded</arg>
+          <sel>name:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>mode:</sel>
+          <arg type="NSInteger">mode</arg>
+          <desc>
+            Encode the source data to uuencoded. <br /> Uses the
+            supplied <var>name</var> as the filename in the
+            <var>encoded</var> data, and says that the file
+            <var>mode</var> is as specified. <br /> If no
+            <var>name</var> is supplied, uses
+            <code>untitled</code> as the <var>name</var>.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

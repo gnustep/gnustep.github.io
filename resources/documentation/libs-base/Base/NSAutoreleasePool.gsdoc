@@ -1,0 +1,342 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSAutoreleasePool" up="Base">
+  <head>
+    <title>NSAutoreleasePool class reference</title>
+    <author name="Andrew Kachites McCallum">
+      <email address="mccallum@gnu.ai.mit.edu">
+        mccallum@gnu.ai.mit.edu
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <copy>1995, 1996, 1997 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSAutoreleasePool class
+      </heading>
+      <class name="NSAutoreleasePool" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSAutoreleasePool.h</declared>
+        <desc>
+          <p>
+            The standard OpenStep system of memory management
+            employs retain counts. When an object is created,
+            it has a retain count of 1. When an object is retained,
+            the retain count is incremented. When it is released
+            the retain count is decremented, and when the retain
+            count goes to zero the object gets deallocated.
+          </p>
+          <p>
+            A simple retain/release mechanism has problems with
+            passing objects from one scope to another, so it's
+            augmented with autorelease pools. You can use the
+            <ref type="function" id="AUTORELEASE">
+              AUTORELEASE()
+            </ref>
+            macro to call the
+            <ref type="method" id="-autorelease" class="NSObject">
+              [NSObject -autorelease]
+            </ref>
+            method, which adds an object to the current
+            autorelease pool by calling
+            <ref type="method" id="+addObject:" class="NSAutoreleasePool">[NSAutoreleasePool +addObject:]</ref>. <br /> An autorelease pool simply maintains a reference to each object added to it, and for each addition, the autorelease pool will call the <ref type="method" id="-release" class="NSObject">[NSObject -release]</ref> method of the object when the pool is released. So doing an <ref type="function" id="AUTORELEASE">AUTORELEASE()</ref> is just the same as doing a <ref type="function" id="RELEASE">RELEASE()</ref>, but deferred until the current autorelease pool is deallocated.
+          </p>
+          <p>
+            The NSAutoreleasePool class maintains a separate stack
+            of autorelease pools objects in each thread.
+          </p>
+          <p>
+            When an autorelease pool is created, it is
+            automatically added to the stack of pools in
+            the thread.
+          </p>
+          <p>
+            When a pool is destroyed, it (and any pool later in
+            the stack) is removed from the stack.
+          </p>
+          <p>
+            This mechanism provides a simple but controllable and
+            reasonably efficient way of managing temporary
+            objects. An object can be autoreleased and then
+            passed around and used until the topmost pool in the
+            stack is destroyed.
+          </p>
+          <p>
+            Most methods return objects which are either owned by
+            autorelease pools or by the receiver of the
+            method, so the lifetime of the returned object can
+            be assumed to be the shorter of the lifetime of the
+            current autorelease pool, or that of the receiver
+            on which the method was called. <br /> The exceptions to
+            this are those object returned by -
+          </p>
+          <deflist>
+            <term>
+              <ref type="method" id="+alloc" class="NSObject">
+                [NSObject +alloc]
+              </ref>
+              ,
+              <ref type="method" id="+allocWithZone:" class="NSObject">[NSObject +allocWithZone:]</ref>
+            </term>
+            <desc>
+              Methods whose names begin with alloc return an
+              uninitialised object, owned by the caller.
+            </desc>
+            <term>
+              <ref type="method" id="-init" class="NSObject">
+                [NSObject -init]
+              </ref>
+            </term>
+            <desc>
+              Methods whose names begin with init return an
+              initialised version of the receiving object,
+              owned by the caller. <br /> NB. The returned object
+              may not actually be the same as the receiver...
+              sometimes an init method releases the original
+              receiver and returns an alternative.
+            </desc>
+            <term>
+              <ref type="method" id="+new" class="NSObject">
+                [NSObject +new]
+              </ref>
+            </term>
+            <desc>
+              Methods whose names begin with new combine the
+              effects of allocation and initialisation.
+            </desc>
+            <term>
+              <ref type="method" id="-copy" class="NSObject">
+                [NSObject -copy]
+              </ref>
+              ,
+              <ref type="method" id="-copyWithZone:" class="(NSCopying)">[&lt;NSCopying&gt;-copyWithZone:]</ref>
+            </term>
+            <desc>
+              Methods whose names begin with copy create a copy
+              of the receiver which is owned by the caller.
+            </desc>
+            <term>
+              <ref type="method" id="-mutableCopy" class="NSObject">
+                [NSObject -mutableCopy]
+              </ref>
+              ,
+              <ref type="method" id="-mutableCopyWithZone:" class="(NSMutableCopying)">[&lt;NSMutableCopying&gt;-mutableCopyWithZone:]</ref>
+            </term>
+            <desc>
+              Methods whose names begin with mutableCopy create
+              a copy of the receiver which is owned by the caller.
+            </desc>
+          </deflist>
+        </desc>
+        <ivariable type="void(*" name="_addImp" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSAutoreleasePool*" name="_child" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSAutoreleasePool*" name="_parent" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="struct autorelease_array_list*" name="_released" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="_released_count" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="struct autorelease_array_list*" name="_released_head" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="void" factory="yes" ovadd="1.0.0">
+          <sel>addObject:</sel>
+          <arg type="id">anObj</arg>
+          <desc>
+            Adds <var>anObj</var> to the current autorelease pool.
+            <br /> If there is no autorelease pool in the
+            thread, a warning is logged and the object is
+            leaked (ie it will not be released).
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>allocWithZone:</sel>
+          <arg type="NSZone*">zone</arg>
+          <desc>
+            Allocate and return an autorelease pool instance.
+            <br /> If there is an already-allocated
+            NSAutoreleasePool available, save time by
+            just returning that, rather than allocating a new one.
+            <br /> The pool instance becomes the current
+            autorelease pool for this thread.
+          </desc>
+        </method>
+        <method type="unsigned" factory="yes" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>autoreleaseCountForObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            <p>
+              Counts the number of times that the specified
+              object occurs in autorelease pools in the current
+              thread.
+            </p>
+            <p>
+              This method is <em>slow</em> and should probably
+              only be used for debugging purposes.
+            </p>
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>currentPool</sel>
+          <desc>
+            Return the currently active autorelease pool.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>enableRelease:</sel>
+          <arg type="BOOL">enable</arg>
+          <desc>
+            <p>
+              Specifies whether objects contained in
+              autorelease pools are to be released when the
+              pools are deallocated (by default <code>YES</code>
+              ).
+            </p>
+            <p>
+              You can set this to <code>NO</code> for debugging
+              purposes.
+            </p>
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>freeCache</sel>
+          <desc>
+            <p>
+              When autorelease pools are deallocated, the memory
+              they used is retained in a cache for re-use so that
+              new polls can be created very quickly.
+            </p>
+            <p>
+              This method may be used to empty that cache,
+              ensuring that the minimum memory is used by the
+              application.
+            </p>
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>setPoolCountThreshold:</sel>
+          <arg type="unsigned">c</arg>
+          <desc>
+            <p>
+              Specifies a limit to the number of objects that
+              may be added to an autorelease pool. When this limit
+              is reached an exception is raised.
+            </p>
+            <p>
+              You can set this to a smallish value to catch
+              problems with code that autoreleases too many
+              objects to operate efficiently.
+            </p>
+            <p>
+              Default value is maxint.
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>addObject:</sel>
+          <arg type="id">anObj</arg>
+          <desc>
+            Adds <var>anObj</var> to this autorelease pool.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>autorelease</sel>
+          <desc>
+            Raises an exception - pools should not be
+            autoreleased.
+          </desc>
+        </method>
+        <method type="unsigned" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>autoreleaseCount</sel>
+          <desc>
+            Return the number of objects in this pool.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>drain</sel>
+          <desc>
+            Intended to trigger a garbage collection run (if
+            needed) when called in a garbage collected
+            environment. <br /> In a non-garbage collected
+            environment, this method implements the
+            undocumented MacOS-X behavior, and releases
+            the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>emptyPool</sel>
+          <desc>
+            Empties the current pool by releasing all the
+            autoreleased objects in it. Also destroys any
+            child pools (ones created after the receiver in the
+            same thread) causing any objects in those pools to be
+            released. <br /> This is a low cost (efficient)
+            method which may be used to get rid of autoreleased
+            objects in the pool, but carry on using the pool.
+          </desc>
+        </method>
+        <method type="oneway void" ovadd="1.0.0">
+          <sel>release</sel>
+          <desc>
+            Destroys the receiver (calls -dealloc).
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>retain</sel>
+          <desc>
+            Raises an exception... pools should not be retained.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>
