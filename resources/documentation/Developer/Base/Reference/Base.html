@@ -8,15 +8,7 @@
   <body>
     <font face="serif">
     <h1><a name="title$Base">GNUstep Base</a></h1>
-    <h3>Authors</h3>
-    <dl>
-      <dt><a href="http://www.gnustep.org/developers/whoiswho.html">Richard Frith-Macdonald</a> (<a href="mailto:rfm@gnu.org"><code>rfm@gnu.org</code></a>)</dt>
-      <dd>
-      </dd>
-    </dl>
-    <p><b>Version:</b> $Revision: 1.47 $</p>
-    <p><b>Date:</b> $Date: 2015/09/15 03:23:50 $</p>
-    <p><b>Copyright:</b> (C) 2005 Free Software Foundation, Inc.</p>
+    <p><b>Copyright:</b> (C) 1993-2023 Free Software Foundation, Inc.</p>
 
     
           <h1><a name="001000000000">Base</a></h1>
@@ -77,7 +69,7 @@
 	      a subminor number (00-99).<br />
 	      Features in the header file are marked as belonging to different
 	      version ranges using the
-	      GS_API_VERSION
+	      <a rel="gsdoc" href="Functions.html#macro$GS_API_VERSION">GS_API_VERSION</a>
 
 	      macro.<br />
 	      NB. This is the <em>native</em> versioning of the library being
@@ -106,7 +98,7 @@
 	      available as the GS_API_MACOSX preprocessor constant.<br />
 	      Features in the header file are marked as belonging to different
 	      version ranges using the
-	      GS_API_VERSION
+	      <a rel="gsdoc" href="Functions.html#macro$GS_API_VERSION">GS_API_VERSION</a>
 
 	      macro.<br />
 	      For MacOS-X compatibility, if this constant is not defined
@@ -152,6 +144,23 @@
                       </p>
         
 	    
+      </dd>
+      <dt>GSExceptionStackTrace</dt>
+      <dd>
+        
+	      
+        <p>
+
+		Setting the user default <code>GSExceptionStackTrace</code> to
+		<code>YES</code> will cause the stack trace at the point when
+                an exception occurs to be included as part of the text returned
+                by the -description method of the exception.<br />
+                That effect may also be obtained by setting the
+                GNUSTEP_STACK_TRACE environment variable before starting a
+                program.
+                      </p>
+        
+            
       </dd>
       <dt>GSLogSyslog</dt>
       <dd>
@@ -248,6 +257,23 @@
         
 	    
       </dd>
+      <dt>GSSortAlgorithm</dt>
+      <dd>
+        
+	      
+        <p>
+
+		May be used to specify the sort algorithm used for sorting
+                arrays etc. The current options are QuickSort, ShellSort, and
+                TimSort, with TimSort being the default.<br />
+		NB. The QuickSort and ShellSort are &apos;unstable&apos; algorithms,
+                which means that the order of equal objects may be changed
+                by a sort.  Selecting these may break code which assumes that
+	        sorting is stable.
+	              </p>
+        
+	    
+      </dd>
       <dt>Local Time Zone</dt>
       <dd>
         
@@ -255,7 +281,7 @@
         <p>
 
 		Used to specify the name of the timezone to be used by the
-		<a rel="gsdoc" href="../../Base/Reference/NSTimeZone.html#class$NSTimeZone">NSTimeZone</a>
+		<a rel="gsdoc" href="NSTimeZone.html#class$NSTimeZone">NSTimeZone</a>
  class.
 	              </p>
         
@@ -399,6 +425,8 @@
 	        When this is set to <em>YES</em> a human readable stack trace
 		(with function names and line numbers) is added to the output
 		of the description method of a raised exception object.<br />
+                NB. This behavior may also be enabled by setting the
+                GSExceptionStackTrace user default to YES.<br />
 	        This only works if gnustep was built with support for it
 		using libbfd, so it may not be available on all systems.
 	              </p>
@@ -472,6 +500,8 @@
         <p>
 
 		Used in place of GNUSTEP_TARGET_CPU if the other is missing.
+                Please do not use this to locate resources; for architecture
+                dependent resources use GNUSTEP_TARGET_DIR.
 	              </p>
         
 	    
@@ -494,6 +524,8 @@
         <p>
 
 		Used in place of GNUSTEP_TARGET_OS if the other is missing.
+                Please do not use this to locate resources; for architecture
+                dependent resources use GNUSTEP_TARGET_DIR.
 	              </p>
         
 	    
@@ -506,6 +538,8 @@
 
 		Overrides the default value of the machine (hardware)
 		name used on this system.
+                Please do not use this to locate resources; for architecture
+                dependent resources use GNUSTEP_TARGET_DIR.
 	              </p>
         
 	    
@@ -517,7 +551,7 @@
         <p>
 
 		Overrides the default path used to locate subdirectories
-		for GNUstep binaries withing bundles and applications.
+		for GNUstep binaries within bundles and applications.
 		This is normally equivalent to a path made up of the
 		GNUSTEP_TARGET_CPU and GNUSTEP_TARGET_OS
 	              </p>
@@ -532,6 +566,8 @@
 
 		Overrides the default value of the operating system
 		name used on this system.
+                Please do not use this to locate resources; for architecture
+                dependent resources use GNUSTEP_TARGET_DIR.
 	              </p>
         
 	    
@@ -1173,151 +1209,282 @@ MyApp.app/MyApp
       </ul>
       <b>Class</b>
       <ul>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSAffineTransform.html#class$NSAffineTransform">NSAffineTransform</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSArchiver.html#class$NSArchiver">NSArchiver</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSArray.html#class$NSArray">NSArray</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSException.html#class$NSAssertionHandler">NSAssertionHandler</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSAttributedString.html#class$NSAttributedString">NSAttributedString</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSAutoreleasePool.html#class$NSAutoreleasePool">NSAutoreleasePool</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSBundle.html#class$NSBundle">NSBundle</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSURLCache.html#class$NSCachedURLResponse">NSCachedURLResponse</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSCalendarDate.html#class$NSCalendarDate">NSCalendarDate</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSCharacterSet.html#class$NSCharacterSet">NSCharacterSet</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSClassDescription.html#class$NSClassDescription">NSClassDescription</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSCoder.html#class$NSCoder">NSCoder</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSLock.html#class$NSCondition">NSCondition</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSLock.html#class$NSConditionLock">NSConditionLock</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSConnection.html#class$NSConnection">NSConnection</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSSet.html#class$NSCountedSet">NSCountedSet</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSData.html#class$NSData">NSData</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSDate.html#class$NSDate">NSDate</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSDateFormatter.html#class$NSDateFormatter">NSDateFormatter</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSDecimalNumber.html#class$NSDecimalNumber">NSDecimalNumber</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSDecimalNumber.html#class$NSDecimalNumberHandler">NSDecimalNumberHandler</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSSerialization.html#class$NSDeserializer">NSDeserializer</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSDictionary.html#class$NSDictionary">NSDictionary</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSFileManager.html#class$NSDirectoryEnumerator">NSDirectoryEnumerator</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSDistantObject.html#class$NSDistantObject">NSDistantObject</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSDistributedLock.html#class$NSDistributedLock">NSDistributedLock</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSDistributedNotificationCenter.html#class$NSDistributedNotificationCenter">NSDistributedNotificationCenter</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSEnumerator.html#class$NSEnumerator">NSEnumerator</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSError.html#class$NSError">NSError</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSException.html#class$NSException">NSException</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSFileHandle.html#class$NSFileHandle">NSFileHandle</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSFileManager.html#class$NSFileManager">NSFileManager</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSFormatter.html#class$NSFormatter">NSFormatter</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSHTTPCookie.html#class$NSHTTPCookie">NSHTTPCookie</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSHTTPCookieStorage.html#class$NSHTTPCookieStorage">NSHTTPCookieStorage</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSURLResponse.html#class$NSHTTPURLResponse">NSHTTPURLResponse</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSHashTable.html#class$NSHashTable">NSHashTable</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSHost.html#class$NSHost">NSHost</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSIndexPath.html#class$NSIndexPath">NSIndexPath</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSIndexSet.html#class$NSIndexSet">NSIndexSet</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSStream.html#class$NSInputStream">NSInputStream</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSInvocation.html#class$NSInvocation">NSInvocation</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSKeyedArchiver.html#class$NSKeyedArchiver">NSKeyedArchiver</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSKeyedArchiver.html#class$NSKeyedUnarchiver">NSKeyedUnarchiver</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSLock.html#class$NSLock">NSLock</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSMapTable.html#class$NSMapTable">NSMapTable</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSPort.html#class$NSMessagePort">NSMessagePort</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSPortNameServer.html#class$NSMessagePortNameServer">NSMessagePortNameServer</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSMethodSignature.html#class$NSMethodSignature">NSMethodSignature</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSArray.html#class$NSMutableArray">NSMutableArray</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSAttributedString.html#class$NSMutableAttributedString">NSMutableAttributedString</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSCharacterSet.html#class$NSMutableCharacterSet">NSMutableCharacterSet</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSData.html#class$NSMutableData">NSMutableData</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSDictionary.html#class$NSMutableDictionary">NSMutableDictionary</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSIndexSet.html#class$NSMutableIndexSet">NSMutableIndexSet</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSSet.html#class$NSMutableSet">NSMutableSet</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSMutableString">NSMutableString</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSURLRequest.html#class$NSMutableURLRequest">NSMutableURLRequest</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSNetServices.html#class$NSNetService">NSNetService</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSNetServices.html#class$NSNetServiceBrowser">NSNetServiceBrowser</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSNotification.html#class$NSNotification">NSNotification</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSNotification.html#class$NSNotificationCenter">NSNotificationCenter</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSNotificationQueue.html#class$NSNotificationQueue">NSNotificationQueue</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSNull.html#class$NSNull">NSNull</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSValue.html#class$NSNumber">NSNumber</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSNumberFormatter.html#class$NSNumberFormatter">NSNumberFormatter</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSObject.html#class$NSObject">NSObject</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSStream.html#class$NSOutputStream">NSOutputStream</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSFileHandle.html#class$NSPipe">NSPipe</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSPointerArray.html#class$NSPointerArray">NSPointerArray</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSPointerFunctions.html#class$NSPointerFunctions">NSPointerFunctions</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSPort.html#class$NSPort">NSPort</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSPortCoder.html#class$NSPortCoder">NSPortCoder</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSPortMessage.html#class$NSPortMessage">NSPortMessage</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSPortNameServer.html#class$NSPortNameServer">NSPortNameServer</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSProcessInfo.html#class$NSProcessInfo">NSProcessInfo</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSPropertyList.html#class$NSPropertyListSerialization">NSPropertyListSerialization</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSProtocolChecker.html#class$NSProtocolChecker">NSProtocolChecker</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSProxy.html#class$NSProxy">NSProxy</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSLock.html#class$NSRecursiveLock">NSRecursiveLock</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSRunLoop.html#class$NSRunLoop">NSRunLoop</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSScanner.html#class$NSScanner">NSScanner</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSSerialization.html#class$NSSerializer">NSSerializer</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSSet.html#class$NSSet">NSSet</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSPort.html#class$NSSocketPort">NSSocketPort</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSPortNameServer.html#class$NSSocketPortNameServer">NSSocketPortNameServer</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSStream.html#class$NSStream">NSStream</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSTask.html#class$NSTask">NSTask</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSThread.html#class$NSThread">NSThread</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSTimeZone.html#class$NSTimeZone">NSTimeZone</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSTimeZone.html#class$NSTimeZoneDetail">NSTimeZoneDetail</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSTimer.html#class$NSTimer">NSTimer</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSURL.html#class$NSURL">NSURL</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSURLAuthenticationChallenge.html#class$NSURLAuthenticationChallenge">NSURLAuthenticationChallenge</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSURLCache.html#class$NSURLCache">NSURLCache</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSURLConnection.html#class$NSURLConnection">NSURLConnection</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSURLCredential.html#class$NSURLCredential">NSURLCredential</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSURLCredentialStorage.html#class$NSURLCredentialStorage">NSURLCredentialStorage</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSURLDownload.html#class$NSURLDownload">NSURLDownload</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSURLHandle.html#class$NSURLHandle">NSURLHandle</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSURLProtectionSpace.html#class$NSURLProtectionSpace">NSURLProtectionSpace</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSURLProtocol.html#class$NSURLProtocol">NSURLProtocol</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSURLRequest.html#class$NSURLRequest">NSURLRequest</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSURLResponse.html#class$NSURLResponse">NSURLResponse</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSArchiver.html#class$NSUnarchiver">NSUnarchiver</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSUndoManager.html#class$NSUndoManager">NSUndoManager</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSUserDefaults.html#class$NSUserDefaults">NSUserDefaults</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSValue.html#class$NSValue">NSValue</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSValueTransformer.html#class$NSValueTransformer">NSValueTransformer</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSXMLDTD.html#class$NSXMLDTD">NSXMLDTD</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSXMLDTDNode.html#class$NSXMLDTDNode">NSXMLDTDNode</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSXMLDocument.html#class$NSXMLDocument">NSXMLDocument</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSXMLElement.html#class$NSXMLElement">NSXMLElement</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSXMLNode.html#class$NSXMLNode">NSXMLNode</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSXMLParser.html#class$NSXMLParser">NSXMLParser</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NXConstantString">NXConstantString</a></li>
+        <li><a rel="gsdoc" href="NSAffineTransform.html#class$NSAffineTransform">NSAffineTransform</a></li>
+        <li><a rel="gsdoc" href="NSAppleEventDescriptor.html#class$NSAppleEventDescriptor">NSAppleEventDescriptor</a></li>
+        <li><a rel="gsdoc" href="NSAppleEventManager.html#class$NSAppleEventManager">NSAppleEventManager</a></li>
+        <li><a rel="gsdoc" href="NSAppleScript.html#class$NSAppleScript">NSAppleScript</a></li>
+        <li><a rel="gsdoc" href="NSArchiver.html#class$NSArchiver">NSArchiver</a></li>
+        <li><a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a></li>
+        <li><a rel="gsdoc" href="NSException.html#class$NSAssertionHandler">NSAssertionHandler</a></li>
+        <li><a rel="gsdoc" href="NSAttributedString.html#class$NSAttributedString">NSAttributedString</a></li>
+        <li><a rel="gsdoc" href="NSAutoreleasePool.html#class$NSAutoreleasePool">NSAutoreleasePool</a></li>
+        <li><a rel="gsdoc" href="NSBackgroundActivityScheduler.html#class$NSBackgroundActivityScheduler">NSBackgroundActivityScheduler</a></li>
+        <li><a rel="gsdoc" href="NSOperation.html#class$NSBlockOperation">NSBlockOperation</a></li>
+        <li><a rel="gsdoc" href="NSBundle.html#class$NSBundle">NSBundle</a></li>
+        <li><a rel="gsdoc" href="NSByteCountFormatter.html#class$NSByteCountFormatter">NSByteCountFormatter</a></li>
+        <li><a rel="gsdoc" href="NSCache.html#class$NSCache">NSCache</a></li>
+        <li><a rel="gsdoc" href="NSURLCache.html#class$NSCachedURLResponse">NSCachedURLResponse</a></li>
+        <li><a rel="gsdoc" href="NSCalendar.html#class$NSCalendar">NSCalendar</a></li>
+        <li><a rel="gsdoc" href="NSCalendarDate.html#class$NSCalendarDate">NSCalendarDate</a></li>
+        <li><a rel="gsdoc" href="NSCharacterSet.html#class$NSCharacterSet">NSCharacterSet</a></li>
+        <li><a rel="gsdoc" href="NSClassDescription.html#class$NSClassDescription">NSClassDescription</a></li>
+        <li><a rel="gsdoc" href="NSCoder.html#class$NSCoder">NSCoder</a></li>
+        <li><a rel="gsdoc" href="NSComparisonPredicate.html#class$NSComparisonPredicate">NSComparisonPredicate</a></li>
+        <li><a rel="gsdoc" href="NSCompoundPredicate.html#class$NSCompoundPredicate">NSCompoundPredicate</a></li>
+        <li><a rel="gsdoc" href="NSLock.html#class$NSCondition">NSCondition</a></li>
+        <li><a rel="gsdoc" href="NSLock.html#class$NSConditionLock">NSConditionLock</a></li>
+        <li><a rel="gsdoc" href="NSConnection.html#class$NSConnection">NSConnection</a></li>
+        <li><a rel="gsdoc" href="NSSet.html#class$NSCountedSet">NSCountedSet</a></li>
+        <li><a rel="gsdoc" href="NSData.html#class$NSData">NSData</a></li>
+        <li><a rel="gsdoc" href="NSDate.html#class$NSDate">NSDate</a></li>
+        <li><a rel="gsdoc" href="NSCalendar.html#class$NSDateComponents">NSDateComponents</a></li>
+        <li><a rel="gsdoc" href="NSDateComponentsFormatter.html#class$NSDateComponentsFormatter">NSDateComponentsFormatter</a></li>
+        <li><a rel="gsdoc" href="NSDateFormatter.html#class$NSDateFormatter">NSDateFormatter</a></li>
+        <li><a rel="gsdoc" href="NSDateInterval.html#class$NSDateInterval">NSDateInterval</a></li>
+        <li><a rel="gsdoc" href="NSDateIntervalFormatter.html#class$NSDateIntervalFormatter">NSDateIntervalFormatter</a></li>
+        <li><a rel="gsdoc" href="NSDecimalNumber.html#class$NSDecimalNumber">NSDecimalNumber</a></li>
+        <li><a rel="gsdoc" href="NSDecimalNumber.html#class$NSDecimalNumberHandler">NSDecimalNumberHandler</a></li>
+        <li><a rel="gsdoc" href="NSSerialization.html#class$NSDeserializer">NSDeserializer</a></li>
+        <li><a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSDimension">NSDimension</a></li>
+        <li><a rel="gsdoc" href="NSFileManager.html#class$NSDirectoryEnumerator">NSDirectoryEnumerator</a></li>
+        <li><a rel="gsdoc" href="NSDistantObject.html#class$NSDistantObject">NSDistantObject</a></li>
+        <li><a rel="gsdoc" href="NSDistributedLock.html#class$NSDistributedLock">NSDistributedLock</a></li>
+        <li><a rel="gsdoc" href="NSDistributedNotificationCenter.html#class$NSDistributedNotificationCenter">NSDistributedNotificationCenter</a></li>
+        <li><a rel="gsdoc" href="NSEnergyFormatter.html#class$NSEnergyFormatter">NSEnergyFormatter</a></li>
+        <li><a rel="gsdoc" href="NSEnumerator.html#class$NSEnumerator">NSEnumerator</a></li>
+        <li><a rel="gsdoc" href="NSError.html#class$NSError">NSError</a></li>
+        <li><a rel="gsdoc" href="NSException.html#class$NSException">NSException</a></li>
+        <li><a rel="gsdoc" href="NSExpression.html#class$NSExpression">NSExpression</a></li>
+        <li><a rel="gsdoc" href="NSExtensionContext.html#class$NSExtensionContext">NSExtensionContext</a></li>
+        <li><a rel="gsdoc" href="NSExtensionItem.html#class$NSExtensionItem">NSExtensionItem</a></li>
+        <li><a rel="gsdoc" href="NSFileCoordinator.html#class$NSFileAccessIntent">NSFileAccessIntent</a></li>
+        <li><a rel="gsdoc" href="NSFileCoordinator.html#class$NSFileCoordinator">NSFileCoordinator</a></li>
+        <li><a rel="gsdoc" href="NSFileHandle.html#class$NSFileHandle">NSFileHandle</a></li>
+        <li><a rel="gsdoc" href="NSFileManager.html#class$NSFileManager">NSFileManager</a></li>
+        <li><a rel="gsdoc" href="NSFileVersion.html#class$NSFileVersion">NSFileVersion</a></li>
+        <li><a rel="gsdoc" href="NSFileWrapper.html#class$NSFileWrapper">NSFileWrapper</a></li>
+        <li><a rel="gsdoc" href="NSFormatter.html#class$NSFormatter">NSFormatter</a></li>
+        <li><a rel="gsdoc" href="NSGarbageCollector.html#class$NSGarbageCollector">NSGarbageCollector</a></li>
+        <li><a rel="gsdoc" href="NSHTTPCookie.html#class$NSHTTPCookie">NSHTTPCookie</a></li>
+        <li><a rel="gsdoc" href="NSHTTPCookieStorage.html#class$NSHTTPCookieStorage">NSHTTPCookieStorage</a></li>
+        <li><a rel="gsdoc" href="NSURLResponse.html#class$NSHTTPURLResponse">NSHTTPURLResponse</a></li>
+        <li><a rel="gsdoc" href="NSHashTable.html#class$NSHashTable">NSHashTable</a></li>
+        <li><a rel="gsdoc" href="NSHost.html#class$NSHost">NSHost</a></li>
+        <li><a rel="gsdoc" href="NSISO8601DateFormatter.html#class$NSISO8601DateFormatter">NSISO8601DateFormatter</a></li>
+        <li><a rel="gsdoc" href="NSIndexPath.html#class$NSIndexPath">NSIndexPath</a></li>
+        <li><a rel="gsdoc" href="NSIndexSet.html#class$NSIndexSet">NSIndexSet</a></li>
+        <li><a rel="gsdoc" href="NSStream.html#class$NSInputStream">NSInputStream</a></li>
+        <li><a rel="gsdoc" href="NSInvocation.html#class$NSInvocation">NSInvocation</a></li>
+        <li><a rel="gsdoc" href="NSInvocationOperation.html#class$NSInvocationOperation">NSInvocationOperation</a></li>
+        <li><a rel="gsdoc" href="NSItemProvider.html#class$NSItemProvider">NSItemProvider</a></li>
+        <li><a rel="gsdoc" href="NSItemProviderReadingWriting.html#class$NSItemProviderReadingWriting">NSItemProviderReadingWriting</a></li>
+        <li><a rel="gsdoc" href="NSJSONSerialization.html#class$NSJSONSerialization">NSJSONSerialization</a></li>
+        <li><a rel="gsdoc" href="NSKeyedArchiver.html#class$NSKeyedArchiver">NSKeyedArchiver</a></li>
+        <li><a rel="gsdoc" href="NSKeyedArchiver.html#class$NSKeyedUnarchiver">NSKeyedUnarchiver</a></li>
+        <li><a rel="gsdoc" href="NSLengthFormatter.html#class$NSLengthFormatter">NSLengthFormatter</a></li>
+        <li><a rel="gsdoc" href="NSLinguisticTagger.html#class$NSLinguisticTagger">NSLinguisticTagger</a></li>
+        <li><a rel="gsdoc" href="NSLocale.html#class$NSLocale">NSLocale</a></li>
+        <li><a rel="gsdoc" href="NSLock.html#class$NSLock">NSLock</a></li>
+        <li><a rel="gsdoc" href="NSMapTable.html#class$NSMapTable">NSMapTable</a></li>
+        <li><a rel="gsdoc" href="NSMassFormatter.html#class$NSMassFormatter">NSMassFormatter</a></li>
+        <li><a rel="gsdoc" href="NSMeasurement.html#class$NSMeasurement">NSMeasurement</a></li>
+        <li><a rel="gsdoc" href="NSMeasurementFormatter.html#class$NSMeasurementFormatter">NSMeasurementFormatter</a></li>
+        <li><a rel="gsdoc" href="NSPort.html#class$NSMessagePort">NSMessagePort</a></li>
+        <li><a rel="gsdoc" href="NSPortNameServer.html#class$NSMessagePortNameServer">NSMessagePortNameServer</a></li>
+        <li><a rel="gsdoc" href="NSMetadata.html#class$NSMetadataItem">NSMetadataItem</a></li>
+        <li><a rel="gsdoc" href="NSMetadata.html#class$NSMetadataQuery">NSMetadataQuery</a></li>
+        <li><a rel="gsdoc" href="NSMetadata.html#class$NSMetadataQueryAttributeValueTuple">NSMetadataQueryAttributeValueTuple</a></li>
+        <li><a rel="gsdoc" href="NSMetadata.html#class$NSMetadataQueryResultGroup">NSMetadataQueryResultGroup</a></li>
+        <li><a rel="gsdoc" href="NSMethodSignature.html#class$NSMethodSignature">NSMethodSignature</a></li>
+        <li><a rel="gsdoc" href="NSArray.html#class$NSMutableArray">NSMutableArray</a></li>
+        <li><a rel="gsdoc" href="NSAttributedString.html#class$NSMutableAttributedString">NSMutableAttributedString</a></li>
+        <li><a rel="gsdoc" href="NSCharacterSet.html#class$NSMutableCharacterSet">NSMutableCharacterSet</a></li>
+        <li><a rel="gsdoc" href="NSData.html#class$NSMutableData">NSMutableData</a></li>
+        <li><a rel="gsdoc" href="NSDictionary.html#class$NSMutableDictionary">NSMutableDictionary</a></li>
+        <li><a rel="gsdoc" href="NSIndexSet.html#class$NSMutableIndexSet">NSMutableIndexSet</a></li>
+        <li><a rel="gsdoc" href="NSOrderedSet.html#class$NSMutableOrderedSet">NSMutableOrderedSet</a></li>
+        <li><a rel="gsdoc" href="NSSet.html#class$NSMutableSet">NSMutableSet</a></li>
+        <li><a rel="gsdoc" href="NSString.html#class$NSMutableString">NSMutableString</a></li>
+        <li><a rel="gsdoc" href="NSURLRequest.html#class$NSMutableURLRequest">NSMutableURLRequest</a></li>
+        <li><a rel="gsdoc" href="NSNetServices.html#class$NSNetService">NSNetService</a></li>
+        <li><a rel="gsdoc" href="NSNetServices.html#class$NSNetServiceBrowser">NSNetServiceBrowser</a></li>
+        <li><a rel="gsdoc" href="NSNotification.html#class$NSNotification">NSNotification</a></li>
+        <li><a rel="gsdoc" href="NSNotification.html#class$NSNotificationCenter">NSNotificationCenter</a></li>
+        <li><a rel="gsdoc" href="NSNotificationQueue.html#class$NSNotificationQueue">NSNotificationQueue</a></li>
+        <li><a rel="gsdoc" href="NSNull.html#class$NSNull">NSNull</a></li>
+        <li><a rel="gsdoc" href="NSValue.html#class$NSNumber">NSNumber</a></li>
+        <li><a rel="gsdoc" href="NSNumberFormatter.html#class$NSNumberFormatter">NSNumberFormatter</a></li>
+        <li><a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a></li>
+        <li><a rel="gsdoc" href="NSObjectScripting.html#class$NSObjectScripting">NSObjectScripting</a></li>
+        <li><a rel="gsdoc" href="NSOperation.html#class$NSOperation">NSOperation</a></li>
+        <li><a rel="gsdoc" href="NSOperation.html#class$NSOperationQueue">NSOperationQueue</a></li>
+        <li><a rel="gsdoc" href="NSOrderedSet.html#class$NSOrderedSet">NSOrderedSet</a></li>
+        <li><a rel="gsdoc" href="NSOrthography.html#class$NSOrthography">NSOrthography</a></li>
+        <li><a rel="gsdoc" href="NSStream.html#class$NSOutputStream">NSOutputStream</a></li>
+        <li><a rel="gsdoc" href="NSPersonNameComponents.html#class$NSPersonNameComponents">NSPersonNameComponents</a></li>
+        <li><a rel="gsdoc" href="NSPersonNameComponentsFormatter.html#class$NSPersonNameComponentsFormatter">NSPersonNameComponentsFormatter</a></li>
+        <li><a rel="gsdoc" href="NSFileHandle.html#class$NSPipe">NSPipe</a></li>
+        <li><a rel="gsdoc" href="NSPointerArray.html#class$NSPointerArray">NSPointerArray</a></li>
+        <li><a rel="gsdoc" href="NSPointerFunctions.html#class$NSPointerFunctions">NSPointerFunctions</a></li>
+        <li><a rel="gsdoc" href="NSPort.html#class$NSPort">NSPort</a></li>
+        <li><a rel="gsdoc" href="NSPortCoder.html#class$NSPortCoder">NSPortCoder</a></li>
+        <li><a rel="gsdoc" href="NSPortMessage.html#class$NSPortMessage">NSPortMessage</a></li>
+        <li><a rel="gsdoc" href="NSPortNameServer.html#class$NSPortNameServer">NSPortNameServer</a></li>
+        <li><a rel="gsdoc" href="NSPredicate.html#class$NSPredicate">NSPredicate</a></li>
+        <li><a rel="gsdoc" href="NSProcessInfo.html#class$NSProcessInfo">NSProcessInfo</a></li>
+        <li><a rel="gsdoc" href="NSProgress.html#class$NSProgress">NSProgress</a></li>
+        <li><a rel="gsdoc" href="NSPropertyList.html#class$NSPropertyListSerialization">NSPropertyListSerialization</a></li>
+        <li><a rel="gsdoc" href="NSProtocolChecker.html#class$NSProtocolChecker">NSProtocolChecker</a></li>
+        <li><a rel="gsdoc" href="NSProxy.html#class$NSProxy">NSProxy</a></li>
+        <li><a rel="gsdoc" href="NSLock.html#class$NSRecursiveLock">NSRecursiveLock</a></li>
+        <li><a rel="gsdoc" href="NSRegularExpression.html#class$NSRegularExpression">NSRegularExpression</a></li>
+        <li><a rel="gsdoc" href="NSRunLoop.html#class$NSRunLoop">NSRunLoop</a></li>
+        <li><a rel="gsdoc" href="NSScanner.html#class$NSScanner">NSScanner</a></li>
+        <li><a rel="gsdoc" href="NSScriptClassDescription.html#class$NSScriptClassDescription">NSScriptClassDescription</a></li>
+        <li><a rel="gsdoc" href="NSScriptCoercionHandler.html#class$NSScriptCoercionHandler">NSScriptCoercionHandler</a></li>
+        <li><a rel="gsdoc" href="NSScriptCommand.html#class$NSScriptCommand">NSScriptCommand</a></li>
+        <li><a rel="gsdoc" href="NSScriptCommandDescription.html#class$NSScriptCommandDescription">NSScriptCommandDescription</a></li>
+        <li><a rel="gsdoc" href="NSScriptExecutionContext.html#class$NSScriptExecutionContext">NSScriptExecutionContext</a></li>
+        <li><a rel="gsdoc" href="NSScriptKeyValueCoding.html#class$NSScriptKeyValueCoding">NSScriptKeyValueCoding</a></li>
+        <li><a rel="gsdoc" href="NSScriptObjectSpecifiers.html#class$NSScriptObjectSpecifiers">NSScriptObjectSpecifiers</a></li>
+        <li><a rel="gsdoc" href="NSScriptStandardSuiteCommands.html#class$NSScriptStandardSuiteCommands">NSScriptStandardSuiteCommands</a></li>
+        <li><a rel="gsdoc" href="NSScriptSuiteRegistry.html#class$NSScriptSuiteRegistry">NSScriptSuiteRegistry</a></li>
+        <li><a rel="gsdoc" href="NSSerialization.html#class$NSSerializer">NSSerializer</a></li>
+        <li><a rel="gsdoc" href="NSSet.html#class$NSSet">NSSet</a></li>
+        <li><a rel="gsdoc" href="NSPort.html#class$NSSocketPort">NSSocketPort</a></li>
+        <li><a rel="gsdoc" href="NSPortNameServer.html#class$NSSocketPortNameServer">NSSocketPortNameServer</a></li>
+        <li><a rel="gsdoc" href="NSSortDescriptor.html#class$NSSortDescriptor">NSSortDescriptor</a></li>
+        <li><a rel="gsdoc" href="NSSpellServer.html#class$NSSpellServer">NSSpellServer</a></li>
+        <li><a rel="gsdoc" href="NSStream.html#class$NSStream">NSStream</a></li>
+        <li><a rel="gsdoc" href="NSString.html#class$NSString">NSString</a></li>
+        <li><a rel="gsdoc" href="NSTask.html#class$NSTask">NSTask</a></li>
+        <li><a rel="gsdoc" href="NSTextCheckingResult.html#class$NSTextCheckingResult">NSTextCheckingResult</a></li>
+        <li><a rel="gsdoc" href="NSThread.html#class$NSThread">NSThread</a></li>
+        <li><a rel="gsdoc" href="NSTimeZone.html#class$NSTimeZone">NSTimeZone</a></li>
+        <li><a rel="gsdoc" href="NSTimeZone.html#class$NSTimeZoneDetail">NSTimeZoneDetail</a></li>
+        <li><a rel="gsdoc" href="NSTimer.html#class$NSTimer">NSTimer</a></li>
+        <li><a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a></li>
+        <li><a rel="gsdoc" href="NSURLAuthenticationChallenge.html#class$NSURLAuthenticationChallenge">NSURLAuthenticationChallenge</a></li>
+        <li><a rel="gsdoc" href="NSURLCache.html#class$NSURLCache">NSURLCache</a></li>
+        <li><a rel="gsdoc" href="NSURL.html#class$NSURLComponents">NSURLComponents</a></li>
+        <li><a rel="gsdoc" href="NSURLConnection.html#class$NSURLConnection">NSURLConnection</a></li>
+        <li><a rel="gsdoc" href="NSURLCredential.html#class$NSURLCredential">NSURLCredential</a></li>
+        <li><a rel="gsdoc" href="NSURLCredentialStorage.html#class$NSURLCredentialStorage">NSURLCredentialStorage</a></li>
+        <li><a rel="gsdoc" href="NSURLDownload.html#class$NSURLDownload">NSURLDownload</a></li>
+        <li><a rel="gsdoc" href="NSURLHandle.html#class$NSURLHandle">NSURLHandle</a></li>
+        <li><a rel="gsdoc" href="NSURLProtectionSpace.html#class$NSURLProtectionSpace">NSURLProtectionSpace</a></li>
+        <li><a rel="gsdoc" href="NSURLProtocol.html#class$NSURLProtocol">NSURLProtocol</a></li>
+        <li><a rel="gsdoc" href="NSURL.html#class$NSURLQueryItem">NSURLQueryItem</a></li>
+        <li><a rel="gsdoc" href="NSURLRequest.html#class$NSURLRequest">NSURLRequest</a></li>
+        <li><a rel="gsdoc" href="NSURLResponse.html#class$NSURLResponse">NSURLResponse</a></li>
+        <li><a rel="gsdoc" href="NSURLSession.html#class$NSURLSession">NSURLSession</a></li>
+        <li><a rel="gsdoc" href="NSURLSession.html#class$NSURLSessionConfiguration">NSURLSessionConfiguration</a></li>
+        <li><a rel="gsdoc" href="NSURLSession.html#class$NSURLSessionDataTask">NSURLSessionDataTask</a></li>
+        <li><a rel="gsdoc" href="NSURLSession.html#class$NSURLSessionDownloadTask">NSURLSessionDownloadTask</a></li>
+        <li><a rel="gsdoc" href="NSURLSession.html#class$NSURLSessionStreamTask">NSURLSessionStreamTask</a></li>
+        <li><a rel="gsdoc" href="NSURLSession.html#class$NSURLSessionTask">NSURLSessionTask</a></li>
+        <li><a rel="gsdoc" href="NSURLSession.html#class$NSURLSessionUploadTask">NSURLSessionUploadTask</a></li>
+        <li><a rel="gsdoc" href="NSUUID.html#class$NSUUID">NSUUID</a></li>
+        <li><a rel="gsdoc" href="NSUbiquitousKeyValueStore.html#class$NSUbiquitousKeyValueStore">NSUbiquitousKeyValueStore</a></li>
+        <li><a rel="gsdoc" href="NSArchiver.html#class$NSUnarchiver">NSUnarchiver</a></li>
+        <li><a rel="gsdoc" href="NSUndoManager.html#class$NSUndoManager">NSUndoManager</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnit">NSUnit</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitAcceleration">NSUnitAcceleration</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitAngle">NSUnitAngle</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitArea">NSUnitArea</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitConcentrationMass">NSUnitConcentrationMass</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitConverter">NSUnitConverter</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitConverterLinear">NSUnitConverterLinear</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitDispersion">NSUnitDispersion</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitDuration">NSUnitDuration</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitElectricCharge">NSUnitElectricCharge</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitElectricCurrent">NSUnitElectricCurrent</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitElectricPotentialDifference">NSUnitElectricPotentialDifference</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitElectricResistance">NSUnitElectricResistance</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitEnergy">NSUnitEnergy</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitFrequency">NSUnitFrequency</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitFuelEfficiency">NSUnitFuelEfficiency</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitIlluminance">NSUnitIlluminance</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitLength">NSUnitLength</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitMass">NSUnitMass</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitPower">NSUnitPower</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitPressure">NSUnitPressure</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitSpeed">NSUnitSpeed</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitTemperature">NSUnitTemperature</a></li>
+        <li><a rel="gsdoc" href="NSUnit.html#class$NSUnitVolume">NSUnitVolume</a></li>
+        <li><a rel="gsdoc" href="NSUserActivity.html#class$NSUserActivity">NSUserActivity</a></li>
+        <li><a rel="gsdoc" href="NSUserDefaults.html#class$NSUserDefaults">NSUserDefaults</a></li>
+        <li><a rel="gsdoc" href="NSUserNotification.html#class$NSUserNotification">NSUserNotification</a></li>
+        <li><a rel="gsdoc" href="NSUserNotification.html#class$NSUserNotificationCenter">NSUserNotificationCenter</a></li>
+        <li><a rel="gsdoc" href="NSUserScriptTask.html#class$NSUserScriptTask">NSUserScriptTask</a></li>
+        <li><a rel="gsdoc" href="NSValue.html#class$NSValue">NSValue</a></li>
+        <li><a rel="gsdoc" href="NSValueTransformer.html#class$NSValueTransformer">NSValueTransformer</a></li>
+        <li><a rel="gsdoc" href="NSXMLDTD.html#class$NSXMLDTD">NSXMLDTD</a></li>
+        <li><a rel="gsdoc" href="NSXMLDTDNode.html#class$NSXMLDTDNode">NSXMLDTDNode</a></li>
+        <li><a rel="gsdoc" href="NSXMLDocument.html#class$NSXMLDocument">NSXMLDocument</a></li>
+        <li><a rel="gsdoc" href="NSXMLElement.html#class$NSXMLElement">NSXMLElement</a></li>
+        <li><a rel="gsdoc" href="NSXMLNode.html#class$NSXMLNode">NSXMLNode</a></li>
+        <li><a rel="gsdoc" href="NSXMLParser.html#class$NSXMLParser">NSXMLParser</a></li>
+        <li><a rel="gsdoc" href="NSXPCConnection.html#class$NSXPCConnection">NSXPCConnection</a></li>
+        <li><a rel="gsdoc" href="NSXPCConnection.html#class$NSXPCInterface">NSXPCInterface</a></li>
+        <li><a rel="gsdoc" href="NSXPCConnection.html#class$NSXPCListener">NSXPCListener</a></li>
+        <li><a rel="gsdoc" href="NSXPCConnection.html#class$NSXPCListenerEndpoint">NSXPCListenerEndpoint</a></li>
+        <li><a rel="gsdoc" href="NSString.html#class$NXConstantString">NXConstantString</a></li>
       </ul>
       <b>Protocol</b>
       <ul>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSObject.html#protocol$(NSCoding)">&lt;NSCoding&gt;</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSObject.html#protocol$(NSCopying)">&lt;NSCopying&gt;</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSDecimalNumber.html#protocol$(NSDecimalNumberBehaviors)">&lt;NSDecimalNumberBehaviors&gt;</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSObject.html#protocol$(NSDiscardableContent)">&lt;NSDiscardableContent&gt;</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSEnumerator.html#protocol$(NSFastEnumeration)">&lt;NSFastEnumeration&gt;</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSLock.html#protocol$(NSLocking)">&lt;NSLocking&gt;</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSObject.html#protocol$(NSMutableCopying)">&lt;NSMutableCopying&gt;</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSNetServices.html#protocol$(NSNetServiceBrowserDelegate)">&lt;NSNetServiceBrowserDelegate&gt;</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSNetServices.html#protocol$(NSNetServiceDelegate)">&lt;NSNetServiceDelegate&gt;</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSSerialization.html#protocol$(NSObjCTypeSerializationCallBack)">&lt;NSObjCTypeSerializationCallBack&gt;</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSObject.html#protocol$(NSObject)">&lt;NSObject&gt;</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSStream.html#protocol$(NSStreamDelegate)">&lt;NSStreamDelegate&gt;</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSURLAuthenticationChallenge.html#protocol$(NSURLAuthenticationChallengeSender)">&lt;NSURLAuthenticationChallengeSender&gt;</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSURLHandle.html#protocol$(NSURLHandleClient)">&lt;NSURLHandleClient&gt;</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSURLProtocol.html#protocol$(NSURLProtocolClient)">&lt;NSURLProtocolClient&gt;</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSXMLParser.html#protocol$(NSXMLParserDelegate)">&lt;NSXMLParserDelegate&gt;</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSRunLoop.html#protocol$(RunLoopEvents)">&lt;RunLoopEvents&gt;</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSConnection.html#category$NSObject(NSConnectionDelegate)">(NSConnectionDelegate)</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSFileManager.html#category$NSObject(NSFileManagerHandler)">(NSFileManagerHandler)</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSKeyValueCoding.html#category$NSObject(NSKeyValueCoding)">(NSKeyValueCoding)</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSNetServices.html#category$NSObject(NSNetServiceBrowserDelegateMethods)">(NSNetServiceBrowserDelegateMethods)</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSNetServices.html#category$NSObject(NSNetServiceDelegateMethods)">(NSNetServiceDelegateMethods)</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSStream.html#category$NSObject(NSStreamDelegate)">(NSStreamDelegate)</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSRunLoop.html#category$NSObject(RunLoopEvents)">(RunLoopEvents)</a></li>
-        <li><a rel="gsdoc" href="../../Base/Reference/NSObject.html#category$NSObject(TimedPerformers)">(TimedPerformers)</a></li>
+        <li><a rel="gsdoc" href="NSDebug.html#protocol$(GSLogDelegate)">&lt;GSLogDelegate&gt;</a></li>
+        <li><a rel="gsdoc" href="NSCache.html#protocol$(NSCacheDelegate)">&lt;NSCacheDelegate&gt;</a></li>
+        <li><a rel="gsdoc" href="NSObject.html#protocol$(NSCoding)">&lt;NSCoding&gt;</a></li>
+        <li><a rel="gsdoc" href="NSObject.html#protocol$(NSCopying)">&lt;NSCopying&gt;</a></li>
+        <li><a rel="gsdoc" href="NSDecimalNumber.html#protocol$(NSDecimalNumberBehaviors)">&lt;NSDecimalNumberBehaviors&gt;</a></li>
+        <li><a rel="gsdoc" href="NSObject.html#protocol$(NSDiscardableContent)">&lt;NSDiscardableContent&gt;</a></li>
+        <li><a rel="gsdoc" href="NSExtensionRequestHandling.html#protocol$(NSExtensionRequestHandling)">&lt;NSExtensionRequestHandling&gt;</a></li>
+        <li><a rel="gsdoc" href="NSEnumerator.html#protocol$(NSFastEnumeration)">&lt;NSFastEnumeration&gt;</a></li>
+        <li><a rel="gsdoc" href="NSFileManager.html#protocol$(NSFileManagerDelegate)">&lt;NSFileManagerDelegate&gt;</a></li>
+        <li><a rel="gsdoc" href="NSFilePresenter.html#protocol$(NSFilePresenter)">&lt;NSFilePresenter&gt;</a></li>
+        <li><a rel="gsdoc" href="NSItemProvider.html#protocol$(NSItemProviderReading)">&lt;NSItemProviderReading&gt;</a></li>
+        <li><a rel="gsdoc" href="NSItemProvider.html#protocol$(NSItemProviderWriting)">&lt;NSItemProviderWriting&gt;</a></li>
+        <li><a rel="gsdoc" href="NSLock.html#protocol$(NSLocking)">&lt;NSLocking&gt;</a></li>
+        <li><a rel="gsdoc" href="NSMetadata.html#protocol$(NSMetadataQueryDelegate)">&lt;NSMetadataQueryDelegate&gt;</a></li>
+        <li><a rel="gsdoc" href="NSObject.html#protocol$(NSMutableCopying)">&lt;NSMutableCopying&gt;</a></li>
+        <li><a rel="gsdoc" href="NSNetServices.html#protocol$(NSNetServiceBrowserDelegate)">&lt;NSNetServiceBrowserDelegate&gt;</a></li>
+        <li><a rel="gsdoc" href="NSNetServices.html#protocol$(NSNetServiceDelegate)">&lt;NSNetServiceDelegate&gt;</a></li>
+        <li><a rel="gsdoc" href="NSSerialization.html#protocol$(NSObjCTypeSerializationCallBack)">&lt;NSObjCTypeSerializationCallBack&gt;</a></li>
+        <li><a rel="gsdoc" href="NSObject.html#protocol$(NSObject)">&lt;NSObject&gt;</a></li>
+        <li><a rel="gsdoc" href="NSProgress.html#protocol$(NSProgressReporting)">&lt;NSProgressReporting&gt;</a></li>
+        <li><a rel="gsdoc" href="NSObject.html#protocol$(NSSecureCoding)">&lt;NSSecureCoding&gt;</a></li>
+        <li><a rel="gsdoc" href="NSStream.html#protocol$(NSStreamDelegate)">&lt;NSStreamDelegate&gt;</a></li>
+        <li><a rel="gsdoc" href="NSURLAuthenticationChallenge.html#protocol$(NSURLAuthenticationChallengeSender)">&lt;NSURLAuthenticationChallengeSender&gt;</a></li>
+        <li><a rel="gsdoc" href="NSURLConnection.html#protocol$(NSURLConnectionDataDelegate)">&lt;NSURLConnectionDataDelegate&gt;</a></li>
+        <li><a rel="gsdoc" href="NSURLHandle.html#protocol$(NSURLHandleClient)">&lt;NSURLHandleClient&gt;</a></li>
+        <li><a rel="gsdoc" href="NSURLProtocol.html#protocol$(NSURLProtocolClient)">&lt;NSURLProtocolClient&gt;</a></li>
+        <li><a rel="gsdoc" href="NSURLSession.html#protocol$(NSURLSessionDataDelegate)">&lt;NSURLSessionDataDelegate&gt;</a></li>
+        <li><a rel="gsdoc" href="NSURLSession.html#protocol$(NSURLSessionDelegate)">&lt;NSURLSessionDelegate&gt;</a></li>
+        <li><a rel="gsdoc" href="NSURLSession.html#protocol$(NSURLSessionDownloadDelegate)">&lt;NSURLSessionDownloadDelegate&gt;</a></li>
+        <li><a rel="gsdoc" href="NSURLSession.html#protocol$(NSURLSessionTaskDelegate)">&lt;NSURLSessionTaskDelegate&gt;</a></li>
+        <li><a rel="gsdoc" href="NSUserNotification.html#protocol$(NSUserNotificationCenterDelegate)">&lt;NSUserNotificationCenterDelegate&gt;</a></li>
+        <li><a rel="gsdoc" href="NSXMLParser.html#protocol$(NSXMLParserDelegate)">&lt;NSXMLParserDelegate&gt;</a></li>
+        <li><a rel="gsdoc" href="NSXPCConnection.html#protocol$(NSXPCListenerDelegate)">&lt;NSXPCListenerDelegate&gt;</a></li>
+        <li><a rel="gsdoc" href="NSXPCConnection.html#protocol$(NSXPCProxyCreating)">&lt;NSXPCProxyCreating&gt;</a></li>
+        <li><a rel="gsdoc" href="NSRunLoop.html#protocol$(RunLoopEvents)">&lt;RunLoopEvents&gt;</a></li>
+        <li><a rel="gsdoc" href="NSLock.html#category$NSObject(GSTraceLocks)">(GSTraceLocks)</a></li>
+        <li><a rel="gsdoc" href="NSScriptWhoseTests.html#category$NSObject(NSComparisonMethods)">(NSComparisonMethods)</a></li>
+        <li><a rel="gsdoc" href="NSConnection.html#category$NSObject(NSConnectionDelegate)">(NSConnectionDelegate)</a></li>
+        <li><a rel="gsdoc" href="NSErrorRecoveryAttempting.html#category$NSObject(NSErrorRecoveryAttempting)">(NSErrorRecoveryAttempting)</a></li>
+        <li><a rel="gsdoc" href="NSFileManager.html#category$NSObject(NSFileManagerDelegate)">(NSFileManagerDelegate)</a></li>
+        <li><a rel="gsdoc" href="NSFileManager.html#category$NSObject(NSFileManagerHandler)">(NSFileManagerHandler)</a></li>
+        <li><a rel="gsdoc" href="NSFilePresenter.html#category$NSObject(NSFilePresenter)">(NSFilePresenter)</a></li>
+        <li><a rel="gsdoc" href="NSKeyValueCoding.html#category$NSObject(NSKeyValueCoding)">(NSKeyValueCoding)</a></li>
+        <li><a rel="gsdoc" href="NSMetadata.html#category$NSObject(NSMetadataQueryDelegate)">(NSMetadataQueryDelegate)</a></li>
+        <li><a rel="gsdoc" href="NSNetServices.html#category$NSObject(NSNetServiceBrowserDelegateMethods)">(NSNetServiceBrowserDelegateMethods)</a></li>
+        <li><a rel="gsdoc" href="NSNetServices.html#category$NSObject(NSNetServiceDelegateMethods)">(NSNetServiceDelegateMethods)</a></li>
+        <li><a rel="gsdoc" href="NSSpellServer.html#category$NSObject(NSSpellServerDelegate)">(NSSpellServerDelegate)</a></li>
+        <li><a rel="gsdoc" href="NSStream.html#category$NSObject(NSStreamDelegate)">(NSStreamDelegate)</a></li>
+        <li><a rel="gsdoc" href="NSUserNotification.html#category$NSObject(NSUserNotificationCenterDelegateMethods)">(NSUserNotificationCenterDelegateMethods)</a></li>
+        <li><a rel="gsdoc" href="NSRunLoop.html#category$NSObject(RunLoopEvents)">(RunLoopEvents)</a></li>
+        <li><a rel="gsdoc" href="NSObject.html#category$NSObject(TimedPerformers)">(TimedPerformers)</a></li>
       </ul>
     </div>
     <br />
