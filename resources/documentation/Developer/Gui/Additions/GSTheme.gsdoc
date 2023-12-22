@@ -1,0 +1,2484 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="GSTheme" up="GuiAdditions">
+  <head>
+    <title>GSTheme</title>
+    <author name="Adam Fedor">
+      <email address="fedor@gnu.org">
+        fedor@gnu.org
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <date>Generated at 2023-12-22 15:07:59 -0500</date>
+    <abstract>
+      Useful/configurable drawing functions
+    </abstract>
+    <copy>2004-2023 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>The theme management system</heading>
+      <p>
+        The theme management system for the GNUstep GUI is based
+        around the
+        <ref type="class" id="GSTheme">GSTheme</ref>
+          class, which provides support for loading of theme
+          bundles and methods for drawing common user interface
+          elements. <br /> The theme system works in
+          conjunction with a variety of other GUI classes
+          and is intended to eventually allow for very major
+          changes in GUI appearance and behavior.
+        </p>
+        <p>
+          Various design imperatives apply to the theme system,
+          but probably the key ones are:
+        </p>
+        <list>
+          <item>
+            It should allow designers and other non-technical users
+            to easily develop new and interesting GUI styles likely
+            to attract new users to GNUstep.
+          </item>
+          <item>
+            Using and switching between themes should be an easy
+            and pleasant experience... so that people are not put
+            off when they try using themes.
+          </item>
+          <item>
+            It should eventually permit a GNUstep application to
+            appear as a native application on ms-windows and
+            other systems.
+          </item>
+        </list>
+        <p>
+          To attain these aims implies the recognition of some more
+          specific objectives and some possible technical
+          solutions:
+        </p>
+        <list>
+          <item>
+            We must have as simple as possible an API for the
+            functions handling the way GUI elements work and
+            the way they draw themselves. <br /> The standard
+            OpenStep/MacOS-X API provides mechanisms
+            for controlling the colors used to draw controls (via
+            <ref type="class" id="NSColor">NSColor</ref>
+              and
+              <ref type="class" id="NSColorList">NSColorList</ref>
+                ) and controlling the way controls behave
+                (NSInterfaceStyleForKey() and
+                <ref type="method" id="-interfaceStyle" class="NSResponder">[NSResponder -interfaceStyle]</ref>), but we need to extend that with methods to draw controls entirely differently if required.
+              </item>
+              <item>
+                We must have a GUI application for theme
+                development. It is not sufficient to
+                provide an API if we want good graphic
+                designers and user interface specialists to
+                develop themes for us.
+              </item>
+              <item>
+                It must be possible for an application to
+                dynamically change the theme in use while
+                it is running and it should be easy for a user to
+                select between available themes. <br /> This
+                implies that themes must be loadable bundles
+                and that it must always be possible to unload a
+                theme as well as loading one. <br /> It suggests
+                that the theme selection mechanism should be in
+                every application, perhaps as an extension to an
+                existing panel such as the info panel.
+              </item>
+            </list>
+            <section>
+              <heading>Types of theming</heading>
+              <p>
+                There are various aspects of theming which can be
+                treated pretty much separately, so there is no
+                reason why a theme might not be created which
+                just employs one of these mechanisms.
+              </p>
+              <deflist>
+                <term>System images</term>
+                <desc>
+                  Possibly the simples theme change... a theme
+                  might supply a new set of system images used
+                  for arrows and other icons that the GUI decorates
+                  controls with.
+                </desc>
+                <term>System colors</term>
+                <desc>
+                  A theme might simply define a new system color
+                  list, so that controls are drawn in a new color
+                  range, though they would still function the
+                  same way. Even specifying new colors can make
+                  the GUI look quite different though. <br />
+                  Beyond system colors, the theming API also
+                  provides a mechanism for specifying colors
+                  for particular parts of GUI controls.
+                </desc>
+                <term>Image tiling</term>
+                <desc>
+                  Controls might be given sets of images used
+                  as tiling to draw themselves rather than using the
+                  standard line drawing and color fill
+                  mechanisms.
+                </desc>
+                <term>Interface style</term>
+                <desc>
+                  A theme might supply a set of interface style keys
+                  for various controls, defining how those controls
+                  should behave subject to the limitation of the
+                  range of behaviors coded into the GUI library.
+                </desc>
+                <term>Method override</term>
+                <desc>
+                  A theme might actually provide code, in the form of
+                  a subclass of
+                  <ref type="class" id="GSTheme">GSTheme</ref>
+                    such that drawing methods have completely
+                    custom behavior.
+                  </desc>
+                </deflist>
+              </section>
+              <section>
+                <heading>Subclassing GSTheme</heading>
+                <p>
+                  While many themes can be created without
+                  subclassing GSTheme, there are some cases
+                  where writing code is necessary (most notably
+                  when interfacing to a native theming engine for
+                  some platform in order to make a GNUstep app
+                  have a native look). <br /> In these cases the
+                  subclass should follow certain rules in
+                  order to operate cleanly and efficiently:
+                </p>
+                <deflist>
+                  <term>Stability</term>
+                  <desc>
+                    Theme operation should remain consistent
+                    while it is in use, particularly in the
+                    provision of resources such as images and
+                    colors. <br /> If a theme needs to change a
+                    resource (such as an image) then it should
+                    do so by calling
+                    <ref type="method" id="-deactivate">
+                      -deactivate
+                    </ref>
+                    , making the change, and then calling
+                    <ref type="method" id="-activate">
+                      -activate
+                    </ref>
+                    . This sequence ensures that the GUI library is
+                    made aware of any changes and can redraw the
+                    screen. <br /> The deactivation/activation
+                    sequence is expensive, so the subclass
+                    should attempt to combine multiple resource
+                    updates into a group rather than performing
+                    the deactivation/activation for each resource
+                    individually.
+                  </desc>
+                  <term>Activation</term>
+                  <desc>
+                    The standard
+                    <ref type="method" id="-activate">
+                      -activate
+                    </ref>
+                    method replaces existing system images,
+                    colors, interface style settings and other
+                    user defaults settings with versions stored in
+                    the theme bundle. <br /> If a subclass wishes
+                    to dynamically provide these resources rather
+                    than supplying them as static information in
+                    the bundle, it may update the in-memory
+                    information after the normal operation
+                    has taken place. This should be done by the
+                    theme registering itsself as an observer of
+                    GSThemeWillActivateNotification
+                    and adding the resources just before the theme
+                    becomes active. <br /> Cleanup may be done
+                    in response to a
+                    GSThemeWillDeactivateNotification
+                    (called before the default cleanup) or a
+                    GSThemeDidDeactivateNotification
+                    (called after the default cleanup).
+                  </desc>
+                  <term>Versioning</term>
+                  <desc>
+                    With a theme which contains only static
+                    resources, versioning is not much of an
+                    issue, but with a code-based theme (ie where
+                    you subclass GSTheme) versioning does become
+                    very important. This is because, while you can
+                    load code from a bundle, you can't unload it
+                    again... so if you have two versions of a
+                    theme where the subclass has the same name,
+                    then you have a conflict and can't load both
+                    and swap between the two. <br /> Thematic.app
+                    solves this problem my incorporating a
+                    version number into the name of the GSTheme
+                    subclasses it creates, but that's not
+                    the only consideration... <br /> You must also
+                    ensure that either you do not define any
+                    other classes in your theme or that, if you
+                    do define them you make sure that each of them
+                    incorporates the theme version number.
+                    <br /> A similar consideration would apply
+                    to any categories, however category conflicts
+                    are far more difficult to resolve since even
+                    with different version names of the
+                    categories, the categories all effect
+                    the same class/methods. In fact this issue is
+                    so tricky to deal with that you should simply
+                    not use categories within your theme code.
+                    <br /> To work around this limitation, the
+                    GSTheme class supports overriding of the
+                    methods of any other class while the theme
+                    is active. See the
+                    <ref type="method" id="-overriddenMethod:for:">
+                      -overriddenMethod:for:
+                    </ref>
+                    method for more information.
+                  </desc>
+                  <term>Image override</term>
+                  <desc>
+                    System images (those returned by the
+                    <ref type="method" id="+imageNamed:" class="NSImage">[NSImage +imageNamed:]</ref> method) are handled by the default theming mechanism, for each system image supplied in the theme bundle, the image is loaded from the bundle and used while the theme is active. Any pre-existing in-memory image is saved on theme activation and restored on theme deactivation. <br /> A theme subclass may override the <ref type="method" id="-imageClass">-imageClass</ref> method to change the class used to load each image from the bundle... thus allowing customisation of not just the images but also of the image behavior in the (very rare) cases where this is desirable. <br /> Finally, a theme may provide application specific images which are loaded <em>in preference to</em> named images from the application's own bundle. These images are simply stored in a subdirectory whose name is the same as the application's bundleIdentifier.
+                  </desc>
+                </deflist>
+              </section>
+            </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSPageLayout class
+      </heading>
+      <class name="GSPageLayout" super="NSPageLayout" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>GNUstepGUI/GSTheme.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSPrintPanel class
+      </heading>
+      <class name="GSPrintPanel" super="NSPrintPanel" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>GNUstepGUI/GSTheme.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSTheme class
+      </heading>
+      <class name="GSTheme" super="NSObject" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>GNUstepGUI/GSTheme.h</declared>
+        <desc>
+          <p>
+            <em>
+              This interface is <strong>HIGHLY</strong> unstable
+              and incomplete at present.
+            </em>
+          </p>
+          <p>
+            This is a class used for 'theming', which is mostly a
+            matter of encapsulating common drawing behaviors so
+            that GUI appearance can be easily modified, but also
+            includes mechanisms for altering some GUI behavior
+            (such as orientation and position of menus).
+          </p>
+          <p>
+            Methods in this class standardize drawing of
+            buttons, borders and other common GUI elements, so
+            that all other classes within the GUI will provide a
+            consistent appearance by using these methods.
+          </p>
+          <p>
+            The default implementation uses the standard
+            configurable colors defined in NSColor, such
+            as <code>controlLightHighlightColor</code>,
+            <code>controlShadowColor</code> and
+            <code>controlDarkShadowColor</code>. <br /> Themes
+            are expected to override the default system color list
+            with their own versions, and this class cooperates
+            with
+            <ref type="class" id="NSColor">NSColor</ref>
+              and
+              <ref type="class" id="NSColorList">NSColorList</ref>
+                to establish the correct system color list when a
+                theme is activated.
+              </p>
+              <p>
+                The class provides a mechanism for automatic
+                loading of theme bundles consisting of
+                resources used to define how drawing is done,
+                plus an optional binary subclass of this class (to
+                replace/extend the drawing methods this
+                class provides).
+              </p>
+              <p>
+                In future this class should provide mechanisms to
+                draw controls by tiling of images, and provide
+                control over GUI behavior by controlling the
+                values returned by
+                <ref type="function" id="NSInterfaceStyleForKey">
+                  NSInterfaceStyleForKey()
+                </ref>
+                so that controls use the appropriate behavior.
+              </p>
+        </desc>
+        <method type="GSTheme*" factory="yes" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>loadThemeNamed:</sel>
+          <arg type="NSString*">themeName</arg>
+          <desc>
+            Loads a theme from a theme bundle of the specified
+            name, which may be either a full path name of the
+            theme bundle, or a simple theme name (in which case
+            the standard directories are searched for it) or
+            <code>nil</code> (in which case the default GNUstep
+            theme is returned). <br /> Returns the loaded theme
+            but does not make it the current theme, to do that you
+            will need to call the
+            <ref type="method" id="+setTheme:">
+              +setTheme:
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>orderFrontSharedThemePanel:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Creates and displays a panel allowing selection of
+            different themes and display of the current theme
+            inspector.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>setTheme:</sel>
+          <arg type="GSTheme*">theme</arg>
+          <desc>
+            Set the currently active <var>theme</var> to be the
+            instance specified. <br /> You do not normally
+            need to call this method as it is called automatically
+            when the user default which specifies the current
+            <var>theme</var> (GSTheme) is updated.
+          </desc>
+        </method>
+        <method type="GSTheme*" factory="yes" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>theme</sel>
+          <desc>
+            Returns the currently active theme instance. This
+            is the value most recently set using
+            <ref type="method" id="+setTheme:">
+              +setTheme:
+            </ref>
+            or (if none has been set) is a default instance of the
+            base class.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>activate</sel>
+          <desc>
+            <p>
+              This method is called automatically when the
+              receiver is made into the currently active theme
+              by the
+              <ref type="method" id="+setTheme:">
+                +setTheme:
+              </ref>
+              method. Subclasses may override it to perform
+              startup operations, however, the method is not
+              really intended to be overridden, and subclasses
+              should generally handle activation work in
+              response to the GSThemeWillActivatenotification
+              posted by this method.
+            </p>
+            <p>
+              The base implementation handles setup and caching of
+              the system color list, standard image information,
+              tiling information, and user defaults. <br /> It
+              then sends a GSThemeWillActivateNotification to
+              allow subclasses to perform further activation
+              work, and a GSThemeDidActivateNotification to allow
+              other parts of the GUI library to update themselves
+              from the new theme.
+            </p>
+            <p>
+              Finally, this method marks all windows in the
+              application as needing update... so they will
+              draw themselves with the new theme information.
+            </p>
+            <p>
+              NB. If a GSTheme subclass is integrating to an
+              external native theming mechanism in order to
+              make GNUstep apps look like native apps, then the
+              external theme may change dynamically and the
+              GSTheme subclass may need to change the GNUstep
+              application to reflect this change. When this
+              happens, the update should be handled by the
+              subclass calling
+              <ref type="method" id="-deactivate">
+                -deactivate
+              </ref>
+              and then
+              <ref type="method" id="-activate">
+                -activate
+              </ref>
+              to make the changes 'live'.
+            </p>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>authors</sel>
+          <desc>
+            Returns the names of the theme's authors.
+          </desc>
+        </method>
+        <method type="NSBundle*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>bundle</sel>
+          <desc>
+            Return the bundle containing the resources used by
+            the current theme.
+          </desc>
+        </method>
+        <method type="Class" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>colorClass</sel>
+          <desc>
+            Returns the class used by the theme for loading
+            color lists. The default implementation returns the
+            NSColorList class, but a subclass may override
+            this to return a color list class whose values change
+            dynamically in response to changes of a native
+            theming API for instance. <br /> The class returned
+            by this method should be NSColorList or one of its
+            subclasses. Subclasses should note that GSTheme
+            will initialise the instances of the class using the
+            <ref type="method" id="-initWithName:fromFile:" class="NSColerList">[NSColerList -initWithName:fromFile:]</ref> method.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>colorFlush:</sel>
+          <arg type="NSString*">aName</arg>
+          <sel>state:</sel>
+          <arg type="GSThemeControlState">elementState</arg>
+          <desc>
+            Removes the name from the color cache forcing it to
+            be re-created next time the named color is required.
+            <br /> Passing <code>nil</code> for <var>aName</var>
+            removes all named colors. <br /> Passing a negative
+            value for <var>elementState</var> applies to all
+            caches.
+          </desc>
+        </method>
+        <method type="NSColor*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>colorNamed:</sel>
+          <arg type="NSString*">aName</arg>
+          <sel>state:</sel>
+          <arg type="GSThemeControlState">elementState</arg>
+          <desc>
+            This returns the color for drawing the item whose name
+            is <var>aName</var> in the specified state. If
+            <var>aName</var> is <code>nil</code> or if there is
+            no color defined for the particular combination of item
+            name and state, the method returns <code>nil</code>.
+            <br /> The standard names used for the parts of
+            various controls are declared in GSTheme.h <br />
+            See also the
+            <ref type="method" id="-tilesNamed:state:">
+              -tilesNamed:state:
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="NSColorList*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>colors</sel>
+          <desc>
+            Returns the system color list defined by the
+            receiver. <br /> The default implementation
+            returns the color list provided in the theme bundle
+            (if any) or the default system color list.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>deactivate</sel>
+          <desc>
+            <p>
+              This method is called automatically when the
+              receiver is stopped from being the currently
+              active theme by the use of the
+              <ref type="method" id="+setTheme:">
+                +setTheme:
+              </ref>
+              method to make another theme active. Subclasses
+              may override it to perform shutdown operations, but
+              it is preferred for subclasses to perform their own
+              deactivation in response to a
+              GSThemeWillDeactivateNotification.
+            </p>
+            <p>
+              The base implementation sends a
+              GSThemeWillDeactivateNotification
+              to allow subclasses to perform cleanup, then restores
+              image, color and default information to the state
+              before the theme was activates, and finally sends
+              a GSThemeDidDeactivateNotification to allow other parts
+              of the GUI library to update themselves.
+            </p>
+            <p>
+              NB. If a GSTheme subclass is integrating to an
+              external native theming mechanism in order to
+              make GNUstep apps look like native apps, then the
+              external theme may change dynamically and the
+              GSTheme subclass may need to change the GNUstep
+              application to reflect this change. When this
+              happens, the update should be handled by the
+              subclass calling
+              <ref type="method" id="-deactivate">
+                -deactivate
+              </ref>
+              and then
+              <ref type="method" id="-activate">
+                -activate
+              </ref>
+              to make the changes 'live'.
+            </p>
+          </desc>
+        </method>
+        <method type="NSImage*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>icon</sel>
+          <desc>
+            Returns the theme's icon.
+          </desc>
+        </method>
+        <method type="Class" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>imageClass</sel>
+          <desc>
+            Returns the class used by the theme for loading
+            images. The default implementation returns the
+            NSImage class, but a subclass may override this to
+            return an image class whose instances dynamically
+            alter what they draw in response to changes of a
+            native theming API for instance. <br /> This method
+            must return the NSImage class or one of its
+            subclasses. Subclass implementations should
+            note that instances will be initialised using the
+            <ref type="method" id="-initWithContentsOfFile:" class="NSImage">[NSImage -initWithContentsOfFile:]</ref> method and will use the <ref type="method" id="-imageFileTypes" class="NSImage">[NSImage -imageFileTypes]</ref> method to determine which image files can be loaded.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>infoDictionary</sel>
+          <desc>
+            <p>
+              Returns the info dictionary for this theme. In
+              the base class implementation this is simply the info
+              dictionary of the theme bundle, but subclasses
+              may override this method to return extra or different
+              information.
+            </p>
+            <p>
+              Keys found in this dictionary include:
+            </p>
+            <deflist>
+              <term>GSThemeDomain</term>
+              <desc>
+                A dictionary whose key/value pairs are used to set up
+                new values in the GSThemeDomain domain of the user
+                defaults system, and hence define values for
+                these unless overridden by values set explicitly
+                by the user.
+              </desc>
+              <term>GSThemeTiles</term>
+              <desc>
+                A dictionary keyed on tile names and containing the
+                following:
+                <deflist>
+                  <term>FileName</term>
+                  <desc>
+                    Name of the file (within the GSThemeTiles
+                    directory in the bundle) in which the
+                    image for this tile is stored.
+                  </desc>
+                  <term>HorizontalDivision</term>
+                  <desc>
+                    The offset along the X-axis used to divide the
+                    image into columns of tiles.
+                  </desc>
+                  <term>VerticalDivision</term>
+                  <desc>
+                    The offer along the Y-axis used to divide the
+                    image into rows of tiles.
+                  </desc>
+                </deflist>
+              </desc>
+            </deflist>
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>initWithBundle:</sel>
+          <arg type="NSBundle*">bundle</arg>
+          <desc>
+            Initialise an instance of a theme with the
+            specified resource <var>bundle</var>. <br /> You
+            don't need to call this method directly, but if you
+            are subclassing you may need to override this to
+            provide additional initialisation.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>license</sel>
+          <desc>
+            Return the theme's license.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>name</sel>
+          <desc>
+            Return the theme's name.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>nameForElement:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Returns the name used to locate theming resources
+            for a particular GUI element. If no name has been set
+            for the particular object this method returns
+            <code>nil</code>.
+          </desc>
+        </method>
+        <method type="IMP" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>overriddenMethod:</sel>
+          <arg type="SEL">selector</arg>
+          <sel>for:</sel>
+          <arg type="id">receiver</arg>
+          <desc>
+            <p>
+              Returns the original implementation of a method
+              overridden by this theme, or zero if the
+              method was not overridden.
+            </p>
+            <p>
+              A theme may override a method of another class by
+              implementing a method whose name is
+              '_overrideXXXMethod_YYY' where
+              'XXX' is the name of the class whose method is to
+              be overridden, and 'YYY' is the normal name of the
+              method in that class. <br /> eg.
+              _overrideNSScrollerMethod_drawRect:
+            </p>
+            <p>
+              NB. The overriding method may not access instance
+              variable directly and must cast all uses of
+              'self' to be the correct class.
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>setName:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            Set the name of this theme... used for testing by
+            Thematic.app
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>setName:</sel>
+          <arg type="NSString*">aString</arg>
+          <sel>forElement:</sel>
+          <arg type="id">anObject</arg>
+          <sel>temporary:</sel>
+          <arg type="BOOL">takeOwnership</arg>
+          <desc>
+            Set the name that is used to identify theming resources
+            for a particular control or other GUI element. This is
+            used so that where an element is part of a control it
+            can be displayed differently from the same class of
+            element used outside that control. <br /> Supplying
+            a <code>nil</code> value for <var>aString</var> simply
+            removes any name setting for <var>anObject</var>.
+            <br /> Supplying <code>nil</code> for
+            <var>anObject</var> is illegal (raises an exception)
+            unless the value of <var>aString</var> is also
+            <code>nil</code> (and the method does nothing).
+            <br /> Any control which uses this method to set
+            names for subsidiary elements must also make sure to
+            remove the name mapping before that element is
+            deallocated, unless the
+            <var>takeOwnership</var> option is <code>YES</code>,
+            in which case <var>anObject</var> is retained, the name
+            mapping lasts only until the receiver is
+            deactivated, and at that point
+            <var>anObject</var> is released.
+          </desc>
+        </method>
+        <method type="NSWindow*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>themeInspector</sel>
+          <desc>
+            <p>
+              Provides a standard inspector window used to
+              display information about the receiver. The
+              default implementation displays the icon, the
+              name, and the authors of the theme.
+            </p>
+            <p>
+              The code managing this object (if any) must be
+              prepared to have the content view of the window
+              re-parented into another window for display
+              on screen.
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>tilesFlush:</sel>
+          <arg type="NSString*">aName</arg>
+          <sel>state:</sel>
+          <arg type="GSThemeControlState">elementState</arg>
+          <desc>
+            Removes the name tile images from cache, forcing
+            re-creation next time the named tiles are
+            required. <br /> Passing <code>nil</code> for
+            <var>aName</var> removes all named tiles. <br />
+            Passing a negative value for
+            <var>elementState</var> applies to all caches.
+          </desc>
+        </method>
+        <method type="GSDrawTiles*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>tilesNamed:</sel>
+          <arg type="NSString*">aName</arg>
+          <sel>state:</sel>
+          <arg type="GSThemeControlState">elementState</arg>
+          <desc>
+            Returns the tile image information for a particular
+            image name, or <code>nil</code> if there is no such
+            information or the name is <code>nil</code>.
+            <br /> The standard names used for the parts of
+            various controls are declared in GSTheme.h <br />
+            The GUI library uses this internally to handling tiling
+            of image information to draw user interface elements.
+            The tile information returned by this method can be
+            passed to the
+            <ref type="method" id="-fillRect:withTiles:background:fillStyle:">-fillRect:withTiles:background:fillStyle:</ref> method. <br /> The <var>elementState</var> argument specifies the state for which tiles are requested. See the <ref type="method" id="-colorNamed:state:">-colorNamed:state:</ref> method for determining colors to be used for drawing specific GUI elements.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>versionString</sel>
+          <desc>
+            Return the theme's version string.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSTheme(Drawing)
+        category
+      </heading>
+      <category name="Drawing" class="GSTheme" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>GNUstepGUI/GSTheme.h</declared>
+        <desc>
+          Theme drawing methods. <br /> Methods which return
+          information/resources are generally
+          expected (ie unless explicitly documented otherwise)
+          to be returning something which persists until the method
+          is called again or until the current theme is deactivated
+          (whichever comes first). <br /> This means that
+          drawing code should <strong>not</strong> need to
+          retain/release any returned object (the theme
+          is responsible for retaining the object), and should also
+          be able to cache size information etc for later drawing.
+          <br /> This simple rule means that drawing code can be
+          written to be as efficient as possible while keeping
+          caching strategies simple and uniform. <br /> To
+          facilitate this within the theme code itsself, it
+          is recommended that you make use of the
+          <ref type="method" id="-setName:forElement:temporary:">
+            -setName:forElement:temporary:
+          </ref>
+          method to retain any vended object until deactivation.
+        </desc>
+        <method type="NSColor*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>badgeBackgroundColor</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSColor*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>badgeDecorationColor</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSColor*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>badgeTextColor</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="CGFloat" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>browserColumnSeparation</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>browserHeaderDrawingRectForCell:</sel>
+          <arg type="NSTableHeaderCell*">cell</arg>
+          <sel>withFrame:</sel>
+          <arg type="NSRect">rect</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSColor*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>browserHeaderTextColor</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>browserUseBezels</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="CGFloat" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>browserVerticalPadding</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="GSThemeMargins" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>buttonMarginsForCell:</sel>
+          <arg type="NSCell*">cell</arg>
+          <sel>style:</sel>
+          <arg type="int">style</arg>
+          <sel>state:</sel>
+          <arg type="GSThemeControlState">state</arg>
+          <desc>
+            Amount by which the button is inset by the border.
+          </desc>
+        </method>
+        <method type="NSButtonCell*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>cellForScrollerArrow:</sel>
+          <arg type="NSScrollerArrow">part</arg>
+          <sel>horizontal:</sel>
+          <arg type="BOOL">horizontal</arg>
+          <desc>
+            Creates and returns the cell to be used to draw a
+            scroller arrow of the specified type and
+            orientation. <br /> The theme instance is
+            responsible for ensuring that the cell
+            continues to exist until the theme is deactivated
+            (the default implementation does this by naming the
+            cell using the
+            <ref type="method" id="-setName:forElement:temporary:">
+              -setName:forElement:temporary:
+            </ref>
+            method, which also provides a name for the cell
+            color and image).
+          </desc>
+        </method>
+        <method type="NSCell*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>cellForScrollerKnob:</sel>
+          <arg type="BOOL">horizontal</arg>
+          <desc>
+            Creates and returns the cell to be used to draw a
+            scroller knob of the specified orientation. <br />
+            The theme instance is responsible for ensuring that the
+            cell continues to exist until the theme is deactivated
+            (the default implementation does this by naming the
+            cell using the
+            <ref type="method" id="-setName:forElement:temporary:">
+              -setName:forElement:temporary:
+            </ref>
+            method).
+          </desc>
+        </method>
+        <method type="NSCell*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>cellForScrollerKnobSlot:</sel>
+          <arg type="BOOL">horizontal</arg>
+          <desc>
+            Creates and returns the cell to be used to draw a
+            scroller slot of the specified orientation. <br />
+            The theme instance is responsible for ensuring that the
+            cell continues to exist until the theme is deactivated
+            (the default implementation does this by naming the
+            cell using the
+            <ref type="method" id="-setName:forElement:temporary:">
+              -setName:forElement:temporary:
+            </ref>
+            method).
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>closeButtonFrameForBounds:</sel>
+          <arg type="NSRect">bounds</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="float" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>defaultScrollerWidth</sel>
+          <desc>
+            Returns the width which should be allowed for a
+            scroller within the current theme. Drawing code is
+            entitled to assume that this value will remain
+            constant until the theme is deactivated.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawBackgroundForMenuView:</sel>
+          <arg type="NSMenuView*">menuView</arg>
+          <sel>withFrame:</sel>
+          <arg type="NSRect">bounds</arg>
+          <sel>dirtyRect:</sel>
+          <arg type="NSRect">dirtyRect</arg>
+          <sel>horizontal:</sel>
+          <arg type="BOOL">horizontal</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawBarInside:</sel>
+          <arg type="NSRect">rect</arg>
+          <sel>inCell:</sel>
+          <arg type="NSCell*">cell</arg>
+          <sel>flipped:</sel>
+          <arg type="BOOL">flipped</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawBorderAndBackgroundForMenuItemCell:</sel>
+          <arg type="NSMenuItemCell*">cell</arg>
+          <sel>withFrame:</sel>
+          <arg type="NSRect">cellFrame</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">controlView</arg>
+          <sel>state:</sel>
+          <arg type="GSThemeControlState">state</arg>
+          <sel>isHorizontal:</sel>
+          <arg type="BOOL">isHorizontal</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawBorderForImageFrameStyle:</sel>
+          <arg type="NSImageFrameStyle">frameStyle</arg>
+          <sel>frame:</sel>
+          <arg type="NSRect">frame</arg>
+          <sel>view:</sel>
+          <arg type="NSView*">view</arg>
+          <desc>
+            Draw a border of the specified <var>frame</var> style.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawBorderType:</sel>
+          <arg type="NSBorderType">aType</arg>
+          <sel>frame:</sel>
+          <arg type="NSRect">frame</arg>
+          <sel>view:</sel>
+          <arg type="NSView*">view</arg>
+          <desc>
+            Draw a border of the specified border type.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawBoxInClipRect:</sel>
+          <arg type="NSRect">clipRect</arg>
+          <sel>boxType:</sel>
+          <arg type="NSBoxType">boxType</arg>
+          <sel>borderType:</sel>
+          <arg type="NSBorderType">borderType</arg>
+          <sel>inView:</sel>
+          <arg type="NSBox*">box</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawBrowserHeaderCell:</sel>
+          <arg type="NSTableHeaderCell*">cell</arg>
+          <sel>withFrame:</sel>
+          <arg type="NSRect">rect</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">view</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawBrowserRect:</sel>
+          <arg type="NSRect">rect</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">view</arg>
+          <sel>withScrollerRect:</sel>
+          <arg type="NSRect">scrollerRect</arg>
+          <sel>columnSize:</sel>
+          <arg type="NSSize">columnSize</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawButton:</sel>
+          <arg type="NSRect">frame</arg>
+          <sel>in:</sel>
+          <arg type="NSCell*">cell</arg>
+          <sel>view:</sel>
+          <arg type="NSView*">view</arg>
+          <sel>style:</sel>
+          <arg type="int">style</arg>
+          <sel>state:</sel>
+          <arg type="GSThemeControlState">state</arg>
+          <desc>
+            Draws a button <var>frame</var> and background (not
+            its content) for the specified <var>cell</var> and
+            <var>view</var>.
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawColorWellBorder:</sel>
+          <arg type="NSColorWell*">well</arg>
+          <sel>withBounds:</sel>
+          <arg type="NSRect">bounds</arg>
+          <sel>withClip:</sel>
+          <arg type="NSRect">clipRect</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawFocusFrame:</sel>
+          <arg type="NSRect">frame</arg>
+          <sel>view:</sel>
+          <arg type="NSView*">view</arg>
+          <desc>
+            Draws the indicator (normally a dotted rectangle) to
+            show that the <var>view</var> currently has keyboard
+            focus.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawKnobInCell:</sel>
+          <arg type="NSCell*">cell</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawMenuRect:</sel>
+          <arg type="NSRect">rect</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">view</arg>
+          <sel>isHorizontal:</sel>
+          <arg type="BOOL">horizontal</arg>
+          <sel>itemCells:</sel>
+          <arg type="NSArray*">itemCells</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawMenuTitleBackground:</sel>
+          <arg type="GSTitleView*">aTitleView</arg>
+          <sel>withBounds:</sel>
+          <arg type="NSRect">bounds</arg>
+          <sel>withClip:</sel>
+          <arg type="NSRect">clipRect</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawPathComponentCellWithFrame:</sel>
+          <arg type="NSRect">f</arg>
+          <sel>inView:</sel>
+          <arg type="NSPathControl*">pc</arg>
+          <sel>withCell:</sel>
+          <arg type="NSPathComponentCell*">cell</arg>
+          <sel>isLastComponent:</sel>
+          <arg type="BOOL">last</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawPopUpButtonCellInteriorWithFrame:</sel>
+          <arg type="NSRect">cellFrame</arg>
+          <sel>withCell:</sel>
+          <arg type="NSCell*">cell</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">controlView</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawProgressIndicator:</sel>
+          <arg type="NSProgressIndicator*">progress</arg>
+          <sel>withBounds:</sel>
+          <arg type="NSRect">bounds</arg>
+          <sel>withClip:</sel>
+          <arg type="NSRect">rect</arg>
+          <sel>atCount:</sel>
+          <arg type="int">count</arg>
+          <sel>forValue:</sel>
+          <arg type="double">val</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawProgressIndicatorBarDeterminate:</sel>
+          <arg type="NSRect">bounds</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawProgressIndicatorBezel:</sel>
+          <arg type="NSRect">bounds</arg>
+          <sel>withClip:</sel>
+          <arg type="NSRect">rect</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawScrollViewRect:</sel>
+          <arg type="NSRect">rect</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">view</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawScrollerRect:</sel>
+          <arg type="NSRect">rect</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">view</arg>
+          <sel>hitPart:</sel>
+          <arg type="NSScrollerPart">hitPart</arg>
+          <sel>isHorizontal:</sel>
+          <arg type="BOOL">isHorizontal</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawSegmentedControlSegment:</sel>
+          <arg type="NSCell*">cell</arg>
+          <sel>withFrame:</sel>
+          <arg type="NSRect">cellFrame</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">controlView</arg>
+          <sel>style:</sel>
+          <arg type="NSSegmentStyle">style</arg>
+          <sel>state:</sel>
+          <arg type="GSThemeControlState">state</arg>
+          <sel>roundedLeft:</sel>
+          <arg type="BOOL">roundedLeft</arg>
+          <sel>roundedRight:</sel>
+          <arg type="BOOL">roundedRight</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawSeparatorItemForMenuItemCell:</sel>
+          <arg type="NSMenuItemCell*">cell</arg>
+          <sel>withFrame:</sel>
+          <arg type="NSRect">cellFrame</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">controlView</arg>
+          <sel>isHorizontal:</sel>
+          <arg type="BOOL">isHorizontal</arg>
+          <desc>
+            <p>
+              Draws a separator between normal menu items in a
+              menu.
+            </p>
+            <p>
+              Each separator corresponds to a menu item that
+              returns <code>YES</code> to
+              <ref type="method" id="-isSeparatorItem">
+                -isSeparatorItem
+              </ref>
+            </p>
+            <p>
+              You can provide an image tile named
+              <em>GSMenuSeparatorItem</em> to draw the separator.
+              <br /> Can be overridden in subclasses to
+              customize the drawing.
+            </p>
+            <p>
+              See also
+              <ref type="method" id="-menuSeparatorColor">
+                -menuSeparatorColor
+              </ref>
+              and
+              <ref type="method" id="-menuSeparatorInset">
+                -menuSeparatorInset
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawSliderBorderAndBackground:</sel>
+          <arg type="NSBorderType">aType</arg>
+          <sel>frame:</sel>
+          <arg type="NSRect">cellFrame</arg>
+          <sel>inCell:</sel>
+          <arg type="NSCell*">cell</arg>
+          <sel>isHorizontal:</sel>
+          <arg type="BOOL">horizontal</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawStepperBorder:</sel>
+          <arg type="NSRect">frame</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawStepperCell:</sel>
+          <arg type="NSCell*">cell</arg>
+          <sel>withFrame:</sel>
+          <arg type="NSRect">cellFrame</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">controlView</arg>
+          <sel>highlightUp:</sel>
+          <arg type="BOOL">highlightUp</arg>
+          <sel>highlightDown:</sel>
+          <arg type="BOOL">highlightDown</arg>
+          <desc>
+            Draw a stepper <var>cell</var>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawStepperDownButton:</sel>
+          <arg type="NSRect">aRect</arg>
+          <desc>
+            Draw down button for stepper
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawStepperHighlightDownButton:</sel>
+          <arg type="NSRect">aRect</arg>
+          <desc>
+            Draw highlighted stepper down button
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawStepperHighlightUpButton:</sel>
+          <arg type="NSRect">aRect</arg>
+          <desc>
+            Draw highlighted up stepper button.
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawStepperLightButton:</sel>
+          <arg type="NSRect">border</arg>
+          <sel>:</sel>
+          <arg type="NSRect">clip</arg>
+          <desc>
+            Draw light colored stepper using the <var>border</var>
+            and <var>clip</var> rects
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawStepperUpButton:</sel>
+          <arg type="NSRect">aRect</arg>
+          <desc>
+            Draw normal stepper up button.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawSwitchBezel:</sel>
+          <arg type="NSRect">frame</arg>
+          <sel>forState:</sel>
+          <arg type="NSControlStateValue">v</arg>
+          <sel>enabled:</sel>
+          <arg type="BOOL">enabled</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawSwitchInRect:</sel>
+          <arg type="NSRect">rect</arg>
+          <sel>forState:</sel>
+          <arg type="NSControlStateValue">state</arg>
+          <sel>enabled:</sel>
+          <arg type="BOOL">enabled</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawSwitchKnob:</sel>
+          <arg type="NSRect">frame</arg>
+          <sel>forState:</sel>
+          <arg type="NSControlStateValue">value</arg>
+          <sel>enabled:</sel>
+          <arg type="BOOL">enabled</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawTabViewRect:</sel>
+          <arg type="NSRect">rect</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">view</arg>
+          <sel>withItems:</sel>
+          <arg type="NSArray*">items</arg>
+          <sel>selectedItem:</sel>
+          <arg type="NSTabViewItem*">item</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawTableCornerView:</sel>
+          <arg type="NSView*">cornerView</arg>
+          <sel>withClip:</sel>
+          <arg type="NSRect">aRect</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawTableHeaderCell:</sel>
+          <arg type="NSTableHeaderCell*">cell</arg>
+          <sel>withFrame:</sel>
+          <arg type="NSRect">cellFrame</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">controlView</arg>
+          <sel>state:</sel>
+          <arg type="GSThemeControlState">state</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawTableHeaderRect:</sel>
+          <arg type="NSRect">aRect</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">view</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawTableViewBackgroundInClipRect:</sel>
+          <arg type="NSRect">clipRect</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">view</arg>
+          <sel>withBackgroundColor:</sel>
+          <arg type="NSColor*">backgroundColor</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawTableViewGridInClipRect:</sel>
+          <arg type="NSRect">aRect</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">view</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawTableViewRect:</sel>
+          <arg type="NSRect">aRect</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">view</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawTableViewRow:</sel>
+          <arg type="NSInteger">rowIndex</arg>
+          <sel>clipRect:</sel>
+          <arg type="NSRect">clipRect</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">view</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawTitleForMenuItemCell:</sel>
+          <arg type="NSMenuItemCell*">cell</arg>
+          <sel>withFrame:</sel>
+          <arg type="NSRect">cellFrame</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">controlView</arg>
+          <sel>state:</sel>
+          <arg type="GSThemeControlState">state</arg>
+          <sel>isHorizontal:</sel>
+          <arg type="BOOL">isHorizontal</arg>
+          <desc>
+            <p>
+              Draws the menu item title.
+            </p>
+            <p>
+              Can be overridden to customize the text font, size
+              and position. <br /> You can use
+              <code>[[<var>cell</var> menuItem] title]</code> to
+              get the title.
+            </p>
+            <p>
+              The title color is mapped to the theme
+              <var>state</var> as described below:
+            </p>
+            <deflist>
+              <term>GSThemeSelectedState</term>
+              <desc>
+                <ref type="method" id="+selectedMenuItemTextColor" class="NSColor">[NSColor +selectedMenuItemTextColor]</ref>
+              </desc>
+              <term>GSThemeDisabledState</term>
+              <desc>
+                <ref type="method" id="+controlTextColor" class="NSColor">[NSColor +controlTextColor]</ref> or <ref type="method" id="+disabledControlTextColor" class="NSColor">[NSColor +disabledControlTextColor]</ref>
+              </desc>
+            </deflist>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawToolbarRect:</sel>
+          <arg type="NSRect">aRect</arg>
+          <sel>frame:</sel>
+          <arg type="NSRect">viewFrame</arg>
+          <sel>borderMask:</sel>
+          <arg type="unsigned int">borderMask</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawWindowBackground:</sel>
+          <arg type="NSRect">frame</arg>
+          <sel>view:</sel>
+          <arg type="NSView*">view</arg>
+          <desc>
+            Draws the background of a window... normally a simple
+            fill with the the window's background color.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawWindowBorder:</sel>
+          <arg type="NSRect">rect</arg>
+          <sel>withFrame:</sel>
+          <arg type="NSRect">frame</arg>
+          <sel>forStyleMask:</sel>
+          <arg type="unsigned int">styleMask</arg>
+          <sel>state:</sel>
+          <arg type="int">inputState</arg>
+          <sel>andTitle:</sel>
+          <arg type="NSString*">title</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawsBorderForMenuItemCell:</sel>
+          <arg type="NSMenuItemCell*">cell</arg>
+          <sel>state:</sel>
+          <arg type="GSThemeControlState">state</arg>
+          <sel>isHorizontal:</sel>
+          <arg type="BOOL">horizontal</arg>
+          <desc>
+            <p>
+              Returns whether the menu item border should be
+              drawn or not.
+            </p>
+            <p>
+              By default, returns
+              <ref type="method" id="-isBordered" class="NSMenuItemCell">[NSMenuItemCell -isBordered]</ref> value. The value is <code>NO</code> when the menu is <var>horizontal</var>, <code>YES</code> when vertical.
+            </p>
+            <p>
+              The returned value used by
+              <ref type="method" id="-drawBorderAndBackgroundForMenuItemCell:withFrame:inView:state:isHorizontal:">-drawBorderAndBackgroundForMenuItemCell:withFrame:inView:state:isHorizontal:</ref>
+            </p>
+            <p>
+              Can be overridden in subclasses to return a custom
+              color, but generally should not. Instead themes
+              should provide default colors in the GSThemeDomain
+              (in their Info.plist).
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>highlightTableViewSelectionInClipRect:</sel>
+          <arg type="NSRect">clipRect</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">view</arg>
+          <sel>selectingColumns:</sel>
+          <arg type="BOOL">selectingColumns</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSColor*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>menuBackgroundColor</sel>
+          <desc>
+            <p>
+              Returns the color used to draw a menu view
+              background.
+            </p>
+            <p>
+              By default, looks up the color named
+              <em>menuBackgroundColor</em>, otherwise returns the
+              window background color.
+            </p>
+            <p>
+              The returned color is used by
+              <ref type="method" id="-drawBackgroundForMenuView:withFrame:dirtyRect:horizontal:">-drawBackgroundForMenuView:withFrame:dirtyRect:horizontal:</ref>
+            </p>
+            <p>
+              Can be overridden in subclasses to return a custom
+              color, but generally should not. Instead themes
+              should provide default colors in the GSThemeDomain
+              (in their Info.plist).
+            </p>
+          </desc>
+        </method>
+        <method type="NSColor*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>menuBarBackgroundColor</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSColor*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>menuBarBorderColor</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="CGFloat" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>menuBarHeight</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSColor*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>menuBorderColor</sel>
+          <desc>
+            <p>
+              Returns the color used to draw a menu view
+              border.
+            </p>
+            <p>
+              By default, looks up the color named
+              <em>menuBorderColor</em>, otherwise returns the dark
+              gray color.
+            </p>
+            <p>
+              The returned color is used by
+              <ref type="method" id="-drawBackgroundForMenuView:withFrame:dirtyRect:horizontal:">-drawBackgroundForMenuView:withFrame:dirtyRect:horizontal:</ref>
+            </p>
+            <p>
+              Can be overridden in subclasses to return a custom
+              color, but generally should not. Instead themes
+              should provide default colors in the GSThemeDomain
+              (in their Info.plist).
+            </p>
+          </desc>
+        </method>
+        <method type="NSColor*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>menuBorderColorForEdge:</sel>
+          <arg type="NSRectEdge">edge</arg>
+          <sel>isHorizontal:</sel>
+          <arg type="BOOL">horizontal</arg>
+          <desc>
+            <p>
+              Returns a color to draw each <var>edge</var> in a
+              menu view border.
+            </p>
+            <p>
+              By default, returns
+              <ref type="method" id="-menuBorderColor">
+                -menuBorderColor
+              </ref>
+              for the upper and left edges of a vertical menu, or
+              for the bottom <var>edge</var> of a
+              <var>horizontal</var> one.
+            </p>
+            <p>
+              The returned <var>edge</var> color is used by
+              <ref type="method" id="-drawBackgroundForMenuView:withFrame:dirtyRect:horizontal:">-drawBackgroundForMenuView:withFrame:dirtyRect:horizontal:</ref>
+            </p>
+            <p>
+              Can be overridden in subclasses to return a custom
+              color, but generally should not. Instead themes
+              should provide default colors in the GSThemeDomain
+              (in their Info.plist).
+            </p>
+          </desc>
+        </method>
+        <method type="NSColor*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>menuItemBackgroundColor</sel>
+          <desc>
+            <p>
+              Returns the color used to draw a menu item
+              background.
+            </p>
+            The menu item background is drawn atop the menu
+            background.
+            <p>
+              By default, looks up the color named
+              <em>menuItemBackgroundColor</em>, otherwise returns
+              the control background color. <br /> When selected or
+              highlighted, the background color is
+              provided by
+              <ref type="method" id="+selectedMenuItemColor" class="NSColor">[NSColor +selectedMenuItemColor]</ref>.
+            </p>
+            <p>
+              The returned value used by
+              <ref type="method" id="-drawBorderAndBackgroundForMenuItemCell:withFrame:inView:state:isHorizontal:">-drawBorderAndBackgroundForMenuItemCell:withFrame:inView:state:isHorizontal:</ref> and <ref type="method" id="-backgroundColor" class="NSMenuItemCell">[NSMenuItemCell -backgroundColor]</ref>.
+            </p>
+            <p>
+              Can be overridden in subclasses to return a custom
+              color, but generally should not. Instead themes
+              should provide default colors in the GSThemeDomain
+              (in their Info.plist).
+            </p>
+          </desc>
+        </method>
+        <method type="CGFloat" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>menuItemHeight</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSColor*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>menuSeparatorColor</sel>
+          <desc>
+            <p>
+              Returns the color used to draw a separator line
+              in a menu.
+            </p>
+            <p>
+              By default, looks up the color named
+              <em>menuSeparatorColor</em>, otherwise returns
+              <code>nil</code>.
+            </p>
+            <p>
+              The returned color is used by
+              <ref type="method" id="-drawSeparatorItemForMenuItemCell:withFrame:inView:isHorizontal:">-drawSeparatorItemForMenuItemCell:withFrame:inView:isHorizontal:</ref>
+            </p>
+            <p>
+              Can be overridden in subclasses to return a custom
+              color, but generally should not. Instead themes
+              should provide default colors in the GSThemeDomain
+              (in their Info.plist).
+            </p>
+          </desc>
+        </method>
+        <method type="CGFloat" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>menuSeparatorHeight</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="CGFloat" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>menuSeparatorInset</sel>
+          <desc>
+            <p>
+              Returns the left and right inset used to draw a
+              separator line in a menu.
+            </p>
+            <p>
+              By default, returns 3.0.
+            </p>
+            <p>
+              The returned color is used by
+              <ref type="method" id="-drawSeparatorItemForMenuItemCell:withFrame:inView:isHorizontal:">-drawSeparatorItemForMenuItemCell:withFrame:inView:isHorizontal:</ref>
+            </p>
+            <p>
+              Can be overridden in subclasses to return a custom
+              color, but generally should not. Instead themes
+              should provide default colors in the GSThemeDomain
+              (in their Info.plist).
+            </p>
+          </desc>
+        </method>
+        <method type="CGFloat" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>menuSubmenuHorizontalOverlap</sel>
+          <desc>
+            Amount that submenus overlap their parent menu by,
+            horizontally. (i.e. applies to vertical
+            menus) Controlled by GSMenuSubmenuHorizontalOverlap
+            default
+          </desc>
+        </method>
+        <method type="CGFloat" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>menuSubmenuVerticalOverlap</sel>
+          <desc>
+            Amount that submenus overlap the horizontal menu bar
+            by, vertically. Controlled by
+            GSMenuSubmenuVerticalOverlap
+            default
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>miniaturizeButtonFrameForBounds:</sel>
+          <arg type="NSRect">bounds</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="float" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>resizebarHeight</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="float" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>resizebarNotchWidth</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>scrollViewScrollersOverlapBorders</sel>
+          <desc>
+            If <code>YES</code>, instructs NSScrollView to make the
+            scrollers overlap the border. The scroll view
+            border is drawn using the NSScrollView part, which
+            must be provided by the theme if this method returns
+            <code>YES</code>. Controlled by user default
+            GSScrollViewScrollersOverlapBorders;
+            default <code>NO</code>;
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>scrollViewUseBottomCorner</sel>
+          <desc>
+            If <code>YES</code>, instructs NSScrollView to leave an
+            empty square space where the horizontal and vertical
+            scrollers meet. Controlled by user default
+            GSScrollViewUseBottomCorner;
+            default <code>YES</code>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>scrollerArrowsSameEndForScroller:</sel>
+          <arg type="NSScroller*">aScroller</arg>
+          <desc>
+            Return <code>YES</code> if the scroller arrows are
+            at the same end. Return <code>NO</code> to get one
+            scroller arrow at each end of the scroller. The
+            default implementation first checks the default
+            GSScrollerArrowsSameEnd and if that
+            is not set, delegates to the NSInterfaceStyle.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>scrollerScrollsByPageForScroller:</sel>
+          <arg type="NSScroller*">aScroller</arg>
+          <desc>
+            Returns <code>YES</code> if clicking in the
+            scroller slot should scroll by one page,
+            <code>NO</code> if the scroller should jump to the
+            location clicked. The default implementation first
+            checks the default GSScrollerScrollsByPage and if
+            that is not set, delegates to the NSInterfaceStyle.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>setFrameForCloseButton:</sel>
+          <arg type="NSButton*">closeButton</arg>
+          <sel>viewSize:</sel>
+          <arg type="NSSize">viewSize</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>setKeyEquivalent:</sel>
+          <arg type="NSString*">key</arg>
+          <sel>forButtonCell:</sel>
+          <arg type="NSButtonCell*">cell</arg>
+          <desc>
+            Allows the theme to set an image or set attributes
+            for drawing the button differently based on the
+            <var>key</var> equivalent which is set.
+          </desc>
+        </method>
+        <method type="NSSize" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>sizeForBorderType:</sel>
+          <arg type="NSBorderType">aType</arg>
+          <desc>
+            Determine the size for the specified border type.
+          </desc>
+        </method>
+        <method type="NSSize" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>sizeForImageFrameStyle:</sel>
+          <arg type="NSImageFrameStyle">frameStyle</arg>
+          <desc>
+            Determine the size for the specified frame style.
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>stepperDownButtonRectWithFrame:</sel>
+          <arg type="NSRect">frame</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>stepperUpButtonRectWithFrame:</sel>
+          <arg type="NSRect">frame</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>tabViewContentRectForBounds:</sel>
+          <arg type="NSRect">aRect</arg>
+          <sel>tabViewType:</sel>
+          <arg type="NSTabViewType">type</arg>
+          <sel>tabView:</sel>
+          <arg type="NSTabView*">view</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>tableHeaderCellDrawingRectForBounds:</sel>
+          <arg type="NSRect">theRect</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSColor*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>tableHeaderTextColorForState:</sel>
+          <arg type="GSThemeControlState">state</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="Class" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>titleViewClassForMenuView:</sel>
+          <arg type="NSMenuView*">aMenuView</arg>
+          <desc>
+            Returns the class used to create the title bar in
+            the given menu view. By default, returns GSTitleView.
+            <br /> A subclass can be returned to customize the
+            title view look and behavior.
+          </desc>
+        </method>
+        <method type="float" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>titlebarButtonSize</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="float" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>titlebarHeight</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="float" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>titlebarPaddingLeft</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="float" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>titlebarPaddingRight</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="float" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>titlebarPaddingTop</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSColor*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>toolbarBackgroundColor</sel>
+          <desc>
+            Method for toolbar theming.
+          </desc>
+        </method>
+        <method type="NSColor*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>toolbarBorderColor</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>toolbarIsOpaque</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        GSTheme(LowLevelDrawing) category
+      </heading>
+      <category name="LowLevelDrawing" class="GSTheme" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>GNUstepGUI/GSTheme.h</declared>
+        <desc>
+          Low level drawing methods... themes may use these for
+          drawing, but should not normally override them.
+        </desc>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>fillHorizontalRect:</sel>
+          <arg type="NSRect">rect</arg>
+          <sel>withImage:</sel>
+          <arg type="NSImage*">image</arg>
+          <sel>fromRect:</sel>
+          <arg type="NSRect">source</arg>
+          <sel>flipped:</sel>
+          <arg type="BOOL">flipped</arg>
+          <desc>
+            Method to tile the supplied <var>image</var> to fill
+            the horizontal rectangle. <br /> The <var>rect</var>
+            argument is the rectangle to be filled. <br /> The
+            <var>image</var> argument is the data to fill with.
+            <br /> The <var>source</var> argument is the
+            rectangle within the <var>image</var> which is
+            used. <br /> The <var>flipped</var> argument
+            specifies what sort of coordinate system is in
+            use in the view where we are drawing.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>fillRect:</sel>
+          <arg type="NSRect">rect</arg>
+          <sel>withRepeatedImage:</sel>
+          <arg type="NSImage*">image</arg>
+          <sel>fromRect:</sel>
+          <arg type="NSRect">source</arg>
+          <sel>center:</sel>
+          <arg type="BOOL">center</arg>
+          <desc>
+            Tile <var>rect</var> with <var>image</var>. The tiling
+            starts with the origin of the first copy of the
+            <var>image</var> at the bottom left corner of the
+            <var>rect</var> unless <var>center</var> is
+            <code>YES</code>, in which case the <var>image</var>
+            is centered in <var>rect</var> and tiled outwards from
+            that.
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>fillRect:</sel>
+          <arg type="NSRect">rect</arg>
+          <sel>withTiles:</sel>
+          <arg type="GSDrawTiles*">tiles</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>fillRect:</sel>
+          <arg type="NSRect">rect</arg>
+          <sel>withTiles:</sel>
+          <arg type="GSDrawTiles*">tiles</arg>
+          <sel>background:</sel>
+          <arg type="NSColor*">color</arg>
+          <desc>
+            Method to tile a rectangle given a group of up to
+            nine tile images. <br /> The GSDrawTiles object
+            encapsulates the tile images and information
+            about what parts of each image are used for tiling.
+            <br /> This draws the left, right, top and bottom
+            borders by tiling the images at left, right, top
+            and bottom. It then draws the four corner images and
+            finally deals with the remaining space in the
+            middle according to the default style set for the
+            GSDrawTiles object used. <br /> The background
+            <var>color</var> specified is used to fill the center
+            where style is FillStyleNone. <br /> The return value
+            is the central rectangle (inside the border images).
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>fillRect:</sel>
+          <arg type="NSRect">rect</arg>
+          <sel>withTiles:</sel>
+          <arg type="GSDrawTiles*">tiles</arg>
+          <sel>background:</sel>
+          <arg type="NSColor*">color</arg>
+          <sel>fillStyle:</sel>
+          <arg type="GSThemeFillStyle">style</arg>
+          <desc>
+            Method to tile a rectangle given a group of up to
+            nine tile images. <br /> The GSDrawTiles object
+            encapsulates the tile images and information
+            about what parts of each image are used for tiling.
+            <br /> This draws the left, right, top and bottom
+            borders by tiling the images at left, right, top
+            and bottom. It then draws the four corner images and
+            finally deals with the remaining space in the
+            middle according to the specified <var>style</var>.
+            <br /> The background <var>color</var> specified is
+            used to fill the center where <var>style</var> is
+            FillStyleNone. <br /> The return value is
+            the central rectangle (inside the border images).
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>fillVerticalRect:</sel>
+          <arg type="NSRect">rect</arg>
+          <sel>withImage:</sel>
+          <arg type="NSImage*">image</arg>
+          <sel>fromRect:</sel>
+          <arg type="NSRect">source</arg>
+          <sel>flipped:</sel>
+          <arg type="BOOL">flipped</arg>
+          <desc>
+            Method to tile the supplied <var>image</var> to fill
+            the vertical rectangle. <br /> The <var>rect</var>
+            argument is the rectangle to be filled. <br /> The
+            <var>image</var> argument is the data to fill with.
+            <br /> The <var>source</var> argument is the
+            rectangle within the <var>image</var> which is
+            used. <br /> The <var>flipped</var> argument
+            specifies what sort of coordinate system is in
+            use in the view where we are drawing.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSTheme(Menus) category
+      </heading>
+      <category name="Menus" class="GSTheme" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>GNUstepGUI/GSTheme.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>displayPopUpMenu:</sel>
+          <arg type="NSMenuView*">mr</arg>
+          <sel>withCellFrame:</sel>
+          <arg type="NSRect">cellFrame</arg>
+          <sel>controlViewWindow:</sel>
+          <arg type="NSWindow*">cvWin</arg>
+          <sel>preferredEdge:</sel>
+          <arg type="NSRectEdge">edge</arg>
+          <sel>selectedItem:</sel>
+          <arg type="int">selectedItem</arg>
+          <desc>
+            Display popup menu item.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>doesProcessEventsForPopUpMenu</sel>
+          <desc>
+            Process events for popups.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>keyForKeyEquivalent:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            Modifies the proposed key equivalent string for
+            the menu item. The default implementation simply
+            returns the proposed string unmodified.
+          </desc>
+        </method>
+        <method type="float" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>menuHeightForWindow:</sel>
+          <arg type="NSWindow*">window</arg>
+          <desc>
+            Calculate the height of the menu for in-window
+            menus. The default implementation returns
+            [NSMenuView menuBarHeight];
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>menuShouldShowIcon</sel>
+          <desc>
+            Display the menu icon in the application.
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>modifyRect:</sel>
+          <arg type="NSRect">aRect</arg>
+          <sel>forMenu:</sel>
+          <arg type="NSMenu*">aMenu</arg>
+          <sel>isHorizontal:</sel>
+          <arg type="BOOL">horizontal</arg>
+          <desc>
+            Modifies the given NSRect for use by NSMenu to
+            position and size the displayed menu. The default
+            implementation simply returns the original
+            NSRect unmodified.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>organizeMenu:</sel>
+          <arg type="NSMenu*">menu</arg>
+          <sel>isHorizontal:</sel>
+          <arg type="BOOL">horizontal</arg>
+          <desc>
+            Used by the theme to organize the main <var>menu</var>
+            . The default implementation organizes the main
+            <var>menu</var> in the same way that NSMenu's old
+            default behaviour did, generating an "app name"
+            <var>menu</var> for <var>horizontal</var> display.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>processCommand:</sel>
+          <arg type="void*">context</arg>
+          <desc>
+            Processes menu events for the theme. The default
+            implementation does nothing.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>proposedTitle:</sel>
+          <arg type="NSString*">title</arg>
+          <sel>forMenuItem:</sel>
+          <arg type="NSMenuItem*">menuItem</arg>
+          <desc>
+            Modifies the proposed menu item <var>title</var>.
+            The default implementation simply returns the proposed
+            string unmodified.
+          </desc>
+        </method>
+        <method type="CGFloat" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>proposedTitleWidth:</sel>
+          <arg type="CGFloat">proposedWidth</arg>
+          <sel>forMenuView:</sel>
+          <arg type="NSMenuView*">aMenuView</arg>
+          <desc>
+            Modifies the proposed default width for a menu
+            title in the given NSMenuView. The default
+            implementation simply returns the proposed
+            width unmodified.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>rightMouseDisplay:</sel>
+          <arg type="NSMenu*">menu</arg>
+          <sel>forEvent:</sel>
+          <arg type="NSEvent*">theEvent</arg>
+          <desc>
+            Display the context <var>menu</var> when the right
+            mouse button is pressed.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>setMenu:</sel>
+          <arg type="NSMenu*">menu</arg>
+          <sel>forWindow:</sel>
+          <arg type="NSWindow*">window</arg>
+          <desc>
+            This method sets the <var>menu</var> for the
+            <var>window</var> using the current theme In the
+            default theme this calls the setMenu: method on the
+            <var>window</var> giving the <var>menu</var>
+            parameter as the argument.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>updateAllWindowsWithMenu:</sel>
+          <arg type="NSMenu*">menu</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>updateMenu:</sel>
+          <arg type="NSMenu*">menu</arg>
+          <sel>forWindow:</sel>
+          <arg type="NSWindow*">window</arg>
+          <desc>
+            Update the <var>menu</var> for the <var>window</var>
+            . This refreshes the <var>menu</var> contents. The
+            default implementation of this method does nothing.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        GSTheme(MidLevelDrawing) category
+      </heading>
+      <category name="MidLevelDrawing" class="GSTheme" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>GNUstepGUI/GSTheme.h</declared>
+        <desc>
+          Helper functions for drawing standard items.
+        </desc>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawButton:</sel>
+          <arg type="NSRect">border</arg>
+          <sel>withClip:</sel>
+          <arg type="NSRect">clip</arg>
+          <desc>
+            Draw a standard button
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawDarkBezel:</sel>
+          <arg type="NSRect">border</arg>
+          <sel>withClip:</sel>
+          <arg type="NSRect">clip</arg>
+          <desc>
+            Draw a dark bezel <var>border</var>
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawDarkButton:</sel>
+          <arg type="NSRect">border</arg>
+          <sel>withClip:</sel>
+          <arg type="NSRect">clip</arg>
+          <desc>
+            Draw a "dark" button <var>border</var> (used in
+            tableviews)
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawFramePhoto:</sel>
+          <arg type="NSRect">border</arg>
+          <sel>withClip:</sel>
+          <arg type="NSRect">clip</arg>
+          <desc>
+            Draw a frame photo <var>border</var>. Used in
+            NSImageView.
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawGradientBorder:</sel>
+          <arg type="NSGradientType">gradientType</arg>
+          <sel>inRect:</sel>
+          <arg type="NSRect">border</arg>
+          <sel>withClip:</sel>
+          <arg type="NSRect">clip</arg>
+          <desc>
+            Draw a gradient <var>border</var>.
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawGrayBezel:</sel>
+          <arg type="NSRect">border</arg>
+          <sel>withClip:</sel>
+          <arg type="NSRect">clip</arg>
+          <desc>
+            Draw a gray bezel <var>border</var>
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawGroove:</sel>
+          <arg type="NSRect">border</arg>
+          <sel>withClip:</sel>
+          <arg type="NSRect">clip</arg>
+          <desc>
+            Draw a groove <var>border</var>
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawLightBezel:</sel>
+          <arg type="NSRect">border</arg>
+          <sel>withClip:</sel>
+          <arg type="NSRect">clip</arg>
+          <desc>
+            Draw a light bezel <var>border</var>
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawWhiteBezel:</sel>
+          <arg type="NSRect">border</arg>
+          <sel>withClip:</sel>
+          <arg type="NSRect">clip</arg>
+          <desc>
+            Draw a white bezel <var>border</var>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSTheme(NSBrowserCell)
+        category
+      </heading>
+      <category name="NSBrowserCell" class="GSTheme" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>GNUstepGUI/GSTheme.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="NSImage*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>branchImage</sel>
+          <desc>
+            This method returns the branch image
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawBrowserInteriorWithFrame:</sel>
+          <arg type="NSRect">cellFrame</arg>
+          <sel>withCell:</sel>
+          <arg type="NSBrowserCell*">cell</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">controlView</arg>
+          <sel>withImage:</sel>
+          <arg type="NSImage*">theImage</arg>
+          <sel>alternateImage:</sel>
+          <arg type="NSImage*">alternateImage</arg>
+          <sel>isHighlighted:</sel>
+          <arg type="BOOL">isHighlighted</arg>
+          <sel>state:</sel>
+          <arg type="int">state</arg>
+          <sel>isLeaf:</sel>
+          <arg type="BOOL">isLeaf</arg>
+          <desc>
+            Draw the interior of the browser <var>cell</var>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawEditorForCell:</sel>
+          <arg type="NSCell*">cell</arg>
+          <sel>withFrame:</sel>
+          <arg type="NSRect">cellFrame</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">view</arg>
+          <desc>
+            Draw editor in <var>cell</var>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>drawInCell:</sel>
+          <arg type="NSCell*">cell</arg>
+          <sel>attributedText:</sel>
+          <arg type="NSAttributedString*">stringValue</arg>
+          <sel>inFrame:</sel>
+          <arg type="NSRect">cellFrame</arg>
+          <desc>
+            Draw attributed text in <var>cell</var>
+          </desc>
+        </method>
+        <method type="NSImage*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>highlightedBranchImage</sel>
+          <desc>
+            This method returns the highlighted version of the
+            branch image
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSTheme(NSWindow)
+        category
+      </heading>
+      <category name="NSWindow" class="GSTheme" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>GNUstepGUI/GSTheme.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>didSetDefaultButtonCell:</sel>
+          <arg type="NSButtonCell*">aCell</arg>
+          <desc>
+            This method does any additional setup after the
+            default cell is set.
+          </desc>
+        </method>
+        <method type="NSButton*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>standardWindowButton:</sel>
+          <arg type="NSWindowButton">button</arg>
+          <sel>forStyleMask:</sel>
+          <arg type="NSUInteger">mask</arg>
+          <desc>
+            This method returns the standard window
+            <var>button</var> for the given <var>mask</var> for
+            the current theme.
+          </desc>
+        </method>
+        <method type="id&lt;GSWindowDecorator&gt;" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>windowDecorator</sel>
+          <desc>
+            This method returns the window decorator provided by
+            the current theme.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSTheme(OpenSavePanels)
+        category
+      </heading>
+      <category name="OpenSavePanels" class="GSTheme" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>GNUstepGUI/GSTheme.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="Class" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>openPanelClass</sel>
+          <desc>
+            This method returns the open panel class needed by the
+            native environment.
+          </desc>
+        </method>
+        <method type="Class" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>savePanelClass</sel>
+          <desc>
+            This method returns the open panel class needed by the
+            native environment.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSTheme(PrintPanels)
+        category
+      </heading>
+      <category name="PrintPanels" class="GSTheme" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>GNUstepGUI/GSTheme.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="Class" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>pageLayoutClass</sel>
+          <desc>
+            This method returns the page layout class needed by
+            the native environment.
+          </desc>
+        </method>
+        <method type="Class" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>printPanelClass</sel>
+          <desc>
+            This method returns the print panel class needed by
+            the native environment.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

@@ -16,6 +16,7 @@
       <dd>
       </dd>
     </dl>
+    <p><b>Date:</b> Generated at 2023-12-22 15:07:59 -0500</p>
     <blockquote>
       The GSHbox class (a GNU extension)
     </blockquote>
@@ -24,210 +25,10 @@
         <div>
     </div>
 
-          <h1><a name="001000000000">GSHbox</a></h1>
-    <p>
-
-        GSHbox inherits from GSTable the autosizing/autoresizing
-        engine. The only real difference between a GSHbox and a
-        GSTable with 1 row is that the GSHbox has a much
-        simpler, easier and friendlier API.
-          </p>
-    <p>
-
-        You shouldn&apos;t use GSTable methods with GSHbox (exception:
-        methods explicitly quoted in comments to this file as
-        &apos;inherited from GSTable&apos;). If you need to do that,
-        you should be using GSTable instead.
-          </p>
-    <p>
-
-        A GSHbox is an invisible view (a logical device) which can
-        contain some views. The GSHbox controls the position
-        and sizes of these views so that they are lined up in a
-        row.
-          </p>
-    <p>
-
-        To initialize a GSHbox, you should always use
-        <a rel="gsdoc" href="../../Gui/Additions/GSHbox.html#method$GSHbox-init">
-          -init
-        </a>
-
-        method. Don&apos;t use GSTable methods. The correct way to
-        start using a new GSHbox is simply:
-          </p>
-<pre>
-  hbox = [GSHbox new];
-  </pre>
-    <p>
-
-      (well, of course, autoreleasing it if necessary). You add
-      a view to a GSHbox using the method
-      <a rel="gsdoc" href="../../Gui/Additions/GSHbox.html#method$GSHbox-addView$">
-        -addView:
-      </a>
-
-      and its variants. The views you add to a GSHbox are placed by
-      the GSHbox in its subview hierarchy, and moved (and/or
-      resized in the vertical direction) so that they are
-      positioned one after the other, from left to right, in
-      a row. Before adding views to a box, you should resize them to
-      the least comfortable size you want them to have. The GSHbox
-      considers this size as the minimum size your view
-      should ever have, and never resizes your view below this
-      size.
-        </p>
-    <p>
-
-      The initial size of the GSHbox is zero; each time you add a
-      view in the GSHbox, the GSHbox resizes itself to fit the new
-      contents. Usually, you simply add objects to the
-      GSHbox, and let it compute its size (this is the minimum
-      size); you may get this resulting size by
-        </p>
-<pre>
-  size = [yourHBox size];
-  </pre>
-    <p>
-
-      for example, if the GSHbox is to be used as the content view
-      of a window, you may create the window exactly with this size.
-        </p>
-    <p>
-
-      You should never force a GSHbox in a size different from the
-      one it has automatically computed. It sounds quite pointless
-      anyway. The only correct (and meaningful) way to resize a
-      GSHbox is through
-      
-        -resizeWithOldSuperviewSize:
-      
-
-      messages (in the view hierarchy). In other words, after
-      you place your box in the view hierarchy, then you may resize
-      the superview and (if the superview has autoresizing of
-      subviews enabled) your box is resized automatically
-      accordingly.
-        </p>
-    <p>
-
-      By default, there is no space between the added views. By
-      using the method
-      <a rel="gsdoc" href="../../Gui/Additions/GSHbox.html#method$GSHbox-addView$withMinXMargin$">
-        -addView:withMinXMargin:
-      </a>
-
-      you may tell the GSHbox to insert some space (a
-      <var>margin</var>) between the view you are adding and the
-      previous one (the one at its left).
-        </p>
-    <p>
-
-      If what you want is space around the GSHbox, and not between
-      views in the GSHbox, you don&apos;t want a margin but a
-      <var>border</var>; you should then use
-      <a rel="gsdoc" href="../../Gui/Additions/GSTable.html#method$GSTable-setBorder$">
-        -setBorder:
-      </a>
-
-      , which will add an equal amount of space on all the sides of
-      the box. You can also set a different border on each side
-      (see
-      <a rel="gsdoc" href="../../Gui/Additions/GSTable.html#method$GSTable-setMinXBorder$">
-        -setMinXBorder:
-      </a>
-
-      and similar methods).
-        </p>
-    <p>
-
-      A useful feature of GSHbox is that it supports
-      <var>separators</var>. This facility is not directly
-      available in GSTable (to add separators to a GSTable
-      you need to create and handle them yourself). A GSHbox
-      separator is a vertical groove line, used to mark the
-      separation between different elements of a box. To add
-      a separator, simply invoke the method
-      <a rel="gsdoc" href="../../Gui/Additions/GSHbox.html#method$GSHbox-addSeparator">
-        -addSeparator
-      </a>
-
-      . The separator is put at the right of the last added view.
-        </p>
-    <p>
-
-      To use GSHbox proficiently, it is crucial to set correctly the
-      autoresizing mask of each view before adding it to
-      the GSHbox.
-        </p>
-    <p>
-
-      The GSHbox treats each view and its margins as a whole (see
-      the GSTable class description for more information).
-        </p>
-    <p>
-
-      When the GSHbox is resized in the vertical direction (as a
-      consequence of user intervertion, for example), what
-      happens is:
-        </p>
-    <ul>
-      <li>
-        
-        if the new height is less than the minimum height of the
-        GSHbox (computed as the maximum of the minimum height of
-        the added views), it simply resizes all the added views to
-        this minimum height; part of them are clipped then.
-      
-      </li>
-      <li>
-        
-        if the new height is greater than the GSHbox&apos;s minimum
-        height, the GSHbox resizes all the added views to the
-        new height. This is done through the standard
-        superview-subview resizing mechanism, so
-        that, by setting the autoresizingMask of each view that
-        you add, you are able to control exactly how the resizing
-        effects each view and its margins.
-      
-      </li>
-    </ul>
-    <p>
-
-      When the GSHbox is resized in the horizontal direction, its
-      behaviour is as follows:
-        </p>
-    <ul>
-      <li>
-        
-        If the new width is less than the minimum width, all the
-        added views are sized to minimum width; part of them is
-        clipped then.
-      
-      </li>
-      <li>
-        
-        If the new width is greater than the minimum width, some of
-        the views are resized. You may decide which views you want
-        to be resized and which not; to disable resizing of a
-        certain view in the horizontal direction, you should
-        specify a <code>NO</code> value to the option
-        <code>enablingXResizing</code> when you add the view to
-        the box. Views with X Resizing Not Enabled are always kept
-        in their minimum width (the original one), and never
-        resized. If nothing is specified, a default of
-        <code>YES</code> for <code>enablingXResizing</code> is
-        understood. So, when the new width is greater than
-        the minimum width, the excess width is equally divided
-        between the view with X Resizing Enabled. The actual
-        resizing is done through the usual superview-subview
-        resizing mechanism, so that again you may influence
-        the way the resizing affects each view by setting the
-        autoresizing mask of each view.
-      
-      </li>
-    </ul>
-    <h2><a name="class$GSHbox">GSHbox</a> : <a rel="gsdoc" href="../../Gui/Additions/GSTable.html#class$GSTable">GSTable</a></h2>
+          <h1><a name="001000000000">
+        Software documentation for the GSHbox class
+      </a></h1>
+    <h2><a name="class$GSHbox">GSHbox</a> : <a rel="gsdoc" href="GSTable.html#class$GSTable">GSTable</a></h2>
     <blockquote class="declared">
       <dl>
         <dt><b>Declared in:</b></dt>
@@ -239,23 +40,23 @@
 <br />
     <div class="desc">
       
-        <em>Description forthcoming.</em>
-      
+          <em>Description forthcoming.</em>
+        
     </div>
     <hr width="50%" align="left" />
     <a href="#_GSHbox_ivars">Instance Variables</a>
     <br/><br/>
     <b>Method summary</b>
     <ul>
-      <li><a rel="gsdoc" href="../../Gui/Additions/GSHbox.html#method$GSHbox-addSeparator">-addSeparator</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Additions/GSHbox.html#method$GSHbox-addSeparatorWithMinXMargin$">-addSeparatorWithMinXMargin:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Additions/GSHbox.html#method$GSHbox-addView$">-addView:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Additions/GSHbox.html#method$GSHbox-addView$enablingXResizing$">-addView:enablingXResizing:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Additions/GSHbox.html#method$GSHbox-addView$enablingXResizing$withMinXMargin$">-addView:enablingXResizing:withMinXMargin:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Additions/GSHbox.html#method$GSHbox-addView$withMinXMargin$">-addView:withMinXMargin:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Additions/GSHbox.html#method$GSHbox-init">-init</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Additions/GSHbox.html#method$GSHbox-numberOfViews">-numberOfViews</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Additions/GSHbox.html#method$GSHbox-setDefaultMinXMargin$">-setDefaultMinXMargin:</a></li>
+      <li><a rel="gsdoc" href="GSHbox.html#method$GSHbox-addSeparator">-addSeparator</a></li>
+      <li><a rel="gsdoc" href="GSHbox.html#method$GSHbox-addSeparatorWithMinXMargin$">-addSeparatorWithMinXMargin:</a></li>
+      <li><a rel="gsdoc" href="GSHbox.html#method$GSHbox-addView$">-addView:</a></li>
+      <li><a rel="gsdoc" href="GSHbox.html#method$GSHbox-addView$enablingXResizing$">-addView:enablingXResizing:</a></li>
+      <li><a rel="gsdoc" href="GSHbox.html#method$GSHbox-addView$enablingXResizing$withMinXMargin$">-addView:enablingXResizing:withMinXMargin:</a></li>
+      <li><a rel="gsdoc" href="GSHbox.html#method$GSHbox-addView$withMinXMargin$">-addView:withMinXMargin:</a></li>
+      <li><a rel="gsdoc" href="GSHbox.html#method$GSHbox-init">-init</a></li>
+      <li><a rel="gsdoc" href="GSHbox.html#method$GSHbox-numberOfViews">-numberOfViews</a></li>
+      <li><a rel="gsdoc" href="GSHbox.html#method$GSHbox-setDefaultMinXMargin$">-setDefaultMinXMargin:</a></li>
     </ul>
     <hr width="50%" align="left" />
 <div class="method">
@@ -289,14 +90,14 @@
 </div>
 <div class="method">
     <h3><a name="method$GSHbox-addView$">addView:&nbsp;</a></h3>
-    - (void) <b>addView:</b> (NSView*)aView;<br />
+    - (void) <b>addView:</b> (<a rel="gsdoc" href="/usr/GNUstep/System/Library/Documentation/Developer/Gui/Reference/NSView.html#class$NSView">NSView</a>*)aView;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
     <div class="desc">
       
             See
-            <a rel="gsdoc" href="../../Gui/Additions/GSHbox.html#method$GSHbox-addView$enablingXResizing$withMinXMargin$">-addView:enablingXResizing:withMinXMargin:</a>
+            <a rel="gsdoc" href="#method$GSHbox-addView$enablingXResizing$withMinXMargin$">-addView:enablingXResizing:withMinXMargin:</a>
 
           
     </div>
@@ -304,14 +105,14 @@
 </div>
 <div class="method">
     <h3><a name="method$GSHbox-addView$enablingXResizing$">addView:&nbsp;enablingXResizing:&nbsp;</a></h3>
-    - (void) <b>addView:</b> (NSView*)aView<b> enablingXResizing:</b> (BOOL)aFlag;<br />
+    - (void) <b>addView:</b> (<a rel="gsdoc" href="/usr/GNUstep/System/Library/Documentation/Developer/Gui/Reference/NSView.html#class$NSView">NSView</a>*)aView<b> enablingXResizing:</b> (BOOL)aFlag;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
     <div class="desc">
       
             See
-            <a rel="gsdoc" href="../../Gui/Additions/GSHbox.html#method$GSHbox-addView$enablingXResizing$withMinXMargin$">-addView:enablingXResizing:withMinXMargin:</a>
+            <a rel="gsdoc" href="#method$GSHbox-addView$enablingXResizing$withMinXMargin$">-addView:enablingXResizing:withMinXMargin:</a>
 
           
     </div>
@@ -319,7 +120,7 @@
 </div>
 <div class="method">
     <h3><a name="method$GSHbox-addView$enablingXResizing$withMinXMargin$">addView:&nbsp;enablingXResizing:&nbsp;withMinXMargin:&nbsp;</a></h3>
-    - (void) <b>addView:</b> (NSView*)aView<b> enablingXResizing:</b> (BOOL)aFlag<b> withMinXMargin:</b> (float)aMargin;<br />
+    - (void) <b>addView:</b> (<a rel="gsdoc" href="/usr/GNUstep/System/Library/Documentation/Developer/Gui/Reference/NSView.html#class$NSView">NSView</a>*)aView<b> enablingXResizing:</b> (BOOL)aFlag<b> withMinXMargin:</b> (float)aMargin;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -438,14 +239,14 @@
 </div>
 <div class="method">
     <h3><a name="method$GSHbox-addView$withMinXMargin$">addView:&nbsp;withMinXMargin:&nbsp;</a></h3>
-    - (void) <b>addView:</b> (NSView*)aView<b> withMinXMargin:</b> (float)aMargin;<br />
+    - (void) <b>addView:</b> (<a rel="gsdoc" href="/usr/GNUstep/System/Library/Documentation/Developer/Gui/Reference/NSView.html#class$NSView">NSView</a>*)aView<b> withMinXMargin:</b> (float)aMargin;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
     <div class="desc">
       
             See
-            <a rel="gsdoc" href="../../Gui/Additions/GSHbox.html#method$GSHbox-addView$enablingXResizing$withMinXMargin$">-addView:enablingXResizing:withMinXMargin:</a>
+            <a rel="gsdoc" href="#method$GSHbox-addView$enablingXResizing$withMinXMargin$">-addView:enablingXResizing:withMinXMargin:</a>
 
           
     </div>

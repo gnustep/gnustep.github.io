@@ -16,6 +16,7 @@
       <dd>
       </dd>
     </dl>
+    <p><b>Date:</b> Generated at 2023-12-22 15:07:50 -0500</p>
     <blockquote>
       
       Implementation of class for communicating with the
@@ -56,12 +57,30 @@
         </li>
         <li>
           <a href="#004000000000">Software documentation for the
+        NSObject(NSPasteboardReading)
+        informal protocol</a>
+        </li>
+        <li>
+          <a href="#005000000000">Software documentation for the
+        NSObject(NSPasteboardWriting)
+        informal protocol</a>
+        </li>
+        <li>
+          <a href="#006000000000">Software documentation for the
         NSPasteboard(GNUstepExtensions)
         category</a>
         </li>
         <li>
-          <a href="#005000000000">Software documentation for the NSURL(NSPasteboard)
+          <a href="#007000000000">Software documentation for the NSURL(NSPasteboard)
         category</a>
+        </li>
+        <li>
+          <a href="#008000000000">Software documentation for the NSPasteboardReading
+        protocol</a>
+        </li>
+        <li>
+          <a href="#009000000000">Software documentation for the NSPasteboardWriting
+        protocol</a>
         </li>
       </ol>
       <hr width="50%" align="left" />
@@ -74,13 +93,13 @@
         inter-application communications. This
         chapter is concerned with the use of the system, for
         detailed reference see the
-        <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#class$NSPasteboard">NSPasteboard</a>
+        <a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>
 
           class. <br /> For non-standard services provided by
           applications (ie those which do not fit the
           general <em>services</em> mechanism described below),
           you generally use the Distributed Objects system (see
-          <a rel="gsdoc" href="../../Base/Reference/NSConnection.html#class$NSConnection">NSConnection</a>
+          NSConnection
 
             ) directly, and some hints about that are provided at the
             end of this chapter.
@@ -101,7 +120,7 @@
     <p>
 
               While some objects (eg instances of
-              NSText
+              <a rel="gsdoc" href="NSText.html#class$NSText">NSText</a>
 
                 ) will handle cut and paste for you automatically,
                 you may often need to do this yourself in your own
@@ -120,8 +139,8 @@
                   <strong>Select a pasteboard to use</strong>
                   <br /> There some standard pasteboards, or you
                   can obtain or create other ones with the
-                  <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard+pasteboardWithName$">[NSPasteboard +pasteboardWithName:]</a>
- method. <br /> Usually you will want to use a standard pasteboard such as the one returned by the <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard+generalPasteboard">[NSPasteboard +generalPasteboard]</a>
+                  <a rel="gsdoc" href="#method$NSPasteboard+pasteboardWithName$">[NSPasteboard +pasteboardWithName:]</a>
+ method. <br /> Usually you will want to use a standard pasteboard such as the one returned by the <a rel="gsdoc" href="#method$NSPasteboard+generalPasteboard">[NSPasteboard +generalPasteboard]</a>
  method.
 
 <pre>
@@ -142,7 +161,7 @@
     can ask to provide the data when it needs it. In either case,
     you need to say what kinds of data the pasteboard will supply,
     and you use the
-    <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-declareTypes$owner$">
+    <a rel="gsdoc" href="#method$NSPasteboard-declareTypes$owner$">
       [NSPasteboard -declareTypes:owner:]
     </a>
 
@@ -280,7 +299,7 @@
       facility supremely easy to deal with! <br /> If however,
       you wish to make use of a service programmatically (rather
       than from the services menu), you can use the
-      <a rel="gsdoc" href="../../Gui/Reference/Functions.html#function$NSPerformService">
+      <a rel="gsdoc" href="Functions.html#function$NSPerformService">
         NSPerformService()
       </a>
 
@@ -303,7 +322,7 @@
       Providing a service is a bit trickier, it involves
       implementing a method to perform the service
       (usually in your
-      <a rel="gsdoc" href="../../Gui/Reference/NSApplication.html#method$NSApplication-delegate">
+      <a rel="gsdoc" href="NSApplication.html#method$NSApplication-delegate">
         [NSApplication -delegate]
       </a>
 
@@ -315,8 +334,8 @@
       automatically becomes available on the services
       menu of every application you run. <br /> At runtime, you
       use
-      <a rel="gsdoc" href="../../Gui/Reference/NSApplication.html#method$NSApplication-setServicesProvider$">[NSApplication -setServicesProvider:]</a>
- to specify the object which implements the method to perform the service, or, if you are providing the service from a process other than a GUI application, you use the <a rel="gsdoc" href="../../Gui/Reference/Functions.html#function$NSRegisterServicesProvider">NSRegisterServicesProvider()</a>
+      <a rel="gsdoc" href="NSApplication.html#method$NSApplication-setServicesProvider$">[NSApplication -setServicesProvider:]</a>
+ to specify the object which implements the method to perform the service, or, if you are providing the service from a process other than a GUI application, you use the <a rel="gsdoc" href="Functions.html#function$NSRegisterServicesProvider">NSRegisterServicesProvider()</a>
  function.
         </p>
     <p>
@@ -338,12 +357,12 @@
         &quot;NSStringPboardType&quot; would match the use
         of the <code>NSStringPboardType</code> in your code. <br />
         Similarly, the functions
-        <a rel="gsdoc" href="../../Gui/Reference/Functions.html#function$NSCreateFileContentsPboardType">
+        <a rel="gsdoc" href="Functions.html#function$NSCreateFileContentsPboardType">
           NSCreateFileContentsPboardType()
         </a>
 
         and
-        <a rel="gsdoc" href="../../Gui/Reference/Functions.html#function$NSCreateFilenamePboardType">
+        <a rel="gsdoc" href="Functions.html#function$NSCreateFilenamePboardType">
           NSCreateFilenamePboardType()
         </a>
 
@@ -390,10 +409,10 @@
       <dd>
         
     This specifies the name of the Distributed Objects port (see
-    <a rel="gsdoc" href="../../Base/Reference/NSConnection.html#class$NSConnection">NSConnection</a>
+    NSConnection
 
       and
-      <a rel="gsdoc" href="../../Base/Reference/NSPort.html#class$NSPort">NSPort</a>
+      NSPort
 
         ) on which the service provider will be listening for
         messages. While its value depends on how you register
@@ -580,17 +599,17 @@
 
       Filter services are used implicitly whenever you get a
       pasteboard by using one of the methods
-      <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard+pasteboardByFilteringData$ofType$">
+      <a rel="gsdoc" href="#method$NSPasteboard+pasteboardByFilteringData$ofType$">
         +pasteboardByFilteringData:ofType:
       </a>
 
       ,
-      <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard+pasteboardByFilteringFile$">
+      <a rel="gsdoc" href="#method$NSPasteboard+pasteboardByFilteringFile$">
         +pasteboardByFilteringFile:
       </a>
 
       or
-      <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard+pasteboardByFilteringTypesInPasteboard$">+pasteboardByFilteringTypesInPasteboard:</a>
+      <a rel="gsdoc" href="#method$NSPasteboard+pasteboardByFilteringTypesInPasteboard$">+pasteboardByFilteringTypesInPasteboard:</a>
  as the pasteboard system will automatically invoke any available filter to convert the data in the pasteboard to any required type as <strong>long</strong> as a conversion can be done using a single filter.
         </p>
 
@@ -613,10 +632,10 @@
       library and using the windowing system etc. On occasion
       you may actually want the services to use facilities from the
       GUI library (such as the
-      <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#class$NSPasteboard">NSPasteboard</a>
+      <a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>
 
         or
-        <a rel="gsdoc" href="../../Gui/Reference/NSWorkspace.html#class$NSWorkspace">NSWorkspace</a>
+        <a rel="gsdoc" href="NSWorkspace.html#class$NSWorkspace">NSWorkspace</a>
 
           class).
             </p>
@@ -625,13 +644,13 @@
           Traditionally, NeXTstep and GNUstep
           applications permit you to connect to an
           application using the standard
-          <a rel="gsdoc" href="../../Base/Reference/NSConnection.html#class$NSConnection">NSConnection</a>
+          NSConnection
 
             mechanisms, with the name of the port you
             connect to being (by convention) the name of the
             application. The root proxy of the
             NSConnection obtained this way would be the
-            <a rel="gsdoc" href="../../Gui/Reference/NSApplication.html#method$NSApplication-delegate">
+            <a rel="gsdoc" href="NSApplication.html#method$NSApplication-delegate">
               [NSApplication -delegate]
             </a>
 
@@ -654,7 +673,7 @@
             <code>GSPermittedMessages</code> user default.
             <br /> If your application wishes to make
             non-standard methods available, it should use
-            <a rel="gsdoc" href="../../Base/Reference/NSUserDefaults.html#method$NSUserDefaults-registerDefaults$">[NSUserDefaults -registerDefaults:]</a>
+            [NSUserDefaults -registerDefaults:]
  to set a standard value for GSPermittedMessages. Users of the application can then use the defaults system to override that standard setting for the application in order to reduce or increase the list of messages available to remote processes.
               </p>
     <p>
@@ -715,7 +734,7 @@
           <h1><a name="002000000000">
         Software documentation for the NSPasteboard class
       </a></h1>
-    <h2><a name="class$NSPasteboard">NSPasteboard</a> : <a rel="gsdoc" href="../../Base/Reference/NSObject.html#class$NSObject">NSObject</a></h2>
+    <h2><a name="class$NSPasteboard">NSPasteboard</a> : NSObject</h2>
     <blockquote class="declared">
       <dl>
         <dt><b>Declared in:</b></dt>
@@ -763,12 +782,12 @@
             types for common data or using standardised names
             which identify particular kinds of files and their
             contents (see the
-            <a rel="gsdoc" href="../../Gui/Reference/Functions.html#function$NSCreateFileContentsPboardType">
+            <a rel="gsdoc" href="Functions.html#function$NSCreateFileContentsPboardType">
               NSCreateFileContentsPboardType()
             </a>
 
             an
-            <a rel="gsdoc" href="../../Gui/Reference/Functions.html#function$NSCreateFilenamePboardType">
+            <a rel="gsdoc" href="Functions.html#function$NSCreateFilenamePboardType">
               NSCreateFilenamePboardType()
             </a>
 
@@ -801,46 +820,46 @@
     <br/><br/>
     <b>Method summary</b>
     <ul>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)+mimeTypeForPasteboardType$">+mimeTypeForPasteboardType:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)+pasteboardTypeForMimeType$">+pasteboardTypeForMimeType:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)-setChangeCount$">-setChangeCount:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)-setHistory$">-setHistory:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard+generalPasteboard">+generalPasteboard</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard+pasteboardByFilteringData$ofType$">+pasteboardByFilteringData:ofType:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard+pasteboardByFilteringFile$">+pasteboardByFilteringFile:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard+pasteboardByFilteringTypesInPasteboard$">+pasteboardByFilteringTypesInPasteboard:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard+pasteboardWithName$">+pasteboardWithName:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard+pasteboardWithUniqueName">+pasteboardWithUniqueName</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard+typesFilterableTo$">+typesFilterableTo:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-addTypes$owner$">-addTypes:owner:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-availableTypeFromArray$">-availableTypeFromArray:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-changeCount">-changeCount</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-dataForType$">-dataForType:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-declareTypes$owner$">-declareTypes:owner:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-name">-name</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-propertyListForType$">-propertyListForType:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-readFileContentsType$toFile$">-readFileContentsType:toFile:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-readFileWrapper">-readFileWrapper</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-releaseGlobally">-releaseGlobally</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-setData$forType$">-setData:forType:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-setPropertyList$forType$">-setPropertyList:forType:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-setString$forType$">-setString:forType:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-stringForType$">-stringForType:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-types">-types</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-writeFileContents$">-writeFileContents:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-writeFileWrapper$">-writeFileWrapper:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)+mimeTypeForPasteboardType$">+mimeTypeForPasteboardType:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)+pasteboardTypeForMimeType$">+pasteboardTypeForMimeType:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)-setChangeCount$">-setChangeCount:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)-setHistory$">-setHistory:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard+generalPasteboard">+generalPasteboard</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard+pasteboardByFilteringData$ofType$">+pasteboardByFilteringData:ofType:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard+pasteboardByFilteringFile$">+pasteboardByFilteringFile:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard+pasteboardByFilteringTypesInPasteboard$">+pasteboardByFilteringTypesInPasteboard:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard+pasteboardWithName$">+pasteboardWithName:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard+pasteboardWithUniqueName">+pasteboardWithUniqueName</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard+typesFilterableTo$">+typesFilterableTo:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-addTypes$owner$">-addTypes:owner:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-availableTypeFromArray$">-availableTypeFromArray:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-changeCount">-changeCount</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-dataForType$">-dataForType:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-declareTypes$owner$">-declareTypes:owner:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-name">-name</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-propertyListForType$">-propertyListForType:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-readFileContentsType$toFile$">-readFileContentsType:toFile:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-readFileWrapper">-readFileWrapper</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-releaseGlobally">-releaseGlobally</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-setData$forType$">-setData:forType:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-setPropertyList$forType$">-setPropertyList:forType:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-setString$forType$">-setString:forType:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-stringForType$">-stringForType:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-types">-types</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-writeFileContents$">-writeFileContents:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-writeFileWrapper$">-writeFileWrapper:</a></li>
     </ul>
     <hr width="50%" align="left" />
 <div class="method">
     <h3><a name="method$NSPasteboard+generalPasteboard">generalPasteboard&nbsp;</a></h3>
-    + (<a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#class$NSPasteboard">NSPasteboard</a>*) <b>generalPasteboard</b>;<br />
+    + (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*) <b>generalPasteboard</b>;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
     <div class="desc">
       
             Returns the general pasteboard found by calling
-            <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard+pasteboardWithName$">
+            <a rel="gsdoc" href="#method$NSPasteboard+pasteboardWithName$">
               +pasteboardWithName:
             </a>
 
@@ -851,7 +870,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard+pasteboardByFilteringData$ofType$">pasteboardByFilteringData:&nbsp;ofType:&nbsp;</a></h3>
-    + (<a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#class$NSPasteboard">NSPasteboard</a>*) <b>pasteboardByFilteringData:</b> (<a rel="gsdoc" href="../../Base/Reference/NSData.html#class$NSData">NSData</a>*)data<b> ofType:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)type;<br />
+    + (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*) <b>pasteboardByFilteringData:</b> (NSData*)data<b> ofType:</b> (NSString*)type;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -886,7 +905,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard+pasteboardByFilteringFile$">pasteboardByFilteringFile:&nbsp;</a></h3>
-    + (<a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#class$NSPasteboard">NSPasteboard</a>*) <b>pasteboardByFilteringFile:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)filename;<br />
+    + (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*) <b>pasteboardByFilteringFile:</b> (NSString*)filename;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -910,7 +929,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard+pasteboardByFilteringTypesInPasteboard$">pasteboardByFilteringTypesInPasteboard:&nbsp;</a></h3>
-    + (<a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#class$NSPasteboard">NSPasteboard</a>*) <b>pasteboardByFilteringTypesInPasteboard:</b> (<a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#class$NSPasteboard">NSPasteboard</a>*)pboard;<br />
+    + (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*) <b>pasteboardByFilteringTypesInPasteboard:</b> (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*)pboard;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -945,7 +964,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard+pasteboardWithName$">pasteboardWithName:&nbsp;</a></h3>
-    + (<a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#class$NSPasteboard">NSPasteboard</a>*) <b>pasteboardWithName:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)aName;<br />
+    + (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*) <b>pasteboardWithName:</b> (NSString*)aName;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -966,7 +985,7 @@
       <ul>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSGeneralPboard">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSGeneralPboard">
                   NSGeneralPboard
                 </a>
 
@@ -974,7 +993,7 @@
         </li>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSFontPboard">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSFontPboard">
                   NSFontPboard
                 </a>
 
@@ -982,7 +1001,7 @@
         </li>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSRulerPboard">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSRulerPboard">
                   NSRulerPboard
                 </a>
 
@@ -990,7 +1009,7 @@
         </li>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSFindPboard">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSFindPboard">
                   NSFindPboard
                 </a>
 
@@ -998,7 +1017,7 @@
         </li>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSDragPboard">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSDragPboard">
                   NSDragPboard
                 </a>
 
@@ -1012,7 +1031,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard+pasteboardWithUniqueName">pasteboardWithUniqueName&nbsp;</a></h3>
-    + (<a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#class$NSPasteboard">NSPasteboard</a>*) <b>pasteboardWithUniqueName</b>;<br />
+    + (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*) <b>pasteboardWithUniqueName</b>;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -1027,7 +1046,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard+typesFilterableTo$">typesFilterableTo:&nbsp;</a></h3>
-    + (<a rel="gsdoc" href="../../Base/Reference/NSArray.html#class$NSArray">NSArray</a>*) <b>typesFilterableTo:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)type;<br />
+    + (NSArray*) <b>typesFilterableTo:</b> (NSString*)type;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -1045,7 +1064,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard-addTypes$owner$">addTypes:&nbsp;owner:&nbsp;</a></h3>
-    - (int) <b>addTypes:</b> (<a rel="gsdoc" href="../../Base/Reference/NSArray.html#class$NSArray">NSArray</a>*)newTypes<b> owner:</b> (id)newOwner;<br />
+    - (int) <b>addTypes:</b> (NSArray*)newTypes<b> owner:</b> (id)newOwner;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -1058,7 +1077,7 @@
               Adds <var>newTypes</var> to the pasteboard and
               declares <var>newOwner</var> to be the owner of
               the pasteboard. Use only after
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-declareTypes$owner$">
+              <a rel="gsdoc" href="#method$NSPasteboard-declareTypes$owner$">
                 -declareTypes:owner:
               </a>
 
@@ -1083,7 +1102,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard-availableTypeFromArray$">availableTypeFromArray:&nbsp;</a></h3>
-    - (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*) <b>availableTypeFromArray:</b> (<a rel="gsdoc" href="../../Base/Reference/NSArray.html#class$NSArray">NSArray</a>*)types;<br />
+    - (NSString*) <b>availableTypeFromArray:</b> (NSArray*)types;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -1113,7 +1132,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard-dataForType$">dataForType:&nbsp;</a></h3>
-    - (<a rel="gsdoc" href="../../Base/Reference/NSData.html#class$NSData">NSData</a>*) <b>dataForType:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)dataType;<br />
+    - (NSData*) <b>dataForType:</b> (NSString*)dataType;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -1130,7 +1149,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard-declareTypes$owner$">declareTypes:&nbsp;owner:&nbsp;</a></h3>
-    - (int) <b>declareTypes:</b> (<a rel="gsdoc" href="../../Base/Reference/NSArray.html#class$NSArray">NSArray</a>*)newTypes<b> owner:</b> (id)newOwner;<br />
+    - (int) <b>declareTypes:</b> (NSArray*)newTypes<b> owner:</b> (id)newOwner;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -1145,7 +1164,7 @@
               <var>newTypes</var> as the types of data supported
               by it. <br /> This invalidates existing data in the
               pasteboard (except where the GNUstep
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)-setHistory$">
+              <a rel="gsdoc" href="#method$NSPasteboard(GNUstepExtensions)-setHistory$">
                 -setHistory:
               </a>
 
@@ -1174,14 +1193,14 @@
               This increments the change count for the pasteboard
               and the new count is returned, or zero is returned if
               an error occurs. <br /> Where
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)-setChangeCount$">
+              <a rel="gsdoc" href="#method$NSPasteboard(GNUstepExtensions)-setChangeCount$">
                 -setChangeCount:
               </a>
 
               has been used, the highest count to date is
               incremented and returned, rather than the
               last value specified by the
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)-setChangeCount$">
+              <a rel="gsdoc" href="#method$NSPasteboard(GNUstepExtensions)-setChangeCount$">
                 -setChangeCount:
               </a>
 
@@ -1199,18 +1218,18 @@
               normal to use a predefined (standard) type or a
               type representing the name or content of a
               particular kind of file (returned by the
-              <a rel="gsdoc" href="../../Gui/Reference/Functions.html#function$NSCreateFilenamePboardType">
+              <a rel="gsdoc" href="Functions.html#function$NSCreateFilenamePboardType">
                 NSCreateFilenamePboardType()
               </a>
 
               or
-              <a rel="gsdoc" href="../../Gui/Reference/Functions.html#function$NSCreateFilenamePboardType">
+              <a rel="gsdoc" href="Functions.html#function$NSCreateFilenamePboardType">
                 NSCreateFilenamePboardType()
               </a>
 
               function). <br /> The standard type for raw
               data is
-              <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSGeneralPboardType">
+              <a rel="gsdoc" href="TypesAndConstants.html#variable$NSGeneralPboardType">
                 NSGeneralPboardType
               </a>
 
@@ -1222,7 +1241,7 @@
       <ul>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSStringPboardType">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSStringPboardType">
                   NSStringPboardType
                 </a>
 
@@ -1230,7 +1249,7 @@
         </li>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSColorPboardType">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSColorPboardType">
                   NSColorPboardType
                 </a>
 
@@ -1238,7 +1257,7 @@
         </li>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSFileContentsPboardType">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSFileContentsPboardType">
                   NSFileContentsPboardType
                 </a>
 
@@ -1246,7 +1265,7 @@
         </li>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSFilenamesPboardType">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSFilenamesPboardType">
                   NSFilenamesPboardType
                 </a>
 
@@ -1254,7 +1273,7 @@
         </li>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSFontPboardType">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSFontPboardType">
                   NSFontPboardType
                 </a>
 
@@ -1262,7 +1281,7 @@
         </li>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSRulerPboardType">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSRulerPboardType">
                   NSRulerPboardType
                 </a>
 
@@ -1270,7 +1289,7 @@
         </li>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSPostScriptPboardType">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSPostScriptPboardType">
                   NSPostScriptPboardType
                 </a>
 
@@ -1278,7 +1297,7 @@
         </li>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSTabularTextPboardType">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSTabularTextPboardType">
                   NSTabularTextPboardType
                 </a>
 
@@ -1286,7 +1305,7 @@
         </li>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSRTFPboardType">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSRTFPboardType">
                   NSRTFPboardType
                 </a>
 
@@ -1294,7 +1313,7 @@
         </li>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSRTFDPboardType">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSRTFDPboardType">
                   NSRTFDPboardType
                 </a>
 
@@ -1302,7 +1321,7 @@
         </li>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSTIFFPboardType">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSTIFFPboardType">
                   NSTIFFPboardType
                 </a>
 
@@ -1310,7 +1329,7 @@
         </li>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSDataLinkPboardType">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSDataLinkPboardType">
                   NSDataLinkPboardType
                 </a>
 
@@ -1318,7 +1337,7 @@
         </li>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSGeneralPboardType">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSGeneralPboardType">
                   NSGeneralPboardType
                 </a>
 
@@ -1326,7 +1345,7 @@
         </li>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSPDFPboardType">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSPDFPboardType">
                   NSPDFPboardType
                 </a>
 
@@ -1334,7 +1353,7 @@
         </li>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSPICTPboardType">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSPICTPboardType">
                   NSPICTPboardType
                 </a>
 
@@ -1342,7 +1361,7 @@
         </li>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSURLPboardType">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSURLPboardType">
                   NSURLPboardType
                 </a>
 
@@ -1350,7 +1369,7 @@
         </li>
         <li>
           
-                <a rel="gsdoc" href="../../Gui/Reference/TypesAndConstants.html#variable$NSHTMLPboardType">
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSHTMLPboardType">
                   NSHTMLPboardType
                 </a>
 
@@ -1364,7 +1383,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard-name">name&nbsp;</a></h3>
-    - (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*) <b>name</b>;<br />
+    - (NSString*) <b>name</b>;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -1379,14 +1398,14 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard-propertyListForType$">propertyListForType:&nbsp;</a></h3>
-    - (id) <b>propertyListForType:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)dataType;<br />
+    - (id) <b>propertyListForType:</b> (NSString*)dataType;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
     <div class="desc">
       
             Calls
-            <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-dataForType$">
+            <a rel="gsdoc" href="#method$NSPasteboard-dataForType$">
               -dataForType:
             </a>
 
@@ -1399,7 +1418,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard-readFileContentsType$toFile$">readFileContentsType:&nbsp;toFile:&nbsp;</a></h3>
-    - (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*) <b>readFileContentsType:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)type<b> toFile:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)filename;<br />
+    - (NSString*) <b>readFileContentsType:</b> (NSString*)type<b> toFile:</b> (NSString*)filename;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -1422,12 +1441,12 @@
 
               This method should only be used to read data written
               by the
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-writeFileContents$">
+              <a rel="gsdoc" href="#method$NSPasteboard-writeFileContents$">
                 -writeFileContents:
               </a>
 
               or
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-writeFileWrapper$">
+              <a rel="gsdoc" href="#method$NSPasteboard-writeFileWrapper$">
                 -writeFileWrapper:
               </a>
 
@@ -1441,7 +1460,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard-readFileWrapper">readFileWrapper&nbsp;</a></h3>
-    - (<a rel="gsdoc" href="../../Gui/Reference/NSFileWrapper.html#class$NSFileWrapper">NSFileWrapper</a>*) <b>readFileWrapper</b>;<br />
+    - (NSFileWrapper*) <b>readFileWrapper</b>;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -1463,12 +1482,12 @@
 
               This method should only be used to read data written
               by the
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-writeFileContents$">
+              <a rel="gsdoc" href="#method$NSPasteboard-writeFileContents$">
                 -writeFileContents:
               </a>
 
               or
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-writeFileWrapper$">
+              <a rel="gsdoc" href="#method$NSPasteboard-writeFileWrapper$">
                 -writeFileWrapper:
               </a>
 
@@ -1498,7 +1517,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard-setData$forType$">setData:&nbsp;forType:&nbsp;</a></h3>
-    - (BOOL) <b>setData:</b> (<a rel="gsdoc" href="../../Base/Reference/NSData.html#class$NSData">NSData</a>*)data<b> forType:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)dataType;<br />
+    - (BOOL) <b>setData:</b> (NSData*)data<b> forType:</b> (NSString*)dataType;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -1533,7 +1552,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard-setPropertyList$forType$">setPropertyList:&nbsp;forType:&nbsp;</a></h3>
-    - (BOOL) <b>setPropertyList:</b> (id)propertyList<b> forType:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)dataType;<br />
+    - (BOOL) <b>setPropertyList:</b> (id)propertyList<b> forType:</b> (NSString*)dataType;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -1546,7 +1565,7 @@
               Serialises the data in the supplied property
               list and writes it to the pasteboard server using
               the
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-setData$forType$">
+              <a rel="gsdoc" href="#method$NSPasteboard-setData$forType$">
                 -setData:forType:
               </a>
 
@@ -1559,12 +1578,12 @@
     <p>
 
               Data written using this method can be read by
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-propertyListForType$">
+              <a rel="gsdoc" href="#method$NSPasteboard-propertyListForType$">
                 -propertyListForType:
               </a>
 
               or, if it was a simple string, by
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-stringForType$">
+              <a rel="gsdoc" href="#method$NSPasteboard-stringForType$">
                 -stringForType:
               </a>
 
@@ -1576,7 +1595,7 @@
     <p>
 
               If the data is retrieved using
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-dataForType$">
+              <a rel="gsdoc" href="#method$NSPasteboard-dataForType$">
                 -dataForType:
               </a>
 
@@ -1591,7 +1610,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard-setString$forType$">setString:&nbsp;forType:&nbsp;</a></h3>
-    - (BOOL) <b>setString:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)string<b> forType:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)dataType;<br />
+    - (BOOL) <b>setString:</b> (NSString*)string<b> forType:</b> (NSString*)dataType;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -1603,7 +1622,7 @@
 
               Writes <var>string</var> it to the pasteboard
               server using the
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-setPropertyList$forType$">
+              <a rel="gsdoc" href="#method$NSPasteboard-setPropertyList$forType$">
                 -setPropertyList:forType:
               </a>
 
@@ -1617,12 +1636,12 @@
 
               The data may subsequently be read from the receiver
               using the
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-stringForType$">
+              <a rel="gsdoc" href="#method$NSPasteboard-stringForType$">
                 -stringForType:
               </a>
 
               or
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-propertyListForType$">
+              <a rel="gsdoc" href="#method$NSPasteboard-propertyListForType$">
                 -propertyListForType:
               </a>
 
@@ -1635,7 +1654,7 @@
     <p>
 
               If the data is retrieved using
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-dataForType$">
+              <a rel="gsdoc" href="#method$NSPasteboard-dataForType$">
                 -dataForType:
               </a>
 
@@ -1650,7 +1669,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard-stringForType$">stringForType:&nbsp;</a></h3>
-    - (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*) <b>stringForType:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)dataType;<br />
+    - (NSString*) <b>stringForType:</b> (NSString*)dataType;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -1671,12 +1690,12 @@
     <p>
 
               The string should have been written using the
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-setString$forType$">
+              <a rel="gsdoc" href="#method$NSPasteboard-setString$forType$">
                 -setString:forType:
               </a>
 
               or
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-setPropertyList$forType$">
+              <a rel="gsdoc" href="#method$NSPasteboard-setPropertyList$forType$">
                 -setPropertyList:forType:
               </a>
 
@@ -1690,7 +1709,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard-types">types&nbsp;</a></h3>
-    - (<a rel="gsdoc" href="../../Base/Reference/NSArray.html#class$NSArray">NSArray</a>*) <b>types</b>;<br />
+    - (NSArray*) <b>types</b>;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -1698,7 +1717,7 @@
       
             Returns all the types that the receiver has been
             declared to support. <br /> See
-            <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-declareTypes$owner$">
+            <a rel="gsdoc" href="#method$NSPasteboard-declareTypes$owner$">
               -declareTypes:owner:
             </a>
 
@@ -1709,7 +1728,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard-writeFileContents$">writeFileContents:&nbsp;</a></h3>
-    - (BOOL) <b>writeFileContents:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)filename;<br />
+    - (BOOL) <b>writeFileContents:</b> (NSString*)filename;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -1724,7 +1743,7 @@
               declaring the type NSFileContentsPboardType as
               well as a type based on the file extension (given by
               the
-              <a rel="gsdoc" href="../../Gui/Reference/Functions.html#function$NSCreateFileContentsPboardType">NSCreateFileContentsPboardType()</a>
+              <a rel="gsdoc" href="Functions.html#function$NSCreateFileContentsPboardType">NSCreateFileContentsPboardType()</a>
  function) if those types have not already been declared. <br /> If the <var>filename</var> has no extension, only NSFileContentsPboardType is used.
                 </p>
     <p>
@@ -1735,12 +1754,12 @@
 
               Data written to a pasteboard by this method should
               be read using the
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-readFileContentsType$toFile$">
+              <a rel="gsdoc" href="#method$NSPasteboard-readFileContentsType$toFile$">
                 -readFileContentsType:toFile:
               </a>
 
               or
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-readFileWrapper">
+              <a rel="gsdoc" href="#method$NSPasteboard-readFileWrapper">
                 -readFileWrapper
               </a>
 
@@ -1753,7 +1772,7 @@
     <p>
 
               If the data is retrieved using
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-dataForType$">
+              <a rel="gsdoc" href="#method$NSPasteboard-dataForType$">
                 -dataForType:
               </a>
 
@@ -1768,7 +1787,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard-writeFileWrapper$">writeFileWrapper:&nbsp;</a></h3>
-    - (BOOL) <b>writeFileWrapper:</b> (<a rel="gsdoc" href="../../Gui/Reference/NSFileWrapper.html#class$NSFileWrapper">NSFileWrapper</a>*)wrapper;<br />
+    - (BOOL) <b>writeFileWrapper:</b> (NSFileWrapper*)wrapper;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -1802,12 +1821,12 @@
 
               Data written to a pasteboard by this method should
               be read using the
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-readFileContentsType$toFile$">
+              <a rel="gsdoc" href="#method$NSPasteboard-readFileContentsType$toFile$">
                 -readFileContentsType:toFile:
               </a>
 
               or
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-readFileWrapper">
+              <a rel="gsdoc" href="#method$NSPasteboard-readFileWrapper">
                 -readFileWrapper
               </a>
 
@@ -1820,7 +1839,7 @@
     <p>
 
               If the data is retrieved using
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-dataForType$">
+              <a rel="gsdoc" href="#method$NSPasteboard-dataForType$">
                 -dataForType:
               </a>
 
@@ -1897,7 +1916,7 @@
         NSObject(NSPasteboardOwner)
         informal protocol
       </a></h1>
-    <h2><a rel="gsdoc" href="../../Base/Reference/NSObject.html#class$NSObject">NSObject</a>(<a name="category$NSObject(NSPasteboardOwner)">NSPasteboardOwner</a>)</h2>
+    <h2>NSObject(<a name="category$NSObject(NSPasteboardOwner)">NSPasteboardOwner</a>)</h2>
     <blockquote class="declared">
       <dl>
         <dt><b>Declared in:</b></dt>
@@ -1917,14 +1936,14 @@
     </div>
     <b>Method summary</b>
     <ul>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSObject(NSPasteboardOwner)-pasteboard$provideDataForType$">-pasteboard:provideDataForType:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSObject(NSPasteboardOwner)-pasteboard$provideDataForType$andVersion$">-pasteboard:provideDataForType:andVersion:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSObject(NSPasteboardOwner)-pasteboardChangedOwner$">-pasteboardChangedOwner:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSObject(NSPasteboardOwner)-pasteboard$provideDataForType$">-pasteboard:provideDataForType:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSObject(NSPasteboardOwner)-pasteboard$provideDataForType$andVersion$">-pasteboard:provideDataForType:andVersion:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSObject(NSPasteboardOwner)-pasteboardChangedOwner$">-pasteboardChangedOwner:</a></li>
     </ul>
     <hr width="50%" align="left" />
 <div class="method">
     <h3><a name="method$NSObject(NSPasteboardOwner)-pasteboard$provideDataForType$">pasteboard:&nbsp;provideDataForType:&nbsp;</a></h3>
-    - (void) <b>pasteboard:</b> (<a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#class$NSPasteboard">NSPasteboard</a>*)sender<b> provideDataForType:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)type;<br />
+    - (void) <b>pasteboard:</b> (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*)sender<b> provideDataForType:</b> (NSString*)type;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -1934,7 +1953,7 @@
             does not have the data that has been asked for... the
             pasteboard owner should supply the data to the
             pasteboard by calling
-            <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-setData$forType$">
+            <a rel="gsdoc" href="#method$NSPasteboard-setData$forType$">
               -setData:forType:
             </a>
 
@@ -1945,7 +1964,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSObject(NSPasteboardOwner)-pasteboard$provideDataForType$andVersion$">pasteboard:&nbsp;provideDataForType:&nbsp;andVersion:&nbsp;</a></h3>
-    - (void) <b>pasteboard:</b> (<a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#class$NSPasteboard">NSPasteboard</a>*)sender<b> provideDataForType:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)type<b> andVersion:</b> (int)version;<br />
+    - (void) <b>pasteboard:</b> (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*)sender<b> provideDataForType:</b> (NSString*)type<b> andVersion:</b> (int)version;<br />
     <div class="availability">
 <b>Availability:</b> Not in OpenStep/MacOS-X</div>
 <br />
@@ -1956,7 +1975,7 @@
             pasteboard system when it does not have the data
             that has been asked for... the pasteboard owner should
             supply the data to the pasteboard by calling
-            <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-setData$forType$">
+            <a rel="gsdoc" href="#method$NSPasteboard-setData$forType$">
               -setData:forType:
             </a>
 
@@ -1967,7 +1986,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSObject(NSPasteboardOwner)-pasteboardChangedOwner$">pasteboardChangedOwner:&nbsp;</a></h3>
-    - (void) <b>pasteboardChangedOwner:</b> (<a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#class$NSPasteboard">NSPasteboard</a>*)sender;<br />
+    - (void) <b>pasteboardChangedOwner:</b> (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*)sender;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -1984,10 +2003,102 @@
 
           <h1><a name="004000000000">
         Software documentation for the
+        NSObject(NSPasteboardReading)
+        informal protocol
+      </a></h1>
+    <h2>NSObject(<a name="category$NSObject(NSPasteboardReading)">NSPasteboardReading</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSPasteboard.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSObject(NSPasteboardReading)+readingOptionsForType$pasteboard$">+readingOptionsForType:pasteboard:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSObject(NSPasteboardReading)-initWithPasteboardPropertyList$ofType$">-initWithPasteboardPropertyList:ofType:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSObject(NSPasteboardReading)+readingOptionsForType$pasteboard$">readingOptionsForType:&nbsp;pasteboard:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPasteboardReadingOptions">NSPasteboardReadingOptions</a>) <b>readingOptionsForType:</b> (NSString*)type<b> pasteboard:</b> (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*)pasteboard;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSPasteboardReading)-initWithPasteboardPropertyList$ofType$">initWithPasteboardPropertyList:&nbsp;ofType:&nbsp;</a></h3>
+    - (id) <b>initWithPasteboardPropertyList:</b> (id)propertyList<b> ofType:</b> (NSString*)type;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="005000000000">
+        Software documentation for the
+        NSObject(NSPasteboardWriting)
+        informal protocol
+      </a></h1>
+    <h2>NSObject(<a name="category$NSObject(NSPasteboardWriting)">NSPasteboardWriting</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSPasteboard.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSObject(NSPasteboardWriting)-writingOptionsForType$pasteboard$">-writingOptionsForType:pasteboard:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSObject(NSPasteboardWriting)-writingOptionsForType$pasteboard$">writingOptionsForType:&nbsp;pasteboard:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPasteboardWritingOptions">NSPasteboardWritingOptions</a>) <b>writingOptionsForType:</b> (NSString*)type<b> pasteboard:</b> (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*)pasteboard;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="006000000000">
+        Software documentation for the
         NSPasteboard(GNUstepExtensions)
         category
       </a></h1>
-    <h2><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#class$NSPasteboard">NSPasteboard</a>(<a name="category$NSPasteboard(GNUstepExtensions)">GNUstepExtensions</a>)</h2>
+    <h2><a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>(<a name="category$NSPasteboard(GNUstepExtensions)">GNUstepExtensions</a>)</h2>
     <blockquote class="declared">
       <dl>
         <dt><b>Declared in:</b></dt>
@@ -2028,15 +2139,15 @@
     </div>
     <b>Method summary</b>
     <ul>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)+mimeTypeForPasteboardType$">+mimeTypeForPasteboardType:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)+pasteboardTypeForMimeType$">+pasteboardTypeForMimeType:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)-setChangeCount$">-setChangeCount:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)-setHistory$">-setHistory:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)+mimeTypeForPasteboardType$">+mimeTypeForPasteboardType:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)+pasteboardTypeForMimeType$">+pasteboardTypeForMimeType:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)-setChangeCount$">-setChangeCount:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)-setHistory$">-setHistory:</a></li>
     </ul>
     <hr width="50%" align="left" />
 <div class="method">
     <h3><a name="method$NSPasteboard(GNUstepExtensions)+mimeTypeForPasteboardType$">mimeTypeForPasteboardType:&nbsp;</a></h3>
-    + (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*) <b>mimeTypeForPasteboardType:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)type;<br />
+    + (NSString*) <b>mimeTypeForPasteboardType:</b> (NSString*)type;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -2051,7 +2162,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSPasteboard(GNUstepExtensions)+pasteboardTypeForMimeType$">pasteboardTypeForMimeType:&nbsp;</a></h3>
-    + (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*) <b>pasteboardTypeForMimeType:</b> (<a rel="gsdoc" href="../../Base/Reference/NSString.html#class$NSString">NSString</a>*)mimeType;<br />
+    + (NSString*) <b>pasteboardTypeForMimeType:</b> (NSString*)mimeType;<br />
     <div class="availability">
 <b>Availability:</b> OpenStep</div>
 <br />
@@ -2077,7 +2188,7 @@
     <p>
 
               Once the
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)-setChangeCount$">
+              <a rel="gsdoc" href="#method$NSPasteboard(GNUstepExtensions)-setChangeCount$">
                 -setChangeCount:
               </a>
 
@@ -2096,13 +2207,13 @@
 
               The value of <var>count</var> must be one which has
               previously been returned by
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard-declareTypes$owner$">
+              <a rel="gsdoc" href="#method$NSPasteboard-declareTypes$owner$">
                 -declareTypes:owner:
               </a>
 
               and should not be further in the past than specified
               by the
-              <a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)-setHistory$">
+              <a rel="gsdoc" href="#method$NSPasteboard(GNUstepExtensions)-setHistory$">
                 -setHistory:
               </a>
 
@@ -2129,11 +2240,11 @@
     <hr width="25%" align="left" />
 </div>
 
-          <h1><a name="005000000000">
+          <h1><a name="007000000000">
         Software documentation for the NSURL(NSPasteboard)
         category
       </a></h1>
-    <h2><a rel="gsdoc" href="../../Base/Reference/NSURL.html#class$NSURL">NSURL</a>(<a name="category$NSURL(NSPasteboard)">NSPasteboard</a>)</h2>
+    <h2>NSURL(<a name="category$NSURL(NSPasteboard)">NSPasteboard</a>)</h2>
     <blockquote class="declared">
       <dl>
         <dt><b>Declared in:</b></dt>
@@ -2150,13 +2261,13 @@
     </div>
     <b>Method summary</b>
     <ul>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSURL(NSPasteboard)+URLFromPasteboard$">+URLFromPasteboard:</a></li>
-      <li><a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#method$NSURL(NSPasteboard)-writeToPasteboard$">-writeToPasteboard:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSURL(NSPasteboard)+URLFromPasteboard$">+URLFromPasteboard:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$NSURL(NSPasteboard)-writeToPasteboard$">-writeToPasteboard:</a></li>
     </ul>
     <hr width="50%" align="left" />
 <div class="method">
     <h3><a name="method$NSURL(NSPasteboard)+URLFromPasteboard$">URLFromPasteboard:&nbsp;</a></h3>
-    + (<a rel="gsdoc" href="../../Base/Reference/NSURL.html#class$NSURL">NSURL</a>*) <b>URLFromPasteboard:</b> (<a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#class$NSPasteboard">NSPasteboard</a>*)pasteBoard;<br />
+    + (NSURL*) <b>URLFromPasteboard:</b> (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*)pasteBoard;<br />
     <div class="availability">
 <b>Availability:</b> MacOS-X 10.0.0</div>
 <br />
@@ -2170,7 +2281,7 @@
 </div>
 <div class="method">
     <h3><a name="method$NSURL(NSPasteboard)-writeToPasteboard$">writeToPasteboard:&nbsp;</a></h3>
-    - (void) <b>writeToPasteboard:</b> (<a rel="gsdoc" href="../../Gui/Reference/NSPasteboard.html#class$NSPasteboard">NSPasteboard</a>*)pasteBoard;<br />
+    - (void) <b>writeToPasteboard:</b> (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*)pasteBoard;<br />
     <div class="availability">
 <b>Availability:</b> MacOS-X 10.0.0</div>
 <br />
@@ -2178,6 +2289,108 @@
       
             Writes the receiver (as data of NSURLPboardType) to
             <var>pasteBoard</var>.
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="008000000000">
+        Software documentation for the NSPasteboardReading
+        protocol
+      </a></h1>
+    <h2><a name="protocol$(NSPasteboardReading)">NSPasteboardReading</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSPasteboard.h</dd>
+      </dl>
+    </blockquote>
+    <blockquote>
+      <dl>
+        <dt><b>Conforms to:</b></dt>
+        <dd>NSObject</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$(NSPasteboardReading)+readableTypesForPasteboard$">+readableTypesForPasteboard:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$(NSPasteboardReading)+readableTypesForPasteboard$">readableTypesForPasteboard:&nbsp;</a></h3>
+    + (NSArray*) <b>readableTypesForPasteboard:</b> (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*)pasteboard;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+
+          <h1><a name="009000000000">
+        Software documentation for the NSPasteboardWriting
+        protocol
+      </a></h1>
+    <h2><a name="protocol$(NSPasteboardWriting)">NSPasteboardWriting</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSPasteboard.h</dd>
+      </dl>
+    </blockquote>
+    <blockquote>
+      <dl>
+        <dt><b>Conforms to:</b></dt>
+        <dd>NSObject</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$(NSPasteboardWriting)-pasteboardPropertyListForType$">-pasteboardPropertyListForType:</a></li>
+      <li><a rel="gsdoc" href="NSPasteboard.html#method$(NSPasteboardWriting)-writableTypesForPasteboard$">-writableTypesForPasteboard:</a></li>
+    </ul>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$(NSPasteboardWriting)-pasteboardPropertyListForType$">pasteboardPropertyListForType:&nbsp;</a></h3>
+    - (id) <b>pasteboardPropertyListForType:</b> (NSString*)type;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr width="25%" align="left" />
+</div>
+<div class="method">
+    <h3><a name="method$(NSPasteboardWriting)-writableTypesForPasteboard$">writableTypesForPasteboard:&nbsp;</a></h3>
+    - (NSArray*) <b>writableTypesForPasteboard:</b> (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*)pasteboard;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
           
     </div>
     <hr width="25%" align="left" />

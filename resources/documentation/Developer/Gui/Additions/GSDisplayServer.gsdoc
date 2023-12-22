@@ -1,0 +1,1051 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="GSDisplayServer" up="GuiAdditions">
+  <head>
+    <title>GSDisplayServer</title>
+    <author name="Adam Fedor">
+      <email address="fedor@gnu.org">
+        fedor@gnu.org
+      </email>
+    </author>
+    <date>Generated at 2023-12-22 15:07:59 -0500</date>
+    <abstract>Abstract display server class.</abstract>
+    <copy>2002 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>GSDisplayServer</heading>
+      <p>
+        This is an abstract class which provides a framework for a
+        device independant window server. A window server
+        handles the very basic control of the computer display
+        and input. This includes basic window creation and
+        handling, event handling, cursors, and providing
+        miscellaneous information about the display.
+      </p>
+      <p>
+        Typically a backend library will provide a concrete
+        subclass which implements the device specific methods
+        described below.
+      </p>
+      <p>
+        In almost all cases, you should not call these methods
+        directly in an application. You should use the
+        equivalent methods available elsewhere in the
+        library (e.g. NSWindow, NSScreen, etc).
+      </p>
+      <class name="GSDisplayServer" super="NSObject" ovadd="1.0.0">
+        <declared>GNUstepGUI/GSDisplayServer.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <ivariable type="NSMapTable*" name="drag_types" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableArray*" name="event_queue" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableDictionary*" name="server_info" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <method type="BOOL" factory="yes" ovadd="1.0.0">
+          <sel>addDragTypes:</sel>
+          <arg type="NSArray*">types</arg>
+          <sel>toWindow:</sel>
+          <arg type="NSWindow*">win</arg>
+          <desc>
+            Convienience method that calls
+            <ref type="method" id="-addDragTypes:toWindow:">
+              -addDragTypes:toWindow:
+            </ref>
+            using the server that controls <var>win</var>.
+          </desc>
+        </method>
+        <method type="NSCountedSet*" factory="yes" ovadd="1.0.0">
+          <sel>dragTypesForWindow:</sel>
+          <arg type="NSWindow*">win</arg>
+          <desc>
+            Convienience method that calls
+            <ref type="method" id="-dragTypesForWindow:">
+              -dragTypesForWindow:
+            </ref>
+            using the server that controls <var>win</var>.
+          </desc>
+        </method>
+        <method type="BOOL" factory="yes" ovadd="1.0.0">
+          <sel>removeDragTypes:</sel>
+          <arg type="NSArray*">types</arg>
+          <sel>fromWindow:</sel>
+          <arg type="NSWindow*">win</arg>
+          <desc>
+            Convienience method that calls
+            <ref type="method" id="-removeDragTypes:fromWindow:">
+              -removeDragTypes:fromWindow:
+            </ref>
+            using the server that controls <var>win</var>.
+          </desc>
+        </method>
+        <method type="GSDisplayServer*" factory="yes" ovadd="1.0.0">
+          <sel>serverWithAttributes:</sel>
+          <arg type="NSDictionary*">attributes</arg>
+          <desc>
+            <p>
+              Create a window server with <var>attributes</var>,
+              which contains key/value pairs which describe the
+              specifics of how the window server is to be
+              initialized. Typically these values are
+              specific to the concrete implementation. The
+              current set of <var>attributes</var> that can be
+              used with GSDisplayServer is.
+            </p>
+            <list>
+              <item>GSDisplayName</item>
+              <item>GSDisplayNumber</item>
+              <item>GSScreenNumber</item>
+            </list>
+            <p>
+              GSDisplayName is window server specific and
+              shouldn't be used when creating a
+              GSDisplayServer (although you can
+              retrieve the value with the
+              <ref type="method" id="-attributes">
+                -attributes
+              </ref>
+              method). On X-Windows the value might be set to
+              something like "host:d.s" where host is the
+              host name, d is the display number and s is the
+              screen number. GSDisplayNumber indicates the
+              number of the display to open. GSScreenNumber
+              indicates the number of the screen to display
+              on. If not explicitly set, these
+              <var>attributes</var> may be taked from environment
+              variables or from other operating specific
+              information.
+            </p>
+            <p>
+              In almost all applications one would only create a
+              single instance of a window server. Although it is
+              possible, it is unlikely that you would need
+              more than one window server (and you would have to
+              be very careful how you handled window creation and
+              events in this case).
+            </p>
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="1.0.0">
+          <sel>setCurrentServer:</sel>
+          <arg type="GSDisplayServer*">server</arg>
+          <desc>
+            Sets the current <var>server</var> that will be
+            handling windows, events, etc. This method must be
+            called after a window <var>server</var> is created
+            in order to make it available to the rest of the GUI
+            library
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="1.0.0">
+          <sel>setDefaultServerClass:</sel>
+          <arg type="Class">aClass</arg>
+          <desc>
+            Set the concrete subclass that will provide the device
+            dependant implementation.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>addDragTypes:</sel>
+          <arg type="NSArray*">types</arg>
+          <sel>toWindow:</sel>
+          <arg type="NSWindow*">win</arg>
+          <desc>
+            Add (increment count by 1) each drag type to those
+            registered for the window. If this results in a
+            change to the <var>types</var> registered in the
+            counted set, return <code>YES</code>, otherwise
+            return <code>NO</code>. Subclasses should override
+            this method, call 'super' and take appropriate action
+            if the method returns 'YES'.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="1.0.0">
+          <sel>attributes</sel>
+          <desc>
+            Return information used to create the server
+          </desc>
+        </method>
+        <method type="const NSWindowDepth*" ovadd="1.0.0">
+          <sel>availableDepthsForScreen:</sel>
+          <arg type="int">screen</arg>
+          <desc>
+            Returns a null terminated list of possible window
+            depths for <var>screen</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>beep</sel>
+          <desc>
+            Play the System Beep
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="1.0.0">
+          <sel>boundsForScreen:</sel>
+          <arg type="int">screen</arg>
+          <desc>
+            Returns the bounds, in pixels, for the indicated
+            <var>screen</var> of the display.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>closeServer</sel>
+          <desc>
+            Causes the server to disconnect from the display. If
+            the receiver is the current server, it removes itself
+            and sets the current server to <code>nil</code>.
+            Sending any more messages to the receiver after
+            this is likely to cause severe problems and probably
+            crash the application.
+          </desc>
+        </method>
+        <method type="NSImage*" ovadd="1.0.0">
+          <sel>contentsOfScreen:</sel>
+          <arg type="int">screen</arg>
+          <sel>inRect:</sel>
+          <arg type="NSRect">rect</arg>
+          <desc>
+            Returns a screenshot of the specified rectangle of
+            the specified <var>screen</var>. The mouse cursor
+            should be ommitted from the returned image.
+          </desc>
+        </method>
+        <method type="id&lt;NSDraggingInfo&gt;" ovadd="1.0.0">
+          <sel>dragInfo</sel>
+          <desc>
+            Returns an instance of a class which implements the
+            NSDraggingInfo protocol.
+          </desc>
+        </method>
+        <method type="NSCountedSet*" ovadd="1.0.0">
+          <sel>dragTypesForWindow:</sel>
+          <arg type="NSWindow*">win</arg>
+          <desc>
+            Returns the drag types set for the window
+            <var>win</var>.
+          </desc>
+        </method>
+        <method type="int" ovadd="1.0.0">
+          <sel>findWindowAt:</sel>
+          <arg type="NSPoint">screenLocation</arg>
+          <sel>windowRef:</sel>
+          <arg type="int*">windowRef</arg>
+          <sel>excluding:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>glContextClass</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>glPixelFormatClass</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>handlesWindowDecorations</sel>
+          <desc>
+            Returns <code>YES</code> if the backend handles
+            window decorations and <code>NO</code> if the gui
+            library must do that instead.
+          </desc>
+        </method>
+        <method type="NSSize" ovadd="1.0.0">
+          <sel>iconSize</sel>
+          <desc>
+            Returns the size of icons and miniwindows for
+            screen.
+          </desc>
+        </method>
+        <method type="NSImage*" ovadd="1.0.0">
+          <sel>iconTileImage</sel>
+          <desc>
+            Returns a display dependent NSImage which will be
+            used as the background image for AppIcons and
+            MiniWindows. Under Windowmaker, for example
+            this could be a user specified gradient.
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="1.0.0">
+          <sel>initWithAttributes:</sel>
+          <arg type="NSDictionary*">attributes</arg>
+          <desc>
+            Initializes the server. This typically causes
+            the receiver to <em>connect</em> to the display (e.g.
+            XOpenDisplay () on an X-Windows server).
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>removeDragTypes:</sel>
+          <arg type="NSArray*">types</arg>
+          <sel>fromWindow:</sel>
+          <arg type="NSWindow*">win</arg>
+          <desc>
+            Remove (decrement count by 1) each drag type from
+            those registered for the window. If this results in a
+            change to the <var>types</var> registered in the
+            counted set, return <code>YES</code>, otherwise
+            return <code>NO</code>. If given 'nil' as the array
+            of <var>types</var>, remove ALL. Subclasses should
+            override this method, call 'super' and take
+            appropriate action if the method returns 'YES'.
+          </desc>
+        </method>
+        <method type="NSSize" ovadd="1.0.0">
+          <sel>resolutionForScreen:</sel>
+          <arg type="int">screen</arg>
+          <desc>
+            Returns the resolution, in points, for the
+            indicated <var>screen</var> of the display.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>restrictWindow:</sel>
+          <arg type="int">win</arg>
+          <sel>toImage:</sel>
+          <arg type="NSImage*">image</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>screenList</sel>
+          <desc>
+            Returns an array of NSNumbers, where each number
+            describes a screen that is available on this
+            display. The default screen is listed first.
+          </desc>
+        </method>
+        <method type="void*" ovadd="1.0.0">
+          <sel>serverDevice</sel>
+          <desc>
+            Returns a display dependant pointer that describes
+            the internal connection to the display. On X-Windows,
+            for example, this is a pointer to the
+            <code>Display</code> variable.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>slideImage:</sel>
+          <arg type="NSImage*">image</arg>
+          <sel>from:</sel>
+          <arg type="NSPoint">from</arg>
+          <sel>to:</sel>
+          <arg type="NSPoint">to</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSWindowDepth" ovadd="1.0.0">
+          <sel>windowDepthForScreen:</sel>
+          <arg type="int">screen</arg>
+          <desc>
+            Returns the default depth of windows that are
+            created on <var>screen</var>.
+          </desc>
+        </method>
+        <method type="void*" ovadd="1.0.0">
+          <sel>windowDevice:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Returns a display dependant pointer that describes
+            the internal window representation for <var>win</var>.
+            On X-Windows, for example, this is a pointer to the
+            <code>Window</code> variable.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        GSDisplayServer(EventOps) category
+      </heading>
+      <category name="EventOps" class="GSDisplayServer" ovadd="1.0.0">
+        <declared>GNUstepGUI/GSDisplayServer.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="void" ovadd="1.0.0">
+          <sel>_printEventQueue</sel>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>discardEventsMatchingMask:</sel>
+          <arg type="unsigned">mask</arg>
+          <sel>beforeEvent:</sel>
+          <arg type="NSEvent*">limit</arg>
+          <desc>
+            Steps through the event queue and removes all events
+            whose timestamp is earlier than that of
+            <var>limit</var> wand which match the supplied
+            <var>mask</var> of event types.
+          </desc>
+        </method>
+        <method type="NSEvent*" ovadd="1.0.0">
+          <sel>getEventMatchingMask:</sel>
+          <arg type="unsigned">mask</arg>
+          <sel>beforeDate:</sel>
+          <arg type="NSDate*">limit</arg>
+          <sel>inMode:</sel>
+          <arg type="NSString*">mode</arg>
+          <sel>dequeue:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Scans through the event queue to find the first event
+            whose type matches <var>mask</var>. If no event is
+            found, then the current run loop is run in the
+            specified <var>mode</var> to allow more events to
+            arrive. <br /> If a matching event is found, it is
+            returned and either removed from or left in the
+            queue according to <var>flag</var>. <br /> If no
+            matching event is found and the <var>limit</var>
+            date is reached, this method returns <code>nil</code>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>postEvent:</sel>
+          <arg type="NSEvent*">anEvent</arg>
+          <sel>atStart:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Posts an event to the event queue. The value of
+            <var>flag</var> determines whether the event is
+            inserted at the start of the queue or appended at
+            the end.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        GSDisplayServer(WindowOps) category
+      </heading>
+      <category name="WindowOps" class="GSDisplayServer" ovadd="1.0.0">
+        <declared>GNUstepGUI/GSDisplayServer.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="void" ovadd="1.0.0">
+          <sel>_setWindowOwnedByServer:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code. <br /> Tells the receiver that
+            it owns the window described by <var>win</var>. Concrete
+            subclasses must call this function when creating
+            a window. Do not call this method in any other case,
+            particularly for a window that has already
+            been created
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>appOwnsMiniwindow</sel>
+          <desc>
+            Returns <code>YES</code> if the application should
+            create the miniwindow counterpart to the full size
+            window and own it. Some display systems handle the
+            miniwindow themselves. In this case the backend
+            subclass should override this method to return
+            <code>NO</code>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>capturemouse:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Grabs the pointer device so that all future mouse
+            events will be directed only to the window
+            <var>win</var>. If successful, the return value is
+            <code>YES</code> and this message must be balanced
+            by a
+            <ref type="method" id="-releasemouse">
+              -releasemouse
+            </ref>
+            message.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>docedited:</sel>
+          <arg type="int">edited</arg>
+          <sel>:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Sets the document <var>edited</var> flag for the
+            window
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>flushwindowrect:</sel>
+          <arg type="NSRect">rect</arg>
+          <sel>:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Causes buffered graphics to be flushed to the
+            screen. The value of <var>rect</var> is expressed
+            in OpenStep window coordinates.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>freecursor:</sel>
+          <arg type="void*">cid</arg>
+          <desc>
+            Free the cursor given by the <var>cid</var>
+            representation.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>hideApplication:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Ask the window manager to hide all the application
+            windows for us. Return whether they have been
+            hidden.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>hidecursor</sel>
+          <desc>
+            Hides the cursor
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>imagecursor:</sel>
+          <arg type="NSPoint">hotp</arg>
+          <sel>:</sel>
+          <arg type="NSImage*">image</arg>
+          <sel>:</sel>
+          <arg type="void**">cid</arg>
+          <desc>
+            Create a cursor from an <var>image</var>. Returns a
+            pointer to the internal device representation that
+            can be used later to make this cursor the current one
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>miniwindow:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Miniaturizes the window
+          </desc>
+        </method>
+        <method type="NSPoint" ovadd="1.0.0">
+          <sel>mouseLocationOnScreen:</sel>
+          <arg type="int">aScreen</arg>
+          <sel>window:</sel>
+          <arg type="int*">win</arg>
+          <desc>
+            Returns the current mouse location on
+            <var>aScreen</var>. If the pointer is not on
+            <var>aScreen</var>, this method acts like
+            <ref type="method" id="-mouselocation">
+              -mouselocation
+            </ref>
+            . If <var>aScreen</var> is -1, then the location of the
+            mouse on any screen is returned. The <var>win</var>
+            pointer returns the window number of the GNUstep
+            window that the mouse is in or 0 if it is not in a
+            window. <br /> The location is expressed as an
+            offset from the bottom left corner of the screen.
+          </desc>
+        </method>
+        <method type="NSPoint" ovadd="1.0.0">
+          <sel>mouselocation</sel>
+          <desc>
+            Returns the current mouse location on the default
+            screen. If the pointer is not on the default
+            screen, an invalid point (-1,-1} is returned.
+            <br /> The location is expressed as an offset from
+            the bottom left corner of the screen.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>movewindow:</sel>
+          <arg type="NSPoint">loc</arg>
+          <sel>:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Moves the bottom left corner of the window (including
+            any border) to <var>loc</var>. <br /> The position is
+            expressed as an offset from the bottom left
+            corner of the screen.
+          </desc>
+        </method>
+        <method type="int" ovadd="1.0.0">
+          <sel>nativeWindow:</sel>
+          <arg type="void*">winref</arg>
+          <sel>:</sel>
+          <arg type="NSRect*">frame</arg>
+          <sel>:</sel>
+          <arg type="NSBackingStoreType*">type</arg>
+          <sel>:</sel>
+          <arg type="unsigned int*">style</arg>
+          <sel>:</sel>
+          <arg type="int*">screen</arg>
+          <desc>
+            Create all the backend structures for a reference to
+            a native window and return the extend, backing
+            <var>type</var>, <var>style</var> and
+            <var>screen</var> for that window.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>orderwindow:</sel>
+          <arg type="int">op</arg>
+          <sel>:</sel>
+          <arg type="int">otherWin</arg>
+          <sel>:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            <p>
+              Causes the window to be ordered onto or off the
+              screen depending on the value of <var>op</var>.
+              The window is ordered relative to <var>otherWin</var>
+              .
+            </p>
+            <p>
+              The effect of the various combinations of
+              <var>op</var> and <var>otherWin</var> are:
+            </p>
+            <deflist>
+              <term><var>op</var> is NSWindowOut</term>
+              <desc>
+                The window is removed from the display and
+                otherWinm is ignored.
+              </desc>
+              <term>
+                <var>op</var> is NSWindowAbove and
+                <var>otherWin</var> is zero
+              </term>
+              <desc>
+                The window is placed above all other windows at the
+                same level unless doing the current key window is
+                at this level (in which case the window will be
+                placed immediately below that).
+              </desc>
+              <term>
+                <var>op</var> is NSWindowAbove and
+                <var>otherWin</var> is minus one
+              </term>
+              <desc>
+                The window is placed above all other windows at the
+                same level even if doing that would place it above
+                the current key window. <br /> This is a special
+                feature that
+                <ref type="method" id="-orderWindow:relativeTo:" class="NSWindow">[NSWindow -orderWindow:relativeTo:]</ref> uses to place the window correctly.
+              </desc>
+              <term>
+                <var>op</var> is NSWindowBelow and
+                <var>otherWin</var> is zero
+              </term>
+              <desc>
+                The window is placed above all other windows at the
+                same level.
+              </desc>
+              <term>
+                <var>op</var> is NSWindowAbove and
+                <var>otherWin</var> is a window on the display
+              </term>
+              <desc>
+                The level of the window is set to be the same as
+                that of <var>otherWin</var> and the window is
+                placed immediately above <var>otherWin</var>.
+              </desc>
+              <term>
+                <var>op</var> is NSWindowBelow and
+                <var>otherWin</var> is a window on the display
+              </term>
+              <desc>
+                The level of the window is set to be the same as
+                that of <var>otherWin</var> and the window is
+                placed immediately below <var>otherWin</var>.
+              </desc>
+            </deflist>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>placewindow:</sel>
+          <arg type="NSRect">frame</arg>
+          <sel>:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Moves and resizes the window on the screen as
+            described by <var>frame</var>. The value of
+            <var>frame</var> is a rectangle containing the entire
+            window, including any border/decorations. Its
+            position is expressed as an offset from the bottom
+            left corner of the screen.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>recolorcursor:</sel>
+          <arg type="NSColor*">fg</arg>
+          <sel>:</sel>
+          <arg type="NSColor*">bg</arg>
+          <sel>:</sel>
+          <arg type="void*">cid</arg>
+          <desc>
+            Recolour the cursor given by the <var>cid</var>
+            representation into having a foreground
+            color <var>fg</var> and a background color
+            <var>bg</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>releasemouse</sel>
+          <desc>
+            Release a previous captured mouse from
+            <ref type="method" id="-capturemouse:">
+              -capturemouse:
+            </ref>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setIgnoreMouse:</sel>
+          <arg type="BOOL">ignoreMouse</arg>
+          <sel>:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setMouseLocation:</sel>
+          <arg type="NSPoint">mouseLocation</arg>
+          <sel>onScreen:</sel>
+          <arg type="int">aScreen</arg>
+          <desc>
+            Set mouse cursor position.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setParentWindow:</sel>
+          <arg type="int">parentWin</arg>
+          <sel>forChildWindow:</sel>
+          <arg type="int">childWin</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setShadow:</sel>
+          <arg type="BOOL">hasShadow</arg>
+          <sel>:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Sets the window shadow
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setWindowdevice:</sel>
+          <arg type="int">win</arg>
+          <sel>forContext:</sel>
+          <arg type="NSGraphicsContext*">ctxt</arg>
+          <desc>
+            Sets the window device information for the
+            NSGraphicsContext, typically by calling
+            <ref type="method" id="-GSSetDevice:::" class="NSGraphicsContext">[NSGraphicsContext -GSSetDevice:::]</ref>, although depending on the concrete implmentation, more information than this may need to be exchanged.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setalpha:</sel>
+          <arg type="float">alpha</arg>
+          <sel>:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Sets the transparancy value for the whole window
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setcursor:</sel>
+          <arg type="void*">cid</arg>
+          <desc>
+            Set the cursor given by the <var>cid</var>
+            representation as being the current cursor.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setcursorcolor:</sel>
+          <arg type="NSColor*">fg</arg>
+          <sel>:</sel>
+          <arg type="NSColor*">bg</arg>
+          <sel>:</sel>
+          <arg type="void*">cid</arg>
+          <desc>
+            Set the cursor given by the <var>cid</var>
+            representation as being the current cursor.
+            The cursor has a foreground color <var>fg</var> and a
+            background color <var>bg</var>. To keep the
+            default color for the cursor, pass <code>nil</code>
+            for <var>fg</var> and <var>bg</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setinputfocus:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Forces focus to the window so that all key events
+            are sent to this window
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setinputstate:</sel>
+          <arg type="int">state</arg>
+          <sel>:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Sets the input <var>state</var> for the window given
+            by the GSWindowInputState constant. Instructs the window
+            manager that the specified window is 'key', 'main',
+            or just a normal window.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setmaxsize:</sel>
+          <arg type="NSSize">size</arg>
+          <sel>:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Set the maximum <var>size</var> (pixels) of the window
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setminsize:</sel>
+          <arg type="NSSize">size</arg>
+          <sel>:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Set the minimum <var>size</var> (pixels) of the window
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setresizeincrements:</sel>
+          <arg type="NSSize">size</arg>
+          <sel>:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Set the resize incremenet of the window
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setwindowlevel:</sel>
+          <arg type="int">level</arg>
+          <sel>:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Set the <var>level</var> of the window as in the
+            [NSWindow -setLevel] method. <br /> The use of
+            window levels organises the window hierarchy into
+            groups of windows at each <var>level</var>. It
+            effects the operation of the
+            <ref type="method" id="-orderwindow:::">
+              -orderwindow:::
+            </ref>
+            method in the case where the position is 'above' or
+            'below' and the other window number is zero.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>showcursor</sel>
+          <desc>
+            Show a previously hidden cursor
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>standardcursor:</sel>
+          <arg type="int">style</arg>
+          <sel>:</sel>
+          <arg type="void**">cid</arg>
+          <desc>
+            Create a standard cursor (such as an arror or
+            IBeam). Returns a pointer to the internal device
+            representation that can be used later to
+            make this cursor the current one
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>styleoffsets:</sel>
+          <arg type="float*">l</arg>
+          <sel>:</sel>
+          <arg type="float*">r</arg>
+          <sel>:</sel>
+          <arg type="float*">t</arg>
+          <sel>:</sel>
+          <arg type="float*">b</arg>
+          <sel>:</sel>
+          <arg type="unsigned int">style</arg>
+          <desc>
+            Returns the dimensions of window decorations added
+            outside the drawable window frame by a window
+            manager or equivalent. For instance, <var>t</var>
+            gives the height of the title bar for the window.
+            <br /> If
+            <ref type="method" id="-handlesWindowDecorations">
+              -handlesWindowDecorations
+            </ref>
+            returns <code>NO</code>, there are no decorations
+            outside the drawable window frame and this method
+            shouldn't be called.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>stylewindow:</sel>
+          <arg type="unsigned int">style</arg>
+          <sel>:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Sets the <var>style</var> of the window. See
+            <ref type="method" id="-styleMask" class="NSWindow">
+              [NSWindow -styleMask]
+            </ref>
+            for a description of the available styles
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>termwindow:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Destroys the representation of the window and
+            frees and memory associated with it.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>titlewindow:</sel>
+          <arg type="NSString*">window_title</arg>
+          <sel>:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Sets the window title
+          </desc>
+        </method>
+        <method type="int" ovadd="1.0.0">
+          <sel>window:</sel>
+          <arg type="NSRect">frame</arg>
+          <sel>:</sel>
+          <arg type="NSBackingStoreType">type</arg>
+          <sel>:</sel>
+          <arg type="unsigned int">style</arg>
+          <desc>
+            Creates a window whose location and size is
+            described by <var>frame</var> and whose backing
+            store is described by <var>type</var>. This window is
+            not mapped to the screen by this call. <br /> Note that
+            <var>frame</var> is the <var>frame</var> of the
+            entire GNUstep window including borders, titlebar
+            and other standard decorations. <br /> If
+            <ref type="method" id="-handlesWindowDecorations">
+              -handlesWindowDecorations
+            </ref>
+            returns <code>YES</code>, the backend will produce
+            (and return the identifier of) a smaller drawable
+            window inside this decorated area. <br /> Use
+            <ref type="method" id="-styleoffsets:::::">
+              -styleoffsets:::::
+            </ref>
+            to determine the extent of the decorations and determine
+            the size of the drawable area inside them.
+          </desc>
+        </method>
+        <method type="int" ovadd="1.0.0">
+          <sel>window:</sel>
+          <arg type="NSRect">frame</arg>
+          <sel>:</sel>
+          <arg type="NSBackingStoreType">type</arg>
+          <sel>:</sel>
+          <arg type="unsigned int">style</arg>
+          <sel>:</sel>
+          <arg type="int">screen</arg>
+          <desc>
+            Like
+            <ref type="method" id="-window:::">
+              -window:::
+            </ref>
+            only there is an additional argument to specify which
+            <var>screen</var> the window will display on
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>windowbacking:</sel>
+          <arg type="NSBackingStoreType">type</arg>
+          <sel>:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Changes window's the backing store to
+            <var>type</var>
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="1.0.0">
+          <sel>windowbounds:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Returns the frame of the window on the screen.
+            <br /> The value of frame is a rectangle containing
+            the entire window, including any border/decorations.
+            Its position is expressed as an offset from the bottom
+            left corner of the screen.
+          </desc>
+        </method>
+        <method type="int" ovadd="1.0.0">
+          <sel>windowdepth:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Returns the depth of the window
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>windowdevice:</sel>
+          <arg type="int">winNum</arg>
+          <desc>
+            Sets the window device information for the current
+            NSGraphicsContext, typically by calling
+            <ref type="method" id="-GSSetDevice:::" class="NSGraphicsContext">[NSGraphicsContext -GSSetDevice:::]</ref>, although depending on the concrete implmentation, more information than this may need to be exchanged.
+          </desc>
+        </method>
+        <method type="int" ovadd="1.0.0">
+          <sel>windowlevel:</sel>
+          <arg type="int">win</arg>
+          <desc>
+            Returns the window level as in [NSWindow -level]
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>windowlist</sel>
+          <desc>
+            Backends can override this method to return an
+            array of window numbers ordered front to back. The
+            front most window being the first object in the
+            array. The default implementation returns the
+            visible windows in an unspecified order.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>
