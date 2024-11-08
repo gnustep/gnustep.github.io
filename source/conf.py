@@ -16,12 +16,13 @@ sys.path.insert(0, os.path.abspath("./_ext"))
 
 # -- Project information -----------------------------------------------------
 
-project = 'GNUstep Make'
-copyright = '2022, GNUstep contributors'
+project = 'GNUstep'
+copyright = '2024, GNUstep contributors'
 author = 'GNUstep contributors'
 
 # The full version, including alpha/beta/rc tags
-release = '2.9.0'
+release = '1.0'
+html_title = 'GNUstep'
 
 
 # -- General configuration ---------------------------------------------------

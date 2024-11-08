@@ -50,42 +50,42 @@ APIRefs/index
 :gutter: 1
 
 :::{grid-item-card} {octicon}`download` Install GNUstep
-:link: install/index
+:link: Guides/Install/index
 :link-type: doc
 
 Install GNUstep on your system to get started.
 :::
 
 :::{grid-item-card} {octicon}`paintbrush` Customize
-:link: customize/index
+:link: Guides/Customize/index
 :link-type: doc
 
 Customize GNUstep to suit your needs.
 :::
 
 :::{grid-item-card} {octicon}`terminal` Learn Objective-C
-:link: objc/index
+:link: Guides/ObjC/index
 :link-type: doc
 
 Learn Objective-C, the preferred programming language for GNUstep. Build simple command-line tools.
 :::
 
 :::{grid-item-card} {octicon}`rocket` Build Apps
-:link: app/index
+:link: Guides/App/index
 :link-type: doc
 
 Build example apps to learn the GNUstep framework.
 :::
 
 :::{grid-item-card} {octicon}`squirrel` Port Apps
-:link: port/index
+:link: Guides/Port/index
 :link-type: doc
 
 Bring your Mac apps to other platforms.
 :::
 
 :::{grid-item-card} {octicon}`terminal` API references
-:link: reference/index
+:link: APIRefs/index
 :link-type: doc
 
 Browse the APIs available for your apps and tools to use.
