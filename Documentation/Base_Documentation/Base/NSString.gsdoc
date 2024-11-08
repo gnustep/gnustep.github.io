@@ -1,0 +1,2558 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSString" stylesheeturl="gnustepStyle" up="Base">
+  <head>
+    <title>NSString class reference</title>
+    <author name="Andrew Kachites McCallum">
+      <email address="mccallum@gnu.ai.mit.edu">
+        mccallum@gnu.ai.mit.edu
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 16:52:01 -0500</date>
+    <copy>1995-2012 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>Portable path handling</heading>
+      <p>
+        Portable path handling (across both unix-like and
+        mswindows operating systems) requires some care. A
+        modern operating system uses the concept of a single
+        root to the filesystem, but mswindows has multiple
+        filesystems with no common root, so code must be
+        aware of this. There is also the more minor issue that
+        windows often uses a backslash as a separator between
+        the components of a path and unix-like systems always use
+        forward slash. <br /> On windows there is also the
+        issue that two styles of path are used, most commonly
+        with a drive letter and a path on that drive (eg.
+        'C:\directory\file') but also UNC paths
+        (eg. '//host/share/directory/file') so path handling
+        functions must deal with both formats.
+      </p>
+      <p>
+        GNUstep has three path handling modes, 'gnustep',
+        'unix', and 'windows'. The mode defaults to 'gnustep'
+        but may be set using the
+        <ref type="function" id="GSPathHandling">
+          GSPathHandling()
+        </ref>
+        function. <br /> You should probably stick to using
+        the default 'gnustep' mode in which the path handling
+        methods cope with both 'unix' and 'windows' style paths
+        in portable and tolerant manner: <br /> Paths are read in
+        literally so they can be in the native format
+        provided by the operating system or in a non-native
+        format. See
+        <ref type="method" id="-stringWithFileSystemRepresentation:length:" class="NSFileManager">[NSFileManager -stringWithFileSystemRepresentation:length:]</ref>. <br /> Paths are written out using the native format of the system the application is running on (eg on windows slashes are converted to backslashes). See <ref type="method" id="-fileSystemRepresentationWithPath:" class="NSFileManager">[NSFileManager -fileSystemRepresentationWithPath:]</ref>. <br /> The path handling methods accept either a forward or backward slash as a path separator when parsing any path. <br /> Unless operating in 'unix' mode, a leading letter followed by a colon is considered the start of a windows style path (the drive specifier), and a path beginning with something of the form '//host/share/' is considered the start of a UNC style path. <br /> The path handling methods add forward slashes when building new paths internally or when standardising paths, so those path strings provide a portable representation (as <strong>long</strong> as they are relative paths, not including system specific roots). <br /> An important case to note is that on windows a path which looks at first glance like an absolute path may actually be a relative one. <br /> 'C:file' is a relative path because it specifies a file on the C drive but does not say what directory it is in. <br /> Similarly, '/dir/file' is a relative path because it specifies the full location fo a file on a drive, but does not specify which drive it is on.
+      </p>
+      <p>
+        As a consequence of this path handling, you are able to work
+        completely portably using relative paths (adding
+        components, extensions and relative paths to a pth,
+        or removing components, extensions and relative paths from a
+        path etc), and when you save paths as strings in files
+        which may be transferred to another platform, you should
+        save a relative path. <br /> When you need to know
+        absolute paths of various points in the filesystem,
+        you can use various path utility functions to obtain those
+        absolute paths. For instance, instead of saving an
+        absolute path to a file, you might want to save a path
+        relative to a user's home directory. You could do that
+        by calling
+        <ref type="function" id="NSHomeDirectory">
+          NSHomeDirectory()
+        </ref>
+        to get the home directory, and only saving the part of the
+        full path after that prefix.
+      </p>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSMutableString class
+      </heading>
+      <class name="NSMutableString" super="NSString" ovadd="1.0.0">
+        <declared>Foundation/NSString.h</declared>
+        <desc>
+          This is the mutable form of the
+          <ref type="class" id="NSString">NSString</ref>
+            class.
+        </desc>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>string</sel>
+          <desc>
+            Constructs an empty string.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>stringWithCString:</sel>
+          <arg type="const char*">byteString</arg>
+          <desc>
+            Create a string based on the given C (char[])
+            string, which should be null-terminated and encoded
+            in the default C string encoding. (Characters will be
+            converted to unicode representation internally.)
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>stringWithCString:</sel>
+          <arg type="const char*">byteString</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">length</arg>
+          <desc>
+            Create a string based on the given C (char[])
+            string, which may contain null bytes and should be
+            encoded in the default C string encoding.
+            (Characters will be converted to unicode
+            representation internally.)
+          </desc>
+        </method>
+        <method type="NSMutableString*" factory="yes" ovadd="1.0.0">
+          <sel>stringWithCapacity:</sel>
+          <arg type="NSUInteger">capacity</arg>
+          <desc>
+            Constructs an empty string with initial buffer
+            size of <var>capacity</var>.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>stringWithCharacters:</sel>
+          <arg type="const unichar*">characters</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">length</arg>
+          <desc>
+            Create a string of unicode <var>characters</var>.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>stringWithContentsOfFile:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Load contents of file at <var>path</var> into a new
+            string. Will interpret file as containing direct
+            unicode if it begins with the unicode byte order
+            mark, else converts to unicode using default C string
+            encoding.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>stringWithFormat:</sel>
+          <arg type="NSString*">format</arg>
+          <vararg />
+          <desc>
+            Creates a new string using C printf-style
+            formatting. First argument should be a constant
+            <var>format</var> string, like '
+            <code>@"float val = %f"</code> ', remaining
+            arguments should be the variables to print the
+            values of, comma-separated.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>appendFormat:</sel>
+          <arg type="NSString*">format</arg>
+          <vararg />
+          <desc>
+            Modifies this string by appending string described
+            by given <var>format</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>appendString:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            Modifies this string by appending
+            <var>aString</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>deleteCharactersInRange:</sel>
+          <arg type="NSRange">range</arg>
+          <desc>
+            Modifies this instance by deleting specified
+            <var>range</var> of characters.
+          </desc>
+        </method>
+        <method type="instancetype" init="yes" override="subclass" ovadd="1.0.0">
+          <sel>initWithCapacity:</sel>
+          <arg type="NSUInteger">capacity</arg>
+          <desc>
+            Constructs an empty string with initial buffer
+            size of <var>capacity</var>. <br /> Calls
+            <ref type="method" id="-init">
+              -init
+            </ref>
+            (which does nothing but maintain MacOS-X
+            compatibility), and needs to be
+            re-implemented in subclasses in order to
+            have all other initialisers work.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>insertString:</sel>
+          <arg type="NSString*">aString</arg>
+          <sel>atIndex:</sel>
+          <arg type="NSUInteger">loc</arg>
+          <desc>
+            Modifies this instance by inserting
+            <var>aString</var> at <var>loc</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>replaceCharactersInRange:</sel>
+          <arg type="NSRange">range</arg>
+          <sel>withString:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            Modifies this instance by deleting characters in
+            <var>range</var> and then inserting
+            <var>aString</var> at its beginning.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="1.0.0">
+          <sel>replaceOccurrencesOfString:</sel>
+          <arg type="NSString*">replace</arg>
+          <sel>withString:</sel>
+          <arg type="NSString*">by</arg>
+          <sel>options:</sel>
+          <arg type="NSUInteger">opts</arg>
+          <sel>range:</sel>
+          <arg type="NSRange">searchRange</arg>
+          <desc>
+            Replaces all occurrences of the <var>replace</var>
+            string with the <var>by</var> string, for those
+            cases where the entire <var>replace</var> string lies
+            within the specified <var>searchRange</var> value.
+            <br /> The value of <var>opts</var> determines the
+            direction of the search is and whether only
+            leading/trailing occurrences (anchored
+            search) of <var>replace</var> are substituted.
+            <br /> Raises NSInvalidArgumentException if either
+            string argument is <code>nil</code>. <br /> Raises
+            NSRangeException if part of
+            <var>searchRange</var> is beyond the end of the
+            receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setString:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            Modifies this instance by replacing contents with
+            those of <var>aString</var>.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSString class
+      </heading>
+      <class name="NSString" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSString.h</declared>
+        <conform>NSCoding</conform>
+        <conform>NSCopying</conform>
+        <conform>NSMutableCopying</conform>
+        <desc>
+          <p>
+            <code>NSString</code> objects represent an immutable
+            string of Unicode 3.0 characters. These may be
+            accessed individually as type
+            <code><strong>unichar</strong></code>, an
+            <strong>unsigned</strong> <strong>short</strong>.
+            <br /> The
+            <ref type="class" id="NSMutableString">NSMutableString</ref>subclass represents a modifiable string. Both are implemented as part of a class cluster and the instances you receive may actually be of unspecified concrete subclasses.</p>
+            <p>
+              A constant <code>NSString</code> can be created using
+              the following syntax: <code>@"..."</code>, where the
+              contents of the quotes are the string, using
+              only ASCII characters.
+            </p>
+            <p>
+              A variable string can be created using a C printf-like
+              <em>format</em>, as in
+              <code>
+                [NSString stringWithFormat: @"Total is %f",
+                t]
+              </code>
+              .
+            </p>
+            <p>
+              To create a concrete subclass of <code>NSString</code>
+              , you must have your class inherit from
+              <code>NSString</code> and override at least the
+              two primitive methods -
+              <ref type="method" id="-length">
+                -length
+              </ref>
+              and
+              <ref type="method" id="-characterAtIndex:">
+                -characterAtIndex:
+              </ref>
+            </p>
+            <p>
+              In general the rule is that your subclass must
+              override any initialiser that you want to use
+              with it. The GNUstep implementation relaxes that to
+              say that, you may override only the
+              <em>designated initialiser</em> and the other
+              initialisation methods should work.
+            </p>
+            <p>
+              Where an NSString instance method returns an
+              NSString object, the class of the actual object
+              returned may be any subclass of NSString. The
+              actual value returned may be a new autoreleased
+              object, an autoreleased copy of the receiver, or
+              the receiver itsself. While the abstract base class
+              implementations of methods (other than
+              initialisers) will avoid returning mutable
+              strings by returning an autoreleased copy of a
+              mutable receiver, concrete subclasses may behave
+              differently, so code should not rely upon
+              the mutability of returned strings nor upon their
+              lifetime being greater than that of the receiver
+              which returned them.
+            </p>
+        </desc>
+        <method type="NSStringEncoding*" factory="yes" ovadd="10.0.0">
+          <sel>availableStringEncodings</sel>
+          <desc>
+            Returns an array of all available string encodings,
+            terminated by a null value.
+          </desc>
+        </method>
+        <method type="Class" factory="yes" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>constantStringClass</sel>
+          <desc>
+            Return the class used to store constant strings
+            (those ascii strings placed in the source code using
+            the @"this is a string" syntax). <br /> Use this method
+            to obtain the constant string class rather than using
+            the obsolete name <em>NXConstantString</em> in your
+            code... with more recent compiler versions the name of
+            this class is variable (and will automatically be
+            changed by GNUstep to avoid conflicts with the
+            default implementation in the Objective-C runtime
+            library).
+          </desc>
+        </method>
+        <method type="NSStringEncoding" factory="yes" ovadd="1.0.0">
+          <sel>defaultCStringEncoding</sel>
+          <desc>
+            <p>
+              Returns the encoding used for any method
+              accepting a C string. This value is determined
+              automatically from the program's
+              environment and cannot be changed
+              programmatically.
+            </p>
+            <p>
+              You should <em>NOT</em> override this method in an
+              attempt to change the encoding being used... it
+              won't work.
+            </p>
+            <p>
+              In GNUstep, this encoding is determined by the initial
+              value of the <code>GNUSTEP_STRING_ENCODING</code>
+              environment variable. If this is not defined,
+              <code>NSISOLatin1StringEncoding</code> is assumed.
+            </p>
+          </desc>
+        </method>
+        <method type="NSString*" factory="yes" ovadd="10.0.0">
+          <sel>localizedNameOfStringEncoding:</sel>
+          <arg type="NSStringEncoding">encoding</arg>
+          <desc>
+            Returns the localized name of the
+            <var>encoding</var> specified.
+          </desc>
+        </method>
+        <method type="NSString*" factory="yes" ovadd="10.0.0">
+          <sel>localizedStringWithFormat:</sel>
+          <arg type="NSString*">format</arg>
+          <vararg />
+          <desc>
+            Returns an autoreleased string with given
+            <var>format</var> using the default locale.
+          </desc>
+        </method>
+        <method type="NSString*" factory="yes" ovadd="10.0.0">
+          <sel>pathWithComponents:</sel>
+          <arg type="NSArray*">components</arg>
+          <desc>
+            Concatenates the path <var>components</var> in
+            the array and returns the result. <br /> This method
+            does not remove empty path <var>components</var>, but
+            does recognize an empty initial component as a special
+            case meaning that the string returned will begin with
+            a slash.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>string</sel>
+          <desc>
+            Create an empty string.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>stringWithCString:</sel>
+          <arg type="const char*">byteString</arg>
+          <desc>
+            Create a string based on the given C (char[])
+            string, which should be null-terminated and encoded
+            in the default C string encoding. (Characters will be
+            converted to unicode representation internally.)
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>stringWithCString:</sel>
+          <arg type="const char*">byteString</arg>
+          <sel>encoding:</sel>
+          <arg type="NSStringEncoding">encoding</arg>
+          <desc>
+            Create a string based on the given C (char[])
+            string, which should be null-terminated and encoded
+            in the specified C string <var>encoding</var>.
+            Characters may be converted to unicode
+            representation internally.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>stringWithCString:</sel>
+          <arg type="const char*">byteString</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">length</arg>
+          <desc>
+            Create a string based on the given C (char[])
+            string, which may contain null bytes and should be
+            encoded in the default C string encoding.
+            (Characters will be converted to unicode
+            representation internally.)
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>stringWithCharacters:</sel>
+          <arg type="const unichar*">chars</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">length</arg>
+          <desc>
+            Create a string of unicode characters.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>stringWithContentsOfFile:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Load contents of file at <var>path</var> into a new
+            string. Will interpret file as containing direct
+            unicode if it begins with the unicode byte order
+            mark, else converts to unicode using default C string
+            encoding.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.4.0">
+          <sel>stringWithContentsOfFile:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>encoding:</sel>
+          <arg type="NSStringEncoding">enc</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            Load contents of file at <var>path</var> into a new
+            string using the
+            <ref type="method" id="-initWithContentsOfFile:encoding:error:">-initWithContentsOfFile:encoding:error:</ref> method.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.4.0">
+          <sel>stringWithContentsOfFile:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>usedEncoding:</sel>
+          <arg type="NSStringEncoding*">enc</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            Load contents of file at <var>path</var> into a new
+            string using the
+            <ref type="method" id="-initWithContentsOfFile:usedEncoding:error:">-initWithContentsOfFile:usedEncoding:error:</ref> method.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.0.0">
+          <sel>stringWithContentsOfURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <desc>
+            Load contents of given URL into a new string. Will
+            interpret contents as containing direct unicode
+            if it begins with the unicode byte order mark, else
+            converts to unicode using default C string
+            encoding.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.4.0">
+          <sel>stringWithContentsOfURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>encoding:</sel>
+          <arg type="NSStringEncoding">enc</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.4.0">
+          <sel>stringWithContentsOfURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>usedEncoding:</sel>
+          <arg type="NSStringEncoding*">enc</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="1.0.0">
+          <sel>stringWithFormat:</sel>
+          <arg type="NSString*">format</arg>
+          <vararg />
+          <desc>
+            Creates a new string using C printf-style
+            formatting. First argument should be a constant
+            <var>format</var> string, like '
+            <code>@"float val = %f"</code> ', remaining
+            arguments should be the variables to print the
+            values of, comma-separated.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.0.0">
+          <sel>stringWithString:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            Create a copy of <var>aString</var>.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.0.0">
+          <sel>stringWithUTF8String:</sel>
+          <arg type="const char*">bytes</arg>
+          <desc>
+            Create a string based on the given UTF-8 string,
+            null-terminated. <br /> Raises
+            NSInvalidArgumentException if
+            given NULL pointer.
+          </desc>
+        </method>
+        <method type="const char*" ovadd="10.0.0">
+          <sel>UTF8String</sel>
+          <desc>
+            Returns null-terminated UTF-8 version of this
+            unicode string. The char[] memory comes from an
+            autoreleased object, so it will eventually go
+            out of scope.
+          </desc>
+        </method>
+        <method type="int" ovadd="1.0.0">
+          <sel>_baseLength</sel>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>boolValue</sel>
+          <desc>
+            Returns <code>YES</code> when scanning the
+            receiver's text from left to right finds an
+            initial digit in the range 1-9 or a letter in the
+            set ('Y', 'y', 'T', 't'). <br /> Any trailing
+            characters are ignored. <br /> Any leading
+            whitespace or zeros or signs are also ignored.
+            <br /> Returns <code>NO</code> if the above
+            conditions are not met.
+          </desc>
+        </method>
+        <method type="const char*" ovadd="1.0.0">
+          <sel>cString</sel>
+          <desc>
+            Returns a pointer to a null terminated string of
+            8-bit characters in the default encoding. The memory
+            pointed to is not owned by the caller, so the
+            caller must copy its contents to keep it. Raises an
+            <code>NSCharacterConversionException</code> if loss
+            of information would occur during conversion. (See
+            <ref type="method" id="-canBeConvertedToEncoding:">
+              -canBeConvertedToEncoding:
+            </ref>
+            .)
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="1.0.0">
+          <sel>cStringLength</sel>
+          <desc>
+            Returns length of a version of this unicode string
+            converted to bytes using the default C string
+            encoding. If the conversion would result in
+            information loss, the results are
+            unpredictable. Check
+            <ref type="method" id="-canBeConvertedToEncoding:">
+              -canBeConvertedToEncoding:
+            </ref>
+            first.
+          </desc>
+        </method>
+        <method type="const char*" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>cStringUsingEncoding:</sel>
+          <arg type="NSStringEncoding">encoding</arg>
+          <desc>
+            Returns a pointer to a null terminated string of
+            characters in the specified <var>encoding</var>.
+            <br /> NB. under GNUstep you can used this to obtain
+            a nul terminated utf-16 string (sixteen bit characters)
+            as well as eight bit strings. <br /> The memory pointed
+            to is not owned by the caller, so the caller must copy
+            its contents to keep it. <br /> Raises an
+            <code>NSCharacterConversionException</code> if loss
+            of information would occur during conversion.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>canBeConvertedToEncoding:</sel>
+          <arg type="NSStringEncoding">encoding</arg>
+          <desc>
+            Returns whether this string can be converted to the
+            given string <var>encoding</var> without information
+            loss.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>capitalizedString</sel>
+          <desc>
+            Returns version of string in which each
+            whitespace-delimited <em>word</em> is
+            capitalized (not every letter). Conversion to
+            capitals is done in a unicode-compliant manner but
+            there may be exceptional cases where behavior is not
+            what is desired.
+          </desc>
+        </method>
+        <method type="NSComparisonResult" ovadd="10.0.0">
+          <sel>caseInsensitiveCompare:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            Compares this string with <var>aString</var>
+            ignoring case. Convenience for
+            <ref type="method" id="-compare:options:range:">
+              -compare:options:range:
+            </ref>
+            with the <code>NSCaseInsensitiveSearch</code> option,
+            in the default locale.
+          </desc>
+        </method>
+        <method type="unichar" ovadd="1.0.0">
+          <sel>characterAtIndex:</sel>
+          <arg type="NSUInteger">index</arg>
+          <desc>
+            Returns unicode character at <var>index</var>.
+            <code><strong>unichar</strong></code> is an
+            <strong>unsigned</strong> <strong>short</strong>.
+            Thus, a 16-bit character is returned.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>commonPrefixWithString:</sel>
+          <arg type="NSString*">aString</arg>
+          <sel>options:</sel>
+          <arg type="NSUInteger">mask</arg>
+          <desc>
+            Returns the largest initial portion of this
+            instance shared with <var>aString</var>.
+            <var>mask</var> may be either
+            <code>NSCaseInsensitiveSearch</code> or
+            <code>NSLiteralSearch</code>. The latter requests a
+            literal byte-by-byte comparison, which is fastest
+            but may return inaccurate results in cases where two
+            different composed character sequences may be
+            used to express the same character.
+          </desc>
+        </method>
+        <method type="NSComparisonResult" ovadd="1.0.0">
+          <sel>compare:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            <p>
+              Compares this instance with <var>aString</var>.
+              Returns <code>NSOrderedAscending</code>,
+              <code>NSOrderedDescending</code>, or
+              <code>NSOrderedSame</code>, depending on whether
+              this instance occurs before or after string in
+              lexical order, or is equal to it.
+            </p>
+          </desc>
+        </method>
+        <method type="NSComparisonResult" ovadd="1.0.0">
+          <sel>compare:</sel>
+          <arg type="NSString*">aString</arg>
+          <sel>options:</sel>
+          <arg type="NSUInteger">mask</arg>
+          <desc>
+            <p>
+              Compares this instance with <var>aString</var>.
+              <var>mask</var> may be either
+              <code>NSCaseInsensitiveSearch</code> or
+              <code>NSLiteralSearch</code>. The latter requests
+              a literal byte-by-byte comparison, which is fastest but
+              may return inaccurate results in cases where two
+              different composed character sequences may be
+              used to express the same character.
+            </p>
+          </desc>
+        </method>
+        <method type="NSComparisonResult" ovadd="1.0.0">
+          <sel>compare:</sel>
+          <arg type="NSString*">aString</arg>
+          <sel>options:</sel>
+          <arg type="NSUInteger">mask</arg>
+          <sel>range:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            <p>
+              Compares this instance with string.
+              <var>mask</var> may be either
+              <code>NSCaseInsensitiveSearch</code> or
+              <code>NSLiteralSearch</code>. The latter requests
+              a literal byte-by-byte comparison, which is fastest but
+              may return inaccurate results in cases where two
+              different composed character sequences may be
+              used to express the same character.
+              <var>aRange</var> refers to this instance, and
+              should be set to 0..length to compare the whole
+              string.
+            </p>
+          </desc>
+        </method>
+        <method type="NSComparisonResult" ovadd="10.0.0">
+          <sel>compare:</sel>
+          <arg type="NSString*">string</arg>
+          <sel>options:</sel>
+          <arg type="NSUInteger">mask</arg>
+          <sel>range:</sel>
+          <arg type="NSRange">compareRange</arg>
+          <sel>locale:</sel>
+          <arg type="id">locale</arg>
+          <desc>
+            <p>
+              Compares this instance with <var>string</var>.
+              If <var>locale</var> is an NSLocale instance and ICU
+              is available, performs a comparison using the ICU
+              collator for that <var>locale</var>. If
+              <var>locale</var> is an instance of a class other
+              than NSLocale, perform a comparison using +[NSLocale
+              currentLocale]. If <var>locale</var> is
+              <code>nil</code>, or ICU is not available, use a
+              POSIX-style collation (for example, latin
+              capital letters A-Z are ordered before all of the
+              lowercase letter, a-z.)
+            </p>
+            <p>
+              <var>mask</var> may be <code>NSLiteralSearch</code>
+              , which requests a literal byte-by-byte comparison,
+              which is fastest but may return inaccurate results
+              in cases where two different composed character
+              sequences may be used to express the same
+              character;
+              <code>NSCaseInsensitiveSearch</code>, which
+              ignores case differences;
+              <code>NSDiacriticInsensitiveSearch</code> which
+              ignores accent differences;
+              <code>NSNumericSearch</code>, which sorts groups
+              of digits as numbers, so "abc2" sorts before "abc100".
+            </p>
+            <p>
+              <var>compareRange</var> refers to this instance,
+              and should be set to 0..length to compare the whole
+              <var>string</var>.
+            </p>
+            <p>
+              Returns <code>NSOrderedAscending</code>,
+              <code>NSOrderedDescending</code>, or
+              <code>NSOrderedSame</code>, depending on whether
+              this instance occurs before or after
+              <var>string</var> in lexical order, or is equal to
+              it.
+            </p>
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="1.0.0">
+          <sel>completePathIntoString:</sel>
+          <arg type="NSString**">outputName</arg>
+          <sel>caseSensitive:</sel>
+          <arg type="BOOL">flag</arg>
+          <sel>matchesIntoArray:</sel>
+          <arg type="NSArray**">outputArray</arg>
+          <sel>filterTypes:</sel>
+          <arg type="NSArray*">filterTypes</arg>
+          <desc>
+            Attempts to complete this string as a path in the
+            filesystem by finding a unique completion if one
+            exists and returning it by reference in
+            <var>outputName</var> (which must be a non-nil
+            pointer), or if it finds a set of completions
+            they are returned by reference in
+            <var>outputArray</var>, if it is non-nil.
+            <var>filterTypes</var> can be an array of strings
+            specifying extensions to consider; files without
+            these extensions will be ignored and will not
+            constitute completions. Returns 0 if no match
+            found, else a positive number that is only accurate
+            if <var>outputArray</var> was non-nil.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>componentsSeparatedByCharactersInSet:</sel>
+          <arg type="NSCharacterSet*">separator</arg>
+          <desc>
+            <p>
+              Returns an array of
+              <ref type="class" id="NSString">NSString</ref>
+                s representing substrings of this string that are
+                separated by characters in the set (which
+                must not be <code>nil</code>). If there are no
+                occurrences of <var>separator</var>, the
+                whole string is returned. If string begins or
+                ends with <var>separator</var>, empty strings will
+                be returned for those positions.
+              </p>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>componentsSeparatedByString:</sel>
+          <arg type="NSString*">separator</arg>
+          <desc>
+            <p>
+              Returns an array of
+              <ref type="class" id="NSString">NSString</ref>
+                s representing substrings of this string that are
+                separated by <var>separator</var> (which
+                itself is never returned in the array). If there
+                are no occurrences of <var>separator</var>, the
+                whole string is returned. If string begins or
+                ends with <var>separator</var>, empty strings will
+                be returned for those positions.
+              </p>
+              <p>
+                Note, use an
+                <ref type="class" id="NSScanner">NSScanner</ref>
+                  if you need more sophisticated parsing.
+                </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.10.0">
+          <sel>containsString:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            Returns <code>YES</code> if the receiver contains
+            <var>string</var>, otherwise, <code>NO</code>.
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="1.0.0">
+          <sel>dataUsingEncoding:</sel>
+          <arg type="NSStringEncoding">encoding</arg>
+          <desc>
+            Converts string to a byte array in the given
+            <var>encoding</var>, returning <code>nil</code> if
+            this would result in information loss.
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="1.0.0">
+          <sel>dataUsingEncoding:</sel>
+          <arg type="NSStringEncoding">encoding</arg>
+          <sel>allowLossyConversion:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Conversion to an <var>encoding</var> where byte
+            order matters but is not specified
+            (NSUnicodeStringEncoding,
+            NSUTF16StringEncoding,
+            NSUTF32StringEncoding) produces data
+            with a Byte Order Marker (BOM) at the start of the
+            data. <br /> Converts string to a byte array in the
+            given <var>encoding</var>. If <var>flag</var> is
+            <code>NO</code>, <code>nil</code> would be returned
+            if this would result in information loss.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.2.0">
+          <sel>decomposedStringWithCanonicalMapping</sel>
+          <desc>
+            Returns a copy of the receiver normalised using the
+            D form.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.2.0">
+          <sel>decomposedStringWithCompatibilityMapping</sel>
+          <desc>
+            Returns a copy of the receiver normalised using the
+            KD form.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>description</sel>
+          <desc>
+            Returns <code>self</code>.
+          </desc>
+        </method>
+        <method type="double" ovadd="10.0.0">
+          <sel>doubleValue</sel>
+          <desc>
+            Returns the string's content as a
+            <strong>double</strong>. Skips leading whitespace.
+            <br /> Conversion is not localised (i.e. uses '.' as
+            the decimal separator). <br /> Returns 0.0 on underflow
+            or if the string does not contain a number.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>enumerateLinesUsingBlock:</sel>
+          <arg type="GSNSStringLineEnumerationBlock">block</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>enumerateSubstringsInRange:</sel>
+          <arg type="NSRange">range</arg>
+          <sel>options:</sel>
+          <arg type="NSStringEnumerationOptions">opts</arg>
+          <sel>usingBlock:</sel>
+          <arg type="GSNSStringEnumerationBlock">block</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSStringEncoding" ovadd="1.0.0">
+          <sel>fastestEncoding</sel>
+          <desc>
+            Returns the encoding with which this string can be
+            converted without information loss that would
+            result in most efficient character access.
+          </desc>
+        </method>
+        <method type="const GSNativeChar*" ovadd="1.0.0">
+          <sel>fileSystemRepresentation</sel>
+          <desc>
+            Converts the receiver to a C string path expressed
+            in the character encoding appropriate for the local host
+            file system. This string will be automatically freed
+            soon after it is returned, so copy it if you need it
+            for <strong>long</strong>. <br /> NB. On mingw32
+            systems the filesystem representation of a path is
+            a 16-bit unicode character string, so you should only
+            pass the value returned by this method to functions
+            expecting wide characters. <br /> This method
+            uses
+            <ref type="method" id="-fileSystemRepresentationWithPath:" class="NSFileManager">[NSFileManager -fileSystemRepresentationWithPath:]</ref> to perform the conversion.
+          </desc>
+        </method>
+        <method type="float" ovadd="1.0.0">
+          <sel>floatValue</sel>
+          <desc>
+            Returns the string's content as a
+            <strong>float</strong>. Skips leading whitespace.
+            <br /> Conversion is not localised (i.e. uses '.' as
+            the decimal separator). <br /> Returns 0.0 on underflow
+            or if the string does not contain a number.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>getCString:</sel>
+          <arg type="char*">buffer</arg>
+          <desc>
+            Deprecated... do not use. <br />. Use
+            <ref type="method" id="-getCString:maxLength:encoding:">
+              -getCString:maxLength:encoding:
+            </ref>
+            instead.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>getCString:</sel>
+          <arg type="char*">buffer</arg>
+          <sel>maxLength:</sel>
+          <arg type="NSUInteger">maxLength</arg>
+          <desc>
+            Deprecated... do not use. <br />. Use
+            <ref type="method" id="-getCString:maxLength:encoding:">
+              -getCString:maxLength:encoding:
+            </ref>
+            instead.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>getCString:</sel>
+          <arg type="char*">buffer</arg>
+          <sel>maxLength:</sel>
+          <arg type="NSUInteger">maxLength</arg>
+          <sel>encoding:</sel>
+          <arg type="NSStringEncoding">encoding</arg>
+          <desc>
+            Retrieve up to <var>maxLength</var> bytes from the
+            receiver into the <var>buffer</var>. <br /> In
+            GNUstep, this method implements the actual
+            behavior of the MacOS-X method rather than it's
+            documented behavior... <br /> The
+            <var>maxLength</var> argument must be the size (in
+            bytes) of the area of memory pointed to by the
+            <var>buffer</var> argument. <br /> Returns
+            <code>YES</code> on success. <br /> Returns
+            <code>NO</code> if <var>maxLength</var> is too small
+            to hold the entire string including a terminating nul
+            character. <br /> If it returns <code>NO</code>,
+            the terminating nul will <em>not</em> have been written
+            to the <var>buffer</var>. <br /> Raises an exception if
+            the string can not be converted to the specified
+            <var>encoding</var> without loss of information.
+            <br /> eg. If the receiver is @"hello" then the
+            provided <var>buffer</var> must be at least six
+            bytes <strong>long</strong> and the value of
+            <var>maxLength</var> must be at least six if
+            NSASCIIStringEncoding is requested,
+            but they must be at least twelve if
+            NSUnicodeStringEncoding is
+            requested.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>getCString:</sel>
+          <arg type="char*">buffer</arg>
+          <sel>maxLength:</sel>
+          <arg type="NSUInteger">maxLength</arg>
+          <sel>range:</sel>
+          <arg type="NSRange">aRange</arg>
+          <sel>remainingRange:</sel>
+          <arg type="NSRange*">leftoverRange</arg>
+          <desc>
+            Deprecated... do not use. <br />. Use
+            <ref type="method" id="-getCString:maxLength:encoding:">
+              -getCString:maxLength:encoding:
+            </ref>
+            instead.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>getCharacters:</sel>
+          <arg type="unichar*">buffer</arg>
+          <desc>
+            Returns this string as an array of 16-bit
+            <code><strong>unichar</strong></code> (
+            <strong>unsigned</strong> <strong>short</strong>)
+            values. <var>buffer</var> must be preallocated and
+            should be capable of holding
+            <ref type="method" id="-length">
+              -length
+            </ref>
+            shorts.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>getCharacters:</sel>
+          <arg type="unichar*">buffer</arg>
+          <sel>range:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Returns <var>aRange</var> of string as an array of
+            16-bit <code><strong>unichar</strong></code> (
+            <strong>unsigned</strong> <strong>short</strong>)
+            values. <var>buffer</var> must be preallocated and
+            should be capable of holding a sufficient number of
+            shorts.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>getFileSystemRepresentation:</sel>
+          <arg type="GSNativeChar*">buffer</arg>
+          <sel>maxLength:</sel>
+          <arg type="NSUInteger">size</arg>
+          <desc>
+            Converts the receiver to a C string path using the
+            character encoding appropriate to the local file
+            system. This string will be stored into
+            <var>buffer</var> if it is shorter (number of
+            characters) than <var>size</var>, otherwise
+            <code>NO</code> is returned. <br /> NB. On mingw32
+            systems the filesystem representation of a path is
+            a 16-bit unicode character string, so the
+            <var>buffer</var> you pass to this method must be
+            twice as many bytes as the <var>size</var> (number of
+            characters) you expect to receive. <br /> This
+            method uses
+            <ref type="method" id="-fileSystemRepresentationWithPath:" class="NSFileManager">[NSFileManager -fileSystemRepresentationWithPath:]</ref> to perform the conversion.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>getLineStart:</sel>
+          <arg type="NSUInteger*">startIndex</arg>
+          <sel>end:</sel>
+          <arg type="NSUInteger*">lineEndIndex</arg>
+          <sel>contentsEnd:</sel>
+          <arg type="NSUInteger*">contentsEndIndex</arg>
+          <sel>forRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Determines the smallest range of lines
+            containing <var>aRange</var> and returns the
+            locations in that range. <br /> Lines are
+            delimited by any of these character sequences,
+            the longest (CRLF) sequence preferred.
+            <list>
+              <item>U+000A (linefeed)</item>
+              <item>U+000D (carriage return)</item>
+              <item>U+2028 (Unicode line separator)</item>
+              <item>U+2029 (Unicode paragraph separator)</item>
+              <item>U+000D U+000A (CRLF)</item>
+            </list>
+            The index of the first character of the line at or
+            before <var>aRange</var> is returned in
+            <var>startIndex</var>. <br /> The index of the first
+            character of the next line after the line
+            terminator is returned in endIndex. <br /> The
+            index of the last character before the line
+            terminator is returned
+            <var>contentsEndIndex</var>. <br /> Raises an
+            NSRangeException if the range is invalid,
+            but permits the index arguments to be null pointers (in
+            which case no value is returned in that argument).
+          </desc>
+        </method>
+        <method type="void" ovadd="10.3.0">
+          <sel>getParagraphStart:</sel>
+          <arg type="NSUInteger*">startIndex</arg>
+          <sel>end:</sel>
+          <arg type="NSUInteger*">parEndIndex</arg>
+          <sel>contentsEnd:</sel>
+          <arg type="NSUInteger*">contentsEndIndex</arg>
+          <sel>forRange:</sel>
+          <arg type="NSRange">range</arg>
+          <desc>
+            Not implemented
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>hasPrefix:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            Returns whether this string starts with
+            <var>aString</var>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>hasSuffix:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            Returns whether this string ends with
+            <var>aString</var>.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="1.0.0">
+          <sel>hash</sel>
+          <desc>
+            Return 28-bit hash value (in 32-bit integer). The
+            top few bits are used for other purposes in a bitfield
+            in the concrete string subclasses, so we must not use
+            the full <strong>unsigned</strong> integer.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>init</sel>
+          <desc>
+            <p>
+              In MacOS-X class clusters do not have designated
+              initialisers, and there is a general rule
+              that <ref type="method" id="-init">-init</ref> is
+              treated as the designated initialiser of the
+              class cluster, but that other intitialisers may not
+              work as expected and would need to be individually
+              overridden in any subclass.
+            </p>
+            <p>
+              GNUstep tries to make it easier to subclass a
+              class cluster, by making class clusters follow the
+              same convention as normal classes, so the designated
+              initialiser is the <em>richest</em>
+              initialiser. This means that all other
+              initialisers call the documented designated
+              initialiser (which calls
+              <ref type="method" id="-init">
+                -init
+              </ref>
+              only for MacOS-X compatibility), and anyone writing
+              a subclass only needs to override that one initialiser
+              in order to have all the other ones work.
+            </p>
+            <p>
+              For MacOS-X compatibility, you may also need to
+              override various other initialisers. Exactly
+              which ones, you will need to determine by trial on
+              a MacOS-X system... and may vary between releases of
+              MacOS-X. So to be safe, on MacOS-X you probably
+              need to re-implement <em>all</em> the class cluster
+              initialisers you might use in conjunction
+              with your subclass.
+            </p>
+            <p>
+              NB. The GNUstep designated initialiser for the
+              NSString class cluster has changed to
+              <ref type="method" id="-initWithBytesNoCopy:length:encoding:freeWhenDone:">-initWithBytesNoCopy:length:encoding:freeWhenDone:</ref> from <ref type="method" id="-initWithCharactersNoCopy:length:freeWhenDone:">-initWithCharactersNoCopy:length:freeWhenDone:</ref> and older code subclassing NSString will need to be updated.
+            </p>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>initWithBytes:</sel>
+          <arg type="const void*">bytes</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">length</arg>
+          <sel>encoding:</sel>
+          <arg type="NSStringEncoding">encoding</arg>
+          <desc>
+            Initialises the receiver with a copy of the
+            supplied <var>length</var> of <var>bytes</var>,
+            using the specified <var>encoding</var>. <br /> For
+            NSUnicodeStringEncoding and
+            NSUTF8String <var>encoding</var>, a Byte Order
+            Marker (if present at the start of the data) is
+            removed automatically. <br /> If the data can not
+            be interpreted using the <var>encoding</var>, the
+            receiver is released and <code>nil</code> is
+            returned.
+          </desc>
+        </method>
+        <method type="instancetype" init="yes" override="subclass" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>initWithBytesNoCopy:</sel>
+          <arg type="void*">bytes</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">length</arg>
+          <sel>encoding:</sel>
+          <arg type="NSStringEncoding">encoding</arg>
+          <sel>freeWhenDone:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Initialises the receiver with the supplied
+            <var>length</var> of <var>bytes</var>, using the
+            specified <var>encoding</var>. <br /> For
+            NSUnicodeStringEncoding and
+            NSUTF8String <var>encoding</var>, a Byte Order
+            Marker (if present at the start of the data) is
+            removed automatically. <br /> If the data is not in
+            a format which can be used internally unmodified, it is
+            copied, otherwise it is used as is. If the data is
+            not copied the <var>flag</var> determines whether the
+            string will free it when it is no longer needed (ie
+            whether the new NSString instance 'owns' the
+            memory). <br /> In the case of non-owned memory,
+            it is the caller's responsibility to ensure that the
+            data continues to exist and is not modified until the
+            receiver is deallocated. <br /> If the data can
+            not be interpreted using the <var>encoding</var>, the
+            receiver is released and <code>nil</code> is
+            returned.
+            <p>
+              Note, this is the most basic initialiser for
+              strings. In the GNUstep implementation, your
+              subclasses may override this initialiser in
+              order to have all other functionality.
+            </p>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithCString:</sel>
+          <arg type="const char*">byteString</arg>
+          <desc>
+            <p>
+              Initialize with given C string
+              <var>byteString</var>, which should be
+              null-terminated. Characters are
+              converted to unicode based on the default C
+              encoding. Copies the string.
+            </p>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>initWithCString:</sel>
+          <arg type="const char*">byteString</arg>
+          <sel>encoding:</sel>
+          <arg type="NSStringEncoding">encoding</arg>
+          <desc>
+            <p>
+              Initialize with given C string
+              <var>byteString</var> up to first nul byte.
+              Characters converted to unicode based on the
+              specified C <var>encoding</var>. Copies the
+              string.
+            </p>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithCString:</sel>
+          <arg type="const char*">byteString</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">length</arg>
+          <desc>
+            <p>
+              Initialize with given C string
+              <var>byteString</var> up to <var>length</var>,
+              regardless of presence of null bytes.
+              Characters converted to unicode based on the
+              default C encoding. Copies the string.
+            </p>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithCStringNoCopy:</sel>
+          <arg type="char*">byteString</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">length</arg>
+          <sel>freeWhenDone:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <p>
+              Initialize with given C string
+              <var>byteString</var> up to <var>length</var>,
+              regardless of presence of null bytes.
+              Characters converted to unicode based on the
+              default C encoding. Does not copy the string. If
+              <var>flag</var>, frees its storage when this
+              instance is deallocated.
+            </p>
+            See
+            <ref type="method" id="-initWithBytesNoCopy:length:encoding:freeWhenDone:">-initWithBytesNoCopy:length:encoding:freeWhenDone:</ref> for more details.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithCharacters:</sel>
+          <arg type="const unichar*">chars</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">length</arg>
+          <desc>
+            <p>
+              Initialize with given unicode <var>chars</var>
+              up to <var>length</var>, regardless of presence of
+              null bytes. Copies the string and frees copy when
+              deallocated.
+            </p>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithCharactersNoCopy:</sel>
+          <arg type="unichar*">chars</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">length</arg>
+          <sel>freeWhenDone:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <p>
+              Initialize with given unicode <var>chars</var>
+              up to <var>length</var>, regardless of presence of
+              null bytes. Does not copy the string. If
+              <var>flag</var>, frees its storage when this
+              instance is deallocated.
+            </p>
+            See
+            <ref type="method" id="-initWithBytesNoCopy:length:encoding:freeWhenDone:">-initWithBytesNoCopy:length:encoding:freeWhenDone:</ref> for more details.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithContentsOfFile:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            <p>
+              Initialises the receiver with the contents of
+              the file at <var>path</var>.
+            </p>
+            <p>
+              Invokes
+              <ref type="method" id="-initWithContentsOfFile:" class="NSData">[NSData -initWithContentsOfFile:]</ref> to read the file, then examines the data to infer its encoding type, and converts the data to a string using <ref type="method" id="-initWithData:encoding:">-initWithData:encoding:</ref>
+            </p>
+            <p>
+              The encoding to use is determined as follows... if
+              the data begins with the 16-bit unicode Byte Order
+              Marker, then it is assumed to be unicode data in
+              the appropriate ordering and converted as such.
+              <br /> If it begins with a UTF8 representation of
+              the BOM, the UTF8 encoding is used. <br /> Otherwise,
+              the default C String encoding is used.
+            </p>
+            <p>
+              Releases the receiver and returns
+              <code>nil</code> if the file could not be read and
+              converted to a string.
+            </p>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.4.0">
+          <sel>initWithContentsOfFile:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>encoding:</sel>
+          <arg type="NSStringEncoding">enc</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.4.0">
+          <sel>initWithContentsOfFile:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>usedEncoding:</sel>
+          <arg type="NSStringEncoding*">enc</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            <p>
+              Initialises the receiver with the contents of
+              the file at <var>path</var>.
+            </p>
+            <p>
+              Invokes
+              <ref type="method" id="-initWithContentsOfFile:" class="NSData">[NSData -initWithContentsOfFile:]</ref> to read the file, then examines the data to infer its encoding type, and converts the data to a string using <ref type="method" id="-initWithData:encoding:">-initWithData:encoding:</ref>
+            </p>
+            <p>
+              The encoding to use is determined as follows... if
+              the data begins with the 16-bit unicode Byte Order
+              Marker, then it is assumed to be unicode data in
+              the appropriate ordering and converted as such.
+              <br /> If it begins with a UTF8 representation of
+              the BOM, the UTF8 encoding is used. <br /> Otherwise,
+              the default C String encoding is used.
+            </p>
+            <p>
+              Releases the receiver and returns
+              <code>nil</code> if the file could not be read and
+              converted to a string.
+            </p>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.0.0">
+          <sel>initWithContentsOfURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <desc>
+            <p>
+              Initialises the receiver with the contents of
+              the given URL.
+            </p>
+            <p>
+              Invokes
+              <ref type="method" id="+dataWithContentsOfURL:" class="NSData">[NSData +dataWithContentsOfURL:]</ref> to read the contents, then examines the data to infer its encoding type, and converts the data to a string using <ref type="method" id="-initWithData:encoding:">-initWithData:encoding:</ref>
+            </p>
+            <p>
+              The encoding to use is determined as follows... if
+              the data begins with the 16-bit unicode Byte Order
+              Marker, then it is assumed to be unicode data in
+              the appropriate ordering and converted as such.
+              <br /> If it begins with a UTF8 representation of
+              the BOM, the UTF8 encoding is used. <br /> Otherwise,
+              the default C String encoding is used.
+            </p>
+            <p>
+              Releases the receiver and returns
+              <code>nil</code> if the URL contents could not be
+              read and converted to a string.
+            </p>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.4.0">
+          <sel>initWithContentsOfURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>encoding:</sel>
+          <arg type="NSStringEncoding">enc</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.4.0">
+          <sel>initWithContentsOfURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>usedEncoding:</sel>
+          <arg type="NSStringEncoding*">enc</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithData:</sel>
+          <arg type="NSData*">data</arg>
+          <sel>encoding:</sel>
+          <arg type="NSStringEncoding">encoding</arg>
+          <desc>
+            Initialises the receiver with the supplied
+            <var>data</var>, using the specified
+            <var>encoding</var>. <br /> For
+            NSUnicodeStringEncoding and
+            NSUTF8String <var>encoding</var>, a Byte Order
+            Marker (if present at the start of the
+            <var>data</var>) is removed automatically. <br /> If
+            the <var>data</var> can not be interpreted using the
+            <var>encoding</var>, the receiver is released and
+            <code>nil</code> is returned.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithFormat:</sel>
+          <arg type="NSString*">format</arg>
+          <vararg />
+          <desc>
+            Invokes
+            <ref type="method" id="-initWithFormat:locale:arguments:">
+              -initWithFormat:locale:arguments:
+            </ref>
+            with a <code>nil</code> locale.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithFormat:</sel>
+          <arg type="NSString*">format</arg>
+          <sel>arguments:</sel>
+          <arg type="va_list">argList</arg>
+          <desc>
+            Invokes
+            <ref type="method" id="-initWithFormat:locale:arguments:">
+              -initWithFormat:locale:arguments:
+            </ref>
+            with a <code>nil</code> locale.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.0.0">
+          <sel>initWithFormat:</sel>
+          <arg type="NSString*">format</arg>
+          <sel>locale:</sel>
+          <arg type="NSDictionary*">locale</arg>
+          <vararg />
+          <desc>
+            Invokes
+            <ref type="method" id="-initWithFormat:locale:arguments:">
+              -initWithFormat:locale:arguments:
+            </ref>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.0.0">
+          <sel>initWithFormat:</sel>
+          <arg type="NSString*">format</arg>
+          <sel>locale:</sel>
+          <arg type="NSDictionary*">locale</arg>
+          <sel>arguments:</sel>
+          <arg type="va_list">argList</arg>
+          <desc>
+            Initialises the string using the specified
+            <var>format</var> and <var>locale</var> to
+            <var>format</var> the following arguments.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithString:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            Initialize to be a copy of the given
+            <var>string</var>.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.0.0">
+          <sel>initWithUTF8String:</sel>
+          <arg type="const char*">bytes</arg>
+          <desc>
+            Initialize based on given null-terminated UTF-8
+            string <var>bytes</var>.
+          </desc>
+        </method>
+        <method type="int" ovadd="1.0.0">
+          <sel>intValue</sel>
+          <desc>
+            <p>
+              Returns the string's content as an
+              <strong>int</strong>. <br /> Current
+              implementation uses a C runtime library
+              function, which does not detect conversion
+              errors -- use with care!
+            </p>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.5.0">
+          <sel>integerValue</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>isAbsolutePath</sel>
+          <desc>
+            Returns <code>YES</code> if the receiver represents
+            an absolute path... <br /> Returns <code>NO</code>
+            otherwise. <br /> An absolute path in unix mode
+            is one which begins with a slash or tilde. <br /> In
+            windows mode a drive specification (eg C:) followed
+            by a slash or backslash, is an absolute path, as is any
+            path beginning with a tilde. <br /> In any mode a UNC
+            path (//host/share...) is always absolute. <br /> In
+            the default gnustep path handling mode, the rules are
+            the same as for windows, except that a path whose root
+            is a slash denotes an absolute path when running on unix
+            and a relative path when running under windows.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isEqual:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Returns whether the receiver and an
+            <var>anObject</var> are equals as strings. If
+            <var>anObject</var> isn't an NSString, returns
+            <code>NO</code>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isEqualToString:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            Returns whether this instance is equal as a string
+            to <var>aString</var>. See also
+            <ref type="method" id="-compare:">
+              -compare:
+            </ref>
+            and related methods.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>lastPathComponent</sel>
+          <desc>
+            Returns a string containing the last path component
+            of the receiver. <br /> The path component is the last
+            non-empty substring delimited by the ends of the
+            string, or by path separator characters. <br /> If
+            the receiver only contains a root part, this method
+            returns it. <br /> If there are no non-empty
+            substrings, this returns an empty string.
+            <br /> NB. In a windows UNC path, the host and share
+            specification is treated as a single path
+            component, even though it contains separators.
+            So a string of the form '//host/share' may be returned.
+            <br /> Other special cases are apply when the string
+            is the root.
+<example>
+   @"foo/bar" produces @"bar"
+   @"foo/bar/" produces @"bar"
+   @"/foo/bar" produces @"bar"
+   @"/foo" produces @"foo"
+   @"/" produces @"/" (root is a special case)
+   @"" produces @""
+   @"C:/" produces @"C:/" (root is a special case)
+   @"C:" produces @"C:"
+   @"//host/share/" produces @"//host/share/" (root is a special case)
+   @"//host/share" produces @"//host/share"
+ </example>
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="1.0.0">
+          <sel>length</sel>
+          <desc>
+            Returns the number of Unicode characters in this
+            string, including the individual characters of
+            composed character sequences,
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>lengthOfBytesUsingEncoding:</sel>
+          <arg type="NSStringEncoding">encoding</arg>
+          <desc>
+            Returns the number of bytes needed to encode the
+            receiver in the specified <var>encoding</var>
+            (without adding a nul character terminator).
+            <br /> Returns 0 if the conversion is not possible.
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="10.0.0">
+          <sel>lineRangeForRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Determines the smallest range of lines
+            containing <var>aRange</var> and returns the
+            information as a range. <br /> Calls
+            <ref type="method" id="-getLineStart:end:contentsEnd:forRange:">-getLineStart:end:contentsEnd:forRange:</ref> to do the work.
+          </desc>
+        </method>
+        <method type="NSComparisonResult" ovadd="10.0.0">
+          <sel>localizedCaseInsensitiveCompare:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            Compares this instance with <var>string</var>,
+            using +[NSLocale currentLocale], ignoring case.
+          </desc>
+        </method>
+        <method type="NSComparisonResult" ovadd="10.0.0">
+          <sel>localizedCompare:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            Compares this instance with <var>string</var>,
+            using +[NSLocale currentLocale].
+          </desc>
+        </method>
+        <method type="long long" ovadd="10.5.0">
+          <sel>longLongValue</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="const char*" ovadd="10.0.0">
+          <sel>lossyCString</sel>
+          <desc>
+            Returns a C string converted using the default C
+            string encoding, which may result in information
+            loss. The memory pointed to is not owned by the
+            caller, so the caller must copy its contents to
+            keep it.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>lowercaseString</sel>
+          <desc>
+            Returns a copy of the receiver with all characters
+            converted to lowercase.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.4.0" gvadd="1.2.0">
+          <sel>maximumLengthOfBytesUsingEncoding:</sel>
+          <arg type="NSStringEncoding">encoding</arg>
+          <desc>
+            Returns a size guaranteed to be large enough to
+            encode the receiver in the specified
+            <var>encoding</var> (without adding a nul character
+            terminator). This may be larger than the
+            actual number of bytes needed.
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="10.3.0">
+          <sel>paragraphRangeForRange:</sel>
+          <arg type="NSRange">range</arg>
+          <desc>
+            Not implemented
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>pathComponents</sel>
+          <desc>
+            Returns the path components of the receiver
+            separated into an array. <br /> If the receiver
+            begins with a root sequence such as the path
+            separator character (or a drive specification in
+            windows) then that is used as the first element in
+            the array. <br /> Empty components are removed. <br />
+            If a trailing path separator (which was not part of the
+            root) was present, it is added as the last element in
+            the array.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>pathExtension</sel>
+          <desc>
+            Returns a new string containing the path extension
+            of the receiver. <br /> The path extension is a suffix
+            on the last path component which starts with the
+            extension separator (a '.') (for example.tiff is
+            the pathExtension for /foo/bar.tiff). <br /> Returns an
+            empty string if no such extension exists.
+<example>
+   @"a.b" produces @"b"
+   @"a.b/" produces @"b"
+   @"/path/a.ext" produces @"ext"
+   @"/path/a." produces @""
+   @"/path/.a" produces @"" (.a is not an extension to a file)
+   @".a" produces @"" (.a is not an extension to a file)
+ </example>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.2.0">
+          <sel>precomposedStringWithCanonicalMapping</sel>
+          <desc>
+            Returns a copy of the receiver normalised using the
+            C form.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.2.0">
+          <sel>precomposedStringWithCompatibilityMapping</sel>
+          <desc>
+            Returns a copy of the receiver normalised using the
+            KC form.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>propertyList</sel>
+          <desc>
+            <p>
+              Attempts to interpret the receiver as a
+              <em>property list</em> and returns the result. If
+              the receiver does not contain a string representation
+              of a <em>property list</em> then the method returns
+              <code>nil</code>.
+            </p>
+            <p>
+              Containers (arrays and dictionaries) are
+              decoded as <em>mutable</em> objects.
+            </p>
+            <p>
+              There are three readable <em>property list</em>
+              storage formats - The binary format used by
+              <ref type="class" id="NSSerializer">NSSerializer</ref>
+                does not concern us here, but there are two 'human
+                readable' formats, the <em>traditional</em>
+                OpenStep format (which is extended in GNUstep)
+                and the <em>XML</em> format.
+              </p>
+              <p>
+                The
+                <ref type="method" id="-descriptionWithLocale:indent:" class="NSArray">[NSArray -descriptionWithLocale:indent:]</ref> and <ref type="method" id="-descriptionWithLocale:indent:" class="NSDictionary">[NSDictionary -descriptionWithLocale:indent:]</ref> methods both generate strings containing traditional style <em>property lists</em>, but <ref type="method" id="-writeToFile:atomically:" class="NSArray">[NSArray -writeToFile:atomically:]</ref> and <ref type="method" id="-writeToFile:atomically:" class="NSDictionary">[NSDictionary -writeToFile:atomically:]</ref> generate either traditional or XML style <em>property lists</em> depending on the value of the GSMacOSXCompatible and NSWriteOldStylePropertyLists user defaults. <br /> If GSMacOSXCompatible is <code>YES</code> then XML <em>property lists</em> are written unless NSWriteOldStylePropertyLists is also <code>YES</code>. <br /> By default GNUstep writes old style data and always supports reading of either style.
+              </p>
+              <p>
+                The traditional format is more compact and more
+                easily readable by people, but (without the
+                GNUstep extensions) cannot represent date and
+                number objects (except as strings). The XML
+                format is more verbose and less readable, but
+                can be fed into modern XML tools and thus used to
+                pass data to non-OpenStep applications more
+                readily.
+              </p>
+              <p>
+                The traditional format is strictly ascii encoded,
+                with any unicode characters represented by escape
+                sequences. The XML format is encoded as UTF8
+                data.
+              </p>
+              <p>
+                Both the traditional format and the XML format
+                permit comments to be placed in
+                <em>property list</em> documents. In traditional
+                format the comment notations used in Objective-C
+                programming are supported, while in XML
+                format, the standard SGML comment sequences are
+                used.
+              </p>
+              <p>
+                See the documentation for
+                <ref type="class" id="NSPropertyListSerialization">NSPropertyListSerialization</ref>for more information on what a property list is.</p>
+                <p>
+                  If the string cannot be parsed as a normal
+                  property list format, this method also tries
+                  to parse it as 'strings file' format (see the
+                  <ref type="method" id="-propertyListFromStringsFileFormat">-propertyListFromStringsFileFormat</ref> method).
+                </p>
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="1.0.0">
+          <sel>propertyListFromStringsFileFormat</sel>
+          <desc>
+            <p>
+              Reads a <em>property list</em> (see -propertyList)
+              from a simplified file format. This format is a
+              traditional style property list file
+              containing a single dictionary, but with the
+              leading '{' and trailing '}' characters omitted.
+            </p>
+            <p>
+              That is to say, the file contains only semicolon
+              separated key/value pairs (and optionally
+              comments). As a convenience, it is possible to
+              omit the equals sign and the value, so an entry
+              consists of a key string followed by a
+              semicolon. In this case, the value for that
+              key is assumed to be an empty string.
+            </p>
+<example>
+   // Strings file entries follow -
+   key1 = " a string value";
+   key2;	// This key has an empty string as a value.
+   "Another key" = "a longer string value for th third key";
+ </example>
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="1.0.0">
+          <sel>rangeOfCharacterFromSet:</sel>
+          <arg type="NSCharacterSet*">aSet</arg>
+          <desc>
+            Returns position of first character in this string
+            that is in <var>aSet</var>. Positions start at 0. If
+            the character is a composed character sequence, the
+            range returned will contain the whole sequence, else
+            just the character itself.
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="1.0.0">
+          <sel>rangeOfCharacterFromSet:</sel>
+          <arg type="NSCharacterSet*">aSet</arg>
+          <sel>options:</sel>
+          <arg type="NSUInteger">mask</arg>
+          <desc>
+            Returns position of first character in this string
+            that is in <var>aSet</var>. Positions start at 0. If
+            the character is a composed character sequence, the
+            range returned will contain the whole sequence, else
+            just the character itself. <var>mask</var> may contain
+            <code>NSCaseInsensitiveSearch</code>,
+            <code>NSLiteralSearch</code> (don't consider
+            alternate forms of composed characters equal), or
+            <code>NSBackwardsSearch</code> (search from end of
+            string).
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="1.0.0">
+          <sel>rangeOfCharacterFromSet:</sel>
+          <arg type="NSCharacterSet*">aSet</arg>
+          <sel>options:</sel>
+          <arg type="NSUInteger">mask</arg>
+          <sel>range:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Returns position of first character in this string
+            that is in <var>aSet</var>. Positions start at 0. If
+            the character is a composed character sequence, the
+            range returned will contain the whole sequence, else
+            just the character itself. <var>mask</var> may contain
+            <code>NSCaseInsensitiveSearch</code>,
+            <code>NSLiteralSearch</code> (don't consider
+            alternate forms of composed characters equal), or
+            <code>NSBackwardsSearch</code> (search from end of
+            string). Search only carried out within
+            <var>aRange</var>.
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="1.0.0">
+          <sel>rangeOfComposedCharacterSequenceAtIndex:</sel>
+          <arg type="NSUInteger">anIndex</arg>
+          <desc>
+            Unicode utility method. If character at
+            <var>anIndex</var> is part of a composed character
+            sequence <var>anIndex</var> (note indices start
+            from 0), returns the full range of this sequence.
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="10.5.0">
+          <sel>rangeOfComposedCharacterSequencesForRange:</sel>
+          <arg type="NSRange">range</arg>
+          <desc>
+            Not implemented
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="1.0.0">
+          <sel>rangeOfString:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            Invokes
+            <ref type="method" id="-rangeOfString:options:">
+              -rangeOfString:options:
+            </ref>
+            with no options.
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="1.0.0">
+          <sel>rangeOfString:</sel>
+          <arg type="NSString*">string</arg>
+          <sel>options:</sel>
+          <arg type="NSUInteger">mask</arg>
+          <desc>
+            Invokes
+            <ref type="method" id="-rangeOfString:options:range:">
+              -rangeOfString:options:range:
+            </ref>
+            with the range set set to the range of the whole of
+            the receiver.
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="1.0.0">
+          <sel>rangeOfString:</sel>
+          <arg type="NSString*">aString</arg>
+          <sel>options:</sel>
+          <arg type="NSUInteger">mask</arg>
+          <sel>range:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Returns the range giving the location and length of
+            the first occurrence of <var>aString</var> within
+            <var>aRange</var>. <br /> If <var>aString</var> does
+            not exist in the receiver (an empty string is never
+            considered to exist in the receiver), the length
+            of the returned range is zero. <br /> If
+            <var>aString</var> is <code>nil</code>, an exception
+            is raised. <br /> If any part of <var>aRange</var> lies
+            outside the range of the receiver, an exception is
+            raised. <br /> The options <var>mask</var> may
+            contain the following options -
+            <list>
+              <item><code>NSCaseInsensitiveSearch</code></item>
+              <item><code>NSLiteralSearch</code></item>
+              <item><code>NSBackwardsSearch</code></item>
+              <item><code>NSAnchoredSearch</code></item>
+            </list>
+            The <code>NSAnchoredSearch</code> option means
+            <var>aString</var> must occur at the beginning (or
+            end, if <code>NSBackwardsSearch</code> is also given)
+            of the string. Options should be OR'd together using
+            <code>'|'</code>.
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="10.5.0">
+          <sel>rangeOfString:</sel>
+          <arg type="NSString*">aString</arg>
+          <sel>options:</sel>
+          <arg type="NSStringCompareOptions">mask</arg>
+          <sel>range:</sel>
+          <arg type="NSRange">searchRange</arg>
+          <sel>locale:</sel>
+          <arg type="NSLocale*">locale</arg>
+          <desc>
+            Not implemented
+          </desc>
+        </method>
+        <method type="NSStringEncoding" ovadd="1.0.0">
+          <sel>smallestEncoding</sel>
+          <desc>
+            Returns the smallest encoding with which this
+            string can be converted without information loss.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>stringByAbbreviatingWithTildeInPath</sel>
+          <desc>
+            Returns a string where a prefix of the current
+            user's home directory is abbreviated by '~', or
+            returns the receiver (or an immutable copy) if it
+            was not found to have the home directory as a prefix.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.9.0">
+          <sel>stringByAddingPercentEncodingWithAllowedCharacters:</sel>
+          <arg type="NSCharacterSet*">aSet</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>stringByAddingPercentEscapesUsingEncoding:</sel>
+          <arg type="NSStringEncoding">e</arg>
+          <desc>
+            Constructs a new ASCII string which is a
+            representation of the receiver in which
+            characters are escaped where necessary in order
+            to produce a version of the string legal for inclusion
+            within a URL. <br /> The original string is
+            converted to bytes using the specified encoding
+            and then those bytes are escaped unless they correspond
+            to 'legal' ASCII characters. The byte values escaped are
+            any below 32 and any above 126 as well as 32 (space),
+            34 ("), 35 (#), 37 (%), 60 (&lt;), 62 (&gt;), 91 ([), 92
+            (\), 93 (]), 94 (^), 96 (~), 123 ({), 124 (|), and 125
+            (}). <br /> Returns <code>nil</code> if the receiver
+            cannot be represented using the specified encoding.
+            <br /> NB. This behavior is MacOS-X (4.2)
+            compatible, and it should be noted that it does
+            <em>not</em> produce a string suitable for use as a
+            field value in a url-encoded form as it does
+            <strong>not</strong> escape the '+', '=' and
+            '&amp;' characters used in such forms. If you need
+            to add a string as a form field value (or name) you must
+            add percent escapes for those characters yourself.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>stringByAppendingFormat:</sel>
+          <arg type="NSString*">format</arg>
+          <vararg />
+          <desc>
+            Constructs a new string consisting of this
+            instance followed by the string specified by
+            <var>format</var>.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>stringByAppendingPathComponent:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            Returns a new string with the path component given
+            in <var>aString</var> appended to the receiver. <br />
+            This removes trailing path separators from the
+            receiver and the root part from <var>aString</var>
+            and replaces them with a single slash as a path
+            separator. <br /> Also condenses any multiple
+            separator sequences in the result into single
+            path separators.
+<example>
+   @"" with @"file" produces @"file"
+   @"path" with @"file" produces @"path/file"
+   @"/" with @"file" produces @"/file"
+   @"/" with @"file" produces @"/file"
+   @"/" with @"/file" produces @"/file"
+   @"path with @"C:/file" produces @"path/file"
+ </example>
+            NB. Do not use this method to modify strings other than
+            filesystem paths as the behavior in such cases
+            is undefined... for instance the string may have
+            repeated slashes or slash-dot-slash sequences
+            removed.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>stringByAppendingPathExtension:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            Returns a new string with the path extension given
+            in <var>aString</var> appended to the receiver after an
+            extensionSeparator ('.'). <br /> If the
+            receiver has trailing path separator characters,
+            they are stripped before the extension separator is
+            added. <br /> If the receiver contains no components
+            after the root, the extension cannot be appended (an
+            extension can only be appended to a file name),
+            so a copy of the unmodified receiver is returned. <br />
+            An empty string may be used as an extension... in which
+            case the extension separator is appended. <br /> This
+            behavior mirrors that of the
+            <ref type="method" id="-stringByDeletingPathExtension">
+              -stringByDeletingPathExtension
+            </ref>
+            method.
+<example>
+   @"Mail" with @"app" produces @"Mail.app"
+   @"Mail.app" with @"old" produces @"Mail.app.old"
+   @"file" with @"" produces @"file."
+   @"/" with @"app" produces @"/" (no file name to append to)
+   @"" with @"app" produces @"" (no file name to append to)
+ </example>
+            NB. Do not use this method to modify strings other than
+            filesystem paths as the behavior in such cases
+            is undefined... for instance the string may have
+            repeated slashes or slash-dot-slash sequences
+            removed.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>stringByAppendingString:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            Constructs a new string consisting of this
+            instance followed by the <var>aString</var>.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>stringByDeletingLastPathComponent</sel>
+          <desc>
+            Returns a new string with the last path component
+            (including any final path separators) removed
+            from the receiver. <br /> A string without a path
+            component other than the root is returned without
+            alteration. <br /> See
+            <ref type="method" id="-lastPathComponent">
+              -lastPathComponent
+            </ref>
+            for a definition of a path component.
+<example>
+   @"hello/there" produces @"hello" (a relative path)
+   @"hello" produces @"" (a relative path)
+   @"/hello" produces @"/" (an absolute unix path)
+   @"/" produces @"/" (an absolute unix path)
+   @"C:file" produces @"C:" (a relative windows path)
+   @"C:" produces @"C:" (a relative windows path)
+   @"C:/file" produces @"C:/" (an absolute windows path)
+   @"C:/" produces @"C:/" (an absolute windows path)
+   @"//host/share/file" produces @"//host/share/" (a UNC path)
+   @"//host/share/" produces @"//host/share/" (a UNC path)
+   @"//path/file" produces @"//path" (an absolute Unix path)
+ </example>
+            NB. Do not use this method to modify strings other than
+            filesystem paths as the behavior in such cases
+            is undefined... for instance the string may have
+            repeated slashes or slash-dot-slash sequences
+            removed.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>stringByDeletingPathExtension</sel>
+          <desc>
+            Returns a new string with the path extension
+            removed from the receiver. <br /> Strips any
+            trailing path separators before checking for the
+            extension separator. <br /> NB. This method does
+            not consider a string which contains nothing between
+            the root part and the extension separator ('.') to be a
+            path extension. This mirrors the behavior of the
+            <ref type="method" id="-stringByAppendingPathExtension:">
+              -stringByAppendingPathExtension:
+            </ref>
+            method.
+<example>
+   @"file.ext" produces @"file"
+   @"/file.ext" produces @"/file"
+   @"/file.ext/" produces @"/file" (trailing path separators are ignored)
+   @"/file..ext" produces @"/file."
+   @"/file." produces @"/file"
+   @"/.ext" produces @"/.ext" (there is no file to strip from)
+   @".ext" produces @".ext" (there is no file to strip from)
+ </example>
+            NB. Do not use this method to modify strings other than
+            filesystem paths as the behavior in such cases
+            is undefined... for instance the string may have
+            repeated slashes or slash-dot-slash sequences
+            removed.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>stringByExpandingTildeInPath</sel>
+          <desc>
+            Returns a string created by expanding the initial
+            tilde ('~') and any following username to be the home
+            directory of the current user or the named user.
+            <br /> Returns the receiver or an immutable copy if
+            it was not possible to expand it.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>stringByPaddingToLength:</sel>
+          <arg type="NSUInteger">newLength</arg>
+          <sel>withString:</sel>
+          <arg type="NSString*">padString</arg>
+          <sel>startingAtIndex:</sel>
+          <arg type="NSUInteger">padIndex</arg>
+          <desc>
+            Returns a string formed by extending or truncating
+            the receiver to <var>newLength</var> characters. If the
+            new string is larger, it is padded by appending
+            characters from <var>padString</var> (appending
+            it as many times as required). The first character from
+            <var>padString</var> to be appended is specified by
+            <var>padIndex</var>. <br />
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.9.0">
+          <sel>stringByRemovingPercentEncoding</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.5.0">
+          <sel>stringByReplacingCharactersInRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <sel>withString:</sel>
+          <arg type="NSString*">by</arg>
+          <desc>
+            Returns a new string where the substring in the
+            given range is replaced <var>by</var> the passed
+            string.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.5.0">
+          <sel>stringByReplacingOccurrencesOfString:</sel>
+          <arg type="NSString*">replace</arg>
+          <sel>withString:</sel>
+          <arg type="NSString*">by</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.5.0">
+          <sel>stringByReplacingOccurrencesOfString:</sel>
+          <arg type="NSString*">replace</arg>
+          <sel>withString:</sel>
+          <arg type="NSString*">by</arg>
+          <sel>options:</sel>
+          <arg type="NSStringCompareOptions">opts</arg>
+          <sel>range:</sel>
+          <arg type="NSRange">searchRange</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>stringByReplacingPercentEscapesUsingEncoding:</sel>
+          <arg type="NSStringEncoding">e</arg>
+          <desc>
+            Returns a string created by replacing percent
+            escape sequences in the receiver assuming that the
+            resulting data represents characters in the
+            specified encoding. <br /> Returns
+            <code>nil</code> if the result is not a string in
+            the specified encoding.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>stringByResolvingSymlinksInPath</sel>
+          <desc>
+            First calls
+            <ref type="method" id="-stringByExpandingTildeInPath">
+              -stringByExpandingTildeInPath
+            </ref>
+            if necessary. <br /> Replaces path string by one in
+            which path components representing symbolic links
+            have been replaced by their referents. <br /> Removes
+            a leading '/private' if the result is valid. <br /> If
+            links cannot be resolved, returns an unmodified copy
+            of the receiver.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>stringByStandardizingPath</sel>
+          <desc>
+            Returns a standardised form of the receiver, with
+            unnecessary parts removed, tilde characters
+            expanded, and symbolic links resolved where
+            possible. <br /> NB. Refers to the local
+            filesystem to resolve symbolic links in absolute
+            paths, and to expand tildes... so this can't be used
+            for general path manipulation. <br /> If the string is
+            an invalid path, the unmodified receiver is returned.
+            <br />
+            <p>
+              Uses
+              <ref type="method" id="-stringByExpandingTildeInPath">
+                -stringByExpandingTildeInPath
+              </ref>
+              to expand tilde expressions. <br /> Simplifies '//'
+              and '/./' sequences and removes trailing '/' or '.'.
+              <br />
+            </p>
+            <p>
+              For absolute paths, uses
+              <ref type="method" id="-stringByResolvingSymlinksInPath">-stringByResolvingSymlinksInPath</ref> to resolve any links, then gets rid of '/../' sequences and removes any '/private' prefix.
+            </p>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>stringByTrimmingCharactersInSet:</sel>
+          <arg type="NSCharacterSet*">aSet</arg>
+          <desc>
+            Return a string formed by removing characters from
+            the ends of the receiver. Characters are removed only
+            if they are in <var>aSet</var>. <br /> If the string
+            consists entirely of characters in <var>aSet</var>
+            , an empty string is returned. <br /> The <var>aSet</var>
+            argument must not be <code>nil</code>. <br />
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>stringsByAppendingPaths:</sel>
+          <arg type="NSArray*">paths</arg>
+          <desc>
+            Returns an array of strings made by appending the
+            values in <var>paths</var> to the receiver.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>substringFromIndex:</sel>
+          <arg type="NSUInteger">index</arg>
+          <desc>
+            Returns a substring of the receiver from character
+            at the specified <var>index</var> to the end of the
+            string. <br /> So, supplying an <var>index</var> of
+            3 would return a substring consisting of the entire
+            string apart from the first three character (those
+            would be at <var>index</var> 0, 1, and 2). <br /> If
+            the supplied <var>index</var> is greater than or equal
+            to the length of the receiver an exception is raised.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>substringToIndex:</sel>
+          <arg type="NSUInteger">index</arg>
+          <desc>
+            Returns a substring of the receiver from the start
+            of the string to (but not including) the specified
+            <var>index</var> position. <br /> So, supplying an
+            <var>index</var> of 3 would return a substring
+            consisting of the first three characters of the
+            receiver. <br /> If the supplied <var>index</var>
+            is greater than the length of the receiver an exception
+            is raised.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>substringWithRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <desc>
+            Returns a substring of the receiver containing the
+            characters in <var>aRange</var>. <br /> If
+            <var>aRange</var> specifies any character position
+            not present in the receiver, an exception is raised.
+            <br /> If <var>aRange</var> has a length of zero, an
+            empty string is returned.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>uppercaseString</sel>
+          <desc>
+            Returns a copy of the receiver with all characters
+            converted to uppercase.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>writeToFile:</sel>
+          <arg type="NSString*">filename</arg>
+          <sel>atomically:</sel>
+          <arg type="BOOL">useAuxiliaryFile</arg>
+          <desc>
+            Writes contents out to file at <var>filename</var>,
+            using the default C string encoding unless this would
+            result in information loss, otherwise straight
+            unicode. The ' <code>atomically</code> ' option if
+            set will cause the contents to be written to a temp
+            file, which is then closed and renamed to
+            <var>filename</var>. Thus, an incomplete file at
+            <var>filename</var> should never result.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0">
+          <sel>writeToFile:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>atomically:</sel>
+          <arg type="BOOL">atomically</arg>
+          <sel>encoding:</sel>
+          <arg type="NSStringEncoding">enc</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            Writes contents out to file at filename, using the
+            default C string encoding unless this would result
+            in information loss, otherwise straight unicode. The '
+            <code><var>atomically</var></code> ' option if set
+            will cause the contents to be written to a temp file,
+            which is then closed and renamed to filename. Thus,
+            an incomplete file at filename should never result.
+            <br /> If there is a problem and <var>error</var> is
+            not NULL, the cause of the problem is returned in
+            *error.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>writeToURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>atomically:</sel>
+          <arg type="BOOL">atomically</arg>
+          <desc>
+            Writes contents out to <var>url</var>, using the
+            default C string encoding unless this would result
+            in information loss, otherwise straight unicode. See
+            <ref type="method" id="-writeData:" class="NSURLHandle">
+              [NSURLHandle -writeData:]
+            </ref>
+            on which URL types are supported. The '
+            <code><var>atomically</var></code> ' option is only
+            heeded if the URL is a <code>file://</code> URL; see
+            <ref type="method" id="-writeToFile:atomically:">
+              -writeToFile:atomically:
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0">
+          <sel>writeToURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>atomically:</sel>
+          <arg type="BOOL">atomically</arg>
+          <sel>encoding:</sel>
+          <arg type="NSStringEncoding">enc</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            Writes contents out to <var>url</var>, using the
+            default C string encoding unless this would result
+            in information loss, otherwise straight unicode. See
+            <ref type="method" id="-writeData:" class="NSURLHandle">
+              [NSURLHandle -writeData:]
+            </ref>
+            on which URL types are supported. The '
+            <code><var>atomically</var></code> ' option is only
+            heeded if the URL is a <code>file://</code> URL; see
+            <ref type="method" id="-writeToFile:atomically:">
+              -writeToFile:atomically:
+            </ref>
+            . <br /> If there is a problem and <var>error</var> is
+            not NULL, the cause of the problem is returned in
+            *error.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NXConstantString class
+      </heading>
+      <class name="NXConstantString" super="NSString" ovadd="1.0.0">
+        <declared>Foundation/NSString.h</declared>
+        <desc>
+          <p>
+            The NXConstantString class is used to hold constant
+            8-bit character string objects produced by the
+            compiler where it sees @"..." in the source. The
+            compiler generates the instances of this class -
+            which has three instance variables -
+          </p>
+          <list>
+            <item>
+              a pointer to the class (this is the sole ivar of
+              NSObject)
+            </item>
+            <item>a pointer to the 8-bit data</item>
+            <item>the length of the string</item>
+          </list>
+          <p>
+            In older versions of the compiler, the isa variable is
+            always set to the NXConstantString class. In newer
+            versions a compiler option was added for GNUstep,
+            to permit the isa variable to be set to another class,
+            and GNUstep uses this to avoid conflicts with the
+            default implementation of NXConstantString in the
+            ObjC runtime library (the preprocessor is used to
+            change all occurrences of NXConstantString in the
+            source code to NSConstantString).
+          </p>
+          <p>
+            Since GNUstep will generally use the GNUstep
+            extension to the compiler, you should never refer
+            to the constant string class by name, but should use the
+            <ref type="method" id="+constantStringClass" class="NSString">[NSString +constantStringClass]</ref> method to get the actual class being used for constant strings.
+          </p>
+          What follows is a dummy declaration of the class to keep
+          the compiler happy.
+        </desc>
+        <ivariable type="uint32_t" name="flags" validity="public" ovadd="1.0.0">
+          <desc>
+            Flags. The low 16 bits are reserved for the
+            compiler, the top 16 for use by the Foundation
+            Framework. Currently only the low 2 bits are
+            used, to indicate the encoding of the string, with
+            the following values: 0. ASCII (UTF-8 using only 7-bit
+            characters) 1. UTF-8 2. UTF-16 3. UTF-32
+          </desc>
+        </ivariable>
+        <ivariable type="uint32_t" name="hash" validity="public" ovadd="1.0.0">
+          <desc>
+            Hash value.
+          </desc>
+        </ivariable>
+        <ivariable type="const unsigned int" name="nxcslen" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="const char* const" name="nxcsptr" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="uint32_t" name="size" validity="public" ovadd="1.0.0">
+          <desc>
+            The number of bytes in the string. For fixed-length
+            encodings, this is a fixed multiple of nxcslen,
+            but for UTF-8 it can be different.
+          </desc>
+        </ivariable>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

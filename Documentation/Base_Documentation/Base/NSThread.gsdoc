@@ -1,0 +1,658 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSThread" stylesheeturl="gnustepStyle" up="Base">
+  <head>
+    <title>NSThread class reference</title>
+    <author name="Scott Christley">
+      <email address="scottc@net-community.com">
+        scottc@net-community.com
+      </email>
+    </author>
+    <author name="Andrew Kachites McCallum">
+      <email address="mccallum@gnu.ai.mit.edu">
+        mccallum@gnu.ai.mit.edu
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <author name="Nicola Pero">
+      <email address="n.pero@mi.flashnet.it">
+        n.pero@mi.flashnet.it
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 16:52:01 -0500</date>
+    <copy>1996-2018 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSThread class
+      </heading>
+      <class name="NSThread" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSThread.h</declared>
+        <desc>
+          This class encapsulates OpenStep threading. See
+          <ref type="class" id="NSLock">NSLock</ref>
+            and its subclasses for handling synchronisation between
+            threads. <br /> Each process begins with a main
+            thread and additional threads can be created using
+            NSThread. The GNUstep implementation of OpenStep
+            has been carefully designed so that the internals of
+            the base library do not use threading (except for
+            methods which explicitly deal with threads of
+            course) so that you can write applications without
+            threading. Non-threaded applications are more
+            efficient (no locking is required) and are easier
+            to debug during development.
+        </desc>
+        <ivariable type="BOOL" name="_active" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_arg" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="struct autorelease_thread_vars" name="_autorelease_vars" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_cancelled" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSHandler*" name="_exception_handler" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_finished" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_gcontext" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="_name" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="void*" name="_runLoopInfo" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="SEL" name="_selector" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSUInteger" name="_stackSize" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_stringCollatorCache" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_target" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_targetIsBlock" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableDictionary*" name="_thread_dictionary" validity="public" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="NSArray*" factory="yes" ovadd="10.5.0" gvadd="1.15.1">
+          <sel>callStackReturnAddresses</sel>
+          <desc>
+            Returns an array of the call stack return
+            addresses.
+          </desc>
+        </method>
+        <method type="NSThread*" factory="yes" ovadd="1.0.0">
+          <sel>currentThread</sel>
+          <desc>
+            <p>
+              Returns the NSThread object corresponding to the
+              current thread.
+            </p>
+            <p>
+              NB. In GNUstep the library internals use the
+              <ref type="function" id="GSCurrentThread">
+                GSCurrentThread()
+              </ref>
+              function as a more efficient mechanism for doing
+              this job - so you cannot use a category to override
+              this method and expect the library internals to use
+              your implementation.
+            </p>
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="1.0.0">
+          <sel>detachNewThreadSelector:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>toTarget:</sel>
+          <arg type="id">aTarget</arg>
+          <sel>withObject:</sel>
+          <arg type="id">anArgument</arg>
+          <desc>
+            <p>
+              Create a new thread - use this method rather than
+              alloc-init. The new thread will begin
+              executing the message given by
+              <var>aSelector</var>, <var>aTarget</var>, and
+              <var>anArgument</var>. This should have no return
+              value, and must set up an autorelease pool if
+              retain/release memory management is used.
+              It should free this pool before it finishes execution.
+            </p>
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="1.0.0">
+          <sel>exit</sel>
+          <desc>
+            Terminates the current thread. <br /> Normally
+            you don't need to call this method explicitly, since
+            exiting the method with which the thread was
+            detached causes this method to be called
+            automatically.
+          </desc>
+        </method>
+        <method type="BOOL" factory="yes" ovadd="10.5.0" gvadd="1.15.1">
+          <sel>isMainThread</sel>
+          <desc>
+            Returns a boolean indicating whether this thread is
+            the main thread of the process.
+          </desc>
+        </method>
+        <method type="BOOL" factory="yes" ovadd="1.0.0">
+          <sel>isMultiThreaded</sel>
+          <desc>
+            Returns a flag to say whether the application is
+            multi-threaded or not. <br /> An application
+            is considered to be multi-threaded if any thread other
+            than the main thread has been started, irrespective of
+            whether that thread has since terminated. <br />
+            NB. This method returns <code>YES</code> if called
+            within a handler processing
+            <code>NSWillBecomeMultiThreadedNotification</code>
+          </desc>
+        </method>
+        <method type="NSThread*" factory="yes" ovadd="10.5.0" gvadd="1.15.1">
+          <sel>mainThread</sel>
+          <desc>
+            Returns the main thread of the process.
+          </desc>
+        </method>
+        <method type="BOOL" factory="yes" ovadd="10.2.0" gvadd="1.2.0">
+          <sel>setThreadPriority:</sel>
+          <arg type="double">pri</arg>
+          <desc>
+            Set the priority of the current thread. This is a value
+            in the range 0.0 (lowest) to 1.0 (highest) which is
+            mapped to the underlying system priorities.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="10.5.0" gvadd="1.15.1">
+          <sel>sleepForTimeInterval:</sel>
+          <arg type="NSTimeInterval">ti</arg>
+          <desc>
+            Suspends execution of the process for the
+            specified period.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="1.0.0">
+          <sel>sleepUntilDate:</sel>
+          <arg type="NSDate*">date</arg>
+          <desc>
+            Delaying a thread... pause until the specified
+            <var>date</var>.
+          </desc>
+        </method>
+        <method type="double" factory="yes" ovadd="10.2.0" gvadd="1.2.0">
+          <sel>threadPriority</sel>
+          <desc>
+            Return the priority of the current thread.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0" gvadd="1.15.1">
+          <sel>cancel</sel>
+          <desc>
+            Cancels the receiving thread.
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="10.5.0" gvadd="1.15.1">
+          <sel>init</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.5.0" gvadd="1.15.1">
+          <sel>initWithTarget:</sel>
+          <arg type="id">aTarget</arg>
+          <sel>selector:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>object:</sel>
+          <arg type="id">anArgument</arg>
+          <desc>
+            Initialises the receiver to send the message
+            <var>aSelector</var> to the object <var>aTarget</var>
+            with the argument <var>anArgument</var> (which may be
+            <code>nil</code>). <br /> The arguments
+            <var>aTarget</var> and <var>aSelector</var> are
+            retained while the thread is running.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0" gvadd="1.15.1">
+          <sel>isCancelled</sel>
+          <desc>
+            Returns a boolean indicating whether the receiving
+            thread has been cancelled.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0" gvadd="1.15.1">
+          <sel>isExecuting</sel>
+          <desc>
+            Returns a boolean indicating whether the receiving
+            thread has been started (and has not yet finished or
+            been cancelled).
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0" gvadd="1.15.1">
+          <sel>isFinished</sel>
+          <desc>
+            Returns a boolean indicating whether the receiving
+            thread has completed executing.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0" gvadd="1.15.1">
+          <sel>isMainThread</sel>
+          <desc>
+            Returns a boolean indicating whether this thread is
+            the main thread of the process.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0" gvadd="1.15.1">
+          <sel>main</sel>
+          <desc>
+            FIXME... what does this do?
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.5.0" gvadd="1.15.1">
+          <sel>name</sel>
+          <desc>
+            Returns the name of the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0" gvadd="1.15.1">
+          <sel>setName:</sel>
+          <arg type="NSString*">aName</arg>
+          <desc>
+            Sets the name of the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0" gvadd="1.15.1">
+          <sel>setStackSize:</sel>
+          <arg type="NSUInteger">stackSize</arg>
+          <desc>
+            Sets the size of the receiver's stack.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.5.0" gvadd="1.15.1">
+          <sel>stackSize</sel>
+          <desc>
+            Returns the size of the receiver's stack.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0" gvadd="1.15.1">
+          <sel>start</sel>
+          <desc>
+            Starts the receiver executing.
+          </desc>
+        </method>
+        <method type="NSMutableDictionary*" ovadd="1.0.0">
+          <sel>threadDictionary</sel>
+          <desc>
+            Return the thread dictionary. This dictionary can be
+            used to store arbitrary thread specific data. <br />
+            NB. This cannot be autoreleased, since we cannot be
+            sure that the autorelease pool for the thread will
+            continue to exist for the entire life of the
+            thread!
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSThreadPerformAdditions)
+        category
+      </heading>
+      <category name="NSThreadPerformAdditions" class="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSThread.h</declared>
+        <desc>
+          Extra methods to permit messages to be sent to an
+          object such that they are executed in <em>another</em>
+          thread. <br /> The main thread is the thread in which
+          the GNUstep system is started, and where the GNUstep gui
+          is used, it is the thread in which gui drawing operations
+          <strong>must</strong> be performed.
+        </desc>
+        <method type="void" gvadd="10.5.0">
+          <sel>performSelector:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>onThread:</sel>
+          <arg type="NSThread*">aThread</arg>
+          <sel>withObject:</sel>
+          <arg type="id">anObject</arg>
+          <sel>waitUntilDone:</sel>
+          <arg type="BOOL">aFlag</arg>
+          <desc>
+            Invokes
+            <ref type="method" id="-performSelector:onThread:withObject:waitUntilDone:modes:">-performSelector:onThread:withObject:waitUntilDone:modes:</ref> using the supplied arguments and an array containing common modes. <br /> These modes consist of NSRunLoopMode, NSConnectionreplyMode, and if in an application, the NSApplication modes.
+          </desc>
+        </method>
+        <method type="void" gvadd="10.5.0">
+          <sel>performSelector:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>onThread:</sel>
+          <arg type="NSThread*">aThread</arg>
+          <sel>withObject:</sel>
+          <arg type="id">anObject</arg>
+          <sel>waitUntilDone:</sel>
+          <arg type="BOOL">aFlag</arg>
+          <sel>modes:</sel>
+          <arg type="NSArray*">anArray</arg>
+          <desc>
+            <p>
+              This method performs <var>aSelector</var> on the
+              receiver, passing <var>anObject</var> as an
+              argument, but does so in the specified thread.
+              The receiver and <var>anObject</var> are both
+              retained until the method is performed.
+            </p>
+            <p>
+              The selector is performed when the runloop of
+              <var>aThread</var> next runs in one of the modes
+              specified in <var>anArray</var>. <br /> Where
+              this method has been called more than once before
+              the runloop of the thread runs in the required mode,
+              the order in which the operations in the thread is
+              done is the same as that in which they were added
+              using this method.
+            </p>
+            <p>
+              If there are no modes in <var>anArray</var>, the
+              method has no effect and simply returns
+              immediately.
+            </p>
+            <p>
+              The argument <var>aFlag</var> specifies whether the
+              method should wait until the selector has been
+              performed before returning. <br />
+              <strong>NB.</strong> This method does
+              <em>not</em> cause the runloop of <var>aThread</var>
+              to be run... so if the runloop is not executed by some
+              code in <var>aThread</var>, the thread waiting for
+              the perform to complete will block forever.
+            </p>
+            <p>
+              As a special case, if <var>aFlag</var> ==
+              <code>YES</code> and the current thread is
+              <var>aThread</var>, the modes array is ignored and
+              the selector is performed immediately. This behavior
+              is necessary to avoid the current thread being blocked
+              by waiting for a perform which will never happen
+              because the runloop is not executing.
+            </p>
+          </desc>
+        </method>
+        <method type="void" gvadd="10.5.0">
+          <sel>performSelectorInBackground:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>withObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Creates and runs a new background thread sending
+            <var>aSelector</var> to the receiver and passing
+            <var>anObject</var> (which may be <code>nil</code>)
+            as the argument.
+          </desc>
+        </method>
+        <method type="void" gvadd="10.2.0">
+          <sel>performSelectorOnMainThread:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>withObject:</sel>
+          <arg type="id">anObject</arg>
+          <sel>waitUntilDone:</sel>
+          <arg type="BOOL">aFlag</arg>
+          <desc>
+            Invokes
+            <ref type="method" id="-performSelectorOnMainThread:withObject:waitUntilDone:modes:">-performSelectorOnMainThread:withObject:waitUntilDone:modes:</ref> using the supplied arguments and an array containing common modes. <br /> These modes consist of NSRunLoopMode, NSConnectionReplyMode, and if in an application, the NSApplication modes.
+          </desc>
+        </method>
+        <method type="void" gvadd="10.2.0">
+          <sel>performSelectorOnMainThread:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>withObject:</sel>
+          <arg type="id">anObject</arg>
+          <sel>waitUntilDone:</sel>
+          <arg type="BOOL">aFlag</arg>
+          <sel>modes:</sel>
+          <arg type="NSArray*">anArray</arg>
+          <desc>
+            <p>
+              This method performs <var>aSelector</var> on the
+              receiver, passing <var>anObject</var> as an
+              argument, but does so in the main thread of the
+              program. The receiver and <var>anObject</var>
+              are both retained until the method is performed.
+            </p>
+            <p>
+              The selector is performed when the runloop of the
+              main thread next runs in one of the modes specified
+              in <var>anArray</var>. <br /> Where this method has
+              been called more than once before the runloop of the
+              main thread runs in the required mode, the order in
+              which the operations in the main thread is done is
+              the same as that in which they were added using this
+              method.
+            </p>
+            <p>
+              If there are no modes in <var>anArray</var>, the
+              method has no effect and simply returns
+              immediately.
+            </p>
+            <p>
+              The argument <var>aFlag</var> specifies whether the
+              method should wait until the selector has been
+              performed before returning. <br />
+              <strong>NB.</strong> This method does
+              <em>not</em> cause the runloop of the main thread to
+              be run... so if the runloop is not executed by some
+              code in the main thread, the thread waiting for the
+              perform to complete will block forever.
+            </p>
+            <p>
+              As a special case, if <var>aFlag</var> ==
+              <code>YES</code> and the current thread is the
+              main thread, the modes array is ignored and the
+              selector is performed immediately. This behavior
+              is necessary to avoid the main thread being blocked by
+              waiting for a perform which will never happen
+              because the runloop is not executing.
+            </p>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSThread(BlockAdditions) category
+      </heading>
+      <category name="BlockAdditions" class="NSThread" ovadd="1.0.0">
+        <declared>Foundation/NSThread.h</declared>
+        <desc>
+          This category contains convenience initialisers and
+          methods for executing blocks in different threads and
+          creating NSThread objects with a block as entry
+          point.
+        </desc>
+        <method type="void" factory="yes" ovadd="10.12.0">
+          <sel>detachNewThreadWithBlock:</sel>
+          <arg type="GSThreadBlock">block</arg>
+          <desc>
+            Detaches a new thread with <var>block</var> as its
+            entry point.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.12.0">
+          <sel>initWithBlock:</sel>
+          <arg type="GSThreadBlock">block</arg>
+          <desc>
+            Initialises a NSThread object with
+            <var>block</var> as the entry point.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSThread(CallStackSymbols) category
+      </heading>
+      <category name="CallStackSymbols" class="NSThread" ovadd="1.0.0">
+        <declared>Foundation/NSThread.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="NSArray*" factory="yes" gvadd="10.6.0">
+          <sel>callStackSymbols</sel>
+          <desc>
+            Returns an array of NSString objects representing
+            the current stack in an implementation-defined format.
+            May return an empty array if this feature is not
+            available.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSThread(GSLockInfo)
+        category
+      </heading>
+      <category name="GSLockInfo" class="NSThread" gvadd="0.0.0" gvrem="0.0.0">
+        <declared>Foundation/NSThread.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="NSString*" gvadd="0.0.0" gvrem="0.0.0">
+          <sel>mutexDrop:</sel>
+          <arg type="id">mutex</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" gvadd="0.0.0" gvrem="0.0.0">
+          <sel>mutexHold:</sel>
+          <arg type="id">mutex</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" gvadd="0.0.0" gvrem="0.0.0">
+          <sel>mutexWait:</sel>
+          <arg type="id">mutex</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

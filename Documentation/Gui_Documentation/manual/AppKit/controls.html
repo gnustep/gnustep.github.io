@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- (C) 2005-2006 Christopher Armstrong.
+
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2, as published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included in the section entitled "GNU Free Documentation License".
+
+This documentation is provided on an "AS IS" BASIS, WITHOUT WARRANTY
+OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED
+TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND USEFULNESS
+OF THE DOCUMENTATION IS WITH YOU (THE LICENSEE). IN NO EVENT WILL THE COPYRIGHT
+HOLDERS BE LIABLE FOR DAMAGES, INCLUDING ANY DIRECT, INDIRECT,
+SPECIAL, GENERAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF
+THE USE OR INABILITY TO USE THIS DOCUMENTATION (INCLUDING BUT NOT
+LIMITED TO LOSS OF DATA, USE, OR PROFITS; PROCUREMENT OF SUBSTITUTE
+GOODS AND SERVICES; OR BUSINESS INTERUPTION) HOWEVER CAUSED, EVEN
+IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. -->
+<title>controls (Using the GNUstep AppKit 0.1)</title>
+
+<meta name="description" content="controls (Using the GNUstep AppKit 0.1)">
+<meta name="keywords" content="controls (Using the GNUstep AppKit 0.1)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="conceptindex.html" rel="index" title="conceptindex">
+<link href="index.html" rel="up" title="Top">
+<link href="theviewconcept.html" rel="next" title="theviewconcept">
+<link href="interfacefiles.html" rel="prev" title="interfacefiles">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="chapter" id="controls">
+<div class="header">
+<p>
+Next: <a href="theviewconcept.html" accesskey="n" rel="next">The view concept</a>, Previous: <a href="interfacefiles.html" accesskey="p" rel="prev">Interface Files</a>, Up: <a href="index.html" accesskey="u" rel="up">Using the GNUstep AppKit</a> &nbsp; [<a href="conceptindex.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Basic-Controls-1"></span><h2 class="chapter">6 Basic Controls</h2>
+<span id="Basic-Controls"></span>
+<span id="index-controls_002c-definition"></span>
+<span id="index-control"></span>
+<p>One of the first important concepts you will encounter dealing with the widgets in the AppKit is that of a <em>control</em>. A <em>control</em> is just a simple graphical element that you put onto your window, such as a button, a text field or an image. It is a specialisation of a the concept of a view (which are a bit more abstract), and hence introduces its own terminology.
+</p>
+<p>Controls can easily be spotted in the <cite>GNUstep GUI Reference Manual</cite> as they are derived from the abstract superclass <code>NSControl</code>. Every control has two classes, one derived from <code>NSControl</code>, the control, and one derived from <code>NSCell</code>, the cell. A control is responsible for it&rsquo;s corresponding cell, and usually contains only one cell (although matrices and tables contain groups of cells).
+</p>
+<p>The control hosts an instance of an NSCell subclass. This specific NSCell subclass can be set for a particular type of control by calling it&rsquo;s <code>+setCellClass</code> method, which will cause that NSControl to use your subclass instead of it&rsquo;s own for creating it&rsquo;s cell.
+</p>
+<span id="index-controls_002c-control-value"></span>
+<p>One can set the <em>value</em> of a control either directly or indirectly. You can directly set the value of a control by calling the <code>-setObjectValue:</code> method, or more specifically, the <code>-setStringValue:</code>, <code>-setIntValue:</code>, <code>-setFloatValue:</code> and <code>-setDoubleValue:</code> methods. We can also retrieve values using the <code>-objectValue</code>, <code>-stringValue</code>, <code>-intValue</code>, <code>-floatValue</code> and <code>-doubleValue</code> methods.
+</p>
+<span id="index-sender_002freceiver"></span>
+<span id="index-paradigm_002c-sender_002freceiver"></span>
+<p>More indirectly, the control can be instructed to take it&rsquo;s value from another control when that control changes. We, the <em>receiver</em>, can take our value from another object, the <em>sender</em>, when the sender is updated. You can set what sender the receiver will take it&rsquo;s value from by calling the <code>-take*ValueFrom:</code> methods on the receiver, passing in a reference to the sender object. This mechanism only permits one-to-one relationships.<a id="DOCF5" href="#FOOT5"><sup>5</sup></a>
+</p>
+<p>The control can be enabled/disabled from receiving mouse events (as well as others) by setting the enabled property (<code>-setEnabled:</code>). You can tell the control to resize to the minimum needed to comfortably display it&rsquo;s cell by calling the <code>-sizeToFit</code> method.
+</p>
+<p>With regards to the generation of actions, you can set the selector that the control will call on the first responder with the <code>-setAction:</code> method. For more information with regards to what an &quot;action&quot; is in the context of event generation, see see <a href="interfacefiles.html#Outlets-and-Actions">Outlets and Actions</a>.
+</p>
+<span id="index-controls_002c-control-classes"></span>
+<ul class="section-toc">
+<li><a href="#Basic-NSControl-Classes" accesskey="1">Basic NSControl Classes</a></li>
+<li><a href="#Advanced-control-classes" accesskey="2">Advanced control classes</a></li>
+<li><a href="#Control-Notifications" accesskey="3">Control Notifications</a></li>
+<li><a href="#Control-Delegate" accesskey="4">Control Delegate</a></li>
+<li><a href="#Cell-Classes" accesskey="5">Cell Classes</a></li>
+</ul>
+<div class="section" id="Basic-NSControl-Classes">
+<h3 class="section">6.1 Basic NSControl Classes</h3>
+
+<p>Classes that leverage the paridgm and concepts provided by NSControl are detailed below. Note that some of the more complex subclasses have dedicated chapters, such as NSTableView, NSTextView and NSMatrix.
+</p>
+<span id="index-controls_002c-buttons"></span>
+<span id="index-button-controls"></span>
+<span id="index-NSButton"></span>
+<ul class="section-toc">
+<li><a href="#Buttons-_0028NSButton_0029" accesskey="1">Buttons (NSButton)</a></li>
+<li><a href="#Text-Field-_0028NSTextField_0029" accesskey="2">Text Field (NSTextField)</a></li>
+<li><a href="#Combo-Boxes-_0028NSComboBox_0029" accesskey="3">Combo Boxes (NSComboBox)</a></li>
+<li><a href="#ImageViews-_0028NSImageView_0029" accesskey="4">ImageViews (NSImageView)</a></li>
+<li><a href="#Popup-Buttons-_0028NSPopupButton_0029" accesskey="5">Popup Buttons (NSPopupButton)</a></li>
+<li><a href="#Scroller-_0028NSScroller_0029" accesskey="6">Scroller (NSScroller)</a></li>
+<li><a href="#Slider-_0028NSSlider_0029" accesskey="7">Slider (NSSlider)</a></li>
+<li><a href="#Steppers-_0028NSStepper_0029" accesskey="8">Steppers (NSStepper)</a></li>
+</ul>
+<div class="subsection" id="Buttons-_0028NSButton_0029">
+<h4 class="subsection">6.1.1 Buttons (NSButton)</h4>
+
+<p>A button can be more than a simple &quot;push button&quot;. This NSControl is used to implement radio buttons, momentary push buttons, radio style buttons, etc. The way the button reacts is specified by the <code>-setButtonType:</code> method, which takes a constant value of one of the following:
+</p>
+<dl compact="compact">
+<dt><span><code>NSMomentaryPushInButton</code></span></dt>
+<dt><span><code>NSMomentaryPushButton</code></span></dt>
+<dd><p>This is the default button type. It is &quot;pushed in&quot; and lit while the mouse is held down on it, and it is &quot;pushed out&quot; and unlit when the button is released. It is used for triggering actions; it doesn&rsquo;t graphically nor internally store an on/off state. It looks like a simple click button that you would find in Microsoft Windows.
+</p>
+</dd>
+<dt><span><code>NSMomentaryLightButton</code></span></dt>
+<dt><span><code>NSMomentaryLight</code></span></dt>
+<dd><p>This type of button simply appears &quot;lit&quot; while the mouse is held down on it. Like the NSMomentaryPushInButton type, it used for simply triggering actions.
+</p>
+</dd>
+<dt><span><code>NSPushOnPushOffButton</code></span></dt>
+<dd><p>This button is used where you need to show and store an &quot;on/off&quot; state. When the button is first clicked, it is highlight and &quot;pushed in&quot; while the mouse is held down. It maintains this state until it is clicked again, in which it returns to normal.
+</p>
+</dd>
+<dt><span><code>NSOnOffButton</code></span></dt>
+<dd><p>This is like the NSPushOnPushOffButton, but it only highlights the button&rsquo;s area when clicked on and off.
+</p>
+</dd>
+<dt><span><code>NSToggleButton</code></span></dt>
+<dd><p>This type is an on/off button like NSPushOnPushOffButton. When it is clicked, it changes it&rsquo;s image to indicate an &quot;on&quot; state. A second click will restore the original button state.
+</p>
+</dd>
+<dt><span><code>NSSwitchButton</code></span></dt>
+<dd><p>The same as NSToggleButton, but with no border.
+</p>
+</dd>
+<dt><span><code>NSRadioButton</code></span></dt>
+<dd><p>A variation of NSSwitchButton that is similiar to the radio button control in Microsoft Windows.
+</p>
+</dd>
+</dl>
+
+<p>A button has a &quot;title&quot; property, which is the text either displayed on or next to the button (depending on whether it&rsquo;s of the switch or push variety). This is changed with the <code>-setTitle:</code> method. The button state, as discussed above, can be read or changed with the <code>-state</code> and <code>-setState:</code> methods.
+</p>
+<p>You can also set an image to be displayed on the button (<code>-setImage:</code>) as well as an <em>alternate image</em>, which is displayed when the button changes state (<code>-setAlternateImage:</code>). Along these lines, the button also has an alternate title which appears when the button changes into it&rsquo;s &quot;on&quot; state (set using the <code>-setAlternateTitle:</code> method). Both the title and alternate title can be set using attributed strings as well.
+</p>
+<p>Another visual feature that can also be set is whether it is bordered (<code>-setBordered:</code>) and if so, what type of bezel that border takes (<code>-setBezelStyle:</code>).
+</p>
+<span id="index-text-fields"></span>
+<span id="index-controls_002c-text-fields"></span>
+<span id="index-NSTextField"></span>
+</div>
+<div class="subsection" id="Text-Field-_0028NSTextField_0029">
+<h4 class="subsection">6.1.2 Text Field (NSTextField)</h4>
+
+<p>A <em>text field</em> is a simple control that displays and/or allows the editing of text. You can set whether it is editable or not using the <code>-setEditable:</code> method.
+</p>
+<p>It also can take a delegate implementing the <code>NSControlDelegate</code> protocol, which is described below.
+</p>
+<span id="index-combo-boxes"></span>
+<span id="index-controls_002c-combo-boxes"></span>
+<span id="index-NSComboBox"></span>
+</div>
+<div class="subsection" id="Combo-Boxes-_0028NSComboBox_0029">
+<h4 class="subsection">6.1.3 Combo Boxes (NSComboBox)</h4>
+
+<p>A <em>combo box</em> is similar to a text box, but it also has a drop-down component that lets the user select from some predefined entries as well as letting them type one it. 
+</p>
+<p>You can provide the data it uses by calling methods on the object or setting a data source. Objects can be added to the list using <code>-addItemWithObjectValue:</code> or <code>-addItemWithObjectValues:</code> (for arrays), and then removed with <code>-removeItemWithObjectValue:</code> or <code>-removeAllItems</code>. The items listed can be referenced by index if necessary.
+</p>
+<p>If you wish to use a data source, you must first set a data source object that implements the <code>NSComboBoxDataSource</code> informal protocol, and then call <code>-setUsesDataSource:</code> with a <code>YES</code> parameter.
+</p>
+</div>
+<div class="subsection" id="ImageViews-_0028NSImageView_0029">
+<h4 class="subsection">6.1.4 ImageViews (NSImageView)</h4>
+
+<p>An <em>image view</em>, which displays an image, is also a control. You can set the image to be used with the <code>-setImage:</code> method. It is also possible to set the alignment, frame style and image scaling.
+</p>
+<p>See see <a href="images.html#Images-and-Imageviews">Images and Imageviews</a> for more information.
+</p>
+</div>
+<div class="subsection" id="Popup-Buttons-_0028NSPopupButton_0029">
+<h4 class="subsection">6.1.5 Popup Buttons (NSPopupButton)</h4>
+
+<p>A <em>popup button</em> is a special kind of button that displays a menu while the mouse button is clicked and held down on it. The user selects an item from the menu by moving the cursor over the item they want and releasing the mouse button.
+</p>
+<p>It can behave as a pull-down or a pop-up menu. You can change this using the <code>-setPullsDown:</code> method and providing a boolean. Items can be added and removed using <code>-addItemWithTitle:</code>/<code>-addItemsWithTitles:</code>, <code>-insertItemWithTitle:atIndex:</code> and <code>-removeItemWithTitle:</code>/<code>-removeAllItems</code>/<code>-removeItemAtIndex:</code> methods.
+</p>
+<p>The selected item is retrieved via the <code>-selectedItem</code> method (and others). It posts one notification: <code>NSPopUpButtonWillPopUpNotification</code>, which is posted just before the menu is shown.
+</p>
+</div>
+<div class="subsection" id="Scroller-_0028NSScroller_0029">
+<h4 class="subsection">6.1.6 Scroller (NSScroller)</h4>
+
+<p><em>Scrollers</em> are scrollbars. You will be unlikely to instantiate these directly, as scrolling functions are handled best by <code>NSScrollView</code>. Otherwise, their visual appearance and behaviour is very customisable.
+</p>
+<p>You can otherwise get where the scroller is positioned by calling <code>-floatValue</code> which is a number between 0.0 and 1.0 (0 being at the top/left end and 1 at the bottom/right end). Similarly, the position and proportion of the knob that fills the knob slot can be set using the <code>-setFloatValue:knobProportion:</code> method (the proportion also being between 0.0 and 1.0).
+</p>
+</div>
+<div class="subsection" id="Slider-_0028NSSlider_0029">
+<h4 class="subsection">6.1.7 Slider (NSSlider)</h4>
+
+<p>A <em>slider</em> looks alot like a scroller, but is simply a knob used to allow the user to select a variable value. If you want to allow the user to select a variable value, use this instead of a scroller.
+</p>
+<p>It&rsquo;s value is set and retrieved via the <code>-setFloatValue:</code> and <code>-floatValue</code> methods defined in <code>NSControl</code>. It also permits a minimum and maximum value to be set.
+</p>
+<p>You can set an image to be displayed in the scroll bar part using <code>-setImage:</code>, and you can set a title (and/or title cell/font/colour) to be shown with the slider.
+</p>
+<p>When the user clicks and drags the slider, it will continually send it&rsquo;s action message as the user drags the slider. This behaviour can be changed using the <code>-setContinuous:</code> method.
+</p>
+</div>
+<div class="subsection" id="Steppers-_0028NSStepper_0029">
+<h4 class="subsection">6.1.8 Steppers (NSStepper)</h4>
+
+<p>A <em>stepper</em> is a control that displays it&rsquo;s current value in a box while permitting the user to change it via a pair of up/down arrows.<a id="DOCF6" href="#FOOT6"><sup>6</sup></a> 
+</p>
+<p>Like the slider, you can set a maximum and minimum value. You can also set whether the value wraps, and by how much it is incremented/decremented on each mouse-click.
+</p>
+</div>
+</div>
+<div class="section" id="Advanced-control-classes">
+<h3 class="section">6.2 Advanced control classes</h3>
+
+<p>GNUstep also provides more advanced control classes, notable tableviews, matrices and browsers. Many of these are documented in subsequent chapters.
+</p>
+<p>A <em>matrix</em> is a grid containing cells. It does not matter what type of cells are put into it, and they can be of different types, as long as they&rsquo;re all the same size (see <a href="matrix.html#Matrix-Controls">Matrix Controls</a>). They are referenced by a cell coordinate number, and data is added passively via calling methods on the NSMatrix object.
+</p>
+<p><em>Tableviews</em> are different from matrices, essentially displaying grid lines and drawing column headers. They are more useful for displaying records of data from database tables and queries, amongst other things. They are organised by column (fields) and rows (records). Unlike matrices, they use a data source delegate to display their data. For more information, see <a href="tableview.html#Tableviews">Tableviews</a>.
+</p>
+<p><em>Browsers</em> are a useful control for displaying hierachial information, especially data that is subject to real time change or needs to be navigated in a hierachical fashion. They use a data source that can be either passive or active in the way it gives the browser data, so that you can have hierachies which change as the program runs, e.g. representing a file system (take a look at the GWorkspace program for a example of a browser control in use). For more information, see <a href="browsercontrols.html#Browsers">Browsers</a>
+</p>
+<p><em>Outline views</em> are a specialised form of table view that allows the display of hierachial data via rows that can be expanded and collapsed. They too use a special data source.
+</p>
+</div>
+<div class="section" id="Control-Notifications">
+<h3 class="section">6.3 Control Notifications</h3>
+
+<p>Controls provide a few generic notifications, particularly related to text editing. All the following notifications will have the control that posted them as the notification object. The notification has a <code>userInfo</code> dictionary that has a key <code>@&quot;NSFieldEditor&quot;</code>, which is the editing cell&rsquo;s field editor.
+</p><dl compact="compact">
+<dt><span><code>NSControlTextDidBeginEditingNotification</code></span></dt>
+<dd><p>This notification is sent when a control has begun editing. This only applies to controls that are editable.
+</p>
+</dd>
+<dt><span><code>NSControlTextDidEndEditingNotification</code></span></dt>
+<dd><p>The notification is sent when a control has finished editing. This only applies to controls that are editable.
+</p>
+</dd>
+<dt><span><code>NSControlTextDidChangeNotification</code></span></dt>
+<dd><p>This notification is sent when the text in a control has changed. This only applies to controls that are editable.
+</p>
+</dd>
+</dl>
+
+</div>
+<div class="section" id="Control-Delegate">
+<h3 class="section">6.4 Control Delegate</h3>
+
+<p>You can also set a control delegate by calling <code>-setDelegate:</code> on the control subclass with an object that implements the informal protocol <code>NSControlDelegate</code>.
+</p>
+<p>The delegate receives the notifications defined above. If the control subclass has it&rsquo;s own delegate protocol(s), you may have to use the same object to implement both <code>NSControlDelegate</code> and the specific control&rsquo;s delegate.
+</p>
+</div>
+<div class="section" id="Cell-Classes">
+<h3 class="section">6.5 Cell Classes</h3>
+
+<p>As previously mentioned, a controls&rsquo; cell class inherits from <code>NSCell</code>. <code>NSCell</code> defines alot of basic functionality and features that cells can customise.
+</p>
+<p><code>NSCell</code> provides a number of methods for setting/getting the cell value. These correspond to those that are available for their corresponding control.
+</p>
+<p>Like most graphical elements, cells can be enabled and disabled using the <code>-setEnabled:</code> method. They also have the concept of a &quot;state&quot; so that cells such as check boxes and radio buttons can be defined as being &quot;on&quot; or &quot;off&quot;. Cells may also have a &quot;mixed&quot; state, but this can only be enabled using the <code>-setAllowsMixedState:</code> method. The cell state can be retrieved using the <code>-state</code> method, which returns one of the foloowing constants:
+</p><dl compact="compact">
+<dt><span><code>NSOnState</code></span></dt>
+<dd><p>The cell is &quot;on&quot;.
+</p>
+</dd>
+<dt><span><code>NSOffState</code></span></dt>
+<dd><p>The cell is &quot;off&quot;.
+</p>
+</dd>
+<dt><span><code>NSMixedState</code></span></dt>
+<dd><p>The cell is in a &quot;mixed&quot; state. This may be, e.g. a checkbox representing a group of elements of which some are on and some are off.
+</p>
+</dd>
+</dl>
+
+<p>In line with the target/action paridgm specified in previous chapters, cell&rsquo;s can have an action and a target set on them. The action is a selector, which can be retrieved using the <code>-action</code> method. The target is an object, which can be retrieved using the <code>-target</code> method. This stuff is usually setup by Gorm.app when you create your interface. You can set whether an action is continuous via the <code>-setContinuous:</code> method.
+</p>
+<p>Cell&rsquo;s have a generic type. These can be retreived using the <code>-type</code> method and set using the <code>-setType:</code> method with one of the constants specified below:
+</p><dl compact="compact">
+<dt><span><code>NSNullCellType</code></span></dt>
+<dd><p>This cell doesn&rsquo;t display anything.
+</p>
+</dd>
+<dt><span><code>NSTextCellType</code></span></dt>
+<dd><p>This cell displays text.
+</p>
+</dd>
+<dt><span><code>NSImageCellType</code></span></dt>
+<dd><p>This cell displays an image.
+</p>
+</dd>
+</dl>
+
+<p>The way cells display and format data or text can also be set. A formatter object that changes the way the cell&rsquo;s data is represented after the user has typed iit in is set via the <code>-setFormatter:</code> method using an object of <code>NSFormatter</code> derivation. 
+</p>
+
+<span id="The-view-concept"></span></div>
+</div>
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h5><a id="FOOT5" href="#DOCF5">(5)</a></h5>
+<p>You would model this in UML using a one-to-one association I think.</p>
+<h5><a id="FOOT6" href="#DOCF6">(6)</a></h5>
+<p>It&rsquo;s like the Microsoft Windows Spin control</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="theviewconcept.html">The view concept</a>, Previous: <a href="interfacefiles.html">Interface Files</a>, Up: <a href="index.html">Using the GNUstep AppKit</a> &nbsp; [<a href="conceptindex.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

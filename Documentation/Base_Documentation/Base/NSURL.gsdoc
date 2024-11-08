@@ -1,0 +1,1079 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSURL" stylesheeturl="gnustepStyle" up="Base">
+  <head>
+    <title>NSURL class reference</title>
+    <author name="Manuel Guesdon">
+      <email address="mguesdon@sbuilders.com">
+        mguesdon@sbuilders.com
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <author name="Gregory John Casamento">
+      <email address="greg.casamento@gmail.com">
+        greg.casamento@gmail.com
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 16:52:01 -0500</date>
+    <copy>1999 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSURL class
+      </heading>
+      <class name="NSURL" super="NSObject" ovadd="10.0.0">
+        <declared>Foundation/NSURL.h</declared>
+        <conform>NSCoding</conform>
+        <conform>NSCopying</conform>
+        <conform>NSURLHandleClient</conform>
+        <desc>
+          This class permits manipulation of URLs and the
+          resources to which they refer. They can be used to
+          represent absolute URLs or relative URLs which are
+          based upon an absolute URL. The relevant RFCs
+          describing how a URL is formatted, and what is
+          legal in a URL are - 1808, 1738, and 2396. <br />
+          Handling of the underlying resources is carried out
+          by NSURLHandle objects, but NSURL provides a simplified
+          API wrapping these objects.
+        </desc>
+        <method type="instancetype" factory="yes" ovadd="10.10.0">
+          <sel>URLByResolvingAliasFileAtURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>options:</sel>
+          <arg type="NSURLBookmarkResolutionOptions">options</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.0.0">
+          <sel>URLWithString:</sel>
+          <arg type="NSString*">aUrlString</arg>
+          <desc>
+            Create and return a URL with the supplied string,
+            which should be a string (containing percent escape
+            codes where necessary) conforming to the description
+            (in RFC2396) of an absolute URL. <br /> Calls
+            <ref type="method" id="-initWithString:">
+              -initWithString:
+            </ref>
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.0.0">
+          <sel>URLWithString:</sel>
+          <arg type="NSString*">aUrlString</arg>
+          <sel>relativeToURL:</sel>
+          <arg type="NSURL*">aBaseUrl</arg>
+          <desc>
+            Create and return a URL with the supplied string,
+            which should be a string (containing percent escape
+            codes where necessary) conforming to the description
+            (in RFC2396) of a relative URL. <br /> Calls
+            <ref type="method" id="-initWithString:relativeToURL:">
+              -initWithString:relativeToURL:
+            </ref>
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.0.0">
+          <sel>fileURLWithPath:</sel>
+          <arg type="NSString*">aPath</arg>
+          <desc>
+            Create and return a file URL with the supplied path.
+            <br /> The value of <var>aPath</var> must be a valid
+            filesystem path. <br /> Calls
+            <ref type="method" id="-initFileURLWithPath:">
+              -initFileURLWithPath:
+            </ref>
+            which escapes characters in the path where necessary.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.5.0">
+          <sel>fileURLWithPath:</sel>
+          <arg type="NSString*">aPath</arg>
+          <sel>isDirectory:</sel>
+          <arg type="BOOL">isDir</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.11.0">
+          <sel>fileURLWithPath:</sel>
+          <arg type="NSString*">aPath</arg>
+          <sel>isDirectory:</sel>
+          <arg type="BOOL">isDir</arg>
+          <sel>relativeToURL:</sel>
+          <arg type="NSURL*">baseURL</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.11.0">
+          <sel>fileURLWithPath:</sel>
+          <arg type="NSString*">aPath</arg>
+          <sel>relativeToURL:</sel>
+          <arg type="NSURL*">baseURL</arg>
+          <desc>
+            Create and return a file URL with the supplied path,
+            relative to a base URL.
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.6.0">
+          <sel>fileURLWithPathComponents:</sel>
+          <arg type="NSArray*">components</arg>
+          <desc>
+            Creates a file URL using a path built from
+            <var>components</var>.
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.6.0">
+          <sel>URLByAppendingPathComponent:</sel>
+          <arg type="NSString*">pathComponent</arg>
+          <desc>
+            Returns a URL formed by adding a path component to
+            the path of the receiver. <br /> See
+            <ref type="method" id="-stringByAppendingPathComponent:" class="NSString">[NSString -stringByAppendingPathComponent:]</ref>.
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.7.0">
+          <sel>URLByAppendingPathComponent:</sel>
+          <arg type="NSString*">pathComponent</arg>
+          <sel>isDirectory:</sel>
+          <arg type="BOOL">isDirectory</arg>
+          <desc>
+            Returns a URL formed by adding a path component to
+            the path of the receiver, along with a trailing slash
+            if the component is designated a directory. <br /> See
+            <ref type="method" id="-stringByAppendingPathComponent:" class="NSString">[NSString -stringByAppendingPathComponent:]</ref>.
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.6.0">
+          <sel>URLByAppendingPathExtension:</sel>
+          <arg type="NSString*">pathExtension</arg>
+          <desc>
+            Returns a URL formed by adding a path extension to
+            the path of the receiver. <br /> See
+            <ref type="method" id="-stringByAppendingPathExtension:" class="NSString">[NSString -stringByAppendingPathExtension:]</ref>.
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.6.0">
+          <sel>URLByDeletingLastPathComponent</sel>
+          <desc>
+            Returns a URL formed by removing a path component
+            from the path of the receiver. <br /> See
+            <ref type="method" id="-stringByDeletingLastPathComponent" class="NSString">[NSString -stringByDeletingLastPathComponent]</ref>.
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.6.0">
+          <sel>URLByDeletingPathExtension</sel>
+          <desc>
+            Returns a URL formed by removing an extension from
+            the path of the receiver. <br /> See
+            <ref type="method" id="-stringByDeletingPathExtension" class="NSString">[NSString -stringByDeletingPathExtension]</ref>.
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.6.0">
+          <sel>URLByResolvingSymlinksInPath</sel>
+          <desc>
+            Returns self unless the receiver is a file URL, in
+            which case it returns a URL formed by calling
+            <ref type="method" id="-stringByResolvingSymlinksInPath" class="NSString">[NSString -stringByResolvingSymlinksInPath]</ref>.
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.6.0">
+          <sel>URLByStandardizingPath</sel>
+          <desc>
+            Returns self unless the receiver is a file URL, in
+            which case it returns a URL formed by calling
+            <ref type="method" id="-stringByStandardizingPath" class="NSString">[NSString -stringByStandardizingPath]</ref>.
+          </desc>
+        </method>
+        <method type="NSURLHandle*" ovadd="10.0.0">
+          <sel>URLHandleUsingCache:</sel>
+          <arg type="BOOL">shouldUseCache</arg>
+          <desc>
+            Returns an NSURLHandle instance which may be used
+            to write data to the resource represented by the
+            receiver URL, or read data from it. <br /> The
+            <var>shouldUseCache</var> flag indicates whether a
+            cached handle may be returned or a new one should be
+            created.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>absoluteString</sel>
+          <desc>
+            Returns the full string describing the receiver
+            resolved against its base.
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.0.0">
+          <sel>absoluteURL</sel>
+          <desc>
+            If the receiver is an absolute URL, returns self.
+            Otherwise returns an absolute URL referring to
+            the same resource as the receiver.
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.0.0">
+          <sel>baseURL</sel>
+          <desc>
+            If the receiver is a relative URL, returns its base URL.
+            <br /> Otherwise, returns <code>nil</code>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.6.0">
+          <sel>checkResourceIsReachableAndReturnError:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            Attempts to load from the specified URL and
+            provides an <var>error</var> response if the data
+            is unrachable. <br /> Returns <code>YES</code> on
+            success, <code>NO</code> on failure.
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.6.0">
+          <sel>filePathURL</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.6.0">
+          <sel>fileReferenceURL</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>fragment</sel>
+          <desc>
+            Returns the fragment portion of the receiver or
+            <code>nil</code> if there is no fragment supplied in
+            the URL. <br /> The fragment is everything in the
+            original URL string after a '#' <br /> File URLs
+            do not have fragments.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.6.0">
+          <sel>getResourceValue:</sel>
+          <arg type="id*">value</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">key</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>host</sel>
+          <desc>
+            Returns the host portion of the receiver or
+            <code>nil</code> if there is no host supplied in the
+            URL. <br /> Percent escape sequences in the user
+            string are translated and the string treated as
+            UTF8. <br /> Returns IPv6 addresses <em>without</em>
+            the enclosing square brackets required (by RFC2732) in
+            URL strings.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.0.0">
+          <sel>initFileURLWithPath:</sel>
+          <arg type="NSString*">aPath</arg>
+          <desc>
+            Initialise as a file URL with the specified path
+            (which must be a valid path on the local
+            filesystem). <br /> Raises
+            NSInvalidArgumentException if
+            <var>aPath</var> is <code>nil</code>. <br /> Converts
+            relative paths to absolute ones. <br /> Appends a
+            trailing slash to the path when necessary if it
+            specifies a directory. <br /> Calls
+            <ref type="method" id="-initWithScheme:host:path:">
+              -initWithScheme:host:path:
+            </ref>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.5.0">
+          <sel>initFileURLWithPath:</sel>
+          <arg type="NSString*">aPath</arg>
+          <sel>isDirectory:</sel>
+          <arg type="BOOL">isDir</arg>
+          <desc>
+            Initialise as a file URL with the specified path
+            (which must be a valid path on the local
+            filesystem). <br /> Raises
+            NSInvalidArgumentException if
+            <var>aPath</var> is <code>nil</code>. <br /> Converts
+            relative paths to absolute ones. <br /> Appends a
+            trailing slash to the path when necessary if it
+            specifies a directory. <br /> Calls
+            <ref type="method" id="-initWithScheme:host:path:">
+              -initWithScheme:host:path:
+            </ref>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.11.0">
+          <sel>initFileURLWithPath:</sel>
+          <arg type="NSString*">aPath</arg>
+          <sel>isDirectory:</sel>
+          <arg type="BOOL">isDir</arg>
+          <sel>relativeToURL:</sel>
+          <arg type="NSURL*">baseURL</arg>
+          <desc>
+            Initialise as a file URL with the specified path
+            (which must be a valid path on the local filesystem)
+            relative to the base URL. <br /> Raises
+            NSInvalidArgumentException if
+            <var>aPath</var> is <code>nil</code>. <br /> Converts
+            relative paths to absolute ones. <br /> Appends a
+            trailing slash to the path when necessary if it
+            specifies a directory. <br /> Calls
+            <ref type="method" id="-initWithScheme:host:path:">
+              -initWithScheme:host:path:
+            </ref>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.11.0">
+          <sel>initFileURLWithPath:</sel>
+          <arg type="NSString*">aPath</arg>
+          <sel>relativeToURL:</sel>
+          <arg type="NSURL*">baseURL</arg>
+          <desc>
+            Initialise as a file URL with the specified path
+            (which must be a valid path on the local filesystem)
+            relative to the base URL. <br /> Raises
+            NSInvalidArgumentException if
+            <var>aPath</var> is <code>nil</code>. <br /> Converts
+            relative paths to absolute ones. <br /> Appends a
+            trailing slash to the path when necessary if it
+            specifies a directory. <br /> Calls
+            <ref type="method" id="-initWithScheme:host:path:">
+              -initWithScheme:host:path:
+            </ref>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.0.0">
+          <sel>initWithScheme:</sel>
+          <arg type="NSString*">aScheme</arg>
+          <sel>host:</sel>
+          <arg type="NSString*">aHost</arg>
+          <sel>path:</sel>
+          <arg type="NSString*">aPath</arg>
+          <desc>
+            Initialise by building a URL string from the
+            supplied parameters and calling
+            <ref type="method" id="-initWithString:relativeToURL:">
+              -initWithString:relativeToURL:
+            </ref>
+            <br /> This method adds percent escapes to
+            <var>aPath</var> if it contains characters which need
+            escaping. <br /> Accepts RFC2732 style IPv6 host
+            addresses either with or without the enclosing
+            square brackets (MacOS-X at least up to version 10.5
+            does not handle these correctly, but GNUstep does).
+            <br /> Permits the 'aHost' part to contain
+            'username:password@host:port'
+            or 'host:port' in addition to a simple host name or
+            address.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.0.0">
+          <sel>initWithString:</sel>
+          <arg type="NSString*">aUrlString</arg>
+          <desc>
+            Initialise as an absolute URL. <br /> Calls
+            <ref type="method" id="-initWithString:relativeToURL:">
+              -initWithString:relativeToURL:
+            </ref>
+          </desc>
+        </method>
+        <method type="instancetype" init="yes" ovadd="10.0.0">
+          <sel>initWithString:</sel>
+          <arg type="NSString*">aUrlString</arg>
+          <sel>relativeToURL:</sel>
+          <arg type="NSURL*">aBaseUrl</arg>
+          <desc>
+            Initialised using <var>aUrlString</var> and
+            <var>aBaseUrl</var>. The value of <var>aBaseUrl</var>
+            may be <code>nil</code>, but <var>aUrlString</var> must
+            be non-nil. <br /> Accepts RFC2732 style IPv6 host
+            addresses. <br /> Parses a string wihthout a
+            scheme as a simple path. <br /> Parses an empty
+            string as an empty path. <br /> If the string cannot
+            be parsed the method returns <code>nil</code>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.6.0">
+          <sel>isFileReferenceURL</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>isFileURL</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.6.0">
+          <sel>lastPathComponent</sel>
+          <desc>
+            Returns the last (rightmost) path component of the
+            receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>loadResourceDataNotifyingClient:</sel>
+          <arg type="id">client</arg>
+          <sel>usingCache:</sel>
+          <arg type="BOOL">shouldUseCache</arg>
+          <desc>
+            Loads resource data for the specified
+            <var>client</var>.
+            <p>
+              If <var>shouldUseCache</var> is <code>YES</code> then
+              an attempt will be made to locate a cached NSURLHandle
+              to provide the resource data, otherwise a new handle
+              will be created and cached.
+            </p>
+            <p>
+              If the handle does not have the data available, it
+              will be asked to load the data in the background by
+              calling its loadInBackground method.
+            </p>
+            <p>
+              The specified <var>client</var> (if non-nil) will be
+              set up to receive notifications of the progress of
+              the background load process.
+            </p>
+            <p>
+              The processes current run loop must be run in order
+              for the background load operation to operate!
+            </p>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>parameterString</sel>
+          <desc>
+            Returns the parameter portion of the receiver or
+            <code>nil</code> if there is no parameter supplied
+            in the URL. <br /> The parameters are everything in the
+            original URL string after a ';' but before the
+            query. <br /> File URLs do not have parameters.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>password</sel>
+          <desc>
+            Returns the password portion of the receiver or
+            <code>nil</code> if there is no password supplied in
+            the URL. <br /> Percent escape sequences in the user
+            string are translated and the string treated as UTF8
+            in GNUstep but this appears to be broken in MacOS-X.
+            <br /> NB. because of its security implications it
+            is recommended that you do not use URLs with users and
+            passwords unless necessary.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>path</sel>
+          <desc>
+            Returns the path portion of the receiver. <br />
+            Replaces percent escapes with unescaped values,
+            interpreting non-ascii character sequences as
+            UTF8. <br /> NB. This does not conform strictly to
+            the RFCs, in that it includes a leading slash ('/')
+            character (whereas the path part of a URL
+            strictly should not) and the interpretation of
+            non-ascii character is (strictly speaking)
+            undefined. <br /> Also, this breaks strict
+            conformance in that a URL of file scheme is
+            treated as having a path (contrary to RFCs)
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.6.0">
+          <sel>pathComponents</sel>
+          <desc>
+            Returns thepath components of the receiver. <br />
+            See
+            <ref type="method" id="-pathComponents" class="NSString">
+              [NSString -pathComponents]
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.6.0">
+          <sel>pathExtension</sel>
+          <desc>
+            Returns the file extension (text after the
+            rightmost dot in the path) of the receiver.
+            <br /> see
+            <ref type="method" id="-pathExtension" class="NSString">
+              [NSString -pathExtension]
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="NSNumber*" ovadd="10.0.0">
+          <sel>port</sel>
+          <desc>
+            Returns the port portion of the receiver or
+            <code>nil</code> if there is no port supplied in the
+            URL. <br /> Percent escape sequences in the user
+            string are translated in GNUstep but this appears to
+            be broken in MacOS-X.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>propertyForKey:</sel>
+          <arg type="NSString*">propertyKey</arg>
+          <desc>
+            Asks a URL handle to return the property for the
+            specified key and returns the result.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>query</sel>
+          <desc>
+            Returns the query portion of the receiver or
+            <code>nil</code> if there is no query supplied in
+            the URL. <br /> The query is everything in the original
+            URL string after a '?' but before the fragment. <br />
+            File URLs do not have queries.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>relativePath</sel>
+          <desc>
+            Returns the path of the receiver, without taking
+            any base URL into account. If the receiver is an
+            absolute URL,
+            <ref type="method" id="-relativePath">
+              -relativePath
+            </ref>
+            is the same as <ref type="method" id="-path">-path</ref>
+            . <br /> Returns <code>nil</code> if there is no path
+            specified for the URL.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>relativeString</sel>
+          <desc>
+            Returns the relative portion of the URL string. If
+            the receiver is not a relative URL, this returns the
+            same as absoluteString.
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="10.0.0">
+          <sel>resourceDataUsingCache:</sel>
+          <arg type="BOOL">shouldUseCache</arg>
+          <desc>
+            Loads the resource data for the represented URL and
+            returns the result. The <var>shouldUseCache</var>
+            flag determines whether data previously retrieved by
+            an existing NSURLHandle can be used to provide the data,
+            or if it should be refetched.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>resourceSpecifier</sel>
+          <desc>
+            Returns the resource specifier of the URL... the
+            part which lies after the scheme.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>scheme</sel>
+          <desc>
+            Returns the scheme of the receiver.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>setProperty:</sel>
+          <arg type="id">property</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">propertyKey</arg>
+          <desc>
+            Calls
+            <ref type="method" id="-writeProperty:forKey:" class="NSURLHandle">[NSURLHandle -writeProperty:forKey:]</ref> to set the named <var>property</var>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>setResourceData:</sel>
+          <arg type="NSData*">data</arg>
+          <desc>
+            Calls
+            <ref type="method" id="-writeData:" class="NSURLHandle">
+              [NSURLHandle -writeData:]
+            </ref>
+            to write the specified <var>data</var> object to the
+            resource identified by the receiver URL. <br />
+            Returns the result.
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.0.0">
+          <sel>standardizedURL</sel>
+          <desc>
+            Returns a URL with '/./' and '/../' sequences
+            resolved etc.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>user</sel>
+          <desc>
+            Returns the user portion of the receiver or
+            <code>nil</code> if there is no user supplied in the
+            URL. <br /> Percent escape sequences in the user
+            string are translated and the whole is treated as
+            UTF8 data. <br /> NB. because of its security
+            implications it is recommended that you do not
+            use URLs with users and passwords unless necessary.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSURLComponents class
+      </heading>
+      <class name="NSURLComponents" super="NSObject" ovadd="10.9.0">
+        <declared>Foundation/NSURL.h</declared>
+        <conform>NSCopying</conform>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="instancetype" factory="yes" ovadd="10.9.0">
+          <sel>componentsWithString:</sel>
+          <arg type="NSString*">URLString</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.9.0">
+          <sel>componentsWithURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>resolvingAgainstBaseURL:</sel>
+          <arg type="BOOL">resolve</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.9.0">
+          <sel>URL</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.9.0">
+          <sel>URLRelativeToURL:</sel>
+          <arg type="NSURL*">baseURL</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.9.0">
+          <sel>fragment</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.9.0">
+          <sel>host</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.9.0">
+          <sel>init</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.9.0">
+          <sel>initWithString:</sel>
+          <arg type="NSString*">URLString</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.9.0">
+          <sel>initWithURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>resolvingAgainstBaseURL:</sel>
+          <arg type="BOOL">resolve</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.9.0">
+          <sel>password</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.9.0">
+          <sel>path</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.9.0">
+          <sel>percentEncodedFragment</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.9.0">
+          <sel>percentEncodedHost</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.9.0">
+          <sel>percentEncodedPassword</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.9.0">
+          <sel>percentEncodedPath</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.9.0">
+          <sel>percentEncodedQuery</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.10.0">
+          <sel>percentEncodedQueryItems</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.9.0">
+          <sel>percentEncodedUser</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSNumber*" ovadd="10.9.0">
+          <sel>port</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.9.0">
+          <sel>query</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.10.0">
+          <sel>queryItems</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="10.9.0">
+          <sel>rangeOfFragment</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="10.9.0">
+          <sel>rangeOfHost</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="10.9.0">
+          <sel>rangeOfPassword</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="10.9.0">
+          <sel>rangeOfPath</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="10.9.0">
+          <sel>rangeOfPort</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="10.9.0">
+          <sel>rangeOfQuery</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="10.9.0">
+          <sel>rangeOfScheme</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="10.9.0">
+          <sel>rangeOfUser</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.9.0">
+          <sel>scheme</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.9.0">
+          <sel>setFragment:</sel>
+          <arg type="NSString*">fragment</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.9.0">
+          <sel>setHost:</sel>
+          <arg type="NSString*">host</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.9.0">
+          <sel>setPassword:</sel>
+          <arg type="NSString*">password</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.9.0">
+          <sel>setPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.9.0">
+          <sel>setPercentEncodedFragment:</sel>
+          <arg type="NSString*">fragment</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.9.0">
+          <sel>setPercentEncodedHost:</sel>
+          <arg type="NSString*">host</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.9.0">
+          <sel>setPercentEncodedPassword:</sel>
+          <arg type="NSString*">password</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.9.0">
+          <sel>setPercentEncodedPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.9.0">
+          <sel>setPercentEncodedQuery:</sel>
+          <arg type="NSString*">query</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.10.0">
+          <sel>setPercentEncodedQueryItems:</sel>
+          <arg type="NSArray*">queryItems</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.9.0">
+          <sel>setPercentEncodedUser:</sel>
+          <arg type="NSString*">user</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.9.0">
+          <sel>setPort:</sel>
+          <arg type="NSNumber*">port</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.9.0">
+          <sel>setQuery:</sel>
+          <arg type="NSString*">query</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.10.0">
+          <sel>setQueryItems:</sel>
+          <arg type="NSArray*">queryItems</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.9.0">
+          <sel>setScheme:</sel>
+          <arg type="NSString*">scheme</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.9.0">
+          <sel>setString:</sel>
+          <arg type="NSString*">urlString</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.9.0">
+          <sel>setURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.9.0">
+          <sel>setUser:</sel>
+          <arg type="NSString*">user</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.9.0">
+          <sel>string</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.9.0">
+          <sel>user</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSURLQueryItem class
+      </heading>
+      <class name="NSURLQueryItem" super="NSObject" ovadd="10.10.0">
+        <declared>Foundation/NSURL.h</declared>
+        <conform>NSCopying</conform>
+        <conform>NSCoding</conform>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="instancetype" factory="yes" ovadd="10.10.0">
+          <sel>queryItemWithName:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>value:</sel>
+          <arg type="NSString*">value</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.10.0">
+          <sel>initWithName:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>value:</sel>
+          <arg type="NSString*">value</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.10.0">
+          <sel>name</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.10.0">
+          <sel>value</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSObject(NSURLClient)
+        category
+      </heading>
+      <category name="NSURLClient" class="NSObject" ovadd="10.0.0">
+        <declared>Foundation/NSURL.h</declared>
+        <desc>
+          An informal protocol to which clients may conform if they
+          wish to be notified of the progress in loading a URL for
+          them. NSURL conforms to this protocol but all methods
+          are implemented as no-ops. See also the
+          <ref type="protocol" id="(NSURLHandleClient)">&lt;NSURLHandleClient&gt;</ref>
+            protocol.
+        </desc>
+        <method type="void" override="dummy" ovadd="10.0.0">
+          <sel>URL:</sel>
+          <arg type="NSURL*">sender</arg>
+          <sel>resourceDataDidBecomeAvailable:</sel>
+          <arg type="NSData*">newBytes</arg>
+          <desc>
+            Some data has become available. Note that this does
+            not mean that all data has become available, only that
+            a chunk of data has arrived.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="10.0.0">
+          <sel>URL:</sel>
+          <arg type="NSURL*">sender</arg>
+          <sel>resourceDidFailLoadingWithReason:</sel>
+          <arg type="NSString*">reason</arg>
+          <desc>
+            Loading of resource data has failed, for given
+            human-readable <var>reason</var>.
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="10.0.0">
+          <sel>URLResourceDidCancelLoading:</sel>
+          <arg type="NSURL*">sender</arg>
+          <desc>
+            Loading of resource data was cancelled by
+            programmatic request (not an error).
+          </desc>
+        </method>
+        <method type="void" override="dummy" ovadd="10.0.0">
+          <sel>URLResourceDidFinishLoading:</sel>
+          <arg type="NSURL*">sender</arg>
+          <desc>
+            Loading of resource data is complete.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

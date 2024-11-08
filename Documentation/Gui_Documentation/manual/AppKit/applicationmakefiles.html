@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- (C) 2005-2006 Christopher Armstrong.
+
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2, as published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included in the section entitled "GNU Free Documentation License".
+
+This documentation is provided on an "AS IS" BASIS, WITHOUT WARRANTY
+OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED
+TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND USEFULNESS
+OF THE DOCUMENTATION IS WITH YOU (THE LICENSEE). IN NO EVENT WILL THE COPYRIGHT
+HOLDERS BE LIABLE FOR DAMAGES, INCLUDING ANY DIRECT, INDIRECT,
+SPECIAL, GENERAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF
+THE USE OR INABILITY TO USE THIS DOCUMENTATION (INCLUDING BUT NOT
+LIMITED TO LOSS OF DATA, USE, OR PROFITS; PROCUREMENT OF SUBSTITUTE
+GOODS AND SERVICES; OR BUSINESS INTERUPTION) HOWEVER CAUSED, EVEN
+IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. -->
+<title>applicationmakefiles (Using the GNUstep AppKit 0.1)</title>
+
+<meta name="description" content="applicationmakefiles (Using the GNUstep AppKit 0.1)">
+<meta name="keywords" content="applicationmakefiles (Using the GNUstep AppKit 0.1)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="conceptindex.html" rel="index" title="conceptindex">
+<link href="index.html" rel="up" title="Top">
+<link href="interfacefiles.html" rel="next" title="interfacefiles">
+<link href="gnustepapplications.html" rel="prev" title="gnustepapplications">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="chapter" id="applicationmakefiles">
+<div class="header">
+<p>
+Next: <a href="interfacefiles.html" accesskey="n" rel="next">Interface Files</a>, Previous: <a href="gnustepapplications.html" accesskey="p" rel="prev">GNUstep Applications</a>, Up: <a href="index.html" accesskey="u" rel="up">Using the GNUstep AppKit</a> &nbsp; [<a href="conceptindex.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Application-Makefiles-1"></span><h2 class="chapter">4 Application Makefiles</h2>
+<span id="Application-Makefiles"></span><span id="index-makefiles-1"></span>
+
+<p>Application makefiles are very similiar to those used to build Tools and Objective-C programmes, but allow extra specifications to build application wrappers and include their resource files. We assume you are already familiar with the GNUstep Makefile system.
+</p>
+<p>Below is a generic, but complete application makefile, followed by an explanation of the various parameters.
+</p>
+<div class="example">
+<pre class="example">include $(GNUSTEP_MAKEFILES)/common.make
+
+APP_NAME = ExampleApplication
+PACKAGE_NAME = ExampleApplication
+VERSION = 1.0
+
+ExampleApplication_OBJC_FILES = main.m AppController.m \
+  ExampleClass.m
+
+ExampleApplication_C_FILES = regexp.c fun.c
+
+ExampleApplication_OBJC_LIBS = -lLibNumberOne -lPDFKit -lFunKit
+ExampleApplication_RESOURCE_FILES = \
+  ExampleApplication.gorm \
+  Info-gnustep.plist
+
+-include GNUmakefile.preamble
+include $(GNUSTEP_MAKEFILES)/application.make
+-include GNUmakefile.postamble
+
+</pre></div>
+
+<p><samp>common.make</samp> and <samp>application.make</samp> are necessary to build an application, and need to be at the beginning and end respectively to the Makefile to operate properly. The <samp>GNUmakefile.preamble</samp> and <samp>GNUmakefile.postamble</samp> are optional, and permit you to define extra rules for building your application. You can include those lines without those files containing anything. Templates for those files also exist with the source code for gnustep-gui, which can simply be copied into your project and modified accordingly.
+</p>
+<p>The table below describes the makefile variables that you can set to control the output of the make process. Note that <var>appname</var> refers to the application name that you set with <code>APP_NAME</code>. It is case sensistive and so are file names. Also, most of the variables listed below are optional if you wish to get a program to compile, but it is recommend you make use of them where appropriate. Where variables ask for flags and compiler options, they should be in the format that <code>gcc</code> or <code>clang</code> expects, these the only compilers currently used with GNUstep. Many variables also take more than one parameter. They are usually separated by a space, and line breaks with a backslash. Please refer to the <cite>GNUstep Makefile Manual</cite> for more details.
+</p>
+<span id="index-makefiles_002c-components"></span>
+<dl compact="compact">
+<dt><span><code>APP_NAME</code></span></dt>
+<dd><p>[Required] This is the name of your application, and will be used to generate the name of your application wrapper. 
+</p>
+</dd>
+<dt><span><code>PACKAGE_NAME</code></span></dt>
+<dd><p>This is used to generate a rpm or deb package for distribution of your application. See the <cite>GNUstep Makefile Manual</cite> for more details.
+</p>
+</dd>
+<dt><span><code>VERSION</code></span></dt>
+<dd><p>A version number for your application.
+</p>
+</dd>
+<dt><span><code><var>appname</var>_OBJC_FILES</code></span></dt>
+<dd><p>[Required] Replacing <var>appname</var> with the name of your application, you list the Objective-C files (.m), separated by a space. As shown above, you can split it across one or more lines by placing a slash at the end of the line to indicate a split.
+</p>
+</dd>
+<dt><span><code><var>appname</var>_APPLICATION_ICON</code></span></dt>
+<dd><p>[Optional] You can place the name of the image file that will be used as your application icon here. 
+</p>
+</dd>
+<dt><span><code><var>appname</var>_MAIN_MODEL_FILE</code></span></dt>
+<dd><p>[Recommended] Put the name of your interface file (<samp>.gorm</samp>) here. It will then be placed in the property list of your application.
+</p>
+</dd>
+<dt><span><code><var>appname</var>_PRINCIPAL_CLASS</code></span></dt>
+<dd><p>[Optional] If you subclass <code>NSApplication</code> with your own application class, you should place it&rsquo;s name here. By default, GNUstep uses <code>NSApplication</code> as the application class.
+</p>
+</dd>
+<dt><span><code><var>appname</var>_C_FILES</code></span></dt>
+<dd><p>[Optional] This is where you list the C source code files (.c) to be compiled into your programme. It takes the same form as <code><var>appname</var>_OBJC_FILES</code>.
+</p>
+</dd>
+<dt><span><code><var>appname</var>_CC_FILES</code></span></dt>
+<dd><p>[Optional] This is where you list your C++ files (*.cpp, *.cc) to be compiled into your programme. It takes the same form as <code><var>appname</var>_OBJC_FILES</code>.
+</p>
+</dd>
+<dt><span><code><var>appname</var>_OBJCC_FILES</code></span></dt>
+<dd><p>[Optional] This is where you list your Objective-C++ files (*.mm) to be compiled into your programme. It takes the same form as the <code><var>appname</var>_OBJC_FILES</code>.<a id="DOCF3" href="#FOOT3"><sup>3</sup></a>
+</p>
+</dd>
+<dt><span><code><var>appname</var>_RESOURCE_FILES</code></span></dt>
+<dd><p>[Recommended] Here you list the <em>resource files</em> that are to be included with your application, including your application property list, interface file(s) and other images, data, etc. You can also list directories here, which should be added recursively (e.g. <samp>.gorm</samp> files are actually a directory containing three files, used to describe your interface).
+</p>
+</dd>
+<dt><span><code><var>appname</var>_RESOURCE_DIRS</code></span></dt>
+<dd><p>[Optional] Here you can list directories that will be copied into your application wrapper as resources.
+</p>
+</dd>
+<dt><span><code><var>appname</var>_OBJC_LIBS</code></span></dt>
+<dd><p>Here you list the names of the libraries you need your application to link against. Each one is prefixed by &rsquo;-l&rsquo; e.g. <code>-lMyLib</code>, separated by a space. You do not need to list the gnustep-gui, gnustep-base and Objective-C runtime, as these are included for you.
+</p>
+</dd>
+<dt><span><code><var>appname</var>_C_FLAGS</code></span></dt>
+<dt><span><code><var>appname</var>_CC_FLAGS</code></span></dt>
+<dt><span><code><var>appname</var>_OBJC_FLAGS</code></span></dt>
+<dt><span><code><var>appname</var>_OBJCC_FLAGS</code></span></dt>
+<dd><p>Here you specify the flags to be passed to the compiler when processing this file type. These included warning flags and macro overrides.
+</p>
+</dd>
+</dl>
+
+
+<span id="Interface-Files"></span></div>
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h5><a id="FOOT3" href="#DOCF3">(3)</a></h5>
+<p>You will need either clang or gcc 4.1 or higher to compile Objective-C++ programmes.</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="interfacefiles.html">Interface Files</a>, Previous: <a href="gnustepapplications.html">GNUstep Applications</a>, Up: <a href="index.html">Using the GNUstep AppKit</a> &nbsp; [<a href="conceptindex.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

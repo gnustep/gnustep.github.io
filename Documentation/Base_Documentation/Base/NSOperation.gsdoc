@@ -1,0 +1,464 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSOperation" stylesheeturl="gnustepStyle" up="Base">
+  <head>
+    <title>NSOperation class reference</title>
+    <author name="Gregory Casamento">
+      <email address="greg.casamento@gmail.com">
+        greg.casamento@gmail.com
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 16:52:01 -0500</date>
+    <copy>2008-2022 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSBlockOperation class
+      </heading>
+      <class name="NSBlockOperation" super="NSOperation" ovadd="10.5.0">
+        <declared>Foundation/NSOperation.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="instancetype" factory="yes" ovadd="10.5.0">
+          <sel>blockOperationWithBlock:</sel>
+          <arg type="GSBlockOperationBlock">block</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>addExecutionBlock:</sel>
+          <arg type="GSBlockOperationBlock">block</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>executionBlocks</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSOperation class
+      </heading>
+      <class name="NSOperation" super="NSObject" ovadd="10.5.0">
+        <declared>Foundation/NSOperation.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="void" ovadd="10.5.0">
+          <sel>addDependency:</sel>
+          <arg type="NSOperation*">op</arg>
+          <desc>
+            Adds a dependency to the receiver. <br /> The receiver
+            is not considered ready to execute until all of its
+            dependencies have finished executing. <br />
+            You must not add a particular object to the receiver
+            more than once. <br /> You must not create loops of
+            dependencies (this would cause deadlock).
+            <br />
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>cancel</sel>
+          <desc>
+            Marks the operation as cancelled (causes subsequent
+            calls to the
+            <ref type="method" id="-isCancelled">
+              -isCancelled
+            </ref>
+            method to return <code>YES</code>). <br /> This does
+            not directly cause the receiver to stop executing... it
+            is the responsibility of the receiver to call
+            <ref type="method" id="-isCancelled">
+              -isCancelled
+            </ref>
+            while executing and act accordingly. <br /> If an
+            operation in a queue is cancelled before it
+            starts executing, it will be removed from the queue
+            (though not necessarily immediately). <br />
+            Calling this method on an object which has already
+            finished executing has no effect.
+          </desc>
+        </method>
+        <method type="GSOperationCompletionBlock" ovadd="10.6.0">
+          <sel>completionBlock</sel>
+          <desc>
+            Returns the block that will be executed after the
+            operation finishes.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>dependencies</sel>
+          <desc>
+            Returns all the dependencies of the receiver in the
+            order in which they were added.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>isCancelled</sel>
+          <desc>
+            This method should return <code>YES</code> if the
+            <ref type="method" id="-cancel">
+              -cancel
+            </ref>
+            method has been called. <br /> NB. a cancelled
+            operation may still be executing.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>isConcurrent</sel>
+          <desc>
+            This method returns <code>YES</code> if the receiver
+            handles its own environment or threading rather
+            than expecting to run in an evironment set up
+            elsewhere (eg, by an
+            <ref type="class" id="NSOperationQueue">NSOperationQueue</ref>
+              instance). <br /> The default implementation
+              returns <code>NO</code>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>isExecuting</sel>
+          <desc>
+            This method should return <code>YES</code> if the
+            receiver is currently executing its
+            <ref type="method" id="-main">
+              -main
+            </ref>
+            method (even if
+            <ref type="method" id="-cancel">
+              -cancel
+            </ref>
+            has been called).
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>isFinished</sel>
+          <desc>
+            This method should return <code>YES</code> if the
+            receiver has finished executing its
+            <ref type="method" id="-main">
+              -main
+            </ref>
+            method (irrespective of whether the execution
+            completed due to cancellation, failure, or
+            success).
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>isReady</sel>
+          <desc>
+            This method should return <code>YES</code> when the
+            receiver is ready to begin executing. That is, the
+            receiver must have no dependencies which have not
+            finished executing. <br /> Also returns
+            <code>YES</code> if the operation has been cancelled
+            (even if there are unfinished dependencies). <br />
+            An executing or finished operation is also considered to
+            be ready.
+          </desc>
+        </method>
+        <method type="void" override="subclass" ovadd="10.5.0">
+          <sel>main</sel>
+          <desc>
+            This is the method which actually performs the
+            operation... the default implementation does
+            nothing. <br /> You MUST ensure that your
+            implemention of
+            <ref type="method" id="-main">
+              -main
+            </ref>
+            does not raise any exception or call
+            <ref type="method" id="+exit" class="NSThread">
+              [NSThread +exit]
+            </ref>
+            as either of these will terminate the operation
+            prematurely resulting in the operation never
+            reaching the
+            <ref type="method" id="-isFinished">
+              -isFinished
+            </ref>
+            state. <br /> If you are writing a concurrent
+            subclass, you should override
+            <ref type="method" id="-start">
+              -start
+            </ref>
+            instead of (or as well as) the
+            <ref type="method" id="-main">
+              -main
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="NSOperationQueuePriority" ovadd="10.5.0">
+          <sel>queuePriority</sel>
+          <desc>
+            Returns the priority set using the
+            <ref type="method" id="-setQueuePriority:">
+              -setQueuePriority:
+            </ref>
+            method, or NSOperationQueuePriorityNormal if no
+            priority has been set.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>removeDependency:</sel>
+          <arg type="NSOperation*">op</arg>
+          <desc>
+            Removes a dependency from the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>setCompletionBlock:</sel>
+          <arg type="GSOperationCompletionBlock">aBlock</arg>
+          <desc>
+            Sets the block that will be executed when the
+            operation has finished.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setQueuePriority:</sel>
+          <arg type="NSOperationQueuePriority">priority</arg>
+          <desc>
+            Sets the <var>priority</var> for the receiver. If the
+            value supplied is not one of the predefined queue
+            priorities, it is converted into the next
+            available defined value moving towards
+            NSOperationQueuePriorityNormal.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>setThreadPriority:</sel>
+          <arg type="double">prio</arg>
+          <desc>
+            Sets the thread priority to be used while executing
+            then <ref type="method" id="-main">-main</ref> method.
+            The priority change is implemented in the
+            <ref type="method" id="-start">
+              -start
+            </ref>
+            method, so if you are replacing
+            <ref type="method" id="-start">
+              -start
+            </ref>
+            you are responsible for managing this. <br /> The valid
+            range is 0.0 to 1.0
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>start</sel>
+          <desc>
+            This method is called to start execution of the
+            receiver. <br />
+            <p>
+              For concurrent operations, the subclass must override
+              this method to set up the environment for the
+              operation to execute, must execute the
+              <ref type="method" id="-main">
+                -main
+              </ref>
+              method, must ensure that
+              <ref type="method" id="-isExecuting">
+                -isExecuting
+              </ref>
+              and
+              <ref type="method" id="-isFinished">
+                -isFinished
+              </ref>
+              return the correct values, and must manually call
+              key-value-observing methods to notify
+              observers of the state of those two properties.
+              <br /> The subclass implementation must NOT call
+              the superclass implementation.
+            </p>
+            <p>
+              For non-concurrent operations, the default
+              implementation of this method performs all
+              the work of setting up environment etc, and the
+              subclass only needs to override the
+              <ref type="method" id="-main">
+                -main
+              </ref>
+              method.
+            </p>
+          </desc>
+        </method>
+        <method type="double" ovadd="10.6.0">
+          <sel>threadPriority</sel>
+          <desc>
+            Returns the thread priority to be used executing
+            the <ref type="method" id="-main">-main</ref> method.
+            The default is 0.5
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>waitUntilFinished</sel>
+          <desc>
+            This method blocks the current thread until the
+            receiver finishes. <br /> Care must be taken to
+            avoid deadlock... you must not call this method from
+            the same thread that the receiver started in.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSOperationQueue class
+      </heading>
+      <class name="NSOperationQueue" super="NSObject" ovadd="10.5.0">
+        <declared>Foundation/NSOperation.h</declared>
+        <desc>
+          An NSOperationQueue manages a number of NSOperation
+          objects, scheduling them for execution and managing
+          their dependencies. Depending on the configuration of
+          the queue, operations may be executed concurrently or
+          serially. Worker threads are named
+          "NSOperationQ_&lt;number&gt;"
+          by default, but you can set a name for the queue using the
+          <ref type="method" id="-setName:">
+            -setName:
+          </ref>
+          method. The suffix "_&lt;number&gt;"" is
+          automatically added to the thread name.
+        </desc>
+        <method type="id" factory="yes" ovadd="10.6.0">
+          <sel>currentQueue</sel>
+          <desc>
+            If called from within the
+            <ref type="method" id="-main">
+              -main
+            </ref>
+            method of an operation which is currently being
+            executed by a queue, this returns the queue
+            instance in use.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="10.6.0">
+          <sel>mainQueue</sel>
+          <desc>
+            Returns the default queue on the main thread.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>addOperation:</sel>
+          <arg type="NSOperation*">op</arg>
+          <desc>
+            Adds an operation to the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>addOperationWithBlock:</sel>
+          <arg type="GSBlockOperationBlock">block</arg>
+          <desc>
+            This method wraps a <var>block</var> in an operation
+            and adds it to the queue.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>addOperations:</sel>
+          <arg type="NSArray*">ops</arg>
+          <sel>waitUntilFinished:</sel>
+          <arg type="BOOL">shouldWait</arg>
+          <desc>
+            Adds multiple operations to the receiver and
+            (optionally) waits for all the operations in
+            the queue to finish.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>cancelAllOperations</sel>
+          <desc>
+            Cancels all outstanding operations in the queue.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>isSuspended</sel>
+          <desc>
+            Returns a flag indicating whether the queue is
+            currently suspended.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.5.0">
+          <sel>maxConcurrentOperationCount</sel>
+          <desc>
+            Returns the value set using the
+            <ref type="method" id="-setMaxConcurrentOperationCount:">
+              -setMaxConcurrentOperationCount:
+            </ref>
+            method, or
+            NSOperationQueueDefaultMaxConcurrentOperationCount
+            if none has been set. <br />
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.6.0">
+          <sel>name</sel>
+          <desc>
+            Return the name of this operation queue.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.6.0">
+          <sel>operationCount</sel>
+          <desc>
+            Return the number of operations in the queue at an
+            instant.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>operations</sel>
+          <desc>
+            Returns all the operations in the queue at an
+            instant.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setMaxConcurrentOperationCount:</sel>
+          <arg type="NSInteger">cnt</arg>
+          <desc>
+            Sets the number of concurrent operations permitted.
+            <br /> The default
+            (NSOperationQueueDefaultMaxConcurrentOperationCount)
+            means that the queue should decide how many it does
+            based on system load etc.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>setName:</sel>
+          <arg type="NSString*">s</arg>
+          <desc>
+            Sets the name for this operation queue.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setSuspended:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Marks the receiver as suspended... while suspended an
+            operation queue will not start any more
+            operations.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>waitUntilAllOperationsAreFinished</sel>
+          <desc>
+            Waits until all operations in the queue have finished
+            (or been cancelled and removed from the queue).
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

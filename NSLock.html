@@ -1,0 +1,1227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>NSLock class reference</title>
+    <style type="text/css">
+    hr.method-separator { width:25%; margin-left:0; }
+    </style>
+  </head>
+  <body>
+    <a href="Base.html">Up</a>
+    <br />
+    <h1><a name="title$NSLock">NSLock class reference</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>David Chisnall (<a href="mailto:csdavec@swan.ac.uk"><code>csdavec@swan.ac.uk</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Date:</b> Generated at 2024-11-07 16:52:01 -0500</p>
+    <p><b>Copyright:</b> (C) 1996-2010 Free Software Foundation, Inc.</p>
+
+        <div>
+      <hr width="50%" align="left" />
+      <h3>Contents -</h3>
+      <ol>
+        <li>
+          <a href="#001000000000">Software documentation for the NSCondition class</a>
+        </li>
+        <li>
+          <a href="#002000000000">Software documentation for the NSConditionLock class</a>
+        </li>
+        <li>
+          <a href="#003000000000">Software documentation for the NSLock class</a>
+        </li>
+        <li>
+          <a href="#004000000000">Software documentation for the NSRecursiveLock class</a>
+        </li>
+        <li>
+          <a href="#005000000000">Software documentation for the NSObject(GSTraceLocks)
+        informal protocol</a>
+        </li>
+        <li>
+          <a href="#006000000000">Software documentation for the NSLocking protocol</a>
+        </li>
+      </ol>
+      <hr width="50%" align="left" />
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSCondition class
+      </a></h1>
+    <h2 class="class"><a name="class$NSCondition">NSCondition</a> : <a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a></h2>
+<svg width="362pt" height="122pt"
+ viewBox="0.00 0.00 362.41 122.46" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 118.46)">
+<title>class_NSCondition</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-118.46 358.41,-118.46 358.41,4 -4,4"/>
+<!-- NSObject -->
+<g id="node1" class="node">
+<title>NSObject</title>
+<g id="a_node1"><a xlink:href="NSObject.html#class$NSObject" xlink:title="NSObject">
+<polygon fill="lightgrey" stroke="black" points="118,-111.23 0,-111.23 0,-75.23 118,-75.23 118,-111.23"/>
+<text text-anchor="middle" x="59" y="-87.03" font-family="Times,serif" font-size="24.00" fill="blue">NSObject</text>
+</a>
+</g>
+</g>
+<!-- NSCondition -->
+<g id="node2" class="node">
+<title>NSCondition</title>
+<polygon fill="lightgrey" stroke="black" points="230,-36 74,-36 74,0 230,0 230,-36"/>
+<text text-anchor="middle" x="152" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">NSCondition</text>
+</g>
+<!-- NSObject&#45;&gt;NSCondition -->
+<g id="edge1" class="edge">
+<title>NSObject&#45;&gt;NSCondition</title>
+<path fill="none" stroke="black" d="M81.04,-74.87C93.32,-65.21 108.77,-53.04 122.12,-42.52"/>
+<polygon fill="black" stroke="black" points="124.43,-45.17 130.12,-36.23 120.1,-39.67 124.43,-45.17"/>
+</g>
+<!-- p_NSLocking -->
+<g id="node3" class="node">
+<title>p_NSLocking</title>
+<g id="a_node3"><a xlink:href="#protocol$(NSLocking)" xlink:title="NSLocking">
+<polygon fill="lightgrey" stroke="black" points="354.32,-93.23 299.66,-114.69 190.34,-114.69 135.68,-93.23 190.34,-71.77 299.66,-71.77 354.32,-93.23"/>
+<text text-anchor="middle" x="245" y="-87.03" font-family="Times,serif" font-size="24.00" fill="blue">NSLocking</text>
+</a>
+</g>
+</g>
+<!-- p_NSLocking&#45;&gt;NSCondition -->
+<g id="edge2" class="edge">
+<title>p_NSLocking&#45;&gt;NSCondition</title>
+<path fill="none" stroke="black" d="M219.09,-71.83C207.48,-62.68 193.71,-51.85 181.68,-42.37"/>
+<polygon fill="black" stroke="black" points="183.7,-39.51 173.68,-36.07 179.37,-45.01 183.7,-39.51"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSLock.h</dd>
+      </dl>
+    </blockquote>
+    <blockquote>
+      <dl>
+        <dt><b>Conforms to:</b></dt>
+        <dd><a rel="gsdoc" href="#protocol$(NSLocking)">NSLocking</a></dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          NSCondition provides an interface to POSIX
+          condition variables.
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_NSCondition_ivars">Instance Variables</a>
+    <br/><br/>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSCondition-broadcast">-broadcast</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSCondition-name">-name</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSCondition-setName$">-setName:</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSCondition-signal">-signal</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSCondition-wait">-wait</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSCondition-waitUntilDate$">-waitUntilDate:</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSCondition-broadcast">broadcast&nbsp;</a></h3>
+    - (void) <b>broadcast</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Wakes all threads that are waiting on this condition.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSCondition-name">name&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>name</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the name used for debugging messages.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSCondition-setName$">setName:&nbsp;</a></h3>
+    - (void) <b>setName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)newName;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Sets the name used for debugging messages.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSCondition-signal">signal&nbsp;</a></h3>
+    - (void) <b>signal</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Wakes wany one of the threads that are waiting on
+            this condition.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSCondition-wait">wait&nbsp;</a></h3>
+    - (void) <b>wait</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Blocks and atomically unlocks the receiver. This
+            method should only be called when the receiver is
+            locked. The caller will then block until the
+            receiver is sent either a
+            <a rel="gsdoc" href="#method$NSCondition-signal">
+              -signal
+            </a>
+
+            or <a rel="gsdoc" href="#method$NSCondition-broadcast">-broadcast</a>
+
+            message from another thread. At which point, the
+            calling thread will reacquire the lock.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSCondition-waitUntilDate$">waitUntilDate:&nbsp;</a></h3>
+    - (BOOL) <b>waitUntilDate:</b> (<a rel="gsdoc" href="NSDate.html#class$NSDate">NSDate</a>*)limit;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Blocks the calling thread and acquires the lock, in
+            the same way as
+            <a rel="gsdoc" href="#method$NSCondition-wait">
+              -wait
+            </a>
+
+            . Returns <code>YES</code> if the condition is signaled,
+            or <code>NO</code> if the timeout is reached.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<a name="_NSCondition_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for NSCondition Class</h2>
+    <h3><a name="ivariable$NSCondition*_condition">_condition</a></h3>
+    @protected gs_cond_public_t <b>_condition</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSCondition*_mutex">_mutex</a></h3>
+    @protected gs_mutex_public_t <b>_mutex</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSCondition*_name">_name</a></h3>
+    @protected NSString* <b>_name</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <br/><hr width="50%" align="left" /><br/>
+
+          <h1><a name="002000000000">
+        Software documentation for the NSConditionLock class
+      </a></h1>
+    <h2 class="class"><a name="class$NSConditionLock">NSConditionLock</a> : <a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a></h2>
+<svg width="362pt" height="122pt"
+ viewBox="0.00 0.00 362.41 122.46" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 118.46)">
+<title>class_NSConditionLock</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-118.46 358.41,-118.46 358.41,4 -4,4"/>
+<!-- NSObject -->
+<g id="node1" class="node">
+<title>NSObject</title>
+<g id="a_node1"><a xlink:href="NSObject.html#class$NSObject" xlink:title="NSObject">
+<polygon fill="lightgrey" stroke="black" points="118,-111.23 0,-111.23 0,-75.23 118,-75.23 118,-111.23"/>
+<text text-anchor="middle" x="59" y="-87.03" font-family="Times,serif" font-size="24.00" fill="blue">NSObject</text>
+</a>
+</g>
+</g>
+<!-- NSConditionLock -->
+<g id="node2" class="node">
+<title>NSConditionLock</title>
+<polygon fill="lightgrey" stroke="black" points="259,-36 45,-36 45,0 259,0 259,-36"/>
+<text text-anchor="middle" x="152" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">NSConditionLock</text>
+</g>
+<!-- NSObject&#45;&gt;NSConditionLock -->
+<g id="edge1" class="edge">
+<title>NSObject&#45;&gt;NSConditionLock</title>
+<path fill="none" stroke="black" d="M81.04,-74.87C93.32,-65.21 108.77,-53.04 122.12,-42.52"/>
+<polygon fill="black" stroke="black" points="124.43,-45.17 130.12,-36.23 120.1,-39.67 124.43,-45.17"/>
+</g>
+<!-- p_NSLocking -->
+<g id="node3" class="node">
+<title>p_NSLocking</title>
+<g id="a_node3"><a xlink:href="#protocol$(NSLocking)" xlink:title="NSLocking">
+<polygon fill="lightgrey" stroke="black" points="354.32,-93.23 299.66,-114.69 190.34,-114.69 135.68,-93.23 190.34,-71.77 299.66,-71.77 354.32,-93.23"/>
+<text text-anchor="middle" x="245" y="-87.03" font-family="Times,serif" font-size="24.00" fill="blue">NSLocking</text>
+</a>
+</g>
+</g>
+<!-- p_NSLocking&#45;&gt;NSConditionLock -->
+<g id="edge2" class="edge">
+<title>p_NSLocking&#45;&gt;NSConditionLock</title>
+<path fill="none" stroke="black" d="M219.09,-71.83C207.48,-62.68 193.71,-51.85 181.68,-42.37"/>
+<polygon fill="black" stroke="black" points="183.7,-39.51 173.68,-36.07 179.37,-45.01 183.7,-39.51"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSLock.h</dd>
+      </dl>
+    </blockquote>
+    <blockquote>
+      <dl>
+        <dt><b>Conforms to:</b></dt>
+        <dd><a rel="gsdoc" href="#protocol$(NSLocking)">NSLocking</a></dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          Lock that allows user to request it only when an
+          internal integer condition is equal to a particular
+          value. The condition is set on initialization and
+          whenever the lock is relinquished.
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_NSConditionLock_ivars">Instance Variables</a>
+    <br/><br/>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSConditionLock-condition">-condition</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSConditionLock-initWithCondition$">-initWithCondition:</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSConditionLock-isLockedByCurrentThread">-isLockedByCurrentThread</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSConditionLock-lock">-lock</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSConditionLock-lockBeforeDate$">-lockBeforeDate:</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSConditionLock-lockWhenCondition$">-lockWhenCondition:</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSConditionLock-lockWhenCondition$beforeDate$">-lockWhenCondition:beforeDate:</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSConditionLock-name">-name</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSConditionLock-setName$">-setName:</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSConditionLock-tryLock">-tryLock</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSConditionLock-tryLockWhenCondition$">-tryLockWhenCondition:</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSConditionLock-unlock">-unlock</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSConditionLock-unlockWithCondition$">-unlockWithCondition:</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSConditionLock-condition">condition&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>) <b>condition</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Return the current condition of the lock.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSConditionLock-initWithCondition$">initWithCondition:&nbsp;</a></h3>
+    - (id) <b>initWithCondition:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)value;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Initialize lock with given condition.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSConditionLock-isLockedByCurrentThread">isLockedByCurrentThread&nbsp;</a></h3>
+    - (BOOL) <b>isLockedByCurrentThread</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Report whether this lock is held by the current
+            thread. <br/> Raises an exception if this is not
+            supported by the system lock mechanism.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSConditionLock-lock">lock&nbsp;</a></h3>
+    - (void) <b>lock</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Block until acquiring lock.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSConditionLock-lockBeforeDate$">lockBeforeDate:&nbsp;</a></h3>
+    - (BOOL) <b>lockBeforeDate:</b> (<a rel="gsdoc" href="NSDate.html#class$NSDate">NSDate</a>*)limit;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Try to acquire lock and return before <var>limit</var>,
+            <code>YES</code> if succeeded, <code>NO</code> if
+            not.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSConditionLock-lockWhenCondition$">lockWhenCondition:&nbsp;</a></h3>
+    - (void) <b>lockWhenCondition:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)value;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Acquire lock when it is available and the internal
+            condition is equal to <var>value</var>. Blocks
+            until this occurs.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSConditionLock-lockWhenCondition$beforeDate$">lockWhenCondition:&nbsp;beforeDate:&nbsp;</a></h3>
+    - (BOOL) <b>lockWhenCondition:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)condition_to_meet<b> beforeDate:</b> (<a rel="gsdoc" href="NSDate.html#class$NSDate">NSDate</a>*)limitDate;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Try to acquire lock, when internal condition is equal
+            to <var>condition_to_meet</var>, and return before
+            limit, <code>YES</code> if succeeded,
+            <code>NO</code> if not.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSConditionLock-name">name&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>name</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            Return the name of the receiver or <code>nil</code>
+            of none has been set.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSConditionLock-setName$">setName:&nbsp;</a></h3>
+    - (void) <b>setName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)name;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            Sets the <var>name</var> of the receiver (for use in
+            debugging).
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSConditionLock-tryLock">tryLock&nbsp;</a></h3>
+    - (BOOL) <b>tryLock</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Try to acquire lock regardless of condition and return
+            immediately, <code>YES</code> if succeeded,
+            <code>NO</code> if not.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSConditionLock-tryLockWhenCondition$">tryLockWhenCondition:&nbsp;</a></h3>
+    - (BOOL) <b>tryLockWhenCondition:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)value;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Try to acquire lock if condition is equal to
+            <var>value</var> and return immediately in any case,
+            <code>YES</code> if succeeded, <code>NO</code> if
+            not.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSConditionLock-unlock">unlock&nbsp;</a></h3>
+    - (void) <b>unlock</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Relinquish lock.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSConditionLock-unlockWithCondition$">unlockWithCondition:&nbsp;</a></h3>
+    - (void) <b>unlockWithCondition:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)value;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Relinquish the lock, setting internal condition
+            to <var>value</var>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<a name="_NSConditionLock_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for NSConditionLock Class</h2>
+    <h3><a name="ivariable$NSConditionLock*_condition">_condition</a></h3>
+    @protected NSCondition* <b>_condition</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSConditionLock*_condition_value">_condition_value</a></h3>
+    @protected int <b>_condition_value</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSConditionLock*_name">_name</a></h3>
+    @protected NSString* <b>_name</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <br/><hr width="50%" align="left" /><br/>
+
+          <h1><a name="003000000000">
+        Software documentation for the NSLock class
+      </a></h1>
+    <h2 class="class"><a name="class$NSLock">NSLock</a> : <a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a></h2>
+<svg width="362pt" height="122pt"
+ viewBox="0.00 0.00 362.41 122.46" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 118.46)">
+<title>class_NSLock</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-118.46 358.41,-118.46 358.41,4 -4,4"/>
+<!-- NSObject -->
+<g id="node1" class="node">
+<title>NSObject</title>
+<g id="a_node1"><a xlink:href="NSObject.html#class$NSObject" xlink:title="NSObject">
+<polygon fill="lightgrey" stroke="black" points="118,-111.23 0,-111.23 0,-75.23 118,-75.23 118,-111.23"/>
+<text text-anchor="middle" x="59" y="-87.03" font-family="Times,serif" font-size="24.00" fill="blue">NSObject</text>
+</a>
+</g>
+</g>
+<!-- NSLock -->
+<g id="node2" class="node">
+<title>NSLock</title>
+<polygon fill="lightgrey" stroke="black" points="200,-36 104,-36 104,0 200,0 200,-36"/>
+<text text-anchor="middle" x="152" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">NSLock</text>
+</g>
+<!-- NSObject&#45;&gt;NSLock -->
+<g id="edge1" class="edge">
+<title>NSObject&#45;&gt;NSLock</title>
+<path fill="none" stroke="black" d="M81.04,-74.87C93.32,-65.21 108.77,-53.04 122.12,-42.52"/>
+<polygon fill="black" stroke="black" points="124.43,-45.17 130.12,-36.23 120.1,-39.67 124.43,-45.17"/>
+</g>
+<!-- p_NSLocking -->
+<g id="node3" class="node">
+<title>p_NSLocking</title>
+<g id="a_node3"><a xlink:href="#protocol$(NSLocking)" xlink:title="NSLocking">
+<polygon fill="lightgrey" stroke="black" points="354.32,-93.23 299.66,-114.69 190.34,-114.69 135.68,-93.23 190.34,-71.77 299.66,-71.77 354.32,-93.23"/>
+<text text-anchor="middle" x="245" y="-87.03" font-family="Times,serif" font-size="24.00" fill="blue">NSLocking</text>
+</a>
+</g>
+</g>
+<!-- p_NSLocking&#45;&gt;NSLock -->
+<g id="edge2" class="edge">
+<title>p_NSLocking&#45;&gt;NSLock</title>
+<path fill="none" stroke="black" d="M219.09,-71.83C207.48,-62.68 193.71,-51.85 181.68,-42.37"/>
+<polygon fill="black" stroke="black" points="183.7,-39.51 173.68,-36.07 179.37,-45.01 183.7,-39.51"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSLock.h</dd>
+      </dl>
+    </blockquote>
+    <blockquote>
+      <dl>
+        <dt><b>Conforms to:</b></dt>
+        <dd><a rel="gsdoc" href="#protocol$(NSLocking)">NSLocking</a></dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            Simplest lock for protecting critical sections of
+            code.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            An <code>NSLock</code> is used in multi-threaded
+            applications to protect critical pieces of
+            code. While one thread holds a lock within a piece of
+            code, another thread cannot execute that code until
+            the first thread has given up its hold on the lock. The
+            limitation of <code>NSLock</code> is that you
+            can only lock an <code>NSLock</code> once and it must
+            be unlocked before it can be acquired again. <br/>
+            Other lock classes, notably
+            <a rel="gsdoc" href="#class$NSRecursiveLock">NSRecursiveLock</a>
+, have different restrictions.    </p>
+    <p>
+      
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_NSLock_ivars">Instance Variables</a>
+    <br/><br/>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSLock-isLockedByCurrentThread">-isLockedByCurrentThread</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSLock-lock">-lock</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSLock-lockBeforeDate$">-lockBeforeDate:</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSLock-name">-name</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSLock-setName$">-setName:</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSLock-tryLock">-tryLock</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSLock-unlock">-unlock</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSLock-isLockedByCurrentThread">isLockedByCurrentThread&nbsp;</a></h3>
+    - (BOOL) <b>isLockedByCurrentThread</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Report whether this lock is held by the current
+            thread. <br/> Raises an exception if this is not
+            supported by the system lock mechanism.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSLock-lock">lock&nbsp;</a></h3>
+    - (void) <b>lock</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Block until acquiring lock.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSLock-lockBeforeDate$">lockBeforeDate:&nbsp;</a></h3>
+    - (BOOL) <b>lockBeforeDate:</b> (<a rel="gsdoc" href="NSDate.html#class$NSDate">NSDate</a>*)limit;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Try to acquire lock and return before <var>limit</var>,
+            <code>YES</code> if succeeded, <code>NO</code> if
+            not.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSLock-name">name&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>name</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            Return the name of the receiver or <code>nil</code>
+            of none has been set.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSLock-setName$">setName:&nbsp;</a></h3>
+    - (void) <b>setName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)name;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            Sets the <var>name</var> of the receiver (for use in
+            debugging).
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSLock-tryLock">tryLock&nbsp;</a></h3>
+    - (BOOL) <b>tryLock</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Try to acquire lock and return immediately,
+            <code>YES</code> if succeeded, <code>NO</code> if
+            not.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSLock-unlock">unlock&nbsp;</a></h3>
+    - (void) <b>unlock</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Relinquish lock.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<a name="_NSLock_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for NSLock Class</h2>
+    <h3><a name="ivariable$NSLock*_mutex">_mutex</a></h3>
+    @protected gs_mutex_public_t <b>_mutex</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSLock*_name">_name</a></h3>
+    @protected NSString* <b>_name</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <br/><hr width="50%" align="left" /><br/>
+
+          <h1><a name="004000000000">
+        Software documentation for the NSRecursiveLock class
+      </a></h1>
+    <h2 class="class"><a name="class$NSRecursiveLock">NSRecursiveLock</a> : <a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a></h2>
+<svg width="362pt" height="122pt"
+ viewBox="0.00 0.00 362.41 122.46" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 118.46)">
+<title>class_NSRecursiveLock</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-118.46 358.41,-118.46 358.41,4 -4,4"/>
+<!-- NSObject -->
+<g id="node1" class="node">
+<title>NSObject</title>
+<g id="a_node1"><a xlink:href="NSObject.html#class$NSObject" xlink:title="NSObject">
+<polygon fill="lightgrey" stroke="black" points="118,-111.23 0,-111.23 0,-75.23 118,-75.23 118,-111.23"/>
+<text text-anchor="middle" x="59" y="-87.03" font-family="Times,serif" font-size="24.00" fill="blue">NSObject</text>
+</a>
+</g>
+</g>
+<!-- NSRecursiveLock -->
+<g id="node2" class="node">
+<title>NSRecursiveLock</title>
+<polygon fill="lightgrey" stroke="black" points="260,-36 44,-36 44,0 260,0 260,-36"/>
+<text text-anchor="middle" x="152" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">NSRecursiveLock</text>
+</g>
+<!-- NSObject&#45;&gt;NSRecursiveLock -->
+<g id="edge1" class="edge">
+<title>NSObject&#45;&gt;NSRecursiveLock</title>
+<path fill="none" stroke="black" d="M81.04,-74.87C93.32,-65.21 108.77,-53.04 122.12,-42.52"/>
+<polygon fill="black" stroke="black" points="124.43,-45.17 130.12,-36.23 120.1,-39.67 124.43,-45.17"/>
+</g>
+<!-- p_NSLocking -->
+<g id="node3" class="node">
+<title>p_NSLocking</title>
+<g id="a_node3"><a xlink:href="#protocol$(NSLocking)" xlink:title="NSLocking">
+<polygon fill="lightgrey" stroke="black" points="354.32,-93.23 299.66,-114.69 190.34,-114.69 135.68,-93.23 190.34,-71.77 299.66,-71.77 354.32,-93.23"/>
+<text text-anchor="middle" x="245" y="-87.03" font-family="Times,serif" font-size="24.00" fill="blue">NSLocking</text>
+</a>
+</g>
+</g>
+<!-- p_NSLocking&#45;&gt;NSRecursiveLock -->
+<g id="edge2" class="edge">
+<title>p_NSLocking&#45;&gt;NSRecursiveLock</title>
+<path fill="none" stroke="black" d="M219.09,-71.83C207.48,-62.68 193.71,-51.85 181.68,-42.37"/>
+<polygon fill="black" stroke="black" points="183.7,-39.51 173.68,-36.07 179.37,-45.01 183.7,-39.51"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSLock.h</dd>
+      </dl>
+    </blockquote>
+    <blockquote>
+      <dl>
+        <dt><b>Conforms to:</b></dt>
+        <dd><a rel="gsdoc" href="#protocol$(NSLocking)">NSLocking</a></dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          Allows the lock to be recursively acquired by the same
+          thread. If the same thread locks the mutex (n) times
+          then that same thread must also unlock it (n) times
+          before another thread can acquire the lock.
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_NSRecursiveLock_ivars">Instance Variables</a>
+    <br/><br/>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSRecursiveLock-isLockedByCurrentThread">-isLockedByCurrentThread</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSRecursiveLock-lock">-lock</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSRecursiveLock-lockBeforeDate$">-lockBeforeDate:</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSRecursiveLock-name">-name</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSRecursiveLock-setName$">-setName:</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSRecursiveLock-tryLock">-tryLock</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSRecursiveLock-unlock">-unlock</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSRecursiveLock-isLockedByCurrentThread">isLockedByCurrentThread&nbsp;</a></h3>
+    - (BOOL) <b>isLockedByCurrentThread</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Report whether this lock is held by the current
+            thread. <br/> Raises an exception if this is not
+            supported by the system lock mechanism.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSRecursiveLock-lock">lock&nbsp;</a></h3>
+    - (void) <b>lock</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Block until acquiring lock.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSRecursiveLock-lockBeforeDate$">lockBeforeDate:&nbsp;</a></h3>
+    - (BOOL) <b>lockBeforeDate:</b> (<a rel="gsdoc" href="NSDate.html#class$NSDate">NSDate</a>*)limit;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Try to acquire lock and return before <var>limit</var>,
+            <code>YES</code> if succeeded, <code>NO</code> if
+            not.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSRecursiveLock-name">name&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>name</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            Return the name of the receiver or <code>nil</code>
+            of none has been set.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSRecursiveLock-setName$">setName:&nbsp;</a></h3>
+    - (void) <b>setName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)name;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            Sets the <var>name</var> of the receiver (for use in
+            debugging).
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSRecursiveLock-tryLock">tryLock&nbsp;</a></h3>
+    - (BOOL) <b>tryLock</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Try to acquire lock regardless of condition and return
+            immediately, <code>YES</code> if succeeded,
+            <code>NO</code> if not.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSRecursiveLock-unlock">unlock&nbsp;</a></h3>
+    - (void) <b>unlock</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Relinquish lock.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<a name="_NSRecursiveLock_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for NSRecursiveLock Class</h2>
+    <h3><a name="ivariable$NSRecursiveLock*_mutex">_mutex</a></h3>
+    @protected gs_mutex_public_t <b>_mutex</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSRecursiveLock*_name">_name</a></h3>
+    @protected NSString* <b>_name</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <br/><hr width="50%" align="left" /><br/>
+
+          <h1><a name="005000000000">
+        Software documentation for the NSObject(GSTraceLocks)
+        informal protocol
+      </a></h1>
+    <h2><a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a>(<a name="category$NSObject(GSTraceLocks)">GSTraceLocks</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSLock.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          Controls tracing of locks for deadlocking.
+        
+    </div>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSObject(GSTraceLocks)+shouldCreateTraceableLocks$">+shouldCreateTraceableLocks:</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSObject(GSTraceLocks)+tracedCondition">+tracedCondition</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSObject(GSTraceLocks)+tracedConditionLockWithCondition$">+tracedConditionLockWithCondition:</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSObject(GSTraceLocks)+tracedLock">+tracedLock</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$NSObject(GSTraceLocks)+tracedRecursiveLock">+tracedRecursiveLock</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSObject(GSTraceLocks)+shouldCreateTraceableLocks$">shouldCreateTraceableLocks:&nbsp;</a></h3>
+    + (BOOL) <b>shouldCreateTraceableLocks:</b> (BOOL)shouldTrace;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Sets whether newly created lock objects (NSCondition,
+            NSConditionLock, NSLock, NSRecursiveLock
+            but NOT NSDistributedLock) should be created so that
+            their use by threads is traced and deadlocks can be
+            detected. <br/> Returns the old value of the
+            setting.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(GSTraceLocks)+tracedCondition">tracedCondition&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSCondition">NSCondition</a>*) <b>tracedCondition</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Creates and returns a single autoreleased traced
+            condition.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(GSTraceLocks)+tracedConditionLockWithCondition$">tracedConditionLockWithCondition:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSConditionLock">NSConditionLock</a>*) <b>tracedConditionLockWithCondition:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>)value;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Creates and returns a single autoreleased traced
+            condition lock.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(GSTraceLocks)+tracedLock">tracedLock&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSLock">NSLock</a>*) <b>tracedLock</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Creates and returns a single autoreleased traced
+            lock.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(GSTraceLocks)+tracedRecursiveLock">tracedRecursiveLock&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSRecursiveLock">NSRecursiveLock</a>*) <b>tracedRecursiveLock</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Creates and returns a single autoreleased traced
+            recursive lock.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+
+          <h1><a name="006000000000">
+        Software documentation for the NSLocking protocol
+      </a></h1>
+    <h2><a name="protocol$(NSLocking)">NSLocking</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSLock.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          Protocol defining lock and unlock operations.
+        
+    </div>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSLock.html#method$(NSLocking)-lock">-lock</a></li>
+      <li><a rel="gsdoc" href="NSLock.html#method$(NSLocking)-unlock">-unlock</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$(NSLocking)-lock">lock&nbsp;</a></h3>
+    - (void) <b>lock</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Block until acquiring lock.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$(NSLocking)-unlock">unlock&nbsp;</a></h3>
+    - (void) <b>unlock</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Relinquish lock.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+    <br />
+    <a href="Base.html">Up</a>
+    </body>
+</html>

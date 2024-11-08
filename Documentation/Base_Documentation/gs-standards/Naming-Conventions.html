@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Naming Conventions (Coding Standards for GNUstep Libraries)</title>
+
+<meta name="description" content="Naming Conventions (Coding Standards for GNUstep Libraries)">
+<meta name="keywords" content="Naming Conventions (Coding Standards for GNUstep Libraries)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html" rel="up" title="Top">
+<link href="Object-Persistence.html" rel="next" title="Object Persistence">
+<link href="Variable-Declaration.html" rel="prev" title="Variable Declaration">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="Naming-Conventions">
+<div class="header">
+<p>
+Next: <a href="Object-Persistence.html" accesskey="n" rel="next">Object Persistence</a>, Previous: <a href="Variable-Declaration.html" accesskey="p" rel="prev">Variable Declaration</a>, Up: <a href="index.html" accesskey="u" rel="up">Coding Standards</a> &nbsp; </p>
+</div>
+<hr>
+<span id="Naming-Conventions-1"></span><h3 class="section">1.7 Naming Conventions</h3>
+
+<p>The convention for naming items in GNUstep differs from the GNU standard
+as it needs to be compatible with OpenStep/MacOS-X.
+</p>
+<p>Public classes, variables, functions and constants begin with the NS prefix
+if they are part of the OpenStep or MacOS-X APIs, and begin with GS if they
+are GNUstep extensions.  GNUstep extensions must not use the NS prefix.
+</p>
+<p>Class, public function, and global variable names have the first letter of
+each word in the name capitalised (underscores are not used).
+</p><div class="example">
+<pre class="example">@class	NSRunLoop;
+GSSetUserName();
+NSGenericException;
+</pre></div>
+
+<p>Method and instance variable names are similarly capitalised, except that the
+first letter of the first word is usually not capitalised (there are a few
+exceptions to this where the first word is an acronym and all the letters
+in it are capitals).  Underscores are not used in these names except to indicate that the method/variable is private, in which case the name begins with an
+underscore.
+</p>
+<div class="example">
+<pre class="example">{
+  int	publicInstanceVariable;
+  int	_privateInstanceVariable;
+}
+- (void) publicMethod;
+- (void) _privateMethod;
+</pre></div>
+
+<p>The names of accessor methods (methods used to set or get the value of an
+instance variable) must mirror the names of the instance variables.
+The name of a setter method is of the form &rsquo;setVar&rsquo; where &rsquo;Var&rsquo; is the
+instance variable name with any leading underscore removed and with the
+first letter converted to uppercase.
+The name of the getter method is the same as the instance variable name
+(with any leading underscore removed).
+</p>
+<div class="example">
+<pre class="example">{
+  int	_amplitude;
+  int	frequency;
+}
+- (int) amplitude;
+- (int) frequency;
+- (void) setAmplitude: (int)anAmplitude;
+- (void) setFrequencey: (int)aFrequency;
+</pre></div>
+
+</div>
+
+
+
+</body>
+</html>

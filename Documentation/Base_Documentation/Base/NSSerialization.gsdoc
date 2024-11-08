@@ -1,0 +1,287 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSSerialization" stylesheeturl="gnustepStyle" up="Base">
+  <head>
+    <title>NSSerialization documentation</title>
+    <author name="Andrew Kachites McCallum">
+      <email address="mccallum@gnu.ai.mit.edu">
+        mccallum@gnu.ai.mit.edu
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 16:52:01 -0500</date>
+    <copy>1995 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSDeserializer class
+      </heading>
+      <class name="NSDeserializer" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSSerialization.h</declared>
+        <desc>
+          <em>
+            This class is deprecated in favor of
+            <ref type="class" id="NSPropertyListSerialization">NSPropertyListSerialization</ref>.</em> It provides a means of recovering a property list (NSArray or NSDictionary plus limited contents) from a byte-array (actually string) representation.
+        </desc>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>deserializePropertyListFromData:</sel>
+          <arg type="NSData*">data</arg>
+          <sel>atCursor:</sel>
+          <arg type="unsigned int*">cursor</arg>
+          <sel>mutableContainers:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Recover a property list (NSArray or NSDictionary
+            plus limited contents) from a byte array.
+            <em>
+              Deprecated in favor of
+              [NSPropertyListSerialization
+              +propertyListFromData:mutabilityOption:format:errorDescription:].
+            </em>
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>deserializePropertyListFromData:</sel>
+          <arg type="NSData*">data</arg>
+          <sel>mutableContainers:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Recover a property list (NSArray or NSDictionary
+            plus limited contents) from a byte array.
+            <em>
+              Deprecated in favor of
+              [NSPropertyListSerialization
+              +propertyListFromData:mutabilityOption:format:errorDescription:].
+            </em>
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>deserializePropertyListLazilyFromData:</sel>
+          <arg type="NSData*">data</arg>
+          <sel>atCursor:</sel>
+          <arg type="unsigned*">cursor</arg>
+          <sel>length:</sel>
+          <arg type="unsigned">length</arg>
+          <sel>mutableContainers:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Recover a property list (NSArray or NSDictionary
+            plus limited contents) from a byte array. If the
+            <var>data</var> at <var>cursor</var> has a
+            <var>length</var> greater than <var>length</var>, a
+            proxy is substituted for the actual property list as
+            <strong>long</strong> as the constituent objects
+            of that property list are not accessed.
+            <em>
+              Deprecated in favor of
+              [NSPropertyListSerialization
+              +propertyListFromData:mutabilityOption:format:errorDescription:].
+            </em>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSSerializer class
+      </heading>
+      <class name="NSSerializer" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSSerialization.h</declared>
+        <desc>
+          <p>
+            <em>
+              This class is deprecated in favor of
+              <ref type="class" id="NSPropertyListSerialization">NSPropertyListSerialization</ref>.</em>
+            </p>
+            <p>
+              It provides a means of producing a byte-array
+              (actually string) representation of a property
+              list (NSArray or NSDictionary plus limited
+              contents).
+            </p>
+        </desc>
+        <method type="NSData*" factory="yes" ovadd="1.0.0">
+          <sel>serializePropertyList:</sel>
+          <arg type="id">propertyList</arg>
+          <desc>
+            <p>
+              Serialize given property list (NSArray or
+              NSDictionary plus limited contents) into
+              byte array.
+            </p>
+            <p>
+              <em>
+                Deprecated in favor of
+                <ref type="method" id="+dataFromPropertyList:format:errorDescription:" class="NSPropertyListSerialization">[NSPropertyListSerialization +dataFromPropertyList:format:errorDescription:]</ref>.
+              </em>
+            </p>
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="1.0.0">
+          <sel>serializePropertyList:</sel>
+          <arg type="id">propertyList</arg>
+          <sel>intoData:</sel>
+          <arg type="NSMutableData*">d</arg>
+          <desc>
+            <p>
+              Serialize given property list (NSArray or
+              NSDictionary plus limited contents) into
+              given mutable byte array.
+            </p>
+            <p>
+              <em>
+                Deprecated in favor of
+                <ref type="method" id="+dataFromPropertyList:format:errorDescription:" class="NSPropertyListSerialization">[NSPropertyListSerialization +dataFromPropertyList:format:errorDescription:]</ref>.
+              </em>
+            </p>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSDeserializer(GNUstep)
+        category
+      </heading>
+      <category name="GNUstep" class="NSDeserializer" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>Foundation/NSSerialization.h</declared>
+        <desc>
+          <p>
+            GNUstep extends deserialization by having the
+            option to make the resulting data more compact by
+            ensuring that repeated strings are only stored
+            once. If the property-list has a lot of repeated
+            strings in it, this will be more space efficient
+            but it will be slower (though other parts of your code
+            may speed up through more efficient equality testing of
+            uniqued strings). The default is NOT to deserialize
+            uniqued strings.
+          </p>
+          <p>
+            The
+            <ref type="method" id="+uniquing:">
+              [+uniquing:]
+            </ref>
+            method turns uniquing on/off. Uniquing is done using
+            a global
+            <ref type="class" id="NSCountedSet">NSCountedSet</ref>
+              - see its documentation for details.
+            </p>
+        </desc>
+        <method type="void" factory="yes" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>uniquing:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Turns uniquing (collapsing of multiple instances of a
+            single string in the output to one full copy plus
+            references) on/off.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSSerializer(GNUstep)
+        category
+      </heading>
+      <category name="GNUstep" class="NSSerializer" gvadd="0.0.0" gvrem="1.17.0">
+        <declared>Foundation/NSSerialization.h</declared>
+        <desc>
+          GNUstep extends serialization by having the option to
+          make the resulting data more compact by ensuring that
+          repeated strings are only stored once. If the
+          property-list has a lot of repeated strings in
+          it, this will be both faster and more space efficient but
+          it will be slower if the property-list has few repeated
+          strings. The default is NOT to generate compact
+          versions of the data. The
+          <ref type="method" id="+shouldBeCompact:">
+            [+shouldBeCompact:]
+          </ref>
+          method sets default behavior. The
+          <ref type="method" id="+serializePropertyList:intoData:compact:">[+serializePropertyList:intoData:compact:]</ref> method lets you override the default behavior.
+        </desc>
+        <method type="void" factory="yes" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>serializePropertyList:</sel>
+          <arg type="id">propertyList</arg>
+          <sel>intoData:</sel>
+          <arg type="NSMutableData*">d</arg>
+          <sel>compact:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            As
+            <ref type="method" id="+serializePropertyList:intoData:" class="NSSerializer">[NSSerializer +serializePropertyList:intoData:]</ref> but specify whether to produce compacted format.
+          </desc>
+        </method>
+        <method type="void" factory="yes" gvadd="0.0.0" gvrem="1.17.0">
+          <sel>shouldBeCompact:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Specify whether to produce compacted format, with
+            repeated strings only written once.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObjCTypeSerializationCallBack
+        protocol
+      </heading>
+      <protocol name="NSObjCTypeSerializationCallBack" ovadd="1.0.0">
+        <declared>Foundation/NSSerialization.h</declared>
+        <desc>
+          Objects that are not standard property list
+          constituents can adopt this protocol to allow
+          themselves to be serialized by an
+          <ref type="class" id="NSSerializer">NSSerializer</ref>
+            and deserialized by an
+            <ref type="class" id="NSDeserializer">NSDeserializer</ref>
+              .
+              <em>
+                Note, this mechanism has been deprecated and you
+                should instead use
+                <ref type="class" id="NSArchiver">NSArchiver</ref>
+                  and related facilities to serialize objects that
+                  are not ordinary property lists.
+                </em>
+        </desc>
+        <method type="void" ovadd="1.0.0">
+          <sel>deserializeObjectAt:</sel>
+          <arg type="id*">object</arg>
+          <sel>ofObjCType:</sel>
+          <arg type="const char*">type</arg>
+          <sel>fromData:</sel>
+          <arg type="NSData*">data</arg>
+          <sel>atCursor:</sel>
+          <arg type="unsigned*">cursor</arg>
+          <desc>
+            Decodes an <var>object</var> of given
+            <var>type</var> from <var>data</var> at position
+            <var>cursor</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>serializeObjectAt:</sel>
+          <arg type="id*">object</arg>
+          <sel>ofObjCType:</sel>
+          <arg type="const char*">type</arg>
+          <sel>intoData:</sel>
+          <arg type="NSMutableData*">data</arg>
+          <desc>
+            Encode the given <var>object</var> of given
+            <var>type</var> into <var>data</var>, using a string
+            not a binary representation.
+          </desc>
+        </method>
+      </protocol>
+    </chapter>
+  </body>
+</gsdoc>

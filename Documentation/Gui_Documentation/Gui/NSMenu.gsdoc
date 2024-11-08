@@ -1,0 +1,1466 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSMenu" up="Gui">
+  <head>
+    <title>NSMenu</title>
+    <author name="Fred Kiefer">
+      <email address="FredKiefer@gmx.de">
+        FredKiefer@gmx.de
+      </email>
+    </author>
+    <author name="David Lazaro Saz">
+      <email address="khelekir@encomix.es">
+        khelekir@encomix.es
+      </email>
+    </author>
+    <author name="Michael Hanni">
+      <email address="mhanni@sprintmail.com">
+        mhanni@sprintmail.com
+      </email>
+    </author>
+    <author name="Felipe A. Rodriguez">
+      <email address="far@ix.netcom.com">
+        far@ix.netcom.com
+      </email>
+    </author>
+    <author name="Ovidiu Predescu">
+      <email address="ovidiu@net-community.com">
+        ovidiu@net-community.com
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 19:58:28 -0500</date>
+    <copy>1999,2016 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSMenu class
+      </heading>
+      <class name="NSMenu" super="NSObject" ovadd="1.0.0">
+        <declared>AppKit/NSMenu.h</declared>
+        <conform>NSCoding</conform>
+        <conform>NSCopying</conform>
+        <desc>
+          <p>
+            Menus provide the user with a list of actions and/or
+            submenus. Submenus themselves are full fledged
+            menus and so a heirarchical structure of appears.
+          </p>
+          <p>
+            Every application has one special menu, the so called
+            Application menu. This menu is always visible
+            on the screen when the application is active. This menu
+            normally contains items like, <em>info</em>,
+            <em>services</em>, <em>print</em>, <em>hide</em> and
+            <em>quit</em>.
+          </p>
+          <p>
+            After the <em>info</em> item normally some submenus
+            follow containing the application specific actions.
+          </p>
+          <p>
+            On GNUstep the content of the menu is stacked vertically
+            as oppossed to the Windows and Mac world, where they are
+            stacked horizontally. Also because the menus are
+            not part of any normal window they can be dragged
+            around opened and closed independend of the
+            application windows.
+          </p>
+          <p>
+            This can lead to a few menus being open
+            simultanuously. The collection of open
+            menus is remembered, when the program is started
+            again, all the torn off menus aka detached menus,
+            are displayed at their last known position.
+          </p>
+          <p>
+            The menu behaviour is richer than in most other
+            environments and bear some explanation. This
+            explanation is aimed at users of Menus but more
+            so at the developer of custom menus.
+          </p>
+          <deflist>
+            <term>Application menu</term>
+            <desc>
+              There alwasy at least one menu present and visible
+              while the application is active. This is the
+              application menu. This window can never be
+              closed.
+            </desc>
+            <term>Attached menu</term>
+            <desc>
+              Normally when you click in a menu on a submenu
+              item, the submenu is shown directly next to the
+              menu you click in. The submenu is now called an
+              <em>attached</em> menu. It is attached to the menu
+              that was clicked in.
+            </desc>
+            <term>Detached menu</term>
+            <desc>
+              A menu is detached when it is not attached to its
+              parent menu. A menu can become detached when the
+              user drags a submenu away from its parents. A
+              detached window contains in its title a close
+              button.
+            </desc>
+            <term>Transient menu</term>
+            <desc>
+              A transient menu is a menu that dissappears as soon as
+              the user stops interacting with the menus. Typically
+              a transient menu is created when a right mouse click
+              appears in an application window. The right mouse
+              click will bring up the Application menu at the
+              place the user clicks. While keeping the mouse
+              button down the user can select items by moving
+              around. When releasing the button, all transient
+              menus will be removed from the screen and the
+              action will be executed.
+              <p>
+                It is important to note that it is impossible to
+                click in transient menus.
+              </p>
+            </desc>
+            <term>Attached transient menu</term>
+            <desc>
+              This is a menu that is attached and transient at the
+              same time.
+            </desc>
+          </deflist>
+          A single NSMenu instance can be displayed zero or one times
+          when the user is not interaction with the menus. When
+          the user is interaction with the menus it can occur that
+          the same NSMenu is displayed in two locations at the same
+          time. This is only possible when one of the displayed
+          instances is a transient menu. <br /> To understand
+          how the diffent kind of menus are created lets look at
+          some user actions:
+          <list>
+            <item>
+              The user clicks on an item which is not a submenu.
+              <br /> The item is highlighted until the action
+              corresponding with the item is completed.
+              More precisely, the application highlights the menu
+              item, performs the action, and unhighlights the
+              item.
+            </item>
+            <item>
+              The user clicks on a submenu item which is not
+              highlighted already <br /> If the submenu is
+              not a detached menu, the submenu will become an
+              attached menu to the menu that is clicked in.
+              The item that is clicked in will become highlighted
+              and stays highlighted.
+              <p>
+                If the submenu is a detached menu, the transient
+                version of the submenu will be shown
+              </p>
+            </item>
+            <item>
+              The user clicks on a submenu item which is
+              highlighted <br /> This means that the
+              submenu is an attached submenu for this menu.
+              After clicking the submenu item will no be no
+              longer highlighted and the submenu will be removed
+              from the screen.
+            </item>
+            <item>
+              The user drags over a menu item <br /> The item will
+              be highlighted, if the item is a submenu item, the
+              submenu will be shown as an attached submenu.
+              This can be transient, or non transient.
+            </item>
+          </list>
+          <br /> <strong>Customizing the look of Menus</strong>
+          <br /> There are basically three ways of customizing
+          the look of NSMenu
+          <enum>
+            <item>
+              Using custom NSMenuItemCell's. This you should do
+              when you want to influence the look of the items
+              displayed in the menu.
+            </item>
+            <item>
+              Using custom NSMenuView. This is the class to
+              modify if you want to change the way the menu is
+              layout on the screen. So if you want to stack the
+              menu items horizontally, you should change this
+              class. This should be rarely needed.
+            </item>
+            <item>
+              Reimplement NSMenu. This you should not do.
+              But, if you implement everything yourself you can
+              achieve anything.
+            </item>
+          </enum>
+          <br />
+          <strong>
+            Information for implementing custom NSMenuView
+            class
+          </strong>
+          <br /> When implementing a custom NSMenuView class it
+          is important to keep the following information in mind.
+          <list>
+            <item>
+              The menus (or the menu items) form a tree. Navigating
+              through this tree is done with the methods
+              <ref type="method" id="-supermenu" class="NSMenu">
+                [NSMenu -supermenu]
+              </ref>
+              , which returns the parent menu of the receiver, and
+              with
+              <ref type="method" id="-itemAtIndex:" class="NSMenu">
+                [NSMenu -itemAtIndex:]
+              </ref>
+              which returns a NSMenuItem on which we can call
+              <ref type="method" id="-submenu" class="(NSMenuItem)">
+                [&lt;NSMenuItem&gt;-submenu]
+              </ref>
+              for a child menu.
+            </item>
+            <item>
+              The menus as displayed on the screen do NOT form a
+              tree. This because detached and transient menus
+              lead to duplicate menus on the screen.
+            </item>
+          </list>
+          The displayed menus on the screen have the following
+          structure:
+          <enum>
+            <item>
+              The ordered graph of displayed menus (note, NOT the
+              set of NSMenus) form a collection of line graphs.
+            </item>
+            <item>
+              The attached menus are precisely the non root
+              vertices in this graph.
+            </item>
+            <item>
+              An attached menu of a transient menu is itself a
+              transient menu.
+            </item>
+            <item>
+              The collection of transient menus form connect
+              subgraph of the menu graph.
+            </item>
+          </enum>
+        </desc>
+        <ivariable type="NSWindow*" name="_aWindow" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMenu*" name="_attachedMenu" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSWindow*" name="_bWindow" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_delegate" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableArray*" name="_items" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="_name" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableArray*" name="_notifications" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMenu*" name="_oldAttachedMenu" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="int" name="_oldHiglightedIndex" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSPopUpButtonCell*" name="_popUpButtonCell" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMenu*" name="_superMenu" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="_title" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSView&lt;NSMenuView&gt;*" name="_view" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="struct GSMenuFlags" name="struct GSMenuFlags" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <method type="BOOL" factory="yes" ovadd="10.2.0">
+          <sel>menuBarVisible</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSZone*" factory="yes" ovadd="1.0.0">
+          <sel>menuZone</sel>
+          <desc>
+            Returns the memory allocation zone used to create
+            instances of this class.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="1.0.0">
+          <sel>popUpContextMenu:</sel>
+          <arg type="NSMenu*">menu</arg>
+          <sel>withEvent:</sel>
+          <arg type="NSEvent*">event</arg>
+          <sel>forView:</sel>
+          <arg type="NSView*">view</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="10.3.0">
+          <sel>popUpContextMenu:</sel>
+          <arg type="NSMenu*">menu</arg>
+          <sel>withEvent:</sel>
+          <arg type="NSEvent*">event</arg>
+          <sel>forView:</sel>
+          <arg type="NSView*">view</arg>
+          <sel>withFont:</sel>
+          <arg type="NSFont*">font</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="10.2.0">
+          <sel>setMenuBarVisible:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="1.0.0">
+          <sel>setMenuZone:</sel>
+          <arg type="NSZone*">zone</arg>
+          <desc>
+            Specifies the memory allocation <var>zone</var>
+            used to create instances of this class.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>addItem:</sel>
+          <arg type="id&lt;NSMenuItem&gt;">newItem</arg>
+          <desc>
+            Add <var>newItem</var> to the menu.
+          </desc>
+        </method>
+        <method type="id&lt;NSMenuItem&gt;" ovadd="1.0.0">
+          <sel>addItemWithTitle:</sel>
+          <arg type="NSString*">aString</arg>
+          <sel>action:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>keyEquivalent:</sel>
+          <arg type="NSString*">keyEquiv</arg>
+          <desc>
+            Prefered method for inserting a menu item. This
+            method calls
+            [NSMenu-insertItemWithTitle:-action:-keyEquivalent:-atIndex:] <deflist><term><var>aString</var></term> <desc>The title of the specific menu item.</desc> <term><var>aSelector</var></term> <desc>The action taken by selecting this menu item, or NULL.</desc> <term><var>keyEquiv</var></term> <desc>The shortcut key for this menu item. If none is needed, specify and empty NSString, ie: @"".</desc></deflist>
+            <p>
+              See Also:
+              -insertItemWithTitle:-action:-keyEquivalent:-atIndex
+            </p>
+          </desc>
+        </method>
+        <method type="NSMenu*" ovadd="1.0.0">
+          <sel>attachedMenu</sel>
+          <desc>
+            Returns the menu that is attached to this menu.
+            <p>
+              If two instances of this menu are visible, return the
+              attached window of the transient version of this
+              menu.
+            </p>
+            <p>
+              If no menu is attached return <code>nil</code>.
+            </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>autoenablesItems</sel>
+          <desc>
+            Returns <code>YES</code> if item does autoenable
+            (default value) and <code>NO</code> otherwise.
+            <p>
+              See Also:
+            </p>
+            <list>
+              <item>
+                <ref type="method" id="-setAutoenablesItems:">
+                  -setAutoenablesItems:
+                </ref>
+              </item>
+            </list>
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0" ovrem="10.1.0">
+          <sel>contextMenuRepresentation</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.3.0">
+          <sel>delegate</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>helpRequested:</sel>
+          <arg type="NSEvent*">event</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>indexOfItem:</sel>
+          <arg type="id&lt;NSMenuItem&gt;">anObject</arg>
+          <desc>
+            Returns the index of item <var>anObject</var>.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>indexOfItemWithRepresentedObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Returns the index of an item with the represented
+            object <var>anObject</var>.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>indexOfItemWithSubmenu:</sel>
+          <arg type="NSMenu*">anObject</arg>
+          <desc>
+            Returns the index of an item with the submenu
+            <var>anObject</var>.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>indexOfItemWithTag:</sel>
+          <arg type="NSInteger">aTag</arg>
+          <desc>
+            Returns the index of an item with the tag
+            <var>aTag</var>.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>indexOfItemWithTarget:</sel>
+          <arg type="id">anObject</arg>
+          <sel>andAction:</sel>
+          <arg type="SEL">actionSelector</arg>
+          <desc>
+            Returns the index of an item with the target
+            <var>anObject</var> and the <var>actionSelector</var>
+            .
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>indexOfItemWithTitle:</sel>
+          <arg type="NSString*">aTitle</arg>
+          <desc>
+            Returns the index of an item with the title
+            <var>aTitle</var>.
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="1.0.0">
+          <sel>initWithTitle:</sel>
+          <arg type="NSString*">aTitle</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>insertItem:</sel>
+          <arg type="id&lt;NSMenuItem&gt;">newItem</arg>
+          <sel>atIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Insert <var>newItem</var> at position
+            <var>index</var>.
+          </desc>
+        </method>
+        <method type="id&lt;NSMenuItem&gt;" ovadd="1.0.0">
+          <sel>insertItemWithTitle:</sel>
+          <arg type="NSString*">aString</arg>
+          <sel>action:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>keyEquivalent:</sel>
+          <arg type="NSString*">charCode</arg>
+          <sel>atIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Inserts a new menu item at position
+            <var>index</var>.
+            <p>
+              See Also:
+            </p>
+            <list>
+              <item>
+                -addItemWithTitle:-action:-keyEquivalent-atIndex:
+              </item>
+            </list>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isAttached</sel>
+          <desc>
+            Returns if this menu is attached to its supermenu,
+            return <code>nil</code> if it does not have a parent
+            menu.
+            <p>
+              If two instances of this menu are visible, return the
+              outcome of the check for the transient version of
+              the menu.
+            </p>
+            Look for the semantics in the header. Note that this
+            implementation works because there are...
+            cases:
+            <enum>
+              <item>
+                This menu is transient, its supermenu is also
+                transient. In this case we just do the check
+                between the transient windows and everything is
+                fine
+              </item>
+              <item>
+                The menu is transient, its supermenu is not
+                transient. This can go WRONG
+              </item>
+            </enum>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isTornOff</sel>
+          <desc>
+            If there are two instances of this menu visible, return
+            <code>NO</code>. Otherwise, return <code>YES</code>
+            if we are a detached menu and visible.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>itemArray</sel>
+          <desc>
+            Returns an array containing all menu items in this
+            menu.
+          </desc>
+        </method>
+        <method type="NSMenuItem*" ovadd="1.0.0">
+          <sel>itemAtIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Returns an item located at <var>index</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>itemChanged:</sel>
+          <arg type="id&lt;NSMenuItem&gt;">anObject</arg>
+          <desc>
+            Informs the menu that the specified item has
+            changed.
+          </desc>
+        </method>
+        <method type="id&lt;NSMenuItem&gt;" ovadd="1.0.0">
+          <sel>itemWithTag:</sel>
+          <arg type="NSInteger">aTag</arg>
+          <desc>
+            Retuns an item referenced by <var>aTag</var>.
+            <p>
+              See Also:
+            </p>
+            <list>
+              <item>
+                <ref type="method" id="-indexOfItemWithTag:">
+                  -indexOfItemWithTag:
+                </ref>
+              </item>
+              <item>
+                <ref type="method" id="-tag" class="(NSMenuItem)">
+                  [&lt;NSMenuItem&gt;-tag]
+                </ref>
+              </item>
+            </list>
+          </desc>
+        </method>
+        <method type="id&lt;NSMenuItem&gt;" ovadd="1.0.0">
+          <sel>itemWithTitle:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            Returns an item with <var>aString</var> as its
+            title.
+          </desc>
+        </method>
+        <method type="NSPoint" ovadd="1.0.0">
+          <sel>locationForSubmenu:</sel>
+          <arg type="NSMenu*">aSubmenu</arg>
+          <desc>
+            Returns the position where submenu will be
+            displayed when it will be displayed as an
+            attached menu of this menu. The result is
+            undefined when <var>aSubmenu</var> is not
+            actually a submenu of this menu.
+          </desc>
+        </method>
+        <method type="float" ovadd="10.4.0">
+          <sel>menuBarHeight</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>menuChangedMessagesEnabled</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>menuRepresentation</sel>
+          <desc>
+            Return the NSView that is used for drawing the menu.
+            It is the view set with
+            <ref type="method" id="-setMenuRepresentation:" class="NSMenu">[NSMenu -setMenuRepresentation:]</ref> and therefore it should be safe to assume it is an NSView implementing the NSMenuView protocol.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>numberOfItems</sel>
+          <desc>
+            Returns the numbers of items on the menu
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>performActionForItemAtIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Simulates a mouse click on item located at
+            <var>index</var>.
+            <p>
+              See Also:
+            </p>
+            <list>
+              <item>
+                <ref type="method" id="-indexOfItem:">
+                  -indexOfItem:
+                </ref>
+              </item>
+              <item>
+                <ref type="method" id="-indexOfItemWithTitle:">
+                  -indexOfItemWithTitle:
+                </ref>
+              </item>
+            </list>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>performKeyEquivalent:</sel>
+          <arg type="NSEvent*">theEvent</arg>
+          <desc>
+            Looks for a menu item that responds to
+            <var>theEvent</var> on the receiver. If the receiver
+            is a submenu, the method is performed on it.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>popUpMenuPositionItem:</sel>
+          <arg type="NSMenuItem*">item</arg>
+          <sel>atLocation:</sel>
+          <arg type="NSPoint">point</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">view</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>popUpMenuPositioningItem:</sel>
+          <arg type="NSMenuItem*">item</arg>
+          <sel>atLocation:</sel>
+          <arg type="NSPoint">point</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">view</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>removeAllItems</sel>
+          <desc>
+            Removes all items
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeItem:</sel>
+          <arg type="id&lt;NSMenuItem&gt;">anItem</arg>
+          <desc>
+            Calls
+            <ref type="method" id="-removeItemAtIndex:">
+              -removeItemAtIndex:
+            </ref>
+            for <var>anItem</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeItemAtIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Removes item at position <var>index</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setAutoenablesItems:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Sets if a menu does autoenable.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="10.1.0">
+          <sel>setContextMenuRepresentation:</sel>
+          <arg type="id">representation</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.3.0">
+          <sel>setDelegate:</sel>
+          <arg type="id">delegate</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setMenuChangedMessagesEnabled:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setMenuRepresentation:</sel>
+          <arg type="id">menuRep</arg>
+          <desc>
+            Set the View that should be used to display the menu.
+            <p>
+              The default is NSMenuView, but a user can supply its
+              own NSView object as <strong>long</strong> as it
+            </p>
+            <list>
+              <item>Inherits from NSView</item>
+              <item>Implements NSMenuView protocol</item>
+            </list>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setSubmenu:</sel>
+          <arg type="NSMenu*">aMenu</arg>
+          <sel>forItem:</sel>
+          <arg type="id&lt;NSMenuItem&gt;">anItem</arg>
+          <desc>
+            Set a submenu of a menu.
+            <deflist>
+              <term><var>aMenu</var></term>
+              <desc>The submenu to be inserted.</desc>
+              <term><var>anItem</var></term>
+              <desc>Item to be turned into a submenu.</desc>
+            </deflist>
+            <p>
+              See Also:
+            </p>
+            <list>
+              <item>
+                <ref type="method" id="-setSubmenu:" class="(NSMenuItem)">[&lt;NSMenuItem&gt;-setSubmenu:]</ref>
+              </item>
+            </list>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setSupermenu:</sel>
+          <arg type="NSMenu*">supermenu</arg>
+          <desc>
+            Set the <var>supermenu</var> of this menu. TODO: add
+            explanation if this will change remove this
+            menu from the old <var>supermenu</var> or if it does
+            not.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="10.1.0">
+          <sel>setTearOffMenuRepresentation:</sel>
+          <arg type="id">representation</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setTitle:</sel>
+          <arg type="NSString*">aTitle</arg>
+          <desc>
+            Change the title of the menu.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>sizeToFit</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>submenuAction:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSMenu*" ovadd="1.0.0">
+          <sel>supermenu</sel>
+          <desc>
+            Returns the supermenu of this menu. Return
+            <code>nil</code> if this is the application menu.
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0" ovrem="10.1.0">
+          <sel>tearOffMenuRepresentation</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>title</sel>
+          <desc>
+            Returns the current title.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>update</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSMenu(GNUstepExtra)
+        category
+      </heading>
+      <category name="GNUstepExtra" class="NSMenu" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>AppKit/NSMenu.h</declared>
+        <desc>
+          This interface exist contains methods that are meant for
+          the NSMenuView. If you write your own implementation of
+          the NSMenuView interface you can use these methods to
+          popup other menus or close them.
+        </desc>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>_ownedByPopUp</sel>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          </desc>
+        </method>
+        <method type="NSPopUpButtonCell*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>_owningPopUp</sel>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>_setOwnedByPopUp:</sel>
+          <arg type="NSPopUpButtonCell*">popUp</arg>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>close</sel>
+          <desc>
+            Remove the window from the screen. This method
+            can/should be used by the menurepresentation to
+            remove a submenu from the screen.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>closeTransient</sel>
+          <desc>
+            Remove the transient version of the window from the
+            screen. This method is used by NSMenuView
+            implementations that need to open/close
+            transient menus.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>display</sel>
+          <desc>
+            Show menu on the screen. This method can/should be
+            used by the menurepresentation to display a submenu on
+            the screen.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>displayTransient</sel>
+          <desc>
+            Display the transient version of the menu.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>isPartlyOffScreen</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>isTransient</sel>
+          <desc>
+            Returns <code>YES</code> if there is a transient
+            version of this menu displayed on the screen.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>nestedSetFrameOrigin:</sel>
+          <arg type="NSPoint">aPoint</arg>
+          <desc>
+            Set the frame origin of the receiver to
+            <var>aPoint</var>. If a submenu of the receiver is
+            attached. The frame origin of the submenu is set
+            appropriately.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>setMain:</sel>
+          <arg type="BOOL">isMain</arg>
+          <desc>
+            Flag this menu to be the main menu of the application,
+            when <var>isMain</var> is <code>YES</code>. Flag it as
+            no longer being the main menu when <code>NO</code> is
+            handed in.
+            <p>
+              This method also checks the user defaults to
+              determine how the menu is to be displayed (eg
+              vertical or horizontal) and can therefore be
+              used to change window geometry.
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>setTornOff:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            When the <var>flag</var> is <code>YES</code> this
+            method will detach the receiver from its parent and
+            update the menurepresentation so it will display a
+            close button if appropriate.
+            <p>
+              If the <var>flag</var> is <code>NO</code> this method
+              will update the menurepresentation so it will be
+              able to remove the close button if needed. Note that
+              it will not reattach to its parent menu.
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>shiftOnScreen</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSWindow*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>window</sel>
+          <desc>
+            Returns the window in which this menu is displayed.
+            If there is a transient version it will return the
+            window in which the transient version is displayed.
+            If the Menu is not displayed at all the result is
+            meaningless.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSMenuActionResponder)
+        informal protocol
+      </heading>
+      <category name="NSMenuActionResponder" class="NSObject" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>AppKit/NSMenu.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>validateMenuItem:</sel>
+          <arg type="id&lt;NSMenuItem&gt;">aMenuItem</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSMenuDelegate) informal
+        protocol
+      </heading>
+      <category name="NSMenuDelegate" class="NSObject" ovadd="10.3.0">
+        <declared>AppKit/NSMenu.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="BOOL" ovadd="10.3.0">
+          <sel>menu:</sel>
+          <arg type="NSMenu*">menu</arg>
+          <sel>updateItem:</sel>
+          <arg type="NSMenuItem*">item</arg>
+          <sel>atIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <sel>shouldCancel:</sel>
+          <arg type="BOOL">shouldCancel</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.3.0">
+          <sel>menuHasKeyEquivalent:</sel>
+          <arg type="NSMenu*">menu</arg>
+          <sel>forEvent:</sel>
+          <arg type="NSEvent*">event</arg>
+          <sel>target:</sel>
+          <arg type="id*">target</arg>
+          <sel>action:</sel>
+          <arg type="SEL*">action</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.3.0">
+          <sel>menuNeedsUpdate:</sel>
+          <arg type="NSMenu*">menu</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.3.0">
+          <sel>numberOfItemsInMenu:</sel>
+          <arg type="NSMenu*">menu</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSMenuDelegate protocol
+      </heading>
+      <protocol name="NSMenuDelegate" ovadd="1.0.0">
+        <declared>AppKit/NSMenu.h</declared>
+        <conform>NSObject</conform>
+        <desc>
+          The NSMenuDelegate protocol defines optional methods
+          implemented by delegates of NSMenu objects.
+        </desc>
+        <method type="NSRect" ovadd="1.0.0">
+          <sel>confinementRectForMenu:</sel>
+          <arg type="NSMenu*">menu</arg>
+          <sel>onScreen:</sel>
+          <arg type="NSScreen*">screen</arg>
+          <desc>
+            Specify a display location for the <var>menu</var>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>menu:</sel>
+          <arg type="NSMenu*">menu</arg>
+          <sel>updateItem:</sel>
+          <arg type="NSMenuItem*">item</arg>
+          <sel>atIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <sel>shouldCancel:</sel>
+          <arg type="BOOL">shouldCancel</arg>
+          <desc>
+            Invoked to allow the delegate to update an
+            <var>item</var> before it is displayed.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>menu:</sel>
+          <arg type="NSMenu*">menu</arg>
+          <sel>willHighlightItem:</sel>
+          <arg type="NSMenuItem*">item</arg>
+          <desc>
+            Invoked too notify the delegate that the
+            <var>item</var> will be highlighted.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>menuDidClose:</sel>
+          <arg type="NSMenu*">menu</arg>
+          <desc>
+            Invoked to inform the delegate that the
+            <var>menu</var> did close.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>menuHasKeyEquivalent:</sel>
+          <arg type="NSMenu*">menu</arg>
+          <sel>forEvent:</sel>
+          <arg type="NSEvent*">event</arg>
+          <sel>target:</sel>
+          <arg type="id*">target</arg>
+          <sel>action:</sel>
+          <arg type="SEL*">action</arg>
+          <desc>
+            Allows the delegate to return the <var>target</var>
+            and <var>action</var> for a key-down <var>event</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>menuNeedsUpdate:</sel>
+          <arg type="NSMenu*">menu</arg>
+          <desc>
+            Invoked to indicate that the <var>menu</var> is
+            about to be updated.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>menuWillOpen:</sel>
+          <arg type="NSMenu*">menu</arg>
+          <desc>
+            Invoked on the delegate to allow changes before the
+            <var>menu</var> opens.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>numberOfItemsInMenu:</sel>
+          <arg type="NSMenu*">menu</arg>
+          <desc>
+            Invoked when the <var>menu</var> is about to be
+            displayed.
+          </desc>
+        </method>
+      </protocol>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSMenuValidation
+        protocol
+      </heading>
+      <protocol name="NSMenuValidation" ovadd="1.0.0">
+        <declared>AppKit/NSMenu.h</declared>
+        <desc>
+          Specifies the protocol to which an object must
+          confirm if it is to be used to validate menu items
+          (in order to implement automatic enabling and disabling
+          of menu items).
+        </desc>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>validateMenuItem:</sel>
+          <arg type="id&lt;NSMenuItem&gt;">menuItem</arg>
+          <desc>
+            <p>
+              The receiver should return <code>YES</code> if the
+              <var>menuItem</var> is valid... and should be
+              enabled in the menu, <code>NO</code> if it is
+              invalid and the user should not be able to select
+              it.
+            </p>
+            <p>
+              This method is invoked automatically to determine
+              whether menu items should be enabled or disabled
+              automatically whenever
+              <ref type="method" id="-update" class="NSMenu">
+                [NSMenu -update]
+              </ref>
+              is invoked (usually by the applications event loop).
+            </p>
+          </desc>
+        </method>
+      </protocol>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSMenuView protocol
+      </heading>
+      <protocol name="NSMenuView" ovadd="1.0.0">
+        <declared>AppKit/NSMenu.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="void" ovadd="1.0.0">
+          <sel>detachSubmenu</sel>
+          <desc>
+            This should ensure that if there is an attached
+            submenu this submenu will be detached. Detaching
+            means that this particular menu representation should
+            be removed from the screen. It should implement a deep
+            detach, that is, all attached submenus of this menu
+            should also be detached.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>highlightedItemIndex</sel>
+          <desc>
+            Returns the currently highlighted item. Returns -1
+            if no item is highlighted.
+          </desc>
+        </method>
+        <method type="float" ovadd="1.0.0">
+          <sel>imageAndTitleOffset</sel>
+          <desc>
+            Method used by NSMenuItemCell to draw itself
+            correctly and nicely lined up with the other menu
+            items
+          </desc>
+        </method>
+        <method type="float" ovadd="1.0.0">
+          <sel>imageAndTitleWidth</sel>
+          <desc>
+            Methos used by NSMenuItemCell to draw itself
+            correctly and nicely lined up with the other menu
+            items.
+          </desc>
+        </method>
+        <method type="float" ovadd="1.0.0">
+          <sel>keyEquivalentOffset</sel>
+          <desc>
+            Methos used by NSMenuItemCell to draw itself
+            correctly and nicely lined up with the other menu
+            items.
+          </desc>
+        </method>
+        <method type="float" ovadd="1.0.0">
+          <sel>keyEquivalentWidth</sel>
+          <desc>
+            Used by NSItemCell to...
+          </desc>
+        </method>
+        <method type="NSPoint" ovadd="1.0.0">
+          <sel>locationForSubmenu:</sel>
+          <arg type="NSMenu*">aSubmenu</arg>
+          <desc>
+            Used by the NSMenu to determine where to position a
+            submenu.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>performActionWithHighlightingForItemAtIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setHighlightedItemIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Set the currently highlighted item. This is used by the
+            NSMenu class to restore the selected item when it is
+            temporary set to another item. This happens when
+            both the regular version and the transient version are
+            on the screen. A value of -1 means that no item will be
+            highlighted.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setMenu:</sel>
+          <arg type="NSMenu*">menu</arg>
+          <desc>
+            Set the <var>menu</var> that this view object will be
+            drawing. This method will NOT retain the
+            <var>menu</var>. In normal usage an instance of
+            NSMenu will use this method to supply the NSMenuView
+            with reference to itself. The NSMenu will retain the
+            NSMenuView.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>sizeToFit</sel>
+          <desc>
+            Hm, why is this method needed? Shouldn't this be done
+            by the update method?
+          </desc>
+        </method>
+        <method type="float" ovadd="1.0.0">
+          <sel>stateImageWidth</sel>
+          <desc>
+            Method used by NSMenuItemCell to draw itself
+            correctly and nicely lined up with the other menu
+            items.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>trackWithEvent:</sel>
+          <arg type="NSEvent*">event</arg>
+          <desc>
+            <p>
+              This is method is responsible for handling all
+              events while the user is interacting with this
+              menu. It should pass on this call to another
+              menurepresentation when the user moves
+              the mouse cursor over either a submenu or over the
+              supermenu.
+            </p>
+            <p>
+              The method returns when the interaction from the user
+              with the menu system is over.
+            </p>
+            <p>
+              The method returns <code>NO</code> when the user
+              releases the mouse button above a submenu item
+              and <code>YES</code> in all other cases.
+            </p>
+            <p>
+              This return value can be used to determine if
+              submenus should be removed from the screen or
+              that they are supposed to stay.
+            </p>
+            <p>
+              The implementation should roughly follow the
+              following logic:
+            </p>
+            <code>
+              {while (have not released mouse button) {if (mouse
+              hovers over submenu, or supermenu) {if
+              ([(menurepresentation under mouse)
+              trackWithEvent: the <var>event</var>]) {
+              [self detachSubmenu]; return <code>YES</code>;}
+              return <code>NO</code>;} //highlight item under
+              mouse if (highlighting submenu item) {[self
+              attachSubmenuAtIndex:..];} else
+              {[self detachSubmenu];} get next <var>event</var>.}
+              execute the menu action if applicable; return
+              <code>YES</code> | <code>NO</code> depending on
+              the situation;}
+            </code>
+            Note that actual implementations tend to be more
+            complicated because because of all kind of
+            useability issues. Useabilities issues to look
+            out for are:
+            <list>
+              <item>
+                Menus that are only partly on the screen. Those
+                need to be moved while navigation the menu.
+              </item>
+              <item>
+                Submenus that are hard to reach. If the
+                natural route to the content of a submenu
+                travels through other menu items you do not
+                want to remove the submenu immediately.
+              </item>
+              <item>
+                Transient menus require slightly different
+                behaviour from the normal menus. For example,
+                when selecting a action from a transient menu that
+                brings up a modal panel you would expect the
+                transient menu to dissappear. However in the
+                normal menu system you want it to stay, so you
+                still have feedback on which menu action
+                triggered the modal panel.
+              </item>
+            </list>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>update</sel>
+          <desc>
+            This will relayout the NSMenuView. It should be called
+            when the menu changes. Changes include becoming
+            detached, adding or removing submenu items
+            etcetera. However, normally it does not need to
+            be called directly because Because the NSMenuView is
+            supposed to listen to the NSMenu notifications for
+            the item added, removed and change notifications. It
+            should be called explicitly when other changes
+            occur, such as becoming detached or changing the
+            title.
+          </desc>
+        </method>
+      </protocol>
+    </chapter>
+  </body>
+</gsdoc>

@@ -1,0 +1,342 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSOpenPanel" up="Gui">
+  <head>
+    <title>NSOpenPanel</title>
+    <author name="Scott Christley">
+      <email address="scottc@net-community.com">
+        scottc@net-community.com
+      </email>
+    </author>
+    <author name="Daniel Boehringer">
+      <email address="boehring@biomed.ruhr-uni-bochum.de">
+        boehring@biomed.ruhr-uni-bochum.de
+      </email>
+    </author>
+    <author name="Nicola Pero">
+      <email address="n.pero@mi.flashnet.it">
+        n.pero@mi.flashnet.it
+      </email>
+    </author>
+    <author name="Mirko Viviani">
+      <email address="mirko.viviani@rccr.cremona.it">
+        mirko.viviani@rccr.cremona.it
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 19:58:28 -0500</date>
+    <abstract>Standard panel for opening files</abstract>
+    <copy>
+      1996, 1998, 1999, 2000 Free Software Foundation, Inc.
+    </copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSOpenPanel class
+      </heading>
+      <class name="NSOpenPanel" super="NSSavePanel" ovadd="1.0.0">
+        <declared>AppKit/NSOpenPanel.h</declared>
+        <desc>
+          <p>
+            Implements a panel that allows the user to
+            select a file or files. NSOpenPanel is based on the
+            NSSavePanel implementation and shares a lot of
+            similarities with it.
+          </p>
+          <p>
+            There is only one open panel per application and this
+            panel is obtained by calling the
+            <ref type="method" id="+openPanel">
+              +openPanel
+            </ref>
+            class method. From here, you should set the
+            characteristics of the file selection
+            mechanism using the
+            <ref type="method" id="-setCanChooseFiles:">
+              -setCanChooseFiles:
+            </ref>
+            ,
+            <ref type="method" id="-setCanChooseDirectories:">
+              -setCanChooseDirectories:
+            </ref>
+            and
+            <ref type="method" id="-setAllowsMultipleSelection:">
+              -setAllowsMultipleSelection:
+            </ref>
+            methods. The default is <code>YES</code> except
+            for allowing multiple selection. When ready to show the
+            panel, use the
+            <ref type="method" id="-runModalForTypes:">
+              -runModalForTypes:
+            </ref>
+            , or a similar method to show the panel in a modal
+            session. Other methods allow you to set the
+            initial directory and initially selected file. The
+            method will return one of NSOKButton or
+            NSCancelButton depending on which button the
+            user pressed.
+          </p>
+          <p>
+            Use the
+            <ref type="method" id="-filename" class="NSSavePanel">
+              [NSSavePanel -filename]
+            </ref>
+            or <ref type="method" id="-filenames">-filenames</ref>
+            method to retrieve the name of the file the user
+            selected.
+          </p>
+        </desc>
+        <ivariable type="BOOL" name="_canChooseDirectories" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_canChooseFiles" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="NSOpenPanel*" factory="yes" ovadd="1.0.0">
+          <sel>openPanel</sel>
+          <desc>
+            <p>
+              Creates (if needed) and returns the shared
+              NSOpenPanel instance.
+            </p>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>URLs</sel>
+          <desc>
+            Returns an array of the selected files as URLs
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>allowsMultipleSelection</sel>
+          <desc>
+            <p>
+              Returns <code>YES</code> if the user is allowed
+              to select multiple files. The default behavior is not
+              to allow mutiple selections.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-setAllowsMultipleSelection:">
+                -setAllowsMultipleSelection:
+              </ref>
+              <ref type="method" id="-allowsMultipleSelection" class="NSBrowser">[NSBrowser -allowsMultipleSelection]</ref>
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.3.0">
+          <sel>beginForDirectory:</sel>
+          <arg type="NSString*">absoluteDirectoryPath</arg>
+          <sel>file:</sel>
+          <arg type="NSString*">filename</arg>
+          <sel>types:</sel>
+          <arg type="NSArray*">fileTypes</arg>
+          <sel>modelessDelegate:</sel>
+          <arg type="id">modelessDelegate</arg>
+          <sel>didEndSelector:</sel>
+          <arg type="SEL">didEndSelector</arg>
+          <sel>contextInfo:</sel>
+          <arg type="void*">contextInfo</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>beginSheetForDirectory:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>file:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>types:</sel>
+          <arg type="NSArray*">fileTypes</arg>
+          <sel>modalForWindow:</sel>
+          <arg type="NSWindow*">docWindow</arg>
+          <sel>modalDelegate:</sel>
+          <arg type="id">delegate</arg>
+          <sel>didEndSelector:</sel>
+          <arg type="SEL">didEndSelector</arg>
+          <sel>contextInfo:</sel>
+          <arg type="void*">contextInfo</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>canChooseDirectories</sel>
+          <desc>
+            <p>
+              Returns <code>YES</code> if the user is allowed
+              to choose directories The default behavior is to allow
+              choosing directories.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-setCanChooseDirectories:">
+                -setCanChooseDirectories:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>canChooseFiles</sel>
+          <desc>
+            <p>
+              Returns <code>YES</code> if the user is allowed
+              to choose files. The default behavior it to allow
+              choosing files.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-setCanChooseFiles:">
+                -setCanChooseFiles:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>filenames</sel>
+          <desc>
+            <p>
+              Returns an array containing the absolute paths
+              (as NSString objects) of the selected files and
+              directories. If multiple selections aren't
+              allowed, the array contains a single name.
+            </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.1.0">
+          <sel>resolvesAliases</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>runModalForDirectory:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>file:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>types:</sel>
+          <arg type="NSArray*">fileTypes</arg>
+          <desc>
+            <p>
+              Displays the open panel in a modal session, with
+              the directory <var>path</var> shown and file
+              <var>name</var> (if any) selected. Files are
+              filtered for the specified types. If the
+              directory is <code>nil</code>, then the
+              directory shown in the open panel is the last
+              directory selected.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-runModalForTypes:">
+                -runModalForTypes:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.0.0">
+          <sel>runModalForDirectory:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>file:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>types:</sel>
+          <arg type="NSArray*">fileTypes</arg>
+          <sel>relativeToWindow:</sel>
+          <arg type="NSWindow*">window</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>runModalForTypes:</sel>
+          <arg type="NSArray*">fileTypes</arg>
+          <desc>
+            <p>
+              Displays the open panel in a modal session,
+              showing the current directory (or last selected),
+              and filtering for files that have the specified
+              types.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-runModalForDirectory:file:types:">-runModalForDirectory:file:types:</ref>
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setAllowsMultipleSelection:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <p>
+              Allows the user to select multiple files if
+              <var>flag</var> is <code>YES</code>. The default
+              behavior is not to allow multiple selections
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-allowsMultipleSelection">
+                -allowsMultipleSelection
+              </ref>
+              <ref type="method" id="-setAllowsMultipleSelection:" class="NSBrowser">[NSBrowser -setAllowsMultipleSelection:]</ref>
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setCanChooseDirectories:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <p>
+              Allows the user to choose directories if
+              <var>flag</var> is <code>YES</code>. The default
+              behavior is to allow choosing directories.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-canChooseDirectories">
+                -canChooseDirectories
+              </ref>
+              <ref type="method" id="-setAllowsBranchSelection:" class="NSBrowser">[NSBrowser -setAllowsBranchSelection:]</ref>
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setCanChooseFiles:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <p>
+              Allows the user to choose files if <var>flag</var>
+              is <code>YES</code>.The default behavior it to allow
+              choosing files.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-canChooseFiles">
+                -canChooseFiles
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.1.0">
+          <sel>setResolvesAliases:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

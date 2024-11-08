@@ -1,0 +1,502 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+      <head>
+    <title>How to Set Up GNUstep for the East Asian Languages</title>
+    <style type="text/css">
+    hr.method-separator { width:25%; margin-left:0; }
+    </style>
+  </head>
+  <body>
+    <h1><a name="title$LanguageSetup">How to Set Up GNUstep for the East Asian Languages</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Kazunobu Kuriyama (<a href="mailto:kazunobu.kuriyama@nifty.com"><code>kazunobu.kuriyama@nifty.com</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Yen-Ju Chen (<a href="mailto:yjchenx@hotmail.com"><code>yjchenx@hotmail.com</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Song Woo-il (<a href="mailto:bemess@kornet.net"><code>bemess@kornet.net</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Version:</b> 2.2 Alpha</p>
+    <p><b>Date:</b> 2004-04-08</p>
+    <blockquote>
+      
+	    This article illustrates how to set up GNUstep for the East
+	    Asian languages with some working examples.  It also includes
+	    some useful information applicable to other non-European languages.
+	
+    </blockquote>
+    <p><b>Copyright:</b> (C) 2004, 2003 Free Software Foundation, Inc.</p>
+
+	
+	        <h1><a name="001000000000">Introduction</a></h1>
+    <p>
+
+		This brief article illustrates how to set up your GNUstep for the East
+		Asian languages known as CJK (Chinese, Japanese, and Korean) in literature.
+		We assume that you already know how to set up your X Window System
+		for your language environment such as locale, fonts, and input methods.
+		We also assume that you selected &apos;art&apos; as the backend of GNUstep&apos;s GUI.
+	        </p>
+    <p>
+
+		Like other computer software made outside the region, GNUstep requires
+		some adjustment to use those languages.  The adjustment consists of
+		the following steps:
+	        </p>
+    <ol>
+      <li>
+        
+		    Prepare one or more true type font files which contain characters
+		    of your native language, and organize them in a certain way so that
+		    the art backend can use them.
+		
+      </li>
+      <li>
+        
+		    Set the environmental variable <code>GNUSTEP_STRING_ENCODING</code> to an
+		    appropriate value for the language in use.
+		
+      </li>
+      <li>
+        
+		    Set the <code>NSGlobalDomain</code> variables such as <code>NSFont</code>,
+		    <code>NSFontSize</code>, <code>NSUserFont</code>, and <code>NSLanguages</code>
+                    , to name a few, to
+		    appropriate values using the GNUstep&apos;s utility <code>defaults</code>.
+		
+      </li>
+    </ol>
+    <p>
+
+		Now we explain each step in detail and give some working examples.
+	        </p>
+
+	        <h1><a name="002000000000">Fonts</a></h1>
+    <p>
+
+		The art backend expects necessary true type font files to be found in the
+		specified directories, which are usually
+		<code>$GNUSTEP_USER_ROOT/Library/Fonts</code>
+		and
+		<code>$GNUSTEP_SYSTEM_ROOT/Library/Fonts</code>.
+		You need to organize font files in a certain way (see below) so that the
+		art backend can recognize them.
+	        </p>
+    <p>
+
+		For example, suppose you have a hypothetical true type font file called
+		<code>MyFont.ttf</code> and want to allow all other users to use it.
+		Then, as root,
+	        </p>
+<pre>
+		# cd $GNUSTEP_SYSTEM_ROOT/Library/Fonts
+		# mkdir MyFont.nfont
+		# cd MyFont.nfont
+	    </pre>
+    <p>
+
+		With your favorite editor, create a file whose contents are as follows:
+	        </p>
+<pre>
+		{
+		    Faces = (
+			{
+			    PostScriptName = &quot;MyFont&quot;;
+			    Name = &quot;Regular&quot;;
+			    Files = (&quot;MyFont.ttf&quot;);
+			}
+		    );
+		}
+	    </pre>
+    <p>
+
+		Then save it as <code>FontInfo.plist</code> (the format above is known as
+		property list in GNUstep, which explains why the extension is
+		<code>plist</code>).  This small file system you&apos;ve created just now is
+		referred to as <code>.nfont</code> package.
+	        </p>
+    <p>
+
+		The <code>FontInfo.plist</code> above is just a bare-bones version.  For
+		further details, we strongly recommend the reader to read
+		the file <code>nfont_packages.txt</code> found at
+		<code>http://wiki.gnustep.org/index.php/nfont%20packages</code>.
+	        </p>
+    <p>
+
+		If you want to use the font file privately, replace
+		<code>GNUSTEP_SYSTEM_ROOT</code> with
+		<code>GNUSTEP_USER_ROOT</code> in the instruction above.
+	        </p>
+
+	        <h1><a name="003000000000">Encoding</a></h1>
+    <p>
+
+		GNUstep assumes as default that every character is encoded in <code>ISO8859-1</code> unless
+		the escape character \u precedes it (This exception applies to other
+		encodings).  Hence, if you want to use the characters of your native
+		language with GNUstep, you have to tell it which encoding you use.  This
+		can be done by setting the environmental variable
+		<code>GNUSTEP_STRING_ENCODING</code> to an appropriate value.
+	        </p>
+    <p>
+
+		The possible values for <code>GNUSTEP_STRING_ENCODING</code> are as follows:
+	        </p>
+<pre>
+		NSASCIIStringEncoding
+		NSNEXTSTEPStringEncoding
+		NSJapaneseEUCStringEncoding		// Japanese
+		NSUTF8StringEncoding
+		NSISOLatin1StringEncoding		// ISO-8859-1; West European
+		NSSymbolStringEncoding
+		NSNonLossyASCIIStringEncoding
+		NSShiftJISStringEncoding		// Japanese
+		NSISOLatin2StringEncoding		// ISO-8859-2; East European
+		NSUnicodeStringEncoding
+		NSWindowsCP1251StringEncoding
+		NSWindowsCP1252StringEncoding		// WinLatin1
+		NSWindowsCP1253StringEncoding		// Greek
+		NSWindowsCP1254StringEncoding		// Turkish
+		NSWindowsCP1250StringEncoding		// WinLatin2
+		NSISO2022JPStringEncoding		// Japanese
+		NSMacOSRomanStringEncoding
+		NSProprietaryStringEncoding
+
+		// GNUstep additions
+		NSKOI8RStringEncoding			// Russian/Cyrillic
+		NSISOLatin3StringEncoding		// ISO-8859-3; South European
+		NSISOLatin4StringEncoding		// ISO-8859-4; North European
+		NSISOCyrillicStringEncoding		// ISO-8859-5
+		NSISOArabicStringEncoding		// ISO-8859-6
+		NSISOGreekStringEncoding		// ISO-8859-7
+		NSISOHebrewStringEncoding		// ISO-8859-8
+		NSISOLatin5StringEncoding		// ISO-8859-9; Turkish
+		NSISOLatin6StringEncoding		// ISO-8859-10; Nordic
+		NSISOThaiStringEncoding			// ISO-8859-11
+		NSISOLatin7StringEncoding		// ISO-8859-13
+		NSISOLatin8StringEncoding		// ISO-8859-14
+		NSISOLatin9StringEncoding		// ISO-8859-15; Replaces ISOLatin1
+		NSGB2312StringEncoding
+		NSUTF7StringEncoding			// RFC 2152
+		NSGSM0338StringEncoding			// GSM (mobile phone) default alphabet
+		NSBIG5StringEncoding			// Traditional chinese
+		NSKoreanEUCStringEncoding		// Korean
+	    </pre>
+    <p>
+
+		Of these values, choose an appropriate one for your purpose and set the
+		environmental variable to it.  For example, for sh or bash,
+	        </p>
+<pre>
+		$ export GNUSTEP_STRING_ENCODING=NSBIG5StringEncoding
+	    </pre>
+    <p>
+
+		or, for csh,
+	        </p>
+<pre>
+		% setenv GNUSTEP_STRING_ENCODING NSBIG5StringEncoding
+	    </pre>
+
+	        <h1><a name="004000000000">User Default Values</a></h1>
+    <p>
+
+		Now that you&apos;ve specified the encoding, you have to determine which fonts
+		you use to display the characters of your native language.
+	        </p>
+    <p>
+
+		Becuase the fonts used with GNUstep GUI are initially set to those that are
+		appropriate for European languages, you have to overwrite them to display
+		the characters correctly.
+	        </p>
+    <p>
+
+		At least, you need to change the user default value <code>NSFont</code>,
+                and <code>NSBoldFont</code>.
+		For example, suppose you have a hypothetical <code>.nfont</code> package
+		called <code>MyFont</code> and <code>MyBoldFont</code>,
+                and want to use it to display the characters.
+		To do this, use the GNUstep&apos;s utility <code>defaults</code>as follows:
+	        </p>
+<pre>
+		$ defaults write NSGlobalDomain NSFont MyFont
+		$ defaults write NSGlobalDomain NSBoldFont MyBoldFont
+	    </pre>
+    <p>
+
+		Depending on a situation, you may also need to set <code>NSUserFont</code>
+		to <code>MyFont</code>.  (In GNUstep, a pair of a key and a value such as
+		<code>(NSFont, MyFont)</code> is referred to as a dictionary.)
+	        </p>
+    <p>
+
+		To confirm the value, use
+	        </p>
+<pre>
+		$ defaults read
+	    </pre>
+    <p>
+
+		If you want to remove the assignment entirely to revert to the original
+		default value, use
+	        </p>
+<pre>
+		$ defaults delete NSGlobalDomain NSFont
+		$ defaults delete NSGlobalDomain NSBoldFont
+	    </pre>
+    <p>
+
+		For further details about the user default values, the reader can refer to
+		the documents <code>DefaultsSummary.html</code> and <code>NSFont.html</code>
+		shipped with the GNUstep core library package.
+	        </p>
+    <p>
+
+		You can also change the default language (English) into your native language.
+		If an application has a directory called MyLanguage.lproj in the bundle
+                (could be in Resources/ directory),
+                it may be localized for that language. To enable this functionality,
+                which displays the interface in that language, you need to set the user
+                default value NSLanguages to the language.
+                Otherwise, it will fall back to the default one (English).
+                To change the default language, use
+                </p>
+<pre>
+                $ defaults write NSGlobalDomain NSLanguages &quot;(MyLanguage)&quot;
+            </pre>
+
+	        <h1><a name="005000000000">Examples</a></h1>
+    <p>
+
+		In the following examples, we assume that the reader has already set up the
+		X Window System properly for her/his language environment.  In particular,
+		the locale the reader wants to use must be supported by both the C
+		starndard library and the X library of the system in use.  Before trying some
+		of the examples, make sure the environmental variables governing encoding are set
+		to appropriate values.  Such variables include <code>LC_ALL</code>,
+		<code>LC_CTYPE</code>, and <code>LANG</code>.
+	        </p>
+
+  	            <h2><a name="005001000000">
+	  	    Traditional Chinese
+		</a></h2>
+
+		        <h3><a name="005001001000">
+		        Environmental Variables:
+		    </a></h3>
+<pre>
+		        GNUSTEP_STRING_ENCODING=NSBIG5StringEncoding
+		        LC_CTYPE=zh_TW.Big5
+		    </pre>
+
+		        <h3><a name="005001002000">
+		        .nfont package:
+		    </a></h3>
+    <p>
+
+		        Here, use Arphic MingTi font as example
+                        </p>
+    <p>
+
+                        First, make a directory for an .nfont package you are going to make:
+                        </p>
+<pre>
+                        $ cd $GNUSTEP_USER_ROOT/Library/Fonts (or $GNUSTEP_SYSTEM_ROOT/Library/Fonts)
+                        $ mkdir &apos;MingTi.nfont&apos;
+                        $ cd &apos;MingTi&apos;
+                    </pre>
+    <p>
+
+                        Make a copy of the font file in the directory.
+                        </p>
+<pre>
+                        $ ln -s /usr/X11R6/lib/X11/fonts/local/bsmi00lp.ttf ./
+                    </pre>
+    <p>
+
+                        And write a <code>FontInfo.plist</code> (see below).
+                        </p>
+
+		        <h3><a name="005001003000">
+		        MingTi.nfont/FontInfo.plist:
+		    </a></h3>
+<pre>
+		        {
+			    Face = (
+			       {
+				    PostScriptName = &quot;MingTi&quot;;
+				    Name = &quot;Regular&quot;;
+				    Files = (&quot;bsmi00lp.ttf&quot;)
+			       }
+			    );
+		        }
+		    </pre>
+
+		        <h3><a name="005001004000">
+		        User Defaults:
+		    </a></h3>
+<pre>
+		        $ defaults write NSGlobalDomain NSFont MingTi
+		        $ defaults write NSGlobalDomain NSBoldFont MingTi
+		        $ defaults write NSGlobalDomain NSLanguages &quot;(TraditionalChinese)&quot;
+		    </pre>
+
+		    <h2><a name="005002000000">
+		    Japanese
+		</a></h2>
+
+		        <h3><a name="005002001000">
+			Environmental Variables:
+		    </a></h3>
+<pre>
+			GNUSTEP_STRING_ENCODING=NSJapaneseEUCStringEncoding
+			LANG=ja_JP
+		    </pre>
+
+		        <h3><a name="005002002000">
+			.nfont package:
+		    </a></h3>
+    <p>
+
+			If you are using Windows with Japanese (and have valid owership of it), you
+			may have msgothic.ttc or msmincho.ttc in the Windows machine.  If this is
+			the case, you can use them to make your own .nfont packages.  We&apos;ll give an
+			example below when msgothic.ttc is used.
+		        </p>
+    <p>
+
+			First, make a directory for an .nfont package you are going to make:
+		        </p>
+<pre>
+			$ cd $GNUSTEP_USER_ROOT/Library/Fonts (or $GNUSTEP_SYSTEM_ROOT/Library/Fonts)
+			$ mkdir &apos;MS Gothic.nfont&apos;
+			$ cd &apos;MS Gothic&apos;
+		    </pre>
+    <p>
+
+			Make a copy of the font file in the directory, say, assuming the Windows&apos;
+			partition /dev/hda1 is to be mounted at /mnt/win98:
+		        </p>
+<pre>
+			$ mount -t vfat /dev/hda1 /mnt/win98
+			$ cp /mnt/win98/windows/fonts/msgothic.ttc .
+		    </pre>
+    <p>
+
+			And write a <code>FontInfo.plist</code> (see below).
+		        </p>
+
+		        <h3><a name="005002003000">
+			MS Gothic.nfont/FontInfo.plist:
+		    </a></h3>
+<pre>
+			{
+			    Faces = (
+				{
+				    PostScriptName = &quot;MS Gothic&quot;;
+				    Name = &quot;Regular&quot;;
+				    Files = (&quot;msgothic.ttc&quot;)
+				}
+			    );
+			}
+		    </pre>
+
+		        <h3><a name="005002004000">
+			User Defaults:
+		    </a></h3>
+<pre>
+			$ defaults write NSGlobalDomain NSFont &apos;MS Gothic&apos;
+			$ defaults write NSGlobalDomain NSUserFont &apos;MS Gothic&apos;
+		    </pre>
+    <p>
+
+		    <em>
+			CAVEAT: If you use the font files mentioned above, you must use them within
+			your own right.  The instruction given above never changes any rights and
+			duties you have to use these fonts.
+		    </em>
+		    </p>
+
+		    <h2><a name="005003000000">
+		    Korean
+		</a></h2>
+
+		        <h3><a name="005003001000">
+			Environmental Variables:
+		    </a></h3>
+<pre>
+			GNUSTEP_STRING_ENCODING=NSKoreanEUCEncoding
+		    </pre>
+
+		        <h3><a name="005003002000">
+			.nfont package:
+		    </a></h3>
+    <p>
+
+			GPL&apos;ed Korean fonts are available at
+			<code>http://chem.skku.ac.kr/~wkpark/project/font/UnFonts/</code>
+		        </p>
+    <p>
+
+			Create a directory for a .nfont package for Korean fonts, say
+			<code>Un.nfont</code>:
+		        </p>
+<pre>
+			$ cd $GNUSTEP_USER_ROOT/Library/Fonts
+			$ mkdir Un.nfont
+			$ cd Un
+		    </pre>
+    <p>
+
+			And write a <code>FontInfo.plist</code> (see below).
+		        </p>
+
+		        <h3><a name="005003003000">
+			Un.nfont/FontInfo.plist:
+		    </a></h3>
+<pre>
+			{
+			    Faces = (
+				{
+				    PostScriptName = &quot;Un&quot;;
+				    Name = &quot;Regular&quot;;
+				    Files = (&quot;UnDotum.ttf&quot;);
+				}
+			    );
+			}
+		    </pre>
+
+		        <h3><a name="005003004000">
+			User Defaults:
+		    </a></h3>
+<pre>
+			$ defaults write NSGlobalDomain NSFont Un
+		    </pre>
+
+	        <h1><a name="006000000000">
+		Concluding Remarks
+	    </a></h1>
+    <p>
+
+		Although this article has focused on the CJK languages, most part of it
+		is also applicable to other languages if GNUstep supports the enconding
+		you need.  
+	        </p>
+    <p>
+
+		If you find a way to set up GNUstep for your native language other than
+		CJK, please consider to contribute it to the GNUstep community to share
+		your invaluable experience with others.  We&apos;ll greatly appreciate it.
+		Comments or suggestions are also welcome.
+	        </p>
+    <br />
+    </body>
+</html>

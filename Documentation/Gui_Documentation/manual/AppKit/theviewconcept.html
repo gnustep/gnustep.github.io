@@ -1,0 +1,288 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- (C) 2005-2006 Christopher Armstrong.
+
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2, as published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included in the section entitled "GNU Free Documentation License".
+
+This documentation is provided on an "AS IS" BASIS, WITHOUT WARRANTY
+OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED
+TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND USEFULNESS
+OF THE DOCUMENTATION IS WITH YOU (THE LICENSEE). IN NO EVENT WILL THE COPYRIGHT
+HOLDERS BE LIABLE FOR DAMAGES, INCLUDING ANY DIRECT, INDIRECT,
+SPECIAL, GENERAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF
+THE USE OR INABILITY TO USE THIS DOCUMENTATION (INCLUDING BUT NOT
+LIMITED TO LOSS OF DATA, USE, OR PROFITS; PROCUREMENT OF SUBSTITUTE
+GOODS AND SERVICES; OR BUSINESS INTERUPTION) HOWEVER CAUSED, EVEN
+IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. -->
+<title>theviewconcept (Using the GNUstep AppKit 0.1)</title>
+
+<meta name="description" content="theviewconcept (Using the GNUstep AppKit 0.1)">
+<meta name="keywords" content="theviewconcept (Using the GNUstep AppKit 0.1)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="conceptindex.html" rel="index" title="conceptindex">
+<link href="index.html" rel="up" title="Top">
+<link href="eventhandling.html" rel="next" title="eventhandling">
+<link href="controls.html" rel="prev" title="controls">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="chapter" id="theviewconcept">
+<div class="header">
+<p>
+Next: <a href="eventhandling.html" accesskey="n" rel="next">Event handling</a>, Previous: <a href="controls.html" accesskey="p" rel="prev">Basic Controls</a>, Up: <a href="index.html" accesskey="u" rel="up">Using the GNUstep AppKit</a> &nbsp; [<a href="conceptindex.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="The-view-concept-1"></span><h2 class="chapter">7 The view concept</h2>
+
+<p>This chapter discusses the concepts surrounding <em>views</em> and goes into some detail what can be done with them. As a result, most of this chapter is concerned with the creation of custom views, which is not necessary for general application development. If you want to create your own view classes or are interested in how GNUstep manages views, then this chapter should be useful.
+</p>
+<ul class="section-toc">
+<li><a href="#Introduction-2" accesskey="1">Introduction</a></li>
+<li><a href="#The-view-hierachy" accesskey="2">The view hierachy</a></li>
+<li><a href="#Frames-and-Bounds" accesskey="3">Frames and Bounds</a></li>
+<li><a href="#Manipulating-the-coordinate-system" accesskey="4">Manipulating the coordinate system</a></li>
+<li><a href="#Subclassing-NSView" accesskey="5">Subclassing NSView</a></li>
+<li><a href="#Clipping" accesskey="6">Clipping</a></li>
+</ul>
+<div class="section" id="Introduction-2">
+<h3 class="section">7.1 Introduction</h3>
+
+<p>In GNUstep applications, we introduce the idea of a <em>view</em>. A view is a graphical element on the window in your interface. It is much like the idea of a window in the Microsoft Windows C API, except more powerful. Note that views are a <em>generalisation</em> of a control, that is, a control is a special type of view.
+</p>
+<p>A view is a subclass of the AppKit <code>NSView</code> class. You should not instantiate this class directly, but instead use a class that is derived from it. A custom view can be created by inheriting from it.
+</p>
+</div>
+<div class="section" id="The-view-hierachy">
+<h3 class="section">7.2 The view hierachy</h3>
+
+<p>A view may contain any number of <em>subviews</em>, which are views that are displayed within it. Those views may also have subviews, and as a result, you can setup a hierachy of views. This can be a powerful model for your interface designs (especially where you create your views programatically instead of just in <code>Gorm.app</code>). 
+</p>
+<p>Each window has a primary view, known as the <em>content view</em>, which acts as a top-level view (or <em>superview</em>) to all the views you place on your window. It sits at the top of the view hierachy. Most applications will only have one level of views below the content view, and for most applications, this is all you need.
+</p>
+</div>
+<div class="section" id="Frames-and-Bounds">
+<h3 class="section">7.3 Frames and Bounds</h3>
+
+<span id="index-views_002c-bounds"></span>
+<span id="index-views_002c-frame"></span>
+<p>As views can be placed within other views, GNUstep needs to setup some rules to determine how this will work. Due to this, each view has two important properties defining how it is positioned and displayed on the screen. These are it&rsquo;s <em>frame</em> and its <em>bounds</em>. 
+</p>
+<p>GNUstep uses cartesian coordinate systems for defining positions and sizes. It has the origin of any coordinate system placed at the bottom-left corner and has an x-axis and a y-axis. Like a normal cartesian coordinate system, the x-axis runs from left to right, and the y-axis runs from the bottom to the top. A view is defined within two coordinate systems, not just the coordinate system of the entire screen or window. 
+</p>
+<p>The frame and the bounds describe the view in terms of a rectanglei placed in a coordinate system. The rectangle has an origin (located at the bottom-left corner of the rectangle) and a width and a height. Programmatically, the concept of a rectangle is tied up in an <code>NSRect</code> structure, which in turn contains an <code>NSPoint</code> structure (for the origin) and an <code>NSSize</code> structure. 
+</p>
+<p>The contents of your view is not dissimilar to a canvas. You can draw anywhere on this canvas, but only a certain portion of it is displayed. Where it is displayed and what part of it you choose to display is defined in the frame and the bounds rectangle of the view.
+</p>
+<p>The <em>frame</em> is the location and size of your view, as defined in its superview. The content view has it&rsquo;s frame defined with it&rsquo;s origin at the bottom-left corner of a window, and it&rsquo;s width and height equal to that of the window it is placed in (ignoring the window decoration). If you change the origin of your frame rectangle, you effectively move your view within it&rsquo;s superview. By changing the frame rectangle&rsquo;s width or height, you resize your view with regards to the coordinate system of it&rsquo;s superview. 
+</p>
+
+<p>The <em>bounds</em> rectangle defines what part of your view&rsquo;s internal coordinate system will be displayed. It is therefore defined in the coordinate system of your view. By default, it is set to be a rectangle located at the origin of your view&rsquo;s internal coordinate system, with it&rsquo;s size set to be the same size as your frame rectangle. However, it can be programatically streched, rotated, moved and skewed so that various parts of your view&rsquo;s internal coordinate system are displayed in it&rsquo;s frame rectangle.  
+</p>
+<p>In essence, the <em>frame</em> is defined by the coordinate system of your view&rsquo;s superview, and the <em>bounds</em> is defined by the coordinate system of your view. These concepts can be difficult to grasp, so we recommend you read over this bit, as well as play around with the various methods in GNUstep that let you modify the bounds and frame rectangles of a view.
+</p>
+<p>It is the internal coordinate system where your view does it&rsquo;s drawing and which defines the location and size of any subviews. It is the coordinate system of your view&rsquo;s superview that defines where and how big your view is displayed.
+</p>
+</div>
+<div class="section" id="Manipulating-the-coordinate-system">
+<h3 class="section">7.4 Manipulating the coordinate system</h3>
+
+<p>As mentioned earlier, the bounds and frame of a view can be stretched, shrunken, shifted and even rotated. Firstly we will show you how to manipulate these directly, and then briefly describe the mathematics behind coordinate transformations.
+</p>
+<p>NSView provides some simple methods for manipulating the coordinates and coordinate systems of the frame and bounds rectangles. Note that after calling any of these methods, you need to get the view to redisplay itself manually. You can do this by calling the <code>-setNeedsDisplay:</code> and <code>-display:</code> on the view o bject.
+</p>
+<p>We can change where a view is placed within it&rsquo;s superview (most likely the window&rsquo;s content view) by manipulating it&rsquo;s frame origin. This is done using the <code>-setFrameOrigin:</code> method. For convenience, you can use the <code>NSMakePoint()</code> function to easily construct a point for the new location.
+</p>
+<p>The size of a view&rsquo;s frame can also be adjusted using the <code>-setFrameSize:</code> method. Similiarly, the <code>NSMakeSize()</code> method can be used to construct an <code>NSSize</code> parameter that is needed. Changing this will cutoff whatever is internal to the view, although some classes behave differently. Check the documentation for the class with regards to it&rsquo;s reaction to a change in it&rsquo;s frame size.
+</p>
+<p>Where necessary, these can be adjusted as a rectangle, making use of the <code>-setFrame:</code> method and the <code>NSMakeRect()</code> function.
+</p>
+<p>Methods used for manipulating the bounds have subtly different meanings. Like the frame rectangle, the bounds rectangle can be manipulated as well.
+</p>
+<p>The bounds origin and size can be manipulated using the <code>-setBoundsOrigin:</code> and <code>-setBoundsSize:</code> methods respectively. Changing the bounds origin effectively sets the new origin to be displayed at the origin of your frame rectangle. Changing the bounds size can be used to skew the coordinate system of the bounds, as it is displayed within the frame rectangle.
+</p>
+<p>Another method for skewing the internal coordinate system of a view is to use the <code>-scaleUnitSquareToSize:</code> method. It&rsquo;s useful when you need to express your transformation as a percentage or fraction, where a size of 1.0 is considered to be 100%. Note that this method is cumulative, so that when you set this, it is effectively the first transformation multiplied by the second. For example, setting it to 0.5 and the 0.75 is the same as setting it to 0.5 x 0.75 = 0.375.
+</p>
+<p>To rotate the frame or bounds rectangle counterclockwise, call the <code>-setFrameRotation:</code> or <code>-setBoundsRotation:</code> methods respectively. These methods take an angle in degrees. You can specify clockwise rotation with a negetive angle.
+</p>
+<p>Alternatively, you can rotate the bounds rectangle by using the <code>-rotateByAngle:</code> method. This method rotates the bounds on top of what it has already been rotated. 
+</p>
+</div>
+<div class="section" id="Subclassing-NSView">
+<h3 class="section">7.5 Subclassing NSView</h3>
+
+<p>Sometimes the need arises to create a custom view. This is achieved by subclassing NSView. From here, you can override default event handlers and drawing methods to customise your view&rsquo;s representation.
+</p>
+<p>Note that in some cases, the <code>NSControl</code> class may prove to be a better model for your custom view, especially if it behaves more like a control instead of an entire document representation. You should read the chapter on controls and weigh up the options for creating a view vs creating a control. This section is still useful though to understand the drawing code aspect, which is relevant to the display of control&rsquo;s as well.
+</p>
+<ul class="section-toc">
+<li><a href="#Drawing-code" accesskey="1">Drawing code</a></li>
+<li><a href="#NSBezierPath" accesskey="2">NSBezierPath</a></li>
+<li><a href="#Stroking_002c-Filling-and-Clipping" accesskey="3">Stroking, Filling and Clipping</a></li>
+<li><a href="#Text" accesskey="4">Text</a></li>
+<li><a href="#Images" accesskey="5">Images</a></li>
+<li><a href="#Affine-Transformations-1" accesskey="6">Affine Transformations</a></li>
+</ul>
+<div class="subsection" id="Drawing-code">
+<h4 class="subsection">7.5.1 Drawing code</h4>
+
+<p>One of the first things you will do is write your own drawing code. All custom drawing code is placed in the <code>NSView</code> method <code>drawRect:</code>. NSView&rsquo;s implementation is blank by default.
+</p>
+<p>In this section, we will describe the various facilities at your disposal for drawing in a view.
+</p>
+</div>
+<div class="subsection" id="NSBezierPath">
+<h4 class="subsection">7.5.2 NSBezierPath</h4>
+
+<p>This class is an abstract representation of a <em>bezier path</em>. A bezier path contains a series of straight and curved lines representations which come together to form a number of shapes that describe the object you wish to draw. This &quot;path&quot; can then be &quot;filled&quot;, &quot;stroked&quot; or used as a clipping path within the view you are working on. It also contains the pen width, pen dash information and the current point.
+</p>
+<p>A bezier path represents a series of graphical primitives operations. You call methods corresponding to these operations on an <code>NSBezierPath</code> object, and when it is drawn, these operations are executed in the order that you called them on the object.
+</p>
+<span id="index-bezier-paths_002c-current-point"></span>
+<p>It also has a concept of a <em>current point</em>. After every graphics operation, a new, internal point is set that will be used as the start point for the next operation. It is the destination point of the previous operation. For example, if you want a bezier path to move to the point origin, then draw a line from
+the origin to point (10,20), then a line from (10,20) to (20,20) you only require three operations, i.e. (in psuedocode):
+</p><div class="example">
+<pre class="example">move to (0,0)
+draw a line to (10,20)
+draw a line to (20,20)
+</pre></div>
+
+<p>In this case, the bezier path first sets the current point to (0,0). Then, when the line operation is called, you only pass in the destination point, (10,20), which causes it to draw a line from (0,0) to (10,20). After the line operation, the current point is set to the destination of the line operation, i.e. (10,20). Then, the next line operation draws a line from (10,20) to (20,20). In this way, we only need specify the destination point for line and move operations, as the start point is determined by the destination point of the previous operation. There is no need to specify the start point for each drawing operation, as it is implied by the destination point of the previous operation. You can get the current point by calling the <code>currentPoint:</code> method. 
+</p>
+<p>These operations are listed in the table below:
+<span id="index-bezier-paths_002c-operations"></span>
+</p><dl compact="compact">
+<dt><span><em>Move Operation</em></span></dt>
+<dd><p>A move operation lifts the pen up and puts it at a new location, i.e. changes the current coordinates without drawing. This can be achieved throught the <code>-moveToPoint:</code> method, which takes a point as it&rsquo;s first parameter. It implicitly begins a new sub-path (see below).
+</p>
+</dd>
+<dt><span><em>Line Operation</em></span></dt>
+<dd><p>A line operation draws a line from the current point to a new point. The <em>current point</em> is set either through a move operation, or through the last point in
+a previous line or curve operation. Once the line operation is complete, the <em>current point</em> is set as the destination point. We can draw a line using the <code>lineToPoint:</code> method.
+</p>
+</dd>
+<dt><span><em>Curve Operation</em></span></dt>
+<dd><p>This one is more complex, as it involves the real magic of bezier paths. It consists of four points: the start point, the destination point, and two <em>control
+points</em>. How this works is beyond the scope of this manual<a id="DOCF7" href="#FOOT7"><sup>7</sup></a> and is not required to draw simple circles, ellipses and arcs. We can draw a circle or an ellipse by calling <code>appendBezierPathWithOvalInRect:</code>, passing in
+a rectangle for the shape to be drawn in. A few methods are provided for adding arcs, with <code>appendBezierPathWithArcFromPoint: toPoint: radius:</code> useful for adding an arc between two points and the <code>appendBezierPathWithArcWithCenter: radius: startAngle: endAngle:</code> method useful for drawing an arc with a particular
+centre point. For those familiar with bezier curves or who know their control points, the <code>curveToPoint:controlPoint1:controlPoint2:</code> method can be used to draw curves that way. All curve operations set the current point to the destination of the curve.
+</p>
+</dd>
+<dt><span><em>Close Path Operation</em></span></dt>
+<dd><p>As bezier paths actually consist of many sub-paths, one can close the current set of path operations with the <code>closePath</code> method to avoid creating a new NSBezierPath method.
+</p></dd>
+</dl>
+
+<p>A bezier path also consists of a number of <em>sub-paths</em>. After a series of move, line and curve operations, a <em>close path</em> operation is inserted to into the bezier path to indicate the end of a sub path. This concept is important with the filling commands.
+</p>
+</div>
+<div class="subsection" id="Stroking_002c-Filling-and-Clipping">
+<h4 class="subsection">7.5.3 Stroking, Filling and Clipping</h4>
+
+<span id="index-bezier-paths_002c-rendering-operations"></span>
+<span id="index-bezier-paths_002c-stroking_002ffilling_002fclipping"></span>
+<p>Once you&rsquo;ve assembled a path, you can render it in a number of ways. It can be drawn (stroked), filled, or turned into a clipping region. This is done by calling the relevant methods on the bezier path when it is ready to be used. You can stroke/fill/clip a bezier path more than once (if necessary), making the paths reusable.
+</p>
+<p>A simple stroke operation is induced by calling the <code>stroke</code> operation. It causes the outline described by the path to be drawn using the current pen (which can be set on the bezier path as well).
+</p>
+<p>Filling operations are induced by calling the <code>fill</code> method. It fills in, using the current background colour or pattern, the areas described by the outline of the path. Two winding rules for filling are provided: the <em>even-odd</em> and <em>non-zero</em> winding rules. These affect what areas within the path that are filled, and correspond to their PostScript definitions.
+</p>
+<p>A number of convenience class methods exist for simple drawing operations, setting defaults and getting information about the current state of the drawing view, aka the <em>graphics state</em>.<a id="DOCF8" href="#FOOT8"><sup>8</sup></a> We can call <code>+strokeRect:</code> or <code>+fillRect:</code> directly to add a new rectangle or filled rectangle to the current drawing view. The <code>-clipRect:</code> method can be used to set a smaller clipping rectangle, intersecting with the current clipping rectangle (which is set by default to be the frame of your view), just before a call to <code>-drawRect:</code> is made (see below for information about clipping paths).
+</p>
+</div>
+<div class="subsection" id="Text">
+<h4 class="subsection">7.5.4 Text</h4>
+
+<p>You can also render text within a view. For this, you use an instance of the <code>NSText</code> class, which provides advanced text rendering capabilities. It acts as a base for the text view system, which should be used where you require rich text input to your application.
+</p>
+</div>
+<div class="subsection" id="Images">
+<h4 class="subsection">7.5.5 Images</h4>
+
+<p>If you just want to display an image in your application, use the <code>NSImageView</code> class. If you want to combine it with other elements in a view (e.g. clip an image or draw on top of it), you can make use of the <code>NSImage</code> class to render an image within your view.
+</p>
+<p>It is described in more detail in See <a href="images.html#Images-and-Imageviews">Images and Imageviews</a>.
+</p>
+</div>
+<div class="subsection" id="Affine-Transformations-1">
+<h4 class="subsection">7.5.6 Affine Transformations</h4>
+<span id="Affine-Transformations"></span>
+<p>The skewing, rotating, translation and scaling of display objects is represented in the form of an <code>affine transformation</code>. They are encapsulated in an object of <code>NSAffineTransform</code>.
+</p>
+<p>These objects store a mathematical <em>matrix</em> which describes the translation of points and objects within a coordinate system.<a id="DOCF9" href="#FOOT9"><sup>9</sup></a> They are used internally to provide the frame and bounds transformations described earlier, and can be used in your drawing code as well. You can append transformations to the current bounds transformation, to bezier paths and even to text.
+</p>
+<span id="index-matrices_002c-affine-transform"></span>
+<p>A <em>matrix</em> is a two-dimensional table of numbers. It may have any number of rows and columns, and like algebraic terms, can be multiplied and added together. We can pretend the numbers in a two by one (2x1) matrix refer to a point in the cartesian coordinate system, and manipulate them like vectors.
+</p>
+<p><em>Vectors</em> is another mathematical concept that takes numbers in pairs to describe a point in the cartesian plane. For example, the vector <em class='math'>(1, 1)</em> can refer to the same numbered point in the cartesian coordinate system. You can also represent this point as the combination of a length (given a magnitude) and a direction (given as a rotation from the x-axis, anticlockwise). Using this, we can represent <em class='math'>(1, 1)</em> as <em class='math'>( \sqrt 2, 45 degrees)</em>. This representation is useful for transformation in a matrix. <a id="DOCF10" href="#FOOT10"><sup>10</sup></a>
+</p>
+<p>Matrices can be combined together to produce a new affine transform that will perform the same transformation as if all the original transformations were applied in order. You usually won&rsquo;t need to combine them, unless you have complicated drawing code. 
+</p>
+</div>
+</div>
+<div class="section" id="Clipping">
+<h3 class="section">7.6 Clipping</h3>
+
+<p>One concept that has been mentioned in this chapter is <em>clipping</em>. It is used extensively throughout the AppKit to control the drawing code that renders it&rsquo;s different graphical elements.
+</p>
+<p>When drawing within a view, you often may specify points outside the visible region of your view&rsquo;s bounds, say to blit an image. What prevents that image from obscuring other parts of the window (and indeed the screen) is clipping. A <em>clip</em> defines what region of the screen at any one time may be drawn on.
+</p>
+<p>For example, when the AppKit calls your <code>drawRect:</code> method to draw onto the screen, it first calls <code>lockFocus</code>. In this method is sets a <em>clipping path</em> defined to the frame of your view&rsquo;s rectangle by default, so that you do not draw outside the frame of your view by accident.
+</p>
+<p>You can define your own clipping paths that further clip the output of your drawing code within your view. It may be a simple rectangle (as used in the case of frame clipping by the AppKit), or a complex path defined by the outline of a <code>bezier path</code>. 
+</p>
+</div>
+</div>
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h5><a id="FOOT7" href="#DOCF7">(7)</a></h5>
+<p><cite>Wikipedia</cite> has good information on the mathematics and theory behind bezier curves/paths</p>
+<h5><a id="FOOT8" href="#DOCF8">(8)</a></h5>
+<p>A graphics state is a concept inherited from GNUstep&rsquo;s Display Postscript heritage. In Postscript a graphics state object, or <em>gstate</em>, would contain all the information about the current colours, the
+current affine transform, the width to draw lines with, any fill patterns, and other such information. They could be saved onto a stack and recalled later by name. GNUstep provides a more cut down and logical implementation of similiar concepts across the NSBezierPath class and others.</p>
+<h5><a id="FOOT9" href="#DOCF9">(9)</a></h5>
+<p>A mathematical matrix, described here, should not be confused with the <code>NSMatrix</code> class, which is a type of control that displays cells in grid form.</p>
+<h5><a id="FOOT10" href="#DOCF10">(10)</a></h5>
+<p>For those that are interested, the distance is found by applying Pythagoras&rsquo; theorem to the points in the equation <em class='math'>x^2 + y^2 = d^2</em> (where x and y are the cartesian points, and d is the distance). The angle is then found by <em class='math'>tan y / x</em>, where the angle is less than 360 degrees. The transformations are the same as those used for complex numbers. It&rsquo;s often known as a rectangular to polar transformation, and can be performed on most good quality scientific calculators.</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="eventhandling.html">Event handling</a>, Previous: <a href="controls.html">Basic Controls</a>, Up: <a href="index.html">Using the GNUstep AppKit</a> &nbsp; [<a href="conceptindex.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,593 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSCalendar" stylesheeturl="gnustepStyle" up="Base">
+  <head>
+    <title>NSCalendar documentation</title>
+    <author name="Stefan Bidigaray">
+    </author>
+    <date>Generated at 2024-11-07 16:52:01 -0500</date>
+    <copy>2010 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSCalendar class
+      </heading>
+      <class name="NSCalendar" super="NSObject" ovadd="10.4.0">
+        <declared>Foundation/NSCalendar.h</declared>
+        <conform>NSCoding</conform>
+        <conform>NSCopying</conform>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="id" factory="yes" ovadd="10.5.0">
+          <sel>autoupdatingCurrentCalendar</sel>
+          <desc>
+            A calendar that tracks changes to the user's calendar.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="10.4.0">
+          <sel>calendarWithIdentifier:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            Create a calendar with the given <var>string</var>
+            as identifier.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="10.4.0">
+          <sel>currentCalendar</sel>
+          <desc>
+            Returns the current calendar.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>calendarIdentifier</sel>
+          <desc>
+            Returns the calendar identifier for the receiver.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.9.0">
+          <sel>component:</sel>
+          <arg type="NSCalendarUnit">unit</arg>
+          <sel>fromDate:</sel>
+          <arg type="NSDate*">date</arg>
+          <desc>
+            Returns the integer value of the specified
+            <var>unit</var> from the given <var>date</var>.
+          </desc>
+        </method>
+        <method type="NSDateComponents*" ovadd="10.4.0">
+          <sel>components:</sel>
+          <arg type="NSUInteger">unitFlags</arg>
+          <sel>fromDate:</sel>
+          <arg type="NSDate*">date</arg>
+          <desc>
+            Returns the calendar units specified by
+            <var>unitFlags</var> for the given <var>date</var>
+            object.
+          </desc>
+        </method>
+        <method type="NSDateComponents*" ovadd="10.4.0">
+          <sel>components:</sel>
+          <arg type="NSUInteger">unitFlags</arg>
+          <sel>fromDate:</sel>
+          <arg type="NSDate*">startingDate</arg>
+          <sel>toDate:</sel>
+          <arg type="NSDate*">resultDate</arg>
+          <sel>options:</sel>
+          <arg type="NSUInteger">opts</arg>
+          <desc>
+            Compute the different between the specified
+            components in the two dates. Values are summed
+            up as <strong>long</strong> as now higher-granularity
+            unit is specified. That means if you want to extract
+            the year and the day from two dates which are 13 months
+            + 1 day apart, you will get 1 as the result for the year
+            but the rest of the difference in days. (29 &lt;= x
+            &lt;= 32, depending on the month). Please note that
+            the NSWrapCalendarComponents option that should affect
+            the calculations is not presently supported.
+          </desc>
+        </method>
+        <method type="NSDate*" ovadd="10.4.0">
+          <sel>dateByAddingComponents:</sel>
+          <arg type="NSDateComponents*">comps</arg>
+          <sel>toDate:</sel>
+          <arg type="NSDate*">date</arg>
+          <sel>options:</sel>
+          <arg type="NSUInteger">opts</arg>
+          <desc>
+            Returns a <var>date</var> object created by adding
+            the NSDateComponents in <var>comps</var> to to object
+            <var>date</var> with the options specified by
+            <var>opts</var>.
+          </desc>
+        </method>
+        <method type="NSDate*" ovadd="10.4.0">
+          <sel>dateFromComponents:</sel>
+          <arg type="NSDateComponents*">comps</arg>
+          <desc>
+            Creates an NSDate from NSDateComponents in
+            <var>comps</var>.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.4.0">
+          <sel>firstWeekday</sel>
+          <desc>
+            Returns the integer value of the first weekday
+            (0-6).
+          </desc>
+        </method>
+        <method type="void" ovadd="10.9.0">
+          <sel>getEra:</sel>
+          <arg type="NSInteger*">eraValuePointer</arg>
+          <sel>year:</sel>
+          <arg type="NSInteger*">yearValuePointer</arg>
+          <sel>month:</sel>
+          <arg type="NSInteger*">monthValuePointer</arg>
+          <sel>day:</sel>
+          <arg type="NSInteger*">dayValuePointer</arg>
+          <sel>fromDate:</sel>
+          <arg type="NSDate*">date</arg>
+          <desc>
+            Returns by reference the era, year, month, and day
+            from the given <var>date</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.9.0">
+          <sel>getEra:</sel>
+          <arg type="NSInteger*">eraValuePointer</arg>
+          <sel>yearForWeekOfYear:</sel>
+          <arg type="NSInteger*">yearValuePointer</arg>
+          <sel>weekOfYear:</sel>
+          <arg type="NSInteger*">weekValuePointer</arg>
+          <sel>weekday:</sel>
+          <arg type="NSInteger*">weekdayValuePointer</arg>
+          <sel>fromDate:</sel>
+          <arg type="NSDate*">date</arg>
+          <desc>
+            Returns by reference the era, year, week of year,
+            and weekday from the given <var>date</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.9.0">
+          <sel>getHour:</sel>
+          <arg type="NSInteger*">hourValuePointer</arg>
+          <sel>minute:</sel>
+          <arg type="NSInteger*">minuteValuePointer</arg>
+          <sel>second:</sel>
+          <arg type="NSInteger*">secondValuePointer</arg>
+          <sel>nanosecond:</sel>
+          <arg type="NSInteger*">nanosecondValuePointer</arg>
+          <sel>fromDate:</sel>
+          <arg type="NSDate*">date</arg>
+          <desc>
+            Returns by reference the hour, minute, second, and
+            nanosecond from the given <var>date</var>.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.4.0">
+          <sel>initWithCalendarIdentifier:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            Instantiate a calendar with the given
+            <var>string</var> as identifier.
+          </desc>
+        </method>
+        <method type="NSLocale*" ovadd="10.4.0">
+          <sel>locale</sel>
+          <desc>
+            Returns the locale of the receiver.
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="10.4.0">
+          <sel>maximumRangeOfUnit:</sel>
+          <arg type="NSCalendarUnit">unit</arg>
+          <desc>
+            Returns the maximum range of <var>unit</var>.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.4.0">
+          <sel>minimumDaysInFirstWeek</sel>
+          <desc>
+            Returns the minimum number of days in the first
+            week of the receiver.
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="10.4.0">
+          <sel>minimumRangeofUnit:</sel>
+          <arg type="NSCalendarUnit">unit</arg>
+          <desc>
+            Returns the minimum range of <var>unit</var>.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.4.0">
+          <sel>ordinalityOfUnit:</sel>
+          <arg type="NSCalendarUnit">smaller</arg>
+          <sel>inUnit:</sel>
+          <arg type="NSCalendarUnit">larger</arg>
+          <sel>forDate:</sel>
+          <arg type="NSDate*">date</arg>
+          <desc>
+            Returns the ordinality of unit <var>smaller</var>
+            within the unit <var>larger</var> with the given
+            <var>date</var>.
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="10.4.0">
+          <sel>rangeOfUnit:</sel>
+          <arg type="NSCalendarUnit">smaller</arg>
+          <sel>inUnit:</sel>
+          <arg type="NSCalendarUnit">larger</arg>
+          <sel>forDate:</sel>
+          <arg type="NSDate*">date</arg>
+          <desc>
+            Returns the range of unit <var>smaller</var> in
+            <var>larger</var> in <var>date</var>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>rangeOfUnit:</sel>
+          <arg type="NSCalendarUnit">unit</arg>
+          <sel>startDate:</sel>
+          <arg type="NSDate**">datep</arg>
+          <sel>interval:</sel>
+          <arg type="NSTimeInterval*">tip</arg>
+          <sel>forDate:</sel>
+          <arg type="NSDate*">date</arg>
+          <desc>
+            Returns by referene the started time and duration
+            of a given <var>unit</var> containing the given
+            <var>date</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setFirstWeekday:</sel>
+          <arg type="NSUInteger">weekday</arg>
+          <desc>
+            Set the integer first <var>weekday</var> of the week
+            (0-6).
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setLocale:</sel>
+          <arg type="NSLocale*">locale</arg>
+          <desc>
+            Sets the <var>locale</var> of the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setMinimumDaysInFirstWeek:</sel>
+          <arg type="NSUInteger">mdw</arg>
+          <desc>
+            Sets the minimum number of days in the first week of
+            the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setTimeZone:</sel>
+          <arg type="NSTimeZone*">tz</arg>
+          <desc>
+            Sets <var>tz</var> as the current NSTimeZone of the
+            receiver.
+          </desc>
+        </method>
+        <method type="NSTimeZone*" ovadd="10.4.0">
+          <sel>timeZone</sel>
+          <desc>
+            Returns the NSTimeZone associated with the
+            receiver.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSDateComponents class
+      </heading>
+      <class name="NSDateComponents" super="NSObject" ovadd="10.4.0">
+        <declared>Foundation/NSCalendar.h</declared>
+        <conform>NSCopying</conform>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="NSCalendar*" ovadd="10.7.0">
+          <sel>calendar</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDate*" ovadd="10.7.0">
+          <sel>date</sel>
+          <desc>
+            <p>
+              Computes a date by using the components set in
+              this NSDateComponents instance.
+            </p>
+            <p>
+              A calendar (and optionally a time zone) must be set
+              prior to calling this method.
+            </p>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.4.0">
+          <sel>day</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.4.0">
+          <sel>era</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.4.0">
+          <sel>hour</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.9.0">
+          <sel>isValidDate</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.9.0">
+          <sel>isValidDateInCalendar:</sel>
+          <arg type="NSCalendar*">calendar</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.8.0">
+          <sel>leapMonth</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.4.0">
+          <sel>minute</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.4.0">
+          <sel>month</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.7.0">
+          <sel>nanosecond</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.6.0">
+          <sel>quarter</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.4.0">
+          <sel>second</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.7.0">
+          <sel>setCalendar:</sel>
+          <arg type="NSCalendar*">cal</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setDay:</sel>
+          <arg type="NSInteger">v</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setEra:</sel>
+          <arg type="NSInteger">v</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setHour:</sel>
+          <arg type="NSInteger">v</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.8.0">
+          <sel>setLeapMonth:</sel>
+          <arg type="BOOL">v</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setMinute:</sel>
+          <arg type="NSInteger">v</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setMonth:</sel>
+          <arg type="NSInteger">v</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.7.0">
+          <sel>setNanosecond:</sel>
+          <arg type="NSInteger">v</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>setQuarter:</sel>
+          <arg type="NSInteger">v</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setSecond:</sel>
+          <arg type="NSInteger">v</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.7.0">
+          <sel>setTimeZone:</sel>
+          <arg type="NSTimeZone*">tz</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.9.0">
+          <sel>setValue:</sel>
+          <arg type="NSInteger">value</arg>
+          <sel>forComponent:</sel>
+          <arg type="NSCalendarUnit">unit</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setWeek:</sel>
+          <arg type="NSInteger">v</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.7.0">
+          <sel>setWeekOfMonth:</sel>
+          <arg type="NSInteger">v</arg>
+          <desc>
+            Sets the number of the week in this month.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.7.0">
+          <sel>setWeekOfYear:</sel>
+          <arg type="NSInteger">v</arg>
+          <desc>
+            Sets the number of the week in this year. Identical to
+            calling
+            <code>
+              <ref type="method" id="-setWeek:">
+                -setWeek:
+              </ref>
+            </code>
+            .
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setWeekday:</sel>
+          <arg type="NSInteger">v</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setWeekdayOrdinal:</sel>
+          <arg type="NSInteger">v</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setYear:</sel>
+          <arg type="NSInteger">v</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.7.0">
+          <sel>setYearForWeekOfYear:</sel>
+          <arg type="NSInteger">v</arg>
+          <desc>
+            Sets the year number for the current week. See the
+            explanation at
+            <code>
+              <ref type="method" id="-yearForWeekOfYear">
+                -yearForWeekOfYear
+              </ref>
+            </code>
+            .
+          </desc>
+        </method>
+        <method type="NSTimeZone*" ovadd="10.7.0">
+          <sel>timeZone</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.9.0">
+          <sel>valueForComponent:</sel>
+          <arg type="NSCalendarUnit">unit</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.4.0">
+          <sel>week</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.7.0">
+          <sel>weekOfMonth</sel>
+          <desc>
+            Returns the number of the week in this month.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.7.0">
+          <sel>weekOfYear</sel>
+          <desc>
+            Returns the number of the week in this year.
+            Identical to calling <code>week</code>.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.4.0">
+          <sel>weekday</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.4.0">
+          <sel>weekdayOrdinal</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.4.0">
+          <sel>year</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.7.0">
+          <sel>yearForWeekOfYear</sel>
+          <desc>
+            The year corresponding to the current week. This value
+            may differ from year around the end of the year. For
+            example, for 2012-12-31, the year number is 2012,
+            but yearForWeekOfYear is 2013, since it's already week
+            1 in 2013.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

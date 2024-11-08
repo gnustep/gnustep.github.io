@@ -1,0 +1,244 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSHTTPCookie" stylesheeturl="gnustepStyle" up="Base">
+  <head>
+    <title>NSHTTPCookie class documentation</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 16:52:01 -0500</date>
+    <copy>2006 Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSHTTPCookie class
+      </heading>
+      <class name="NSHTTPCookie" super="NSObject" ovadd="10.2.0" gvadd="1.13.0">
+        <declared>Foundation/NSHTTPCookie.h</declared>
+        <desc>
+          An instance of the NSHTTPCookie class is a single,
+          immutable http cookie. It can be initialised with
+          properties from a dictionary and has accessor
+          methods to obtain the cookie values. <br /> The class
+          supports unversioned cookies (sometimes referred to
+          as version 0) as originally produced by netscape, as well
+          as more recent standardised and versioned cookies.
+        </desc>
+        <method type="id" factory="yes" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>cookieWithProperties:</sel>
+          <arg type="NSDictionary*">properties</arg>
+          <desc>
+            Allocates and returns an autoreleasd instance
+            using
+            <ref type="method" id="-initWithProperties:">
+              -initWithProperties:
+            </ref>
+            to initialise it from <var>properties</var>.
+          </desc>
+        </method>
+        <method type="NSArray*" factory="yes" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>cookiesWithResponseHeaderFields:</sel>
+          <arg type="NSDictionary*">headerFields</arg>
+          <sel>forURL:</sel>
+          <arg type="NSURL*">URL</arg>
+          <desc>
+            Returns an array of cookies parsed from the
+            <var>headerFields</var> and <var>URL</var> (assuming
+            that the <var>headerFields</var> came from a response
+            to a request sent to the <var>URL</var>). <br /> The
+            <var>headerFields</var> dictionary must contain at
+            least all the headers relevant to cookie setting...
+            other headers are ignored.
+          </desc>
+        </method>
+        <method type="NSDictionary*" factory="yes" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>requestHeaderFieldsWithCookies:</sel>
+          <arg type="NSArray*">cookies</arg>
+          <desc>
+            Returns a dictionary of header fields that can be
+            used to add the specified <var>cookies</var> to a
+            request.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>comment</sel>
+          <desc>
+            Returns a string which may be used to describe the
+            cookie to the user, or <code>nil</code> if no
+            comment is set.
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>commentURL</sel>
+          <desc>
+            Returns a URL where the user can find out about the
+            cookie, or <code>nil</code> if no comment URL is
+            set.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>domain</sel>
+          <desc>
+            Returns the domain to which the cookie should be
+            sent. <br /> If there is a leading dot then
+            subdomains should also receive the cookie as
+            specified in RFC 2965.
+          </desc>
+        </method>
+        <method type="NSDate*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>expiresDate</sel>
+          <desc>
+            Returns the expiry date of the receiver or
+            <code>nil</code> if there is no such date.
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>initWithProperties:</sel>
+          <arg type="NSDictionary*">properties</arg>
+          <desc>
+            Initialises the receiver with a dictionary of
+            <var>properties</var>. <br /> Unrecognised keys are
+            ignored. <br /> Returns <code>nil</code> if a
+            required key is missing or if an illegal value is
+            specified for a key.
+            <deflist>
+              <term>NSHTTPCookieComment</term>
+              <desc>
+                The
+                <ref type="class" id="NSString">NSString</ref>
+                  comment for the cookie (if any). <br /> This
+                  is <code>nil</code> by default and for unversioned
+                  cookies.
+                </desc>
+                <term>NSHTTPCookieCommentURL</term>
+                <desc>
+                  The
+                  <ref type="class" id="NSString">NSString</ref>
+                    or
+                    <ref type="class" id="NSURL">NSURL</ref>
+                      URL to get the comment for the cookie. <br />
+                      This is <code>nil</code> by default and for
+                      unversioned cookies.
+                    </desc>
+                    <term>NSHTTPCookieDomain</term>
+                    <desc>
+                      The
+                      <ref type="class" id="NSString">NSString</ref>
+                        specified the domain to which the
+                        cookie applies. <br /> This is extracted
+                        from NSHTTPCookieOriginURL if not
+                        specified.
+                      </desc>
+                      <term>NSHTTPCookieDiscard</term>
+                      <desc>
+                        A
+                        <ref type="class" id="NSString">NSString</ref>
+                          (either TRUE or FALSE) saying whether
+                          the cookie is to be discarded when the
+                          session ends. <br /> Defaults to
+                          FALSE except for versioned cookies
+                          where NSHTTPCookieMaximumAge is
+                          unspecified.
+                        </desc>
+                        <term>NSHTTPCookieExpires</term>
+                        <desc>
+                          The
+                          <ref type="class" id="NSDate">NSDate</ref>
+                            or
+                            <ref type="class" id="NSString">NSString</ref>(format Wdy, DD-Mon-YYYY HH:MM:SS GMT) specifying when an unversioned cookie expires and ignored for versioned cookies.</desc> <term>NSHTTPCookieMaximumAge</term>
+                            <desc>
+                              An
+                              <ref type="class" id="NSString">NSString</ref>containing an integer value specifying the longest time (in seconds) for which the cookie is valid. <br /> This defaults to zero and is only meaningful for versioned cookies.</desc> <term>NSHTTPCookieName</term>
+                              <desc>
+                                An
+                                <ref type="class" id="NSString">NSString</ref>... obvious... no default value.</desc> <term>NSHTTPCookieOriginURL</term>
+                                <desc>
+                                  An
+                                  <ref type="class" id="NSString">NSString</ref>
+                                    or
+                                    <ref type="class" id="NSURL">NSURL</ref>specifying the URL which set the cookie. <br /> Must be supplied if NSHTTPCookieDomain is not.</desc> <term>NSHTTPCookiePath</term>
+                                    <desc>
+                                      An
+                                      <ref type="class" id="NSString">NSString</ref>specifying the path from the cookie. <br /> If unspecified this value is determined from NSHTTPCookieOriginURL or defaults to '/'.</desc> <term>NSHTTPCookiePort</term>
+                                      <desc>
+                                        An
+                                        <ref type="class" id="NSString">NSString</ref>containing a comma separated list of integer port numbers. This is valid for versioned cookies and defaults to an empty string.</desc> <term>NSHTTPCookieSecure</term>
+                                        <desc>
+                                          An
+                                          <ref type="class" id="NSString">NSString</ref>saying whether the cookie may be sent over insecure connections. <br /> The default is FALSE meaning that it may be sent insecurely.</desc> <term>NSHTTPCookieValue</term>
+                                          <desc>
+                                            An
+                                            <ref type="class" id="NSString">NSString</ref>containing the whole value of the cooke. <br /> This parameter <strong>must</strong> be provided.</desc> <term>NSHTTPCookieVersion</term> <desc>An <ref type="class" id="NSString">NSString</ref>specifying the cookie version... for an unversioned cookie (the default) this is '0'. <br /> Also supports version '1'.</desc></deflist>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.6.0" gvadd="1.13.0">
+          <sel>isHTTPOnly</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>isSecure</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>isSessionOnly</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>name</sel>
+          <desc>
+            Returns the name of the receiver.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>path</sel>
+          <desc>
+            Returns the URL path within the cookie's domain for
+            which this cookie must be sent.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>portList</sel>
+          <desc>
+            Returns the list of ports to which the receiver
+            should be sent, or <code>nil</code> if the cookie
+            can be used for any port.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>properties</sel>
+          <desc>
+            Returns a dictionary representation of the receiver
+            which could be used as the argument for
+            <ref type="method" id="-initWithProperties:">
+              -initWithProperties:
+            </ref>
+            to recreate a copy of the receiver.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>value</sel>
+          <desc>
+            Returns the value of the receiver.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>version</sel>
+          <desc>
+            Returns 0 for an unversioned Netscape style cookie
+            or a positive integer for a versioned cookie.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

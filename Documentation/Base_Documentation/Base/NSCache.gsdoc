@@ -1,0 +1,182 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSCache" stylesheeturl="gnustepStyle" up="Base">
+  <head>
+    <title>NSCache class documentation</title>
+    <author name="David Chisnall">
+      <email address="csdavec@swan.ac.uk">
+        csdavec@swan.ac.uk
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 16:52:01 -0500</date>
+    <copy>2009 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSCache class
+      </heading>
+      <class name="NSCache" super="NSObject" ovadd="10.6.0">
+        <declared>Foundation/NSCache.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="NSUInteger" ovadd="10.6.0">
+          <sel>countLimit</sel>
+          <desc>
+            Returns the maximum number of objects that are
+            supported by this cache.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.6.0">
+          <sel>delegate</sel>
+          <desc>
+            Returns the cache's delegate.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.6.0">
+          <sel>evictsObjectsWithDiscardedContent</sel>
+          <desc>
+            Returns whether objects stored in this cache which
+            implement the NSDiscardableContent protocol are
+            removed from the cache when their contents are
+            evicted.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.6.0">
+          <sel>name</sel>
+          <desc>
+            Returns the name associated with this cache.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.6.0">
+          <sel>objectForKey:</sel>
+          <arg type="id">key</arg>
+          <desc>
+            Returns an object associated with the specified
+            <var>key</var> in this cache.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>removeAllObjects</sel>
+          <desc>
+            Removes all objects from this cache.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>removeObjectForKey:</sel>
+          <arg type="id">key</arg>
+          <desc>
+            Removes the object associated with the given
+            <var>key</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>setCountLimit:</sel>
+          <arg type="NSUInteger">lim</arg>
+          <desc>
+            Sets the maximum number of objects permitted in this
+            cache. This limit is advisory; caches may choose to
+            disregard it temporarily or permanently. A limit
+            of 0 is used to indicate no limit; this is the default.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>setDelegate:</sel>
+          <arg type="id">del</arg>
+          <desc>
+            Sets the delegate for this cache. The delegate will be
+            notified when an object is being evicted or
+            removed from the cache.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>setEvictsObjectsWithDiscardedContent:</sel>
+          <arg type="BOOL">b</arg>
+          <desc>
+            Sets whether this cache will evict objects that
+            conform to the NSDiscardableContent protocol, or
+            simply discard their contents.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>setName:</sel>
+          <arg type="NSString*">cacheName</arg>
+          <desc>
+            Sets the name for this cache.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>setObject:</sel>
+          <arg type="id">obj</arg>
+          <sel>forKey:</sel>
+          <arg type="id">key</arg>
+          <desc>
+            Adds an object to the cache without associating a cost
+            with it.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>setObject:</sel>
+          <arg type="id">obj</arg>
+          <sel>forKey:</sel>
+          <arg type="id">key</arg>
+          <sel>cost:</sel>
+          <arg type="NSUInteger">num</arg>
+          <desc>
+            Adds an object and its associated cost. The cache will
+            endeavor to keep the total cost below the value
+            set with
+            <ref type="method" id="-setTotalCostLimit:">
+              -setTotalCostLimit:
+            </ref>
+            by discarding the contents of objects which implement
+            the NSDiscardableContent protocol.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>setTotalCostLimit:</sel>
+          <arg type="NSUInteger">lim</arg>
+          <desc>
+            Sets the maximum total cost for objects stored in this
+            cache. This limit is advisory; caches may choose to
+            disregard it temporarily or permanently. A limit
+            of 0 is used to indicate no limit; this is the default.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.6.0">
+          <sel>totalCostLimit</sel>
+          <desc>
+            Returns the total cost of all objects held in the
+            cache.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSCacheDelegate
+        protocol
+      </heading>
+      <protocol name="NSCacheDelegate" ovadd="10.6.0">
+        <declared>Foundation/NSCache.h</declared>
+        <desc>
+          Protocol implemented by NSCache delegate objects.
+        </desc>
+        <method type="void" ovadd="10.6.0">
+          <sel>cache:</sel>
+          <arg type="NSCache*">cache</arg>
+          <sel>willEvictObject:</sel>
+          <arg type="id">obj</arg>
+          <desc>
+            Delegate method, called just before the
+            <var>cache</var> removes an object, either as the
+            result of user action or due to the <var>cache</var>
+            becoming full.
+          </desc>
+        </method>
+      </protocol>
+    </chapter>
+  </body>
+</gsdoc>
