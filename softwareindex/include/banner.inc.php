@@ -1,3 +1,0 @@
-<?php
-// add banner code
-?>
