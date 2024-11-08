@@ -27,7 +27,7 @@ The Objective-C standard library.
 :::
 
 :::{grid-item-card} {octicon}`project` GUI
-:link: AppKit/index
+:link: GUI/index
 :link-type: doc
 
 A powerful, flexible, cross-platform desktop GUI toolkit.
