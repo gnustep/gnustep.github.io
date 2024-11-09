@@ -42,8 +42,11 @@ Learn more
 hidden: true
 ---
 
-APIRefs/index
 Guides/index
+Manuals/index
+APIRefs/index
+About/index
+Showcase/index
 ```
 
 ::::{grid} 1 2 2 3
