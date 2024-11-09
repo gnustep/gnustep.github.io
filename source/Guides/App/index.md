@@ -11,11 +11,10 @@ This is the traditional way to write GNUstep apps. You should start with [Conver
     * If you're willing to tinker around, you could use a tablet with the Termux or iSH apps, or a jailbroken e-reader, but we don't have any instructions yet.
 
 ```{toctree}
----
-maxdepth: 2
-caption: Contents
-titlesonly: true
----
+:maxdepth: 2
+:caption: Contents
+:titlesonly: true
+
 1_Intro/index.md
 2_Convertor/index.md
 3_TimeMachine/index.md
