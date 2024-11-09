@@ -43,6 +43,7 @@ hidden: true
 ---
 
 APIRefs/index
+Guides/index
 ```
 
 ::::{grid} 1 2 2 3

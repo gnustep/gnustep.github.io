@@ -62,3 +62,5 @@ html_theme = 'furo'
 html_static_path = ['_static']
 
 html_extra_path = ['RawHTML']
+
+myst_footnote_transition = False
