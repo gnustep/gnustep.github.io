@@ -1,0 +1,3849 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>The MIME parsing system</title>
+    <style type="text/css">
+    hr.method-separator { width:25%; margin-left:0; }
+    </style>
+  </head>
+  <body>
+    <a href="BaseAdditions.html">Up</a>
+    <br />
+    <h1><a name="title$GSMime">The MIME parsing system</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Richard Frith-Macdonald (<a href="mailto:rfm@gnu.org"><code>rfm@gnu.org</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Date:</b> Generated at 2024-11-07 16:52:12 -0500</p>
+    <p><b>Copyright:</b> (C) 2000-2016 Free Software Foundation, Inc.</p>
+
+        <div>
+      <hr width="50%" align="left" />
+      <h3>Contents -</h3>
+      <ol>
+        <li>
+          <a href="#001000000000">Mime Parser</a>
+        </li>
+        <li>
+          <a href="#002000000000">Software documentation for the GSMimeCodingContext
+        class</a>
+        </li>
+        <li>
+          <a href="#003000000000">Software documentation for the GSMimeDocument class</a>
+        </li>
+        <li>
+          <a href="#004000000000">Software documentation for the GSMimeHeader class</a>
+        </li>
+        <li>
+          <a href="#005000000000">Software documentation for the GSMimeParser class</a>
+        </li>
+        <li>
+          <a href="#006000000000">Software documentation for the GSMimeSMTPClient class</a>
+        </li>
+        <li>
+          <a href="#007000000000">Software documentation for the GSMimeSerializer class</a>
+        </li>
+        <li>
+          <a href="#008000000000">Software documentation for the
+        NSObject(GSMimeSMTPClient) category</a>
+        </li>
+      </ol>
+      <hr width="50%" align="left" />
+    </div>
+
+          <h1><a name="001000000000">Mime Parser</a></h1>
+    <p>
+
+        The GNUstep Mime parser. This is collection Objective-C
+        classes for representing MIME (and HTTP) documents and
+        managing conversions to and from convenient internal
+        formats.
+          </p>
+    <p>
+
+        The idea is to center round two classes -
+          </p>
+    <dl>
+      <dt>document</dt>
+      <dd>
+        
+          A container for the actual data (and headers) of a
+          mime/http document, this is also used to create raw
+          MIME data for sending.
+        
+      </dd>
+      <dt>parser</dt>
+      <dd>
+        
+          An object that can be fed data and will parse it into a
+          document. This object also provides various utility
+          methods and an API that permits overriding in order
+          to extend the functionality to cope with new document
+          types.
+        
+      </dd>
+    </dl>
+
+          <h1><a name="002000000000">
+        Software documentation for the GSMimeCodingContext
+        class
+      </a></h1>
+    <h2 class="class"><a name="class$GSMimeCodingContext">GSMimeCodingContext</a> : NSObject</h2>
+<svg width="294pt" height="116pt"
+ viewBox="0.00 0.00 294.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>class_GSMimeCodingContext</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 290,-112 290,4 -4,4"/>
+<!-- NSObject -->
+<g id="node1" class="node">
+<title>NSObject</title>
+<polygon fill="lightgrey" stroke="black" points="202,-108 84,-108 84,-72 202,-72 202,-108"/>
+<text text-anchor="middle" x="143" y="-83.8" font-family="Times,serif" font-size="24.00" fill="blue">NSObject</text>
+</g>
+<!-- GSMimeCodingContext -->
+<g id="node2" class="node">
+<title>GSMimeCodingContext</title>
+<polygon fill="lightgrey" stroke="black" points="286,-36 0,-36 0,0 286,0 286,-36"/>
+<text text-anchor="middle" x="143" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">GSMimeCodingContext</text>
+</g>
+<!-- NSObject&#45;&gt;GSMimeCodingContext -->
+<g id="edge1" class="edge">
+<title>NSObject&#45;&gt;GSMimeCodingContext</title>
+<path fill="none" stroke="black" d="M143,-71.7C143,-63.98 143,-54.71 143,-46.11"/>
+<polygon fill="black" stroke="black" points="146.5,-46.1 143,-36.1 139.5,-46.1 146.5,-46.1"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSMime.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          Coding contexts are objects used by the parser to
+          store the state of decoding incoming data while it is
+          being incrementally parsed. <br/> The most rudimentary
+          context... this is used for decoding plain text and
+          binary data (ie data which is not really decoded at
+          all) and all other decoding work is done by a subclass.
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_GSMimeCodingContext_ivars">Instance Variables</a>
+    <br/><br/>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeCodingContext-atEnd">-atEnd</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeCodingContext-decodeData$length$intoData$">-decodeData:length:intoData:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeCodingContext-setAtEnd$">-setAtEnd:</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSMimeCodingContext-atEnd">atEnd&nbsp;</a></h3>
+    - (BOOL) <b>atEnd</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the current value of the &apos;atEnd&apos; flag.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeCodingContext-decodeData$length$intoData$">decodeData:&nbsp;length:&nbsp;intoData:&nbsp;</a></h3>
+    - (BOOL) <b>decodeData:</b> (const void*)sData<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)length<b> intoData:</b> (NSMutableData*)dData;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Decode <var>length</var> bytes of data from
+            <var>sData</var> and append the results to
+            <var>dData</var>. <br/> Return <code>YES</code> on
+            success, <code>NO</code> if there is an error.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeCodingContext-setAtEnd$">setAtEnd:&nbsp;</a></h3>
+    - (void) <b>setAtEnd:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Sets the current value of the &apos;atEnd&apos; <var>flag</var>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<a name="_GSMimeCodingContext_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for GSMimeCodingContext Class</h2>
+    <h3><a name="ivariable$GSMimeCodingContext*atEnd">atEnd</a></h3>
+    @protected BOOL <b>atEnd</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <br/><hr width="50%" align="left" /><br/>
+
+          <h1><a name="003000000000">
+        Software documentation for the GSMimeDocument class
+      </a></h1>
+    <h2 class="class"><a name="class$GSMimeDocument">GSMimeDocument</a> : NSObject</h2>
+<svg width="239pt" height="116pt"
+ viewBox="0.00 0.00 239.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>class_GSMimeDocument</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 235,-112 235,4 -4,4"/>
+<!-- NSObject -->
+<g id="node1" class="node">
+<title>NSObject</title>
+<polygon fill="lightgrey" stroke="black" points="174.5,-108 56.5,-108 56.5,-72 174.5,-72 174.5,-108"/>
+<text text-anchor="middle" x="115.5" y="-83.8" font-family="Times,serif" font-size="24.00" fill="blue">NSObject</text>
+</g>
+<!-- GSMimeDocument -->
+<g id="node2" class="node">
+<title>GSMimeDocument</title>
+<polygon fill="lightgrey" stroke="black" points="231,-36 0,-36 0,0 231,0 231,-36"/>
+<text text-anchor="middle" x="115.5" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">GSMimeDocument</text>
+</g>
+<!-- NSObject&#45;&gt;GSMimeDocument -->
+<g id="edge1" class="edge">
+<title>NSObject&#45;&gt;GSMimeDocument</title>
+<path fill="none" stroke="black" d="M115.5,-71.7C115.5,-63.98 115.5,-54.71 115.5,-46.11"/>
+<polygon fill="black" stroke="black" points="119,-46.1 115.5,-36.1 112,-46.1 119,-46.1"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSMime.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            This class is intended to provide a wrapper for MIME
+            messages permitting easy access to the contents of
+            a message and providing a basis for parsing an unparsing
+            messages that have arrived via email or as a web
+            document.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            The class keeps track of all the document headers, and
+            provides methods for modifying and examining the
+            headers that apply to a document.
+              </p>
+    <p>
+      
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_GSMimeDocument_ivars">Instance Variables</a>
+    <br/><br/>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument+charsetForXml$">+charsetForXml:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument+charsetFromEncoding$">+charsetFromEncoding:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument+decodeBase64$">+decodeBase64:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument+decodeBase64String$">+decodeBase64String:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument+documentWithContent$type$name$">+documentWithContent:type:name:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument+encodeBase64$">+encodeBase64:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument+encodeBase64String$">+encodeBase64String:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument+encodingFromCharset$">+encodingFromCharset:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-addContent$">-addContent:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-addHeader$">-addHeader:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-addHeader$value$parameters$">-addHeader:value:parameters:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-allHeaders">-allHeaders</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-content">-content</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-contentByID$">-contentByID:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-contentByLocation$">-contentByLocation:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-contentByName$">-contentByName:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-contentFile">-contentFile</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-contentID">-contentID</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-contentLocation">-contentLocation</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-contentName">-contentName</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-contentSubtype">-contentSubtype</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-contentType">-contentType</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-contentsByName$">-contentsByName:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-convertTo7BitSafe">-convertTo7BitSafe</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-convertToBase64">-convertToBase64</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-convertToBinary">-convertToBinary</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-convertToData">-convertToData</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-convertToText">-convertToText</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-copyWithZone$">-copyWithZone:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-deleteContent$">-deleteContent:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-deleteHeader$">-deleteHeader:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-deleteHeaderNamed$">-deleteHeaderNamed:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-estimatedSize">-estimatedSize</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-headerNamed$">-headerNamed:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-headersNamed$">-headersNamed:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-makeBoundary">-makeBoundary</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-makeContentID">-makeContentID</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-makeHeader$value$parameters$">-makeHeader:value:parameters:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-makeMessageID">-makeMessageID</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-rawMimeData">-rawMimeData</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-rawMimeData$">-rawMimeData:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-rawMimeData$foldedAt$">-rawMimeData:foldedAt:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-setContent$">-setContent:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-setContent$type$">-setContent:type:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-setContent$type$name$">-setContent:type:name:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-setContentType$">-setContentType:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-setHeader$">-setHeader:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeDocument-setHeader$value$parameters$">-setHeader:value:parameters:</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSMimeDocument+charsetForXml$">charsetForXml:&nbsp;</a></h3>
+    + (NSString*) <b>charsetForXml:</b> (id)xml;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument+charsetFromEncoding$">charsetFromEncoding:&nbsp;</a></h3>
+    + (NSString*) <b>charsetFromEncoding:</b> (NSStringEncoding)enc;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the MIME characterset name corresponding to
+            the specified string encoding. <br/> As a special
+            case, returns &quot;us-ascii&quot; if <var>enc</var> is zero.
+            <br/> Returns <code>nil</code> if <var>enc</var>
+            cannot be mapped to a charset. <br/> NB. The
+            correspondence between charsets and
+            encodings is not a direct one to one mapping, so
+            successive calls to
+            <a rel="gsdoc" href="#method$GSMimeDocument+encodingFromCharset$">
+              +encodingFromCharset:
+            </a>
+
+            and
+            <a rel="gsdoc" href="#method$GSMimeDocument+charsetFromEncoding$">
+              +charsetFromEncoding:
+            </a>
+
+            may not produce the original input.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument+decodeBase64$">decodeBase64:&nbsp;</a></h3>
+    + (NSData*) <b>decodeBase64:</b> (NSData*)source;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Decode the <var>source</var> data from base64
+            encoding and return the result. <br/> The
+            <var>source</var> data is expected to be ASCII text
+            and may be multiple lines or a line of any length
+            (decoding is very tolerant).
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument+decodeBase64String$">decodeBase64String:&nbsp;</a></h3>
+    + (NSString*) <b>decodeBase64String:</b> (NSString*)source;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Converts the base64 encoded data in
+            <var>source</var> to a decoded ASCII or UTF8 string
+            using the
+            <a rel="gsdoc" href="#method$GSMimeDocument+decodeBase64$">
+              +decodeBase64:
+            </a>
+
+            method. If the encoded data does not represent an
+            ASCII or UTF8 string, you should use the
+            <a rel="gsdoc" href="#method$GSMimeDocument+decodeBase64$">
+              +decodeBase64:
+            </a>
+
+            method directly.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument+documentWithContent$type$name$">documentWithContent:&nbsp;type:&nbsp;name:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$GSMimeDocument">GSMimeDocument</a>*) <b>documentWithContent:</b> (id)newContent<b> type:</b> (NSString*)type<b> name:</b> (NSString*)name;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Convenience method to return an autoreleased
+            document using the specified content,
+            <var>type</var>, and <var>name</var> value. This
+            calls the
+            <a rel="gsdoc" href="#method$GSMimeDocument-setContent$type$name$">
+              -setContent:type:name:
+            </a>
+
+            method to set up the document.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument+encodeBase64$">encodeBase64:&nbsp;</a></h3>
+    + (NSData*) <b>encodeBase64:</b> (NSData*)source;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Encode the <var>source</var> data to base64 encoding
+            and return the result. <br/> The resulting data is
+            ASCII text and contains only the base64 encoded
+            values with no line breaks or extraneous data. This
+            is base64 encoded data in it&apos;s general format as
+            mandated in RFC 3548. If the data is to be used as
+            part of a MIME document body, line breaks must be
+            introduced at 76 byte intervals (GSMime does
+            this when automatically encoding data for you). If the
+            data is to be used in a PEM document line breaks must
+            be introduced at 74 byte intervals.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument+encodeBase64String$">encodeBase64String:&nbsp;</a></h3>
+    + (NSString*) <b>encodeBase64String:</b> (NSString*)source;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Converts the ASCII or UTF8 string
+            <var>source</var> into base64 encoded data using the
+            <a rel="gsdoc" href="#method$GSMimeDocument+encodeBase64$">
+              +encodeBase64:
+            </a>
+
+            method. If the original data is not an ASCII or
+            UTF8 string, you should use the
+            <a rel="gsdoc" href="#method$GSMimeDocument+encodeBase64$">
+              +encodeBase64:
+            </a>
+
+            method directly.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument+encodingFromCharset$">encodingFromCharset:&nbsp;</a></h3>
+    + (NSStringEncoding) <b>encodingFromCharset:</b> (NSString*)charset;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the string encoding corresponding to the
+            specified MIME characterset name. <br/> As a
+            special case, returns NSASCIIStringEncoding if
+            <var>charset</var> is <code>nil</code>. <br/>
+            Returns 0 if <var>charset</var> cannot be found.
+            <br/> NB. We treat iso-10646-ucs-2 as utf-16, which
+            should work for most text, but is not strictly
+            correct. <br/> The correspondence between
+            charsets and encodings is not a direct one to one
+            mapping, so successive calls to
+            <a rel="gsdoc" href="#method$GSMimeDocument+encodingFromCharset$">
+              +encodingFromCharset:
+            </a>
+
+            and
+            <a rel="gsdoc" href="#method$GSMimeDocument+charsetFromEncoding$">
+              +charsetFromEncoding:
+            </a>
+
+            may not produce the original input.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-addContent$">addContent:&nbsp;</a></h3>
+    - (void) <b>addContent:</b> (id)newContent;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Adds a part to a multipart document
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-addHeader$">addHeader:&nbsp;</a></h3>
+    - (void) <b>addHeader:</b> (<a rel="gsdoc" href="#class$GSMimeHeader">GSMimeHeader</a>*)info;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              This method may be called to add a header to the
+              document. The header must be a mutable
+              dictionary object that contains at least the
+              fields that are standard for all headers.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Certain well-known headers are restricted to one
+              occurrence in an email, and when extra copies
+              are added they replace originals.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The mime-version header is special... it is inserted
+              before any other mime headers rather than being
+              added at the end.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-addHeader$value$parameters$">addHeader:&nbsp;value:&nbsp;parameters:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSMimeHeader">GSMimeHeader</a>*) <b>addHeader:</b> (NSString*)name<b> value:</b> (NSString*)value<b> parameters:</b> (NSDictionary*)parameters;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Convenience method to create a new header and
+            add it to the receiver. <br/> Returns the newly
+            created header. <br/> See
+            <a rel="gsdoc" href="#method$GSMimeHeader-initWithName$value$parameters$">[GSMimeHeader -initWithName:value:parameters:]</a>
+ and <a rel="gsdoc" href="#method$GSMimeDocument-addHeader$">-addHeader:</a>
+ methods.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-allHeaders">allHeaders&nbsp;</a></h3>
+    - (NSArray*) <b>allHeaders</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              This method returns an array containing GSMimeHeader
+              objects representing the headers associated with
+              the document.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The order of the headers in the array is the order of
+              the headers in the document.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-content">content&nbsp;</a></h3>
+    - (id) <b>content</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            This returns the content data of the document in the
+            same format in which the data was placed in the
+            document. This may be one of -
+            
+      <dl>
+        <dt>text</dt>
+        <dd>
+          an NSString object
+        </dd>
+        <dt>binary</dt>
+        <dd>
+          an NSData object
+        </dd>
+        <dt>multipart</dt>
+        <dd>
+          
+                an NSArray object containing GSMimeDocument objects
+              
+        </dd>
+      </dl>
+      
+            If you want to be sure that you get a particular type of
+            data, use the
+            <a rel="gsdoc" href="#method$GSMimeDocument-convertToData">
+              -convertToData
+            </a>
+
+            or
+            <a rel="gsdoc" href="#method$GSMimeDocument-convertToText">
+              -convertToText
+            </a>
+
+            method.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-contentByID$">contentByID:&nbsp;</a></h3>
+    - (id) <b>contentByID:</b> (NSString*)key;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Search the content of this document to locate a part
+            whose content ID matches the specified <var>key</var>
+            . Recursively descend into other documents. <br/> Wraps
+            the supplied <var>key</var> in angle brackets if they
+            are not present. <br/> Return <code>nil</code> if no
+            match is found, the matching GSMimeDocument
+            otherwise.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-contentByLocation$">contentByLocation:&nbsp;</a></h3>
+    - (id) <b>contentByLocation:</b> (NSString*)key;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Search the content of this document to locate a part
+            whose content ID matches the specified <var>key</var>
+            . Recursively descend into other documents. <br/> Wraps
+            the supplied <var>key</var> in angle brackets if they
+            are not present. <br/> Return <code>nil</code> if no
+            match is found, the matching GSMimeDocument
+            otherwise.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-contentByName$">contentByName:&nbsp;</a></h3>
+    - (id) <b>contentByName:</b> (NSString*)key;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Search the content of this document to locate a part
+            whose content-type name or content-disposition name
+            matches the specified <var>key</var>. Recursively
+            descend into other documents. <br/> Return
+            <code>nil</code> if no match is found, the matching
+            GSMimeDocument otherwise.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-contentFile">contentFile&nbsp;</a></h3>
+    - (NSString*) <b>contentFile</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Convenience method to fetch the content file
+            name from the content-type or content-disposition
+            header.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-contentID">contentID&nbsp;</a></h3>
+    - (NSString*) <b>contentID</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Convenience method to fetch the content ID from
+            the header.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-contentLocation">contentLocation&nbsp;</a></h3>
+    - (NSString*) <b>contentLocation</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Convenience method to fetch the content
+            location from the header.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-contentName">contentName&nbsp;</a></h3>
+    - (NSString*) <b>contentName</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Convenience method to fetch the content name
+            from the header.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-contentSubtype">contentSubtype&nbsp;</a></h3>
+    - (NSString*) <b>contentSubtype</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Convenience method to fetch the content
+            sub-type from the header.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-contentType">contentType&nbsp;</a></h3>
+    - (NSString*) <b>contentType</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Convenience method to fetch the content type
+            from the header.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-contentsByName$">contentsByName:&nbsp;</a></h3>
+    - (NSArray*) <b>contentsByName:</b> (NSString*)key;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Search the content of this document to locate all
+            parts whose content-type name or content-disposition
+            name matches the specified <var>key</var>. Do
+            <em>NOT</em> recurse into other documents. <br/>
+            Return <code>nil</code> if no match is found, an
+            array of matching GSMimeDocument instances otherwise.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-convertTo7BitSafe">convertTo7BitSafe&nbsp;</a></h3>
+    - (void) <b>convertTo7BitSafe</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Converts any binary parts of the receiver&apos;s
+            content to be base64 (or quoted-printable for text
+            parts) encoded rather than 8bit or binary encoded...
+            a convenience method to make the results of the
+            <a rel="gsdoc" href="#method$GSMimeDocument-rawMimeData">
+              -rawMimeData
+            </a>
+
+            method safe for sending via routes which only
+            support 7bit data.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-convertToBase64">convertToBase64&nbsp;</a></h3>
+    - (void) <b>convertToBase64</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-convertToBinary">convertToBinary&nbsp;</a></h3>
+    - (void) <b>convertToBinary</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Converts any base64 (or quoted-printable) encoded
+            parts of the receiver&apos;s content to be binary encoded
+            instead... a convenience method to shrink down the
+            size of the message when converted to data using the
+            <a rel="gsdoc" href="#method$GSMimeDocument-rawMimeData">
+              -rawMimeData
+            </a>
+
+            method.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-convertToData">convertToData&nbsp;</a></h3>
+    - (NSData*) <b>convertToData</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the content as an NSData object (unless it is
+            multipart) <br/> Perform conversion from text
+            to data using the charset specified in the content-type
+            header, or infer the charset, and update the header
+            accordingly. <br/> If the content can not be
+            represented as a plain NSData object, this
+            method returns <code>nil</code>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-convertToText">convertToText&nbsp;</a></h3>
+    - (NSString*) <b>convertToText</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the content as an NSString object (unless it
+            is multipart) If the content cannot be represented as
+            text, this returns <code>nil</code>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-copyWithZone$">copyWithZone:&nbsp;</a></h3>
+    - (id) <b>copyWithZone:</b> (NSZone*)z;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns a copy of the receiver.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-deleteContent$">deleteContent:&nbsp;</a></h3>
+    - (void) <b>deleteContent:</b> (<a rel="gsdoc" href="#class$GSMimeDocument">GSMimeDocument</a>*)aPart;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Deletes all ocurrances of parts identical to
+            <var>aPart</var> from the receiver. <br/>
+            Recursively deletes from enclosed documents as
+            necessary.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-deleteHeader$">deleteHeader:&nbsp;</a></h3>
+    - (void) <b>deleteHeader:</b> (<a rel="gsdoc" href="#class$GSMimeHeader">GSMimeHeader</a>*)aHeader;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            This method removes all occurrences of header objects
+            identical to the one supplied as an argument.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-deleteHeaderNamed$">deleteHeaderNamed:&nbsp;</a></h3>
+    - (void) <b>deleteHeaderNamed:</b> (NSString*)name;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            This method removes all occurrences of headers whose
+            <var>name</var> matches the supplied string.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-estimatedSize">estimatedSize&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>estimatedSize</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            How big this document might be when represented as raw
+            MIME data.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-headerNamed$">headerNamed:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSMimeHeader">GSMimeHeader</a>*) <b>headerNamed:</b> (NSString*)name;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            This method returns the first header whose
+            <var>name</var> equals the supplied argument.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-headersNamed$">headersNamed:&nbsp;</a></h3>
+    - (NSArray*) <b>headersNamed:</b> (NSString*)name;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            This method returns an array of GSMimeHeader objects
+            for all headers whose names equal the supplied
+            argument.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-makeBoundary">makeBoundary&nbsp;</a></h3>
+    - (NSString*) <b>makeBoundary</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Make a probably unique string suitable for use as
+              the boundary parameter in the content of a multipart
+              document.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              This implementation provides base64 encoded data
+              consisting of an MD5 digest of some pseudo
+              random stuff, plus an incrementing counter. The
+              inclusion of the counter guarantees that we
+              won&apos;t produce two identical strings in the same run
+              of the program.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The boundary has a suffix of &apos;=_&apos; to ensure it&apos;s not
+              mistaken for quoted-printable data.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-makeContentID">makeContentID&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSMimeHeader">GSMimeHeader</a>*) <b>makeContentID</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Create new content ID header, set it as the content
+            ID of the document and return it. <br/> This is a
+            convenience method which simply places angle
+            brackets around an
+            [NSProcessInfo -globallyUniqueString]
+ to form the header value.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-makeHeader$value$parameters$">makeHeader:&nbsp;value:&nbsp;parameters:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSMimeHeader">GSMimeHeader</a>*) <b>makeHeader:</b> (NSString*)name<b> value:</b> (NSString*)value<b> parameters:</b> (NSDictionary*)parameters;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Deprecated... use
+            <a rel="gsdoc" href="#method$GSMimeDocument-setHeader$value$parameters$">
+              -setHeader:value:parameters:
+            </a>
+
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-makeMessageID">makeMessageID&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSMimeHeader">GSMimeHeader</a>*) <b>makeMessageID</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Create new message ID header, set it as the message
+            ID of the document and return it. <br/> This is a
+            convenience method which simply places angle
+            brackets around an
+            [NSProcessInfo -globallyUniqueString]
+ to form the header value.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-rawMimeData">rawMimeData&nbsp;</a></h3>
+    - (NSMutableData*) <b>rawMimeData</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return an NSData object representing the MIME
+            document as raw data ready to be sent via an email
+            system. <br/> Calls
+            <a rel="gsdoc" href="#method$GSMimeDocument-rawMimeData$">
+              -rawMimeData:
+            </a>
+
+            with the isOuter flag set to <code>YES</code>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-rawMimeData$">rawMimeData:&nbsp;</a></h3>
+    - (NSMutableData*) <b>rawMimeData:</b> (BOOL)isOuter;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Return an NSData object representing the MIME
+              document as raw data ready to be sent via an
+              email system.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The <var>isOuter</var> flag denotes whether this
+              document is the outermost part of a MIME
+              message, or is a part of a multipart message.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Long lines are folded at the default column.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-rawMimeData$foldedAt$">rawMimeData:&nbsp;foldedAt:&nbsp;</a></h3>
+    - (NSMutableData*) <b>rawMimeData:</b> (BOOL)isOuter<b> foldedAt:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)fold;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Return an NSData object representing the MIME
+              document as raw data ready to be sent via an
+              email system.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The <var>isOuter</var> flag denotes whether this
+              document is the outermost part of a MIME
+              message, or is a part of a multipart message.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The <var>fold</var> number specifes the column at
+              which lines are considered to be &apos;long&apos;, and get
+              broken/folded.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              During generation of the document this method will
+              perform some consistency checks and try to
+              automatically generate missing header
+              information needed to build the mime data
+              (eg. filling in the boundary parameter in the
+              content-type header for multipart
+              documents). <br/> However, you should not
+              depend on automatic behaviors but should fill in
+              as much detail as possible before generating data.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-setContent$">setContent:&nbsp;</a></h3>
+    - (void) <b>setContent:</b> (id)newContent;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Sets a new value for the content of the document.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-setContent$type$">setContent:&nbsp;type:&nbsp;</a></h3>
+    - (void) <b>setContent:</b> (id)newContent<b> type:</b> (NSString*)type;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Convenience method calling
+            <a rel="gsdoc" href="#method$GSMimeDocument-setContent$type$name$">
+              -setContent:type:name:
+            </a>
+
+            to set document content and <var>type</var> with a
+            <code>nil</code> value for name... useful for
+            top-level documents rather than parts within a
+            document (parts should really be named).
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-setContent$type$name$">setContent:&nbsp;type:&nbsp;name:&nbsp;</a></h3>
+    - (void) <b>setContent:</b> (id)newContent<b> type:</b> (NSString*)type<b> name:</b> (NSString*)name;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Convenience method to set the content of the
+              document along with creating a content-type
+              header for it.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The <var>type</var> parameter may be a simple common
+              content <var>type</var> (text, multipart, or
+              application), in which case the default
+              subtype for that <var>type</var> is used.
+              Alternatively it may be full detail of a
+              content <var>type</var> header value, which will
+              be parsed into &apos;type&apos;, &apos;subtype&apos; and &apos;parameters&apos;.
+              <br/> NB. In this case, if the parsed data
+              contains a &apos;name&apos; parameter and the
+              <var>name</var> argument is non-nil, the argument
+              value will override the parsed value.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              You can get the same effect by calling
+              <a rel="gsdoc" href="#method$GSMimeDocument-setContent$">
+                -setContent:
+              </a>
+
+              to set the document content, then creating a
+              <a rel="gsdoc" href="#class$GSMimeHeader">GSMimeHeader</a>
+
+                instance, initialising it with the content
+                <var>type</var> information you want using
+                <a rel="gsdoc" href="#method$GSMimeHeader-initWithName$value$parameters$">[GSMimeHeader -initWithName:value:parameters:]</a>
+, and calling the <a rel="gsdoc" href="#method$GSMimeDocument-setHeader$">-setHeader:</a>
+ method to attach it to the document.
+                  </p>
+    <p>
+      
+              
+    </p>
+    <p>
+
+                Using this method imposes a few extra checks and
+                restrictions on the combination of content
+                and type/subtype you may use... so you may want to
+                use the more primitive methods in order to bypass
+                these checks if you are using unusual
+                type/subtype information or if you need to
+                provide additional parameters in the header.
+                  </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-setContentType$">setContentType:&nbsp;</a></h3>
+    - (void) <b>setContentType:</b> (NSString*)newType;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Convenience method to set the content type of
+              the document without altering any content. The
+              supplied <var>newType</var> may be full type
+              information including subtype and parameters
+              as found after the colon in a mime Content-Type
+              header.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-setHeader$">setHeader:&nbsp;</a></h3>
+    - (void) <b>setHeader:</b> (<a rel="gsdoc" href="#class$GSMimeHeader">GSMimeHeader</a>*)info;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            This method may be called to set a header in the
+            document. Any other headers with the same name
+            will be removed from the document.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeDocument-setHeader$value$parameters$">setHeader:&nbsp;value:&nbsp;parameters:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSMimeHeader">GSMimeHeader</a>*) <b>setHeader:</b> (NSString*)name<b> value:</b> (NSString*)value<b> parameters:</b> (NSDictionary*)parameters;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Convenience method to create a new header and
+            add it to the receiver replacing any existing header of
+            the same <var>name</var>. <br/> Returns the newly
+            created header. <br/> See
+            <a rel="gsdoc" href="#method$GSMimeHeader-initWithName$value$parameters$">[GSMimeHeader -initWithName:value:parameters:]</a>
+ and <a rel="gsdoc" href="#method$GSMimeDocument-setHeader$">-setHeader:</a>
+ methods.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<a name="_GSMimeDocument_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for GSMimeDocument Class</h2>
+    <h3><a name="ivariable$GSMimeDocument*_unused">_unused</a></h3>
+    @protected void* <b>_unused</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeDocument*content">content</a></h3>
+    @protected id <b>content</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeDocument*headers">headers</a></h3>
+    @protected NSMutableArray* <b>headers</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <br/><hr width="50%" align="left" /><br/>
+
+          <h1><a name="004000000000">
+        Software documentation for the GSMimeHeader class
+      </a></h1>
+    <h2 class="class"><a name="class$GSMimeHeader">GSMimeHeader</a> : NSObject</h2>
+<svg width="204pt" height="116pt"
+ viewBox="0.00 0.00 204.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>class_GSMimeHeader</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 200,-112 200,4 -4,4"/>
+<!-- NSObject -->
+<g id="node1" class="node">
+<title>NSObject</title>
+<polygon fill="lightgrey" stroke="black" points="157,-108 39,-108 39,-72 157,-72 157,-108"/>
+<text text-anchor="middle" x="98" y="-83.8" font-family="Times,serif" font-size="24.00" fill="blue">NSObject</text>
+</g>
+<!-- GSMimeHeader -->
+<g id="node2" class="node">
+<title>GSMimeHeader</title>
+<polygon fill="lightgrey" stroke="black" points="196,-36 0,-36 0,0 196,0 196,-36"/>
+<text text-anchor="middle" x="98" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">GSMimeHeader</text>
+</g>
+<!-- NSObject&#45;&gt;GSMimeHeader -->
+<g id="edge1" class="edge">
+<title>NSObject&#45;&gt;GSMimeHeader</title>
+<path fill="none" stroke="black" d="M98,-71.7C98,-63.98 98,-54.71 98,-46.11"/>
+<polygon fill="black" stroke="black" points="101.5,-46.1 98,-36.1 94.5,-46.1 101.5,-46.1"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSMime.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_GSMimeHeader_ivars">Instance Variables</a>
+    <br/><br/>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader+headerWithName$value$parameters$">+headerWithName:value:parameters:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader+makeQuoted$always$">+makeQuoted:always:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader+makeToken$">+makeToken:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader+makeToken$preservingCase$">+makeToken:preservingCase:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-copyWithZone$">-copyWithZone:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-estimatedSize">-estimatedSize</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-fullValue">-fullValue</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-initWithName$value$">-initWithName:value:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-initWithName$value$parameters$">-initWithName:value:parameters:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-name">-name</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-namePreservingCase$">-namePreservingCase:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-objectForKey$">-objectForKey:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-objects">-objects</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-parameterForKey$">-parameterForKey:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-parameters">-parameters</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-parametersPreservingCase$">-parametersPreservingCase:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-rawMimeData">-rawMimeData</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-rawMimeDataPreservingCase$">-rawMimeDataPreservingCase:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-rawMimeDataPreservingCase$foldedAt$">-rawMimeDataPreservingCase:foldedAt:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-rawMimeDataPreservingCase$foldedAt$to$">-rawMimeDataPreservingCase:foldedAt:to:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-setObject$forKey$">-setObject:forKey:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-setParameter$forKey$">-setParameter:forKey:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-setParameters$">-setParameters:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-setValue$">-setValue:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-text">-text</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeHeader-value">-value</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSMimeHeader+headerWithName$value$parameters$">headerWithName:&nbsp;value:&nbsp;parameters:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$GSMimeHeader">GSMimeHeader</a>*) <b>headerWithName:</b> (NSString*)n<b> value:</b> (NSString*)v<b> parameters:</b> (NSDictionary*)p;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader+makeQuoted$always$">makeQuoted:&nbsp;always:&nbsp;</a></h3>
+    + (NSString*) <b>makeQuoted:</b> (NSString*)v<b> always:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Makes the value into a quoted string if necessary (ie
+            if it contains any special / non-token characters). If
+            <var>flag</var> is <code>YES</code> then the value is
+            made into a quoted string even if it does not contain
+            special characters.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader+makeToken$">makeToken:&nbsp;</a></h3>
+    + (NSString*) <b>makeToken:</b> (NSString*)t;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Convert the supplied string to a standardized token
+            by making it lowercase and removing all illegal
+            characters.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader+makeToken$preservingCase$">makeToken:&nbsp;preservingCase:&nbsp;</a></h3>
+    + (NSString*) <b>makeToken:</b> (NSString*)t<b> preservingCase:</b> (BOOL)preserve;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Convert the supplied string to a standardized token
+            by removing all illegal characters. If
+            <var>preserve</var> is <code>NO</code> then the
+            result is converted to lowercase. <br/> Returns an
+            autoreleased (and possibly modified) copy of
+            the original.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-copyWithZone$">copyWithZone:&nbsp;</a></h3>
+    - (id) <b>copyWithZone:</b> (NSZone*)z;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-estimatedSize">estimatedSize&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>estimatedSize</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            How big this header might be when represented as raw
+            MIME data.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-fullValue">fullValue&nbsp;</a></h3>
+    - (NSString*) <b>fullValue</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the full value of the header including any
+            parameters and preserving case. This is an
+            unfolded (<strong>long</strong>) line with no
+            escape sequences (ie contains a unicode string not
+            necessarily plain ASCII). <br/> If you just
+            want the plain value excluding any parameters, use the
+            <a rel="gsdoc" href="#method$GSMimeHeader-value">
+              -value
+            </a>
+
+            method instead.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-initWithName$value$">initWithName:&nbsp;value:&nbsp;</a></h3>
+    - (id) <b>initWithName:</b> (NSString*)n<b> value:</b> (NSString*)v;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Convenience method calling
+            <a rel="gsdoc" href="#method$GSMimeHeader-initWithName$value$parameters$">
+              -initWithName:value:parameters:
+            </a>
+
+            with the supplied argument and <code>nil</code>
+            parameters.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-initWithName$value$parameters$">initWithName:&nbsp;value:&nbsp;parameters:&nbsp;</a></h3>
+    - (id) <b>initWithName:</b> (NSString*)n<b> value:</b> (NSString*)v<b> parameters:</b> (NSDictionary*)p;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+This is a designated initialiser for the class.<br />
+    <div class="desc">
+      
+            Initialise a GSMimeHeader supplying a name, a
+            value and a dictionary of any parameters occurring
+            after the value.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-name">name&nbsp;</a></h3>
+    - (NSString*) <b>name</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the name of this header... a lowercase
+            string.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-namePreservingCase$">namePreservingCase:&nbsp;</a></h3>
+    - (NSString*) <b>namePreservingCase:</b> (BOOL)preserve;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the name of this header as originally set
+            (without conversion to lowercase) if
+            <var>preserve</var> is <code>YES</code>, but as a
+            lowercase string if <var>preserve</var> is
+            <code>NO</code>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-objectForKey$">objectForKey:&nbsp;</a></h3>
+    - (id) <b>objectForKey:</b> (NSString*)k;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return extra information specific to a particular
+            header type.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-objects">objects&nbsp;</a></h3>
+    - (NSDictionary*) <b>objects</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns a dictionary of all the additional objects
+            for the header.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-parameterForKey$">parameterForKey:&nbsp;</a></h3>
+    - (NSString*) <b>parameterForKey:</b> (NSString*)k;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the named parameter value.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-parameters">parameters&nbsp;</a></h3>
+    - (NSDictionary*) <b>parameters</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the parameters of this header... a
+            dictionary whose keys are all lowercase strings,
+            and whose values are strings which may contain mixed
+            case.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-parametersPreservingCase$">parametersPreservingCase:&nbsp;</a></h3>
+    - (NSDictionary*) <b>parametersPreservingCase:</b> (BOOL)preserve;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the parameters of this header... a
+            dictionary whose keys are strings preserving the
+            case originally used to set the values or all
+            lowercase depending on the <var>preserve</var>
+            argument.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-rawMimeData">rawMimeData&nbsp;</a></h3>
+    - (NSMutableData*) <b>rawMimeData</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the full text of the header, built from its
+            component parts, and including a terminating
+            CR-LF
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-rawMimeDataPreservingCase$">rawMimeDataPreservingCase:&nbsp;</a></h3>
+    - (NSMutableData*) <b>rawMimeDataPreservingCase:</b> (BOOL)preserve;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-rawMimeDataPreservingCase$foldedAt$">rawMimeDataPreservingCase:&nbsp;foldedAt:&nbsp;</a></h3>
+    - (NSMutableData*) <b>rawMimeDataPreservingCase:</b> (BOOL)preserve<b> foldedAt:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)fold;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the full text of the header, built from its
+            component parts, and including a terminating
+            CR-LF. <br/> If <var>preserve</var> is
+            <code>YES</code> then we attempt to build the text
+            using the same case as it was originally parsed/set
+            from, otherwise we use common conventions of
+            capitalising the header names and using
+            lowercase parameter names. <br/> If
+            <var>fold</var> is greater than zero, lines with more
+            than the specified number of characters are considered
+            &apos;long&apos; and are folded into multiple lines.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-rawMimeDataPreservingCase$foldedAt$to$">rawMimeDataPreservingCase:&nbsp;foldedAt:&nbsp;to:&nbsp;</a></h3>
+    - (void) <b>rawMimeDataPreservingCase:</b> (BOOL)preserve<b> foldedAt:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)fold<b> to:</b> (NSMutableData*)md;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-setObject$forKey$">setObject:&nbsp;forKey:&nbsp;</a></h3>
+    - (void) <b>setObject:</b> (id)o<b> forKey:</b> (NSString*)k;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Method to store specific information for particular
+            types of header. This is used for non-standard parts
+            of headers. <br/> Setting a <code>nil</code> value for
+            <var>o</var> will remove any existing value set using
+            the <var>k</var> as its key.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-setParameter$forKey$">setParameter:&nbsp;forKey:&nbsp;</a></h3>
+    - (void) <b>setParameter:</b> (NSString*)v<b> forKey:</b> (NSString*)k;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Sets a parameter of this header... converts name to
+            lowercase and removes illegal characters. <br/>
+            If a <code>nil</code> parameter name is supplied,
+            removes any parameter with the specified key.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-setParameters$">setParameters:&nbsp;</a></h3>
+    - (void) <b>setParameters:</b> (NSDictionary*)d;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Sets all parameters of this header... converts names
+            to lowercase and removes illegal characters from them.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-setValue$">setValue:&nbsp;</a></h3>
+    - (void) <b>setValue:</b> (NSString*)s;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Sets the value of this header (without changing
+            parameters). <br/> If given a
+            <code>nil</code> argument, set an empty string
+            value.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-text">text&nbsp;</a></h3>
+    - (NSString*) <b>text</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the full text of the header, built from its
+            component parts, and including a terminating
+            CR-LF
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeHeader-value">value&nbsp;</a></h3>
+    - (NSString*) <b>value</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the value of this header (excluding any
+            parameters). <br/> Use the
+            <a rel="gsdoc" href="#method$GSMimeHeader-fullValue">
+              -fullValue
+            </a>
+
+            method if you want parameter included.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<a name="_GSMimeHeader_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for GSMimeHeader Class</h2>
+    <h3><a name="ivariable$GSMimeHeader*lower">lower</a></h3>
+    @protected NSString* <b>lower</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeHeader*name">name</a></h3>
+    @protected NSString* <b>name</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeHeader*objects">objects</a></h3>
+    @protected NSMutableDictionary* <b>objects</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeHeader*params">params</a></h3>
+    @protected NSMutableDictionary* <b>params</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeHeader*value">value</a></h3>
+    @protected NSString* <b>value</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <br/><hr width="50%" align="left" /><br/>
+
+          <h1><a name="005000000000">
+        Software documentation for the GSMimeParser class
+      </a></h1>
+    <h2 class="class"><a name="class$GSMimeParser">GSMimeParser</a> : NSObject</h2>
+<svg width="192pt" height="116pt"
+ viewBox="0.00 0.00 192.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>class_GSMimeParser</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 188,-112 188,4 -4,4"/>
+<!-- NSObject -->
+<g id="node1" class="node">
+<title>NSObject</title>
+<polygon fill="lightgrey" stroke="black" points="151,-108 33,-108 33,-72 151,-72 151,-108"/>
+<text text-anchor="middle" x="92" y="-83.8" font-family="Times,serif" font-size="24.00" fill="blue">NSObject</text>
+</g>
+<!-- GSMimeParser -->
+<g id="node2" class="node">
+<title>GSMimeParser</title>
+<polygon fill="lightgrey" stroke="black" points="184,-36 0,-36 0,0 184,0 184,-36"/>
+<text text-anchor="middle" x="92" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">GSMimeParser</text>
+</g>
+<!-- NSObject&#45;&gt;GSMimeParser -->
+<g id="edge1" class="edge">
+<title>NSObject&#45;&gt;GSMimeParser</title>
+<path fill="none" stroke="black" d="M92,-71.7C92,-63.98 92,-54.71 92,-46.11"/>
+<polygon fill="black" stroke="black" points="95.5,-46.1 92,-36.1 88.5,-46.1 95.5,-46.1"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSMime.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            This class provides support for parsing MIME messages
+            into GSMimeDocument objects. Each parser object
+            maintains an associated document into which data
+            is stored.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            You supply the document to be parsed as one or more
+            data items passed to the
+            <a rel="gsdoc" href="#method$GSMimeParser-parse$">
+              -parse:
+            </a>
+
+            method, and (if the method always returns
+            <code>YES</code>, you give it a final
+            <code>nil</code> argument to mark the end of the
+            document.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            On completion of parsing a valid document, the
+            <a rel="gsdoc" href="#method$GSMimeParser-mimeDocument">[GSMimeParser -mimeDocument]</a>
+ method returns the resulting parsed document.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            If you need to parse faulty documents (eg where a faulty
+            mail client has produced an email which does not
+            conform to the MIME standards), you should look at
+            the
+            <a rel="gsdoc" href="#method$GSMimeParser-setBuggyQuotes$">
+              -setBuggyQuotes:
+            </a>
+
+            and
+            <a rel="gsdoc" href="#method$GSMimeParser-setDefaultCharset$">
+              -setDefaultCharset:
+            </a>
+
+            methods, which are designed to cope with the most
+            common faults.
+              </p>
+    <p>
+      
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_GSMimeParser_ivars">Instance Variables</a>
+    <br/><br/>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser+documentFromData$">+documentFromData:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser+mimeParser">+mimeParser</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-contextFor$">-contextFor:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-data">-data</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-decodeData$fromRange$intoData$withContext$">-decodeData:fromRange:intoData:withContext:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-excess">-excess</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-expectNoHeaders">-expectNoHeaders</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-isComplete">-isComplete</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-isHttp">-isHttp</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-isInBody">-isInBody</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-isInHeaders">-isInHeaders</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-mimeDocument">-mimeDocument</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-parse$">-parse:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-parseHeader$">-parseHeader:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-parseHeaders$remaining$">-parseHeaders:remaining:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-scanHeaderBody$into$">-scanHeaderBody:into:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-scanName$">-scanName:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-scanPastSpace$">-scanPastSpace:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-scanSpecial$">-scanSpecial:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-scanToken$">-scanToken:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-setBuggyQuotes$">-setBuggyQuotes:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-setDefaultCharset$">-setDefaultCharset:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-setHeadersOnly">-setHeadersOnly</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeParser-setIsHttp">-setIsHttp</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSMimeParser+documentFromData$">documentFromData:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$GSMimeDocument">GSMimeDocument</a>*) <b>documentFromData:</b> (NSData*)mimeData;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Convenience method to parse a single data item
+            as a MIME message and return the resulting document.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser+mimeParser">mimeParser&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$GSMimeParser">GSMimeParser</a>*) <b>mimeParser</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Create and return a parser.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-contextFor$">contextFor:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSMimeCodingContext">GSMimeCodingContext</a>*) <b>contextFor:</b> (<a rel="gsdoc" href="#class$GSMimeHeader">GSMimeHeader</a>*)info;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return a coding context object to be used for
+            decoding data according to the scheme specified in
+            the header.
+            
+    </p>
+    <p>
+
+              The default implementation supports the following
+              transfer encodings specified in either a
+              <code>transfer-encoding</code> of
+              <code>content-transfer-encoding</code> header -
+                </p>
+    <p>
+      
+            
+      <ul>
+        <li>
+          base64
+        </li>
+        <li>
+          quoted-printable
+        </li>
+        <li>
+          binary (no coding actually performed)
+        </li>
+        <li>
+          7bit (no coding actually performed)
+        </li>
+        <li>
+          8bit (no coding actually performed)
+        </li>
+        <li>
+          chunked (for HTTP/1.1)
+        </li>
+        <li>
+          x-uuencode
+        </li>
+      </ul>
+      
+            To add new coding schemes to the parser, you need to
+            override this method to return a new coding
+            context for your scheme when the <var>info</var>
+            argument indicates that this is appropriate.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-data">data&nbsp;</a></h3>
+    - (NSMutableData*) <b>data</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the data accumulated in the parser. If the
+            parser is still parsing headers, this will be the
+            header data read so far. If the parse has parsed the
+            body of the message, this will be the data of the
+            body, with any transfer encoding removed.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-decodeData$fromRange$intoData$withContext$">decodeData:&nbsp;fromRange:&nbsp;intoData:&nbsp;withContext:&nbsp;</a></h3>
+    - (BOOL) <b>decodeData:</b> (NSData*)sData<b> fromRange:</b> (NSRange)aRange<b> intoData:</b> (NSMutableData*)dData<b> withContext:</b> (<a rel="gsdoc" href="#class$GSMimeCodingContext">GSMimeCodingContext</a>*)con;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Decodes the raw data from the specified range in
+              the source data object and appends it to the
+              destination data object. The context object
+              provides information about the content encoding
+              type in use, and the state of the decoding
+              operation.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              This method may be called repeatedly to
+              incrementally decode information as it
+              arrives on some communications channel. It should
+              be called with a <code>nil</code> source data item (or
+              with the atEnd flag of the context set to
+              <code>YES</code>) in order to flush any
+              information held in the context to the output
+              data object.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              You may override this method in order to implement
+              additional coding schemes, but usually it
+              should be enough for you to implement a custom
+              GSMimeCodingContext subclass fotr
+              this method to use.
+                </p>
+    <p>
+      
+            Correct the size of the output buffer (shrink back
+            from the original allocation to the actual unchunked
+            size).
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-excess">excess&nbsp;</a></h3>
+    - (NSData*) <b>excess</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            If there was more data passed to the parser than
+            actually needed to form the document, this method
+            returns that excess data, othrwise it returns
+            <code>nil</code>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-expectNoHeaders">expectNoHeaders&nbsp;</a></h3>
+    - (void) <b>expectNoHeaders</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            This method may be called to tell the parser that it
+            should not expect to parse any headers, and that the
+            data it will receive is body data. <br/> If the parse
+            is already in the body, or is complete, this method has
+            no effect. <br/> This is for use when some other
+            utility has been used to parse headers, and you
+            have set the headers of the document owned by the
+            parser accordingly. You can then use the
+            GSMimeParser to read the body data into the
+            document.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-isComplete">isComplete&nbsp;</a></h3>
+    - (BOOL) <b>isComplete</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns <code>YES</code> if the document parsing is
+            known to be completed successfully. Returns
+            <code>NO</code> if either more data is needed, or if
+            the parser encountered an error.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-isHttp">isHttp&nbsp;</a></h3>
+    - (BOOL) <b>isHttp</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns <code>YES</code> if the parser is parsing
+            an HTTP document rather than a true MIME document.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-isInBody">isInBody&nbsp;</a></h3>
+    - (BOOL) <b>isInBody</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns <code>YES</code> if all the document
+            headers have been parsed but the document body
+            parsing may not yet be complete.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-isInHeaders">isInHeaders&nbsp;</a></h3>
+    - (BOOL) <b>isInHeaders</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns <code>YES</code> if parsing of the document
+            headers has not yet been completed.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-mimeDocument">mimeDocument&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$GSMimeDocument">GSMimeDocument</a>*) <b>mimeDocument</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the GSMimeDocument instance into which data
+            is being parsed or has been parsed.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-parse$">parse:&nbsp;</a></h3>
+    - (BOOL) <b>parse:</b> (NSData*)d;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              This method is called repeatedly to pass raw mime
+              data into the parser. It returns <code>YES</code> as
+              <strong>long</strong> as it wants more data to
+              complete parsing of a document, and
+              <code>NO</code> if parsing is complete, either due
+              to having reached the end of a document or due to an
+              error.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Since it is not always possible to determine if the
+              end of a MIME document has been reached from its
+              content, the method may need to be called with a
+              <code>nil</code> or empty argument after you have
+              passed all the data to it... this tells it that
+              the data is complete.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The parser attempts to be as flexible as possible and
+              to continue parsing wherever it can. If an error
+              occurs in parsing, the
+              <a rel="gsdoc" href="#method$GSMimeParser-isComplete">
+                -isComplete
+              </a>
+
+              method will always return <code>NO</code>, even
+              after the
+              <a rel="gsdoc" href="#method$GSMimeParser-parse$">
+                -parse:
+              </a>
+
+              method has been called with a <code>nil</code>
+              argument.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              A multipart document will be parsed to content
+              consisting of an NSArray of GSMimeDocument
+              instances representing each part. <br/>
+              Otherwise, a document will become content of
+              type NSData, unless it is of content type
+              <em>text</em>, in which case it will be an NSString.
+              <br/> If a document has no content type
+              specified, it will be treated as <em>text</em>
+              , unless it is identifiable as a <em>file</em> (eg. t
+              has a content-disposition header containing a
+              filename parameter).
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-parseHeader$">parseHeader:&nbsp;</a></h3>
+    - (BOOL) <b>parseHeader:</b> (NSString*)aHeader;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              This method is called to parse a header line
+              <em>for the current document</em>, split its
+              contents into a GSMimeHeader object, and add
+              that information to the document. <br/> The method
+              is normally used internally by the
+              <a rel="gsdoc" href="#method$GSMimeParser-parse$">
+                -parse:
+              </a>
+
+              method, but you may also call it to parse an
+              entire header line and add it to the document
+              (this may be useful in conjunction with the
+              <a rel="gsdoc" href="#method$GSMimeParser-expectNoHeaders">
+                -expectNoHeaders
+              </a>
+
+              method, to parse a document body data into a
+              document where the headers are available from a
+              separate source).
+                </p>
+    <p>
+      
+
+<pre>
+   GSMimeParser *parser = [GSMimeParser mimeParser];
+
+   [parser parseHeader: @&quot;content-type: text/plain&quot;];
+   [parser expectNoHeaders];
+   [parser parse: bodyData];
+   [parser parse: nil];
+ </pre>
+      
+            
+    </p>
+    <p>
+
+              The standard implementation of this method scans the
+              header name and then calls
+              <a rel="gsdoc" href="#method$GSMimeParser-scanHeaderBody$into$">
+                -scanHeaderBody:into:
+              </a>
+
+              to complete the parsing of the header.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              This method also performs consistency checks on
+              headers scanned so it is recommended that it is
+              not overridden, but that subclasses override
+              <a rel="gsdoc" href="#method$GSMimeParser-scanHeaderBody$into$">
+                -scanHeaderBody:into:
+              </a>
+
+              to implement custom scanning.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              As a special case, for HTTP support, this method also
+              parses lines in the format of HTTP responses as if
+              they were headers named <code>http</code>. The
+              resulting header object contains additional
+              object values -
+                </p>
+    <p>
+      
+            
+      <dl>
+        <dt>HttpMajorVersion</dt>
+        <dd>
+          The first part of the version number
+        </dd>
+        <dt>HttpMinorVersion</dt>
+        <dd>
+          The second part of the version number
+        </dd>
+        <dt>NSHTTPPropertyServerHTTPVersionKey</dt>
+        <dd>
+          The full HTTP protocol version number
+        </dd>
+        <dt>NSHTTPPropertyStatusCodeKey</dt>
+        <dd>
+          The HTTP status code (numeric)
+        </dd>
+        <dt>NSHTTPPropertyStatusReasonKey</dt>
+        <dd>
+          
+                The text message (if any) after the status code
+              
+        </dd>
+      </dl>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-parseHeaders$remaining$">parseHeaders:&nbsp;remaining:&nbsp;</a></h3>
+    - (BOOL) <b>parseHeaders:</b> (NSData*)d<b> remaining:</b> (NSData**)body;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Parses headers from the supplied data returning
+            <code>YES</code> if more data is needed before the
+            end of thge headers are reached. <br/> If
+            <var>body</var> is not NULL and the end of the
+            headers were reached leaving some unused data, that
+            remaining data is returned. <br/> NB. The
+            returned data is a reference to part of the
+            original memory buffer provided in <var>d</var>,
+            so you must copy it if you intend to use it after
+            modifying or deallocating the original data.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-scanHeaderBody$into$">scanHeaderBody:&nbsp;into:&nbsp;</a></h3>
+    - (BOOL) <b>scanHeaderBody:</b> (NSScanner*)scanner<b> into:</b> (<a rel="gsdoc" href="#class$GSMimeHeader">GSMimeHeader</a>*)info;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              This method is called to parse a header line and
+              split its contents into the supplied
+              <a rel="gsdoc" href="#class$GSMimeHeader">GSMimeHeader</a>
+
+                instance.
+                  </p>
+    <p>
+      
+              
+    </p>
+    <p>
+
+                On entry, the header (<var>info</var>) is already
+                partially filled, the name is a lowercase
+                representation of the header name. The
+                the <var>scanner</var> must be set to a scan
+                location immediately after the colon in the
+                original header string (ie to the header value
+                string).
+                  </p>
+    <p>
+      
+              
+    </p>
+    <p>
+
+                If the header is parsed successfully, the method
+                should return <code>YES</code>, otherwise
+                <code>NO</code>.
+                  </p>
+    <p>
+      
+              
+    </p>
+    <p>
+
+                You would not normally call this method directly
+                yourself, but may override it to support
+                parsing of new headers. <br/> If you do call
+                this yourself, you need to be aware that it may
+                change the state of the document in the parser.
+                  </p>
+    <p>
+      
+              
+    </p>
+    <p>
+
+                You should be aware of the parsing that the
+                standard implementation performs, and that
+                <em>needs</em> to be done for certain headers in
+                order to permit the parser to work generally -
+                  </p>
+    <p>
+      
+              
+      <dl>
+        <dt>content-disposition</dt>
+        <dd>
+          
+                  
+          <dl>
+            <dt>Value</dt>
+            <dd>
+              
+                      The content disposition (excluding
+                      parameters) as a lowercase string.
+                    
+            </dd>
+          </dl>
+          
+                
+        </dd>
+        <dt>content-type</dt>
+        <dd>
+          
+                  
+          <dl>
+            <dt>Subtype</dt>
+            <dd>
+              The MIME subtype lowercase
+            </dd>
+            <dt>Type</dt>
+            <dd>
+              The MIME type lowercase
+            </dd>
+            <dt>value</dt>
+            <dd>
+              
+                      The full MIME type (xxx/yyy) in lowercase
+                    
+            </dd>
+          </dl>
+          
+                
+        </dd>
+        <dt>content-transfer-encoding</dt>
+        <dd>
+          
+                  
+          <dl>
+            <dt>Value</dt>
+            <dd>
+              
+                      The transfer encoding type in lowercase
+                    
+            </dd>
+          </dl>
+          
+                
+        </dd>
+        <dt>http</dt>
+        <dd>
+          
+                  
+          <dl>
+            <dt>HttpVersion</dt>
+            <dd>
+              
+                      The HTTP protocol version number
+                    
+            </dd>
+            <dt>HttpMajorVersion</dt>
+            <dd>
+              
+                      The first component of the version number
+                    
+            </dd>
+            <dt>HttpMinorVersion</dt>
+            <dd>
+              
+                      The second component of the version number
+                    
+            </dd>
+            <dt>HttpStatus</dt>
+            <dd>
+              
+                      The response status value (numeric code)
+                    
+            </dd>
+            <dt>Value</dt>
+            <dd>
+              The text message (if any)
+            </dd>
+          </dl>
+          
+                
+        </dd>
+        <dt>transfer-encoding</dt>
+        <dd>
+          
+                  
+          <dl>
+            <dt>Value</dt>
+            <dd>
+              
+                      The transfer encoding type in lowercase
+                    
+            </dd>
+          </dl>
+          
+                
+        </dd>
+      </dl>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-scanName$">scanName:&nbsp;</a></h3>
+    - (NSString*) <b>scanName:</b> (NSScanner*)scanner;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            A convenience method to use a <var>scanner</var> (that is
+            set up to scan a header line) to scan a name - a simple
+            word.
+            
+      <ul>
+        <li>
+          Leading whitespace is ignored.
+        </li>
+      </ul>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-scanPastSpace$">scanPastSpace:&nbsp;</a></h3>
+    - (BOOL) <b>scanPastSpace:</b> (NSScanner*)scanner;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            A convenience method to scan past any whitespace in the
+            <var>scanner</var> in preparation for scanning
+            something more interesting that comes after it.
+            Returns <code>YES</code> if any space was read,
+            <code>NO</code> otherwise.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-scanSpecial$">scanSpecial:&nbsp;</a></h3>
+    - (NSString*) <b>scanSpecial:</b> (NSScanner*)scanner;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            A convenience method to use a <var>scanner</var> (that is
+            set up to scan a header line) to scan in a special
+            character that terminated a token previously
+            scanned. If the token was terminated by whitespace
+            and no other special character, the string returned
+            will contain a single space character.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-scanToken$">scanToken:&nbsp;</a></h3>
+    - (NSString*) <b>scanToken:</b> (NSScanner*)scanner;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            A convenience method to use a <var>scanner</var> (that is
+            set up to scan a header line) to scan a header token -
+            either a quoted string or a simple word.
+            
+      <ul>
+        <li>
+          Leading whitespace is ignored.
+        </li>
+        <li>
+          
+                Backslash escapes in quoted text are
+                converted
+              
+        </li>
+      </ul>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-setBuggyQuotes$">setBuggyQuotes:&nbsp;</a></h3>
+    - (void) <b>setBuggyQuotes:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Method to inform the parser that the data it is
+            parsing is likely to contain fields with buggy use
+            of backslash quotes... and it should try to be tolerant
+            of them and treat them as is they were escaped
+            backslashes. This is for use with things like
+            microsoft internet explorer, which puts the
+            backslashes used as file path separators in
+            parameters without quoting them.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-setDefaultCharset$">setDefaultCharset:&nbsp;</a></h3>
+    - (void) <b>setDefaultCharset:</b> (NSString*)aName;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            This is a method to inform the parser that body parts
+            with no content-type header (which are treated as
+            text/plain) should use the specified
+            characterset rather than the default
+            (us-ascii). <br/> This also controls the
+            parsing of headers... in a legal MIME document
+            these must consist solely of us-ascii characters, but
+            setting a different default characterset (such as
+            latin1) will permit many illegal header lines
+            (produced by faulty mail clients) to be parsed.
+            <br/> HTTP requests use headers in the latin1
+            characterset, so this is the header line
+            characterset used most commonly by faulty
+            clients.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-setHeadersOnly">setHeadersOnly&nbsp;</a></h3>
+    - (void) <b>setHeadersOnly</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Method to inform the parser that only the headers
+            should be parsed and any remaining data be treated
+            as excess
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeParser-setIsHttp">setIsHttp&nbsp;</a></h3>
+    - (void) <b>setIsHttp</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Method to inform the parser that the data it is
+            parsing is an HTTP document rather than true MIME.
+            This method is called internally if the parser detects
+            an HTTP response line at the start of the headers it is
+            parsing.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<a name="_GSMimeParser_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for GSMimeParser Class</h2>
+    <h3><a name="ivariable$GSMimeParser*_defaultEncoding">_defaultEncoding</a></h3>
+    @protected NSStringEncoding <b>_defaultEncoding</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeParser*_unused">_unused</a></h3>
+    @protected void* <b>_unused</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeParser*boundary">boundary</a></h3>
+    @protected NSData* <b>boundary</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeParser*bytes">bytes</a></h3>
+    @protected unsigned char* <b>bytes</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeParser*child">child</a></h3>
+    @protected GSMimeParser* <b>child</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeParser*context">context</a></h3>
+    @protected GSMimeCodingContext* <b>context</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeParser*data">data</a></h3>
+    @protected NSMutableData* <b>data</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeParser*dataEnd">dataEnd</a></h3>
+    @protected unsigned int <b>dataEnd</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeParser*document">document</a></h3>
+    @protected GSMimeDocument* <b>document</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeParser*expect">expect</a></h3>
+    @protected unsigned int <b>expect</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeParser*input">input</a></h3>
+    @protected unsigned int <b>input</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeParser*lineEnd">lineEnd</a></h3>
+    @protected unsigned int <b>lineEnd</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeParser*lineStart">lineStart</a></h3>
+    @protected unsigned int <b>lineStart</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeParser*rawBodyLength">rawBodyLength</a></h3>
+    @protected unsigned int <b>rawBodyLength</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeParser*sectionStart">sectionStart</a></h3>
+    @protected unsigned int <b>sectionStart</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <br/><hr width="50%" align="left" /><br/>
+
+          <h1><a name="006000000000">
+        Software documentation for the GSMimeSMTPClient class
+      </a></h1>
+    <h2 class="class"><a name="class$GSMimeSMTPClient">GSMimeSMTPClient</a> : NSObject</h2>
+<svg width="260pt" height="116pt"
+ viewBox="0.00 0.00 260.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>class_GSMimeSMTPClient</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 256,-112 256,4 -4,4"/>
+<!-- NSObject -->
+<g id="node1" class="node">
+<title>NSObject</title>
+<polygon fill="lightgrey" stroke="black" points="185,-108 67,-108 67,-72 185,-72 185,-108"/>
+<text text-anchor="middle" x="126" y="-83.8" font-family="Times,serif" font-size="24.00" fill="blue">NSObject</text>
+</g>
+<!-- GSMimeSMTPClient -->
+<g id="node2" class="node">
+<title>GSMimeSMTPClient</title>
+<polygon fill="lightgrey" stroke="black" points="252,-36 0,-36 0,0 252,0 252,-36"/>
+<text text-anchor="middle" x="126" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">GSMimeSMTPClient</text>
+</g>
+<!-- NSObject&#45;&gt;GSMimeSMTPClient -->
+<g id="edge1" class="edge">
+<title>NSObject&#45;&gt;GSMimeSMTPClient</title>
+<path fill="none" stroke="black" d="M126,-71.7C126,-63.98 126,-54.71 126,-46.11"/>
+<polygon fill="black" stroke="black" points="129.5,-46.1 126,-36.1 122.5,-46.1 129.5,-46.1"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSMime.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          The GSMimeSMTPClient class provides the ability to send
+          EMails ([GSMimeDocument] instances) via an SMTP
+          server.
+        
+    </div>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSMTPClient-abort">-abort</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSMTPClient-delegate">-delegate</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSMTPClient-flush$">-flush:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSMTPClient-lastError">-lastError</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSMTPClient-queueSize">-queueSize</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSMTPClient-send$">-send:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSMTPClient-send$envelopeID$">-send:envelopeID:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSMTPClient-setDelegate$">-setDelegate:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSMTPClient-setHostname$">-setHostname:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSMTPClient-setIdentity$">-setIdentity:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSMTPClient-setMaximum$">-setMaximum:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSMTPClient-setOriginator$">-setOriginator:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSMTPClient-setPort$">-setPort:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSMTPClient-setUsername$">-setUsername:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSMTPClient-state">-state</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSMTPClient-stateDesc">-stateDesc</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSMimeSMTPClient-abort">abort&nbsp;</a></h3>
+    - (void) <b>abort</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Shut down any message send in progress and abort any
+            queued messages.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSMTPClient-delegate">delegate&nbsp;</a></h3>
+    - (id) <b>delegate</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the current delegate.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSMTPClient-flush$">flush:&nbsp;</a></h3>
+    - (BOOL) <b>flush:</b> (NSDate*)limit;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Tries to flush any queued messages to the SMTP
+            server, completing by the specified
+            <var>limit</var> date. <br/> If <var>limit</var> is
+            <code>nil</code> then a date in the distant future
+            is used. <br/> If the queue is emptied in time, this
+            method returns <code>YES</code>, otherwise it
+            returns <code>NO</code>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSMTPClient-lastError">lastError&nbsp;</a></h3>
+    - (NSError*) <b>lastError</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the last error encountered, or
+            <code>nil</code> if there is none recorded.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSMTPClient-queueSize">queueSize&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>queueSize</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the number of messages currently in the
+            queue.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSMTPClient-send$">send:&nbsp;</a></h3>
+    - (void) <b>send:</b> (<a rel="gsdoc" href="#class$GSMimeDocument">GSMimeDocument</a>*)message;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Add the <var>message</var> to the queue of emails to be
+            sent by the receiver.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSMTPClient-send$envelopeID$">send:&nbsp;envelopeID:&nbsp;</a></h3>
+    - (void) <b>send:</b> (<a rel="gsdoc" href="#class$GSMimeDocument">GSMimeDocument</a>*)message<b> envelopeID:</b> (NSString*)envid;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Add the <var>message</var> to the queue of emails to be
+            sent by the receiver. <br/> Also adds an envelope ID
+            string to be used to uniquely identify the
+            <var>message</var> for delivery receipting purposes.
+            <br/> For this to work, the SMTP gateway being used
+            must support the SMTP service extension for delivery
+            status notification (RFC 3460).
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSMTPClient-setDelegate$">setDelegate:&nbsp;</a></h3>
+    - (void) <b>setDelegate:</b> (id)d;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Set the delegate to receive callback methods indicating
+            when a message is sent, failed, or removed from the
+            queue unsent.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSMTPClient-setHostname$">setHostname:&nbsp;</a></h3>
+    - (void) <b>setHostname:</b> (NSString*)s;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Set the host for the SMTP server. If this is not set
+            (or is set to <code>nil</code>) then the
+            GSMimeSMTPClientHost user default is
+            used. If the host is <code>nil</code> or an empty
+            string then &apos;localhost&apos; is used.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSMTPClient-setIdentity$">setIdentity:&nbsp;</a></h3>
+    - (void) <b>setIdentity:</b> (NSString*)s;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Set the host for the SMTP client to identify itsself to
+            the server. If this is not set (or is set to
+            <code>nil</code>) then the GSMimeSMTPClientIdentity
+            user default is used. If the identity is
+            <code>nil</code> or an empty string then a name of
+            the current host is use.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSMTPClient-setMaximum$">setMaximum:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>setMaximum:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)m;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Sets the maximum number of messages which may remain
+            in the queue. If this is exceeded then any unsuccessful
+            send attempt results in excess queued messages
+            discarded as unsent. <br/> The method returns
+            the previous setting.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSMTPClient-setOriginator$">setOriginator:&nbsp;</a></h3>
+    - (void) <b>setOriginator:</b> (NSString*)s;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Set the originator for any emails sent by the SMTP
+            client. <br/> This overrides the value in the
+            &apos;from&apos; header of an email. <br/> If this is not set
+            (or is set to <code>nil</code>) then the
+            GSMimeSMTPClientOriginator user
+            default is used. If the originator is
+            <code>nil</code> or an empty string then the value
+            in the &apos;from&apos; header of the email is used.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSMTPClient-setPort$">setPort:&nbsp;</a></h3>
+    - (void) <b>setPort:</b> (NSString*)s;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Set the port for the SMTP server. If this is not set
+            (or is set to <code>nil</code>) then the
+            GSMimeSMTPClientPort user default is
+            used. If the port is not an integer in the 1-65535
+            range, then &apos;25&apos; (the default SMTP port) is used.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSMTPClient-setUsername$">setUsername:&nbsp;</a></h3>
+    - (void) <b>setUsername:</b> (NSString*)s;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Set the username for authentication to the SMTP server.
+            If this is not set (or is set to <code>nil</code>) then
+            the GSMimeSMTPClientUsername user default is used. If
+            the username is <code>nil</code> or an empty string
+            then authentication is not attempted.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSMTPClient-state">state&nbsp;</a></h3>
+    - (int) <b>state</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            returns the receivers current state.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSMTPClient-stateDesc">stateDesc&nbsp;</a></h3>
+    - (NSString*) <b>stateDesc</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns a string describing the receiver&apos;s current
+            state
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+
+          <h1><a name="007000000000">
+        Software documentation for the GSMimeSerializer class
+      </a></h1>
+    <h2 class="class"><a name="class$GSMimeSerializer">GSMimeSerializer</a> : NSObject</h2>
+<svg width="231pt" height="116pt"
+ viewBox="0.00 0.00 231.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>class_GSMimeSerializer</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 227,-112 227,4 -4,4"/>
+<!-- NSObject -->
+<g id="node1" class="node">
+<title>NSObject</title>
+<polygon fill="lightgrey" stroke="black" points="170.5,-108 52.5,-108 52.5,-72 170.5,-72 170.5,-108"/>
+<text text-anchor="middle" x="111.5" y="-83.8" font-family="Times,serif" font-size="24.00" fill="blue">NSObject</text>
+</g>
+<!-- GSMimeSerializer -->
+<g id="node2" class="node">
+<title>GSMimeSerializer</title>
+<polygon fill="lightgrey" stroke="black" points="223,-36 0,-36 0,0 223,0 223,-36"/>
+<text text-anchor="middle" x="111.5" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">GSMimeSerializer</text>
+</g>
+<!-- NSObject&#45;&gt;GSMimeSerializer -->
+<g id="edge1" class="edge">
+<title>NSObject&#45;&gt;GSMimeSerializer</title>
+<path fill="none" stroke="black" d="M111.5,-71.7C111.5,-63.98 111.5,-54.71 111.5,-46.11"/>
+<polygon fill="black" stroke="black" points="115,-46.1 111.5,-36.1 108,-46.1 115,-46.1"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSMime.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          Instances of the GSMimeSerializer class are used to
+          serialise GSMimeDocument objects to NSMutableData
+          objects, producing data in a form suitable for
+          sending as an Email over the SMTP protocol or in
+          other forms.
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_GSMimeSerializer_ivars">Instance Variables</a>
+    <br/><br/>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSerializer+binarySerializer">+binarySerializer</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSerializer+smtp7bitSerializer">+smtp7bitSerializer</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSerializer-copyWithZone$">-copyWithZone:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSerializer-dataEncoding">-dataEncoding</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSerializer-encodeDocument$">-encodeDocument:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSerializer-encodePart$to$">-encodePart:to:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSerializer-foldAt">-foldAt</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSerializer-setDataEncoding$">-setDataEncoding:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSerializer-setFoldAt$">-setFoldAt:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSerializer-setTextEncoding$">-setTextEncoding:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSerializer-setUse8bit$">-setUse8bit:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSerializer-textEncoding">-textEncoding</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$GSMimeSerializer-use8bit">-use8bit</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$GSMimeSerializer+binarySerializer">binarySerializer&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$GSMimeSerializer">GSMimeSerializer</a>*) <b>binarySerializer</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns an autorelease GSMimeSerializer configured
+            for transfer over binary safe protocols with unliumited
+            line lenth).
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSerializer+smtp7bitSerializer">smtp7bitSerializer&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$GSMimeSerializer">GSMimeSerializer</a>*) <b>smtp7bitSerializer</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns an autorelease GSMimeSerializer configured
+            for Email to be sent as 7bit data over SMTP.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSerializer-copyWithZone$">copyWithZone:&nbsp;</a></h3>
+    - (id) <b>copyWithZone:</b> (NSZone*)aZone;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns a copy of the receiver.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSerializer-dataEncoding">dataEncoding&nbsp;</a></h3>
+    - (NSString*) <b>dataEncoding</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the default content transfer encoding used
+            when 8bit data needs to be made 7bit safe. This is
+            base64 by default.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSerializer-encodeDocument$">encodeDocument:&nbsp;</a></h3>
+    - (NSMutableData*) <b>encodeDocument:</b> (<a rel="gsdoc" href="#class$GSMimeDocument">GSMimeDocument</a>*)document;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Encodes the <var>document</var> and returns the
+            resulting raw mime data.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSerializer-encodePart$to$">encodePart:&nbsp;to:&nbsp;</a></h3>
+    - (void) <b>encodePart:</b> (<a rel="gsdoc" href="#class$GSMimeDocument">GSMimeDocument</a>*)document<b> to:</b> (NSMutableData*)md;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Appends a <var>document</var> part to the supplied
+            data object.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSerializer-foldAt">foldAt&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>foldAt</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the maximum line length (excluding the
+            trailing CRLF) to which we will encode data. See
+            also the
+            <a rel="gsdoc" href="#method$GSMimeSerializer-setFoldAt$">
+              -setFoldAt:
+            </a>
+
+            method.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSerializer-setDataEncoding$">setDataEncoding:&nbsp;</a></h3>
+    - (void) <b>setDataEncoding:</b> (NSString*)encoding;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Sets the content transfer <var>encoding</var> used
+            when 8bit data needs to be sent in a 7bit safe form.
+            <br/> Setting a nil/empty <var>encoding</var>
+            reverts to the default (base64). <br/> Setting an
+            unknown/inapplicable
+            <var>encoding</var> raises an exception.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSerializer-setFoldAt$">setFoldAt:&nbsp;</a></h3>
+    - (void) <b>setFoldAt:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)position;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            This method allows you to control the
+            <var>position</var> at which lines in headers and the
+            body data are wrapped. <br/> RFC 2822 says that the
+            absolute maximum (except for &apos;binary&apos; content
+            transfer encoding) is 998 (excluding CRLF), but
+            the recommended maximum is 78 so we use that by
+            default. <br/> Setting any ridiculously
+            <strong>short</strong> value (less than 20) or an
+            excessively <strong>long</strong> value
+            (greater than the 998 character limit supported by
+            SMTP) actually sets a value of zero, meaning that
+            there is no limit.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSerializer-setTextEncoding$">setTextEncoding:&nbsp;</a></h3>
+    - (void) <b>setTextEncoding:</b> (NSString*)encoding;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Sets the content transfer <var>encoding</var> used
+            when 8bit text needs to be sent in a 7bit safe form.
+            <br/> Setting a nil/empty <var>encoding</var>
+            reverts to the default (quoted-printable). <br/>
+            Setting an unknown/inapplicable <var>encoding</var>
+            raises an exception.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSerializer-setUse8bit$">setUse8bit:&nbsp;</a></h3>
+    - (void) <b>setUse8bit:</b> (BOOL)aFlag;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Sets whether we will allow 8bit data in the output.
+            <br/> The default is <code>NO</code> (because 8bit
+            data breaks some mail transfer agents).
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSerializer-textEncoding">textEncoding&nbsp;</a></h3>
+    - (NSString*) <b>textEncoding</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns the default content transfer encoding used
+            when 8bit text needs to be made 7bit safe. This is
+            quoted-printable by default.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$GSMimeSerializer-use8bit">use8bit&nbsp;</a></h3>
+    - (BOOL) <b>use8bit</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Returns <code>YES</code> is we will allow 8bit data
+            in the output, <code>NO</code> if we encode everything
+            in a 7bit safe form.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<a name="_GSMimeSerializer_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for GSMimeSerializer Class</h2>
+    <h3><a name="ivariable$GSMimeSerializer*dataEncoding">dataEncoding</a></h3>
+    @protected NSString* <b>dataEncoding</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            To make 8bit data 7bit-safe
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeSerializer*foldAt">foldAt</a></h3>
+    @protected NSUInteger <b>foldAt</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Fold <strong>long</strong> lines at this position
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeSerializer*textEncoding">textEncoding</a></h3>
+    @protected NSString* <b>textEncoding</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            To make 8bit text 7bit-safe
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$GSMimeSerializer*use8bit">use8bit</a></h3>
+    @protected BOOL <b>use8bit</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Output does not need to be 7bit-safe
+          
+    </div>
+    <hr class="method-separator"/>
+    <br/><hr width="50%" align="left" /><br/>
+
+          <h1><a name="008000000000">
+        Software documentation for the
+        NSObject(GSMimeSMTPClient) category
+      </a></h1>
+    <h2>NSObject(<a name="category$NSObject(GSMimeSMTPClient)">GSMimeSMTPClient</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>GNUstepBase/GSMime.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          Informal protocol for delegates of the
+          GSMimeSMTPClient class. The default
+          implementations of these methods do nothing.
+        
+    </div>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="GSMime.html#method$NSObject(GSMimeSMTPClient)-smtpClient$mimeFailed$">-smtpClient:mimeFailed:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$NSObject(GSMimeSMTPClient)-smtpClient$mimeSent$">-smtpClient:mimeSent:</a></li>
+      <li><a rel="gsdoc" href="GSMime.html#method$NSObject(GSMimeSMTPClient)-smtpClient$mimeUnsent$">-smtpClient:mimeUnsent:</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSObject(GSMimeSMTPClient)-smtpClient$mimeFailed$">smtpClient:&nbsp;mimeFailed:&nbsp;</a></h3>
+    - (void) <b>smtpClient:</b> (<a rel="gsdoc" href="#class$GSMimeSMTPClient">GSMimeSMTPClient</a>*)client<b> mimeFailed:</b> (<a rel="gsdoc" href="#class$GSMimeDocument">GSMimeDocument</a>*)doc;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(GSMimeSMTPClient)-smtpClient$mimeSent$">smtpClient:&nbsp;mimeSent:&nbsp;</a></h3>
+    - (void) <b>smtpClient:</b> (<a rel="gsdoc" href="#class$GSMimeSMTPClient">GSMimeSMTPClient</a>*)client<b> mimeSent:</b> (<a rel="gsdoc" href="#class$GSMimeDocument">GSMimeDocument</a>*)doc;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(GSMimeSMTPClient)-smtpClient$mimeUnsent$">smtpClient:&nbsp;mimeUnsent:&nbsp;</a></h3>
+    - (void) <b>smtpClient:</b> (<a rel="gsdoc" href="#class$GSMimeSMTPClient">GSMimeSMTPClient</a>*)client<b> mimeUnsent:</b> (<a rel="gsdoc" href="#class$GSMimeDocument">GSMimeDocument</a>*)doc;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+    <br />
+    <a href="BaseAdditions.html">Up</a>
+    </body>
+</html>

@@ -1,0 +1,292 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSNotification" stylesheeturl="gnustepStyle" up="Base">
+  <head>
+    <title>NSNotificationCenter class reference</title>
+    <author name="Andrew Kachites McCallum">
+      <email address="mccallum@gnu.ai.mit.edu">
+        mccallum@gnu.ai.mit.edu
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 16:52:01 -0500</date>
+    <copy>1996,1999 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSNotification class
+      </heading>
+      <class name="NSNotification" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSNotification.h</declared>
+        <conform>NSCopying</conform>
+        <conform>NSCoding</conform>
+        <desc>
+          <p>
+            Represents a notification for posting to an
+            <ref type="class" id="NSNotificationCenter">NSNotificationCenter</ref>. Consists of a name, an object, and an optional dictionary. The notification center will check for observers registered to receive either notifications with the name, the object, or both and pass the notification instance on to them.</p>
+            <p>
+              This class is actually the interface for a class
+              cluster, so instances will be of a (private)
+              subclass.
+            </p>
+        </desc>
+        <method type="NSNotification*" factory="yes" ovadd="1.0.0">
+          <sel>notificationWithName:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>object:</sel>
+          <arg type="id">object</arg>
+          <desc>
+            Create a new autoreleased notification by calling
+            <ref type="method" id="+notificationWithName:object:userInfo:">+notificationWithName:object:userInfo:</ref> with a <code>nil</code> user info argument.
+          </desc>
+        </method>
+        <method type="NSNotification*" factory="yes" ovadd="1.0.0">
+          <sel>notificationWithName:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>object:</sel>
+          <arg type="id">object</arg>
+          <sel>userInfo:</sel>
+          <arg type="NSDictionary*">info</arg>
+          <desc>
+            Create a new autoreleased notification.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>name</sel>
+          <desc>
+            Returns the notification name.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>object</sel>
+          <desc>
+            Returns the notification object.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="1.0.0">
+          <sel>userInfo</sel>
+          <desc>
+            Returns the notification user information.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSNotificationCenter
+        class
+      </heading>
+      <class name="NSNotificationCenter" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSNotification.h</declared>
+        <desc>
+          <p>
+            GNUstep provides a framework for sending messages
+            between objects within a process called
+            <em>notifications</em>. Objects register with an
+            <code>NSNotificationCenter</code> to be informed
+            whenever other objects post
+            <ref type="class" id="NSNotification">NSNotification</ref>
+              s to it matching certain criteria. The notification
+              center processes notifications synchronously --
+              that is, control is only returned to the
+              notification poster once every recipient of
+              the notification has received it and processed it.
+              Asynchronous processing is possible using an
+              <ref type="class" id="NSNotificationQueue">NSNotificationQueue</ref>.</p>
+              <p>
+                Obtain an instance using the
+                <ref type="method" id="+defaultCenter">
+                  +defaultCenter
+                </ref>
+                method.
+              </p>
+              <p>
+                In a multithreaded process, notifications are always
+                sent on the thread that they are posted from.
+              </p>
+              <p>
+                Use the
+                <ref type="class" id="NSDistributedNotificationCenter">NSDistributedNotificationCenter</ref>for interprocess communications on the same machine.</p>
+        </desc>
+        <method type="NSNotificationCenter*" factory="yes" ovadd="1.0.0">
+          <sel>defaultCenter</sel>
+          <desc>
+            Returns the default notification center being used
+            for this task (process). This is used for all
+            notifications posted by the Base library
+            unless otherwise noted.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>addObserver:</sel>
+          <arg type="id">observer</arg>
+          <sel>selector:</sel>
+          <arg type="SEL">selector</arg>
+          <sel>name:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>object:</sel>
+          <arg type="id">object</arg>
+          <desc>
+            <p>
+              Registers <var>observer</var> to receive
+              notifications with the <var>name</var>
+              notificationName and/or containing
+              <var>object</var> (one or both of these two must be
+              non-nil; <code>nil</code> acts like a wildcard).
+              When a notification of <var>name</var>
+              <var>name</var> containing <var>object</var> is
+              posted, <var>observer</var> receives a
+              <var>selector</var> message with this notification
+              as the argument. The notification center waits for the
+              <var>observer</var> to finish processing the
+              message, then informs the next registree
+              matching the notification, and after all of this
+              is done, control returns to the poster of the
+              notification. Therefore the processing in
+              the <var>selector</var> implementation should be
+              <strong>short</strong>.
+            </p>
+            <p>
+              The notification center does not retain
+              <var>observer</var> or <var>object</var>.
+              Therefore, you should always send
+              removeObserver: or
+              removeObserver:name:object:
+              to the notification center before releasing these
+              objects. <br />
+            </p>
+            <p>
+              While it is good practice to remove an
+              <var>observer</var> before releasing it, currently
+              on MacOS it is possible to remove an
+              <var>observer</var> even after the
+              <var>object</var> has been deallocated. This is not
+              documented behavior from Apple and could
+              change at any time. In the interests of
+              compatibility, this behavior will also be
+              supported here.
+            </p>
+            <p>
+              NB. For MacOS-X compatibility, adding an
+              <var>observer</var> multiple times will register it
+              to receive multiple copies of any matching
+              notification, however removing an
+              <var>observer</var> will remove <em>all</em> of the
+              multiple registrations.
+            </p>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.6.0">
+          <sel>addObserverForName:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>object:</sel>
+          <arg type="id">object</arg>
+          <sel>queue:</sel>
+          <arg type="NSOperationQueue*">queue</arg>
+          <sel>usingBlock:</sel>
+          <arg type="GSNotificationBlock">block</arg>
+          <desc>
+            <p>
+              Returns a new observer added to the notification
+              center, in order to observe the given
+              notification <var>name</var> posted by an
+              <var>object</var> or any <var>object</var> (if the
+              <var>object</var> argument is <code>nil</code>).
+            </p>
+            <p>
+              For the <var>name</var> and <var>object</var>
+              arguments, the constraints and behavior
+              described in
+              <ref type="method" id="-addObserver:selector:name:object:">-addObserver:selector:name:object:</ref> remain valid.
+            </p>
+            <p>
+              For each notification received by the center, the
+              observer will execute the notification
+              <var>block</var>. If the <var>queue</var> is not
+              <code>nil</code>, the notification
+              <var>block</var> is wrapped in a NSOperation and
+              scheduled in the <var>queue</var>, otherwise
+              the <var>block</var> is executed immediately in the
+              posting thread.
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>postNotification:</sel>
+          <arg type="NSNotification*">notification</arg>
+          <desc>
+            Posts <var>notification</var> to all the observers
+            that match its NAME and OBJECT. <br /> The GNUstep
+            implementation calls
+            <ref type="method" id="-postNotificationName:object:userInfo:">-postNotificationName:object:userInfo:</ref> to perform the actual posting.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>postNotificationName:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>object:</sel>
+          <arg type="id">object</arg>
+          <desc>
+            Creates and posts a notification using the
+            <ref type="method" id="-postNotificationName:object:userInfo:">-postNotificationName:object:userInfo:</ref> passing a <code>nil</code> user info argument.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>postNotificationName:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>object:</sel>
+          <arg type="id">object</arg>
+          <sel>userInfo:</sel>
+          <arg type="NSDictionary*">info</arg>
+          <desc>
+            The preferred method for posting a notification. <br />
+            For performance reasons, we don't wrap an exception
+            handler round every message sent to an observer.
+            This means that, if one observer raises an exception,
+            later observers in the lists will not get the
+            notification.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeObserver:</sel>
+          <arg type="id">observer</arg>
+          <desc>
+            Deregisters <var>observer</var> from all
+            notifications. This should be called before
+            the <var>observer</var> is deallocated.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeObserver:</sel>
+          <arg type="id">observer</arg>
+          <sel>name:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>object:</sel>
+          <arg type="id">object</arg>
+          <desc>
+            Deregisters <var>observer</var> for
+            notifications matching <var>name</var> and/or
+            <var>object</var>. If either or both is
+            <code>nil</code>, they act like wildcards. The
+            <var>observer</var> may still remain registered for
+            other notifications; use
+            <ref type="method" id="-removeObserver:">
+              -removeObserver:
+            </ref>
+            to remove it from all. If <var>observer</var> is
+            <code>nil</code>, the effect is to remove all
+            registrees for the specified notifications,
+            unless both <var>observer</var> and <var>name</var>
+            are <code>nil</code>, in which case nothing is done.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

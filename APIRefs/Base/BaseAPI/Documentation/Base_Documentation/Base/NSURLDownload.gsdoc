@@ -1,0 +1,274 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSURLDownload" stylesheeturl="gnustepStyle" up="Base">
+  <head>
+    <title>NSURLDownload class documentation</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="frm@gnu.org">
+        frm@gnu.org
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 16:52:01 -0500</date>
+    <copy>2006 Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSURLDownload class
+      </heading>
+      <class name="NSURLDownload" super="NSObject" ovadd="10.2.0" gvadd="1.13.0">
+        <declared>Foundation/NSURLDownload.h</declared>
+        <desc>
+          Handles download to file.
+        </desc>
+        <ivariable type="void*" name="_NSURLDownloadInternal" validity="protected" ovadd="10.2.0" gvadd="1.13.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="BOOL" factory="yes" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>canResumeDownloadDecodedWithEncodingMIMEType:</sel>
+          <arg type="NSString*">MIMEType</arg>
+          <desc>
+            Returns a flag saying whether the class can resume
+            a download which was decoded with <var>MIMEType</var>.
+            <br />
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>cancel</sel>
+          <desc>
+            Cancels the download and deletes any downloaded
+            file.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>deletesFileUponFailure</sel>
+          <desc>
+            Returns a flag saying whether a partially
+            downloaded file should be deleted on failure...
+            <code>YES</code> by default.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>initWithRequest:</sel>
+          <arg type="NSURLRequest*">request</arg>
+          <sel>delegate:</sel>
+          <arg type="id">delegate</arg>
+          <desc>
+            Initialises the receiver and start the download
+            process.
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>initWithResumeData:</sel>
+          <arg type="NSData*">resumeData</arg>
+          <sel>delegate:</sel>
+          <arg type="id">delegate</arg>
+          <sel>path:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Initialises the receiver with data from a
+            previous partial download and resumes (or
+            restarts) the downloading process.
+          </desc>
+        </method>
+        <method type="NSURLRequest*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>request</sel>
+          <desc>
+            Returns the receiver's request.
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>resumeData</sel>
+          <desc>
+            Returns state data of an incomplete download...
+            this data should be sufficient to resume/restart the
+            download using the
+            <ref type="method" id="-initWithResumeData:delegate:path:">-initWithResumeData:delegate:path:</ref> method. <br /> Returns <code>nil</code> if a resume is probably impossible. <br /> NB. You need to call <ref type="method" id="-setDeletesFileUponFailure:">-setDeletesFileUponFailure:</ref> to turn off deletion if you wish to be able to resume an incomplete download.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>setDeletesFileUponFailure:</sel>
+          <arg type="BOOL">deletesFileUponFailure</arg>
+          <desc>
+            Sets a flag to determine if downloaded file is be
+            deleted upon failure. This is <code>YES</code> by
+            default and needs to be set to <code>NO</code> if
+            you want to be able to attempt to resume a failed
+            download.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>setDestination:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>allowOverwrite:</sel>
+          <arg type="BOOL">allowOverwrite</arg>
+          <desc>
+            Sets the <var>path</var> to which the file is
+            downloaded. <br /> May be called (once only)
+            after initialisation of the receiver or when the
+            delegate receives a
+            <ref type="method" id="-download:decideDestinationWithSuggestedFilename:">-download:decideDestinationWithSuggestedFilename:</ref> message. <br /> Appends a number to the filename if <var>allowOverwrite</var> is <code>NO</code> and a file already exists at <var>path</var>. <br /> See <ref type="method" id="-download:didCreateDestination:">-download:didCreateDestination:</ref> also.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSURLDownloadDelegate)
+        category
+      </heading>
+      <category name="NSURLDownloadDelegate" class="NSObject" ovadd="10.2.0" gvadd="1.13.0">
+        <declared>Foundation/NSURLDownload.h</declared>
+        <desc>
+          Protocol for delegate used to report the progress of
+          the download.
+        </desc>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>download:</sel>
+          <arg type="NSURLDownload*">download</arg>
+          <sel>decideDestinationWithSuggestedFilename:</sel>
+          <arg type="NSString*">filename</arg>
+          <desc>
+            Called when it's time to establish a name for the
+            downloaded file... the delegate may decide a
+            name by inspecting the response. <br /> The delegate
+            should call
+            <ref type="method" id="-setDestination:allowOverwrite:">
+              -setDestination:allowOverwrite:
+            </ref>
+            to set the <var>filename</var> to be used.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>download:</sel>
+          <arg type="NSURLDownload*">download</arg>
+          <sel>didCancelAuthenticationChallenge:</sel>
+          <arg type="NSURLAuthenticationChallenge*">challenge</arg>
+          <desc>
+            Called when authentication of a request is
+            cancelled.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>download:</sel>
+          <arg type="NSURLDownload*">download</arg>
+          <sel>didCreateDestination:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Called when the <var>download</var> has created the
+            downloaded file.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>download:</sel>
+          <arg type="NSURLDownload*">download</arg>
+          <sel>didFailWithError:</sel>
+          <arg type="NSError*">error</arg>
+          <desc>
+            Called when the <var>download</var> fails.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>download:</sel>
+          <arg type="NSURLDownload*">download</arg>
+          <sel>didReceiveAuthenticationChallenge:</sel>
+          <arg type="NSURLAuthenticationChallenge*">challenge</arg>
+          <desc>
+            Called when an authentication <var>challenge</var>
+            is received. <br /> The delegate should send
+            <ref type="method" id="-useCredential:forAuthenticationChallenge:">-useCredential:forAuthenticationChallenge:</ref> or <ref type="method" id="-continueWithoutCredentialForAuthenticationChallenge:">-continueWithoutCredentialForAuthenticationChallenge:</ref> or <ref type="method" id="-cancel">-cancel</ref> to the connection sender when done.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>download:</sel>
+          <arg type="NSURLDownload*">download</arg>
+          <sel>didReceiveDataOfLength:</sel>
+          <arg type="NSUInteger">length</arg>
+          <desc>
+            Called when some data has been received.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>download:</sel>
+          <arg type="NSURLDownload*">download</arg>
+          <sel>didReceiveResponse:</sel>
+          <arg type="NSURLResponse*">response</arg>
+          <desc>
+            Called when a <var>response</var> is received.
+            <br /> Multiple responses may be received on the
+            same <var>download</var> (eg with server push) and the
+            delegate should be prepared to treat each
+            separately.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>download:</sel>
+          <arg type="NSURLDownload*">download</arg>
+          <sel>shouldDecodeSourceDataOfMIMEType:</sel>
+          <arg type="NSString*">encodingType</arg>
+          <desc>
+            Called if the <var>download</var> file is encoded...
+            the delegate should return <code>YES</code> if the
+            downloaded data is to be decoded,
+            <code>NO</code> otherwise.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>download:</sel>
+          <arg type="NSURLDownload*">download</arg>
+          <sel>willResumeWithResponse:</sel>
+          <arg type="NSURLResponse*">response</arg>
+          <sel>fromByte:</sel>
+          <arg type="long long">startingByte</arg>
+          <desc>
+            Called when a <var>download</var> is resuming from
+            previously stored data and a <var>response</var>
+            has been received from the server. <br /> The
+            startingBytes is the offset from which the
+            downloaded data will actually commence... and
+            may be zero if the entire <var>download</var> must be
+            redone.
+          </desc>
+        </method>
+        <method type="NSURLRequest*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>download:</sel>
+          <arg type="NSURLDownload*">download</arg>
+          <sel>willSendRequest:</sel>
+          <arg type="NSURLRequest*">request</arg>
+          <sel>redirectResponse:</sel>
+          <arg type="NSURLResponse*">redirectResponse</arg>
+          <desc>
+            Called if a new <var>request</var> has to be sent
+            due to redirection. <br /> Must return the
+            <var>request</var> argument (or a modified copy of
+            it) to have the process continue.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>downloadDidBegin:</sel>
+          <arg type="NSURLDownload*">download</arg>
+          <desc>
+            Called immediately once the <var>download</var> has
+            started.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>downloadDidFinish:</sel>
+          <arg type="NSURLDownload*">download</arg>
+          <desc>
+            Called when the <var>download</var> completes after
+            having received all data.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

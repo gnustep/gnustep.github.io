@@ -1,0 +1,804 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSWorkspace" up="Gui">
+  <head>
+    <title>NSWorkspace</title>
+    <author name="Scott Christley">
+      <email address="scottc@net-community.com">
+        scottc@net-community.com
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <author name="Fred Kiefer">
+      <email address="FredKiefer@gmx.de">
+        FredKiefer@gmx.de
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 19:58:28 -0500</date>
+    <abstract>Workspace class</abstract>
+    <copy>1996-2016 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSWorkspace class
+      </heading>
+      <class name="NSWorkspace" super="NSObject" ovadd="1.0.0">
+        <declared>AppKit/NSWorkspace.h</declared>
+        <desc>
+          <p>
+            The NSWorkspace class gathers together a large number
+            of capabilities needed for workspace management.
+          </p>
+          <p>
+            The make_services tool examines all applications
+            (anything with a.app,.debug, or.profile suffix)
+            in the system, local, and user Apps directories, and
+            caches information about the services each app
+            provides (extracted from the Info-gnustep.plist
+            file in each application).
+          </p>
+          <p>
+            In addition to the cache of services information, it
+            builds a cache of information about all known
+            applications (including information about file
+            types they handle).
+          </p>
+          <p>
+            NSWorkspace reads the cache and uses it to
+            determine which application to use to open a
+            document and which icon to use to represent that
+            document.
+          </p>
+          <p>
+            The NSWorkspace API has been extended to provide
+            methods for finding/setting the preferred
+            icon/application for a particular file
+            type. NSWorkspace will use the 'best'
+            icon/application available.
+          </p>
+          <p>
+            To determine the executable to launch, if there was an
+            Info-gnustep.plist/Info.plist
+            in the app wrapper and it had an NSExecutable field - it
+            uses that name. Otherwise, it tries to use the name of
+            the app - eg. foo.app/foo <br /> The executable is
+            launched by NSTask, which handles the addition of
+            machine/os/library path components as
+            necessary.
+          </p>
+          <p>
+            To determine the icon for a file, it uses the value from
+            the cache of icons for the file extension, or use an
+            'unknown' icon.
+          </p>
+          <p>
+            To determine the icon for a folder, if the folder has a
+            '.app', '.debug' or '.profile' extension - the
+            Info-gnustep.plist file is examined for
+            an 'NSIcon' value and NSWorkspace tries to use that. If
+            there is no value specified - it tries
+            'foo.app/foo.png' or 'foo.app/foo.tiff'
+            or 'foo.app/.dir.png' or 'foo.app/.dir.tiff'
+          </p>
+          <p>
+            If the folder was not an application wrapper, it just
+            tries the.dir.png and.dir.tiff file.
+          </p>
+          <p>
+            If no icon was available, it uses a default folder icon
+            or a special icon for the root directory.
+          </p>
+          <p>
+            The information about what file types an app can handle
+            needs to be stored in Info-gnustep.plist in an array
+            keyed on the name <em>NSTypes</em>, within which each
+            value is a dictionary. <br />
+          </p>
+          <p>
+            In the NSTypes fields, NSWorkspace uses NSIcon (the icon
+            to use for the type) NSUnixExtensions (a list of file
+            extensions corresponding to the type) and NSRole
+            (what the app can do with documents of this type
+            <em>Editor</em>, <em>Viewer</em>, or <em>None</em>).
+            In the AppList cache, make_services generates a
+            dictionary, keyed by file extension, whose
+            values are the dictionaries containing the NSTypes
+            dictionaries of each of the apps that handle
+            the extension. The NSWorkspace class makes use of this
+            cache at runtime.
+          </p>
+          <p>
+            If the Info-gnustep.plist of an application says that it
+            can open files with a particular extension, then when
+            NSWorkspace is asked to open such a file it
+            will attempt to send an
+            <ref type="method" id="-application:openFile:">
+              -application:openFile:
+            </ref>
+            message to the application (which must be handled
+            by the applications delegate). If the application is not
+            running, NSWorkspace will instead attempt to
+            launch the application passing the filename to open
+            after a '-GSFilePath' flag in the command line
+            arguments. For a GNUstep application, the
+            application will recognize this and invoke the
+            <ref type="method" id="-application:openFile:">
+              -application:openFile:
+            </ref>
+            method passing it the file name.
+          </p>
+          <p>
+            This command line argument mechanism provides a way
+            for non-gnustep applications to be used to open files
+            simply by provideing a wrapper for them containing
+            the appropriate Info-gnustep.plist. <br /> For instance
+            - you could set up xv.app to contain a shellscript 'xv'
+            that would start the real xv binary passing it a file
+            to open if the '-GSFilePath' argument was given. The
+            Info-gnustep.plist file could look like
+            this:
+          </p>
+<example>
+ 
+ {
+   NSExecutable = "xv";
+   NSIcon = "xv.png";
+   NSTypes = (
+     {
+       NSIcon = "tiff.tiff";
+       NSUnixExtensions = (tiff, tif);
+     },
+     {
+       NSIcon = "xbm.tiff";
+       NSUnixExtensions = (xbm);
+     }
+);
+ }
+ </example>
+        </desc>
+        <ivariable type="BOOL" name="_fileSystemChanged" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableDictionary*" name="_iconMap" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableDictionary*" name="_launched" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_userDefaultsChanged" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSNotificationCenter*" name="_workspaceCenter" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="NSWorkspace*" factory="yes" ovadd="1.0.0">
+          <sel>sharedWorkspace</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.3.0">
+          <sel>absolutePathForAppBundleWithIdentifier:</sel>
+          <arg type="NSString*">bundleIdentifier</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.2.0">
+          <sel>activeApplication</sel>
+          <desc>
+            Returns a description of the currently active
+            application, containing the name
+            (NSApplicationName), path
+            (NSApplicationPath) and process
+            identifier (NSApplicationProcessIdentifier).
+            <br /> Returns <code>nil</code> if there is no known
+            active application.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>checkForRemovableMedia</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="int" ovadd="1.0.0">
+          <sel>extendPowerOffBy:</sel>
+          <arg type="int">requested</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>fileSystemChanged</sel>
+          <desc>
+            Tracking Changes to the File System
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>filenameExtension:</sel>
+          <arg type="NSString*">filenameExtension</arg>
+          <sel>isValidForType:</sel>
+          <arg type="NSString*">typeName</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>findApplications</sel>
+          <desc>
+            Updates Registered Services, File Types, and other
+            information about any applications installed in
+            the standard locations.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>fullPathForApplication:</sel>
+          <arg type="NSString*">appName</arg>
+          <desc>
+            Given an application name, return the full path for
+            that application. <br /> This method looks for the
+            application in standard locations, and if not
+            found there, according to MacOS-X documentation,
+            returns <code>nil</code>. <br /> If the supplied
+            application name is an absolute path, returns
+            that path irrespective of whether such an application
+            exists or not. This is <em>not</em> the docmented
+            debavior in the MacOS-X documentation, but is the
+            MacOS-X implemented behavior. <br /> If the
+            <var>appName</var> has an extension, it is used,
+            otherwise in GNUstep the standard app, debug, and
+            profile extensions * are tried. <br />
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>getFileSystemInfoForPath:</sel>
+          <arg type="NSString*">fullPath</arg>
+          <sel>isRemovable:</sel>
+          <arg type="BOOL*">removableFlag</arg>
+          <sel>isWritable:</sel>
+          <arg type="BOOL*">writableFlag</arg>
+          <sel>isUnmountable:</sel>
+          <arg type="BOOL*">unmountableFlag</arg>
+          <sel>description:</sel>
+          <arg type="NSString**">description</arg>
+          <sel>type:</sel>
+          <arg type="NSString**">fileSystemType</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>getInfoForFile:</sel>
+          <arg type="NSString*">fullPath</arg>
+          <sel>application:</sel>
+          <arg type="NSString**">appName</arg>
+          <sel>type:</sel>
+          <arg type="NSString**">type</arg>
+          <desc>
+            This method gets information about the file at
+            <var>fullPath</var> and returns <code>YES</code> on
+            success, <code>NO</code> if the named file could
+            not be found. <br /> On success, the name of the
+            preferred application for opening the file is
+            returned in *appName, or <code>nil</code> if there
+            is no known application to open it. <br /> The returned
+            value in *type describes the file using one of the
+            following constants.
+            <deflist>
+              <term>NSPlainFileType</term>
+              <desc>
+                A plain file or a directory that some application
+                claims to be able to open like a file.
+              </desc>
+              <term>NSDirectoryFileType</term>
+              <desc>An untyped directory</desc>
+              <term>NSApplicationFileType</term>
+              <desc>A GNUstep application</desc>
+              <term>NSFilesystemFileType</term>
+              <desc>A file system mount point</desc>
+              <term>NSShellCommandFileType</term>
+              <desc>Executable shell command</desc>
+            </deflist>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>hideOtherApplications</sel>
+          <desc>
+            Instructs all the other running applications to
+            hide themselves. <em>not yet implemented</em>
+          </desc>
+        </method>
+        <method type="NSImage*" ovadd="1.0.0">
+          <sel>iconForFile:</sel>
+          <arg type="NSString*">fullPath</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSImage*" ovadd="1.0.0">
+          <sel>iconForFileType:</sel>
+          <arg type="NSString*">fileType</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSImage*" ovadd="1.0.0">
+          <sel>iconForFiles:</sel>
+          <arg type="NSArray*">pathArray</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>isFilePackageAtPath:</sel>
+          <arg type="NSString*">fullPath</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.3.0">
+          <sel>launchAppWithBundleIdentifier:</sel>
+          <arg type="NSString*">bundleIdentifier</arg>
+          <sel>options:</sel>
+          <arg type="NSWorkspaceLaunchOptions">options</arg>
+          <sel>additionalEventParamDescriptor:</sel>
+          <arg type="NSAppleEventDescriptor*">descriptor</arg>
+          <sel>launchIdentifier:</sel>
+          <arg type="NSNumber**">identifier</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>launchApplication:</sel>
+          <arg type="NSString*">appName</arg>
+          <desc>
+            Calls
+            <ref type="method" id="-launchApplication:showIcon:autolaunch:">-launchApplication:showIcon:autolaunch:</ref> with arguments set to show the icon but not set it up as an autolaunch.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>launchApplication:</sel>
+          <arg type="NSString*">appName</arg>
+          <sel>showIcon:</sel>
+          <arg type="BOOL">showIcon</arg>
+          <sel>autolaunch:</sel>
+          <arg type="BOOL">autolaunch</arg>
+          <desc>
+            <p>
+              Launches the specified application (unless it is
+              already running). <br /> If the
+              <var>autolaunch</var> flag is yes, sets the
+              <var>autolaunch</var> user default for the newly
+              launched application, so that applications which
+              understand the concept of being autolaunched
+              at system startup time can modify their behavior
+              appropriately.
+            </p>
+            <p>
+              Sends an
+              NSWorkspaceWillLaunchApplicationNotification
+              before it actually attempts to launch the
+              application (this is not sent if the
+              application is already running).
+            </p>
+            <p>
+              The application sends an
+              NSWorkspaceDidlLaunchApplicationNotification
+              on completion of launching. This is not sent if the
+              application is already running, or if it
+              fails to complete its startup.
+            </p>
+            <p>
+              Returns <code>NO</code> if the application cannot
+              be launched (eg. it does not exist or the binary is
+              not executable).
+            </p>
+            <p>
+              Returns <code>YES</code> if the application was
+              already running or of it was launched (this does
+              not necessarily mean that the application succeeded
+              in starting up fully).
+            </p>
+            <p>
+              Once an application has fully started up, you should
+              be able to connect to it using
+              <ref type="method" id="+rootProxyForConnectionWithRegisteredName:host:" class="NSConnection">[NSConnection +rootProxyForConnectionWithRegisteredName:host:]</ref> passing the application name (normally the filesystem name excluding path and file extension) and an empty host name. This will let you communicate with the the <ref type="method" id="-delegate" class="NSApplication">[NSApplication -delegate]</ref> of the launched application, and you can generally use this as a test of whether an application is running correctly.
+            </p>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.2.0">
+          <sel>launchedApplications</sel>
+          <desc>
+            Returns an array listing all the applications known
+            to have been launched. Each entry in the array is a
+            dictionary providing the name, path and process
+            identfier of an application.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.5.0">
+          <sel>localizedDescriptionForType:</sel>
+          <arg type="NSString*">typeName</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>mountNewRemovableMedia</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>mountedLocalVolumePaths</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>mountedRemovableMedia</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>noteFileSystemChanged</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>noteFileSystemChanged:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>noteUserDefaultsChanged</sel>
+          <desc>
+            Simply makes a note that the user defaults database
+            has changed.
+          </desc>
+        </method>
+        <method type="NSNotificationCenter*" ovadd="1.0.0">
+          <sel>notificationCenter</sel>
+          <desc>
+            Returns the workspace notification center
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>openFile:</sel>
+          <arg type="NSString*">fullPath</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>openFile:</sel>
+          <arg type="NSString*">fullPath</arg>
+          <sel>fromImage:</sel>
+          <arg type="NSImage*">anImage</arg>
+          <sel>at:</sel>
+          <arg type="NSPoint">point</arg>
+          <sel>inView:</sel>
+          <arg type="NSView*">aView</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>openFile:</sel>
+          <arg type="NSString*">fullPath</arg>
+          <sel>withApplication:</sel>
+          <arg type="NSString*">appName</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>openFile:</sel>
+          <arg type="NSString*">fullPath</arg>
+          <sel>withApplication:</sel>
+          <arg type="NSString*">appName</arg>
+          <sel>andDeactivate:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>openTempFile:</sel>
+          <arg type="NSString*">fullPath</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>openURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.3.0">
+          <sel>openURLs:</sel>
+          <arg type="NSArray*">urls</arg>
+          <sel>withAppBundleIdentifier:</sel>
+          <arg type="NSString*">bundleIdentifier</arg>
+          <sel>options:</sel>
+          <arg type="NSWorkspaceLaunchOptions">options</arg>
+          <sel>additionalEventParamDescriptor:</sel>
+          <arg type="NSAppleEventDescriptor*">descriptor</arg>
+          <sel>launchIdentifiers:</sel>
+          <arg type="NSArray**">identifiers</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>performFileOperation:</sel>
+          <arg type="NSString*">operation</arg>
+          <sel>source:</sel>
+          <arg type="NSString*">source</arg>
+          <sel>destination:</sel>
+          <arg type="NSString*">destination</arg>
+          <sel>files:</sel>
+          <arg type="NSArray*">files</arg>
+          <sel>tag:</sel>
+          <arg type="NSInteger*">tag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.5.0">
+          <sel>preferredFilenameExtensionForType:</sel>
+          <arg type="NSString*">typeName</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>selectFile:</sel>
+          <arg type="NSString*">fullPath</arg>
+          <sel>inFileViewerRootedAtPath:</sel>
+          <arg type="NSString*">rootFullpath</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.3.0">
+          <sel>setIcon:</sel>
+          <arg type="NSImage*">image</arg>
+          <sel>forFile:</sel>
+          <arg type="NSString*">fullPath</arg>
+          <sel>options:</sel>
+          <arg type="NSWorkspaceIconCreationOptions">options</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>slideImage:</sel>
+          <arg type="NSImage*">image</arg>
+          <sel>from:</sel>
+          <arg type="NSPoint">fromPoint</arg>
+          <sel>to:</sel>
+          <arg type="NSPoint">toPoint</arg>
+          <desc>
+            Animating an Image- slides it from one point on
+            the screen to another.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>type:</sel>
+          <arg type="NSString*">firstTypeName</arg>
+          <sel>conformsToType:</sel>
+          <arg type="NSString*">secondTypeName</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.5.0">
+          <sel>typeOfFile:</sel>
+          <arg type="NSString*">absoluteFilePath</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">outError</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>unmountAndEjectDeviceAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>userDefaultsChanged</sel>
+          <desc>
+            Returns a flag to say if the defaults database has
+            changed since the last time this method was called.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSWorkspace(GNUstep)
+        category
+      </heading>
+      <category name="GNUstep" class="NSWorkspace" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>AppKit/NSWorkspace.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="NSImage*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>appIconForApp:</sel>
+          <arg type="NSString*">appName</arg>
+          <desc>
+            Returns the application icon for the given app. Or
+            null if none defined or <var>appName</var> is not a
+            valid application name.
+          </desc>
+        </method>
+        <method type="NSBundle*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>bundleForApp:</sel>
+          <arg type="NSString*">appName</arg>
+          <desc>
+            Returns the application bundle for the named
+            application. Accepts either a full path to an
+            app or just the name. The extension (.app,.debug,
+            .profile) is optional, but if provided it will be
+            used. <br /> Returns <code>nil</code> if the
+            specified app does not exist as requested.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>getBestAppInRole:</sel>
+          <arg type="NSString*">role</arg>
+          <sel>forExtension:</sel>
+          <arg type="NSString*">ext</arg>
+          <desc>
+            Returns the 'best' application to open a file with
+            the specified extension using the given <var>role</var>
+            . If the <var>role</var> is <code>nil</code> then apps
+            which can edit are preferred but viewers are also
+            acceptable. Uses a user preferred app or picks
+            any good match.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>getBestAppInRole:</sel>
+          <arg type="NSString*">role</arg>
+          <sel>forScheme:</sel>
+          <arg type="NSString*">scheme</arg>
+          <desc>
+            Returns the 'best' application to open a file with
+            the specified URL <var>scheme</var> using the given
+            <var>role</var>. If the <var>role</var> is
+            <code>nil</code> then apps which can edit are
+            preferred but viewers are also acceptable. Uses a
+            user preferred app or picks any good match.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>getBestIconForExtension:</sel>
+          <arg type="NSString*">ext</arg>
+          <desc>
+            Returns the path set for the icon matching the
+            image by
+            <ref type="method" id="-setBestIcon:forExtension:">
+              -setBestIcon:forExtension:
+            </ref>
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>infoForExtension:</sel>
+          <arg type="NSString*">ext</arg>
+          <desc>
+            Gets the applications cache (generated by the
+            make_services tool) and looks up the special
+            entry that contains a dictionary of all file
+            extensions recognised by GNUstep applications.
+            Then finds the dictionary of applications that can
+            handle our file and returns it.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>infoForScheme:</sel>
+          <arg type="NSString*">scheme</arg>
+          <desc>
+            Gets the applications cache (generated by the
+            make_services tool) and looks up the special
+            entry that contains a dictionary of all URL schemes
+            recognised by GNUstep applications. Then finds
+            the dictionary of applications that can handle our
+            <var>scheme</var> and returns it.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>locateApplicationBinary:</sel>
+          <arg type="NSString*">appName</arg>
+          <desc>
+            Requires the path to an application wrapper as an
+            argument, and returns the full path to the
+            executable.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>setBestApp:</sel>
+          <arg type="NSString*">appName</arg>
+          <sel>inRole:</sel>
+          <arg type="NSString*">role</arg>
+          <sel>forExtension:</sel>
+          <arg type="NSString*">ext</arg>
+          <desc>
+            Sets up a user preference for which app should be used
+            to open files of the specified extension.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>setBestApp:</sel>
+          <arg type="NSString*">appName</arg>
+          <sel>inRole:</sel>
+          <arg type="NSString*">role</arg>
+          <sel>forScheme:</sel>
+          <arg type="NSString*">scheme</arg>
+          <desc>
+            Sets up a user preference for which app should be used
+            to open files of the specified URL <var>scheme</var>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>setBestIcon:</sel>
+          <arg type="NSString*">iconPath</arg>
+          <sel>forExtension:</sel>
+          <arg type="NSString*">ext</arg>
+          <desc>
+            Sets up a user preference for which icon should be
+            used to represent the specified file extension.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

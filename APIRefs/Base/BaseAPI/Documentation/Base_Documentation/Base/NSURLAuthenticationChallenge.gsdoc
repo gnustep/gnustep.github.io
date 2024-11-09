@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSURLAuthenticationChallenge" stylesheeturl="gnustepStyle" up="Base">
+  <head>
+    <title>NSURLAuthenticationChallenge class documentation</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="frm@gnu.org">
+        frm@gnu.org
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 16:52:01 -0500</date>
+    <copy>2006 Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSURLAuthenticationChallenge class
+      </heading>
+      <class name="NSURLAuthenticationChallenge" super="NSObject" ovadd="10.2.0" gvadd="1.13.0">
+        <declared>Foundation/NSURLAuthenticationChallenge.h</declared>
+        <desc>
+          <strong>Class</strong> to represent an
+          authentication challenge and indicate when the
+          challenge is complete.
+        </desc>
+        <ivariable type="void*" name="_NSURLAuthenticationChallengeInternal" validity="protected" ovadd="10.2.0" gvadd="1.13.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="NSError*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>error</sel>
+          <desc>
+            Returns the error with which the reciver was
+            initialised or <code>nil</code> if it was not
+            initialised with an error. <br /> The error may
+            indicate the nature of the authentication failure.
+          </desc>
+        </method>
+        <method type="NSURLResponse*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>failureResponse</sel>
+          <desc>
+            Returns the response with which the receiver was
+            initialised. <br /> This response contains the
+            authentication failure corresponding to this
+            challenge object. <br /> If there was no failure
+            or response, returns <code>nil</code>.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>initWithAuthenticationChallenge:</sel>
+          <arg type="NSURLAuthenticationChallenge*">challenge</arg>
+          <sel>sender:</sel>
+          <arg type="id&lt;NSURLAuthenticationChallengeSender&gt;">sender</arg>
+          <desc>
+            Initialises a new <var>challenge</var> by
+            copying information from an old one.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>initWithProtectionSpace:</sel>
+          <arg type="NSURLProtectionSpace*">space</arg>
+          <sel>proposedCredential:</sel>
+          <arg type="NSURLCredential*">credential</arg>
+          <sel>previousFailureCount:</sel>
+          <arg type="NSInteger">previousFailureCount</arg>
+          <sel>failureResponse:</sel>
+          <arg type="NSURLResponse*">response</arg>
+          <sel>error:</sel>
+          <arg type="NSError*">error</arg>
+          <sel>sender:</sel>
+          <arg type="id&lt;NSURLAuthenticationChallengeSender&gt;">sender</arg>
+          <desc>
+            Returns the receiver initialised in the specified
+            protection <var>space</var> and with the
+            specified <var>credential</var>. The
+            <var>previousFailureCount</var> says how many
+            requests have failed the challenge and
+            <var>response</var> provide information about the
+            last failure (which caused this challenge to be
+            created). <br /> The <var>error</var> provides
+            information about the authentication failure
+            and the <var>sender</var> is the object to receive
+            callbacks.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>previousFailureCount</sel>
+          <desc>
+            Returns the count of failed authentication
+            attempts.
+          </desc>
+        </method>
+        <method type="NSURLCredential*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>proposedCredential</sel>
+          <desc>
+            Returns a proposed credential to answer the
+            challenge. <br /> If there is no credential
+            available, this returns <code>nil</code>. <br />
+            The credential may come from storage or from the URL
+            itsself.
+          </desc>
+        </method>
+        <method type="NSURLProtectionSpace*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>protectionSpace</sel>
+          <desc>
+            Returns the protection space needing
+            authentication.
+          </desc>
+        </method>
+        <method type="id&lt;NSURLAuthenticationChallengeSender&gt;" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>sender</sel>
+          <desc>
+            Returns the sender of the challenge... the object
+            to which callbacks should be made while processing the
+            challenge.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSURLAuthenticationChallengeSender
+        protocol
+      </heading>
+      <protocol name="NSURLAuthenticationChallengeSender" ovadd="10.2.0" gvadd="1.13.0">
+        <declared>Foundation/NSURLAuthenticationChallenge.h</declared>
+        <conform>NSObject</conform>
+        <desc>
+          A challenge sender (usually an NSURLProtocol subclass
+          handling a connection/download) provides these
+          methods to permit a client to control authentication.
+        </desc>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>cancelAuthenticationChallenge:</sel>
+          <arg type="NSURLAuthenticationChallenge*">challenge</arg>
+          <desc>
+            Cancels the authenticatiopn <var>challenge</var>,
+            ensuring that the load operation will fail to
+            retrieve data, completing with only the response
+            headers containing the <var>challenge</var> having
+            been read from the server.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>continueWithoutCredentialForAuthenticationChallenge:</sel>
+          <arg type="NSURLAuthenticationChallenge*">challenge</arg>
+          <desc>
+            Tells the sender to continue the load without
+            providing a new credential for it to use... if
+            the <var>challenge</var> already had a proposed
+            credential, the sender may elect to use it.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>useCredential:</sel>
+          <arg type="NSURLCredential*">credential</arg>
+          <sel>forAuthenticationChallenge:</sel>
+          <arg type="NSURLAuthenticationChallenge*">challenge</arg>
+          <desc>
+            Tells the sender to continue the load using the new
+            <var>credential</var> provided by this method.
+          </desc>
+        </method>
+      </protocol>
+    </chapter>
+  </body>
+</gsdoc>

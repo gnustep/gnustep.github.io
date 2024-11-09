@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSValueTransformer" stylesheeturl="gnustepStyle" up="Base">
+  <head>
+    <title>NSValueTransformer class documentation</title>
+    <author name="Dr. H. Nikolaus Schaller">
+    </author>
+    <author name="Richard Frith-Macdonald">
+    </author>
+    <date>Generated at 2024-11-07 16:52:01 -0500</date>
+    <copy>2006 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSValueTransformer
+        class
+      </heading>
+      <class name="NSValueTransformer" super="NSObject" ovadd="10.3.0" gvadd="1.2.0">
+        <declared>Foundation/NSValueTransformer.h</declared>
+        <desc>
+          Instances of the NSValueTransformer class are used
+          to convert values from one representation to another. The
+          base class is abstract and its methods must be
+          overridden by subclasses to do the actual work.
+        </desc>
+        <method type="BOOL" factory="yes" override="subclass" ovadd="10.3.0" gvadd="1.2.0">
+          <sel>allowsReverseTransformation</sel>
+          <desc>
+            Returns a flag indicating whether the transformer
+            permits reverse transformations.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="10.3.0" gvadd="1.2.0">
+          <sel>setValueTransformer:</sel>
+          <arg type="NSValueTransformer*">transformer</arg>
+          <sel>forName:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            Registers <var>transformer</var> to handle
+            transformations with the specified
+            <var>name</var>.
+          </desc>
+        </method>
+        <method type="Class" factory="yes" override="subclass" ovadd="10.3.0" gvadd="1.2.0">
+          <sel>transformedValueClass</sel>
+          <desc>
+            Returns the class of the value produced by this
+            transformer.
+          </desc>
+        </method>
+        <method type="NSValueTransformer*" factory="yes" ovadd="10.3.0" gvadd="1.2.0">
+          <sel>valueTransformerForName:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            Returns the transformer registered for the
+            specified <var>name</var>, or <code>nil</code> if
+            no transformer is registered for <var>name</var>. If no
+            transformer is found, but the <var>name</var>
+            corresponds to a valid NSValueTransformer
+            subclass <var>name</var>, the receiver
+            instantiates this subclass using
+            <ref type="method" id="-init">
+              -init
+            </ref>
+            and registers it automatically for <var>name</var>.
+          </desc>
+        </method>
+        <method type="NSArray*" factory="yes" ovadd="10.3.0" gvadd="1.2.0">
+          <sel>valueTransformerNames</sel>
+          <desc>
+            Returns an array listing the names of all
+            registered value transformers.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.3.0" gvadd="1.2.0">
+          <sel>reverseTransformedValue:</sel>
+          <arg type="id">value</arg>
+          <desc>
+            Performs a reverse transformation on the specified
+            <var>value</var> and returns the resulting object.
+            <br /> The default implementation raises an
+            exception if
+            <ref type="method" id="+allowsReverseTransformation">
+              +allowsReverseTransformation
+            </ref>
+            returns <code>NO</code>, otherwise it calls
+            <ref type="method" id="-transformedValue:">
+              -transformedValue:
+            </ref>
+            and returns the result.
+          </desc>
+        </method>
+        <method type="id" override="subclass" ovadd="10.3.0" gvadd="1.2.0">
+          <sel>transformedValue:</sel>
+          <arg type="id">value</arg>
+          <desc>
+            Subclasses should override this method to
+            perform the actual transformation (and reverse
+            transformation if applicable) and return the
+            result.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

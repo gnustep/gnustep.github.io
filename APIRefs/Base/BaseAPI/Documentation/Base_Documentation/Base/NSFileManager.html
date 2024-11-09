@@ -1,0 +1,2641 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>NSFileManager class reference</title>
+    <style type="text/css">
+    hr.method-separator { width:25%; margin-left:0; }
+    </style>
+  </head>
+  <body>
+    <a href="Base.html">Up</a>
+    <br />
+    <h1><a name="title$NSFileManager">NSFileManager class reference</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Mircea Oancea (<a href="mailto:mircea@jupiter.elcom.pub.ro"><code>mircea@jupiter.elcom.pub.ro</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Ovidiu Predescu (<a href="mailto:ovidiu@net-community.com"><code>ovidiu@net-community.com</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Nicola Pero (<a href="mailto:n.pero@mi.flashnet.it"><code>n.pero@mi.flashnet.it</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Richard Frith-Macdonald (<a href="mailto:rfm@gnu.org"><code>rfm@gnu.org</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Date:</b> Generated at 2024-11-07 16:52:01 -0500</p>
+    <p><b>Copyright:</b> (C) 1997,1999-2005 Free Software Foundation, Inc.</p>
+
+        <div>
+      <hr width="50%" align="left" />
+      <h3>Contents -</h3>
+      <ol>
+        <li>
+          <a href="#001000000000">File management</a>
+        </li>
+        <li>
+          <a href="#001001000000">Path handling</a>
+          <li>
+            <a href="#001001001000">unix</a>
+            <ol>
+              <li>
+                <a href="#001001002000">windows</a>
+              </li>
+              <li>
+                <a href="#001001003000">gnustep</a>
+              </li>
+              <li>
+                <a href="#001001004000">Portability</a>
+              </li>
+              <li>
+                <a href="#001001005000">Tilde substitution</a>
+              </li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+      <li>
+        <a href="#002000000000">Software documentation for the NSDirectoryEnumerator
+        class</a>
+      </li>
+      <li>
+        <a href="#003000000000">Software documentation for the NSFileManager class</a>
+      </li>
+      <li>
+        <a href="#004000000000">Software documentation for the
+        NSDictionary(NSFileAttributes)
+        category</a>
+      </li>
+      <li>
+        <a href="#005000000000">Software documentation for the
+        NSObject(NSFileManagerDelegate)
+        informal protocol</a>
+      </li>
+      <li>
+        <a href="#006000000000">Software documentation for the
+        NSObject(NSFileManagerHandler)
+        informal protocol</a>
+      </li>
+      <li>
+        <a href="#007000000000">Software documentation for the NSFileManagerDelegate
+        protocol</a>
+      </li>
+    </ol>
+    <hr width="50%" align="left" />
+  </div>
+
+        <h1><a name="001000000000">File management</a></h1>
+
+          <h2><a name="001001000000">Path handling</a></h2>
+  <p>
+
+          The rules for path handling depend on the value in the
+          <code>GNUSTEP_PATH_HANDLING</code> environment
+          variable and, to some extent, on the platform on
+          which the program is running. <br/> The understood
+          values of GNUSTEP_PATH_HANDLING are <em>unix</em> and
+          <em>windows</em>. If GNUSTEP_PATH_HANDLING is any other
+          value (or has not been set), GNUstep interprets this as
+          meaning it should try to <em>do-the-right-thing</em>
+          <br/> In the default mode of operation the system is
+          very tolerant of paths and allows you to work with both
+          unix and windows style paths. The consequences of this
+          are apparent in the path handling methods of
+          <a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>
+
+            rather than in
+            <a rel="gsdoc" href="#class$NSFileManager">NSFileManager</a>
+
+              .
+              </p>
+
+                <h3><a name="001001001000">unix</a></h3>
+  <p>
+
+                On all Unix platforms, Path components are separated
+                by slashes and file names may contain any character
+                other than slash. <br/> The file names. and..
+                are special cases meaning current directory and the
+                parent of the current directory respectively.
+                <br/> Multiple adjacent slash characters are
+                treated as a single separator.
+                </p>
+  <dl>
+    <dt>/</dt>
+    <dd>
+      
+                  An absolute path to the root directory.
+                
+    </dd>
+    <dt>/etc/motd</dt>
+    <dd>
+      
+                  An absolute path to the file named <em>motd</em>
+                  in the subdirectory <em>etc</em> of the root
+                  directory.
+                
+    </dd>
+    <dt>..</dt>
+    <dd>
+      
+                  A relative path to the parent of the current
+                  directory.
+                
+    </dd>
+    <dt>program.m</dt>
+    <dd>
+      
+                  A relative path to the file <em>program.m</em> in
+                  the current directory.
+                
+    </dd>
+    <dt>Source/program.m</dt>
+    <dd>
+      
+                  A relative path to the file <em>program.m</em> in
+                  the subdirectory <em>Source</em> of the current
+                  directory.
+                
+    </dd>
+    <dt>../GNUmakefile</dt>
+    <dd>
+      
+                  A relative path to the file <em>GNUmakefile</em> in
+                  the directory above the current directory.
+                
+    </dd>
+  </dl>
+
+                <h3><a name="001001002000">windows</a></h3>
+  <p>
+
+                On Microsoft Windows the native paths may be either
+                UNC or drive-relative, so GNUstep supports both.
+                <br/> Either or both slash (/) and backslash
+                (\) may be used as separators for path components
+                in either type of name. <br/> UNC paths follow the
+                general form //host/share/path/file, but must
+                at least contain the host and share parts, i.e.
+                //host/share is a UNC path, but //host is
+                <em>not</em> <br/> Drive-relative names consist
+                of an optional drive specifier (consisting of a
+                single letter followed by a single colon)
+                followed by an absolute or relative path.
+                <br/> In both forms, the names. and.. are refer
+                to the current directory and the parent directory as
+                in unix paths.
+                </p>
+  <dl>
+    <dt>//host/share/file</dt>
+    <dd>
+      
+                  An absolute UNC path to a file called
+                  <em>file</em> in the top directory of the export
+                  point share on host.
+                
+    </dd>
+    <dt>C:</dt>
+    <dd>
+      
+                  A relative path to the current directory on drive
+                  C.
+                
+    </dd>
+    <dt>C:program.m</dt>
+    <dd>
+      
+                  A relative path to the file <em>program.m</em> on
+                  drive C.
+                
+    </dd>
+    <dt>C:\program.m</dt>
+    <dd>
+      
+                  An absolute path to the file <em>program.m</em> in
+                  the top level directory on drive C.
+                
+    </dd>
+    <dt>/Source\program.m</dt>
+    <dd>
+      
+                  A drive-relative path to <em>program.m</em> in the
+                  directory <em>Source</em> on the current
+                  drive.
+                
+    </dd>
+    <dt>\\name</dt>
+    <dd>
+      
+                  A drive-relative path to <em>name</em> in the top
+                  level directory on the current drive. The &apos;\\&apos;
+                  is treated as a single backslash as this is not a
+                  UNC name (there must be both a host and a share
+                  part in a UNC name).
+                
+    </dd>
+  </dl>
+
+                <h3><a name="001001003000">gnustep</a></h3>
+  <p>
+
+                In the default mode, GNUstep handles both unix and
+                windows paths so it treats both slash (/) and
+                backslash (\) as separators and understands
+                the windows UNC and drive relative path roots.
+                <br/> However, it treats any path beginning
+                with a slash (/) as an absolute path
+                <em>if running on a unix system</em>.
+                </p>
+
+                <h3><a name="001001004000">Portability</a></h3>
+  <p>
+
+                Attempting to pass absolute paths between
+                applications working on different systems
+                is fraught with difficulty... just don&apos;t do it.
+                <br/> Where paths need to be passed around (eg.
+                in property lists or archives) you should pass
+                relative paths and use a standard mechanism to
+                construct an absolute path in the receiving
+                application, for instance, appending the
+                relative path to the home directory of a user.
+                </p>
+  <ul>
+    <li>
+      
+                  Use only the slash (/) as a path separator, not
+                  backslash (\).
+                
+    </li>
+    <li>
+      
+                  Never use a backslash (\) in a file name.
+                
+    </li>
+    <li>
+      Avoid colons in file names.
+    </li>
+    <li>
+      
+                  Use no more than three letters in a path
+                  extension.
+                
+    </li>
+  </ul>
+
+                <h3><a name="001001005000">Tilde substitution</a></h3>
+  <p>
+
+                GNUstep handles substitution of tilde (~) as
+                follows: <br/> If a path is just ~ or begins
+                ~/ then the value returned by
+                <a rel="gsdoc" href="Functions.html#function$NSHomeDirectory">
+                  NSHomeDirectory()
+                </a>
+
+                is substituted for the tilde. <br/> If a path is of
+                the form ~name or begins with a string like ~name/
+                then name is used as the argument to
+                <a rel="gsdoc" href="Functions.html#function$NSHomeDirectoryForUser">
+                  NSHomeDirectoryForUser()
+                </a>
+
+                and the return value from that method (if non-nil)
+                is used to replace the tilde.
+                </p>
+
+        <h1><a name="002000000000">
+        Software documentation for the NSDirectoryEnumerator
+        class
+      </a></h1>
+  <h2 class="class"><a name="class$NSDirectoryEnumerator">NSDirectoryEnumerator</a> : <a rel="gsdoc" href="NSEnumerator.html#class$NSEnumerator">NSEnumerator</a></h2>
+<svg width="307pt" height="116pt"
+ viewBox="0.00 0.00 307.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>class_NSDirectoryEnumerator</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 303,-112 303,4 -4,4"/>
+<!-- NSEnumerator -->
+<g id="node1" class="node">
+<title>NSEnumerator</title>
+<g id="a_node1"><a xlink:href="NSEnumerator.html#class$NSEnumerator" xlink:title="NSEnumerator">
+<polygon fill="lightgrey" stroke="black" points="241.5,-108 57.5,-108 57.5,-72 241.5,-72 241.5,-108"/>
+<text text-anchor="middle" x="149.5" y="-83.8" font-family="Times,serif" font-size="24.00" fill="blue">NSEnumerator</text>
+</a>
+</g>
+</g>
+<!-- NSDirectoryEnumerator -->
+<g id="node2" class="node">
+<title>NSDirectoryEnumerator</title>
+<polygon fill="lightgrey" stroke="black" points="299,-36 0,-36 0,0 299,0 299,-36"/>
+<text text-anchor="middle" x="149.5" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">NSDirectoryEnumerator</text>
+</g>
+<!-- NSEnumerator&#45;&gt;NSDirectoryEnumerator -->
+<g id="edge1" class="edge">
+<title>NSEnumerator&#45;&gt;NSDirectoryEnumerator</title>
+<path fill="none" stroke="black" d="M149.5,-71.7C149.5,-63.98 149.5,-54.71 149.5,-46.11"/>
+<polygon fill="black" stroke="black" points="153,-46.1 149.5,-36.1 146,-46.1 153,-46.1"/>
+</g>
+</g>
+</svg>
+  <blockquote class="declared">
+    <dl>
+      <dt><b>Declared in:</b></dt>
+      <dd>Foundation/NSFileManager.h</dd>
+    </dl>
+  </blockquote>
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+          
+  </p>
+  <p>
+
+            This is a subclass of <code>NSEnumerator</code> which
+            provides a full listing of all the files beneath a
+            directory and its subdirectories. Instances can
+            be obtained through
+            <a rel="gsdoc" href="#method$NSFileManager-enumeratorAtPath$">[NSFileManager -enumeratorAtPath:]</a>
+.
+            </p>
+  <p>
+    
+          
+  </p>
+  <p>
+
+            This implementation is optimized and performance
+            should be comparable to the speed of standard Unix
+            tools for large directories.
+            </p>
+  <p>
+    
+          
+  </p>
+  <p>
+
+            The order in which directory contents are enumerated is
+            undefined, and in the current implementation the
+            natural order of the underlying filesystem is used.
+            </p>
+  <p>
+    
+        
+  </div>
+<div class="global_method_index">
+  <b>Method summary</b>
+  <ul>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSDirectoryEnumerator-directoryAttributes">-directoryAttributes</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSDirectoryEnumerator-fileAttributes">-fileAttributes</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSDirectoryEnumerator-skipDescendents">-skipDescendents</a></li>
+  </ul>
+</div>
+  <hr width="50%" align="left" />
+<div class="method">
+  <h3><a name="method$NSDirectoryEnumerator-directoryAttributes">directoryAttributes&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*) <b>directoryAttributes</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Returns a dictionary containing the attributes of
+            the directory at which enumeration started. <br/> The
+            contents of this dictionary are as produced by
+            <a rel="gsdoc" href="#method$NSFileManager-fileAttributesAtPath$traverseLink$">[NSFileManager -fileAttributesAtPath:traverseLink:]</a>
+
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSDirectoryEnumerator-fileAttributes">fileAttributes&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*) <b>fileAttributes</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Returns a dictionary containing the attributes of
+            the file currently being enumerated. <br/> The
+            contents of this dictionary are as produced by
+            <a rel="gsdoc" href="#method$NSFileManager-fileAttributesAtPath$traverseLink$">[NSFileManager -fileAttributesAtPath:traverseLink:]</a>
+
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSDirectoryEnumerator-skipDescendents">skipDescendents&nbsp;</a></h3>
+  - (void) <b>skipDescendents</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Informs the receiver that any descendents of the
+            current directory should be skipped rather than
+            enumerated. Use this to avoid enumerating the
+            contents of directories you are not interested in.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+
+        <h1><a name="003000000000">
+        Software documentation for the NSFileManager class
+      </a></h1>
+  <h2 class="class"><a name="class$NSFileManager">NSFileManager</a> : <a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a></h2>
+<svg width="201pt" height="116pt"
+ viewBox="0.00 0.00 201.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>class_NSFileManager</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 197,-112 197,4 -4,4"/>
+<!-- NSObject -->
+<g id="node1" class="node">
+<title>NSObject</title>
+<g id="a_node1"><a xlink:href="NSObject.html#class$NSObject" xlink:title="NSObject">
+<polygon fill="lightgrey" stroke="black" points="155.5,-108 37.5,-108 37.5,-72 155.5,-72 155.5,-108"/>
+<text text-anchor="middle" x="96.5" y="-83.8" font-family="Times,serif" font-size="24.00" fill="blue">NSObject</text>
+</a>
+</g>
+</g>
+<!-- NSFileManager -->
+<g id="node2" class="node">
+<title>NSFileManager</title>
+<polygon fill="lightgrey" stroke="black" points="193,-36 0,-36 0,0 193,0 193,-36"/>
+<text text-anchor="middle" x="96.5" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">NSFileManager</text>
+</g>
+<!-- NSObject&#45;&gt;NSFileManager -->
+<g id="edge1" class="edge">
+<title>NSObject&#45;&gt;NSFileManager</title>
+<path fill="none" stroke="black" d="M96.5,-71.7C96.5,-63.98 96.5,-54.71 96.5,-46.11"/>
+<polygon fill="black" stroke="black" points="100,-46.1 96.5,-36.1 93,-46.1 100,-46.1"/>
+</g>
+</g>
+</svg>
+  <blockquote class="declared">
+    <dl>
+      <dt><b>Declared in:</b></dt>
+      <dd>Foundation/NSFileManager.h</dd>
+    </dl>
+  </blockquote>
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+          This is the main class for platform-independent
+          management of the local filesystem, which allows
+          you to read and save files, create/list directories, and
+          move or delete files and directories. In addition to
+          simply listing directories, you may obtain an
+          <a rel="gsdoc" href="#class$NSDirectoryEnumerator">NSDirectoryEnumerator</a>
+
+            instance for recursive directory contents
+            enumeration.
+        
+  </div>
+<div class="global_method_index">
+  <b>Method summary</b>
+  <ul>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager+defaultManager">+defaultManager</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-URLForDirectory$inDomain$appropriateForURL$create$error$">-URLForDirectory:inDomain:appropriateForURL:create:error:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-URLsForDirectory$inDomains$">-URLsForDirectory:inDomains:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-attributesOfFileSystemForPath$error$">-attributesOfFileSystemForPath:error:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-attributesOfItemAtPath$error$">-attributesOfItemAtPath:error:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-changeCurrentDirectoryPath$">-changeCurrentDirectoryPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-changeFileAttributes$atPath$">-changeFileAttributes:atPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-componentsToDisplayForPath$">-componentsToDisplayForPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-contentsAtPath$">-contentsAtPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-contentsEqualAtPath$andPath$">-contentsEqualAtPath:andPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-contentsOfDirectoryAtPath$error$">-contentsOfDirectoryAtPath:error:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-contentsOfDirectoryAtURL$includingPropertiesForKeys$options$error$">-contentsOfDirectoryAtURL:includingPropertiesForKeys:options:error:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-copyItemAtPath$toPath$error$">-copyItemAtPath:toPath:error:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-copyItemAtURL$toURL$error$">-copyItemAtURL:toURL:error:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-copyPath$toPath$handler$">-copyPath:toPath:handler:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-createDirectoryAtPath$attributes$">-createDirectoryAtPath:attributes:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-createDirectoryAtPath$withIntermediateDirectories$attributes$error$">-createDirectoryAtPath:withIntermediateDirectories:attributes:error:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-createDirectoryAtURL$withIntermediateDirectories$attributes$error$">-createDirectoryAtURL:withIntermediateDirectories:attributes:error:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-createFileAtPath$contents$attributes$">-createFileAtPath:contents:attributes:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-createSymbolicLinkAtPath$pathContent$">-createSymbolicLinkAtPath:pathContent:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-createSymbolicLinkAtPath$withDestinationPath$error$">-createSymbolicLinkAtPath:withDestinationPath:error:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-currentDirectoryPath">-currentDirectoryPath</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-delegate">-delegate</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-directoryContentsAtPath$">-directoryContentsAtPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-displayNameAtPath$">-displayNameAtPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-enumeratorAtPath$">-enumeratorAtPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-enumeratorAtURL$includingPropertiesForKeys$options$errorHandler$">-enumeratorAtURL:includingPropertiesForKeys:options:errorHandler:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-fileAttributesAtPath$traverseLink$">-fileAttributesAtPath:traverseLink:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-fileExistsAtPath$">-fileExistsAtPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-fileExistsAtPath$isDirectory$">-fileExistsAtPath:isDirectory:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-fileSystemAttributesAtPath$">-fileSystemAttributesAtPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-fileSystemRepresentationWithPath$">-fileSystemRepresentationWithPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-isDeletableFileAtPath$">-isDeletableFileAtPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-isExecutableFileAtPath$">-isExecutableFileAtPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-isReadableFileAtPath$">-isReadableFileAtPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-isWritableFileAtPath$">-isWritableFileAtPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-linkPath$toPath$handler$">-linkPath:toPath:handler:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-moveItemAtPath$toPath$error$">-moveItemAtPath:toPath:error:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-moveItemAtURL$toURL$error$">-moveItemAtURL:toURL:error:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-movePath$toPath$handler$">-movePath:toPath:handler:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-pathContentOfSymbolicLinkAtPath$">-pathContentOfSymbolicLinkAtPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-removeFileAtPath$handler$">-removeFileAtPath:handler:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-removeItemAtPath$error$">-removeItemAtPath:error:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-removeItemAtURL$error$">-removeItemAtURL:error:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-setAttributes$ofItemAtPath$error$">-setAttributes:ofItemAtPath:error:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-setDelegate$">-setDelegate:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-stringWithFileSystemRepresentation$length$">-stringWithFileSystemRepresentation:length:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-subpathsAtPath$">-subpathsAtPath:</a></li>
+  </ul>
+</div>
+  <hr width="50%" align="left" />
+<div class="method">
+  <h3><a name="method$NSFileManager+defaultManager">defaultManager&nbsp;</a></h3>
+  + (<a rel="gsdoc" href="#class$NSFileManager">NSFileManager</a>*) <b>defaultManager</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Returns a shared default file manager which may be
+            used throughout an application.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-URLForDirectory$inDomain$appropriateForURL$create$error$">URLForDirectory:&nbsp;inDomain:&nbsp;appropriateForURL:&nbsp;create:&nbsp;error:&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*) <b>URLForDirectory:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSSearchPathDirectory">NSSearchPathDirectory</a>)directory<b> inDomain:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSSearchPathDomainMask">NSSearchPathDomainMask</a>)domain<b> appropriateForURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)url<b> create:</b> (BOOL)shouldCreate<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+  <div class="desc">
+    
+            Locates and, optionally, creates the specified
+            common <var>directory</var> in <var>domain</var>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-URLsForDirectory$inDomains$">URLsForDirectory:&nbsp;inDomains:&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>URLsForDirectory:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSSearchPathDirectory">NSSearchPathDirectory</a>)directory<b> inDomains:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSSearchPathDomainMask">NSSearchPathDomainMask</a>)domain;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+  <div class="desc">
+    
+            Returns an array of search paths to look at for
+            resources. <br/> The paths are returned in
+            <var>domain</var> order: USER, LOCAL, NETWORK then
+            SYSTEM. <br/> The presence of a path in this list
+            does <em>not</em> mean that the path actually exists
+            in the filesystem. <br/> If you are wanting to locate
+            an existing resource, you should normally call this
+            method with NSAllDomainsMask, but if you wish to
+            find the path in which you should create a new file,
+            you would generally specify a particular
+            <var>domain</var>, and then create the path in the
+            file system if it does not already exist.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-attributesOfFileSystemForPath$error$">attributesOfFileSystemForPath:&nbsp;error:&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*) <b>attributesOfFileSystemForPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            <em>Description forthcoming.</em>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-attributesOfItemAtPath$error$">attributesOfItemAtPath:&nbsp;error:&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*) <b>attributesOfItemAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            If a file (or directory etc) exists at the specified
+            <var>path</var>, and can be queried for its
+            attributes, this method returns a dictionary
+            containing the various attributes of that file.
+            Otherwise <code>nil</code> is returned. <br/> If
+            an <var>error</var> occurs, <var>error</var> describes
+            the problem. Pass NULL if you do not want
+            <var>error</var> information.
+            
+  </p>
+  <p>
+
+              The dictionary keys for attributes are -
+              </p>
+  <p>
+    
+            
+    <dl>
+      <dt><code>NSFileAppendOnly</code></dt>
+      <dd>
+        NSNumber... boolean
+      </dd>
+      <dt><code>NSFileCreationDate</code></dt>
+      <dd>
+        
+                NSDate when the file was created (if supported)
+              
+      </dd>
+      <dt><code>NSFileDeviceIdentifier</code></dt>
+      <dd>
+        
+                NSNumber (identifies the device on which the
+                file is stored)
+              
+      </dd>
+      <dt><code>NSFileExtensionHidden</code></dt>
+      <dd>
+        NSNumber... boolean
+      </dd>
+      <dt>
+                <code>NSFileGroupOwnerAccountName</code>
+              </dt>
+      <dd>
+        NSString name of the file group
+      </dd>
+      <dt>
+                <code>NSFileGroupOwnerAccountID</code>
+              </dt>
+      <dd>
+        NSNumber ID of the file group
+      </dd>
+      <dt><code>NSFileHFSCreatorCode</code></dt>
+      <dd>
+        NSNumber not used
+      </dd>
+      <dt><code>NSFileHFSTypeCode</code></dt>
+      <dd>
+        NSNumber not used
+      </dd>
+      <dt><code>NSFileImmutable</code></dt>
+      <dd>
+        NSNumber... boolean
+      </dd>
+      <dt><code>NSFileModificationDate</code></dt>
+      <dd>
+        
+                NSDate when the file was last modified
+              
+      </dd>
+      <dt><code>NSFileOwnerAccountName</code></dt>
+      <dd>
+        NSString name of the file owner
+      </dd>
+      <dt><code>NSFileOwnerAccountID</code></dt>
+      <dd>
+        NSNumber ID of the file owner
+      </dd>
+      <dt><code>NSFilePosixPermissions</code></dt>
+      <dd>
+        
+                NSNumber posix access permissions mask
+              
+      </dd>
+      <dt><code>NSFileReferenceCount</code></dt>
+      <dd>
+        NSNumber number of links to this file
+      </dd>
+      <dt><code>NSFileSize</code></dt>
+      <dd>
+        NSNumber size of the file in bytes
+      </dd>
+      <dt><code>NSFileSystemFileNumber</code></dt>
+      <dd>
+        
+                NSNumber the identifier for the file on the
+                filesystem
+              
+      </dd>
+      <dt><code>NSFileSystemNumber</code></dt>
+      <dd>
+        
+                NSNumber the filesystem on which the file is
+                stored
+              
+      </dd>
+      <dt><code>NSFileType</code></dt>
+      <dd>
+        NSString the type of file
+      </dd>
+    </dl>
+    
+            
+  </p>
+  <p>
+
+              The
+              <a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>
+
+                class also has a set of convenience accessor
+                methods which enable you to get at file
+                attribute information more efficiently than
+                using the keys above to extract it. You should
+                generally use the accessor methods where they
+                are available.
+                </p>
+  <p>
+    
+              
+    <ul>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileCreationDate">[NSDictionary(NSFileAttributes) -fileCreationDate]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileExtensionHidden">[NSDictionary(NSFileAttributes) -fileExtensionHidden]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileHFSCreatorCode">[NSDictionary(NSFileAttributes) -fileHFSCreatorCode]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileHFSTypeCode">[NSDictionary(NSFileAttributes) -fileHFSTypeCode]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileIsAppendOnly">[NSDictionary(NSFileAttributes) -fileIsAppendOnly]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileIsImmutable">[NSDictionary(NSFileAttributes) -fileIsImmutable]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileSize">[NSDictionary(NSFileAttributes) -fileSize]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileType">[NSDictionary(NSFileAttributes) -fileType]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileOwnerAccountName">[NSDictionary(NSFileAttributes) -fileOwnerAccountName]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileOwnerAccountID">[NSDictionary(NSFileAttributes) -fileOwnerAccountID]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileGroupOwnerAccountName">[NSDictionary(NSFileAttributes) -fileGroupOwnerAccountName]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileGroupOwnerAccountID">[NSDictionary(NSFileAttributes) -fileGroupOwnerAccountID]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileModificationDate">[NSDictionary(NSFileAttributes) -fileModificationDate]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-filePosixPermissions">[NSDictionary(NSFileAttributes) -filePosixPermissions]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileSystemNumber">[NSDictionary(NSFileAttributes) -fileSystemNumber]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileSystemFileNumber">[NSDictionary(NSFileAttributes) -fileSystemFileNumber]</a>
+
+                
+      </li>
+    </ul>
+    
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-changeCurrentDirectoryPath$">changeCurrentDirectoryPath:&nbsp;</a></h3>
+  - (BOOL) <b>changeCurrentDirectoryPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Changes the current directory used for all
+            subsequent operations. <br/> All non-absolute
+            paths are interpreted relative to this directory.
+            <br/> The current directory is set on a per-task
+            basis, so the current directory for other file
+            manager instances will also be changed by this
+            method.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-changeFileAttributes$atPath$">changeFileAttributes:&nbsp;atPath:&nbsp;</a></h3>
+  - (BOOL) <b>changeFileAttributes:</b> (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*)attributes<b> atPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Change the <var>attributes</var> of the file at
+            <var>path</var> to those specified. <br/> Returns
+            <code>YES</code> if all requested changes were made
+            (or if the dictionary was <code>nil</code> or empty, so
+            no changes were requested), <code>NO</code> otherwise.
+            <br/> On failure, some of the requested changes may
+            have taken place. <br/>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-componentsToDisplayForPath$">componentsToDisplayForPath:&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>componentsToDisplayForPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Returns an array of <var>path</var> components
+            suitably modified for display to the end user.
+            This modification may render the returned strings
+            unusable for <var>path</var> manipulation, so you
+            should work with two arrays... one returned by this
+            method (for display to the user), and a parallel one
+            returned by
+            <a rel="gsdoc" href="NSString.html#method$NSString-pathComponents">
+              [NSString -pathComponents]
+            </a>
+
+            (for <var>path</var> manipulation).
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-contentsAtPath$">contentsAtPath:&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*) <b>contentsAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Reads the file at <var>path</var> an returns its
+            contents as an NSData object. <br/> If an error
+            occurs or if <var>path</var> specifies a directory
+            etc then <code>nil</code> is returned.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-contentsEqualAtPath$andPath$">contentsEqualAtPath:&nbsp;andPath:&nbsp;</a></h3>
+  - (BOOL) <b>contentsEqualAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path1<b> andPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path2;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Returns <code>YES</code> if the contents of the
+            file or directory at <var>path1</var> are the same as
+            those at <var>path2</var>. <br/> If <var>path1</var>
+            and <var>path2</var> are files, this is a simple
+            comparison. If they are directories, the
+            contents of the files in those subdirectories are
+            compared recursively. <br/> Symbolic links are
+            not followed. <br/> A comparison checks first file
+            identity, then size, then content.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-contentsOfDirectoryAtPath$error$">contentsOfDirectoryAtPath:&nbsp;error:&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>contentsOfDirectoryAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            Returns an array of NSStrings of the contents of
+            the specified directory. <br/> The listing does
+            <strong>not</strong> recursively list
+            subdirectories. <br/> The special files
+            &apos;.&apos; and &apos;..&apos; are not listed. <br/> Indicates an
+            <var>error</var> by returning <code>nil</code> (eg.
+            if <var>path</var> is not a directory or it can&apos;t be
+            read for some reason).
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-contentsOfDirectoryAtURL$includingPropertiesForKeys$options$error$">contentsOfDirectoryAtURL:&nbsp;includingPropertiesForKeys:&nbsp;options:&nbsp;error:&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>contentsOfDirectoryAtURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)url<b> includingPropertiesForKeys:</b> (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*)keys<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSDirectoryEnumerationOptions">NSDirectoryEnumerationOptions</a>)mask<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+  <div class="desc">
+    
+            Returns an array of NSURL of the contents of the
+            specified directory. <br/> The listing is
+            shallow and does not recurse into subdirectories.
+            The special files &apos;.&apos; and &apos;..&apos; are excluded but it can
+            return hidden files. <br/> The only <var>mask</var>
+            option supported is
+            NSDirectoryEnumerationSkipsHiddenFiles.
+            <br/> The current implementation handles only files
+            and property <var>keys</var> are ignored.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-copyItemAtPath$toPath$error$">copyItemAtPath:&nbsp;toPath:&nbsp;error:&nbsp;</a></h3>
+  - (BOOL) <b>copyItemAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)src<b> toPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)dst<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            Copies the item specified by the <var>src</var> path
+            to the location specified by the <var>dst</var> path. If
+            the <var>src</var> is a directory, it is copied
+            recursively with all of its contents. <br/>
+            Errors are returned in the <var>error</var>
+            variable. Returns <code>YES</code> on success,
+            <code>NO</code> otherwise.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-copyItemAtURL$toURL$error$">copyItemAtURL:&nbsp;toURL:&nbsp;error:&nbsp;</a></h3>
+  - (BOOL) <b>copyItemAtURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)src<b> toURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)dst<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            Copies the a file or directory specified by the
+            <var>src</var> URL to the location specified by the
+            <var>dst</var> URL. If the <var>src</var> is a
+            directory, it is copied recursively with all of
+            its contents. <br/> Errors are returned in the
+            <var>error</var> variable. Returns <code>YES</code>
+            on success, <code>NO</code> otherwise.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-copyPath$toPath$handler$">copyPath:&nbsp;toPath:&nbsp;handler:&nbsp;</a></h3>
+  - (BOOL) <b>copyPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)source<b> toPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)destination<b> handler:</b> (id)handler;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Copies the file or directory at <var>source</var> to
+            <var>destination</var>, using a <var>handler</var>
+            object which may respond to
+            <a rel="gsdoc" href="#method$NSObject(NSFileManagerHandler)-fileManager$willProcessPath$">[NSObject(NSFileManagerHandler) -fileManager:willProcessPath:]</a>
+ and <a rel="gsdoc" href="#method$NSObject(NSFileManagerHandler)-fileManager$shouldProceedAfterError$">[NSObject(NSFileManagerHandler) -fileManager:shouldProceedAfterError:]</a>
+ messages. <br/> If the <var>handler</var> responds to the first message, it is used to inform the <var>handler</var> when an item is about to be copied. If the <var>handler</var> responds to the second message, it is used to ask the <var>handler</var> whether to continue with the copy after an error (when there is no <var>handler</var> the processing stops at the point when an error occurs). <br/> Symbolic links are copied themselved rather than causing the items they link to be copied. <br/> Will not copy to a <var>destination</var> which already exists.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-createDirectoryAtPath$attributes$">createDirectoryAtPath:&nbsp;attributes:&nbsp;</a></h3>
+  - (BOOL) <b>createDirectoryAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path<b> attributes:</b> (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*)attributes;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Creates a new directory, and sets its
+            <var>attributes</var> as specified. <br/> Fails if
+            directories in the <var>path</var> are missing.
+            <br/> Returns <code>YES</code> if the directory was
+            actually created, <code>NO</code> otherwise.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-createDirectoryAtPath$withIntermediateDirectories$attributes$error$">createDirectoryAtPath:&nbsp;withIntermediateDirectories:&nbsp;attributes:&nbsp;error:&nbsp;</a></h3>
+  - (BOOL) <b>createDirectoryAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path<b> withIntermediateDirectories:</b> (BOOL)flag<b> attributes:</b> (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*)attributes<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Creates a new directory (and all intermediate
+            directories if <var>flag</var> is
+            <code>YES</code>). Creates only the last directory
+            in the <var>path</var> if <var>flag</var> is
+            <code>NO</code>. <br/> The directory is created
+            with the <var>attributes</var> specified, and any
+            problem is returned in <var>error</var>. <br/>
+            Returns <code>YES</code> if the directory is
+            created (or <var>flag</var> is <code>YES</code> and
+            the directory already exists), <code>NO</code> on
+            failure.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-createDirectoryAtURL$withIntermediateDirectories$attributes$error$">createDirectoryAtURL:&nbsp;withIntermediateDirectories:&nbsp;attributes:&nbsp;error:&nbsp;</a></h3>
+  - (BOOL) <b>createDirectoryAtURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)url<b> withIntermediateDirectories:</b> (BOOL)flag<b> attributes:</b> (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*)attributes<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Creates a new directory and all intermediate
+            directories in the file URL if <var>flag</var>
+            is <code>YES</code>. <br/> Creates only the last
+            directory in the URL if <var>flag</var> is
+            <code>NO</code>. <br/> The directory is created
+            with the <var>attributes</var> specified and any
+            problem is returned in <var>error</var>. <br/>
+            Returns <code>YES</code> if the directory is
+            created (or <var>flag</var> is <code>YES</code> and
+            the directory already exists), <code>NO</code> on
+            failure.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-createFileAtPath$contents$attributes$">createFileAtPath:&nbsp;contents:&nbsp;attributes:&nbsp;</a></h3>
+  - (BOOL) <b>createFileAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path<b> contents:</b> (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*)contents<b> attributes:</b> (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*)attributes;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Creates a new file, and sets its
+            <var>attributes</var> as specified. <br/>
+            Initialises the file content with the specified
+            data. <br/> Returns <code>YES</code> on success,
+            <code>NO</code> on failure.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-createSymbolicLinkAtPath$pathContent$">createSymbolicLinkAtPath:&nbsp;pathContent:&nbsp;</a></h3>
+  - (BOOL) <b>createSymbolicLinkAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path<b> pathContent:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)otherPath;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Creates a symbolic link at <var>path</var> which
+            links to the location specified by
+            <var>otherPath</var>.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-createSymbolicLinkAtPath$withDestinationPath$error$">createSymbolicLinkAtPath:&nbsp;withDestinationPath:&nbsp;error:&nbsp;</a></h3>
+  - (BOOL) <b>createSymbolicLinkAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path<b> withDestinationPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)destPath<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            Creates a symbolic link at the <var>path</var> that
+            point to the destination <var>path</var>. <br/>
+            Returns <code>YES</code> on success, otherwise
+            <code>NO</code>.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-currentDirectoryPath">currentDirectoryPath&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>currentDirectoryPath</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Returns the current working directory used by all
+            instance of the file manager in the current task.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-delegate">delegate&nbsp;</a></h3>
+  - (id<<a rel="gsdoc" href="#protocol$(NSFileManagerDelegate)">NSFileManagerDelegate</a>>) <b>delegate</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            <em>Description forthcoming.</em>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-directoryContentsAtPath$">directoryContentsAtPath:&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>directoryContentsAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Returns an array of the contents of the specified
+            directory. <br/> The listing does
+            <strong>not</strong> recursively list
+            subdirectories. <br/> The special files
+            &apos;.&apos; and &apos;..&apos; are not listed. <br/> Indicates an error
+            by returning <code>nil</code> (eg. if <var>path</var> is
+            not a directory or it can&apos;t be read for some reason).
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-displayNameAtPath$">displayNameAtPath:&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>displayNameAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Returns the name of the file or directory at
+            <var>path</var>. Converts it into a format for
+            display to an end user. This may render it unusable
+            as part of a file/path name. <br/> For instance, if a
+            user has elected not to see file extensions, this
+            method may return filenames with the extension
+            removed. <br/> The default operation is to return
+            the result of calling
+            <a rel="gsdoc" href="NSString.html#method$NSString-lastPathComponent">[NSString -lastPathComponent]</a>
+ on the <var>path</var>.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-enumeratorAtPath$">enumeratorAtPath:&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="#class$NSDirectoryEnumerator">NSDirectoryEnumerator</a>*) <b>enumeratorAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            
+  </p>
+  <p>
+
+              Returns an enumerator which can be used to return
+              each item with the directory at <var>path</var> in
+              turn.
+              </p>
+  <p>
+    
+            
+  </p>
+  <p>
+
+              The enumeration is recursive... following all nested
+              subdirectories.
+              </p>
+  <p>
+    
+            
+  </p>
+  <p>
+
+              The order in which directory contents are enumerated
+              is undefined, and in the current implementation the
+              natural order of the underlying filesystem is
+              used.
+              </p>
+  <p>
+    
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-enumeratorAtURL$includingPropertiesForKeys$options$errorHandler$">enumeratorAtURL:&nbsp;includingPropertiesForKeys:&nbsp;options:&nbsp;errorHandler:&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="#class$NSDirectoryEnumerator">NSDirectoryEnumerator</a>*) <b>enumeratorAtURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)url<b> includingPropertiesForKeys:</b> (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*)keys<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSDirectoryEnumerationOptions">NSDirectoryEnumerationOptions</a>)mask<b> errorHandler:</b> (GSDirEnumErrorHandler)handler;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+  <div class="desc">
+    
+            Enumerate over the contents of a directory.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-fileAttributesAtPath$traverseLink$">fileAttributesAtPath:&nbsp;traverseLink:&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*) <b>fileAttributesAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path<b> traverseLink:</b> (BOOL)flag;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Returns the attributes dictionary for the file at
+            the specified <var>path</var>. If that file is a
+            symbolic link, the <var>flag</var> determines
+            whether the attributes returned are those of the
+            link or those of the destination file. <br/> If a
+            file (or directory etc) exists at the specified
+            <var>path</var>, and can be queried for its
+            attributes, this method returns a dictionary
+            containing the various attributes of that file.
+            Otherwise <code>nil</code> is returned. <br/> If
+            the <var>flag</var> is <code>NO</code> and the file is
+            a symbolic link, the attributes of the link itself
+            (rather than the file it points to) are returned.
+            <br/>
+            
+  </p>
+  <p>
+
+              The dictionary keys for attributes are -
+              </p>
+  <p>
+    
+            
+    <dl>
+      <dt><code>NSFileAppendOnly</code></dt>
+      <dd>
+        NSNumber... boolean
+      </dd>
+      <dt><code>NSFileCreationDate</code></dt>
+      <dd>
+        
+                NSDate when the file was created (if supported)
+              
+      </dd>
+      <dt><code>NSFileDeviceIdentifier</code></dt>
+      <dd>
+        
+                NSNumber (identifies the device on which the
+                file is stored)
+              
+      </dd>
+      <dt><code>NSFileExtensionHidden</code></dt>
+      <dd>
+        NSNumber... boolean
+      </dd>
+      <dt>
+                <code>NSFileGroupOwnerAccountName</code>
+              </dt>
+      <dd>
+        NSString name of the file group
+      </dd>
+      <dt>
+                <code>NSFileGroupOwnerAccountID</code>
+              </dt>
+      <dd>
+        NSNumber ID of the file group
+      </dd>
+      <dt><code>NSFileHFSCreatorCode</code></dt>
+      <dd>
+        NSNumber not used
+      </dd>
+      <dt><code>NSFileHFSTypeCode</code></dt>
+      <dd>
+        NSNumber not used
+      </dd>
+      <dt><code>NSFileImmutable</code></dt>
+      <dd>
+        NSNumber... boolean
+      </dd>
+      <dt><code>NSFileModificationDate</code></dt>
+      <dd>
+        
+                NSDate when the file was last modified
+              
+      </dd>
+      <dt><code>NSFileOwnerAccountName</code></dt>
+      <dd>
+        NSString name of the file owner
+      </dd>
+      <dt><code>NSFileOwnerAccountID</code></dt>
+      <dd>
+        NSNumber ID of the file owner
+      </dd>
+      <dt><code>NSFilePosixPermissions</code></dt>
+      <dd>
+        
+                NSNumber posix access permissions mask
+              
+      </dd>
+      <dt><code>NSFileReferenceCount</code></dt>
+      <dd>
+        NSNumber number of links to this file
+      </dd>
+      <dt><code>NSFileSize</code></dt>
+      <dd>
+        NSNumber size of the file in bytes
+      </dd>
+      <dt><code>NSFileSystemFileNumber</code></dt>
+      <dd>
+        
+                NSNumber the identifier for the file on the
+                filesystem
+              
+      </dd>
+      <dt><code>NSFileSystemNumber</code></dt>
+      <dd>
+        
+                NSNumber the filesystem on which the file is
+                stored
+              
+      </dd>
+      <dt><code>NSFileType</code></dt>
+      <dd>
+        NSString the type of file
+      </dd>
+    </dl>
+    
+            
+  </p>
+  <p>
+
+              The
+              <a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>
+
+                class also has a set of convenience accessor
+                methods which enable you to get at file
+                attribute information more efficiently than
+                using the keys above to extract it. You should
+                generally use the accessor methods where they
+                are available.
+                </p>
+  <p>
+    
+              
+    <ul>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileCreationDate">[NSDictionary(NSFileAttributes) -fileCreationDate]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileExtensionHidden">[NSDictionary(NSFileAttributes) -fileExtensionHidden]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileHFSCreatorCode">[NSDictionary(NSFileAttributes) -fileHFSCreatorCode]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileHFSTypeCode">[NSDictionary(NSFileAttributes) -fileHFSTypeCode]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileIsAppendOnly">[NSDictionary(NSFileAttributes) -fileIsAppendOnly]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileIsImmutable">[NSDictionary(NSFileAttributes) -fileIsImmutable]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileSize">[NSDictionary(NSFileAttributes) -fileSize]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileType">[NSDictionary(NSFileAttributes) -fileType]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileOwnerAccountName">[NSDictionary(NSFileAttributes) -fileOwnerAccountName]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileOwnerAccountID">[NSDictionary(NSFileAttributes) -fileOwnerAccountID]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileGroupOwnerAccountName">[NSDictionary(NSFileAttributes) -fileGroupOwnerAccountName]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileGroupOwnerAccountID">[NSDictionary(NSFileAttributes) -fileGroupOwnerAccountID]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileModificationDate">[NSDictionary(NSFileAttributes) -fileModificationDate]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-filePosixPermissions">[NSDictionary(NSFileAttributes) -filePosixPermissions]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileSystemNumber">[NSDictionary(NSFileAttributes) -fileSystemNumber]</a>
+
+                
+      </li>
+      <li>
+        
+                  <a rel="gsdoc" href="#method$NSDictionary(NSFileAttributes)-fileSystemFileNumber">[NSDictionary(NSFileAttributes) -fileSystemFileNumber]</a>
+
+                
+      </li>
+    </ul>
+    
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-fileExistsAtPath$">fileExistsAtPath:&nbsp;</a></h3>
+  - (BOOL) <b>fileExistsAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Returns <code>YES</code> if a file (or directory
+            etc) exists at the specified <var>path</var>.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-fileExistsAtPath$isDirectory$">fileExistsAtPath:&nbsp;isDirectory:&nbsp;</a></h3>
+  - (BOOL) <b>fileExistsAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path<b> isDirectory:</b> (BOOL*)isDirectory;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Returns <code>YES</code> if a file (or directory
+            etc) exists at the specified <var>path</var>. <br/>
+            If the <var>isDirectory</var> argument is not a nul
+            pointer, stores a flag in the location it points
+            to, indicating whether the file is a directory or not.
+            <br/>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-fileSystemAttributesAtPath$">fileSystemAttributesAtPath:&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*) <b>fileSystemAttributesAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Returns a dictionary containing the filesystem
+            attributes for the specified <var>path</var> (or
+            <code>nil</code> if the <var>path</var> is not
+            valid). <br/>
+            
+    <dl>
+      <dt><code>NSFileSystemSize</code></dt>
+      <dd>
+        
+                NSNumber the size of the filesystem in bytes
+              
+      </dd>
+      <dt><code>NSFileSystemFreeSize</code></dt>
+      <dd>
+        
+                NSNumber the amount of unused space on the
+                filesystem in bytes
+              
+      </dd>
+      <dt><code>NSFileSystemNodes</code></dt>
+      <dd>
+        
+                NSNumber the number of nodes in use to store
+                files
+              
+      </dd>
+      <dt><code>NSFileSystemFreeNodes</code></dt>
+      <dd>
+        
+                NSNumber the number of nodes available to
+                create files
+              
+      </dd>
+      <dt><code>NSFileSystemNumber</code></dt>
+      <dd>
+        
+                NSNumber the identifying number for the
+                filesystem
+              
+      </dd>
+    </dl>
+    
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-fileSystemRepresentationWithPath$">fileSystemRepresentationWithPath:&nbsp;</a></h3>
+  - (const GSNativeChar*) <b>fileSystemRepresentationWithPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Convert from OpenStep internal string format to a
+            string in the local filesystem format, suitable for
+            passing to system functions. <br/> This
+            representation may vary between filesystems.
+            <br/> Converts the standard <var>path</var>
+            separator (&apos;/&apos;) and <var>path</var> extension
+            (&apos;.&apos;) characters to the local representation if
+            necessary. <br/> On mingw32 systems, the
+            filesystem representation is 16-bit unicode and
+            is expected to be used in conjunction with the variants
+            of system calls which work with unicode strings. <br/>
+            Raises an exception if the character conversion is
+            not possible.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-isDeletableFileAtPath$">isDeletableFileAtPath:&nbsp;</a></h3>
+  - (BOOL) <b>isDeletableFileAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Returns <code>YES</code> if a file (or directory
+            etc) exists at the specified <var>path</var> and is
+            deletable.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-isExecutableFileAtPath$">isExecutableFileAtPath:&nbsp;</a></h3>
+  - (BOOL) <b>isExecutableFileAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Returns <code>YES</code> if a file (or directory
+            etc) exists at the specified <var>path</var> and is
+            executable (if a directory is executable, you
+            can access its contents).
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-isReadableFileAtPath$">isReadableFileAtPath:&nbsp;</a></h3>
+  - (BOOL) <b>isReadableFileAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Returns <code>YES</code> if a file (or directory
+            etc) exists at the specified <var>path</var> and is
+            readable.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-isWritableFileAtPath$">isWritableFileAtPath:&nbsp;</a></h3>
+  - (BOOL) <b>isWritableFileAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Returns <code>YES</code> if a file (or directory
+            etc) exists at the specified <var>path</var> and is
+            writable.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-linkPath$toPath$handler$">linkPath:&nbsp;toPath:&nbsp;handler:&nbsp;</a></h3>
+  - (BOOL) <b>linkPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)source<b> toPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)destination<b> handler:</b> (id)handler;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            
+  </p>
+  <p>
+
+              Links the file or directory at <var>source</var> to
+              <var>destination</var>, using a <var>handler</var>
+              object which should respond to
+              <a rel="gsdoc" href="#method$NSObject(NSFileManagerHandler)-fileManager$willProcessPath$">[NSObject(NSFileManagerHandler) -fileManager:willProcessPath:]</a>
+ and <a rel="gsdoc" href="#method$NSObject(NSFileManagerHandler)-fileManager$shouldProceedAfterError$">[NSObject(NSFileManagerHandler) -fileManager:shouldProceedAfterError:]</a>
+ messages.
+              </p>
+  <p>
+    
+            
+  </p>
+  <p>
+
+              If the <var>destination</var> is a directory, the
+              <var>source</var> path is linked into that
+              directory, otherwise the
+              <var>destination</var> must not exist, but its
+              parent directory must exist and the
+              <var>source</var> will be linked into the parent as
+              the name specified by the <var>destination</var>.
+              </p>
+  <p>
+    
+            
+  </p>
+  <p>
+
+              If the <var>source</var> is a symbolic link, it is
+              copied to the <var>destination</var>. <br/> If
+              the <var>source</var> is a directory, it is copied to
+              the <var>destination</var> and its contents are
+              linked into the new directory. <br/> Otherwise, a
+              hard link is made from the <var>destination</var> to
+              the <var>source</var>.
+              </p>
+  <p>
+    
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-moveItemAtPath$toPath$error$">moveItemAtPath:&nbsp;toPath:&nbsp;error:&nbsp;</a></h3>
+  - (BOOL) <b>moveItemAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)src<b> toPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)dst<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            Moves a file or directory specified by <var>src</var>
+            to its destination specified by <var>dst</var>, errors
+            are returned in <var>error</var>. <br/> Returns
+            <code>YES</code> on success, <code>NO</code>
+            otherwise.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-moveItemAtURL$toURL$error$">moveItemAtURL:&nbsp;toURL:&nbsp;error:&nbsp;</a></h3>
+  - (BOOL) <b>moveItemAtURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)src<b> toURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)dst<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            Moves a file or directory specified by <var>src</var>
+            to its destination specified by <var>dst</var>, errors
+            are returned in <var>error</var>. <br/> Returns
+            <code>YES</code> on success, <code>NO</code>
+            otherwise.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-movePath$toPath$handler$">movePath:&nbsp;toPath:&nbsp;handler:&nbsp;</a></h3>
+  - (BOOL) <b>movePath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)source<b> toPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)destination<b> handler:</b> (id)handler;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Moves the file or directory at <var>source</var> to
+            <var>destination</var>, using a <var>handler</var>
+            object which should respond to
+            <a rel="gsdoc" href="#method$NSObject(NSFileManagerHandler)-fileManager$willProcessPath$">[NSObject(NSFileManagerHandler) -fileManager:willProcessPath:]</a>
+ and <a rel="gsdoc" href="#method$NSObject(NSFileManagerHandler)-fileManager$shouldProceedAfterError$">[NSObject(NSFileManagerHandler) -fileManager:shouldProceedAfterError:]</a>
+ messages. <br/> If the <var>handler</var> responds to the first message, it is used to inform the <var>handler</var> when an item is about to be moved. If the <var>handler</var> responds to the second message, it is used to ask the <var>handler</var> whether to continue with the move after an error (when there is no <var>handler</var> the processing stops at the point when an error occurs). <br/> Will not move to a <var>destination</var> which already exists. <br/>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-pathContentOfSymbolicLinkAtPath$">pathContentOfSymbolicLinkAtPath:&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>pathContentOfSymbolicLinkAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Returns the name of the file or directory that the
+            symbolic link at <var>path</var> points to.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-removeFileAtPath$handler$">removeFileAtPath:&nbsp;handler:&nbsp;</a></h3>
+  - (BOOL) <b>removeFileAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path<b> handler:</b> (id)handler;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Removes the file or directory at <var>path</var>,
+            using a <var>handler</var> object which should
+            respond to
+            <a rel="gsdoc" href="#method$NSObject(NSFileManagerHandler)-fileManager$willProcessPath$">[NSObject(NSFileManagerHandler) -fileManager:willProcessPath:]</a>
+ and <a rel="gsdoc" href="#method$NSObject(NSFileManagerHandler)-fileManager$shouldProceedAfterError$">[NSObject(NSFileManagerHandler) -fileManager:shouldProceedAfterError:]</a>
+ messages.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-removeItemAtPath$error$">removeItemAtPath:&nbsp;error:&nbsp;</a></h3>
+  - (BOOL) <b>removeItemAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            Removes the file or directory specified by the
+            <var>path</var> to be removed. If the <var>path</var>
+            points to a directory, the directory is deleted
+            recursively. <br/> Returns <code>YES</code>
+            on success, otherwise <code>NO</code>.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-removeItemAtURL$error$">removeItemAtURL:&nbsp;error:&nbsp;</a></h3>
+  - (BOOL) <b>removeItemAtURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)url<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            Removes the file or directory specified by the
+            <var>url</var> to be removed. If the <var>url</var>
+            points to a directory, the directory is deleted
+            recursively. <br/> Returns <code>YES</code>
+            on success, otherwise <code>NO</code>.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-setAttributes$ofItemAtPath$error$">setAttributes:&nbsp;ofItemAtPath:&nbsp;error:&nbsp;</a></h3>
+  - (BOOL) <b>setAttributes:</b> (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*)attributes<b> ofItemAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            <em>Description forthcoming.</em>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-setDelegate$">setDelegate:&nbsp;</a></h3>
+  - (void) <b>setDelegate:</b> (id<<a rel="gsdoc" href="#protocol$(NSFileManagerDelegate)">NSFileManagerDelegate</a>>)delegate;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            <em>Description forthcoming.</em>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-stringWithFileSystemRepresentation$length$">stringWithFileSystemRepresentation:&nbsp;length:&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>stringWithFileSystemRepresentation:</b> (const GSNativeChar*)string<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)len;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Convert to OpenStep internal <var>string</var>
+            format from a <var>string</var> in the local
+            filesystem format, as returned by system
+            functions. <br/> This representation may vary
+            between filesystems. <br/> The GNUstep version of
+            this method currently does not bother to change any
+            path separator and extension characters to the
+            standard values (&apos;/&apos; and &apos;.&apos; respectively) as the
+            path handling methods of
+            <a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>
+
+              should be able to handle native format strings.
+              <br/> On mingw32 systems, the filesystem
+              representation is 16-bit unicode and is
+              expected to have come from the variant of a
+              system call which works with unicode strings.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSFileManager-subpathsAtPath$">subpathsAtPath:&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>subpathsAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Returns an array containing the (relative) paths of
+            all the items in the directory at <var>path</var>.
+            <br/> The listing follows all subdirectories, so it
+            can produce a very large array... use with care.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+
+        <h1><a name="004000000000">
+        Software documentation for the
+        NSDictionary(NSFileAttributes)
+        category
+      </a></h1>
+  <h2><a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>(<a name="category$NSDictionary(NSFileAttributes)">NSFileAttributes</a>)</h2>
+  <blockquote class="declared">
+    <dl>
+      <dt><b>Declared in:</b></dt>
+      <dd>Foundation/NSFileManager.h</dd>
+    </dl>
+  </blockquote>
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+          Convenience methods for accessing named file
+          attributes in a dictionary.
+        
+  </div>
+<div class="global_method_index">
+  <b>Method summary</b>
+  <ul>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSDictionary(NSFileAttributes)-fileCreationDate">-fileCreationDate</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSDictionary(NSFileAttributes)-fileExtensionHidden">-fileExtensionHidden</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSDictionary(NSFileAttributes)-fileGroupOwnerAccountID">-fileGroupOwnerAccountID</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSDictionary(NSFileAttributes)-fileGroupOwnerAccountName">-fileGroupOwnerAccountName</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSDictionary(NSFileAttributes)-fileHFSCreatorCode">-fileHFSCreatorCode</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSDictionary(NSFileAttributes)-fileHFSTypeCode">-fileHFSTypeCode</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSDictionary(NSFileAttributes)-fileIsAppendOnly">-fileIsAppendOnly</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSDictionary(NSFileAttributes)-fileIsImmutable">-fileIsImmutable</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSDictionary(NSFileAttributes)-fileModificationDate">-fileModificationDate</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSDictionary(NSFileAttributes)-fileOwnerAccountID">-fileOwnerAccountID</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSDictionary(NSFileAttributes)-fileOwnerAccountName">-fileOwnerAccountName</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSDictionary(NSFileAttributes)-filePosixPermissions">-filePosixPermissions</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSDictionary(NSFileAttributes)-fileSize">-fileSize</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSDictionary(NSFileAttributes)-fileSystemFileNumber">-fileSystemFileNumber</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSDictionary(NSFileAttributes)-fileSystemNumber">-fileSystemNumber</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSDictionary(NSFileAttributes)-fileType">-fileType</a></li>
+  </ul>
+</div>
+  <hr width="50%" align="left" />
+<div class="method">
+  <h3><a name="method$NSDictionary(NSFileAttributes)-fileCreationDate">fileCreationDate&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSDate.html#class$NSDate">NSDate</a>*) <b>fileCreationDate</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Return the file creation date attribute (or
+            <code>nil</code> if not found).
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSDictionary(NSFileAttributes)-fileExtensionHidden">fileExtensionHidden&nbsp;</a></h3>
+  - (BOOL) <b>fileExtensionHidden</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Return the file extension hidden attribute (or
+            <code>NO</code> if not found).
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSDictionary(NSFileAttributes)-fileGroupOwnerAccountID">fileGroupOwnerAccountID&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSValue.html#class$NSNumber">NSNumber</a>*) <b>fileGroupOwnerAccountID</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Return an NSNumber with the numeric value of the
+            NSFileGroupOwnerAccountID
+            attribute in the dictionary, or <code>nil</code>
+            if the attribute is not present.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSDictionary(NSFileAttributes)-fileGroupOwnerAccountName">fileGroupOwnerAccountName&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>fileGroupOwnerAccountName</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Return the file group owner account name attribute
+            or <code>nil</code> if not present.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSDictionary(NSFileAttributes)-fileHFSCreatorCode">fileHFSCreatorCode&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="TypesAndConstants.html#type$OSType">OSType</a>) <b>fileHFSCreatorCode</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Returns HFS creator attribute (OS X).
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSDictionary(NSFileAttributes)-fileHFSTypeCode">fileHFSTypeCode&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="TypesAndConstants.html#type$OSType">OSType</a>) <b>fileHFSTypeCode</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Returns HFS type code attribute (OS X).
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSDictionary(NSFileAttributes)-fileIsAppendOnly">fileIsAppendOnly&nbsp;</a></h3>
+  - (BOOL) <b>fileIsAppendOnly</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Return the file append only attribute (or
+            <code>NO</code> if not found).
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSDictionary(NSFileAttributes)-fileIsImmutable">fileIsImmutable&nbsp;</a></h3>
+  - (BOOL) <b>fileIsImmutable</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Return the file immutable attribute (or
+            <code>NO</code> if not found).
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSDictionary(NSFileAttributes)-fileModificationDate">fileModificationDate&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSDate.html#class$NSDate">NSDate</a>*) <b>fileModificationDate</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Return the file modification date attribute (or
+            <code>nil</code> if not found)
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSDictionary(NSFileAttributes)-fileOwnerAccountID">fileOwnerAccountID&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSValue.html#class$NSNumber">NSNumber</a>*) <b>fileOwnerAccountID</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Return an NSNumber with the numeric value of the
+            NSFileOwnerAccountID attribute in the
+            dictionary, or <code>nil</code> if the
+            attribute is not present.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSDictionary(NSFileAttributes)-fileOwnerAccountName">fileOwnerAccountName&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>fileOwnerAccountName</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Return the file owner account name attribute or
+            <code>nil</code> if not present.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSDictionary(NSFileAttributes)-filePosixPermissions">filePosixPermissions&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>filePosixPermissions</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Return the file posix permissions attribute (or
+            NSNotFound if the attribute is not present in
+            the dictionary).
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSDictionary(NSFileAttributes)-fileSize">fileSize&nbsp;</a></h3>
+  - (unsigned long long) <b>fileSize</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Return the size of the file, or NSNotFound if the
+            file size attribute is not found in the dictionary.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSDictionary(NSFileAttributes)-fileSystemFileNumber">fileSystemFileNumber&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>fileSystemFileNumber</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Return the file system file identification number
+            attribute or NSNotFound if the attribute is not
+            present in the dictionary).
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSDictionary(NSFileAttributes)-fileSystemNumber">fileSystemNumber&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>fileSystemNumber</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Return the file system number attribute (or
+            NSNotFound if the attribute is not present in
+            the dictionary).
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSDictionary(NSFileAttributes)-fileType">fileType&nbsp;</a></h3>
+  - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>fileType</b>;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            Return the file type attribute or <code>nil</code>
+            if not present.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+
+        <h1><a name="005000000000">
+        Software documentation for the
+        NSObject(NSFileManagerDelegate)
+        informal protocol
+      </a></h1>
+  <h2><a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a>(<a name="category$NSObject(NSFileManagerDelegate)">NSFileManagerDelegate</a>)</h2>
+  <blockquote class="declared">
+    <dl>
+      <dt><b>Declared in:</b></dt>
+      <dd>Foundation/NSFileManager.h</dd>
+    </dl>
+  </blockquote>
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+          <em>Description forthcoming.</em>
+        
+  </div>
+<div class="global_method_index">
+  <b>Method summary</b>
+  <ul>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSObject(NSFileManagerDelegate)-fileManager$shouldCopyItemAtPath$toPath$">-fileManager:shouldCopyItemAtPath:toPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSObject(NSFileManagerDelegate)-fileManager$shouldCopyItemAtURL$toURL$">-fileManager:shouldCopyItemAtURL:toURL:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSObject(NSFileManagerDelegate)-fileManager$shouldLinkItemAtPath$toPath$">-fileManager:shouldLinkItemAtPath:toPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSObject(NSFileManagerDelegate)-fileManager$shouldLinkItemAtURL$toURL$">-fileManager:shouldLinkItemAtURL:toURL:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSObject(NSFileManagerDelegate)-fileManager$shouldMoveItemAtPath$toPath$">-fileManager:shouldMoveItemAtPath:toPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSObject(NSFileManagerDelegate)-fileManager$shouldMoveItemAtURL$toURL$">-fileManager:shouldMoveItemAtURL:toURL:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSObject(NSFileManagerDelegate)-fileManager$shouldProceedAfterError$copyingItemAtPath$toPath$">-fileManager:shouldProceedAfterError:copyingItemAtPath:toPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSObject(NSFileManagerDelegate)-fileManager$shouldProceedAfterError$copyingItemAtURL$toURL$">-fileManager:shouldProceedAfterError:copyingItemAtURL:toURL:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSObject(NSFileManagerDelegate)-fileManager$shouldProceedAfterError$linkingItemAtPath$toPath$">-fileManager:shouldProceedAfterError:linkingItemAtPath:toPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSObject(NSFileManagerDelegate)-fileManager$shouldProceedAfterError$linkingItemAtURL$toURL$">-fileManager:shouldProceedAfterError:linkingItemAtURL:toURL:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSObject(NSFileManagerDelegate)-fileManager$shouldProceedAfterError$movingItemAtPath$toPath$">-fileManager:shouldProceedAfterError:movingItemAtPath:toPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSObject(NSFileManagerDelegate)-fileManager$shouldProceedAfterError$movingItemAtURL$toURL$">-fileManager:shouldProceedAfterError:movingItemAtURL:toURL:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSObject(NSFileManagerDelegate)-fileManager$shouldProceedAfterError$removingItemAtPath$">-fileManager:shouldProceedAfterError:removingItemAtPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSObject(NSFileManagerDelegate)-fileManager$shouldProceedAfterError$removingItemAtURL$">-fileManager:shouldProceedAfterError:removingItemAtURL:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSObject(NSFileManagerDelegate)-fileManager$shouldRemoveItemAtPath$">-fileManager:shouldRemoveItemAtPath:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSObject(NSFileManagerDelegate)-fileManager$shouldRemoveItemAtURL$">-fileManager:shouldRemoveItemAtURL:</a></li>
+  </ul>
+</div>
+  <hr width="50%" align="left" />
+<div class="method">
+  <h3><a name="method$NSObject(NSFileManagerDelegate)-fileManager$shouldCopyItemAtPath$toPath$">fileManager:&nbsp;shouldCopyItemAtPath:&nbsp;toPath:&nbsp;</a></h3>
+  - (BOOL) <b>fileManager:</b> (<a rel="gsdoc" href="#class$NSFileManager">NSFileManager</a>*)fileManager<b> shouldCopyItemAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)srcPath<b> toPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)dstPath;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            <em>Description forthcoming.</em>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSObject(NSFileManagerDelegate)-fileManager$shouldCopyItemAtURL$toURL$">fileManager:&nbsp;shouldCopyItemAtURL:&nbsp;toURL:&nbsp;</a></h3>
+  - (BOOL) <b>fileManager:</b> (<a rel="gsdoc" href="#class$NSFileManager">NSFileManager</a>*)fileManager<b> shouldCopyItemAtURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)srcURL<b> toURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)dstURL;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            <em>Description forthcoming.</em>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSObject(NSFileManagerDelegate)-fileManager$shouldLinkItemAtPath$toPath$">fileManager:&nbsp;shouldLinkItemAtPath:&nbsp;toPath:&nbsp;</a></h3>
+  - (BOOL) <b>fileManager:</b> (<a rel="gsdoc" href="#class$NSFileManager">NSFileManager</a>*)fileManager<b> shouldLinkItemAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)srcPath<b> toPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)dstPath;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            <em>Description forthcoming.</em>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSObject(NSFileManagerDelegate)-fileManager$shouldLinkItemAtURL$toURL$">fileManager:&nbsp;shouldLinkItemAtURL:&nbsp;toURL:&nbsp;</a></h3>
+  - (BOOL) <b>fileManager:</b> (<a rel="gsdoc" href="#class$NSFileManager">NSFileManager</a>*)fileManager<b> shouldLinkItemAtURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)srcURL<b> toURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)dstURL;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            <em>Description forthcoming.</em>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSObject(NSFileManagerDelegate)-fileManager$shouldMoveItemAtPath$toPath$">fileManager:&nbsp;shouldMoveItemAtPath:&nbsp;toPath:&nbsp;</a></h3>
+  - (BOOL) <b>fileManager:</b> (<a rel="gsdoc" href="#class$NSFileManager">NSFileManager</a>*)fileManager<b> shouldMoveItemAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)srcPath<b> toPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)dstPath;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            <em>Description forthcoming.</em>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSObject(NSFileManagerDelegate)-fileManager$shouldMoveItemAtURL$toURL$">fileManager:&nbsp;shouldMoveItemAtURL:&nbsp;toURL:&nbsp;</a></h3>
+  - (BOOL) <b>fileManager:</b> (<a rel="gsdoc" href="#class$NSFileManager">NSFileManager</a>*)fileManager<b> shouldMoveItemAtURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)srcURL<b> toURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)dstURL;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            <em>Description forthcoming.</em>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSObject(NSFileManagerDelegate)-fileManager$shouldProceedAfterError$copyingItemAtPath$toPath$">fileManager:&nbsp;shouldProceedAfterError:&nbsp;copyingItemAtPath:&nbsp;toPath:&nbsp;</a></h3>
+  - (BOOL) <b>fileManager:</b> (<a rel="gsdoc" href="#class$NSFileManager">NSFileManager</a>*)fileManager<b> shouldProceedAfterError:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>*)error<b> copyingItemAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)srcPath<b> toPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)dstPath;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            <em>Description forthcoming.</em>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSObject(NSFileManagerDelegate)-fileManager$shouldProceedAfterError$copyingItemAtURL$toURL$">fileManager:&nbsp;shouldProceedAfterError:&nbsp;copyingItemAtURL:&nbsp;toURL:&nbsp;</a></h3>
+  - (BOOL) <b>fileManager:</b> (<a rel="gsdoc" href="#class$NSFileManager">NSFileManager</a>*)fileManager<b> shouldProceedAfterError:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>*)error<b> copyingItemAtURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)srcURL<b> toURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)dstURL;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            <em>Description forthcoming.</em>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSObject(NSFileManagerDelegate)-fileManager$shouldProceedAfterError$linkingItemAtPath$toPath$">fileManager:&nbsp;shouldProceedAfterError:&nbsp;linkingItemAtPath:&nbsp;toPath:&nbsp;</a></h3>
+  - (BOOL) <b>fileManager:</b> (<a rel="gsdoc" href="#class$NSFileManager">NSFileManager</a>*)fileManager<b> shouldProceedAfterError:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>*)error<b> linkingItemAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)srcPath<b> toPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)dstPath;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            <em>Description forthcoming.</em>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSObject(NSFileManagerDelegate)-fileManager$shouldProceedAfterError$linkingItemAtURL$toURL$">fileManager:&nbsp;shouldProceedAfterError:&nbsp;linkingItemAtURL:&nbsp;toURL:&nbsp;</a></h3>
+  - (BOOL) <b>fileManager:</b> (<a rel="gsdoc" href="#class$NSFileManager">NSFileManager</a>*)fileManager<b> shouldProceedAfterError:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>*)error<b> linkingItemAtURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)srcURL<b> toURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)dstURL;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            <em>Description forthcoming.</em>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSObject(NSFileManagerDelegate)-fileManager$shouldProceedAfterError$movingItemAtPath$toPath$">fileManager:&nbsp;shouldProceedAfterError:&nbsp;movingItemAtPath:&nbsp;toPath:&nbsp;</a></h3>
+  - (BOOL) <b>fileManager:</b> (<a rel="gsdoc" href="#class$NSFileManager">NSFileManager</a>*)fileManager<b> shouldProceedAfterError:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>*)error<b> movingItemAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)srcPath<b> toPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)dstPath;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            <em>Description forthcoming.</em>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSObject(NSFileManagerDelegate)-fileManager$shouldProceedAfterError$movingItemAtURL$toURL$">fileManager:&nbsp;shouldProceedAfterError:&nbsp;movingItemAtURL:&nbsp;toURL:&nbsp;</a></h3>
+  - (BOOL) <b>fileManager:</b> (<a rel="gsdoc" href="#class$NSFileManager">NSFileManager</a>*)fileManager<b> shouldProceedAfterError:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>*)error<b> movingItemAtURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)srcURL<b> toURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)dstURL;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            <em>Description forthcoming.</em>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSObject(NSFileManagerDelegate)-fileManager$shouldProceedAfterError$removingItemAtPath$">fileManager:&nbsp;shouldProceedAfterError:&nbsp;removingItemAtPath:&nbsp;</a></h3>
+  - (BOOL) <b>fileManager:</b> (<a rel="gsdoc" href="#class$NSFileManager">NSFileManager</a>*)fileManager<b> shouldProceedAfterError:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>*)error<b> removingItemAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            <em>Description forthcoming.</em>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSObject(NSFileManagerDelegate)-fileManager$shouldProceedAfterError$removingItemAtURL$">fileManager:&nbsp;shouldProceedAfterError:&nbsp;removingItemAtURL:&nbsp;</a></h3>
+  - (BOOL) <b>fileManager:</b> (<a rel="gsdoc" href="#class$NSFileManager">NSFileManager</a>*)fileManager<b> shouldProceedAfterError:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>*)error<b> removingItemAtURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)URL;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            <em>Description forthcoming.</em>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSObject(NSFileManagerDelegate)-fileManager$shouldRemoveItemAtPath$">fileManager:&nbsp;shouldRemoveItemAtPath:&nbsp;</a></h3>
+  - (BOOL) <b>fileManager:</b> (<a rel="gsdoc" href="#class$NSFileManager">NSFileManager</a>*)fileManager<b> shouldRemoveItemAtPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            <em>Description forthcoming.</em>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSObject(NSFileManagerDelegate)-fileManager$shouldRemoveItemAtURL$">fileManager:&nbsp;shouldRemoveItemAtURL:&nbsp;</a></h3>
+  - (BOOL) <b>fileManager:</b> (<a rel="gsdoc" href="#class$NSFileManager">NSFileManager</a>*)fileManager<b> shouldRemoveItemAtURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)URL;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+            <em>Description forthcoming.</em>
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+
+        <h1><a name="006000000000">
+        Software documentation for the
+        NSObject(NSFileManagerHandler)
+        informal protocol
+      </a></h1>
+  <h2><a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a>(<a name="category$NSObject(NSFileManagerHandler)">NSFileManagerHandler</a>)</h2>
+  <blockquote class="declared">
+    <dl>
+      <dt><b>Declared in:</b></dt>
+      <dd>Foundation/NSFileManager.h</dd>
+    </dl>
+  </blockquote>
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+          An informal protocol to which handler objects should
+          conform if they wish to deal with copy and move
+          operations performed by NSFileManager.
+        
+  </div>
+<div class="global_method_index">
+  <b>Method summary</b>
+  <ul>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSObject(NSFileManagerHandler)-fileManager$shouldProceedAfterError$">-fileManager:shouldProceedAfterError:</a></li>
+    <li><a rel="gsdoc" href="NSFileManager.html#method$NSObject(NSFileManagerHandler)-fileManager$willProcessPath$">-fileManager:willProcessPath:</a></li>
+  </ul>
+</div>
+  <hr width="50%" align="left" />
+<div class="method">
+  <h3><a name="method$NSObject(NSFileManagerHandler)-fileManager$shouldProceedAfterError$">fileManager:&nbsp;shouldProceedAfterError:&nbsp;</a></h3>
+  - (BOOL) <b>fileManager:</b> (<a rel="gsdoc" href="#class$NSFileManager">NSFileManager</a>*)fileManager<b> shouldProceedAfterError:</b> (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*)errorDictionary;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            
+  </p>
+  <p>
+
+              When an error occurs during a copy or move
+              operation, the file manager will send this
+              message to the handler, and will use the return
+              value to determine whether the operation should
+              proceed. If the method returns <code>YES</code>
+              then the operation will proceed after the error, if
+              it returns <code>NO</code> then it will be aborted.
+              </p>
+  <p>
+    
+            
+  </p>
+  <p>
+
+              If the handler does not implement this method it will
+              be treated as if it returns <code>NO</code>.
+              </p>
+  <p>
+    
+            The error dictionary contains the following
+            
+    <ul>
+      <li>
+        
+                <strong>&quot;Error&quot;</strong> contains a
+                description of the error.
+              
+      </li>
+      <li>
+        
+                <strong>&quot;Path&quot;</strong> contains the path that
+                is being processed when an error occurred. If an
+                error occurs during an operation involving two
+                files, like copying, and it is not clear which
+                file triggers the error it will default to the
+                source file.
+              
+      </li>
+      <li>
+        
+                <strong>&quot;FromPath&quot;</strong> (Optional)
+                contains the path involved in reading.
+              
+      </li>
+      <li>
+        
+                <strong>&quot;ToPath&quot;</strong> (Optional) contains
+                the path involved in writing.
+              
+      </li>
+    </ul>
+    
+            
+  </p>
+  <p>
+
+              Note that the <code>FromPath</code> is a GNUstep
+              extension.
+              </p>
+  <p>
+    
+            
+  </p>
+  <p>
+
+              Also the <code>FromPath</code> and
+              <code>ToPath</code> are filled in when
+              appropriate. So when copying a file they
+              will typically both have a value and when reading
+              only <code>FromPath</code>.
+              </p>
+  <p>
+    
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+<div class="method">
+  <h3><a name="method$NSObject(NSFileManagerHandler)-fileManager$willProcessPath$">fileManager:&nbsp;willProcessPath:&nbsp;</a></h3>
+  - (void) <b>fileManager:</b> (<a rel="gsdoc" href="#class$NSFileManager">NSFileManager</a>*)fileManager<b> willProcessPath:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)path;<br />
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+  <div class="desc">
+    
+            The file manager sends this method to the handler
+            immediately before performing part of a
+            directory move or copy operation. This provides
+            the handler object with information it can use in the
+            event of an error, to decide whether processing
+            should proceed after the error.
+          
+  </div>
+  <hr class="method-separator"/>
+</div>
+
+        <h1><a name="007000000000">
+        Software documentation for the NSFileManagerDelegate
+        protocol
+      </a></h1>
+  <h2><a name="protocol$(NSFileManagerDelegate)">NSFileManagerDelegate</a></h2>
+  <blockquote class="declared">
+    <dl>
+      <dt><b>Declared in:</b></dt>
+      <dd>Foundation/NSFileManager.h</dd>
+    </dl>
+  </blockquote>
+  <blockquote>
+    <dl>
+      <dt><b>Conforms to:</b></dt>
+      <dd><a rel="gsdoc" href="NSObject.html#protocol$(NSObject)">NSObject</a></dd>
+    </dl>
+  </blockquote>
+  <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+  <div class="desc">
+    
+          <em>Description forthcoming.</em>
+        
+  </div>
+  <br />
+  <a href="Base.html">Up</a>
+</body>
+</html>

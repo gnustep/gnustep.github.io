@@ -1,0 +1,328 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSURLProtocol" stylesheeturl="gnustepStyle" up="Base">
+  <head>
+    <title>NSURLProtocol class documentation</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="frm@gnu.org">
+        frm@gnu.org
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 16:52:01 -0500</date>
+    <copy>2006 Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSURLProtocol class
+      </heading>
+      <class name="NSURLProtocol" super="NSObject" ovadd="10.2.0" gvadd="1.13.0">
+        <declared>Foundation/NSURLProtocol.h</declared>
+        <desc>
+          <p>
+            Subclasses of NSURLProtocol implement basic
+            handling of URL loading for specific protocols.
+            The NSURLProtocol class itsself is a semi-abstract
+            class giving the essential structure for the
+            subclasses.
+          </p>
+          <p>
+            You never instantiate NSURLProtocol yourself... it
+            should only ever be done by other classes within the
+            URL loading system.
+          </p>
+        </desc>
+        <ivariable type="void*" name="_NSURLProtocolInternal" validity="protected" ovadd="10.2.0" gvadd="1.13.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="id" factory="yes" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>propertyForKey:</sel>
+          <arg type="NSString*">key</arg>
+          <sel>inRequest:</sel>
+          <arg type="NSURLRequest*">request</arg>
+          <desc>
+            Allows subclasses to provide access to proptocol
+            specific properties, returning the property of
+            <var>request</var> stored by the name <var>key</var>
+            or <code>nil</code> if no property had been stored using
+            that <var>key</var> in the <var>request</var>.
+          </desc>
+        </method>
+        <method type="BOOL" factory="yes" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>registerClass:</sel>
+          <arg type="Class">protocolClass</arg>
+          <desc>
+            Registers the specified class so that it can be
+            used to load requests. <br /> When the system is
+            determining which class to use to handle a
+            request it examines them in a most recently
+            registered first order. <br /> The
+            <ref type="method" id="+canInitWithRequest:">
+              +canInitWithRequest:
+            </ref>
+            method is used to determine whether a class may be
+            used to handle a particular request or not. Returns
+            <code>YES</code> if registered (ie the class is an
+            NSURLProtocol subclass), <code>NO</code>
+            otherwise.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>setProperty:</sel>
+          <arg type="id">value</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">key</arg>
+          <sel>inRequest:</sel>
+          <arg type="NSMutableURLRequest*">request</arg>
+          <desc>
+            Allows subclasses to provide a way to set protocol
+            specific properties, setting the property named
+            <var>key</var> to <var>value</var> in the
+            <var>request</var>.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>unregisterClass:</sel>
+          <arg type="Class">protocolClass</arg>
+          <desc>
+            Unregisters a class which was previously
+            registered using the
+            <ref type="method" id="+registerClass:">
+              +registerClass:
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="NSCachedURLResponse*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>cachedResponse</sel>
+          <desc>
+            Returns the cachedResponse of the receiver.
+          </desc>
+        </method>
+        <method type="id&lt;NSURLProtocolClient&gt;" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>client</sel>
+          <desc>
+            Returns the client associated with the receiver.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>initWithRequest:</sel>
+          <arg type="NSURLRequest*">request</arg>
+          <sel>cachedResponse:</sel>
+          <arg type="NSCachedURLResponse*">cachedResponse</arg>
+          <sel>client:</sel>
+          <arg type="id&lt;NSURLProtocolClient&gt;">client</arg>
+          <desc>
+            Initialises the receiver with
+            <var>request</var>, <var>cachedResponse</var> and
+            <var>client</var>. <br /> The
+            <var>cachedResponse</var> may be the result of a
+            previous load of the <var>request</var> (in which
+            case the protocol may validate and use it). <br /> The
+            <var>client</var> is the object which receives
+            messages about the progress of the load. This is
+            retained by the protocl instance and is released
+            once the last message has been sent to it.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>initWithTask:</sel>
+          <arg type="NSURLSessionTask*">task</arg>
+          <sel>cachedResponse:</sel>
+          <arg type="NSCachedURLResponse*">cachedResponse</arg>
+          <sel>client:</sel>
+          <arg type="id&lt;NSURLProtocolClient&gt;">client</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSURLRequest*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>request</sel>
+          <desc>
+            Returns the request handled by the receiver.
+          </desc>
+        </method>
+        <method type="NSURLSessionTask*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>task</sel>
+          <desc>
+            Returns the task handled by the receiver.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSURLProtocol(Subclassing) category
+      </heading>
+      <category name="Subclassing" class="NSURLProtocol" ovadd="10.2.0" gvadd="1.13.0">
+        <declared>Foundation/NSURLProtocol.h</declared>
+        <desc>
+          This category lists the methods which a subclass must
+          implement in order to produce a working protocol.
+        </desc>
+        <method type="BOOL" factory="yes" override="subclass" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>canInitWithRequest:</sel>
+          <arg type="NSURLRequest*">request</arg>
+          <desc>
+            This method is called to decide whether a class can
+            deal with the specified <var>request</var>. The
+            abstract class implementation raises an exception.
+          </desc>
+        </method>
+        <method type="BOOL" factory="yes" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>canInitWithTask:</sel>
+          <arg type="NSURLSessionTask*">task</arg>
+          <desc>
+            This method is called to decide whether a class can
+            deal with the specified <var>task</var>. The abstract
+            class implementation return <code>NO</code>.
+          </desc>
+        </method>
+        <method type="NSURLRequest*" factory="yes" override="subclass" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>canonicalRequestForRequest:</sel>
+          <arg type="NSURLRequest*">request</arg>
+          <desc>
+            Returns the 'canonical' version of the
+            <var>request</var>. <br /> The canonical form is used
+            to look up requests in the cache by checking for
+            equality. <br /> The abnstract class
+            implementation simply returns
+            <var>request</var>.
+          </desc>
+        </method>
+        <method type="BOOL" factory="yes" override="subclass" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>requestIsCacheEquivalent:</sel>
+          <arg type="NSURLRequest*">a</arg>
+          <sel>toRequest:</sel>
+          <arg type="NSURLRequest*">b</arg>
+          <desc>
+            Compares two requests for equivalence for caching
+            purposes. <br /> The abstract class implementaton
+            just uses
+            <ref type="method" id="-isEqual:" class="NSObject">
+              [NSObject -isEqual:]
+            </ref>
+          </desc>
+        </method>
+        <method type="void" override="subclass" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>startLoading</sel>
+          <desc>
+            Starts loading of a request.
+          </desc>
+        </method>
+        <method type="void" override="subclass" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>stopLoading</sel>
+          <desc>
+            Stops loading of a request (eg when the load is
+            cancelled).
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSURLProtocolClient
+        protocol
+      </heading>
+      <protocol name="NSURLProtocolClient" ovadd="10.2.0" gvadd="1.13.0">
+        <declared>Foundation/NSURLProtocol.h</declared>
+        <conform>NSObject</conform>
+        <desc>
+          Defines the API for NSURLProtocol loading
+        </desc>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>URLProtocol:</sel>
+          <arg type="NSURLProtocol*">protocol</arg>
+          <sel>cachedResponseIsValid:</sel>
+          <arg type="NSCachedURLResponse*">cachedResponse</arg>
+          <desc>
+            Informs a client that a cached response is valid.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>URLProtocol:</sel>
+          <arg type="NSURLProtocol*">protocol</arg>
+          <sel>didCancelAuthenticationChallenge:</sel>
+          <arg type="NSURLAuthenticationChallenge*">challenge</arg>
+          <desc>
+            Informs a client that an authentication
+            <var>challenge</var> has been cancelled.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>URLProtocol:</sel>
+          <arg type="NSURLProtocol*">protocol</arg>
+          <sel>didFailWithError:</sel>
+          <arg type="NSError*">error</arg>
+          <desc>
+            Informs a client that loading of a request has
+            failed.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>URLProtocol:</sel>
+          <arg type="NSURLProtocol*">protocol</arg>
+          <sel>didLoadData:</sel>
+          <arg type="NSData*">data</arg>
+          <desc>
+            Informs a client that <var>data</var> has been
+            loaded. Only new <var>data</var> since the last
+            call to this method must be provided.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>URLProtocol:</sel>
+          <arg type="NSURLProtocol*">protocol</arg>
+          <sel>didReceiveAuthenticationChallenge:</sel>
+          <arg type="NSURLAuthenticationChallenge*">challenge</arg>
+          <desc>
+            Informs a client that an authentication
+            <var>challenge</var> has been received.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>URLProtocol:</sel>
+          <arg type="NSURLProtocol*">protocol</arg>
+          <sel>didReceiveResponse:</sel>
+          <arg type="NSURLResponse*">response</arg>
+          <sel>cacheStoragePolicy:</sel>
+          <arg type="NSURLCacheStoragePolicy">policy</arg>
+          <desc>
+            Informs a client that a <var>response</var> for the
+            current load has been created. <br /> Also supplies
+            the <var>policy</var> to be used for caching the
+            <var>response</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>URLProtocol:</sel>
+          <arg type="NSURLProtocol*">protocol</arg>
+          <sel>wasRedirectedToRequest:</sel>
+          <arg type="NSURLRequest*">request</arg>
+          <sel>redirectResponse:</sel>
+          <arg type="NSURLResponse*">redirectResponse</arg>
+          <desc>
+            Informs a client that a redirect has occurred.
+            <br />
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>URLProtocolDidFinishLoading:</sel>
+          <arg type="NSURLProtocol*">protocol</arg>
+          <desc>
+            Informs a client that loading of a request has
+            successfully finished.
+          </desc>
+        </method>
+      </protocol>
+    </chapter>
+  </body>
+</gsdoc>

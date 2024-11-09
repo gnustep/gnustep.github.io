@@ -1,0 +1,393 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSPrintPanel" up="Gui">
+  <head>
+    <title>NSPrintPanel</title>
+    <author name="Adam Fedor">
+      <email address="fedor@gnu.org">
+        fedor@gnu.org
+      </email>
+    </author>
+    <author name="Chad Hardin">
+      <email address="cehardin@mac.com">
+        cehardin@mac.com
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 19:58:28 -0500</date>
+    <abstract>
+      Standard panel for querying user about printing.
+    </abstract>
+    <copy>2001,2004 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading><strong>Class</strong> Description</heading>
+      <p>
+        NSPrintPanel provides a standard print panel
+        allowing the user to specify information about how a
+        document is to be printed, including the page range,
+        number of copies and scale of the document. It also
+        allows the user to save the document to a file or
+        preview it. When a print: message is sent to an NSView
+        or NSWindow, an NSPrintOpertation is created which manages
+        printing of a view. The NSPrintOperation object would
+        by default show a print panel in a modal loop for the user.
+        You can avoid showing the print panel by sending the
+        setShowsPanels: message in the print operation
+        with a <code>NO</code> argument.
+      </p>
+      <class name="NSPrintPanel" super="NSPanel" ovadd="1.0.0">
+        <declared>AppKit/NSPrintPanel.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <ivariable type="NSMutableArray*" name="_accessoryControllers" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSView*" name="_accessoryView" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="_helpAnchor" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="_jobStyleHint" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_optionPanel" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSPrintPanelOptions" name="_options" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSRange" name="_pages" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_panel" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="int" name="_picked" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSPrintInfo*" name="_printInfo" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="_savePath" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="NSPrintPanel*" factory="yes" ovadd="1.0.0">
+          <sel>printPanel</sel>
+          <desc>
+            Creates (if needed) and returns a shared instance
+            of the NSPrintPanel panel.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>accessoryControllers</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSView*" ovadd="0.0.0" ovrem="10.5.0">
+          <sel>accessoryView</sel>
+          <desc>
+            <p>
+              Returns the accessory view for the print panel
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-setAccessoryView:">
+                -setAccessoryView:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>addAccessoryController:</sel>
+          <arg type="NSViewController&lt;NSPrintPanelAccessorizing&gt;*">accessoryController</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>beginSheetWithPrintInfo:</sel>
+          <arg type="NSPrintInfo*">printInfo</arg>
+          <sel>modalForWindow:</sel>
+          <arg type="NSWindow*">docWindow</arg>
+          <sel>delegate:</sel>
+          <arg type="id">delegate</arg>
+          <sel>didEndSelector:</sel>
+          <arg type="SEL">didEndSelector</arg>
+          <sel>contextInfo:</sel>
+          <arg type="void*">contextInfo</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.5.0">
+          <sel>defaultButtonTitle</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="10.5.0">
+          <sel>finalWritePrintInfo</sel>
+          <desc>
+            Saves information set by the user in the receiver's
+            panel in the NSPrintInfo object from the current
+            NSPrintOperation.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.5.0">
+          <sel>helpAnchor</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.2.0">
+          <sel>jobStyleHint</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSPrintPanelOptions" ovadd="10.5.0">
+          <sel>options</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="10.5.0">
+          <sel>pickedAllPages:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            This method has been depreciated. It doesn't do
+            anything useful.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="10.5.0">
+          <sel>pickedButton:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            This method has been depreciated. It doesn't do
+            anything useful.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="10.5.0">
+          <sel>pickedLayoutList:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            This method has been depreciated. It doesn't do
+            anything useful.
+          </desc>
+        </method>
+        <method type="NSPrintInfo*" ovadd="10.5.0">
+          <sel>printInfo</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>removeAccessoryController:</sel>
+          <arg type="NSViewController&lt;NSPrintPanelAccessorizing&gt;*">accessoryController</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>runModal</sel>
+          <desc>
+            Display the Print panel in a modal loop. Saves any
+            aquired information in the NSPrintInfo object for
+            the current NSPrintOperation. Returns NSCancelButton if
+            the user clicks the Cancel button or NSOKButton
+            otherwise. Unlike other panels, this one does
+            not order itself out after the modal session is
+            finished. You must do that yourself.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.5.0">
+          <sel>runModalWithPrintInfo:</sel>
+          <arg type="NSPrintInfo*">printInfo</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="10.5.0">
+          <sel>setAccessoryView:</sel>
+          <arg type="NSView*">aView</arg>
+          <desc>
+            <p>
+              Sets the accessory view for the print panel to
+              <var>aView</var>
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-accessoryView">
+                -accessoryView
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setDefaultButtonTitle:</sel>
+          <arg type="NSString*">defaultButtonTitle</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setHelpAnchor:</sel>
+          <arg type="NSString*">helpAnchor</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0">
+          <sel>setJobStyleHint:</sel>
+          <arg type="NSString*">hint</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setOptions:</sel>
+          <arg type="NSPrintPanelOptions">options</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="10.5.0">
+          <sel>updateFromPrintInfo</sel>
+          <desc>
+            Setup the display in the receiver's panel based on
+            the values stored in the NSPrintInfo object from the
+            current NSPrintOperation.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSPrintPanel(Private)
+        category
+      </heading>
+      <category name="Private" class="NSPrintPanel" ovadd="1.0.0">
+        <declared>AppKit/NSPrintPanel.h</declared>
+        <desc>
+          <em>Warning</em> this category is <em>private</em>,
+          which means that the methods are for internal use by
+          the package. You should not use them in external code.
+        </desc>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>_getSavePath</sel>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>_setStatusStringValue:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSPrintPanelAccessorizing protocol
+      </heading>
+      <protocol name="NSPrintPanelAccessorizing" ovadd="10.5.0">
+        <declared>AppKit/NSPrintPanel.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="NSSet*" ovadd="10.5.0">
+          <sel>keyPathsForValuesAffectingPreview</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>localizedSummaryItems</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </protocol>
+    </chapter>
+  </body>
+</gsdoc>

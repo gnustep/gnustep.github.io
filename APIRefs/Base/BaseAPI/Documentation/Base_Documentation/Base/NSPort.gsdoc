@@ -1,0 +1,452 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSPort" stylesheeturl="gnustepStyle" up="Base">
+  <head>
+    <title>NSPort class reference</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <author name="Andrew Kachites McCallum">
+      <email address="mccallum@gnu.ai.mit.edu">
+        mccallum@gnu.ai.mit.edu
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 16:52:01 -0500</date>
+    <copy>1997,2002 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSMessagePort class
+      </heading>
+      <class name="NSMessagePort" super="NSPort" ovadd="10.0.0">
+        <declared>Foundation/NSPort.h</declared>
+        <desc>
+          An
+          <ref type="class" id="NSPort">NSPort</ref>
+            implementation for network object
+            communications which can be used for
+            interthread/interprocess
+            communications on the same host, but not
+            between different hosts.
+        </desc>
+        <ivariable type="void*" name="_internal" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSPort class
+      </heading>
+      <class name="NSPort" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSPort.h</declared>
+        <conform>NSCoding</conform>
+        <conform>NSCopying</conform>
+        <desc>
+          <p>
+            <code>NSPort</code> is an abstract class defining
+            interfaces underlying communications in the
+            distributed objects framework. Each side of a
+            connection will have an <code>NSPort</code>
+            object, responsible for sending and receiving
+            <ref type="class" id="NSPortMessage">NSPortMessage</ref>
+              s, which are then passed to delegates when received.
+              The <code>NSPort</code> must be added to the
+              <ref type="class" id="NSRunLoop">NSRunLoop</ref>
+                as an input source.
+              </p>
+              <p>
+                This class also implements the functionality of
+                the <code><em>NSMachPort</em></code> class on OS X.
+              </p>
+        </desc>
+        <ivariable type="id" name="_delegate" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_is_valid" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="NSPort*" factory="yes" ovadd="1.0.0">
+          <sel>port</sel>
+          <desc>
+            Basic constructor returns object capable of send and
+            receive. <br /> By default, the port returned is
+            an instance of
+            <ref type="class" id="NSMessagePort">NSMessagePort</ref>
+              capable only of host-local communication.
+              However, the <code>NSPortIsMessagePort</code>
+              user default may be set to <code>NO</code> to change
+              the behavior so that the returned value is an
+              instance of the
+              <ref type="class" id="NSSocketPort">NSSocketPort</ref>
+                class.
+          </desc>
+        </method>
+        <method type="NSPort*" factory="yes" ovadd="1.0.0">
+          <sel>portWithMachPort:</sel>
+          <arg type="NSInteger">machPort</arg>
+          <desc>
+            NSMachPort compatibility method.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>addConnection:</sel>
+          <arg type="NSConnection*">aConnection</arg>
+          <sel>toRunLoop:</sel>
+          <arg type="NSRunLoop*">aLoop</arg>
+          <sel>forMode:</sel>
+          <arg type="NSString*">aMode</arg>
+          <desc>
+            Adds to run loop as input source to be notified for
+            input in given mode. This method is for use by
+            subclasses.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>delegate</sel>
+          <desc>
+            Returns the object that received messages will be
+            passed off to.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>init</sel>
+          <desc>
+            Basic initializer sets up object capable of send and
+            receive. See
+            <ref type="method" id="+port">
+              +port
+            </ref>
+            for more details.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithMachPort:</sel>
+          <arg type="NSInteger">machPort</arg>
+          <desc>
+            NSMachPort compatibility method.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>invalidate</sel>
+          <desc>
+            Mark port as invalid, deregister with listeners and
+            cease further network operations. Subclasses should
+            override and call super.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isValid</sel>
+          <desc>
+            Returns whether port has been marked invalid.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>machPort</sel>
+          <desc>
+            NSMachPort compatibility.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>removeConnection:</sel>
+          <arg type="NSConnection*">aConnection</arg>
+          <sel>fromRunLoop:</sel>
+          <arg type="NSRunLoop*">aLoop</arg>
+          <sel>forMode:</sel>
+          <arg type="NSString*">aMode</arg>
+          <desc>
+            Removes from run loop as input source to be
+            notified for input in given mode. This method is
+            for use by subclasses.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.0.0">
+          <sel>reservedSpaceLength</sel>
+          <desc>
+            Returns amount of space used for header info at
+            beginning of messages. Subclasses should override
+            (this implementation returns 0).
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>sendBeforeDate:</sel>
+          <arg type="NSDate*">when</arg>
+          <sel>components:</sel>
+          <arg type="NSMutableArray*">components</arg>
+          <sel>from:</sel>
+          <arg type="NSPort*">receivingPort</arg>
+          <sel>reserved:</sel>
+          <arg type="NSUInteger">length</arg>
+          <desc>
+            Internal method for sending message, for use by
+            subclasses.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>sendBeforeDate:</sel>
+          <arg type="NSDate*">when</arg>
+          <sel>msgid:</sel>
+          <arg type="NSInteger">msgid</arg>
+          <sel>components:</sel>
+          <arg type="NSMutableArray*">components</arg>
+          <sel>from:</sel>
+          <arg type="NSPort*">receivingPort</arg>
+          <sel>reserved:</sel>
+          <arg type="NSUInteger">length</arg>
+          <desc>
+            Internal method for sending message, for use by
+            subclasses.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setDelegate:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Sets the object that received messages will be passed
+            off to.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSSocketPort class
+      </heading>
+      <class name="NSSocketPort" super="NSPort" ovadd="10.0.0">
+        <declared>Foundation/NSPort.h</declared>
+        <desc>
+          <p>
+            An
+            <ref type="class" id="NSPort">NSPort</ref>
+              implementation for network object
+              communications based on BSD sockets. Can
+              be used for interthread/interprocess communications
+              between same or different hosts (though on same
+              host
+              <ref type="class" id="NSMessagePort">NSMessagePort</ref>
+                will be more efficient).
+              </p>
+              <p>
+                Note that this class is incompatible with the
+                latest OS X version.
+              </p>
+        </desc>
+        <ivariable type="NSString*" name="address" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="WSAEVENT" name="eventListener" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSMapTable*" name="events" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSMapTable*" name="handles" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSHost*" name="host" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="SOCKET" name="listener" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSRecursiveLock*" name="myLock" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="uint16_t" name="portNum" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSDictionary*" name="tlscopts" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSDictionary*" name="tlssopts" validity="protected" ovadd="10.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <method type="NSSocketPort*" factory="yes" ovadd="10.0.0">
+          <sel>existingPortWithNumber:</sel>
+          <arg type="uint16_t">number</arg>
+          <sel>onHost:</sel>
+          <arg type="NSHost*">aHost</arg>
+          <desc>
+            Look up and return an existing
+            <code>NSSocketPort</code> given a host and
+            <var>number</var>, or return <code>nil</code> if one
+            has not been created.
+          </desc>
+        </method>
+        <method type="NSSocketPort*" factory="yes" ovadd="10.0.0">
+          <sel>portWithNumber:</sel>
+          <arg type="uint16_t">number</arg>
+          <sel>onHost:</sel>
+          <arg type="NSHost*">aHost</arg>
+          <sel>forceAddress:</sel>
+          <arg type="NSString*">addr</arg>
+          <sel>listener:</sel>
+          <arg type="BOOL">shouldListen</arg>
+          <desc>
+            This is the preferred initialisation method for
+            <code>NSSocketPort</code>. <br /> <var>number</var>
+            should be a TCP/IP port <var>number</var> or may be
+            zero for a port on the local host. <br />
+            <var>aHost</var> should be the host for the port or
+            may be <code>nil</code> for the local host. <br />
+            <var>addr</var> is the IP address that MUST be used
+            for this port - if it is <code>nil</code> then, for the
+            local host, the port uses ALL IP addresses, and for a
+            remote host, the port will use the first address
+            that works. <br /> <var>shouldListen</var> specifies
+            whether to listen on the port initially.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="10.0.0">
+          <sel>setClientOptionsForTLS:</sel>
+          <arg type="NSDictionary*">opts</arg>
+          <desc>
+            Sets the default options for use of TLS by socket
+            ports. <br /> Setting <code>nil</code> (the default)
+            means that TLS is not used. <br /> Setting an empty
+            dictionary means that TLS is used with normal
+            options.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="10.0.0">
+          <sel>setServerOptionsForTLS:</sel>
+          <arg type="NSDictionary*">opts</arg>
+          <desc>
+            Sets the default options for use of TLS by socket
+            ports. <br /> Setting <code>nil</code> (the default)
+            means that TLS is not used. <br /> Setting an empty
+            dictionary means that TLS is used with normal
+            options.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>address</sel>
+          <desc>
+            Returns IP address of underlying socket.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>getFds:</sel>
+          <arg type="NSInteger*">fds</arg>
+          <sel>count:</sel>
+          <arg type="NSInteger*">count</arg>
+          <desc>
+            This is a callback method used by the NSRunLoop class
+            to determine which descriptors to watch for the port.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>handlePortMessage:</sel>
+          <arg type="NSPortMessage*">m</arg>
+          <desc>
+            Delegates processing of a message.
+          </desc>
+        </method>
+        <method type="NSHost*" ovadd="10.0.0">
+          <sel>host</sel>
+          <desc>
+            Returns host that the underlying socket is
+            connected to.
+          </desc>
+        </method>
+        <method type="uint16_t" ovadd="10.0.0">
+          <sel>portNumber</sel>
+          <desc>
+            Returns port number of underlying socket.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setClientOptionsForTLS:</sel>
+          <arg type="NSDictionary*">opts</arg>
+          <desc>
+            Overrides the default options for use of TLS by
+            the receiver. <br /> Setting <code>nil</code> (the
+            default) means that TLS is not used. <br />
+            Setting an empty dictionary means that TLS is used
+            with normal options. <br /> This method has no effect
+            on network sessions which are already established.
+            <br /> Sets the TLS options for network connections
+            created by this port acting as a network client.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setServerOptionsForTLS:</sel>
+          <arg type="NSDictionary*">opts</arg>
+          <desc>
+            Overrides the default options for use of TLS by
+            the receiver. <br /> Setting <code>nil</code> (the
+            default) means that TLS is not used. <br />
+            Setting an empty dictionary means that TLS is used
+            with normal options. <br /> This method has no effect
+            on network sessions which are already established.
+            <br /> Sets the TLS options for network connections
+            created by this port acting as a network server.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSPortDelegateMethods)
+        category
+      </heading>
+      <category name="NSPortDelegateMethods" class="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSPort.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="void" override="dummy" ovadd="1.0.0">
+          <sel>handlePortMessage:</sel>
+          <arg type="NSPortMessage*">aMessage</arg>
+          <desc>
+            Subclasses of NSPort send this message to their
+            delegate on receipt of a port message.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

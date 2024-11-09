@@ -1,0 +1,547 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>NSSerialization documentation</title>
+    <style type="text/css">
+    hr.method-separator { width:25%; margin-left:0; }
+    </style>
+  </head>
+  <body>
+    <a href="Base.html">Up</a>
+    <br />
+    <h1><a name="title$NSSerialization">NSSerialization documentation</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Andrew Kachites McCallum (<a href="mailto:mccallum@gnu.ai.mit.edu"><code>mccallum@gnu.ai.mit.edu</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Richard Frith-Macdonald (<a href="mailto:richard@brainstorm.co.uk"><code>richard@brainstorm.co.uk</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Date:</b> Generated at 2024-11-07 16:52:01 -0500</p>
+    <p><b>Copyright:</b> (C) 1995 Free Software Foundation, Inc.</p>
+
+        <div>
+      <hr width="50%" align="left" />
+      <h3>Contents -</h3>
+      <ol>
+        <li>
+          <a href="#001000000000">Software documentation for the NSDeserializer class</a>
+        </li>
+        <li>
+          <a href="#002000000000">Software documentation for the NSSerializer class</a>
+        </li>
+        <li>
+          <a href="#003000000000">Software documentation for the NSDeserializer(GNUstep)
+        category</a>
+        </li>
+        <li>
+          <a href="#004000000000">Software documentation for the NSSerializer(GNUstep)
+        category</a>
+        </li>
+        <li>
+          <a href="#005000000000">Software documentation for the
+        NSObjCTypeSerializationCallBack
+        protocol</a>
+        </li>
+      </ol>
+      <hr width="50%" align="left" />
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSDeserializer class
+      </a></h1>
+    <h2 class="class"><a name="class$NSDeserializer">NSDeserializer</a> : <a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a></h2>
+<svg width="192pt" height="116pt"
+ viewBox="0.00 0.00 192.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>class_NSDeserializer</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 188,-112 188,4 -4,4"/>
+<!-- NSObject -->
+<g id="node1" class="node">
+<title>NSObject</title>
+<g id="a_node1"><a xlink:href="NSObject.html#class$NSObject" xlink:title="NSObject">
+<polygon fill="lightgrey" stroke="black" points="151,-108 33,-108 33,-72 151,-72 151,-108"/>
+<text text-anchor="middle" x="92" y="-83.8" font-family="Times,serif" font-size="24.00" fill="blue">NSObject</text>
+</a>
+</g>
+</g>
+<!-- NSDeserializer -->
+<g id="node2" class="node">
+<title>NSDeserializer</title>
+<polygon fill="lightgrey" stroke="black" points="184,-36 0,-36 0,0 184,0 184,-36"/>
+<text text-anchor="middle" x="92" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">NSDeserializer</text>
+</g>
+<!-- NSObject&#45;&gt;NSDeserializer -->
+<g id="edge1" class="edge">
+<title>NSObject&#45;&gt;NSDeserializer</title>
+<path fill="none" stroke="black" d="M92,-71.7C92,-63.98 92,-54.71 92,-46.11"/>
+<polygon fill="black" stroke="black" points="95.5,-46.1 92,-36.1 88.5,-46.1 95.5,-46.1"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSSerialization.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          <em>
+            This class is deprecated in favor of
+            <a rel="gsdoc" href="NSPropertyList.html#class$NSPropertyListSerialization">NSPropertyListSerialization</a>
+.</em> It provides a means of recovering a property list (NSArray or NSDictionary plus limited contents) from a byte-array (actually string) representation.
+        
+    </div>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSSerialization.html#method$NSDeserializer(GNUstep)+uniquing$">+uniquing:</a></li>
+      <li><a rel="gsdoc" href="NSSerialization.html#method$NSDeserializer+deserializePropertyListFromData$atCursor$mutableContainers$">+deserializePropertyListFromData:atCursor:mutableContainers:</a></li>
+      <li><a rel="gsdoc" href="NSSerialization.html#method$NSDeserializer+deserializePropertyListFromData$mutableContainers$">+deserializePropertyListFromData:mutableContainers:</a></li>
+      <li><a rel="gsdoc" href="NSSerialization.html#method$NSDeserializer+deserializePropertyListLazilyFromData$atCursor$length$mutableContainers$">+deserializePropertyListLazilyFromData:atCursor:length:mutableContainers:</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSDeserializer+deserializePropertyListFromData$atCursor$mutableContainers$">deserializePropertyListFromData:&nbsp;atCursor:&nbsp;mutableContainers:&nbsp;</a></h3>
+    + (id) <b>deserializePropertyListFromData:</b> (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*)data<b> atCursor:</b> (unsigned int*)cursor<b> mutableContainers:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Recover a property list (NSArray or NSDictionary
+            plus limited contents) from a byte array.
+            <em>
+              Deprecated in favor of
+              [NSPropertyListSerialization
+              +propertyListFromData:mutabilityOption:format:errorDescription:].
+            </em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSDeserializer+deserializePropertyListFromData$mutableContainers$">deserializePropertyListFromData:&nbsp;mutableContainers:&nbsp;</a></h3>
+    + (id) <b>deserializePropertyListFromData:</b> (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*)data<b> mutableContainers:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Recover a property list (NSArray or NSDictionary
+            plus limited contents) from a byte array.
+            <em>
+              Deprecated in favor of
+              [NSPropertyListSerialization
+              +propertyListFromData:mutabilityOption:format:errorDescription:].
+            </em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSDeserializer+deserializePropertyListLazilyFromData$atCursor$length$mutableContainers$">deserializePropertyListLazilyFromData:&nbsp;atCursor:&nbsp;length:&nbsp;mutableContainers:&nbsp;</a></h3>
+    + (id) <b>deserializePropertyListLazilyFromData:</b> (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*)data<b> atCursor:</b> (unsigned*)cursor<b> length:</b> (unsigned)length<b> mutableContainers:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Recover a property list (NSArray or NSDictionary
+            plus limited contents) from a byte array. If the
+            <var>data</var> at <var>cursor</var> has a
+            <var>length</var> greater than <var>length</var>, a
+            proxy is substituted for the actual property list as
+            <strong>long</strong> as the constituent objects
+            of that property list are not accessed.
+            <em>
+              Deprecated in favor of
+              [NSPropertyListSerialization
+              +propertyListFromData:mutabilityOption:format:errorDescription:].
+            </em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+
+          <h1><a name="002000000000">
+        Software documentation for the NSSerializer class
+      </a></h1>
+    <h2 class="class"><a name="class$NSSerializer">NSSerializer</a> : <a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a></h2>
+<svg width="162pt" height="116pt"
+ viewBox="0.00 0.00 162.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>class_NSSerializer</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 158,-112 158,4 -4,4"/>
+<!-- NSObject -->
+<g id="node1" class="node">
+<title>NSObject</title>
+<g id="a_node1"><a xlink:href="NSObject.html#class$NSObject" xlink:title="NSObject">
+<polygon fill="lightgrey" stroke="black" points="136,-108 18,-108 18,-72 136,-72 136,-108"/>
+<text text-anchor="middle" x="77" y="-83.8" font-family="Times,serif" font-size="24.00" fill="blue">NSObject</text>
+</a>
+</g>
+</g>
+<!-- NSSerializer -->
+<g id="node2" class="node">
+<title>NSSerializer</title>
+<polygon fill="lightgrey" stroke="black" points="154,-36 0,-36 0,0 154,0 154,-36"/>
+<text text-anchor="middle" x="77" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">NSSerializer</text>
+</g>
+<!-- NSObject&#45;&gt;NSSerializer -->
+<g id="edge1" class="edge">
+<title>NSObject&#45;&gt;NSSerializer</title>
+<path fill="none" stroke="black" d="M77,-71.7C77,-63.98 77,-54.71 77,-46.11"/>
+<polygon fill="black" stroke="black" points="80.5,-46.1 77,-36.1 73.5,-46.1 80.5,-46.1"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSSerialization.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            <em>
+              This class is deprecated in favor of
+              <a rel="gsdoc" href="NSPropertyList.html#class$NSPropertyListSerialization">NSPropertyListSerialization</a>
+.</em>
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              It provides a means of producing a byte-array
+              (actually string) representation of a property
+              list (NSArray or NSDictionary plus limited
+              contents).
+                </p>
+    <p>
+      
+        
+    </div>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSSerialization.html#method$NSSerializer(GNUstep)+serializePropertyList$intoData$compact$">+serializePropertyList:intoData:compact:</a></li>
+      <li><a rel="gsdoc" href="NSSerialization.html#method$NSSerializer(GNUstep)+shouldBeCompact$">+shouldBeCompact:</a></li>
+      <li><a rel="gsdoc" href="NSSerialization.html#method$NSSerializer+serializePropertyList$">+serializePropertyList:</a></li>
+      <li><a rel="gsdoc" href="NSSerialization.html#method$NSSerializer+serializePropertyList$intoData$">+serializePropertyList:intoData:</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSSerializer+serializePropertyList$">serializePropertyList:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*) <b>serializePropertyList:</b> (id)propertyList;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Serialize given property list (NSArray or
+              NSDictionary plus limited contents) into
+              byte array.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              <em>
+                Deprecated in favor of
+                <a rel="gsdoc" href="NSPropertyList.html#method$NSPropertyListSerialization+dataFromPropertyList$format$errorDescription$">[NSPropertyListSerialization +dataFromPropertyList:format:errorDescription:]</a>
+.
+              </em>
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSSerializer+serializePropertyList$intoData$">serializePropertyList:&nbsp;intoData:&nbsp;</a></h3>
+    + (void) <b>serializePropertyList:</b> (id)propertyList<b> intoData:</b> (<a rel="gsdoc" href="NSData.html#class$NSMutableData">NSMutableData</a>*)d;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Serialize given property list (NSArray or
+              NSDictionary plus limited contents) into
+              given mutable byte array.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              <em>
+                Deprecated in favor of
+                <a rel="gsdoc" href="NSPropertyList.html#method$NSPropertyListSerialization+dataFromPropertyList$format$errorDescription$">[NSPropertyListSerialization +dataFromPropertyList:format:errorDescription:]</a>
+.
+              </em>
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+
+          <h1><a name="003000000000">
+        Software documentation for the NSDeserializer(GNUstep)
+        category
+      </a></h1>
+    <h2><a rel="gsdoc" href="#class$NSDeserializer">NSDeserializer</a>(<a name="category$NSDeserializer(GNUstep)">GNUstep</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSSerialization.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            GNUstep extends deserialization by having the
+            option to make the resulting data more compact by
+            ensuring that repeated strings are only stored
+            once. If the property-list has a lot of repeated
+            strings in it, this will be more space efficient
+            but it will be slower (though other parts of your code
+            may speed up through more efficient equality testing of
+            uniqued strings). The default is NOT to deserialize
+            uniqued strings.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            The
+            <a rel="gsdoc" href="#method$NSDeserializer(GNUstep)+uniquing$">
+              [+uniquing:]
+            </a>
+
+            method turns uniquing on/off. Uniquing is done using
+            a global
+            <a rel="gsdoc" href="NSSet.html#class$NSCountedSet">NSCountedSet</a>
+
+              - see its documentation for details.
+                </p>
+    <p>
+      
+        
+    </div>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSSerialization.html#method$NSDeserializer(GNUstep)+uniquing$">+uniquing:</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSDeserializer(GNUstep)+uniquing$">uniquing:&nbsp;</a></h3>
+    + (void) <b>uniquing:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Turns uniquing (collapsing of multiple instances of a
+            single string in the output to one full copy plus
+            references) on/off.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+
+          <h1><a name="004000000000">
+        Software documentation for the NSSerializer(GNUstep)
+        category
+      </a></h1>
+    <h2><a rel="gsdoc" href="#class$NSSerializer">NSSerializer</a>(<a name="category$NSSerializer(GNUstep)">GNUstep</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSSerialization.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Base<br/>
+ Likely to be changed/moved/removed at 1.17.0</div>
+<br/>
+    <div class="desc">
+      
+          GNUstep extends serialization by having the option to
+          make the resulting data more compact by ensuring that
+          repeated strings are only stored once. If the
+          property-list has a lot of repeated strings in
+          it, this will be both faster and more space efficient but
+          it will be slower if the property-list has few repeated
+          strings. The default is NOT to generate compact
+          versions of the data. The
+          <a rel="gsdoc" href="#method$NSSerializer(GNUstep)+shouldBeCompact$">
+            [+shouldBeCompact:]
+          </a>
+
+          method sets default behavior. The
+          <a rel="gsdoc" href="#method$NSSerializer(GNUstep)+serializePropertyList$intoData$compact$">[+serializePropertyList:intoData:compact:]</a>
+ method lets you override the default behavior.
+        
+    </div>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSSerialization.html#method$NSSerializer(GNUstep)+serializePropertyList$intoData$compact$">+serializePropertyList:intoData:compact:</a></li>
+      <li><a rel="gsdoc" href="NSSerialization.html#method$NSSerializer(GNUstep)+shouldBeCompact$">+shouldBeCompact:</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSSerializer(GNUstep)+serializePropertyList$intoData$compact$">serializePropertyList:&nbsp;intoData:&nbsp;compact:&nbsp;</a></h3>
+    + (void) <b>serializePropertyList:</b> (id)propertyList<b> intoData:</b> (<a rel="gsdoc" href="NSData.html#class$NSMutableData">NSMutableData</a>*)d<b> compact:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> Base<br/>
+ Likely to be changed/moved/removed at 1.17.0</div>
+<br/>
+    <div class="desc">
+      
+            As
+            <a rel="gsdoc" href="#method$NSSerializer+serializePropertyList$intoData$">[NSSerializer +serializePropertyList:intoData:]</a>
+ but specify whether to produce compacted format.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSSerializer(GNUstep)+shouldBeCompact$">shouldBeCompact:&nbsp;</a></h3>
+    + (void) <b>shouldBeCompact:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> Base<br/>
+ Likely to be changed/moved/removed at 1.17.0</div>
+<br/>
+    <div class="desc">
+      
+            Specify whether to produce compacted format, with
+            repeated strings only written once.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+
+          <h1><a name="005000000000">
+        Software documentation for the
+        NSObjCTypeSerializationCallBack
+        protocol
+      </a></h1>
+    <h2><a name="protocol$(NSObjCTypeSerializationCallBack)">NSObjCTypeSerializationCallBack</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSSerialization.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          Objects that are not standard property list
+          constituents can adopt this protocol to allow
+          themselves to be serialized by an
+          <a rel="gsdoc" href="#class$NSSerializer">NSSerializer</a>
+
+            and deserialized by an
+            <a rel="gsdoc" href="#class$NSDeserializer">NSDeserializer</a>
+
+              .
+              <em>
+                Note, this mechanism has been deprecated and you
+                should instead use
+                <a rel="gsdoc" href="NSArchiver.html#class$NSArchiver">NSArchiver</a>
+
+                  and related facilities to serialize objects that
+                  are not ordinary property lists.
+                </em>
+        
+    </div>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSSerialization.html#method$(NSObjCTypeSerializationCallBack)-deserializeObjectAt$ofObjCType$fromData$atCursor$">-deserializeObjectAt:ofObjCType:fromData:atCursor:</a></li>
+      <li><a rel="gsdoc" href="NSSerialization.html#method$(NSObjCTypeSerializationCallBack)-serializeObjectAt$ofObjCType$intoData$">-serializeObjectAt:ofObjCType:intoData:</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$(NSObjCTypeSerializationCallBack)-deserializeObjectAt$ofObjCType$fromData$atCursor$">deserializeObjectAt:&nbsp;ofObjCType:&nbsp;fromData:&nbsp;atCursor:&nbsp;</a></h3>
+    - (void) <b>deserializeObjectAt:</b> (id*)object<b> ofObjCType:</b> (const char*)type<b> fromData:</b> (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*)data<b> atCursor:</b> (unsigned*)cursor;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Decodes an <var>object</var> of given
+            <var>type</var> from <var>data</var> at position
+            <var>cursor</var>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$(NSObjCTypeSerializationCallBack)-serializeObjectAt$ofObjCType$intoData$">serializeObjectAt:&nbsp;ofObjCType:&nbsp;intoData:&nbsp;</a></h3>
+    - (void) <b>serializeObjectAt:</b> (id*)object<b> ofObjCType:</b> (const char*)type<b> intoData:</b> (<a rel="gsdoc" href="NSData.html#class$NSMutableData">NSMutableData</a>*)data;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Encode the given <var>object</var> of given
+            <var>type</var> into <var>data</var>, using a string
+            not a binary representation.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+    <br />
+    <a href="Base.html">Up</a>
+    </body>
+</html>

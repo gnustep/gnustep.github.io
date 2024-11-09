@@ -1,0 +1,2145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>NSNumberFormatter class reference</title>
+    <style type="text/css">
+    hr.method-separator { width:25%; margin-left:0; }
+    </style>
+  </head>
+  <body>
+    <a href="Base.html">Up</a>
+    <br />
+    <h1><a name="title$NSNumberFormatter">NSNumberFormatter class reference</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Fred Kiefer (<a href="mailto:FredKiefer@gmx.de"><code>FredKiefer@gmx.de</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Richard Frith-Macdonald (<a href="mailto:rfm@gnu.org"><code>rfm@gnu.org</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Date:</b> Generated at 2024-11-07 16:52:01 -0500</p>
+    <p><b>Copyright:</b> (C) 2000 Free Software Foundation, Inc.</p>
+
+        <div>
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSNumberFormatter class
+      </a></h1>
+    <h2 class="class"><a name="class$NSNumberFormatter">NSNumberFormatter</a> : <a rel="gsdoc" href="NSFormatter.html#class$NSFormatter">NSFormatter</a></h2>
+<svg width="268pt" height="116pt"
+ viewBox="0.00 0.00 268.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>class_NSNumberFormatter</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 264,-112 264,4 -4,4"/>
+<!-- NSFormatter -->
+<g id="node1" class="node">
+<title>NSFormatter</title>
+<g id="a_node1"><a xlink:href="NSFormatter.html#class$NSFormatter" xlink:title="NSFormatter">
+<polygon fill="lightgrey" stroke="black" points="210,-108 50,-108 50,-72 210,-72 210,-108"/>
+<text text-anchor="middle" x="130" y="-83.8" font-family="Times,serif" font-size="24.00" fill="blue">NSFormatter</text>
+</a>
+</g>
+</g>
+<!-- NSNumberFormatter -->
+<g id="node2" class="node">
+<title>NSNumberFormatter</title>
+<polygon fill="lightgrey" stroke="black" points="260,-36 0,-36 0,0 260,0 260,-36"/>
+<text text-anchor="middle" x="130" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">NSNumberFormatter</text>
+</g>
+<!-- NSFormatter&#45;&gt;NSNumberFormatter -->
+<g id="edge1" class="edge">
+<title>NSFormatter&#45;&gt;NSNumberFormatter</title>
+<path fill="none" stroke="black" d="M130,-71.7C130,-63.98 130,-54.71 130,-46.11"/>
+<polygon fill="black" stroke="black" points="133.5,-46.1 130,-36.1 126.5,-46.1 133.5,-46.1"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSNumberFormatter.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            <em>
+              <strong>
+                This class is currently not fully implemented! All
+                set methods will work, but stringForObject: will
+                ignore the format completely. The documentation
+                below describes what the behavior SHOULD be...
+              </strong>
+            </em>
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            A specialization of the
+            <a rel="gsdoc" href="NSFormatter.html#class$NSFormatter">NSFormatter</a>
+
+              class for generating string representations of
+              numbers ([NSNumber] and
+              <a rel="gsdoc" href="NSDecimalNumber.html#class$NSDecimalNumber">NSDecimalNumber</a>
+instances) and for parsing numeric values in strings.    </p>
+    <p>
+      
+              
+    </p>
+    <p>
+
+                See the
+                <a rel="gsdoc" href="NSFormatter.html#class$NSFormatter">NSFormatter</a>
+
+                  documentation for description of the
+                  basic methods for formatting and parsing that
+                  are available.
+                    </p>
+    <p>
+      
+                
+    </p>
+    <p>
+
+                  There are no convenience initializers or
+                  constructors for this class. Instead, to
+                  obtain an instance, call alloc init and then
+                  <a rel="gsdoc" href="#method$NSNumberFormatter-setFormat$">
+                    -setFormat:
+                  </a>
+
+                  .
+                    </p>
+    <p>
+      
+                
+    </p>
+    <p>
+
+                  The basic format of a format string uses &quot;#&quot;
+                  signs to represent digits, and other characters
+                  to represent themselves, in a context-dependent
+                  way. Thus, for example, <code>@&quot;#,###.00&quot;</code>
+                  means to print the number ending in.00 if it
+                  has no decimal part, otherwise print two decimal
+                  places, and to print one comma if it is
+                  greater than 1000. Thus, 1000 prints as
+                  &quot;1,000.00&quot;, and 1444555.979 prints as
+                  &quot;1444,555.98&quot; (see
+                  -setRoundingBehavior:).
+                    </p>
+    <p>
+      
+                
+    </p>
+    <p>
+
+                  After setting the format, you may change the
+                  thousands separator and decimal point using
+                  set methods, or by calling
+                  <a rel="gsdoc" href="#method$NSNumberFormatter-setLocalizesFormat$">
+                    -setLocalizesFormat:
+                  </a>
+
+                  .
+                    </p>
+    <p>
+      
+                
+    </p>
+    <p>
+
+                  You may set separate formats to be used for
+                  positive numbers, negative numbers, and zero
+                  independently.
+                    </p>
+    <p>
+      
+                
+    </p>
+    <p>
+
+                  In addition, this class supports attributed
+                  strings (see
+                  <a rel="gsdoc" href="NSAttributedString.html#class$NSAttributedString">NSAttributedString</a>
+), so that you can specify font and color attributes, among others, to display aspects of a number. You can assign specific sets of attributes for positive and negative numbers, and for specific cases including 0, NaN, and <code>nil</code>...    </p>
+    <p>
+      
+        
+    </div>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter+defaultFormatterBehavior">+defaultFormatterBehavior</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter+localizedStringFromNumber$numberStyle$">+localizedStringFromNumber:numberStyle:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter+setDefaultFormatterBehavior$">+setDefaultFormatterBehavior:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-allowsFloats">-allowsFloats</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-alwaysShowsDecimalSeparator">-alwaysShowsDecimalSeparator</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-attributedStringForNil">-attributedStringForNil</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-attributedStringForNotANumber">-attributedStringForNotANumber</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-attributedStringForZero">-attributedStringForZero</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-currencyCode">-currencyCode</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-currencyDecimalSeparator">-currencyDecimalSeparator</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-currencyGroupingSeparator">-currencyGroupingSeparator</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-currencySymbol">-currencySymbol</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-decimalSeparator">-decimalSeparator</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-exponentSymbol">-exponentSymbol</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-format">-format</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-formatWidth">-formatWidth</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-formatterBehavior">-formatterBehavior</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-generatesDecimalNumbers">-generatesDecimalNumbers</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-getObjectValue$forString$range$error$">-getObjectValue:forString:range:error:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-groupingSeparator">-groupingSeparator</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-groupingSize">-groupingSize</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-hasThousandSeparators">-hasThousandSeparators</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-internationalCurrencySymbol">-internationalCurrencySymbol</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-isLenient">-isLenient</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-isPartialStringValidationEnabled">-isPartialStringValidationEnabled</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-locale">-locale</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-localizesFormat">-localizesFormat</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-maximum">-maximum</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-maximumFractionDigits">-maximumFractionDigits</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-maximumIntegerDigits">-maximumIntegerDigits</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-maximumSignificantDigits">-maximumSignificantDigits</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-minimum">-minimum</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-minimumFractionDigits">-minimumFractionDigits</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-minimumIntegerDigits">-minimumIntegerDigits</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-minimumSignificantDigits">-minimumSignificantDigits</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-minusSign">-minusSign</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-multiplier">-multiplier</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-negativeFormat">-negativeFormat</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-negativeInfinitySymbol">-negativeInfinitySymbol</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-negativePrefix">-negativePrefix</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-negativeSuffix">-negativeSuffix</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-nilSymbol">-nilSymbol</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-notANumberSymbol">-notANumberSymbol</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-numberFromString$">-numberFromString:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-numberStyle">-numberStyle</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-paddingCharacter">-paddingCharacter</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-paddingPosition">-paddingPosition</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-perMillSymbol">-perMillSymbol</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-percentSymbol">-percentSymbol</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-plusSign">-plusSign</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-positiveFormat">-positiveFormat</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-positiveInfinitySymbol">-positiveInfinitySymbol</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-positivePrefix">-positivePrefix</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-positiveSuffix">-positiveSuffix</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-roundingBehavior">-roundingBehavior</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-roundingIncrement">-roundingIncrement</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-roundingMode">-roundingMode</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-secondaryGroupingSize">-secondaryGroupingSize</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setAllowsFloats$">-setAllowsFloats:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setAlwaysShowsDecimalSeparator$">-setAlwaysShowsDecimalSeparator:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setAttributedStringForNil$">-setAttributedStringForNil:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setAttributedStringForNotANumber$">-setAttributedStringForNotANumber:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setAttributedStringForZero$">-setAttributedStringForZero:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setCurrencyCode$">-setCurrencyCode:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setCurrencyDecimalSeparator$">-setCurrencyDecimalSeparator:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setCurrencyGroupingSeparator$">-setCurrencyGroupingSeparator:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setCurrencySymbol$">-setCurrencySymbol:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setDecimalSeparator$">-setDecimalSeparator:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setExponentSymbol$">-setExponentSymbol:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setFormat$">-setFormat:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setFormatWidth$">-setFormatWidth:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setFormatterBehavior$">-setFormatterBehavior:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setGeneratesDecimalNumbers$">-setGeneratesDecimalNumbers:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setGroupingSeparator$">-setGroupingSeparator:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setGroupingSize$">-setGroupingSize:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setHasThousandSeparators$">-setHasThousandSeparators:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setInternationalCurrencySymbol$">-setInternationalCurrencySymbol:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setLenient$">-setLenient:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setLocale$">-setLocale:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setLocalizesFormat$">-setLocalizesFormat:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setMaximum$">-setMaximum:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setMaximumFractionDigits$">-setMaximumFractionDigits:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setMaximumIntegerDigits$">-setMaximumIntegerDigits:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setMaximumSignificantDigits$">-setMaximumSignificantDigits:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setMinimum$">-setMinimum:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setMinimumFractionDigits$">-setMinimumFractionDigits:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setMinimumIntegerDigits$">-setMinimumIntegerDigits:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setMinimumSignificantDigits$">-setMinimumSignificantDigits:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setMinusSign$">-setMinusSign:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setMultiplier$">-setMultiplier:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setNegativeFormat$">-setNegativeFormat:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setNegativeInfinitySymbol$">-setNegativeInfinitySymbol:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setNegativePrefix$">-setNegativePrefix:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setNegativeSuffix$">-setNegativeSuffix:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setNilSymbol$">-setNilSymbol:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setNotANumberSymbol$">-setNotANumberSymbol:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setNumberStyle$">-setNumberStyle:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setPaddingCharacter$">-setPaddingCharacter:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setPaddingPosition$">-setPaddingPosition:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setPartialStringValidationEnabled$">-setPartialStringValidationEnabled:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setPerMillSymbol$">-setPerMillSymbol:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setPercentSymbol$">-setPercentSymbol:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setPlusSign$">-setPlusSign:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setPositiveFormat$">-setPositiveFormat:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setPositiveInfinitySymbol$">-setPositiveInfinitySymbol:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setPositivePrefix$">-setPositivePrefix:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setPositiveSuffix$">-setPositiveSuffix:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setRoundingBehavior$">-setRoundingBehavior:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setRoundingIncrement$">-setRoundingIncrement:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setRoundingMode$">-setRoundingMode:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setSecondaryGroupingSize$">-setSecondaryGroupingSize:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setTextAttributesForNegativeInfinity$">-setTextAttributesForNegativeInfinity:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setTextAttributesForNegativeValues$">-setTextAttributesForNegativeValues:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setTextAttributesForNil$">-setTextAttributesForNil:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setTextAttributesForNotANumber$">-setTextAttributesForNotANumber:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setTextAttributesForPositiveInfinity$">-setTextAttributesForPositiveInfinity:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setTextAttributesForPositiveValues$">-setTextAttributesForPositiveValues:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setTextAttributesForZero$">-setTextAttributesForZero:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setThousandSeparator$">-setThousandSeparator:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setUsesGroupingSeparator$">-setUsesGroupingSeparator:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setUsesSignificantDigits$">-setUsesSignificantDigits:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-setZeroSymbol$">-setZeroSymbol:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-stringFromNumber$">-stringFromNumber:</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-textAttributesForNegativeInfinity">-textAttributesForNegativeInfinity</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-textAttributesForNegativeValues">-textAttributesForNegativeValues</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-textAttributesForNil">-textAttributesForNil</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-textAttributesForNotANumber">-textAttributesForNotANumber</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-textAttributesForPositiveInfinity">-textAttributesForPositiveInfinity</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-textAttributesForPositiveValues">-textAttributesForPositiveValues</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-textAttributesForZero">-textAttributesForZero</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-thousandSeparator">-thousandSeparator</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-usesGroupingSeparator">-usesGroupingSeparator</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-usesSignificantDigits">-usesSignificantDigits</a></li>
+      <li><a rel="gsdoc" href="NSNumberFormatter.html#method$NSNumberFormatter-zeroSymbol">-zeroSymbol</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSNumberFormatter+defaultFormatterBehavior">defaultFormatterBehavior&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="TypesAndConstants.html#type$NSNumberFormatterBehavior">NSNumberFormatterBehavior</a>) <b>defaultFormatterBehavior</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the formatter behavior previously set as
+            the default using the
+            <a rel="gsdoc" href="#method$NSNumberFormatter+setDefaultFormatterBehavior$">
+              +setDefaultFormatterBehavior:
+            </a>
+
+            method.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter+localizedStringFromNumber$numberStyle$">localizedStringFromNumber:&nbsp;numberStyle:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>localizedStringFromNumber:</b> (<a rel="gsdoc" href="NSValue.html#class$NSNumber">NSNumber</a>*)num<b> numberStyle:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSNumberFormatterStyle">NSNumberFormatterStyle</a>)localizationStyle;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter+setDefaultFormatterBehavior$">setDefaultFormatterBehavior:&nbsp;</a></h3>
+    + (void) <b>setDefaultFormatterBehavior:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSNumberFormatterBehavior">NSNumberFormatterBehavior</a>)behavior;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            Sets the default <var>behavior</var> of number
+            formatters. <br/> NB. If GNUstep has been
+            built without the ICU library,
+            NSNumberFormatterBehavior10_0
+            is currently used irrespective of this setting.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-allowsFloats">allowsFloats&nbsp;</a></h3>
+    - (BOOL) <b>allowsFloats</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns whether number parsing will accept floating
+            point values or generate an exception (only
+            <strong>int</strong> values are valid). Default is
+            <code>YES</code>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-alwaysShowsDecimalSeparator">alwaysShowsDecimalSeparator&nbsp;</a></h3>
+    - (BOOL) <b>alwaysShowsDecimalSeparator</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-attributedStringForNil">attributedStringForNil&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSAttributedString.html#class$NSAttributedString">NSAttributedString</a>*) <b>attributedStringForNil</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the exact attributed string used for
+            <code>nil</code> values. By default this is an empty
+            string.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-attributedStringForNotANumber">attributedStringForNotANumber&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSAttributedString.html#class$NSAttributedString">NSAttributedString</a>*) <b>attributedStringForNotANumber</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the exact attributed string used for NaN
+            values. By default this is the string &quot;NaN&quot; with no
+            attributes.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-attributedStringForZero">attributedStringForZero&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSAttributedString.html#class$NSAttributedString">NSAttributedString</a>*) <b>attributedStringForZero</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the exact attributed string used for zero
+            values. By default this is based on the format for
+            zero values, if set, or the format for positive values
+            otherwise.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-currencyCode">currencyCode&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>currencyCode</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-currencyDecimalSeparator">currencyDecimalSeparator&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>currencyDecimalSeparator</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-currencyGroupingSeparator">currencyGroupingSeparator&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>currencyGroupingSeparator</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-currencySymbol">currencySymbol&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>currencySymbol</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-decimalSeparator">decimalSeparator&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>decimalSeparator</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns thousands separator used; default is &apos;.&apos;.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-exponentSymbol">exponentSymbol&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>exponentSymbol</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-format">format&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>format</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the format string this instance was
+            initialized with.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-formatWidth">formatWidth&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>formatWidth</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-formatterBehavior">formatterBehavior&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSNumberFormatterBehavior">NSNumberFormatterBehavior</a>) <b>formatterBehavior</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the behavior of the receiver, either the
+            default behavior set for number formatters, or the
+            behavior specified by an earlier call to the
+            <a rel="gsdoc" href="#method$NSNumberFormatter-setFormatterBehavior$">
+              -setFormatterBehavior:
+            </a>
+
+            method.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-generatesDecimalNumbers">generatesDecimalNumbers&nbsp;</a></h3>
+    - (BOOL) <b>generatesDecimalNumbers</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-getObjectValue$forString$range$error$">getObjectValue:&nbsp;forString:&nbsp;range:&nbsp;error:&nbsp;</a></h3>
+    - (BOOL) <b>getObjectValue:</b> (out id*)anObject<b> forString:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aString<b> range:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>*)rangep<b> error:</b> (out <a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-groupingSeparator">groupingSeparator&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>groupingSeparator</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-groupingSize">groupingSize&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>groupingSize</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-hasThousandSeparators">hasThousandSeparators&nbsp;</a></h3>
+    - (BOOL) <b>hasThousandSeparators</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns whether thousands separator should be used,
+            regardless of whether it is set in format.
+            (Default is <code>YES</code> if explicitly set in
+            format.)
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-internationalCurrencySymbol">internationalCurrencySymbol&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>internationalCurrencySymbol</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-isLenient">isLenient&nbsp;</a></h3>
+    - (BOOL) <b>isLenient</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-isPartialStringValidationEnabled">isPartialStringValidationEnabled&nbsp;</a></h3>
+    - (BOOL) <b>isPartialStringValidationEnabled</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-locale">locale&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSLocale.html#class$NSLocale">NSLocale</a>*) <b>locale</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-localizesFormat">localizesFormat&nbsp;</a></h3>
+    - (BOOL) <b>localizesFormat</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns whether this format should defer to the
+            locale in determining thousands separator and
+            decimal point. The default is to NOT localize.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-maximum">maximum&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSValue.html#class$NSNumber">NSNumber</a>*) <b>maximum</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns maximum value that will be accepted as
+            valid in number parsing. Default is none.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-maximumFractionDigits">maximumFractionDigits&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>maximumFractionDigits</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-maximumIntegerDigits">maximumIntegerDigits&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>maximumIntegerDigits</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-maximumSignificantDigits">maximumSignificantDigits&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>maximumSignificantDigits</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-minimum">minimum&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSValue.html#class$NSNumber">NSNumber</a>*) <b>minimum</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns minimum value that will be accepted as
+            valid in number parsing. Default is none.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-minimumFractionDigits">minimumFractionDigits&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>minimumFractionDigits</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-minimumIntegerDigits">minimumIntegerDigits&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>minimumIntegerDigits</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-minimumSignificantDigits">minimumSignificantDigits&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>minimumSignificantDigits</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-minusSign">minusSign&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>minusSign</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-multiplier">multiplier&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSValue.html#class$NSNumber">NSNumber</a>*) <b>multiplier</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-negativeFormat">negativeFormat&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>negativeFormat</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns format used for negative numbers.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-negativeInfinitySymbol">negativeInfinitySymbol&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>negativeInfinitySymbol</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-negativePrefix">negativePrefix&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>negativePrefix</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-negativeSuffix">negativeSuffix&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>negativeSuffix</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-nilSymbol">nilSymbol&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>nilSymbol</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-notANumberSymbol">notANumberSymbol&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>notANumberSymbol</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-numberFromString$">numberFromString:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSValue.html#class$NSNumber">NSNumber</a>*) <b>numberFromString:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the number for this <var>string</var>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-numberStyle">numberStyle&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSNumberFormatterStyle">NSNumberFormatterStyle</a>) <b>numberStyle</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-paddingCharacter">paddingCharacter&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>paddingCharacter</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-paddingPosition">paddingPosition&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSNumberFormatterPadPosition">NSNumberFormatterPadPosition</a>) <b>paddingPosition</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-perMillSymbol">perMillSymbol&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>perMillSymbol</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-percentSymbol">percentSymbol&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>percentSymbol</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-plusSign">plusSign&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>plusSign</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-positiveFormat">positiveFormat&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>positiveFormat</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns format used for positive numbers.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-positiveInfinitySymbol">positiveInfinitySymbol&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>positiveInfinitySymbol</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-positivePrefix">positivePrefix&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>positivePrefix</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-positiveSuffix">positiveSuffix&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>positiveSuffix</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-roundingBehavior">roundingBehavior&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSDecimalNumber.html#class$NSDecimalNumberHandler">NSDecimalNumberHandler</a>*) <b>roundingBehavior</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns object specifying the rounding behavior
+            used when truncating decimal digits in formats.
+            Default is
+            <a rel="gsdoc" href="NSDecimalNumber.html#method$NSDecimalNumberHandler+defaultDecimalNumberHandler">[NSDecimalNumberHandler +defaultDecimalNumberHandler]</a>
+.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-roundingIncrement">roundingIncrement&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSValue.html#class$NSNumber">NSNumber</a>*) <b>roundingIncrement</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-roundingMode">roundingMode&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSNumberFormatterRoundingMode">NSNumberFormatterRoundingMode</a>) <b>roundingMode</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-secondaryGroupingSize">secondaryGroupingSize&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>secondaryGroupingSize</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setAllowsFloats$">setAllowsFloats:&nbsp;</a></h3>
+    - (void) <b>setAllowsFloats:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets whether number parsing will accept floating point
+            values or generate an exception (only
+            <strong>int</strong> values are valid). Default is
+            <code>YES</code>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setAlwaysShowsDecimalSeparator$">setAlwaysShowsDecimalSeparator:&nbsp;</a></h3>
+    - (void) <b>setAlwaysShowsDecimalSeparator:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setAttributedStringForNil$">setAttributedStringForNil:&nbsp;</a></h3>
+    - (void) <b>setAttributedStringForNil:</b> (<a rel="gsdoc" href="NSAttributedString.html#class$NSAttributedString">NSAttributedString</a>*)newAttributedString;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets the exact attributed string used for
+            <code>nil</code> values. By default this is an empty
+            string.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setAttributedStringForNotANumber$">setAttributedStringForNotANumber:&nbsp;</a></h3>
+    - (void) <b>setAttributedStringForNotANumber:</b> (<a rel="gsdoc" href="NSAttributedString.html#class$NSAttributedString">NSAttributedString</a>*)newAttributedString;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets the exact attributed string used for NaN values.
+            By default this is the string &quot;NaN&quot; with no attributes.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setAttributedStringForZero$">setAttributedStringForZero:&nbsp;</a></h3>
+    - (void) <b>setAttributedStringForZero:</b> (<a rel="gsdoc" href="NSAttributedString.html#class$NSAttributedString">NSAttributedString</a>*)newAttributedString;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets the exact attributed string used for zero values.
+            By default this is based on the format for zero values,
+            if set, or the format for positive values otherwise.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setCurrencyCode$">setCurrencyCode:&nbsp;</a></h3>
+    - (void) <b>setCurrencyCode:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setCurrencyDecimalSeparator$">setCurrencyDecimalSeparator:&nbsp;</a></h3>
+    - (void) <b>setCurrencyDecimalSeparator:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setCurrencyGroupingSeparator$">setCurrencyGroupingSeparator:&nbsp;</a></h3>
+    - (void) <b>setCurrencyGroupingSeparator:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setCurrencySymbol$">setCurrencySymbol:&nbsp;</a></h3>
+    - (void) <b>setCurrencySymbol:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setDecimalSeparator$">setDecimalSeparator:&nbsp;</a></h3>
+    - (void) <b>setDecimalSeparator:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)newSeparator;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets thousands separator used; default is &apos;.&apos;.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setExponentSymbol$">setExponentSymbol:&nbsp;</a></h3>
+    - (void) <b>setExponentSymbol:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setFormat$">setFormat:&nbsp;</a></h3>
+    - (void) <b>setFormat:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aFormat;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets format string. See class description for more
+            information.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setFormatWidth$">setFormatWidth:&nbsp;</a></h3>
+    - (void) <b>setFormatWidth:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)number;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setFormatterBehavior$">setFormatterBehavior:&nbsp;</a></h3>
+    - (void) <b>setFormatterBehavior:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSNumberFormatterBehavior">NSNumberFormatterBehavior</a>)behavior;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            Sets the <var>behavior</var> of the formatter. <br/>
+            NB. If GNUstep has been built without the ICU library,
+            NSNumberFormatterBehavior10_0
+            is currently used irrespective of this setting.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setGeneratesDecimalNumbers$">setGeneratesDecimalNumbers:&nbsp;</a></h3>
+    - (void) <b>setGeneratesDecimalNumbers:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setGroupingSeparator$">setGroupingSeparator:&nbsp;</a></h3>
+    - (void) <b>setGroupingSeparator:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setGroupingSize$">setGroupingSize:&nbsp;</a></h3>
+    - (void) <b>setGroupingSize:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)number;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setHasThousandSeparators$">setHasThousandSeparators:&nbsp;</a></h3>
+    - (void) <b>setHasThousandSeparators:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets whether thousands separator should be used,
+            regardless of whether it is set in format.
+            (Default is <code>YES</code> if explicitly set in
+            format.)
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setInternationalCurrencySymbol$">setInternationalCurrencySymbol:&nbsp;</a></h3>
+    - (void) <b>setInternationalCurrencySymbol:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setLenient$">setLenient:&nbsp;</a></h3>
+    - (void) <b>setLenient:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setLocale$">setLocale:&nbsp;</a></h3>
+    - (void) <b>setLocale:</b> (<a rel="gsdoc" href="NSLocale.html#class$NSLocale">NSLocale</a>*)locale;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setLocalizesFormat$">setLocalizesFormat:&nbsp;</a></h3>
+    - (void) <b>setLocalizesFormat:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Set whether this format should defer to the locale in
+            determining thousands separator and decimal
+            point. The default is to NOT localize.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setMaximum$">setMaximum:&nbsp;</a></h3>
+    - (void) <b>setMaximum:</b> (<a rel="gsdoc" href="NSValue.html#class$NSNumber">NSNumber</a>*)aMaximum;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets maximum value that will be accepted as valid in
+            number parsing. Default is none.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setMaximumFractionDigits$">setMaximumFractionDigits:&nbsp;</a></h3>
+    - (void) <b>setMaximumFractionDigits:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)number;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setMaximumIntegerDigits$">setMaximumIntegerDigits:&nbsp;</a></h3>
+    - (void) <b>setMaximumIntegerDigits:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)number;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setMaximumSignificantDigits$">setMaximumSignificantDigits:&nbsp;</a></h3>
+    - (void) <b>setMaximumSignificantDigits:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)number;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setMinimum$">setMinimum:&nbsp;</a></h3>
+    - (void) <b>setMinimum:</b> (<a rel="gsdoc" href="NSValue.html#class$NSNumber">NSNumber</a>*)aMinimum;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets minimum value that will be accepted as valid in
+            number parsing. Default is none.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setMinimumFractionDigits$">setMinimumFractionDigits:&nbsp;</a></h3>
+    - (void) <b>setMinimumFractionDigits:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)number;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setMinimumIntegerDigits$">setMinimumIntegerDigits:&nbsp;</a></h3>
+    - (void) <b>setMinimumIntegerDigits:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)number;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setMinimumSignificantDigits$">setMinimumSignificantDigits:&nbsp;</a></h3>
+    - (void) <b>setMinimumSignificantDigits:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)number;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setMinusSign$">setMinusSign:&nbsp;</a></h3>
+    - (void) <b>setMinusSign:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setMultiplier$">setMultiplier:&nbsp;</a></h3>
+    - (void) <b>setMultiplier:</b> (<a rel="gsdoc" href="NSValue.html#class$NSNumber">NSNumber</a>*)number;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setNegativeFormat$">setNegativeFormat:&nbsp;</a></h3>
+    - (void) <b>setNegativeFormat:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aFormat;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets format used for negative numbers. See class
+            description for more information.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setNegativeInfinitySymbol$">setNegativeInfinitySymbol:&nbsp;</a></h3>
+    - (void) <b>setNegativeInfinitySymbol:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setNegativePrefix$">setNegativePrefix:&nbsp;</a></h3>
+    - (void) <b>setNegativePrefix:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setNegativeSuffix$">setNegativeSuffix:&nbsp;</a></h3>
+    - (void) <b>setNegativeSuffix:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setNilSymbol$">setNilSymbol:&nbsp;</a></h3>
+    - (void) <b>setNilSymbol:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setNotANumberSymbol$">setNotANumberSymbol:&nbsp;</a></h3>
+    - (void) <b>setNotANumberSymbol:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setNumberStyle$">setNumberStyle:&nbsp;</a></h3>
+    - (void) <b>setNumberStyle:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSNumberFormatterStyle">NSNumberFormatterStyle</a>)style;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setPaddingCharacter$">setPaddingCharacter:&nbsp;</a></h3>
+    - (void) <b>setPaddingCharacter:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setPaddingPosition$">setPaddingPosition:&nbsp;</a></h3>
+    - (void) <b>setPaddingPosition:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSNumberFormatterPadPosition">NSNumberFormatterPadPosition</a>)position;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setPartialStringValidationEnabled$">setPartialStringValidationEnabled:&nbsp;</a></h3>
+    - (void) <b>setPartialStringValidationEnabled:</b> (BOOL)enabled;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setPerMillSymbol$">setPerMillSymbol:&nbsp;</a></h3>
+    - (void) <b>setPerMillSymbol:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setPercentSymbol$">setPercentSymbol:&nbsp;</a></h3>
+    - (void) <b>setPercentSymbol:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setPlusSign$">setPlusSign:&nbsp;</a></h3>
+    - (void) <b>setPlusSign:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setPositiveFormat$">setPositiveFormat:&nbsp;</a></h3>
+    - (void) <b>setPositiveFormat:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aFormat;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets format used for positive numbers. See class
+            description for more information.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setPositiveInfinitySymbol$">setPositiveInfinitySymbol:&nbsp;</a></h3>
+    - (void) <b>setPositiveInfinitySymbol:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setPositivePrefix$">setPositivePrefix:&nbsp;</a></h3>
+    - (void) <b>setPositivePrefix:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setPositiveSuffix$">setPositiveSuffix:&nbsp;</a></h3>
+    - (void) <b>setPositiveSuffix:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setRoundingBehavior$">setRoundingBehavior:&nbsp;</a></h3>
+    - (void) <b>setRoundingBehavior:</b> (<a rel="gsdoc" href="NSDecimalNumber.html#class$NSDecimalNumberHandler">NSDecimalNumberHandler</a>*)newRoundingBehavior;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets object specifying the rounding behavior used when
+            truncating decimal digits in formats. Default is
+            <a rel="gsdoc" href="NSDecimalNumber.html#method$NSDecimalNumberHandler+defaultDecimalNumberHandler">[NSDecimalNumberHandler +defaultDecimalNumberHandler]</a>
+.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setRoundingIncrement$">setRoundingIncrement:&nbsp;</a></h3>
+    - (void) <b>setRoundingIncrement:</b> (<a rel="gsdoc" href="NSValue.html#class$NSNumber">NSNumber</a>*)number;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setRoundingMode$">setRoundingMode:&nbsp;</a></h3>
+    - (void) <b>setRoundingMode:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSNumberFormatterRoundingMode">NSNumberFormatterRoundingMode</a>)mode;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setSecondaryGroupingSize$">setSecondaryGroupingSize:&nbsp;</a></h3>
+    - (void) <b>setSecondaryGroupingSize:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)number;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setTextAttributesForNegativeInfinity$">setTextAttributesForNegativeInfinity:&nbsp;</a></h3>
+    - (void) <b>setTextAttributesForNegativeInfinity:</b> (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*)newAttributes;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setTextAttributesForNegativeValues$">setTextAttributesForNegativeValues:&nbsp;</a></h3>
+    - (void) <b>setTextAttributesForNegativeValues:</b> (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*)newAttributes;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets the attributes to apply to negative values (whole
+            string), when
+            <a rel="gsdoc" href="NSFormatter.html#method$NSFormatter-attributedStringForObjectValue$withDefaultAttributes$">-attributedStringForObjectValue:withDefaultAttributes:</a>
+ is called. Default is none.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setTextAttributesForNil$">setTextAttributesForNil:&nbsp;</a></h3>
+    - (void) <b>setTextAttributesForNil:</b> (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*)newAttributes;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setTextAttributesForNotANumber$">setTextAttributesForNotANumber:&nbsp;</a></h3>
+    - (void) <b>setTextAttributesForNotANumber:</b> (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*)newAttributes;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setTextAttributesForPositiveInfinity$">setTextAttributesForPositiveInfinity:&nbsp;</a></h3>
+    - (void) <b>setTextAttributesForPositiveInfinity:</b> (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*)newAttributes;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setTextAttributesForPositiveValues$">setTextAttributesForPositiveValues:&nbsp;</a></h3>
+    - (void) <b>setTextAttributesForPositiveValues:</b> (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*)newAttributes;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets the attributes to apply to positive values (whole
+            string), when
+            <a rel="gsdoc" href="NSFormatter.html#method$NSFormatter-attributedStringForObjectValue$withDefaultAttributes$">-attributedStringForObjectValue:withDefaultAttributes:</a>
+ is called. Default is none.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setTextAttributesForZero$">setTextAttributesForZero:&nbsp;</a></h3>
+    - (void) <b>setTextAttributesForZero:</b> (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*)newAttributes;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setThousandSeparator$">setThousandSeparator:&nbsp;</a></h3>
+    - (void) <b>setThousandSeparator:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)newSeparator;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Sets thousands separator used; default is &apos;,&apos;.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setUsesGroupingSeparator$">setUsesGroupingSeparator:&nbsp;</a></h3>
+    - (void) <b>setUsesGroupingSeparator:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setUsesSignificantDigits$">setUsesSignificantDigits:&nbsp;</a></h3>
+    - (void) <b>setUsesSignificantDigits:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-setZeroSymbol$">setZeroSymbol:&nbsp;</a></h3>
+    - (void) <b>setZeroSymbol:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-stringFromNumber$">stringFromNumber:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>stringFromNumber:</b> (<a rel="gsdoc" href="NSValue.html#class$NSNumber">NSNumber</a>*)number;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the string version of this
+            <var>number</var> based on the format specified.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-textAttributesForNegativeInfinity">textAttributesForNegativeInfinity&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*) <b>textAttributesForNegativeInfinity</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-textAttributesForNegativeValues">textAttributesForNegativeValues&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*) <b>textAttributesForNegativeValues</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the attributes to apply to negative values
+            (whole string), when
+            <a rel="gsdoc" href="NSFormatter.html#method$NSFormatter-attributedStringForObjectValue$withDefaultAttributes$">-attributedStringForObjectValue:withDefaultAttributes:</a>
+ is called. Default is none.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-textAttributesForNil">textAttributesForNil&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*) <b>textAttributesForNil</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-textAttributesForNotANumber">textAttributesForNotANumber&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*) <b>textAttributesForNotANumber</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-textAttributesForPositiveInfinity">textAttributesForPositiveInfinity&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*) <b>textAttributesForPositiveInfinity</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-textAttributesForPositiveValues">textAttributesForPositiveValues&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*) <b>textAttributesForPositiveValues</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the attributes to apply to positive values
+            (whole string), when
+            <a rel="gsdoc" href="NSFormatter.html#method$NSFormatter-attributedStringForObjectValue$withDefaultAttributes$">-attributedStringForObjectValue:withDefaultAttributes:</a>
+ is called. Default is none.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-textAttributesForZero">textAttributesForZero&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*) <b>textAttributesForZero</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-thousandSeparator">thousandSeparator&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>thousandSeparator</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns thousands separator used; default is &apos;,&apos;.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-usesGroupingSeparator">usesGroupingSeparator&nbsp;</a></h3>
+    - (BOOL) <b>usesGroupingSeparator</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-usesSignificantDigits">usesSignificantDigits&nbsp;</a></h3>
+    - (BOOL) <b>usesSignificantDigits</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSNumberFormatter-zeroSymbol">zeroSymbol&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>zeroSymbol</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+    <br />
+    <a href="Base.html">Up</a>
+    </body>
+</html>

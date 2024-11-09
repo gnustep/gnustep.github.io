@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSPageLayout" up="Gui">
+  <head>
+    <title>NSPageLayout</title>
+    <author name="Adam Fedor">
+      <email address="fedor@gnu.org">
+        fedor@gnu.org
+      </email>
+    </author>
+    <author name="Chad Hardin">
+      <email address="cehardin@mac.com">
+        cehardin@mac.com
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 19:58:28 -0500</date>
+    <abstract>
+      Standard panel for querying user about page layout.
+    </abstract>
+    <copy>2001,2004 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>NSPageLayout</heading>
+      <p>
+        NSPageLayout provides a panel that allows the user
+        to specify certain information about the printer and how
+        data is formatted for printing. This includes information
+        about the paper size and orientation. Typically you would
+        create a page layout panel with the
+        <ref type="method" id="+pageLayout">
+          +pageLayout
+        </ref>
+        class method. However, the best way to use the panel is
+        to have the application call the runPageLayout: method in
+        the NSApplication object which would both create a standard
+        NSPageLayout panel and display it in a modal loop.
+        This method would be sent up the responder chain if the
+        user clicked on a Page Layout menu item.
+      </p>
+      <class name="NSPageLayout" super="NSPanel" ovadd="1.0.0">
+        <declared>AppKit/NSPageLayout.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <ivariable type="id" name="_controller" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="NSPageLayout*" factory="yes" ovadd="1.0.0">
+          <sel>pageLayout</sel>
+          <desc>
+            Creates (if needed) and returns a shared instance
+            of the NSPageLayout panel.
+          </desc>
+        </method>
+        <method type="NSView*" ovadd="1.0.0">
+          <sel>accessoryView</sel>
+          <desc>
+            <p>
+              Returns the accessory view for the page layout
+              panel.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-setAccessoryView:">
+                -setAccessoryView:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>beginSheetWithPrintInfo:</sel>
+          <arg type="NSPrintInfo*">printInfo</arg>
+          <sel>modalForWindow:</sel>
+          <arg type="NSWindow*">docWindow</arg>
+          <sel>delegate:</sel>
+          <arg type="id">delegate</arg>
+          <sel>didEndSelector:</sel>
+          <arg type="SEL">didEndSelector</arg>
+          <sel>contextInfo:</sel>
+          <arg type="void*">contextInfo</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>convertOldFactor:</sel>
+          <arg type="float*">old</arg>
+          <sel>newFactor:</sel>
+          <arg type="float*">newFactor</arg>
+          <desc>
+            This method has been depreciated. It doesn't do
+            anything useful.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>pickedButton:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            This method has been depreciated. It doesn't do
+            anything useful.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>pickedOrientation:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            This method has been depreciated. It doesn't do
+            anything useful.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>pickedPaperSize:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            This method has been depreciated. It doesn't do
+            anything useful.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>pickedUnits:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            This method has been depreciated. It doesn't do
+            anything useful.
+          </desc>
+        </method>
+        <method type="NSPrintInfo*" ovadd="1.0.0">
+          <sel>printInfo</sel>
+          <desc>
+            Return the NSPrintInfo object that the receiver
+            stores layout information into.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>readPrintInfo</sel>
+          <desc>
+            <p>
+              Updates the receiver panel with information from
+              its NSPrintInfo object.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-writePrintInfo">
+                -writePrintInfo
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>runModal</sel>
+          <desc>
+            <p>
+              Display the Page Layout panel in a modal loop.
+              Saves any aquired information in the shared
+              NSPrintInfo object. Returns NSCancelButton if
+              the user clicks the Cancel button or NSOKButton
+              otherwise.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-runModalWithPrintInfo:">
+                -runModalWithPrintInfo:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>runModalWithPrintInfo:</sel>
+          <arg type="NSPrintInfo*">printInfo</arg>
+          <desc>
+            <p>
+              Displays the Page Layout panel in a modal loop.
+              Saves any aquired information in the indicated
+              NSPrintInfo object. Returns NSCancelButton if
+              the user clicks the Cancel button or NSOKButton
+              otherwise.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-runModal">
+                -runModal
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setAccessoryView:</sel>
+          <arg type="NSView*">aView</arg>
+          <desc>
+            <p>
+              Sets the accessory view for the page layout panel
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-accessoryView">
+                -accessoryView
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>writePrintInfo</sel>
+          <desc>
+            <p>
+              Writes any layout information set by the user to
+              the receiver's NSPrintInfo object
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-readPrintInfo">
+                -readPrintInfo
+              </ref>
+            </p>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSApplication(NSPageLayout)
+        category
+      </heading>
+      <category name="NSPageLayout" class="NSApplication" ovadd="1.0.0">
+        <declared>AppKit/NSPageLayout.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="void" ovadd="1.0.0">
+          <sel>runPageLayout:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

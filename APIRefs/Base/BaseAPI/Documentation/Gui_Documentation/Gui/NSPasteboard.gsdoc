@@ -1,0 +1,1527 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSPasteboard" up="Gui">
+  <head>
+    <title>NSPasteboard</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 19:58:28 -0500</date>
+    <abstract>
+      Implementation of class for communicating with the
+      pasteboard server.
+    </abstract>
+    <copy>1997,1999,2003 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>The pasteboard system</heading>
+      <p>
+        The pasteboard system is the core of OpenStep
+        inter-application communications. This
+        chapter is concerned with the use of the system, for
+        detailed reference see the
+        <ref type="class" id="NSPasteboard">NSPasteboard</ref>
+          class. <br /> For non-standard services provided by
+          applications (ie those which do not fit the
+          general <em>services</em> mechanism described below),
+          you generally use the Distributed Objects system (see
+          <ref type="class" id="NSConnection">NSConnection</ref>
+            ) directly, and some hints about that are provided at the
+            end of this chapter.
+          </p>
+          <section>
+            <heading>Cut and Paste</heading>
+            <p>
+              The most obvious use of the pasteboard system is to
+              support cut and paste of text and other data,
+              permitting the user to take selected
+              information from a document open in an
+              application, and move it around in the same
+              document, or to another document open in the
+              same application, or to a document open in another
+              application entirely.
+            </p>
+            <p>
+              While some objects (eg instances of
+              <ref type="class" id="NSText">NSText</ref>
+                ) will handle cut and paste for you automatically,
+                you may often need to do this yourself in your own
+                classes. The mechanism for this is quite
+                simple, and should be done in a method called
+                when the user selects the <em>Cut</em> or
+                <em>Copy</em> item on the <em>Edit</em> menu.
+                <br /> The methods to do this should be called
+                <em>cut:</em> and <em>copy:</em> respectively, and
+                will be called automatically when the menu items
+                are selected.
+              </p>
+              <list>
+                <item>
+                  <strong>Select a pasteboard to use</strong>
+                  <br /> There some standard pasteboards, or you
+                  can obtain or create other ones with the
+                  <ref type="method" id="+pasteboardWithName:" class="NSPasteboard">[NSPasteboard +pasteboardWithName:]</ref> method. <br /> Usually you will want to use a standard pasteboard such as the one returned by the <ref type="method" id="+generalPasteboard" class="NSPasteboard">[NSPasteboard +generalPasteboard]</ref> method.
+<example>
+  NSPasteboard *pb = [NSPasteboard generalPasteboard];
+</example>
+  </item>
+  <item>
+    <strong>Declare ownership and types</strong> <br /> When
+    you are going to supply data for pasting, you must take
+    ownership of the pasteboard and specify what types of
+    data can be provided. If you are going to place the data on
+    the pasteboard immediately, you don't need to set a pasteboard
+    owner, but if you plan to supply the data <em>lazily</em>
+    (ie on-demand), you need to specify an object which the system
+    can ask to provide the data when it needs it. In either case,
+    you need to say what kinds of data the pasteboard will supply,
+    and you use the
+    <ref type="method" id="-declareTypes:owner:" class="NSPasteboard">
+      [NSPasteboard -declareTypes:owner:]
+    </ref>
+    method to do this.
+<example>
+  // Provide string data immediately.
+  [pb declareTypes: [NSArray arrayWithObject: NSStringPboardType]
+	     owner: nil];
+  [pb setString: myString forType: NSStringPboardType];
+</example>
+  </item>
+  <item>
+    <strong>Provide data for pasting</strong> <br /> If you
+    decided to provide data lazily (recommended) then the
+    pasteboard owner you declared will be asked to provide
+    the data when it is needed for pasting.
+<example>
+- (void) pasteboard: (NSPasteboard*)pb provideDataForType: (NSString*)type
+{
+  // Place the data needed for pasting onto the pasteboard.
+  [pb setData: data forType: type];
+}
+</example>
+  </item>
+  <item>
+    <strong>Support multiple types</strong> <br /> Normally,
+    it is best to support pasting of multiple types of data so that
+    the object into which the data is being pasted can handle the
+    pasted information readily. To do this it is conventional to
+    supply data in the <em>richest</em> possible format in the
+    cut: or copy: method, and supply other forms of data lazily.
+<example>
+// Supply RTF data to the pasteboard system.
+- (id) copy: (id)sender
+{
+  NSPasteboard *pb = [NSPasteboard generalPasteboard];
+  [pb declareTypes: [NSArray arrayWithObjects: NSRTFPboardType,
+    NSStringPboardType, nil]
+	     owner: nil];
+  [pb setData: myData forType: NSRTFPboardType];
+}
+</example>
+    The providing object can retrieve the data initially stored in
+    the pasteboard, and set the type of data actually needed.
+<example>
+- (void) pasteboard: (NSPasteboard*)pb provideDataForType: (NSString*)type
+{
+  if ([type isEqualToString: NSStringPboardType] == YES)
+    {
+      NSData *d = [pb dataForType: NSRTFPboardType];
+      NSString *s = [self convertToString: d];
+      [pb setString: s forType: NSStringPboardType];
+    }
+  else
+    {
+      // Unsupported type ... should not happen
+      [pb setData: nil forType: type];
+    }
+}
+</example>
+  </item>
+  </list>
+  <p>
+    Similarly, when the user selects the <em>Paste</em> item
+    on the <em>Edit</em> menu, the <em>paste:</em> method in your
+    code will be called, and this method should retrieve data from
+    the pasteboard and insert it into your custom object so that
+    the user can see it.
+  </p>
+  <list>
+    <item>
+      <strong>Retrieve data from pasteboard</strong>
+<example>
+- (id) paste: (id)sender
+{
+  NSPasteboard *pb = [NSPasteboard generalPasteboard];
+  NSString *info = [pb stringForType: NSStringPboardType];
+  // Now make use of info
+  return self;
+}
+	</example>
+  </item>
+  </list>
+  </section>
+  <section>
+    <heading>Drag and Drop</heading>
+    <p>
+      The drag and drop system for transferring data is in essence
+      a simple extension of copy and paste, where the data being
+      dragged is a copy of some initially selected data, and
+      the location to which it is pasted depends on where it is
+      dropped. <br /> To support drag and drop, you use a few
+      standard methods to interact with pasteboards, but you
+      need to extend this with DnD specific methods to handle the
+      drag and drop process.
+    </p>
+  </section>
+  <section>
+    <heading>Services</heading>
+    <p>
+      The services system provides a standardised mechanism for an
+      application to provide services to other
+      applications. Like cut and paste, or drag and drop,
+      the use of an application service is normally initiated by
+      the user selecting some data to work with. The user then goes
+      to the services menu, and selects a service listed there. The
+      selection of a menu item causes the data to be placed
+      on a pasteboard and transferred to the service providing
+      application, where the action of the service is
+      performed on it, and resulting data transferred back to
+      the original system via the pasteboard system again.
+    </p>
+    <p>
+      To make use of a service then, you typically need to make
+      <em>no</em> changes to your application, making the services
+      facility supremely easy to deal with! <br /> If however,
+      you wish to make use of a service programmatically (rather
+      than from the services menu), you can use the
+      <ref type="function" id="NSPerformService">
+        NSPerformService()
+      </ref>
+      function to invoke the service directly...
+    </p>
+<example>
+  // Create a pasteboard and store a string in it.
+  NSPasteboard *pb = [NSPasteboard pasteboardWithUniqueName];
+  [pb declareTypes: [NSArray arrayWithObject: NSStringPboardType]
+	     owner: nil];
+  [pb setString: myString forType: NSStringPboardType];
+  // Invoke a service which takes string input and produces data output.
+  if (NSPerformService(@"TheServiceName", pb) == YES)
+    {
+      result = [pb dataForType: NSGeneralPboardType];
+    }
+    </example>
+    <p>
+      Providing a service is a bit trickier, it involves
+      implementing a method to perform the service
+      (usually in your
+      <ref type="method" id="-delegate" class="NSApplication">
+        [NSApplication -delegate]
+      </ref>
+      object) and specifying information about your service in
+      the Info.plist file for your application. <br /> When your
+      application is installed in one of the standard
+      locations, and the <em>make_services</em> tool is run
+      to update the cache of services information, your service
+      automatically becomes available on the services
+      menu of every application you run. <br /> At runtime, you
+      use
+      <ref type="method" id="-setServicesProvider:" class="NSApplication">[NSApplication -setServicesProvider:]</ref> to specify the object which implements the method to perform the service, or, if you are providing the service from a process other than a GUI application, you use the <ref type="function" id="NSRegisterServicesProvider">NSRegisterServicesProvider()</ref> function.
+    </p>
+    <p>
+      Your Info.plist should contain an array named
+      <code>NSServices</code> listing all the services your
+      application provides. Each service definition should
+      be a dictionary containing the following information -
+    </p>
+    <deflist>
+      <term>NSSendTypes</term>
+      <desc>
+        This is an array containing the string values of the types
+        of data that the service provider can handle (ie the types
+        of data the application requesting the service may send).
+        <br /> The string values are the same as the standard
+        constant names for these types, so the string
+        "NSStringPboardType" would match the use
+        of the <code>NSStringPboardType</code> in your code. <br />
+        Similarly, the functions
+        <ref type="function" id="NSCreateFileContentsPboardType">
+          NSCreateFileContentsPboardType()
+        </ref>
+        and
+        <ref type="function" id="NSCreateFilenamePboardType">
+          NSCreateFilenamePboardType()
+        </ref>
+        return types whose string values are found by appending
+        the filename extension concerned to the strings
+        "NSTypedFileContentsPboardType:"
+        and "NSTypedFilenamesPboardType:" respectively.
+      </desc>
+      <term>NSReturnTypes</term>
+      <desc>
+        These are the types of data that the service provider may
+        return and are specified in the same way as the
+        NSSendTypes. <br /> NB. A service must handle at
+        least one send type or one return type, but it is OK to
+        have a service which expects no input data or one which
+        produces no output data.
+      </desc>
+      <term>NSMessage</term>
+      <desc>
+        This mandatory string value is the interesting part of the
+        message which is sent to your service provider in order
+        to perform the service. <br /> The method in your
+        application which does the work, must take three
+        arguments and have a name formed of this value
+        followed by <code>:userData:error:</code>
+<example>
+// If NSMessage=encryptData
+- (void) encryptString: (NSPasteboard*)pboard
+	      userData: (NSString*)userData
+		 error: (NSString**)error;
+</example>
+    This method will be pass the pasteboard to use and an optional
+    user data string, and must return results in the pasteboard,
+    or an error message in the error argument.
+  </desc>
+  <term>NSPortName</term>
+  <desc>
+    This specifies the name of the Distributed Objects port (see
+    <ref type="class" id="NSConnection">NSConnection</ref>
+      and
+      <ref type="class" id="NSPort">NSPort</ref>
+        ) on which the service provider will be listening for
+        messages. While its value depends on how you register
+        the service, it is normally the name of the application
+        providing the service. This information is required
+        in order for other applications to know how to contact the
+        service provider.
+      </desc>
+      <term>NSUserData</term>
+      <desc>
+        This is an optional arbitrary string which (if present) is
+        passed as the userData argument to the method
+        implementing the service. This permits a service
+        provider to implement a single method to handle a
+        variety of similar services, whose exact
+        characteristics are determined by this
+        parameter.
+      </desc>
+      <term>NSMenuItem</term>
+      <desc>
+        This is a dictionary containing language names and the
+        text to appear in the services menu for each language. It
+        may contain an entry where the language name is
+        <code>default</code> and this entry will be used where
+        none of the specific languages listed are found in the
+        application user's preferences. <br /> These text
+        items may contain a single slash ('/') character, and if
+        this is present, the text after the slash will appear in a
+        submenu of the services menu, with the text before the
+        slash being the name of that submenu. This is very useful
+        where a single application provides a variety of services
+        and wishes to group them together.
+      </desc>
+      <term>NSKeyEquivalent</term>
+      <desc>
+        This is an optional dictionary specifying the key
+        equivalents to select the menu items listed in the
+        NSMenuItem specification.
+      </desc>
+      <term>NSTimeout</term>
+      <desc>
+        This is an optional timeout (in milliseconds) specifying
+        how <strong>long</strong> the system should wait for the
+        service provider to perform the service. If omitted, it
+        defaults to 30000 (30 seconds).
+      </desc>
+      <term>NSExecutable</term>
+      <desc>
+        This is an optional path to the executable binary of the
+        program which performs the service.. it's used to
+        launch the program if it is not already running.
+        Normally, for an application, this is not necessary,
+        as the system knows how to launch any applications found
+        installed in standard locations.
+      </desc>
+      <term>NSHost</term>
+      <desc>
+        Not yet implemented... this provides for the system to
+        launch the executable for this service on a different
+        host on the network.
+      </desc>
+    </deflist>
+    <p>
+      The actual code to implement a service is very simple, even
+      with error checking added -
+    </p>
+<example>
+- (void) encryptString: (NSPasteboard*)pboard
+	      userData: (NSString*)userData
+		 error: (NSString**)error
+{
+  NSString	*d;
+
+  if ([pboard types] containsObject: NSStringPboardType] == NO)
+    {
+      *error = @"Bad types for encrypt service ... no string data";
+      return;
+    }
+  s = [pboard stringForType: NSStringPboardType];
+  if ([d length] == 0)
+    {
+      *error = @"No data supplied for encrypt service";
+      return;
+    }
+  s = [self encryptString: s];	// Do the real work
+  [pboard declareTypes: [NSArray arrayWithObject: NSStringPboardType
+		 owner: nil];
+  [pboard setString: s forType: NSStringPboardType];
+  return;
+}
+    </example>
+  </section>
+  <section>
+    <heading>Filter services</heading>
+    <p>
+      A filter service is a special case of an inter-application
+      service. Its action is to take data of one type and
+      convert it to another type. Unlike general services, this
+      is not directly initiated by user action clicking on an item
+      in the services menu (indeed, filter services do not appear on
+      the services menu), but is instead performed transparently
+      when the application asks the pasteboard system for data of
+      a particular type, but the pasteboard only contains data of
+      some other type.
+    </p>
+    <p>
+      A filter service definition in the Info.plist file differs from
+      that of a standard service in that the <em>NSMessage</em>
+      entry is replaced by an <em>NSFilter</em> entry, the
+      <em>NSMenuItem</em> and <em>NSKeyEquivalent</em> entries are
+      omitted, and a few other entries may be added -
+    </p>
+    <deflist>
+      <term>NSFilter</term>
+      <desc>
+        This is the first part of the message name for the method
+        which actually implements the filter service... just like
+        the NSMessage entry in a normal service.
+      </desc>
+      <term>NSInputMechanism</term>
+      <desc>
+        This (optional) entry is a string value specifying an
+        alternative mechanism for performing the filer
+        service (instead of sending a message to an application
+        to ask it to do it). <br /> Possible values are -
+        <deflist>
+          <term>NSIdentity</term>
+          <desc>
+            The data to be filtered is simply placed upon the
+            pasteboard without any transformation.
+          </desc>
+          <term>NSMapFile</term>
+          <desc>
+            The data to be filtered is the name of a file, which is
+            loaded into memory and placed on the pasteboard
+            without any transformation. <br /> If the data to
+            be filtered contains multiple file names, only the first
+            is used.
+          </desc>
+          <term>NSUnixStdio</term>
+          <desc>
+            The data to be filtered is the name of a file, which is
+            passed as the argument to a unix command-line
+            program, and the standard output of that program
+            is captured and placed on the pasteboard. The program is
+            run each time data is requested, so this is inefficient
+            in comparison to a filter implemented using the standard
+            method (of sending a message to a running
+            application). <br /> If the data to be
+            filtered contains multiple file names, only the
+            first is used.
+          </desc>
+        </deflist>
+      </desc>
+    </deflist>
+    <p>
+      Filter services are used implicitly whenever you get a
+      pasteboard by using one of the methods
+      <ref type="method" id="+pasteboardByFilteringData:ofType:">
+        +pasteboardByFilteringData:ofType:
+      </ref>
+      ,
+      <ref type="method" id="+pasteboardByFilteringFile:">
+        +pasteboardByFilteringFile:
+      </ref>
+      or
+      <ref type="method" id="+pasteboardByFilteringTypesInPasteboard:">+pasteboardByFilteringTypesInPasteboard:</ref> as the pasteboard system will automatically invoke any available filter to convert the data in the pasteboard to any required type as <strong>long</strong> as a conversion can be done using a single filter.
+    </p>
+  </section>
+  <section>
+    <heading>Distributed Objects services</heading>
+    <p>
+      While the general <em>services</em> mechanism described
+      above covers most eventualities, there are some
+      circumstances where you might want your application
+      to offer more complex services which require the client
+      application to have been written to make use of those
+      services and where the interaction between the two is
+      much trickier.
+    </p>
+    <p>
+      In most cases, such situations are handled by server processes
+      rather than GUI applications, thus avoiding all the
+      overheads of a GUI application... linking with the GUI
+      library and using the windowing system etc. On occasion
+      you may actually want the services to use facilities from the
+      GUI library (such as the
+      <ref type="class" id="NSPasteboard">NSPasteboard</ref>
+        or
+        <ref type="class" id="NSWorkspace">NSWorkspace</ref>
+          class).
+        </p>
+        <p>
+          Traditionally, NeXTstep and GNUstep
+          applications permit you to connect to an
+          application using the standard
+          <ref type="class" id="NSConnection">NSConnection</ref>
+            mechanisms, with the name of the port you
+            connect to being (by convention) the name of the
+            application. The root proxy of the
+            NSConnection obtained this way would be the
+            <ref type="method" id="-delegate" class="NSApplication">
+              [NSApplication -delegate]
+            </ref>
+            object, and any messages sent to this object would
+            be handled by the application delegate.
+          </p>
+          <p>
+            In the interests of security, GNUstep provides a
+            mechanism to ensure that <em>only</em> those
+            methods you explicitly want to be available to
+            remote processes are actually available. <br />
+            Those methods are assumed to be any of the standard
+            application methods, and any methods
+            implementing the standard <em>services</em>
+            mechanism (ie. methods whose names begin
+            <code>application:</code> or end with
+            <code>:userData:error:</code>), plus any methods
+            listed in the array returned by the
+            <code>GSPermittedMessages</code> user default.
+            <br /> If your application wishes to make
+            non-standard methods available, it should use
+            <ref type="method" id="-registerDefaults:" class="NSUserDefaults">[NSUserDefaults -registerDefaults:]</ref> to set a standard value for GSPermittedMessages. Users of the application can then use the defaults system to override that standard setting for the application in order to reduce or increase the list of messages available to remote processes.
+          </p>
+          <p>
+            To make use of a service, you need to check to ensure
+            that the application providing the service is running,
+            connect to it, and then send messages to it. You
+            should take care to catch exceptions and deal with a
+            loss of connection to the server application. <br />
+            As an aid to using the services, GNUstep provides a
+            helper function (GSContactApplication()) which
+            encapsulates the process of establishing a
+            connection and launching the server application
+            if necessary.
+          </p>
+<example>
+  id	proxy = GSContactApplication(@"pathToApp", nil, nil);
+  if (proxy != nil)
+    {
+      NS_EXCEPTION
+	{
+	  id result = [proxy performTask: taskName withArgument: anArgument];
+
+	  if (result == nil)
+	    {
+	      // handle error
+	    }
+	  else
+	    {
+	      // Use result
+	    }
+	}
+      NS_HANDLER
+        // Handle exception
+      NS_ENDHANDLER
+    }
+</example>
+    <p>
+      If we want to send repeated messages, we may store the proxy
+      to server application, and might want to keep track of the
+      state of the connection to be sure that the proxy is still
+      valid.
+    </p>
+<example>
+  ASSIGN(remote, proxy);
+  // We want to keep hold of the proxy for use later, so we need to know
+  // if the connection dies ... we ask for a notification to call our
+  // connectionBecameInvalid: method when the connection dies ... in that
+  // method we can release the proxy.
+  [[NSNotificationCenter defaultCenter]
+    addObserver: self
+       selector: @selector(connectionBecameInvalid:)
+	   name: NSConnectionDidDieNotification
+	 object: [remote connectionForProxy]];
+</example>
+  </section>
+  </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSPasteboard class
+      </heading>
+      <class name="NSPasteboard" super="NSObject" ovadd="1.0.0">
+        <declared>AppKit/NSPasteboard.h</declared>
+        <desc>
+          <p>
+            The pasteboard system is the primary mechanism for data
+            exchange between OpenStep applications. It is used
+            for cut and paste of data, as the exchange mechanism
+            for <em>services</em> (as listed on the services menu),
+            for communicating with a spelling server in order to
+            perform spell checking, and for
+            <em>filter services</em> which convert data of one
+            type to another transparently.
+          </p>
+          <p>
+            Pasteboards are identified by names, some of
+            which are standard and are intended to exist
+            permanently and be shared between all
+            applications, others are temporary or private
+            and are used to handle specific services.
+          </p>
+          <p>
+            All data transferred to/from pasteboards is
+            <em>typed</em>. Mostly using one of several standard
+            types for common data or using standardised names
+            which identify particular kinds of files and their
+            contents (see the
+            <ref type="function" id="NSCreateFileContentsPboardType">
+              NSCreateFileContentsPboardType()
+            </ref>
+            an
+            <ref type="function" id="NSCreateFilenamePboardType">
+              NSCreateFilenamePboardType()
+            </ref>
+            functions for details). It is also possible for
+            cooperating applications to use their own
+            private types... any string value will do.
+          </p>
+          <p>
+            Each pasteboard has an <em>owner</em>... an object
+            which declares the types of data it can provide.
+            Unless versions of the pasteboard data corresponding
+            to all the declared types are written to the pasteboard,
+            the owner is responsible for producing the data for the
+            pasteboard when it is called for (lazy provision
+            of data). <br /> The pasteboard owner needs to implement
+            the methods of the NSPasteboardOwner informal protocol
+            in order to do this.
+          </p>
+        </desc>
+        <ivariable type="int" name="changeCount" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="name" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="owner" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="target" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="useHistory" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <method type="NSPasteboard*" factory="yes" ovadd="1.0.0">
+          <sel>generalPasteboard</sel>
+          <desc>
+            Returns the general pasteboard found by calling
+            <ref type="method" id="+pasteboardWithName:">
+              +pasteboardWithName:
+            </ref>
+            with NSGeneralPboard as the name.
+          </desc>
+        </method>
+        <method type="NSPasteboard*" factory="yes" ovadd="1.0.0">
+          <sel>pasteboardByFilteringData:</sel>
+          <arg type="NSData*">data</arg>
+          <sel>ofType:</sel>
+          <arg type="NSString*">type</arg>
+          <desc>
+            <p>
+              Creates and returns a pasteboard from which the
+              <var>data</var> in the named file can be read in
+              all the types to which it can be converted by filter
+              services. <br /> The <var>type</var> of
+              <var>data</var> in the file is inferred from the
+              file extension.
+            </p>
+            <p>
+              No filtering is actually performed until some object
+              asks the pasteboard for the <var>data</var>, so
+              calling this method is quite inexpensive.
+            </p>
+          </desc>
+        </method>
+        <method type="NSPasteboard*" factory="yes" ovadd="1.0.0">
+          <sel>pasteboardByFilteringFile:</sel>
+          <arg type="NSString*">filename</arg>
+          <desc>
+            <p>
+              Creates and returns a pasteboard from which the
+              data in the named file can be read in all the types
+              to which it can be converted by filter services.
+              <br /> The type of data in the file is inferred
+              from the file extension.
+            </p>
+          </desc>
+        </method>
+        <method type="NSPasteboard*" factory="yes" ovadd="1.0.0">
+          <sel>pasteboardByFilteringTypesInPasteboard:</sel>
+          <arg type="NSPasteboard*">pboard</arg>
+          <desc>
+            <p>
+              Creates and returns a pasteboard where the data
+              contained in <var>pboard</var> is available for
+              reading in as many types as it can be converted
+              to by available filter services. This normally expands
+              on the range of types available in <var>pboard</var>.
+            </p>
+            <p>
+              NB. This only permits a single level of filtering...
+              if <var>pboard</var> was previously returned by
+              another filtering method, it is returned instead
+              of a new pasteboard.
+            </p>
+          </desc>
+        </method>
+        <method type="NSPasteboard*" factory="yes" ovadd="1.0.0">
+          <sel>pasteboardWithName:</sel>
+          <arg type="NSString*">aName</arg>
+          <desc>
+            <p>
+              Returns the pasteboard for the specified name.
+              Creates a new pasteboard if (and only if) one
+              with the given name does not exist.
+            </p>
+            Standard pasteboard names are -
+            <list>
+              <item>
+                <ref type="variable" id="NSGeneralPboard">
+                  NSGeneralPboard
+                </ref>
+              </item>
+              <item>
+                <ref type="variable" id="NSFontPboard">
+                  NSFontPboard
+                </ref>
+              </item>
+              <item>
+                <ref type="variable" id="NSRulerPboard">
+                  NSRulerPboard
+                </ref>
+              </item>
+              <item>
+                <ref type="variable" id="NSFindPboard">
+                  NSFindPboard
+                </ref>
+              </item>
+              <item>
+                <ref type="variable" id="NSDragPboard">
+                  NSDragPboard
+                </ref>
+              </item>
+            </list>
+          </desc>
+        </method>
+        <method type="NSPasteboard*" factory="yes" ovadd="1.0.0">
+          <sel>pasteboardWithUniqueName</sel>
+          <desc>
+            Creates and returns a new pasteboard with a name
+            guaranteed to be unique within the pasteboard
+            server.
+          </desc>
+        </method>
+        <method type="NSArray*" factory="yes" ovadd="1.0.0">
+          <sel>typesFilterableTo:</sel>
+          <arg type="NSString*">type</arg>
+          <desc>
+            Returns an array of the types from which data of
+            the specified <var>type</var> can be produced by
+            registered filter services. <br /> The original
+            <var>type</var> is always present in this array.
+            <br /> Raises an exception if <var>type</var> is
+            <code>nil</code>.
+          </desc>
+        </method>
+        <method type="int" ovadd="1.0.0">
+          <sel>addTypes:</sel>
+          <arg type="NSArray*">newTypes</arg>
+          <sel>owner:</sel>
+          <arg type="id">newOwner</arg>
+          <desc>
+            <p>
+              Adds <var>newTypes</var> to the pasteboard and
+              declares <var>newOwner</var> to be the owner of
+              the pasteboard. Use only after
+              <ref type="method" id="-declareTypes:owner:">
+                -declareTypes:owner:
+              </ref>
+              has been called for the same owner, because the new
+              owner may not support all the types declared by a
+              previous owner.
+            </p>
+            <p>
+              Returns the new change count for the pasteboard,
+              or zero if an error occurs.
+            </p>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>availableTypeFromArray:</sel>
+          <arg type="NSArray*">types</arg>
+          <desc>
+            Returns the first type listed in <var>types</var>
+            which the receiver has been declared (see
+            -declareTypes:owner:) to support.
+          </desc>
+        </method>
+        <method type="int" ovadd="1.0.0">
+          <sel>changeCount</sel>
+          <desc>
+            Returns the change count for the receiving
+            pasteboard. This count is incremented whenever
+            the owner of the pasteboard is changed.
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="1.0.0">
+          <sel>dataForType:</sel>
+          <arg type="NSString*">dataType</arg>
+          <desc>
+            Returns data from the pasteboard of the specified
+            <var>dataType</var>, or <code>nil</code> if no such
+            data is available. <br /> May raise an exception if
+            communication with the pasteboard server
+            fails.
+          </desc>
+        </method>
+        <method type="int" ovadd="1.0.0">
+          <sel>declareTypes:</sel>
+          <arg type="NSArray*">newTypes</arg>
+          <sel>owner:</sel>
+          <arg type="id">newOwner</arg>
+          <desc>
+            <p>
+              Sets the owner of the pasteboard to be
+              <var>newOwner</var> and declares
+              <var>newTypes</var> as the types of data supported
+              by it. <br /> This invalidates existing data in the
+              pasteboard (except where the GNUstep
+              <ref type="method" id="-setHistory:">
+                -setHistory:
+              </ref>
+              extension allows multi-version data to be
+              held).
+            </p>
+            <p>
+              The value of <var>newOwner</var> may be
+              <code>nil</code>, but if it is, data should
+              immediately be written to the pasteboard for
+              all the value in <var>newTypes</var> as a
+              <code>nil</code> owner cannot be used for lazy
+              supply of data.
+            </p>
+            <p>
+              This increments the change count for the pasteboard
+              and the new count is returned, or zero is returned if
+              an error occurs. <br /> Where
+              <ref type="method" id="-setChangeCount:">
+                -setChangeCount:
+              </ref>
+              has been used, the highest count to date is
+              incremented and returned, rather than the
+              last value specified by the
+              <ref type="method" id="-setChangeCount:">
+                -setChangeCount:
+              </ref>
+              method.
+            </p>
+            <p>
+              The types you declare can be arbitrary strings, but
+              as at least two applications really need to be aware
+              of the same type for it to be of use, it is much more
+              normal to use a predefined (standard) type or a
+              type representing the name or content of a
+              particular kind of file (returned by the
+              <ref type="function" id="NSCreateFilenamePboardType">
+                NSCreateFilenamePboardType()
+              </ref>
+              or
+              <ref type="function" id="NSCreateFilenamePboardType">
+                NSCreateFilenamePboardType()
+              </ref>
+              function). <br /> The standard type for raw
+              data is
+              <ref type="variable" id="NSGeneralPboardType">
+                NSGeneralPboardType
+              </ref>
+            </p>
+            The predefined pasteboard types are -
+            <list>
+              <item>
+                <ref type="variable" id="NSStringPboardType">
+                  NSStringPboardType
+                </ref>
+              </item>
+              <item>
+                <ref type="variable" id="NSColorPboardType">
+                  NSColorPboardType
+                </ref>
+              </item>
+              <item>
+                <ref type="variable" id="NSFileContentsPboardType">
+                  NSFileContentsPboardType
+                </ref>
+              </item>
+              <item>
+                <ref type="variable" id="NSFilenamesPboardType">
+                  NSFilenamesPboardType
+                </ref>
+              </item>
+              <item>
+                <ref type="variable" id="NSFontPboardType">
+                  NSFontPboardType
+                </ref>
+              </item>
+              <item>
+                <ref type="variable" id="NSRulerPboardType">
+                  NSRulerPboardType
+                </ref>
+              </item>
+              <item>
+                <ref type="variable" id="NSPostScriptPboardType">
+                  NSPostScriptPboardType
+                </ref>
+              </item>
+              <item>
+                <ref type="variable" id="NSTabularTextPboardType">
+                  NSTabularTextPboardType
+                </ref>
+              </item>
+              <item>
+                <ref type="variable" id="NSRTFPboardType">
+                  NSRTFPboardType
+                </ref>
+              </item>
+              <item>
+                <ref type="variable" id="NSRTFDPboardType">
+                  NSRTFDPboardType
+                </ref>
+              </item>
+              <item>
+                <ref type="variable" id="NSTIFFPboardType">
+                  NSTIFFPboardType
+                </ref>
+              </item>
+              <item>
+                <ref type="variable" id="NSDataLinkPboardType">
+                  NSDataLinkPboardType
+                </ref>
+              </item>
+              <item>
+                <ref type="variable" id="NSGeneralPboardType">
+                  NSGeneralPboardType
+                </ref>
+              </item>
+              <item>
+                <ref type="variable" id="NSPDFPboardType">
+                  NSPDFPboardType
+                </ref>
+              </item>
+              <item>
+                <ref type="variable" id="NSPICTPboardType">
+                  NSPICTPboardType
+                </ref>
+              </item>
+              <item>
+                <ref type="variable" id="NSURLPboardType">
+                  NSURLPboardType
+                </ref>
+              </item>
+              <item>
+                <ref type="variable" id="NSHTMLPboardType">
+                  NSHTMLPboardType
+                </ref>
+              </item>
+            </list>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>name</sel>
+          <desc>
+            Returns the pasteboard name (as given to
+            +pasteboardWithName:) for the
+            receiver.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>propertyListForType:</sel>
+          <arg type="NSString*">dataType</arg>
+          <desc>
+            Calls
+            <ref type="method" id="-dataForType:">
+              -dataForType:
+            </ref>
+            to obtain data (expected to be a serialized property
+            list) and returns the object produced by
+            deserializing it.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>readFileContentsType:</sel>
+          <arg type="NSString*">type</arg>
+          <sel>toFile:</sel>
+          <arg type="NSString*">filename</arg>
+          <desc>
+            <p>
+              Obtains data of the specified dataType from the
+              pasteboard, deserializes it to the specified
+              <var>filename</var> and returns the file name (or
+              <code>nil</code> on failure).
+            </p>
+            <p>
+              This method should only be used to read data written
+              by the
+              <ref type="method" id="-writeFileContents:">
+                -writeFileContents:
+              </ref>
+              or
+              <ref type="method" id="-writeFileWrapper:">
+                -writeFileWrapper:
+              </ref>
+              method.
+            </p>
+          </desc>
+        </method>
+        <method type="NSFileWrapper*" ovadd="1.0.0">
+          <sel>readFileWrapper</sel>
+          <desc>
+            <p>
+              Obtains data of the specified dataType from the
+              pasteboard, deserializes it and returns the
+              resulting file wrapper (or <code>nil</code>).
+            </p>
+            <p>
+              This method should only be used to read data written
+              by the
+              <ref type="method" id="-writeFileContents:">
+                -writeFileContents:
+              </ref>
+              or
+              <ref type="method" id="-writeFileWrapper:">
+                -writeFileWrapper:
+              </ref>
+              method.
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>releaseGlobally</sel>
+          <desc>
+            Releases the receiver in the pasteboard server so
+            that no other application can use the pasteboard. This
+            should not be called for any of the standard
+            pasteboards, only for temporary ones.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>setData:</sel>
+          <arg type="NSData*">data</arg>
+          <sel>forType:</sel>
+          <arg type="NSString*">dataType</arg>
+          <desc>
+            <p>
+              Writes <var>data</var> of type <var>dataType</var>
+              to the pasteboard server so that other applications
+              can read it. The <var>dataType</var> must be one of
+              the types previously declared for the pasteboard.
+              <br /> All the other methods for writing
+              <var>data</var> to the pasteboard call this one.
+            </p>
+            <p>
+              Returns <code>YES</code> on success,
+              <code>NO</code> if the <var>data</var> could not
+              be written for some reason.
+            </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>setPropertyList:</sel>
+          <arg type="id">propertyList</arg>
+          <sel>forType:</sel>
+          <arg type="NSString*">dataType</arg>
+          <desc>
+            <p>
+              Serialises the data in the supplied property
+              list and writes it to the pasteboard server using
+              the
+              <ref type="method" id="-setData:forType:">
+                -setData:forType:
+              </ref>
+              method.
+            </p>
+            <p>
+              Data written using this method can be read by
+              <ref type="method" id="-propertyListForType:">
+                -propertyListForType:
+              </ref>
+              or, if it was a simple string, by
+              <ref type="method" id="-stringForType:">
+                -stringForType:
+              </ref>
+            </p>
+            <p>
+              If the data is retrieved using
+              <ref type="method" id="-dataForType:">
+                -dataForType:
+              </ref>
+              then it needs to be deserialized into a property
+              list.
+            </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>setString:</sel>
+          <arg type="NSString*">string</arg>
+          <sel>forType:</sel>
+          <arg type="NSString*">dataType</arg>
+          <desc>
+            <p>
+              Writes <var>string</var> it to the pasteboard
+              server using the
+              <ref type="method" id="-setPropertyList:forType:">
+                -setPropertyList:forType:
+              </ref>
+              method.
+            </p>
+            <p>
+              The data may subsequently be read from the receiver
+              using the
+              <ref type="method" id="-stringForType:">
+                -stringForType:
+              </ref>
+              or
+              <ref type="method" id="-propertyListForType:">
+                -propertyListForType:
+              </ref>
+              method.
+            </p>
+            <p>
+              If the data is retrieved using
+              <ref type="method" id="-dataForType:">
+                -dataForType:
+              </ref>
+              then it needs to be deserialized into a property
+              list.
+            </p>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>stringForType:</sel>
+          <arg type="NSString*">dataType</arg>
+          <desc>
+            <p>
+              Obtains data of the specified <var>dataType</var>
+              from the pasteboard, deserializes it and returns the
+              resulting string (or <code>nil</code>).
+            </p>
+            <p>
+              The string should have been written using the
+              <ref type="method" id="-setString:forType:">
+                -setString:forType:
+              </ref>
+              or
+              <ref type="method" id="-setPropertyList:forType:">
+                -setPropertyList:forType:
+              </ref>
+              method.
+            </p>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>types</sel>
+          <desc>
+            Returns all the types that the receiver has been
+            declared to support. <br /> See
+            <ref type="method" id="-declareTypes:owner:">
+              -declareTypes:owner:
+            </ref>
+            for details.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>writeFileContents:</sel>
+          <arg type="NSString*">filename</arg>
+          <desc>
+            <p>
+              Writes the contents of the file
+              <var>filename</var> to the pasteboard server after
+              declaring the type NSFileContentsPboardType as
+              well as a type based on the file extension (given by
+              the
+              <ref type="function" id="NSCreateFileContentsPboardType">NSCreateFileContentsPboardType()</ref> function) if those types have not already been declared. <br /> If the <var>filename</var> has no extension, only NSFileContentsPboardType is used.
+            </p>
+            <p>
+              Data written to a pasteboard by this method should
+              be read using the
+              <ref type="method" id="-readFileContentsType:toFile:">
+                -readFileContentsType:toFile:
+              </ref>
+              or
+              <ref type="method" id="-readFileWrapper">
+                -readFileWrapper
+              </ref>
+              method.
+            </p>
+            <p>
+              If the data is retrieved using
+              <ref type="method" id="-dataForType:">
+                -dataForType:
+              </ref>
+              then it needs to be deserialized by the
+              NSFileWrapper class.
+            </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>writeFileWrapper:</sel>
+          <arg type="NSFileWrapper*">wrapper</arg>
+          <desc>
+            <p>
+              Writes the contents of the file <var>wrapper</var>
+              to the pasteboard server after declaring the type
+              NSFileContentsPboardType as well
+              as a type based on the file extension of the wrappers
+              preferred filename if those types have not
+              already been declared.
+            </p>
+            <p>
+              Raises an exception if there is no preferred
+              filename.
+            </p>
+            <p>
+              Data written to a pasteboard by this method should
+              be read using the
+              <ref type="method" id="-readFileContentsType:toFile:">
+                -readFileContentsType:toFile:
+              </ref>
+              or
+              <ref type="method" id="-readFileWrapper">
+                -readFileWrapper
+              </ref>
+              method.
+            </p>
+            <p>
+              If the data is retrieved using
+              <ref type="method" id="-dataForType:">
+                -dataForType:
+              </ref>
+              then it needs to be deserialized by the
+              NSFileWrapper class.
+            </p>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSPasteboardOwner)
+        informal protocol
+      </heading>
+      <category name="NSPasteboardOwner" class="NSObject" ovadd="1.0.0">
+        <declared>AppKit/NSPasteboard.h</declared>
+        <desc>
+          The NSPasteboardOwner informal protocal defines the
+          messages that the pasteboard system will send to a
+          pasteboard owner if they are implemented. These
+          are needed to support lazy provision of pasteboard data.
+        </desc>
+        <method type="void" ovadd="1.0.0">
+          <sel>pasteboard:</sel>
+          <arg type="NSPasteboard*">sender</arg>
+          <sel>provideDataForType:</sel>
+          <arg type="NSString*">type</arg>
+          <desc>
+            This method is called by the pasteboard system when it
+            does not have the data that has been asked for... the
+            pasteboard owner should supply the data to the
+            pasteboard by calling
+            <ref type="method" id="-setData:forType:">
+              -setData:forType:
+            </ref>
+            or one of the related methods.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>pasteboard:</sel>
+          <arg type="NSPasteboard*">sender</arg>
+          <sel>provideDataForType:</sel>
+          <arg type="NSString*">type</arg>
+          <sel>andVersion:</sel>
+          <arg type="int">version</arg>
+          <desc>
+            Implemented where GNUstep pasteboard extensions
+            are required. <br /> This method is called by the
+            pasteboard system when it does not have the data
+            that has been asked for... the pasteboard owner should
+            supply the data to the pasteboard by calling
+            <ref type="method" id="-setData:forType:">
+              -setData:forType:
+            </ref>
+            or one of the related methods.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>pasteboardChangedOwner:</sel>
+          <arg type="NSPasteboard*">sender</arg>
+          <desc>
+            This method is called by the pasteboard system when
+            another object takes ownership of the pasteboard...
+            it lets the previous owner know that it is no longer
+            required to supply data.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSPasteboardReading)
+        informal protocol
+      </heading>
+      <category name="NSPasteboardReading" class="NSObject" ovadd="10.6.0">
+        <declared>AppKit/NSPasteboard.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="NSPasteboardReadingOptions" factory="yes" ovadd="10.6.0">
+          <sel>readingOptionsForType:</sel>
+          <arg type="NSString*">type</arg>
+          <sel>pasteboard:</sel>
+          <arg type="NSPasteboard*">pasteboard</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.6.0">
+          <sel>initWithPasteboardPropertyList:</sel>
+          <arg type="id">propertyList</arg>
+          <sel>ofType:</sel>
+          <arg type="NSString*">type</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSPasteboardWriting)
+        informal protocol
+      </heading>
+      <category name="NSPasteboardWriting" class="NSObject" ovadd="10.6.0">
+        <declared>AppKit/NSPasteboard.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="NSPasteboardWritingOptions" ovadd="10.6.0">
+          <sel>writingOptionsForType:</sel>
+          <arg type="NSString*">type</arg>
+          <sel>pasteboard:</sel>
+          <arg type="NSPasteboard*">pasteboard</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSPasteboard(GNUstepExtensions)
+        category
+      </heading>
+      <category name="GNUstepExtensions" class="NSPasteboard" ovadd="1.0.0">
+        <declared>AppKit/NSPasteboard.h</declared>
+        <desc>
+          GNUstep specific extensions... <br />
+          <p>
+            GNUstep adds a mechanism for mapping between
+            OpenStep pasteboard types and MIME types. This is
+            useful for inter-operation with other systems, as
+            MIME types have come into common usage (
+            <strong>long</strong> after the OpenStep
+            specification was created).
+          </p>
+          <p>
+            The other extension to the pasteboard system produced
+            by GNUstep is the ability to keep a history of recent
+            items placed in a pasteboard, and retrieve data from
+            that history rather than just the current item.
+          </p>
+        </desc>
+        <method type="NSString*" factory="yes" ovadd="1.0.0">
+          <sel>mimeTypeForPasteboardType:</sel>
+          <arg type="NSString*">type</arg>
+          <desc>
+            Return the mapping for pasteboard->mime, or return
+            the original pasteboard <var>type</var> if no mapping
+            is found
+          </desc>
+        </method>
+        <method type="NSString*" factory="yes" ovadd="1.0.0">
+          <sel>pasteboardTypeForMimeType:</sel>
+          <arg type="NSString*">mimeType</arg>
+          <desc>
+            Return the mapping for mime->pasteboard, or return
+            the original pasteboard type if no mapping is found.
+            This method may not have a one-to-one mapping
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setChangeCount:</sel>
+          <arg type="int">count</arg>
+          <desc>
+            <p>
+              Once the
+              <ref type="method" id="-setChangeCount:">
+                -setChangeCount:
+              </ref>
+              message has been sent to an NSPasteboard the
+              object will gain an extra GNUstep behaviour - when
+              getting data from the pasteboard, the data need
+              no longer be from the latest version but may be a
+              version from a previous representation with the
+              specified change <var>count</var>.
+            </p>
+            <p>
+              The value of <var>count</var> must be one which has
+              previously been returned by
+              <ref type="method" id="-declareTypes:owner:">
+                -declareTypes:owner:
+              </ref>
+              and should not be further in the past than specified
+              by the
+              <ref type="method" id="-setHistory:">
+                -setHistory:
+              </ref>
+              method.
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setHistory:</sel>
+          <arg type="unsigned">length</arg>
+          <desc>
+            Sets the number of changes for which pasteboard data
+            is kept. <br /> This is 1 by default.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSURL(NSPasteboard)
+        category
+      </heading>
+      <category name="NSPasteboard" class="NSURL" ovadd="10.0.0">
+        <declared>AppKit/NSPasteboard.h</declared>
+        <desc>
+          Category of NSURL providing convenience methods.
+        </desc>
+        <method type="NSURL*" factory="yes" ovadd="10.0.0">
+          <sel>URLFromPasteboard:</sel>
+          <arg type="NSPasteboard*">pasteBoard</arg>
+          <desc>
+            Creates a URL with data (of NSURLPboardType) from
+            <var>pasteBoard</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>writeToPasteboard:</sel>
+          <arg type="NSPasteboard*">pasteBoard</arg>
+          <desc>
+            Writes the receiver (as data of NSURLPboardType) to
+            <var>pasteBoard</var>.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSPasteboardReading
+        protocol
+      </heading>
+      <protocol name="NSPasteboardReading" ovadd="10.6.0">
+        <declared>AppKit/NSPasteboard.h</declared>
+        <conform>NSObject</conform>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="NSArray*" factory="yes" ovadd="10.6.0">
+          <sel>readableTypesForPasteboard:</sel>
+          <arg type="NSPasteboard*">pasteboard</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </protocol>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSPasteboardWriting
+        protocol
+      </heading>
+      <protocol name="NSPasteboardWriting" ovadd="10.6.0">
+        <declared>AppKit/NSPasteboard.h</declared>
+        <conform>NSObject</conform>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="id" ovadd="10.6.0">
+          <sel>pasteboardPropertyListForType:</sel>
+          <arg type="NSString*">type</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.6.0">
+          <sel>writableTypesForPasteboard:</sel>
+          <arg type="NSPasteboard*">pasteboard</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </protocol>
+    </chapter>
+  </body>
+</gsdoc>

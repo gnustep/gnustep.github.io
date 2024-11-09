@@ -1,0 +1,569 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Make (Objective-C GNUstep Base Programming Manual)</title>
+
+<meta name="description" content="Make (Objective-C GNUstep Base Programming Manual)">
+<meta name="keywords" content="Make (Objective-C GNUstep Base Programming Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="#Make" rel="index" title="Make">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html" rel="up" title="Top">
+<link href="Compliance-to-Standards.html" rel="prev" title="Compliance to Standards">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="appendix" id="Make">
+<div class="header">
+<p>
+Previous: <a href="Compliance-to-Standards.html" accesskey="p" rel="prev">GNUstep Compliance to Standards</a>, Up: <a href="index.html" accesskey="u" rel="up">Objective-C Programming Manual</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Make" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Using-the-GNUstep-Make-Package"></span><h2 class="appendix">Appendix F Using the GNUstep Make Package</h2>
+<span id="index-GNUstep-Make-package"></span>
+<span id="index-Make-package_002c-GNUstep"></span>
+
+<p>Reference/doc on the GNUstep make package; mainly examples of various
+types of projects.
+</p>
+<ul class="section-toc">
+<li><a href="#Makefile-Contents" accesskey="1">Makefile Contents</a></li>
+<li><a href="#Project-Types" accesskey="2">Project Types</a></li>
+</ul>
+<div class="section" id="Makefile-Contents">
+<h3 class="section">F.1 Makefile Contents</h3>
+
+<p><b>Note. Type <code>man make</code> for assistance.</b>
+</p>
+<p>Make files comprise four key content types:
+</p>
+<ul>
+<li> <b>Comments</b>
+
+<p><code>#</code> prefixes comments.
+</p>
+</li><li> <b>Macros</b>
+
+<p><code>SRC=main.m</code> assigns a macro that is implemented as:<code>gcc $(SRC)</code>
+and is interpreted as: 
+<code>gcc main.m</code>
+</p>
+</li><li> <b>Explicit rules</b>
+Explicit rules are used to indicate which files depend upon supporting files and 
+the commands required for their compilation: 
+<div class="example">
+<pre class="example">targetfile : sourcefiles
+	commands           
+</pre></div>
+
+<p>A Tab precedes each command that must be implemented on the source files in order 
+to create the target file: 
+</p><div class="example">
+<pre class="example">main: main.m List.h
+	gcc -o main main.m List.h
+</pre></div>
+ 
+</li><li> <b>Implicit rules</b>
+Implicit rules broadly echo explicit variants but do not specify commands, rather the 
+extensions indicate which commands are performed:
+
+<p><code>servertest.o: servertest.c io.h</code>
+<br>
+is interpreted as: 
+<br>
+<code>$(CC) $(CFLAGS) -c servertest.c io.h</code>
+</p></li></ul>
+
+<ul class="section-toc">
+<li><a href="#Makefile-Example" accesskey="1">Makefile Example</a></li>
+<li><a href="#Makefile-Structure" accesskey="2">Makefile Structure</a></li>
+<li><a href="#Debug-and-Profile-Information" accesskey="3">Debug and Profile Information</a></li>
+<li><a href="#Static_002c-Shared-and-DLLs" accesskey="4">Static, Shared and DLLs</a></li>
+</ul>
+<div class="subsection" id="Makefile-Example">
+<h4 class="subsection">F.1.1 Makefile Example</h4>
+
+<div class="example">
+<pre class="example"># The following two lines force the standard make to recognize the 
+# Objective-C .m suffix.
+
+.SUFFIXES: .o .m
+.m.o:
+$(CC) -c $(CFLAGS) $&lt; 
+
+
+# Macro declarations
+
+CC = gcc
+CFLAGS = -g
+LIBS = -lobjc
+SRC=main.m Truck.m Station.m Vehicle.m
+OBJ=main.o Truck.o Station.o Vehicle.o
+
+
+# Explicit rules
+
+hist: $(OBJ)
+	$(CC) $(CFLAGS) -o main $(OBJ) $(LIBS)
+
+
+# Implicit rules
+
+Truck.o: Truck.h Truck.m
+Station.o: Truck.h Station.h Station.m
+Vehicle.o: Truck.h Vehicle.h Vehicle.m
+main.o: Station.h Vehicle.h
+
+</pre></div>
+
+
+</div>
+<div class="subsection" id="Makefile-Structure">
+<h4 class="subsection">F.1.2 Makefile Structure</h4>
+
+<p>The following Makefile defines a project:
+</p>
+<div class="example">
+<pre class="example">#
+# A GNUmakefile
+#
+
+# Check that the GNUSTEP_MAKEFILES environment variable is set
+ifeq ($(GNUSTEP_MAKEFILES),)
+GNUSTEP_MAKEFILES := $(shell gnustep-config --variable=GNUSTEP_MAKEFILES 2&gt;/dev/null)
+ ifeq ($(GNUSTEP_MAKEFILES),)
+   $(error You need to set GNUSTEP_MAKEFILES before compiling!)
+ endif
+endif
+
+# Include the common variables
+include $(GNUSTEP_MAKEFILES)/common.make
+
+# Build an Objective-C program
+OBJC_PROGRAM_NAME = simple
+
+# Objective-C files requiring compilation
+simple_OBJC_FILES = source.m
+
+-include GNUmakefile.preamble
+
+# Include in the rules for making Objective-C programs
+include $(GNUSTEP_MAKEFILES)/objc.make
+
+-include GNUmakefile.postamble
+</pre></div>
+
+
+<p>To compile a package that uses the Makefile Package, type <code>make</code> in the 
+top-level directory of the package. A non-GNUstep Objective-C file may be 
+compiled by adding <code>-lobjc on</code> at the command line.
+</p>
+
+</div>
+<div class="subsection" id="Debug-and-Profile-Information">
+<h4 class="subsection">F.1.3 Debug and Profile Information</h4>
+
+
+<p>By default the Makefile Package does not flag the compiler to generate debugging 
+information that is generated by typing:
+</p>
+<p><code>make debug=yes</code>
+</p>
+<p>This command also causes the Makefile Package to turn off optimization. It is 
+therefore necessary to override the optimization flag when running Make if both 
+debugging information and optimization is required. Use the variable OPTFLAG to 
+override the optimization flag. 
+</p>
+<p>By default the Makefile Package does not instruct the compiler to create profiling 
+information that is generated by typing:
+</p>
+<p><code>make profile=yes</code>
+</p><br>
+
+</div>
+<div class="subsection" id="Static_002c-Shared-and-DLLs">
+<h4 class="subsection">F.1.4 Static, Shared and DLLs</h4>
+
+<p>By default the Makefile Package generates a shared library if it is building a 
+library project type, and it will link with shared libraries if it is building 
+an application or command-line tool project type. To tell the Makefile Package 
+not to build using shared libraries but using static libraries instead, type: 
+</p>
+<p><code>make shared=no</code>
+</p>
+<p>This default is only applicable on systems that support shared libraries; 
+systems that do not support shared libraries will always build using static 
+libraries. Some systems support DLLs that are a form of shared libraries; on 
+these systems DLLs are built by default unless the Makefile Package is told to 
+build using static libraries instead. 
+</p>
+</div>
+</div>
+<div class="section" id="Project-Types">
+<h3 class="section">F.2 Project Types</h3>
+
+<p>Projects are divided into different types. To create a project of a specific 
+type, a make file is specified:
+</p>
+<p><code>include $(GNUSTEP_MAKEFILES)/application.make</code>
+</p>
+<p>Each project type is independent, and if you want to create two project types in 
+the same directory (e.g. a tool and a Java program), include both the desired 
+make files in your main Make file. 
+</p>
+<ul>
+<li> Aggregate - aggregate.make
+
+<p>An Aggregate project holds several sub-projects that are of any valid 
+project type (including the Aggregate type). The only project variable is the 
+SUBPROJECTS variable:
+</p>
+<p><code>Aggregate project: SUBPROJECTS</code> 
+</p>
+<p>SUBPROJECTS defines the directory names that hold the sub-projects that the 
+Aggregate project should build. 
+</p>
+
+</li><li> Graphical Applications - application.make
+
+<p>An application is an Objective-C program that includes a GUI component, and by 
+default links in all the GNUstep libraries required for GUI development, such as 
+the Base and GUI libraries. 
+</p>
+
+</li><li> Bundles - bundle.make
+
+<p>A bundle is a collection of resources and code that can be used to enhance an 
+existing application or tool dynamically using the NSBundle class from the 
+GNUstep base library. 
+</p>
+
+</li><li> Command Line C Tools - ctool.make
+
+<p>A ctool is a project that uses only C language files. Otherwise it is similar to 
+the ObjC project type. 
+</p>
+
+</li><li> Documentation - documentation.make
+
+<p>The Documentation project provides rules to use various types of documentation 
+such as texi and LaTeX documentation, and convert them into finished 
+documentation like info, PostScript, HTML, etc. 
+</p>
+</li><li> Frameworks - framework.make
+
+<p>A Framework is a collection of resources and a library that provides common code 
+that can be linked into a Tool or Application. In many respects it is similar to 
+a Bundle. 
+</p>
+</li><li> Java - java.make
+
+<p>This project provides rules for building java programs. It also makes it easy to 
+make java projects that interact with the GNUstep libraries. 
+</p>
+</li><li> Libraries - library.make
+
+<p>The Makefile Package provides a project type for building libraries that may be 
+static, shared, or dynamic link libraries (DLLs). The latter two variants are 
+supported only on some platforms.
+</p></li></ul>
+
+</div>
+</div>
+<div class="unnumbered" id="Concept-Index">
+<h2 class="unnumbered">Concept Index</h2>
+<table><tr><th valign="top">Jump to: &nbsp; </th><td><a class="summary-letter" href="#Make_cp_letter-A"><b>A</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-B"><b>B</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-C"><b>C</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-D"><b>D</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-E"><b>E</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-F"><b>F</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-G"><b>G</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-H"><b>H</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-I"><b>I</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-J"><b>J</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-L"><b>L</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-M"><b>M</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-N"><b>N</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-O"><b>O</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-P"><b>P</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-R"><b>R</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-S"><b>S</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-U"><b>U</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-W"><b>W</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-Y"><b>Y</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-Z"><b>Z</b></a>
+ &nbsp; 
+</td></tr></table>
+<table class="index-cp" border="0">
+<tr><td></td><th align="left">Index Entry</th><td>&nbsp;</td><th align="left"> Section</th></tr>
+<tr><td colspan="4"> <hr></td></tr>
+<tr><th id="Make_cp_letter-A">A</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC.html#index-abstract-class">abstract class</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC.html">Objective-C</a></td></tr>
+<tr><td></td><td valign="top"><a href="Advanced-Messaging.html#index-advanced-messaging">advanced messaging</a>:</td><td>&nbsp;</td><td valign="top"><a href="Advanced-Messaging.html">Advanced Messaging</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objects.html#index-allocating-objects">allocating objects</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objects.html">Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-AppKit">AppKit</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objects.html#index-ARC">ARC</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objects.html">Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Exception-Handling.html#index-assertion-facilities">assertion facilities</a>:</td><td>&nbsp;</td><td valign="top"><a href="Exception-Handling.html">Exception Handling</a></td></tr>
+<tr><td></td><td valign="top"><a href="Exception-Handling.html#index-assertion-handling_002c-compared-with-Java">assertion handling, compared with Java</a>:</td><td>&nbsp;</td><td valign="top"><a href="Exception-Handling.html">Exception Handling</a></td></tr>
+<tr><td></td><td valign="top"><a href="Exception-Handling.html#index-assertions">assertions</a>:</td><td>&nbsp;</td><td valign="top"><a href="Exception-Handling.html">Exception Handling</a></td></tr>
+<tr><td colspan="4"> <hr></td></tr>
+<tr><th id="Make_cp_letter-B">B</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="Base-Library.html#index-base-library">base library</a>:</td><td>&nbsp;</td><td valign="top"><a href="Base-Library.html">Base Library</a></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-basic-OO-terminology">basic OO terminology</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td></td><td valign="top"><a href="Bundles-and-Frameworks.html#index-bundles">bundles</a>:</td><td>&nbsp;</td><td valign="top"><a href="Bundles-and-Frameworks.html">Bundles and Frameworks</a></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-bycopy-and-byref-type-qualifiers">bycopy and byref type qualifiers</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td colspan="4"> <hr></td></tr>
+<tr><th id="Make_cp_letter-C">C</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="Classes.html#index-categories">categories</a>:</td><td>&nbsp;</td><td valign="top"><a href="Classes.html">Classes</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC.html#index-class-cluster">class cluster</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC.html">Objective-C</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC.html#index-class_002c-abstract">class, abstract</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC.html">Objective-C</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC.html#index-class_002c-root">class, root</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC.html">Objective-C</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC.html#index-classes">classes</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC.html">Objective-C</a></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-client_002fserver-processes">client/server processes</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC.html#index-cluster_002c-classes">cluster, classes</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC.html">Objective-C</a></td></tr>
+<tr><td></td><td valign="top"><a href="Compliance-to-Standards.html#index-compilation_002c-conditional">compilation, conditional</a>:</td><td>&nbsp;</td><td valign="top"><a href="Compliance-to-Standards.html">Compliance to Standards</a></td></tr>
+<tr><td colspan="4"> <hr></td></tr>
+<tr><th id="Make_cp_letter-D">D</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC-Java-and-C_002b_002b.html#index-differences-and-similarities_002c-Objective_002dC-and-C_002b_002b">differences and similarities, Objective-C and C++</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC-Java-and-C_002b_002b.html">Objective-C Java and C++</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC-Java-and-C_002b_002b.html#index-differences-and-similarities_002c-Objective_002dC-and-Java">differences and similarities, Objective-C and Java</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC-Java-and-C_002b_002b.html">Objective-C Java and C++</a></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-directory-layout">directory layout</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-distributed-objects">distributed objects</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-distributed-objects-1">distributed objects</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-Distributed-Objects-Name-Server_002c-GNUstep">Distributed Objects Name Server, GNUstep</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-distributed-objects_002c-client-code">distributed objects, client code</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-distributed-objects_002c-client-code-1">distributed objects, client code</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-distributed-objects_002c-error-checking">distributed objects, error checking</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-distributed-objects_002c-example-_0028no-error-checking_0029">distributed objects, example (no error checking)</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-distributed-objects_002c-using-a-protocol">distributed objects, using a protocol</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td colspan="4"> <hr></td></tr>
+<tr><th id="Make_cp_letter-E">E</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-error-checking_002c-distributed-objects">error checking, distributed objects</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Exception-Handling.html#index-exception-facilities">exception facilities</a>:</td><td>&nbsp;</td><td valign="top"><a href="Exception-Handling.html">Exception Handling</a></td></tr>
+<tr><td></td><td valign="top"><a href="Exception-Handling.html#index-exception-handling_002c-compared-with-Java">exception handling, compared with Java</a>:</td><td>&nbsp;</td><td valign="top"><a href="Exception-Handling.html">Exception Handling</a></td></tr>
+<tr><td></td><td valign="top"><a href="Exception-Handling.html#index-exceptions">exceptions</a>:</td><td>&nbsp;</td><td valign="top"><a href="Exception-Handling.html">Exception Handling</a></td></tr>
+<tr><td colspan="4"> <hr></td></tr>
+<tr><th id="Make_cp_letter-F">F</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-filesystem-layout">filesystem layout</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-forward-invocation_002c-distributed-objects">forward invocation, distributed objects</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Advanced-Messaging.html#index-forwarding">forwarding</a>:</td><td>&nbsp;</td><td valign="top"><a href="Advanced-Messaging.html">Advanced Messaging</a></td></tr>
+<tr><td></td><td valign="top"><a href="Bundles-and-Frameworks.html#index-frameworks">frameworks</a>:</td><td>&nbsp;</td><td valign="top"><a href="Bundles-and-Frameworks.html">Bundles and Frameworks</a></td></tr>
+<tr><td colspan="4"> <hr></td></tr>
+<tr><th id="Make_cp_letter-G">G</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-game-server-example">game server example</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-gdomap">gdomap</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-GNUstep-base-library">GNUstep base library</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td></td><td valign="top"><a href="#index-GNUstep-Make-package">GNUstep Make package</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Make">Make</a></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-GNUstep-make-utility">GNUstep make utility</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-GNUstep_002c-what-is_003f">GNUstep, what is?</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-graphical-programming">graphical programming</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td></td><td valign="top"><a href="GSDoc.html#index-gsdoc">gsdoc</a>:</td><td>&nbsp;</td><td valign="top"><a href="GSDoc.html">GSDoc</a></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-GUI">GUI</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td colspan="4"> <hr></td></tr>
+<tr><th id="Make_cp_letter-H">H</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-history-of-NeXTstep">history of NeXTstep</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-history-of-Objective_002dC">history of Objective-C</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-history-of-OpenStep">history of OpenStep</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td colspan="4"> <hr></td></tr>
+<tr><th id="Make_cp_letter-I">I</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-in_002c-out_002c-and-inout-type-qualifiers">in, out, and inout type qualifiers</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC.html#index-inheritance">inheritance</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC.html">Objective-C</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC.html#index-inheriting-methods">inheriting methods</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC.html">Objective-C</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC.html#index-instance-variables_002c-referring-to">instance variables, referring to</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC.html">Objective-C</a></td></tr>
+<tr><td></td><td valign="top"><a href="Classes.html#index-interface">interface</a>:</td><td>&nbsp;</td><td valign="top"><a href="Classes.html">Classes</a></td></tr>
+<tr><td colspan="4"> <hr></td></tr>
+<tr><th id="Make_cp_letter-J">J</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="Java-and-Guile.html#index-Java-and-Guile_002c-programming-GNUstep">Java and Guile, programming GNUstep</a>:</td><td>&nbsp;</td><td valign="top"><a href="Java-and-Guile.html">Java and Guile</a></td></tr>
+<tr><td colspan="4"> <hr></td></tr>
+<tr><th id="Make_cp_letter-L">L</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-layout_002c-filesystem">layout, filesystem</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td></td><td valign="top"><a href="Exception-Handling.html#index-logging">logging</a>:</td><td>&nbsp;</td><td valign="top"><a href="Exception-Handling.html">Exception Handling</a></td></tr>
+<tr><td></td><td valign="top"><a href="Exception-Handling.html#index-logging-facilities">logging facilities</a>:</td><td>&nbsp;</td><td valign="top"><a href="Exception-Handling.html">Exception Handling</a></td></tr>
+<tr><td></td><td valign="top"><a href="Exception-Handling.html#index-logging_002c-compared-with-Java">logging, compared with Java</a>:</td><td>&nbsp;</td><td valign="top"><a href="Exception-Handling.html">Exception Handling</a></td></tr>
+<tr><td colspan="4"> <hr></td></tr>
+<tr><th id="Make_cp_letter-M">M</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="#index-Make-package_002c-GNUstep">Make package, GNUstep</a>:</td><td>&nbsp;</td><td valign="top"><a href="#Make">Make</a></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-make-utility_002c-GNUstep">make utility, GNUstep</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objects.html#index-memory-deallocation">memory deallocation</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objects.html">Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objects.html#index-memory-management">memory management</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objects.html">Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objects.html#index-memory-management_002c-explicit">memory management, explicit</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objects.html">Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objects.html#index-memory-management_002c-OpenStep_002dstyle">memory management, OpenStep-style</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objects.html">Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objects.html#index-memory-management_002c-retain-count">memory management, retain count</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objects.html">Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-message-forwarding_002c-distributed-objects">message forwarding, distributed objects</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC.html#index-messages">messages</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC.html">Objective-C</a></td></tr>
+<tr><td></td><td valign="top"><a href="Advanced-Messaging.html#index-messaging_002c-advanced-techniques">messaging, advanced techniques</a>:</td><td>&nbsp;</td><td valign="top"><a href="Advanced-Messaging.html">Advanced Messaging</a></td></tr>
+<tr><td colspan="4"> <hr></td></tr>
+<tr><th id="Make_cp_letter-N">N</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC.html#index-naming-constraints">naming constraints</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC.html">Objective-C</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC.html#index-naming-conventions">naming conventions</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC.html">Objective-C</a></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-NeXTstep_002c-history">NeXTstep, history</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td></td><td valign="top"><a href="Exception-Handling.html#index-NSAssert-macro">NSAssert macro</a>:</td><td>&nbsp;</td><td valign="top"><a href="Exception-Handling.html">Exception Handling</a></td></tr>
+<tr><td></td><td valign="top"><a href="Exception-Handling.html#index-NSAssertionHandler-class">NSAssertionHandler class</a>:</td><td>&nbsp;</td><td valign="top"><a href="Exception-Handling.html">Exception Handling</a></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-NSConnection-class">NSConnection class</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Exception-Handling.html#index-NSDebugLog-function">NSDebugLog function</a>:</td><td>&nbsp;</td><td valign="top"><a href="Exception-Handling.html">Exception Handling</a></td></tr>
+<tr><td></td><td valign="top"><a href="Exception-Handling.html#index-NSException-class">NSException class</a>:</td><td>&nbsp;</td><td valign="top"><a href="Exception-Handling.html">Exception Handling</a></td></tr>
+<tr><td></td><td valign="top"><a href="Exception-Handling.html#index-NSLog-function">NSLog function</a>:</td><td>&nbsp;</td><td valign="top"><a href="Exception-Handling.html">Exception Handling</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC.html#index-NSObject">NSObject</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC.html">Objective-C</a></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-NSProxy-class">NSProxy class</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-NSRunLoop-class">NSRunLoop class</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Exception-Handling.html#index-NSUncaughtExceptionHandler">NSUncaughtExceptionHandler</a>:</td><td>&nbsp;</td><td valign="top"><a href="Exception-Handling.html">Exception Handling</a></td></tr>
+<tr><td></td><td valign="top"><a href="Exception-Handling.html#index-NSWarnLog-function">NSWarnLog function</a>:</td><td>&nbsp;</td><td valign="top"><a href="Exception-Handling.html">Exception Handling</a></td></tr>
+<tr><td></td><td valign="top"><a href="Exception-Handling.html#index-NS_005fDURING-macro">NS_DURING macro</a>:</td><td>&nbsp;</td><td valign="top"><a href="Exception-Handling.html">Exception Handling</a></td></tr>
+<tr><td></td><td valign="top"><a href="Exception-Handling.html#index-NS_005fENDHANDLER-macro">NS_ENDHANDLER macro</a>:</td><td>&nbsp;</td><td valign="top"><a href="Exception-Handling.html">Exception Handling</a></td></tr>
+<tr><td></td><td valign="top"><a href="Exception-Handling.html#index-NS_005fHANDLER-macro">NS_HANDLER macro</a>:</td><td>&nbsp;</td><td valign="top"><a href="Exception-Handling.html">Exception Handling</a></td></tr>
+<tr><td colspan="4"> <hr></td></tr>
+<tr><th id="Make_cp_letter-O">O</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="Objects.html#index-ObjC_002d2-_002c-automated-reference-counting">ObjC-2 , automated reference counting</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objects.html">Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-object-interaction_002c-remote-objects">object interaction, remote objects</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-object_002doriented-programming">object-oriented programming</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC-Java-and-C_002b_002b.html#index-Objective_002dC-and-C_002b_002b_002c-differences-and-similarities">Objective-C and C++, differences and similarities</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC-Java-and-C_002b_002b.html">Objective-C Java and C++</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC-Java-and-C_002b_002b.html#index-Objective_002dC-and-Java_002c-differences-and-similarities">Objective-C and Java, differences and similarities</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC-Java-and-C_002b_002b.html">Objective-C Java and C++</a></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-Objective_002dC_002c-history">Objective-C, history</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-Objective_002dC_002c-what-is_003f">Objective-C, what is?</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC.html#index-objects">objects</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC.html">Objective-C</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objects.html#index-objects_002c-initalizing-and-allocating">objects, initalizing and allocating</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objects.html">Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objects.html#index-objects_002c-working-with">objects, working with</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objects.html">Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-oneway_002c-type-qualifier">oneway, type qualifier</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Compliance-to-Standards.html#index-OpenStep-compliance">OpenStep compliance</a>:</td><td>&nbsp;</td><td valign="top"><a href="Compliance-to-Standards.html">Compliance to Standards</a></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-OpenStep_002c-history">OpenStep, history</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td></td><td valign="top"><a href="Compliance-to-Standards.html#index-OS-X-compatibility">OS X compatibility</a>:</td><td>&nbsp;</td><td valign="top"><a href="Compliance-to-Standards.html">Compliance to Standards</a></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-out_002c-type-qualifier">out, type qualifier</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC.html#index-overriding-methods">overriding methods</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC.html">Objective-C</a></td></tr>
+<tr><td colspan="4"> <hr></td></tr>
+<tr><th id="Make_cp_letter-P">P</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC.html#index-polymorphism">polymorphism</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC.html">Objective-C</a></td></tr>
+<tr><td></td><td valign="top"><a href="Exception-Handling.html#index-profiling-facilities">profiling facilities</a>:</td><td>&nbsp;</td><td valign="top"><a href="Exception-Handling.html">Exception Handling</a></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-protocol-for-distributed-objects">protocol for distributed objects</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-protocol-type-qualifiers">protocol type qualifiers</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Classes.html#index-protocols">protocols</a>:</td><td>&nbsp;</td><td valign="top"><a href="Classes.html">Classes</a></td></tr>
+<tr><td></td><td valign="top"><a href="Classes.html#index-protocols_002c-formal">protocols, formal</a>:</td><td>&nbsp;</td><td valign="top"><a href="Classes.html">Classes</a></td></tr>
+<tr><td colspan="4"> <hr></td></tr>
+<tr><th id="Make_cp_letter-R">R</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="Distributed-Objects.html#index-remote-objects">remote objects</a>:</td><td>&nbsp;</td><td valign="top"><a href="Distributed-Objects.html">Distributed Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Bundles-and-Frameworks.html#index-resources_002c-application">resources, application</a>:</td><td>&nbsp;</td><td valign="top"><a href="Bundles-and-Frameworks.html">Bundles and Frameworks</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC.html#index-root-class">root class</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC.html">Objective-C</a></td></tr>
+<tr><td colspan="4"> <hr></td></tr>
+<tr><th id="Make_cp_letter-S">S</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="Compliance-to-Standards.html#index-standards-compliance">standards compliance</a>:</td><td>&nbsp;</td><td valign="top"><a href="Compliance-to-Standards.html">Compliance to Standards</a></td></tr>
+<tr><td></td><td valign="top"><a href="Compliance-to-Standards.html#index-standards_002c-GNUstep-compliance-to">standards, GNUstep compliance to</a>:</td><td>&nbsp;</td><td valign="top"><a href="Compliance-to-Standards.html">Compliance to Standards</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objective_002dC.html#index-static-typing">static typing</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objective_002dC.html">Objective-C</a></td></tr>
+<tr><td colspan="4"> <hr></td></tr>
+<tr><th id="Make_cp_letter-U">U</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="Compliance-to-Standards.html#index-user-defaults_002c-API-compliance">user defaults, API compliance</a>:</td><td>&nbsp;</td><td valign="top"><a href="Compliance-to-Standards.html">Compliance to Standards</a></td></tr>
+<tr><td colspan="4"> <hr></td></tr>
+<tr><th id="Make_cp_letter-W">W</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-what-is-GNUstep_003f">what is GNUstep?</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-what-is-Objective_002dC_003f">what is Objective-C?</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td></td><td valign="top"><a href="Objects.html#index-working-with-objects">working with objects</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objects.html">Objects</a></td></tr>
+<tr><td></td><td valign="top"><a href="Classes.html#index-writing-new-classes">writing new classes</a>:</td><td>&nbsp;</td><td valign="top"><a href="Classes.html">Classes</a></td></tr>
+<tr><td colspan="4"> <hr></td></tr>
+<tr><th id="Make_cp_letter-Y">Y</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="Introduction.html#index-your-first-Objective_002dC-program">your first Objective-C program</a>:</td><td>&nbsp;</td><td valign="top"><a href="Introduction.html">Introduction</a></td></tr>
+<tr><td colspan="4"> <hr></td></tr>
+<tr><th id="Make_cp_letter-Z">Z</th><td></td><td></td></tr>
+<tr><td></td><td valign="top"><a href="Objects.html#index-Zones">Zones</a>:</td><td>&nbsp;</td><td valign="top"><a href="Objects.html">Objects</a></td></tr>
+<tr><td colspan="4"> <hr></td></tr>
+</table>
+<table><tr><th valign="top">Jump to: &nbsp; </th><td><a class="summary-letter" href="#Make_cp_letter-A"><b>A</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-B"><b>B</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-C"><b>C</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-D"><b>D</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-E"><b>E</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-F"><b>F</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-G"><b>G</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-H"><b>H</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-I"><b>I</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-J"><b>J</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-L"><b>L</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-M"><b>M</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-N"><b>N</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-O"><b>O</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-P"><b>P</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-R"><b>R</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-S"><b>S</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-U"><b>U</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-W"><b>W</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-Y"><b>Y</b></a>
+ &nbsp; 
+<a class="summary-letter" href="#Make_cp_letter-Z"><b>Z</b></a>
+ &nbsp; 
+</td></tr></table>
+
+</div>
+<hr>
+<div class="header">
+<p>
+Previous: <a href="Compliance-to-Standards.html">GNUstep Compliance to Standards</a>, Up: <a href="index.html">Objective-C Programming Manual</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="#Make" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

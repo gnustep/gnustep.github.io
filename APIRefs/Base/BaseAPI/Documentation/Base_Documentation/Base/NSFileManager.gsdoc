@@ -1,0 +1,1672 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSFileManager" stylesheeturl="gnustepStyle" up="Base">
+  <head>
+    <title>NSFileManager class reference</title>
+    <author name="Mircea Oancea">
+      <email address="mircea@jupiter.elcom.pub.ro">
+        mircea@jupiter.elcom.pub.ro
+      </email>
+    </author>
+    <author name="Ovidiu Predescu">
+      <email address="ovidiu@net-community.com">
+        ovidiu@net-community.com
+      </email>
+    </author>
+    <author name="Nicola Pero">
+      <email address="n.pero@mi.flashnet.it">
+        n.pero@mi.flashnet.it
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 16:52:01 -0500</date>
+    <copy>1997,1999-2005 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>File management</heading>
+      <section>
+        <heading>Path handling</heading>
+        <p>
+          The rules for path handling depend on the value in the
+          <code>GNUSTEP_PATH_HANDLING</code> environment
+          variable and, to some extent, on the platform on
+          which the program is running. <br /> The understood
+          values of GNUSTEP_PATH_HANDLING are <em>unix</em> and
+          <em>windows</em>. If GNUSTEP_PATH_HANDLING is any other
+          value (or has not been set), GNUstep interprets this as
+          meaning it should try to <em>do-the-right-thing</em>
+          <br /> In the default mode of operation the system is
+          very tolerant of paths and allows you to work with both
+          unix and windows style paths. The consequences of this
+          are apparent in the path handling methods of
+          <ref type="class" id="NSString">NSString</ref>
+            rather than in
+            <ref type="class" id="NSFileManager">NSFileManager</ref>
+              .
+            </p>
+            <subsect>
+              <heading>unix</heading>
+              <p>
+                On all Unix platforms, Path components are separated
+                by slashes and file names may contain any character
+                other than slash. <br /> The file names. and..
+                are special cases meaning current directory and the
+                parent of the current directory respectively.
+                <br /> Multiple adjacent slash characters are
+                treated as a single separator.
+              </p>
+              Here are various examples:
+              <deflist>
+                <term>/</term>
+                <desc>
+                  An absolute path to the root directory.
+                </desc>
+                <term>/etc/motd</term>
+                <desc>
+                  An absolute path to the file named <em>motd</em>
+                  in the subdirectory <em>etc</em> of the root
+                  directory.
+                </desc>
+                <term>..</term>
+                <desc>
+                  A relative path to the parent of the current
+                  directory.
+                </desc>
+                <term>program.m</term>
+                <desc>
+                  A relative path to the file <em>program.m</em> in
+                  the current directory.
+                </desc>
+                <term>Source/program.m</term>
+                <desc>
+                  A relative path to the file <em>program.m</em> in
+                  the subdirectory <em>Source</em> of the current
+                  directory.
+                </desc>
+                <term>../GNUmakefile</term>
+                <desc>
+                  A relative path to the file <em>GNUmakefile</em> in
+                  the directory above the current directory.
+                </desc>
+              </deflist>
+            </subsect>
+            <subsect>
+              <heading>windows</heading>
+              <p>
+                On Microsoft Windows the native paths may be either
+                UNC or drive-relative, so GNUstep supports both.
+                <br /> Either or both slash (/) and backslash
+                (\) may be used as separators for path components
+                in either type of name. <br /> UNC paths follow the
+                general form //host/share/path/file, but must
+                at least contain the host and share parts, i.e.
+                //host/share is a UNC path, but //host is
+                <em>not</em> <br /> Drive-relative names consist
+                of an optional drive specifier (consisting of a
+                single letter followed by a single colon)
+                followed by an absolute or relative path.
+                <br /> In both forms, the names. and.. are refer
+                to the current directory and the parent directory as
+                in unix paths.
+              </p>
+              Here are various examples:
+              <deflist>
+                <term>//host/share/file</term>
+                <desc>
+                  An absolute UNC path to a file called
+                  <em>file</em> in the top directory of the export
+                  point share on host.
+                </desc>
+                <term>C:</term>
+                <desc>
+                  A relative path to the current directory on drive
+                  C.
+                </desc>
+                <term>C:program.m</term>
+                <desc>
+                  A relative path to the file <em>program.m</em> on
+                  drive C.
+                </desc>
+                <term>C:\program.m</term>
+                <desc>
+                  An absolute path to the file <em>program.m</em> in
+                  the top level directory on drive C.
+                </desc>
+                <term>/Source\program.m</term>
+                <desc>
+                  A drive-relative path to <em>program.m</em> in the
+                  directory <em>Source</em> on the current
+                  drive.
+                </desc>
+                <term>\\name</term>
+                <desc>
+                  A drive-relative path to <em>name</em> in the top
+                  level directory on the current drive. The '\\'
+                  is treated as a single backslash as this is not a
+                  UNC name (there must be both a host and a share
+                  part in a UNC name).
+                </desc>
+              </deflist>
+            </subsect>
+            <subsect>
+              <heading>gnustep</heading>
+              <p>
+                In the default mode, GNUstep handles both unix and
+                windows paths so it treats both slash (/) and
+                backslash (\) as separators and understands
+                the windows UNC and drive relative path roots.
+                <br /> However, it treats any path beginning
+                with a slash (/) as an absolute path
+                <em>if running on a unix system</em>.
+              </p>
+            </subsect>
+            <subsect>
+              <heading>Portability</heading>
+              <p>
+                Attempting to pass absolute paths between
+                applications working on different systems
+                is fraught with difficulty... just don't do it.
+                <br /> Where paths need to be passed around (eg.
+                in property lists or archives) you should pass
+                relative paths and use a standard mechanism to
+                construct an absolute path in the receiving
+                application, for instance, appending the
+                relative path to the home directory of a user.
+              </p>
+              Even using relative paths you should take care...
+              <list>
+                <item>
+                  Use only the slash (/) as a path separator, not
+                  backslash (\).
+                </item>
+                <item>
+                  Never use a backslash (\) in a file name.
+                </item>
+                <item>Avoid colons in file names.</item>
+                <item>
+                  Use no more than three letters in a path
+                  extension.
+                </item>
+              </list>
+              Remember that, while GNUstep will manipulate
+              both windows and unix paths, any path actually used
+              to reference a file or directory must be valid on the
+              local system.
+            </subsect>
+            <subsect>
+              <heading>Tilde substitution</heading>
+              <p>
+                GNUstep handles substitution of tilde (~) as
+                follows: <br /> If a path is just ~ or begins
+                ~/ then the value returned by
+                <ref type="function" id="NSHomeDirectory">
+                  NSHomeDirectory()
+                </ref>
+                is substituted for the tilde. <br /> If a path is of
+                the form ~name or begins with a string like ~name/
+                then name is used as the argument to
+                <ref type="function" id="NSHomeDirectoryForUser">
+                  NSHomeDirectoryForUser()
+                </ref>
+                and the return value from that method (if non-nil)
+                is used to replace the tilde.
+              </p>
+            </subsect>
+          </section>
+        </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSDirectoryEnumerator
+        class
+      </heading>
+      <class name="NSDirectoryEnumerator" super="NSEnumerator" ovadd="10.0.0">
+        <declared>Foundation/NSFileManager.h</declared>
+        <desc>
+          <p>
+            This is a subclass of <code>NSEnumerator</code> which
+            provides a full listing of all the files beneath a
+            directory and its subdirectories. Instances can
+            be obtained through
+            <ref type="method" id="-enumeratorAtPath:" class="NSFileManager">[NSFileManager -enumeratorAtPath:]</ref>.
+          </p>
+          <p>
+            This implementation is optimized and performance
+            should be comparable to the speed of standard Unix
+            tools for large directories.
+          </p>
+          <p>
+            The order in which directory contents are enumerated is
+            undefined, and in the current implementation the
+            natural order of the underlying filesystem is used.
+          </p>
+        </desc>
+        <method type="NSDictionary*" ovadd="10.0.0">
+          <sel>directoryAttributes</sel>
+          <desc>
+            Returns a dictionary containing the attributes of
+            the directory at which enumeration started. <br /> The
+            contents of this dictionary are as produced by
+            <ref type="method" id="-fileAttributesAtPath:traverseLink:" class="NSFileManager">[NSFileManager -fileAttributesAtPath:traverseLink:]</ref>
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.0.0">
+          <sel>fileAttributes</sel>
+          <desc>
+            Returns a dictionary containing the attributes of
+            the file currently being enumerated. <br /> The
+            contents of this dictionary are as produced by
+            <ref type="method" id="-fileAttributesAtPath:traverseLink:" class="NSFileManager">[NSFileManager -fileAttributesAtPath:traverseLink:]</ref>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>skipDescendents</sel>
+          <desc>
+            Informs the receiver that any descendents of the
+            current directory should be skipped rather than
+            enumerated. Use this to avoid enumerating the
+            contents of directories you are not interested in.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSFileManager class
+      </heading>
+      <class name="NSFileManager" super="NSObject" ovadd="10.0.0">
+        <declared>Foundation/NSFileManager.h</declared>
+        <desc>
+          This is the main class for platform-independent
+          management of the local filesystem, which allows
+          you to read and save files, create/list directories, and
+          move or delete files and directories. In addition to
+          simply listing directories, you may obtain an
+          <ref type="class" id="NSDirectoryEnumerator">NSDirectoryEnumerator</ref>
+            instance for recursive directory contents
+            enumeration.
+        </desc>
+        <method type="NSFileManager*" factory="yes" ovadd="10.0.0">
+          <sel>defaultManager</sel>
+          <desc>
+            Returns a shared default file manager which may be
+            used throughout an application.
+          </desc>
+        </method>
+        <method type="NSURL*" ovadd="10.6.0">
+          <sel>URLForDirectory:</sel>
+          <arg type="NSSearchPathDirectory">directory</arg>
+          <sel>inDomain:</sel>
+          <arg type="NSSearchPathDomainMask">domain</arg>
+          <sel>appropriateForURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>create:</sel>
+          <arg type="BOOL">shouldCreate</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            Locates and, optionally, creates the specified
+            common <var>directory</var> in <var>domain</var>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.6.0">
+          <sel>URLsForDirectory:</sel>
+          <arg type="NSSearchPathDirectory">directory</arg>
+          <sel>inDomains:</sel>
+          <arg type="NSSearchPathDomainMask">domain</arg>
+          <desc>
+            Returns an array of search paths to look at for
+            resources. <br /> The paths are returned in
+            <var>domain</var> order: USER, LOCAL, NETWORK then
+            SYSTEM. <br /> The presence of a path in this list
+            does <em>not</em> mean that the path actually exists
+            in the filesystem. <br /> If you are wanting to locate
+            an existing resource, you should normally call this
+            method with NSAllDomainsMask, but if you wish to
+            find the path in which you should create a new file,
+            you would generally specify a particular
+            <var>domain</var>, and then create the path in the
+            file system if it does not already exist.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.5.0">
+          <sel>attributesOfFileSystemForPath:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.5.0">
+          <sel>attributesOfItemAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            If a file (or directory etc) exists at the specified
+            <var>path</var>, and can be queried for its
+            attributes, this method returns a dictionary
+            containing the various attributes of that file.
+            Otherwise <code>nil</code> is returned. <br /> If
+            an <var>error</var> occurs, <var>error</var> describes
+            the problem. Pass NULL if you do not want
+            <var>error</var> information.
+            <p>
+              The dictionary keys for attributes are -
+            </p>
+            <deflist>
+              <term><code>NSFileAppendOnly</code></term>
+              <desc>NSNumber... boolean</desc>
+              <term><code>NSFileCreationDate</code></term>
+              <desc>
+                NSDate when the file was created (if supported)
+              </desc>
+              <term><code>NSFileDeviceIdentifier</code></term>
+              <desc>
+                NSNumber (identifies the device on which the
+                file is stored)
+              </desc>
+              <term><code>NSFileExtensionHidden</code></term>
+              <desc>NSNumber... boolean</desc>
+              <term>
+                <code>NSFileGroupOwnerAccountName</code>
+              </term>
+              <desc>NSString name of the file group</desc>
+              <term>
+                <code>NSFileGroupOwnerAccountID</code>
+              </term>
+              <desc>NSNumber ID of the file group</desc>
+              <term><code>NSFileHFSCreatorCode</code></term>
+              <desc>NSNumber not used</desc>
+              <term><code>NSFileHFSTypeCode</code></term>
+              <desc>NSNumber not used</desc>
+              <term><code>NSFileImmutable</code></term>
+              <desc>NSNumber... boolean</desc>
+              <term><code>NSFileModificationDate</code></term>
+              <desc>
+                NSDate when the file was last modified
+              </desc>
+              <term><code>NSFileOwnerAccountName</code></term>
+              <desc>NSString name of the file owner</desc>
+              <term><code>NSFileOwnerAccountID</code></term>
+              <desc>NSNumber ID of the file owner</desc>
+              <term><code>NSFilePosixPermissions</code></term>
+              <desc>
+                NSNumber posix access permissions mask
+              </desc>
+              <term><code>NSFileReferenceCount</code></term>
+              <desc>NSNumber number of links to this file</desc>
+              <term><code>NSFileSize</code></term>
+              <desc>NSNumber size of the file in bytes</desc>
+              <term><code>NSFileSystemFileNumber</code></term>
+              <desc>
+                NSNumber the identifier for the file on the
+                filesystem
+              </desc>
+              <term><code>NSFileSystemNumber</code></term>
+              <desc>
+                NSNumber the filesystem on which the file is
+                stored
+              </desc>
+              <term><code>NSFileType</code></term>
+              <desc>NSString the type of file</desc>
+            </deflist>
+            <p>
+              The
+              <ref type="class" id="NSDictionary">NSDictionary</ref>
+                class also has a set of convenience accessor
+                methods which enable you to get at file
+                attribute information more efficiently than
+                using the keys above to extract it. You should
+                generally use the accessor methods where they
+                are available.
+              </p>
+              <list>
+                <item>
+                  <ref type="method" id="-fileCreationDate" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileCreationDate]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileExtensionHidden" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileExtensionHidden]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileHFSCreatorCode" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileHFSCreatorCode]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileHFSTypeCode" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileHFSTypeCode]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileIsAppendOnly" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileIsAppendOnly]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileIsImmutable" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileIsImmutable]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileSize" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileSize]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileType" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileType]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileOwnerAccountName" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileOwnerAccountName]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileOwnerAccountID" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileOwnerAccountID]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileGroupOwnerAccountName" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileGroupOwnerAccountName]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileGroupOwnerAccountID" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileGroupOwnerAccountID]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileModificationDate" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileModificationDate]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-filePosixPermissions" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -filePosixPermissions]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileSystemNumber" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileSystemNumber]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileSystemFileNumber" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileSystemFileNumber]</ref>
+                </item>
+              </list>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>changeCurrentDirectoryPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Changes the current directory used for all
+            subsequent operations. <br /> All non-absolute
+            paths are interpreted relative to this directory.
+            <br /> The current directory is set on a per-task
+            basis, so the current directory for other file
+            manager instances will also be changed by this
+            method.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>changeFileAttributes:</sel>
+          <arg type="NSDictionary*">attributes</arg>
+          <sel>atPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Change the <var>attributes</var> of the file at
+            <var>path</var> to those specified. <br /> Returns
+            <code>YES</code> if all requested changes were made
+            (or if the dictionary was <code>nil</code> or empty, so
+            no changes were requested), <code>NO</code> otherwise.
+            <br /> On failure, some of the requested changes may
+            have taken place. <br />
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>componentsToDisplayForPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Returns an array of <var>path</var> components
+            suitably modified for display to the end user.
+            This modification may render the returned strings
+            unusable for <var>path</var> manipulation, so you
+            should work with two arrays... one returned by this
+            method (for display to the user), and a parallel one
+            returned by
+            <ref type="method" id="-pathComponents" class="NSString">
+              [NSString -pathComponents]
+            </ref>
+            (for <var>path</var> manipulation).
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="10.0.0">
+          <sel>contentsAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Reads the file at <var>path</var> an returns its
+            contents as an NSData object. <br /> If an error
+            occurs or if <var>path</var> specifies a directory
+            etc then <code>nil</code> is returned.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>contentsEqualAtPath:</sel>
+          <arg type="NSString*">path1</arg>
+          <sel>andPath:</sel>
+          <arg type="NSString*">path2</arg>
+          <desc>
+            Returns <code>YES</code> if the contents of the
+            file or directory at <var>path1</var> are the same as
+            those at <var>path2</var>. <br /> If <var>path1</var>
+            and <var>path2</var> are files, this is a simple
+            comparison. If they are directories, the
+            contents of the files in those subdirectories are
+            compared recursively. <br /> Symbolic links are
+            not followed. <br /> A comparison checks first file
+            identity, then size, then content.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.5.0">
+          <sel>contentsOfDirectoryAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            Returns an array of NSStrings of the contents of
+            the specified directory. <br /> The listing does
+            <strong>not</strong> recursively list
+            subdirectories. <br /> The special files
+            '.' and '..' are not listed. <br /> Indicates an
+            <var>error</var> by returning <code>nil</code> (eg.
+            if <var>path</var> is not a directory or it can't be
+            read for some reason).
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.6.0">
+          <sel>contentsOfDirectoryAtURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>includingPropertiesForKeys:</sel>
+          <arg type="NSArray*">keys</arg>
+          <sel>options:</sel>
+          <arg type="NSDirectoryEnumerationOptions">mask</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            Returns an array of NSURL of the contents of the
+            specified directory. <br /> The listing is
+            shallow and does not recurse into subdirectories.
+            The special files '.' and '..' are excluded but it can
+            return hidden files. <br /> The only <var>mask</var>
+            option supported is
+            NSDirectoryEnumerationSkipsHiddenFiles.
+            <br /> The current implementation handles only files
+            and property <var>keys</var> are ignored.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>copyItemAtPath:</sel>
+          <arg type="NSString*">src</arg>
+          <sel>toPath:</sel>
+          <arg type="NSString*">dst</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            Copies the item specified by the <var>src</var> path
+            to the location specified by the <var>dst</var> path. If
+            the <var>src</var> is a directory, it is copied
+            recursively with all of its contents. <br />
+            Errors are returned in the <var>error</var>
+            variable. Returns <code>YES</code> on success,
+            <code>NO</code> otherwise.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>copyItemAtURL:</sel>
+          <arg type="NSURL*">src</arg>
+          <sel>toURL:</sel>
+          <arg type="NSURL*">dst</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            Copies the a file or directory specified by the
+            <var>src</var> URL to the location specified by the
+            <var>dst</var> URL. If the <var>src</var> is a
+            directory, it is copied recursively with all of
+            its contents. <br /> Errors are returned in the
+            <var>error</var> variable. Returns <code>YES</code>
+            on success, <code>NO</code> otherwise.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>copyPath:</sel>
+          <arg type="NSString*">source</arg>
+          <sel>toPath:</sel>
+          <arg type="NSString*">destination</arg>
+          <sel>handler:</sel>
+          <arg type="id">handler</arg>
+          <desc>
+            Copies the file or directory at <var>source</var> to
+            <var>destination</var>, using a <var>handler</var>
+            object which may respond to
+            <ref type="method" id="-fileManager:willProcessPath:" class="NSObject(NSFileManagerHandler)">[NSObject(NSFileManagerHandler) -fileManager:willProcessPath:]</ref> and <ref type="method" id="-fileManager:shouldProceedAfterError:" class="NSObject(NSFileManagerHandler)">[NSObject(NSFileManagerHandler) -fileManager:shouldProceedAfterError:]</ref> messages. <br /> If the <var>handler</var> responds to the first message, it is used to inform the <var>handler</var> when an item is about to be copied. If the <var>handler</var> responds to the second message, it is used to ask the <var>handler</var> whether to continue with the copy after an error (when there is no <var>handler</var> the processing stops at the point when an error occurs). <br /> Symbolic links are copied themselved rather than causing the items they link to be copied. <br /> Will not copy to a <var>destination</var> which already exists.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>createDirectoryAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>attributes:</sel>
+          <arg type="NSDictionary*">attributes</arg>
+          <desc>
+            Creates a new directory, and sets its
+            <var>attributes</var> as specified. <br /> Fails if
+            directories in the <var>path</var> are missing.
+            <br /> Returns <code>YES</code> if the directory was
+            actually created, <code>NO</code> otherwise.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>createDirectoryAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>withIntermediateDirectories:</sel>
+          <arg type="BOOL">flag</arg>
+          <sel>attributes:</sel>
+          <arg type="NSDictionary*">attributes</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            Creates a new directory (and all intermediate
+            directories if <var>flag</var> is
+            <code>YES</code>). Creates only the last directory
+            in the <var>path</var> if <var>flag</var> is
+            <code>NO</code>. <br /> The directory is created
+            with the <var>attributes</var> specified, and any
+            problem is returned in <var>error</var>. <br />
+            Returns <code>YES</code> if the directory is
+            created (or <var>flag</var> is <code>YES</code> and
+            the directory already exists), <code>NO</code> on
+            failure.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>createDirectoryAtURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>withIntermediateDirectories:</sel>
+          <arg type="BOOL">flag</arg>
+          <sel>attributes:</sel>
+          <arg type="NSDictionary*">attributes</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            Creates a new directory and all intermediate
+            directories in the file URL if <var>flag</var>
+            is <code>YES</code>. <br /> Creates only the last
+            directory in the URL if <var>flag</var> is
+            <code>NO</code>. <br /> The directory is created
+            with the <var>attributes</var> specified and any
+            problem is returned in <var>error</var>. <br />
+            Returns <code>YES</code> if the directory is
+            created (or <var>flag</var> is <code>YES</code> and
+            the directory already exists), <code>NO</code> on
+            failure.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>createFileAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>contents:</sel>
+          <arg type="NSData*">contents</arg>
+          <sel>attributes:</sel>
+          <arg type="NSDictionary*">attributes</arg>
+          <desc>
+            Creates a new file, and sets its
+            <var>attributes</var> as specified. <br />
+            Initialises the file content with the specified
+            data. <br /> Returns <code>YES</code> on success,
+            <code>NO</code> on failure.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>createSymbolicLinkAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>pathContent:</sel>
+          <arg type="NSString*">otherPath</arg>
+          <desc>
+            Creates a symbolic link at <var>path</var> which
+            links to the location specified by
+            <var>otherPath</var>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>createSymbolicLinkAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>withDestinationPath:</sel>
+          <arg type="NSString*">destPath</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            Creates a symbolic link at the <var>path</var> that
+            point to the destination <var>path</var>. <br />
+            Returns <code>YES</code> on success, otherwise
+            <code>NO</code>.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>currentDirectoryPath</sel>
+          <desc>
+            Returns the current working directory used by all
+            instance of the file manager in the current task.
+          </desc>
+        </method>
+        <method type="id&lt;NSFileManagerDelegate&gt;" ovadd="10.5.0">
+          <sel>delegate</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>directoryContentsAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Returns an array of the contents of the specified
+            directory. <br /> The listing does
+            <strong>not</strong> recursively list
+            subdirectories. <br /> The special files
+            '.' and '..' are not listed. <br /> Indicates an error
+            by returning <code>nil</code> (eg. if <var>path</var> is
+            not a directory or it can't be read for some reason).
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>displayNameAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Returns the name of the file or directory at
+            <var>path</var>. Converts it into a format for
+            display to an end user. This may render it unusable
+            as part of a file/path name. <br /> For instance, if a
+            user has elected not to see file extensions, this
+            method may return filenames with the extension
+            removed. <br /> The default operation is to return
+            the result of calling
+            <ref type="method" id="-lastPathComponent" class="NSString">[NSString -lastPathComponent]</ref> on the <var>path</var>.
+          </desc>
+        </method>
+        <method type="NSDirectoryEnumerator*" ovadd="10.0.0">
+          <sel>enumeratorAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            <p>
+              Returns an enumerator which can be used to return
+              each item with the directory at <var>path</var> in
+              turn.
+            </p>
+            <p>
+              The enumeration is recursive... following all nested
+              subdirectories.
+            </p>
+            <p>
+              The order in which directory contents are enumerated
+              is undefined, and in the current implementation the
+              natural order of the underlying filesystem is
+              used.
+            </p>
+          </desc>
+        </method>
+        <method type="NSDirectoryEnumerator*" ovadd="10.6.0">
+          <sel>enumeratorAtURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>includingPropertiesForKeys:</sel>
+          <arg type="NSArray*">keys</arg>
+          <sel>options:</sel>
+          <arg type="NSDirectoryEnumerationOptions">mask</arg>
+          <sel>errorHandler:</sel>
+          <arg type="GSDirEnumErrorHandler">handler</arg>
+          <desc>
+            Enumerate over the contents of a directory.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.0.0">
+          <sel>fileAttributesAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>traverseLink:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Returns the attributes dictionary for the file at
+            the specified <var>path</var>. If that file is a
+            symbolic link, the <var>flag</var> determines
+            whether the attributes returned are those of the
+            link or those of the destination file. <br /> If a
+            file (or directory etc) exists at the specified
+            <var>path</var>, and can be queried for its
+            attributes, this method returns a dictionary
+            containing the various attributes of that file.
+            Otherwise <code>nil</code> is returned. <br /> If
+            the <var>flag</var> is <code>NO</code> and the file is
+            a symbolic link, the attributes of the link itself
+            (rather than the file it points to) are returned.
+            <br />
+            <p>
+              The dictionary keys for attributes are -
+            </p>
+            <deflist>
+              <term><code>NSFileAppendOnly</code></term>
+              <desc>NSNumber... boolean</desc>
+              <term><code>NSFileCreationDate</code></term>
+              <desc>
+                NSDate when the file was created (if supported)
+              </desc>
+              <term><code>NSFileDeviceIdentifier</code></term>
+              <desc>
+                NSNumber (identifies the device on which the
+                file is stored)
+              </desc>
+              <term><code>NSFileExtensionHidden</code></term>
+              <desc>NSNumber... boolean</desc>
+              <term>
+                <code>NSFileGroupOwnerAccountName</code>
+              </term>
+              <desc>NSString name of the file group</desc>
+              <term>
+                <code>NSFileGroupOwnerAccountID</code>
+              </term>
+              <desc>NSNumber ID of the file group</desc>
+              <term><code>NSFileHFSCreatorCode</code></term>
+              <desc>NSNumber not used</desc>
+              <term><code>NSFileHFSTypeCode</code></term>
+              <desc>NSNumber not used</desc>
+              <term><code>NSFileImmutable</code></term>
+              <desc>NSNumber... boolean</desc>
+              <term><code>NSFileModificationDate</code></term>
+              <desc>
+                NSDate when the file was last modified
+              </desc>
+              <term><code>NSFileOwnerAccountName</code></term>
+              <desc>NSString name of the file owner</desc>
+              <term><code>NSFileOwnerAccountID</code></term>
+              <desc>NSNumber ID of the file owner</desc>
+              <term><code>NSFilePosixPermissions</code></term>
+              <desc>
+                NSNumber posix access permissions mask
+              </desc>
+              <term><code>NSFileReferenceCount</code></term>
+              <desc>NSNumber number of links to this file</desc>
+              <term><code>NSFileSize</code></term>
+              <desc>NSNumber size of the file in bytes</desc>
+              <term><code>NSFileSystemFileNumber</code></term>
+              <desc>
+                NSNumber the identifier for the file on the
+                filesystem
+              </desc>
+              <term><code>NSFileSystemNumber</code></term>
+              <desc>
+                NSNumber the filesystem on which the file is
+                stored
+              </desc>
+              <term><code>NSFileType</code></term>
+              <desc>NSString the type of file</desc>
+            </deflist>
+            <p>
+              The
+              <ref type="class" id="NSDictionary">NSDictionary</ref>
+                class also has a set of convenience accessor
+                methods which enable you to get at file
+                attribute information more efficiently than
+                using the keys above to extract it. You should
+                generally use the accessor methods where they
+                are available.
+              </p>
+              <list>
+                <item>
+                  <ref type="method" id="-fileCreationDate" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileCreationDate]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileExtensionHidden" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileExtensionHidden]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileHFSCreatorCode" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileHFSCreatorCode]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileHFSTypeCode" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileHFSTypeCode]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileIsAppendOnly" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileIsAppendOnly]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileIsImmutable" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileIsImmutable]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileSize" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileSize]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileType" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileType]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileOwnerAccountName" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileOwnerAccountName]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileOwnerAccountID" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileOwnerAccountID]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileGroupOwnerAccountName" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileGroupOwnerAccountName]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileGroupOwnerAccountID" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileGroupOwnerAccountID]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileModificationDate" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileModificationDate]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-filePosixPermissions" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -filePosixPermissions]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileSystemNumber" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileSystemNumber]</ref>
+                </item>
+                <item>
+                  <ref type="method" id="-fileSystemFileNumber" class="NSDictionary(NSFileAttributes)">[NSDictionary(NSFileAttributes) -fileSystemFileNumber]</ref>
+                </item>
+              </list>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>fileExistsAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Returns <code>YES</code> if a file (or directory
+            etc) exists at the specified <var>path</var>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>fileExistsAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>isDirectory:</sel>
+          <arg type="BOOL*">isDirectory</arg>
+          <desc>
+            Returns <code>YES</code> if a file (or directory
+            etc) exists at the specified <var>path</var>. <br />
+            If the <var>isDirectory</var> argument is not a nul
+            pointer, stores a flag in the location it points
+            to, indicating whether the file is a directory or not.
+            <br />
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.0.0">
+          <sel>fileSystemAttributesAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Returns a dictionary containing the filesystem
+            attributes for the specified <var>path</var> (or
+            <code>nil</code> if the <var>path</var> is not
+            valid). <br />
+            <deflist>
+              <term><code>NSFileSystemSize</code></term>
+              <desc>
+                NSNumber the size of the filesystem in bytes
+              </desc>
+              <term><code>NSFileSystemFreeSize</code></term>
+              <desc>
+                NSNumber the amount of unused space on the
+                filesystem in bytes
+              </desc>
+              <term><code>NSFileSystemNodes</code></term>
+              <desc>
+                NSNumber the number of nodes in use to store
+                files
+              </desc>
+              <term><code>NSFileSystemFreeNodes</code></term>
+              <desc>
+                NSNumber the number of nodes available to
+                create files
+              </desc>
+              <term><code>NSFileSystemNumber</code></term>
+              <desc>
+                NSNumber the identifying number for the
+                filesystem
+              </desc>
+            </deflist>
+          </desc>
+        </method>
+        <method type="const GSNativeChar*" ovadd="10.0.0">
+          <sel>fileSystemRepresentationWithPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Convert from OpenStep internal string format to a
+            string in the local filesystem format, suitable for
+            passing to system functions. <br /> This
+            representation may vary between filesystems.
+            <br /> Converts the standard <var>path</var>
+            separator ('/') and <var>path</var> extension
+            ('.') characters to the local representation if
+            necessary. <br /> On mingw32 systems, the
+            filesystem representation is 16-bit unicode and
+            is expected to be used in conjunction with the variants
+            of system calls which work with unicode strings. <br />
+            Raises an exception if the character conversion is
+            not possible.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>isDeletableFileAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Returns <code>YES</code> if a file (or directory
+            etc) exists at the specified <var>path</var> and is
+            deletable.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>isExecutableFileAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Returns <code>YES</code> if a file (or directory
+            etc) exists at the specified <var>path</var> and is
+            executable (if a directory is executable, you
+            can access its contents).
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>isReadableFileAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Returns <code>YES</code> if a file (or directory
+            etc) exists at the specified <var>path</var> and is
+            readable.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>isWritableFileAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Returns <code>YES</code> if a file (or directory
+            etc) exists at the specified <var>path</var> and is
+            writable.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>linkPath:</sel>
+          <arg type="NSString*">source</arg>
+          <sel>toPath:</sel>
+          <arg type="NSString*">destination</arg>
+          <sel>handler:</sel>
+          <arg type="id">handler</arg>
+          <desc>
+            <p>
+              Links the file or directory at <var>source</var> to
+              <var>destination</var>, using a <var>handler</var>
+              object which should respond to
+              <ref type="method" id="-fileManager:willProcessPath:" class="NSObject(NSFileManagerHandler)">[NSObject(NSFileManagerHandler) -fileManager:willProcessPath:]</ref> and <ref type="method" id="-fileManager:shouldProceedAfterError:" class="NSObject(NSFileManagerHandler)">[NSObject(NSFileManagerHandler) -fileManager:shouldProceedAfterError:]</ref> messages.
+            </p>
+            <p>
+              If the <var>destination</var> is a directory, the
+              <var>source</var> path is linked into that
+              directory, otherwise the
+              <var>destination</var> must not exist, but its
+              parent directory must exist and the
+              <var>source</var> will be linked into the parent as
+              the name specified by the <var>destination</var>.
+            </p>
+            <p>
+              If the <var>source</var> is a symbolic link, it is
+              copied to the <var>destination</var>. <br /> If
+              the <var>source</var> is a directory, it is copied to
+              the <var>destination</var> and its contents are
+              linked into the new directory. <br /> Otherwise, a
+              hard link is made from the <var>destination</var> to
+              the <var>source</var>.
+            </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>moveItemAtPath:</sel>
+          <arg type="NSString*">src</arg>
+          <sel>toPath:</sel>
+          <arg type="NSString*">dst</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            Moves a file or directory specified by <var>src</var>
+            to its destination specified by <var>dst</var>, errors
+            are returned in <var>error</var>. <br /> Returns
+            <code>YES</code> on success, <code>NO</code>
+            otherwise.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>moveItemAtURL:</sel>
+          <arg type="NSURL*">src</arg>
+          <sel>toURL:</sel>
+          <arg type="NSURL*">dst</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            Moves a file or directory specified by <var>src</var>
+            to its destination specified by <var>dst</var>, errors
+            are returned in <var>error</var>. <br /> Returns
+            <code>YES</code> on success, <code>NO</code>
+            otherwise.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>movePath:</sel>
+          <arg type="NSString*">source</arg>
+          <sel>toPath:</sel>
+          <arg type="NSString*">destination</arg>
+          <sel>handler:</sel>
+          <arg type="id">handler</arg>
+          <desc>
+            Moves the file or directory at <var>source</var> to
+            <var>destination</var>, using a <var>handler</var>
+            object which should respond to
+            <ref type="method" id="-fileManager:willProcessPath:" class="NSObject(NSFileManagerHandler)">[NSObject(NSFileManagerHandler) -fileManager:willProcessPath:]</ref> and <ref type="method" id="-fileManager:shouldProceedAfterError:" class="NSObject(NSFileManagerHandler)">[NSObject(NSFileManagerHandler) -fileManager:shouldProceedAfterError:]</ref> messages. <br /> If the <var>handler</var> responds to the first message, it is used to inform the <var>handler</var> when an item is about to be moved. If the <var>handler</var> responds to the second message, it is used to ask the <var>handler</var> whether to continue with the move after an error (when there is no <var>handler</var> the processing stops at the point when an error occurs). <br /> Will not move to a <var>destination</var> which already exists. <br />
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>pathContentOfSymbolicLinkAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Returns the name of the file or directory that the
+            symbolic link at <var>path</var> points to.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>removeFileAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>handler:</sel>
+          <arg type="id">handler</arg>
+          <desc>
+            Removes the file or directory at <var>path</var>,
+            using a <var>handler</var> object which should
+            respond to
+            <ref type="method" id="-fileManager:willProcessPath:" class="NSObject(NSFileManagerHandler)">[NSObject(NSFileManagerHandler) -fileManager:willProcessPath:]</ref> and <ref type="method" id="-fileManager:shouldProceedAfterError:" class="NSObject(NSFileManagerHandler)">[NSObject(NSFileManagerHandler) -fileManager:shouldProceedAfterError:]</ref> messages.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>removeItemAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            Removes the file or directory specified by the
+            <var>path</var> to be removed. If the <var>path</var>
+            points to a directory, the directory is deleted
+            recursively. <br /> Returns <code>YES</code>
+            on success, otherwise <code>NO</code>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>removeItemAtURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            Removes the file or directory specified by the
+            <var>url</var> to be removed. If the <var>url</var>
+            points to a directory, the directory is deleted
+            recursively. <br /> Returns <code>YES</code>
+            on success, otherwise <code>NO</code>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>setAttributes:</sel>
+          <arg type="NSDictionary*">attributes</arg>
+          <sel>ofItemAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setDelegate:</sel>
+          <arg type="id&lt;NSFileManagerDelegate&gt;">delegate</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>stringWithFileSystemRepresentation:</sel>
+          <arg type="const GSNativeChar*">string</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">len</arg>
+          <desc>
+            Convert to OpenStep internal <var>string</var>
+            format from a <var>string</var> in the local
+            filesystem format, as returned by system
+            functions. <br /> This representation may vary
+            between filesystems. <br /> The GNUstep version of
+            this method currently does not bother to change any
+            path separator and extension characters to the
+            standard values ('/' and '.' respectively) as the
+            path handling methods of
+            <ref type="class" id="NSString">NSString</ref>
+              should be able to handle native format strings.
+              <br /> On mingw32 systems, the filesystem
+              representation is 16-bit unicode and is
+              expected to have come from the variant of a
+              system call which works with unicode strings.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>subpathsAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Returns an array containing the (relative) paths of
+            all the items in the directory at <var>path</var>.
+            <br /> The listing follows all subdirectories, so it
+            can produce a very large array... use with care.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSDictionary(NSFileAttributes)
+        category
+      </heading>
+      <category name="NSFileAttributes" class="NSDictionary" ovadd="10.0.0">
+        <declared>Foundation/NSFileManager.h</declared>
+        <desc>
+          Convenience methods for accessing named file
+          attributes in a dictionary.
+        </desc>
+        <method type="NSDate*" ovadd="10.0.0">
+          <sel>fileCreationDate</sel>
+          <desc>
+            Return the file creation date attribute (or
+            <code>nil</code> if not found).
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>fileExtensionHidden</sel>
+          <desc>
+            Return the file extension hidden attribute (or
+            <code>NO</code> if not found).
+          </desc>
+        </method>
+        <method type="NSNumber*" ovadd="10.0.0">
+          <sel>fileGroupOwnerAccountID</sel>
+          <desc>
+            Return an NSNumber with the numeric value of the
+            NSFileGroupOwnerAccountID
+            attribute in the dictionary, or <code>nil</code>
+            if the attribute is not present.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>fileGroupOwnerAccountName</sel>
+          <desc>
+            Return the file group owner account name attribute
+            or <code>nil</code> if not present.
+          </desc>
+        </method>
+        <method type="OSType" ovadd="10.0.0">
+          <sel>fileHFSCreatorCode</sel>
+          <desc>
+            Returns HFS creator attribute (OS X).
+          </desc>
+        </method>
+        <method type="OSType" ovadd="10.0.0">
+          <sel>fileHFSTypeCode</sel>
+          <desc>
+            Returns HFS type code attribute (OS X).
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>fileIsAppendOnly</sel>
+          <desc>
+            Return the file append only attribute (or
+            <code>NO</code> if not found).
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>fileIsImmutable</sel>
+          <desc>
+            Return the file immutable attribute (or
+            <code>NO</code> if not found).
+          </desc>
+        </method>
+        <method type="NSDate*" ovadd="10.0.0">
+          <sel>fileModificationDate</sel>
+          <desc>
+            Return the file modification date attribute (or
+            <code>nil</code> if not found)
+          </desc>
+        </method>
+        <method type="NSNumber*" ovadd="10.0.0">
+          <sel>fileOwnerAccountID</sel>
+          <desc>
+            Return an NSNumber with the numeric value of the
+            NSFileOwnerAccountID attribute in the
+            dictionary, or <code>nil</code> if the
+            attribute is not present.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>fileOwnerAccountName</sel>
+          <desc>
+            Return the file owner account name attribute or
+            <code>nil</code> if not present.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.0.0">
+          <sel>filePosixPermissions</sel>
+          <desc>
+            Return the file posix permissions attribute (or
+            NSNotFound if the attribute is not present in
+            the dictionary).
+          </desc>
+        </method>
+        <method type="unsigned long long" ovadd="10.0.0">
+          <sel>fileSize</sel>
+          <desc>
+            Return the size of the file, or NSNotFound if the
+            file size attribute is not found in the dictionary.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.0.0">
+          <sel>fileSystemFileNumber</sel>
+          <desc>
+            Return the file system file identification number
+            attribute or NSNotFound if the attribute is not
+            present in the dictionary).
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.0.0">
+          <sel>fileSystemNumber</sel>
+          <desc>
+            Return the file system number attribute (or
+            NSNotFound if the attribute is not present in
+            the dictionary).
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>fileType</sel>
+          <desc>
+            Return the file type attribute or <code>nil</code>
+            if not present.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSFileManagerDelegate)
+        informal protocol
+      </heading>
+      <category name="NSFileManagerDelegate" class="NSObject" ovadd="10.5.0">
+        <declared>Foundation/NSFileManager.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>fileManager:</sel>
+          <arg type="NSFileManager*">fileManager</arg>
+          <sel>shouldCopyItemAtPath:</sel>
+          <arg type="NSString*">srcPath</arg>
+          <sel>toPath:</sel>
+          <arg type="NSString*">dstPath</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>fileManager:</sel>
+          <arg type="NSFileManager*">fileManager</arg>
+          <sel>shouldCopyItemAtURL:</sel>
+          <arg type="NSURL*">srcURL</arg>
+          <sel>toURL:</sel>
+          <arg type="NSURL*">dstURL</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>fileManager:</sel>
+          <arg type="NSFileManager*">fileManager</arg>
+          <sel>shouldLinkItemAtPath:</sel>
+          <arg type="NSString*">srcPath</arg>
+          <sel>toPath:</sel>
+          <arg type="NSString*">dstPath</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>fileManager:</sel>
+          <arg type="NSFileManager*">fileManager</arg>
+          <sel>shouldLinkItemAtURL:</sel>
+          <arg type="NSURL*">srcURL</arg>
+          <sel>toURL:</sel>
+          <arg type="NSURL*">dstURL</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>fileManager:</sel>
+          <arg type="NSFileManager*">fileManager</arg>
+          <sel>shouldMoveItemAtPath:</sel>
+          <arg type="NSString*">srcPath</arg>
+          <sel>toPath:</sel>
+          <arg type="NSString*">dstPath</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>fileManager:</sel>
+          <arg type="NSFileManager*">fileManager</arg>
+          <sel>shouldMoveItemAtURL:</sel>
+          <arg type="NSURL*">srcURL</arg>
+          <sel>toURL:</sel>
+          <arg type="NSURL*">dstURL</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>fileManager:</sel>
+          <arg type="NSFileManager*">fileManager</arg>
+          <sel>shouldProceedAfterError:</sel>
+          <arg type="NSError*">error</arg>
+          <sel>copyingItemAtPath:</sel>
+          <arg type="NSString*">srcPath</arg>
+          <sel>toPath:</sel>
+          <arg type="NSString*">dstPath</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>fileManager:</sel>
+          <arg type="NSFileManager*">fileManager</arg>
+          <sel>shouldProceedAfterError:</sel>
+          <arg type="NSError*">error</arg>
+          <sel>copyingItemAtURL:</sel>
+          <arg type="NSURL*">srcURL</arg>
+          <sel>toURL:</sel>
+          <arg type="NSURL*">dstURL</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>fileManager:</sel>
+          <arg type="NSFileManager*">fileManager</arg>
+          <sel>shouldProceedAfterError:</sel>
+          <arg type="NSError*">error</arg>
+          <sel>linkingItemAtPath:</sel>
+          <arg type="NSString*">srcPath</arg>
+          <sel>toPath:</sel>
+          <arg type="NSString*">dstPath</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>fileManager:</sel>
+          <arg type="NSFileManager*">fileManager</arg>
+          <sel>shouldProceedAfterError:</sel>
+          <arg type="NSError*">error</arg>
+          <sel>linkingItemAtURL:</sel>
+          <arg type="NSURL*">srcURL</arg>
+          <sel>toURL:</sel>
+          <arg type="NSURL*">dstURL</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>fileManager:</sel>
+          <arg type="NSFileManager*">fileManager</arg>
+          <sel>shouldProceedAfterError:</sel>
+          <arg type="NSError*">error</arg>
+          <sel>movingItemAtPath:</sel>
+          <arg type="NSString*">srcPath</arg>
+          <sel>toPath:</sel>
+          <arg type="NSString*">dstPath</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>fileManager:</sel>
+          <arg type="NSFileManager*">fileManager</arg>
+          <sel>shouldProceedAfterError:</sel>
+          <arg type="NSError*">error</arg>
+          <sel>movingItemAtURL:</sel>
+          <arg type="NSURL*">srcURL</arg>
+          <sel>toURL:</sel>
+          <arg type="NSURL*">dstURL</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>fileManager:</sel>
+          <arg type="NSFileManager*">fileManager</arg>
+          <sel>shouldProceedAfterError:</sel>
+          <arg type="NSError*">error</arg>
+          <sel>removingItemAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>fileManager:</sel>
+          <arg type="NSFileManager*">fileManager</arg>
+          <sel>shouldProceedAfterError:</sel>
+          <arg type="NSError*">error</arg>
+          <sel>removingItemAtURL:</sel>
+          <arg type="NSURL*">URL</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>fileManager:</sel>
+          <arg type="NSFileManager*">fileManager</arg>
+          <sel>shouldRemoveItemAtPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.5.0">
+          <sel>fileManager:</sel>
+          <arg type="NSFileManager*">fileManager</arg>
+          <sel>shouldRemoveItemAtURL:</sel>
+          <arg type="NSURL*">URL</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSFileManagerHandler)
+        informal protocol
+      </heading>
+      <category name="NSFileManagerHandler" class="NSObject" ovadd="10.0.0">
+        <declared>Foundation/NSFileManager.h</declared>
+        <desc>
+          An informal protocol to which handler objects should
+          conform if they wish to deal with copy and move
+          operations performed by NSFileManager.
+        </desc>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>fileManager:</sel>
+          <arg type="NSFileManager*">fileManager</arg>
+          <sel>shouldProceedAfterError:</sel>
+          <arg type="NSDictionary*">errorDictionary</arg>
+          <desc>
+            <p>
+              When an error occurs during a copy or move
+              operation, the file manager will send this
+              message to the handler, and will use the return
+              value to determine whether the operation should
+              proceed. If the method returns <code>YES</code>
+              then the operation will proceed after the error, if
+              it returns <code>NO</code> then it will be aborted.
+            </p>
+            <p>
+              If the handler does not implement this method it will
+              be treated as if it returns <code>NO</code>.
+            </p>
+            The error dictionary contains the following
+            <list>
+              <item>
+                <strong>"Error"</strong> contains a
+                description of the error.
+              </item>
+              <item>
+                <strong>"Path"</strong> contains the path that
+                is being processed when an error occurred. If an
+                error occurs during an operation involving two
+                files, like copying, and it is not clear which
+                file triggers the error it will default to the
+                source file.
+              </item>
+              <item>
+                <strong>"FromPath"</strong> (Optional)
+                contains the path involved in reading.
+              </item>
+              <item>
+                <strong>"ToPath"</strong> (Optional) contains
+                the path involved in writing.
+              </item>
+            </list>
+            <p>
+              Note that the <code>FromPath</code> is a GNUstep
+              extension.
+            </p>
+            <p>
+              Also the <code>FromPath</code> and
+              <code>ToPath</code> are filled in when
+              appropriate. So when copying a file they
+              will typically both have a value and when reading
+              only <code>FromPath</code>.
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>fileManager:</sel>
+          <arg type="NSFileManager*">fileManager</arg>
+          <sel>willProcessPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            The file manager sends this method to the handler
+            immediately before performing part of a
+            directory move or copy operation. This provides
+            the handler object with information it can use in the
+            event of an error, to decide whether processing
+            should proceed after the error.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSFileManagerDelegate
+        protocol
+      </heading>
+      <protocol name="NSFileManagerDelegate" ovadd="10.5.0">
+        <declared>Foundation/NSFileManager.h</declared>
+        <conform>NSObject</conform>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+      </protocol>
+    </chapter>
+  </body>
+</gsdoc>

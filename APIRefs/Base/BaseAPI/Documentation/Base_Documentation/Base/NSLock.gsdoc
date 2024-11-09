@@ -1,0 +1,514 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSLock" stylesheeturl="gnustepStyle" up="Base">
+  <head>
+    <title>NSLock class reference</title>
+    <author name="David Chisnall">
+      <email address="csdavec@swan.ac.uk">
+        csdavec@swan.ac.uk
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 16:52:01 -0500</date>
+    <copy>1996-2010 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSCondition class
+      </heading>
+      <class name="NSCondition" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSLock.h</declared>
+        <conform>NSLocking</conform>
+        <desc>
+          NSCondition provides an interface to POSIX
+          condition variables.
+        </desc>
+        <ivariable type="gs_cond_public_t" name="_condition" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="gs_mutex_public_t" name="_mutex" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="_name" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="void" ovadd="1.0.0">
+          <sel>broadcast</sel>
+          <desc>
+            Wakes all threads that are waiting on this condition.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>name</sel>
+          <desc>
+            Returns the name used for debugging messages.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setName:</sel>
+          <arg type="NSString*">newName</arg>
+          <desc>
+            Sets the name used for debugging messages.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>signal</sel>
+          <desc>
+            Wakes wany one of the threads that are waiting on
+            this condition.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>wait</sel>
+          <desc>
+            Blocks and atomically unlocks the receiver. This
+            method should only be called when the receiver is
+            locked. The caller will then block until the
+            receiver is sent either a
+            <ref type="method" id="-signal">
+              -signal
+            </ref>
+            or <ref type="method" id="-broadcast">-broadcast</ref>
+            message from another thread. At which point, the
+            calling thread will reacquire the lock.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>waitUntilDate:</sel>
+          <arg type="NSDate*">limit</arg>
+          <desc>
+            Blocks the calling thread and acquires the lock, in
+            the same way as
+            <ref type="method" id="-wait">
+              -wait
+            </ref>
+            . Returns <code>YES</code> if the condition is signaled,
+            or <code>NO</code> if the timeout is reached.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSConditionLock class
+      </heading>
+      <class name="NSConditionLock" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSLock.h</declared>
+        <conform>NSLocking</conform>
+        <desc>
+          Lock that allows user to request it only when an
+          internal integer condition is equal to a particular
+          value. The condition is set on initialization and
+          whenever the lock is relinquished.
+        </desc>
+        <ivariable type="NSCondition*" name="_condition" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="int" name="_condition_value" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="_name" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>condition</sel>
+          <desc>
+            Return the current condition of the lock.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithCondition:</sel>
+          <arg type="NSInteger">value</arg>
+          <desc>
+            Initialize lock with given condition.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isLockedByCurrentThread</sel>
+          <desc>
+            Report whether this lock is held by the current
+            thread. <br /> Raises an exception if this is not
+            supported by the system lock mechanism.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>lock</sel>
+          <desc>
+            Block until acquiring lock.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>lockBeforeDate:</sel>
+          <arg type="NSDate*">limit</arg>
+          <desc>
+            Try to acquire lock and return before <var>limit</var>,
+            <code>YES</code> if succeeded, <code>NO</code> if
+            not.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>lockWhenCondition:</sel>
+          <arg type="NSInteger">value</arg>
+          <desc>
+            Acquire lock when it is available and the internal
+            condition is equal to <var>value</var>. Blocks
+            until this occurs.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>lockWhenCondition:</sel>
+          <arg type="NSInteger">condition_to_meet</arg>
+          <sel>beforeDate:</sel>
+          <arg type="NSDate*">limitDate</arg>
+          <desc>
+            Try to acquire lock, when internal condition is equal
+            to <var>condition_to_meet</var>, and return before
+            limit, <code>YES</code> if succeeded,
+            <code>NO</code> if not.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.5.0">
+          <sel>name</sel>
+          <desc>
+            Return the name of the receiver or <code>nil</code>
+            of none has been set.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setName:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            Sets the <var>name</var> of the receiver (for use in
+            debugging).
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>tryLock</sel>
+          <desc>
+            Try to acquire lock regardless of condition and return
+            immediately, <code>YES</code> if succeeded,
+            <code>NO</code> if not.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>tryLockWhenCondition:</sel>
+          <arg type="NSInteger">value</arg>
+          <desc>
+            Try to acquire lock if condition is equal to
+            <var>value</var> and return immediately in any case,
+            <code>YES</code> if succeeded, <code>NO</code> if
+            not.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>unlock</sel>
+          <desc>
+            Relinquish lock.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>unlockWithCondition:</sel>
+          <arg type="NSInteger">value</arg>
+          <desc>
+            Relinquish the lock, setting internal condition
+            to <var>value</var>.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSLock class
+      </heading>
+      <class name="NSLock" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSLock.h</declared>
+        <conform>NSLocking</conform>
+        <desc>
+          <p>
+            Simplest lock for protecting critical sections of
+            code.
+          </p>
+          <p>
+            An <code>NSLock</code> is used in multi-threaded
+            applications to protect critical pieces of
+            code. While one thread holds a lock within a piece of
+            code, another thread cannot execute that code until
+            the first thread has given up its hold on the lock. The
+            limitation of <code>NSLock</code> is that you
+            can only lock an <code>NSLock</code> once and it must
+            be unlocked before it can be acquired again. <br />
+            Other lock classes, notably
+            <ref type="class" id="NSRecursiveLock">NSRecursiveLock</ref>, have different restrictions.</p>
+        </desc>
+        <ivariable type="gs_mutex_public_t" name="_mutex" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="_name" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isLockedByCurrentThread</sel>
+          <desc>
+            Report whether this lock is held by the current
+            thread. <br /> Raises an exception if this is not
+            supported by the system lock mechanism.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>lock</sel>
+          <desc>
+            Block until acquiring lock.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>lockBeforeDate:</sel>
+          <arg type="NSDate*">limit</arg>
+          <desc>
+            Try to acquire lock and return before <var>limit</var>,
+            <code>YES</code> if succeeded, <code>NO</code> if
+            not.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.5.0">
+          <sel>name</sel>
+          <desc>
+            Return the name of the receiver or <code>nil</code>
+            of none has been set.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setName:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            Sets the <var>name</var> of the receiver (for use in
+            debugging).
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>tryLock</sel>
+          <desc>
+            Try to acquire lock and return immediately,
+            <code>YES</code> if succeeded, <code>NO</code> if
+            not.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>unlock</sel>
+          <desc>
+            Relinquish lock.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSRecursiveLock class
+      </heading>
+      <class name="NSRecursiveLock" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSLock.h</declared>
+        <conform>NSLocking</conform>
+        <desc>
+          Allows the lock to be recursively acquired by the same
+          thread. If the same thread locks the mutex (n) times
+          then that same thread must also unlock it (n) times
+          before another thread can acquire the lock.
+        </desc>
+        <ivariable type="gs_mutex_public_t" name="_mutex" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="_name" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isLockedByCurrentThread</sel>
+          <desc>
+            Report whether this lock is held by the current
+            thread. <br /> Raises an exception if this is not
+            supported by the system lock mechanism.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>lock</sel>
+          <desc>
+            Block until acquiring lock.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>lockBeforeDate:</sel>
+          <arg type="NSDate*">limit</arg>
+          <desc>
+            Try to acquire lock and return before <var>limit</var>,
+            <code>YES</code> if succeeded, <code>NO</code> if
+            not.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.5.0">
+          <sel>name</sel>
+          <desc>
+            Return the name of the receiver or <code>nil</code>
+            of none has been set.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setName:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            Sets the <var>name</var> of the receiver (for use in
+            debugging).
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>tryLock</sel>
+          <desc>
+            Try to acquire lock regardless of condition and return
+            immediately, <code>YES</code> if succeeded,
+            <code>NO</code> if not.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>unlock</sel>
+          <desc>
+            Relinquish lock.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSObject(GSTraceLocks)
+        informal protocol
+      </heading>
+      <category name="GSTraceLocks" class="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSLock.h</declared>
+        <desc>
+          Controls tracing of locks for deadlocking.
+        </desc>
+        <method type="BOOL" factory="yes" ovadd="1.0.0">
+          <sel>shouldCreateTraceableLocks:</sel>
+          <arg type="BOOL">shouldTrace</arg>
+          <desc>
+            Sets whether newly created lock objects (NSCondition,
+            NSConditionLock, NSLock, NSRecursiveLock
+            but NOT NSDistributedLock) should be created so that
+            their use by threads is traced and deadlocks can be
+            detected. <br /> Returns the old value of the
+            setting.
+          </desc>
+        </method>
+        <method type="NSCondition*" factory="yes" ovadd="1.0.0">
+          <sel>tracedCondition</sel>
+          <desc>
+            Creates and returns a single autoreleased traced
+            condition.
+          </desc>
+        </method>
+        <method type="NSConditionLock*" factory="yes" ovadd="1.0.0">
+          <sel>tracedConditionLockWithCondition:</sel>
+          <arg type="NSInteger">value</arg>
+          <desc>
+            Creates and returns a single autoreleased traced
+            condition lock.
+          </desc>
+        </method>
+        <method type="NSLock*" factory="yes" ovadd="1.0.0">
+          <sel>tracedLock</sel>
+          <desc>
+            Creates and returns a single autoreleased traced
+            lock.
+          </desc>
+        </method>
+        <method type="NSRecursiveLock*" factory="yes" ovadd="1.0.0">
+          <sel>tracedRecursiveLock</sel>
+          <desc>
+            Creates and returns a single autoreleased traced
+            recursive lock.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSLocking protocol
+      </heading>
+      <protocol name="NSLocking" ovadd="1.0.0">
+        <declared>Foundation/NSLock.h</declared>
+        <desc>
+          Protocol defining lock and unlock operations.
+        </desc>
+        <method type="void" ovadd="1.0.0">
+          <sel>lock</sel>
+          <desc>
+            Block until acquiring lock.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>unlock</sel>
+          <desc>
+            Relinquish lock.
+          </desc>
+        </method>
+      </protocol>
+    </chapter>
+  </body>
+</gsdoc>

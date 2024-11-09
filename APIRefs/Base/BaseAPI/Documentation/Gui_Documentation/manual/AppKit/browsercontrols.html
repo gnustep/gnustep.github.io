@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- (C) 2005-2006 Christopher Armstrong.
+
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2, as published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included in the section entitled "GNU Free Documentation License".
+
+This documentation is provided on an "AS IS" BASIS, WITHOUT WARRANTY
+OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED
+TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND USEFULNESS
+OF THE DOCUMENTATION IS WITH YOU (THE LICENSEE). IN NO EVENT WILL THE COPYRIGHT
+HOLDERS BE LIABLE FOR DAMAGES, INCLUDING ANY DIRECT, INDIRECT,
+SPECIAL, GENERAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF
+THE USE OR INABILITY TO USE THIS DOCUMENTATION (INCLUDING BUT NOT
+LIMITED TO LOSS OF DATA, USE, OR PROFITS; PROCUREMENT OF SUBSTITUTE
+GOODS AND SERVICES; OR BUSINESS INTERUPTION) HOWEVER CAUSED, EVEN
+IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. -->
+<title>browsercontrols (Using the GNUstep AppKit 0.1)</title>
+
+<meta name="description" content="browsercontrols (Using the GNUstep AppKit 0.1)">
+<meta name="keywords" content="browsercontrols (Using the GNUstep AppKit 0.1)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="conceptindex.html" rel="index" title="conceptindex">
+<link href="index.html" rel="up" title="Top">
+<link href="dataexchange.html" rel="next" title="dataexchange">
+<link href="matrix.html" rel="prev" title="matrix">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="chapter" id="browsercontrols">
+<div class="header">
+<p>
+Next: <a href="dataexchange.html" accesskey="n" rel="next">Data Exchange</a>, Previous: <a href="matrix.html" accesskey="p" rel="prev">Matrix Controls</a>, Up: <a href="index.html" accesskey="u" rel="up">Using the GNUstep AppKit</a> &nbsp; [<a href="conceptindex.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Browsers-1"></span><h2 class="chapter">12 Browsers</h2>
+<span id="Browsers"></span>
+<span id="index-browsers_002c-definition"></span>
+<span id="index-controls_002c-browsers"></span>
+<p>A <em>browser</em> is a special type of matrix control, useful for the display of hierachial or tree-like data. They use vertical lists of cells, in which some cells can be selected so that they display the &quot;branches&quot; of a tree in the adjacent pane. In this way, a user can easily navigate a hierachy, such as a filesystem which has many directories and sub-directories.
+</p>
+<p>In fact, the textual data in a browser can be accessed using path like string components, such as <samp>/path/to/leaf</samp> or <samp>/usr/local/lib</samp>. A good example of it&rsquo;s use in filesystems is GWorkspace, GNUstep&rsquo;s file manager application.<a id="DOCF15" href="#FOOT15"><sup>15</sup></a>.
+</p>
+<span id="index-leaf"></span>
+<span id="index-branch"></span>
+<span id="index-paridgms_002c-leaves-and-branches"></span>
+<p>We introduce the concept of <em>leaves</em> and <em>branches</em>. A <em>leaf</em> is a simple browser cell that only display&rsquo;s text; it does not open a new browser pane with sub-cells when it is selected. A <em>branch</em> both display text, and when selected, it fills the pane to the right with a list of leaves and/or branches that represent a group of cells logically below this one. A branch shows an arrow to indicate that it can be selected to display sub-cells. It is useful when dealing with tree-structures such as that modelled in Computer Sciencei courses.
+</p>
+<p>Each pane in the browser view is actually a one-column matrix (an <code>NSMatrix</code> object) which can be returned.
+</p>
+<p>Like many other controls, browsers define their own cell class, known as <code>NSBrowserCell</code>. It provides methods that are used to implement the functionality described above. Browsers use a simple delegate to decide how to display your hierachial data, which can be passive or active (see below).
+</p>
+<ul class="section-toc">
+<li><a href="#Browser-Cells" accesskey="1">Browser Cells</a></li>
+<li><a href="#Browser-Methods" accesskey="2">Browser Methods</a></li>
+<li><a href="#Browser-Delegate" accesskey="3">Browser Delegate</a></li>
+</ul>
+<div class="section" id="Browser-Cells">
+<h3 class="section">12.1 Browser Cells</h3>
+
+<p>As mentioned above, <code>NSBrowserCell</code> is used to implement the cells&rsquo;s placed in a browser. As a class it is quite simple, and warrants little attention. 
+</p>
+<p>It responds to all the methods in <code>NSCell</code>, such as <code>setText:</code> and the set value methods. Additionally, we can find out if it is a leaf using the <code>-isLeaf</code> method, and set whether or not it is a leaf using the <code>-setLeaf:</code> method.
+</p>
+<p>You can set whether the browser cell is selected using the <code>-set</code> method, and reset it using the <code>-reset</code> method. A cell shows that it is selected (or &quot;set&quot;) when it is highlighted.
+</p>
+</div>
+<div class="section" id="Browser-Methods">
+<h3 class="section">12.2 Browser Methods</h3>
+
+<p>Browsers provide a number of methods used for customising their behaviour, setting their data and getting information about their state.
+</p>
+<p>The path to the currently selected item (as described above) can be found using the <code>-path</code> method. You can find out the path leading upto a column with the <code>-pathToColumn:</code> method. An easy way of setting the current path is the <code>-setPath:</code> operator.
+</p>
+<p>You can customize the appearance of a browser and it&rsquo;s columns in various ways. Use <code>-setSeparatesColumns:</code> to have each column drawn in a separate pane. <code>-setTakesTitleFromPreviousColumn:</code> has it take the title displayed in the current column from the cell selected in the previous column, while <code>-setTitle:ofColumn:</code> allows you to set a column title directly. <code>-setTitled:</code> changes whether column titles are displayed at all.
+</p>
+<p>The types of operations permitted by the user can be changed as well. <code>-setAllowsMultipleSelection:</code> can be used to allow multiple selection, while <code>-setAllowsEmptySelection:</code> can be used to permit nothing to be selected. Use <code>-setAllowsBranchSelection:</code> to allow multiple branches to be selected when in multiple selection mode.
+</p>
+<p>The first and last column visible in the browser is found via the <code>-firstVisibleColumn</code> and <code>-lastVisibleColumn</code> respectively.
+</p>
+</div>
+<div class="section" id="Browser-Delegate">
+<h3 class="section">12.3 Browser Delegate</h3>
+
+<span id="index-browsers_002c-delegate"></span>
+<span id="index-protocols_002c-NSBrowserDelegate"></span>
+<span id="index-defintiion_002c-active-and-passive-delegates"></span>
+<p>The delegate for a browser is used to gather it&rsquo;s data. It can be optionally <em>passive</em> or <em>active</em>, the difference being that active delegates instantiate the browser cell&rsquo;s themselves, whilst passive delegates leave this to <code>NSBrowser</code>. As a result, you can only implement one or the other subset of methods in <code>NSBrowserDelegate</code> informal protocol..
+</p>
+<p>A <em>passive</em> delegate must implement the <code>-browser:numberOfRowsInColumn:</code>, returning the number of rows to appear in the specified column number. On the other hand, <em>active</em> delegates must implement <code>-browser:createRowsForColumn:inMatrix:</code> and create the cells for that column proactively. You can only implement one of these methods; not both.
+</p>
+<p>All browser delegates can implement <code>-browser:willDisplayCell:atRow:column:</code>, a method called by the browser object before a particular cell is displayed so that the delegate can set up its properties. This method is a must for passive delegates. Another method that should be implemented is <code>-browser:selectRow:inColumn:</code>, as it is the delegate&rsquo;s responsibility to select cells (often by calling <code>-set</code> on the corresponding <code>NSBrowserCell</code> object). This method returns whether or not the cell was selected.
+</p>
+<p>You can optionally implement a number of other delegate methods if you wish. <code>-browser:titleOfColumn:</code> is called to get the title for a certain column, returned as a string, before the column is drawn.
+</p>
+<p>Keeping track of when the browser scrolls can be accomplished by implementing the <code>-browserWillScroll:</code> and/or the <code>-browserDidScroll:</code> methods. You can also specify to the browser whether or not columns are &quot;valid&quot; by implementing the <code>-browser:isColumnValid:</code> method. This is called by the browser in response to its <code>-validateVisibleColumn:</code> method, which checks whether a column is invalid and needs redrawing.
+</p>
+
+</div>
+</div>
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h5><a id="FOOT15" href="#DOCF15">(15)</a></h5>
+<p>Note that GWorkspace customises it&rsquo;s browser controls significantly</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="dataexchange.html">Data Exchange</a>, Previous: <a href="matrix.html">Matrix Controls</a>, Up: <a href="index.html">Using the GNUstep AppKit</a> &nbsp; [<a href="conceptindex.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

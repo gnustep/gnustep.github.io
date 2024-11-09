@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- (C) 2005-2006 Christopher Armstrong.
+
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2, as published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included in the section entitled "GNU Free Documentation License".
+
+This documentation is provided on an "AS IS" BASIS, WITHOUT WARRANTY
+OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED
+TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND USEFULNESS
+OF THE DOCUMENTATION IS WITH YOU (THE LICENSEE). IN NO EVENT WILL THE COPYRIGHT
+HOLDERS BE LIABLE FOR DAMAGES, INCLUDING ANY DIRECT, INDIRECT,
+SPECIAL, GENERAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF
+THE USE OR INABILITY TO USE THIS DOCUMENTATION (INCLUDING BUT NOT
+LIMITED TO LOSS OF DATA, USE, OR PROFITS; PROCUREMENT OF SUBSTITUTE
+GOODS AND SERVICES; OR BUSINESS INTERUPTION) HOWEVER CAUSED, EVEN
+IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. -->
+<title>tableview (Using the GNUstep AppKit 0.1)</title>
+
+<meta name="description" content="tableview (Using the GNUstep AppKit 0.1)">
+<meta name="keywords" content="tableview (Using the GNUstep AppKit 0.1)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="conceptindex.html" rel="index" title="conceptindex">
+<link href="index.html" rel="up" title="Top">
+<link href="outlineviews.html" rel="next" title="outlineviews">
+<link href="eventhandling.html" rel="prev" title="eventhandling">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="chapter" id="tableview">
+<div class="header">
+<p>
+Next: <a href="outlineviews.html" accesskey="n" rel="next">Outline Views</a>, Previous: <a href="eventhandling.html" accesskey="p" rel="prev">Event handling</a>, Up: <a href="index.html" accesskey="u" rel="up">Using the GNUstep AppKit</a> &nbsp; [<a href="conceptindex.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Tableviews-1"></span><h2 class="chapter">9 Tableviews</h2>
+<span id="Tableviews"></span><span id="index-tableview_002c-definition"></span>
+<span id="index-controls_002c-tableviews"></span>
+<p>A tableview is a grid of rows and columns for the display of data. In the AppKit, you use the <code>NSTableView</code> class to put a tableview in your application.
+</p>
+<p>Gorm already has a palette set up for a tableview, that you can simply drag and drop onto your application window (refer to the sections on Gorm and the Gorm manual).
+</p>
+<p>More involved, however, is getting data into your tableview and responding to certain tableview specific events. Both of these are implemented using objects that respond to certain protocols, as described below.
+</p>
+<ul class="section-toc">
+<li><a href="#Columns" accesskey="1">Columns</a></li>
+<li><a href="#Supplying-Data" accesskey="2">Supplying Data</a></li>
+<li><a href="#Delegates" accesskey="3">Delegates</a></li>
+<li><a href="#Notifications" accesskey="4">Notifications</a></li>
+</ul>
+<div class="section" id="Columns">
+<h3 class="section">9.1 Columns</h3>
+<span id="index-tableview_002c-columns"></span>
+<p>Instead of taking an array oriented model of a table, the <code>NSTableView</code> class uses a column-oriented model, where columns are used as objects of separate classes, <code>NSTableColumn</code>. 
+</p>
+<p>These can be instantiated with the <code>-initWithIdentifier:</code> method, where the identifier is an internal object, not displayed, used by the data source (see below) to identify what column data should be placed in. You can retrieve the table column&rsquo;s identifier from the <code>-identifier</code> method.
+</p>
+<p>This column-oriented model for displaying data makes tableviews useful for information originating from a database, where columns are akin to fields, and each row represents a record in a table or query.
+</p>
+<p>FIXME: How do you initialize a table&rsquo;s column&rsquo;s and it&rsquo;s identifiers when a nib is loaded. Do you use one of it&rsquo;s delegates methods to set all this stuff up?
+</p>
+</div>
+<div class="section" id="Supplying-Data">
+<h3 class="section">9.2 Supplying Data</h3>
+<span id="index-tableview_002c-data-source"></span>
+<p>When you first create your tableview, Gorm puts some example data into it for you. However, you will want to put in your own data. GNUstep uses a <em>data source</em> model, which means that you need to supply an object that will provide data for your table view.
+</p>
+<p>Firstly, you will need to connect the <code>dataSource</code> outlet of a tableview in Gorm to an instantiated object of a class. Create a class that will have it&rsquo;s objects provide data for your tableview(s), and instantiate it so that it appears as a <em>top level object</em> in the Objects pane.
+</p>
+<span id="index-protocols_002c-NSTableDataSource"></span>
+<p>Your object will need to implement an informal protocol to supply data to the tableview, namely the <code>NSTableDataSource</code> protocol (for more information on informal protocols, see the <cite>GNUstep Base Programming Manual</cite>).
+</p>
+<p>Most of the methods in this protocol are optional. The compulsory methods, however, are called quite often, so you should optimise them so that they run as fast as possible.
+</p>
+<p>The <code>-numberOfRowsInTableView:</code> method is called to determine how many rows are to be shown in your table view. This could change from time to time, and as the data in your table view changes, you will need to inform the <code>NSTableView</code> object that data has changed (usually via the <code>-update</code> method). When it performs it&rsquo;s update, it will use this method to determine how many rows to draw. This method is compulsory to implement, and your will experience errors if you don&rsquo;t implement it.
+</p>
+<p>Another compulsory method is the <code>-tableView:objectValueForTableColumn:row:</code>. This is used to get the data that the table view will put in it&rsquo;s cells. It will pass you the table column that the cell appears in, the cell&rsquo;s row, and the associated tableview. The method returns an object to be displayed in the relevant cell; this object is usually a string.
+</p>
+<p>Note that if the data to be displayed in a tableview changes, it has no way of knowing if and when it has changed. For this reason, you need to call <code>-update</code> manually on the tableview to force it to redisplay. Only then will it again invoke the methods above on your data source.
+</p>
+<p>If you want your tableview to be editable, you will need to implement the <code>-tableView:setObjectValue: forTableColumn:row:</code> method. You use this to update your internal representation of what is displayed in the table view to the user.
+</p>
+<p>Both these methods supply a reference to a tableview as well, so the same object (or objects of the same class) can be used as a data source for more than one tableview (e.g. across many documents, or for many tables in a database).
+</p>
+<p>You can setup your tableview to accept drop operations. It must implement <code>-tableView:writeRows:toPasteboard:</code>. This method is called first, and is asking you to write the data in the specified rows to the specified pasteboard. This method should return <var>YES</var> to authorise the drop, or <var>NO</var> to reject it.
+More methods that can be implemented to provide information to the tableview during a drop operation include <code>-tableView:acceptDrop:row:dropOperation:</code> and <code>-tableView:validateDrop: proposedRow:proposedDropOperation:</code> methods. These are used to validate and accept drop operations, where the latter is called to validate a potential drop operation, the former just before a validated drop operation is about to take place. 
+</p>
+<p>If the data in your data source changes for any reason, e.g. the action of a user, you must notify the tableview. You could do this by calling <code>-reloadData</code> on the tableview object, which you can reference by an outlet on your application&rsquo;s controller class (or otherwise).
+</p>
+</div>
+<div class="section" id="Delegates">
+<h3 class="section">9.3 Delegates</h3>
+<span id="index-tableview_002c-delegates"></span>
+<span id="index-protocols_002c-NSTableViewDelegate"></span>
+<p>Tableviews support a delegate for catching certain events in the lifetime of an <code>NSTableView</code> object. You will need to implement the informal <code>NSTableViewDelegate</code> protocol. This is different from the data source - you implement a delegate if you wish to catch tableview specific events created by the user.
+</p>
+</div>
+<div class="section" id="Notifications">
+<h3 class="section">9.4 Notifications</h3>
+
+<p>A tableview many post notifications to indicate changes to it (that otherwise are not sent to the delegate) such as user selection changes or the reordering of columns or rows.
+</p>
+
+</div>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="outlineviews.html">Outline Views</a>, Previous: <a href="eventhandling.html">Event handling</a>, Up: <a href="index.html">Using the GNUstep AppKit</a> &nbsp; [<a href="conceptindex.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,4161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>NSString class reference</title>
+    <style type="text/css">
+    hr.method-separator { width:25%; margin-left:0; }
+    </style>
+  </head>
+  <body>
+    <a href="Base.html">Up</a>
+    <br />
+    <h1><a name="title$NSString">NSString class reference</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Andrew Kachites McCallum (<a href="mailto:mccallum@gnu.ai.mit.edu"><code>mccallum@gnu.ai.mit.edu</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Date:</b> Generated at 2024-11-07 16:52:01 -0500</p>
+    <p><b>Copyright:</b> (C) 1995-2012 Free Software Foundation, Inc.</p>
+
+        <div>
+      <hr width="50%" align="left" />
+      <h3>Contents -</h3>
+      <ol>
+        <li>
+          <a href="#001000000000">Portable path handling</a>
+        </li>
+        <li>
+          <a href="#002000000000">Software documentation for the NSMutableString class</a>
+        </li>
+        <li>
+          <a href="#003000000000">Software documentation for the NSString class</a>
+        </li>
+        <li>
+          <a href="#004000000000">Software documentation for the NXConstantString class</a>
+        </li>
+      </ol>
+      <hr width="50%" align="left" />
+    </div>
+
+          <h1><a name="001000000000">Portable path handling</a></h1>
+    <p>
+
+        Portable path handling (across both unix-like and
+        mswindows operating systems) requires some care. A
+        modern operating system uses the concept of a single
+        root to the filesystem, but mswindows has multiple
+        filesystems with no common root, so code must be
+        aware of this. There is also the more minor issue that
+        windows often uses a backslash as a separator between
+        the components of a path and unix-like systems always use
+        forward slash. <br/> On windows there is also the
+        issue that two styles of path are used, most commonly
+        with a drive letter and a path on that drive (eg.
+        &apos;C:\directory\file&apos;) but also UNC paths
+        (eg. &apos;//host/share/directory/file&apos;) so path handling
+        functions must deal with both formats.
+          </p>
+    <p>
+
+        GNUstep has three path handling modes, &apos;gnustep&apos;,
+        &apos;unix&apos;, and &apos;windows&apos;. The mode defaults to &apos;gnustep&apos;
+        but may be set using the
+        
+          GSPathHandling()
+        
+
+        function. <br/> You should probably stick to using
+        the default &apos;gnustep&apos; mode in which the path handling
+        methods cope with both &apos;unix&apos; and &apos;windows&apos; style paths
+        in portable and tolerant manner: <br/> Paths are read in
+        literally so they can be in the native format
+        provided by the operating system or in a non-native
+        format. See
+        <a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-stringWithFileSystemRepresentation$length$">[NSFileManager -stringWithFileSystemRepresentation:length:]</a>
+. <br/> Paths are written out using the native format of the system the application is running on (eg on windows slashes are converted to backslashes). See <a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-fileSystemRepresentationWithPath$">[NSFileManager -fileSystemRepresentationWithPath:]</a>
+. <br/> The path handling methods accept either a forward or backward slash as a path separator when parsing any path. <br/> Unless operating in &apos;unix&apos; mode, a leading letter followed by a colon is considered the start of a windows style path (the drive specifier), and a path beginning with something of the form &apos;//host/share/&apos; is considered the start of a UNC style path. <br/> The path handling methods add forward slashes when building new paths internally or when standardising paths, so those path strings provide a portable representation (as <strong>long</strong> as they are relative paths, not including system specific roots). <br/> An important case to note is that on windows a path which looks at first glance like an absolute path may actually be a relative one. <br/> &apos;C:file&apos; is a relative path because it specifies a file on the C drive but does not say what directory it is in. <br/> Similarly, &apos;/dir/file&apos; is a relative path because it specifies the full location fo a file on a drive, but does not specify which drive it is on.
+          </p>
+    <p>
+
+        As a consequence of this path handling, you are able to work
+        completely portably using relative paths (adding
+        components, extensions and relative paths to a pth,
+        or removing components, extensions and relative paths from a
+        path etc), and when you save paths as strings in files
+        which may be transferred to another platform, you should
+        save a relative path. <br/> When you need to know
+        absolute paths of various points in the filesystem,
+        you can use various path utility functions to obtain those
+        absolute paths. For instance, instead of saving an
+        absolute path to a file, you might want to save a path
+        relative to a user&apos;s home directory. You could do that
+        by calling
+        <a rel="gsdoc" href="Functions.html#function$NSHomeDirectory">
+          NSHomeDirectory()
+        </a>
+
+        to get the home directory, and only saving the part of the
+        full path after that prefix.
+          </p>
+
+          <h1><a name="002000000000">
+        Software documentation for the NSMutableString class
+      </a></h1>
+    <h2 class="class"><a name="class$NSMutableString">NSMutableString</a> : <a rel="gsdoc" href="#class$NSString">NSString</a></h2>
+<svg width="223pt" height="116pt"
+ viewBox="0.00 0.00 223.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>class_NSMutableString</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 219,-112 219,4 -4,4"/>
+<!-- NSString -->
+<g id="node1" class="node">
+<title>NSString</title>
+<g id="a_node1"><a xlink:href="#class$NSString" xlink:title="NSString">
+<polygon fill="lightgrey" stroke="black" points="164,-108 51,-108 51,-72 164,-72 164,-108"/>
+<text text-anchor="middle" x="107.5" y="-83.8" font-family="Times,serif" font-size="24.00" fill="blue">NSString</text>
+</a>
+</g>
+</g>
+<!-- NSMutableString -->
+<g id="node2" class="node">
+<title>NSMutableString</title>
+<polygon fill="lightgrey" stroke="black" points="215,-36 0,-36 0,0 215,0 215,-36"/>
+<text text-anchor="middle" x="107.5" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">NSMutableString</text>
+</g>
+<!-- NSString&#45;&gt;NSMutableString -->
+<g id="edge1" class="edge">
+<title>NSString&#45;&gt;NSMutableString</title>
+<path fill="none" stroke="black" d="M107.5,-71.7C107.5,-63.98 107.5,-54.71 107.5,-46.11"/>
+<polygon fill="black" stroke="black" points="111,-46.1 107.5,-36.1 104,-46.1 111,-46.1"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSString.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          This is the mutable form of the
+          <a rel="gsdoc" href="#class$NSString">NSString</a>
+
+            class.
+        
+    </div>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSString.html#method$NSMutableString+string">+string</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSMutableString+stringWithCString$">+stringWithCString:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSMutableString+stringWithCString$length$">+stringWithCString:length:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSMutableString+stringWithCapacity$">+stringWithCapacity:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSMutableString+stringWithCharacters$length$">+stringWithCharacters:length:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSMutableString+stringWithContentsOfFile$">+stringWithContentsOfFile:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSMutableString+stringWithFormat$,...">+stringWithFormat:,...</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSMutableString-appendFormat$,...">-appendFormat:,...</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSMutableString-appendString$">-appendString:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSMutableString-deleteCharactersInRange$">-deleteCharactersInRange:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSMutableString-initWithCapacity$">-initWithCapacity:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSMutableString-insertString$atIndex$">-insertString:atIndex:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSMutableString-replaceCharactersInRange$withString$">-replaceCharactersInRange:withString:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSMutableString-replaceOccurrencesOfString$withString$options$range$">-replaceOccurrencesOfString:withString:options:range:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSMutableString-setString$">-setString:</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSMutableString+string">string&nbsp;</a></h3>
+    + (instancetype) <b>string</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Constructs an empty string.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableString+stringWithCString$">stringWithCString:&nbsp;</a></h3>
+    + (instancetype) <b>stringWithCString:</b> (const char*)byteString;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Create a string based on the given C (char[])
+            string, which should be null-terminated and encoded
+            in the default C string encoding. (Characters will be
+            converted to unicode representation internally.)
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableString+stringWithCString$length$">stringWithCString:&nbsp;length:&nbsp;</a></h3>
+    + (instancetype) <b>stringWithCString:</b> (const char*)byteString<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)length;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Create a string based on the given C (char[])
+            string, which may contain null bytes and should be
+            encoded in the default C string encoding.
+            (Characters will be converted to unicode
+            representation internally.)
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableString+stringWithCapacity$">stringWithCapacity:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSMutableString">NSMutableString</a>*) <b>stringWithCapacity:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)capacity;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Constructs an empty string with initial buffer
+            size of <var>capacity</var>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableString+stringWithCharacters$length$">stringWithCharacters:&nbsp;length:&nbsp;</a></h3>
+    + (instancetype) <b>stringWithCharacters:</b> (const <a rel="gsdoc" href="TypesAndConstants.html#type$unichar">unichar</a>*)characters<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)length;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Create a string of unicode <var>characters</var>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableString+stringWithContentsOfFile$">stringWithContentsOfFile:&nbsp;</a></h3>
+    + (instancetype) <b>stringWithContentsOfFile:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)path;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Load contents of file at <var>path</var> into a new
+            string. Will interpret file as containing direct
+            unicode if it begins with the unicode byte order
+            mark, else converts to unicode using default C string
+            encoding.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableString+stringWithFormat$,...">stringWithFormat:&nbsp;,...</a></h3>
+    + (instancetype) <b>stringWithFormat:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)format<b>,...</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Creates a new string using C printf-style
+            formatting. First argument should be a constant
+            <var>format</var> string, like &apos;
+            <code>@&quot;float val = %f&quot;</code> &apos;, remaining
+            arguments should be the variables to print the
+            values of, comma-separated.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableString-appendFormat$,...">appendFormat:&nbsp;,...</a></h3>
+    - (void) <b>appendFormat:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)format<b>,...</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Modifies this string by appending string described
+            by given <var>format</var>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableString-appendString$">appendString:&nbsp;</a></h3>
+    - (void) <b>appendString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)aString;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Modifies this string by appending
+            <var>aString</var>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableString-deleteCharactersInRange$">deleteCharactersInRange:&nbsp;</a></h3>
+    - (void) <b>deleteCharactersInRange:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)range;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Modifies this instance by deleting specified
+            <var>range</var> of characters.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableString-initWithCapacity$">initWithCapacity:&nbsp;</a></h3>
+    - (instancetype) <b>initWithCapacity:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)capacity;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+This is a designated initialiser for the class.<br />
+Subclasses <strong>must</strong> override this method.<br />
+    <div class="desc">
+      
+            Constructs an empty string with initial buffer
+            size of <var>capacity</var>. <br/> Calls
+            <a rel="gsdoc" href="#method$NSString-init">
+              -init
+            </a>
+
+            (which does nothing but maintain MacOS-X
+            compatibility), and needs to be
+            re-implemented in subclasses in order to
+            have all other initialisers work.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableString-insertString$atIndex$">insertString:&nbsp;atIndex:&nbsp;</a></h3>
+    - (void) <b>insertString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)aString<b> atIndex:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)loc;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Modifies this instance by inserting
+            <var>aString</var> at <var>loc</var>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableString-replaceCharactersInRange$withString$">replaceCharactersInRange:&nbsp;withString:&nbsp;</a></h3>
+    - (void) <b>replaceCharactersInRange:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)range<b> withString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)aString;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Modifies this instance by deleting characters in
+            <var>range</var> and then inserting
+            <var>aString</var> at its beginning.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableString-replaceOccurrencesOfString$withString$options$range$">replaceOccurrencesOfString:&nbsp;withString:&nbsp;options:&nbsp;range:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>replaceOccurrencesOfString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)replace<b> withString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)by<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)opts<b> range:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)searchRange;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Replaces all occurrences of the <var>replace</var>
+            string with the <var>by</var> string, for those
+            cases where the entire <var>replace</var> string lies
+            within the specified <var>searchRange</var> value.
+            <br/> The value of <var>opts</var> determines the
+            direction of the search is and whether only
+            leading/trailing occurrences (anchored
+            search) of <var>replace</var> are substituted.
+            <br/> Raises NSInvalidArgumentException if either
+            string argument is <code>nil</code>. <br/> Raises
+            NSRangeException if part of
+            <var>searchRange</var> is beyond the end of the
+            receiver.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSMutableString-setString$">setString:&nbsp;</a></h3>
+    - (void) <b>setString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)aString;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Modifies this instance by replacing contents with
+            those of <var>aString</var>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+
+          <h1><a name="003000000000">
+        Software documentation for the NSString class
+      </a></h1>
+    <h2 class="class"><a name="class$NSString">NSString</a> : <a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a></h2>
+<svg width="995pt" height="122pt"
+ viewBox="0.00 0.00 994.86 122.46" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 118.46)">
+<title>class_NSString</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-118.46 990.86,-118.46 990.86,4 -4,4"/>
+<!-- NSObject -->
+<g id="node1" class="node">
+<title>NSObject</title>
+<g id="a_node1"><a xlink:href="NSObject.html#class$NSObject" xlink:title="NSObject">
+<polygon fill="lightgrey" stroke="black" points="118,-111.23 0,-111.23 0,-75.23 118,-75.23 118,-111.23"/>
+<text text-anchor="middle" x="59" y="-87.03" font-family="Times,serif" font-size="24.00" fill="blue">NSObject</text>
+</a>
+</g>
+</g>
+<!-- NSString -->
+<g id="node2" class="node">
+<title>NSString</title>
+<polygon fill="lightgrey" stroke="black" points="543.5,-36 430.5,-36 430.5,0 543.5,0 543.5,-36"/>
+<text text-anchor="middle" x="487" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">NSString</text>
+</g>
+<!-- NSObject&#45;&gt;NSString -->
+<g id="edge1" class="edge">
+<title>NSObject&#45;&gt;NSString</title>
+<path fill="none" stroke="black" d="M113.75,-75.21C118.21,-74.05 122.67,-72.96 127,-72 228.12,-49.64 347.36,-34.18 420.05,-25.96"/>
+<polygon fill="black" stroke="black" points="420.88,-29.39 430.43,-24.8 420.1,-22.43 420.88,-29.39"/>
+</g>
+<!-- p_NSMutableCopying -->
+<g id="node3" class="node">
+<title>p_NSMutableCopying</title>
+<g id="a_node3"><a xlink:href="NSObject.html#protocol$(NSMutableCopying)" xlink:title="NSMutableCopying">
+<polygon fill="lightgrey" stroke="black" points="524.15,-93.23 427.08,-114.69 232.92,-114.69 135.85,-93.23 232.92,-71.77 427.08,-71.77 524.15,-93.23"/>
+<text text-anchor="middle" x="330" y="-87.03" font-family="Times,serif" font-size="24.00" fill="blue">NSMutableCopying</text>
+</a>
+</g>
+</g>
+<!-- p_NSMutableCopying&#45;&gt;NSString -->
+<g id="edge4" class="edge">
+<title>p_NSMutableCopying&#45;&gt;NSString</title>
+<path fill="none" stroke="black" d="M373.73,-71.83C394.76,-62.02 419.95,-50.27 441.23,-40.35"/>
+<polygon fill="black" stroke="black" points="442.81,-43.47 450.4,-36.07 439.86,-37.13 442.81,-43.47"/>
+</g>
+<!-- p_NSCoding -->
+<g id="node4" class="node">
+<title>p_NSCoding</title>
+<g id="a_node4"><a xlink:href="NSObject.html#protocol$(NSCoding)" xlink:title="NSCoding">
+<polygon fill="lightgrey" stroke="black" points="745.49,-93.23 694.75,-114.69 593.25,-114.69 542.51,-93.23 593.25,-71.77 694.75,-71.77 745.49,-93.23"/>
+<text text-anchor="middle" x="644" y="-87.03" font-family="Times,serif" font-size="24.00" fill="blue">NSCoding</text>
+</a>
+</g>
+</g>
+<!-- p_NSCoding&#45;&gt;NSString -->
+<g id="edge2" class="edge">
+<title>p_NSCoding&#45;&gt;NSString</title>
+<path fill="none" stroke="black" d="M600.27,-71.83C579.24,-62.02 554.05,-50.27 532.77,-40.35"/>
+<polygon fill="black" stroke="black" points="534.14,-37.13 523.6,-36.07 531.19,-43.47 534.14,-37.13"/>
+</g>
+<!-- p_NSCopying -->
+<g id="node5" class="node">
+<title>p_NSCopying</title>
+<g id="a_node5"><a xlink:href="NSObject.html#protocol$(NSCopying)" xlink:title="NSCopying">
+<polygon fill="lightgrey" stroke="black" points="986.72,-93.23 930.86,-114.69 819.14,-114.69 763.28,-93.23 819.14,-71.77 930.86,-71.77 986.72,-93.23"/>
+<text text-anchor="middle" x="875" y="-87.03" font-family="Times,serif" font-size="24.00" fill="blue">NSCopying</text>
+</a>
+</g>
+</g>
+<!-- p_NSCopying&#45;&gt;NSString -->
+<g id="edge3" class="edge">
+<title>p_NSCopying&#45;&gt;NSString</title>
+<path fill="none" stroke="black" d="M801.56,-78.37C730.16,-64.89 622.65,-44.6 553.65,-31.58"/>
+<polygon fill="black" stroke="black" points="554.23,-28.13 543.76,-29.71 552.93,-35.01 554.23,-28.13"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSString.h</dd>
+      </dl>
+    </blockquote>
+    <blockquote>
+      <dl>
+        <dt><b>Conforms to:</b></dt>
+        <dd><a rel="gsdoc" href="NSObject.html#protocol$(NSCoding)">NSCoding</a></dd>
+        <dd><a rel="gsdoc" href="NSObject.html#protocol$(NSCopying)">NSCopying</a></dd>
+        <dd><a rel="gsdoc" href="NSObject.html#protocol$(NSMutableCopying)">NSMutableCopying</a></dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            <code>NSString</code> objects represent an immutable
+            string of Unicode 3.0 characters. These may be
+            accessed individually as type
+            <code><strong>unichar</strong></code>, an
+            <strong>unsigned</strong> <strong>short</strong>.
+            <br/> The
+            <a rel="gsdoc" href="#class$NSMutableString">NSMutableString</a>
+subclass represents a modifiable string. Both are implemented as part of a class cluster and the instances you receive may actually be of unspecified concrete subclasses.    </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              A constant <code>NSString</code> can be created using
+              the following syntax: <code>@&quot;...&quot;</code>, where the
+              contents of the quotes are the string, using
+              only ASCII characters.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              A variable string can be created using a C printf-like
+              <em>format</em>, as in
+              <code>
+                [NSString stringWithFormat: @&quot;Total is %f&quot;,
+                t]
+              </code>
+              .
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              To create a concrete subclass of <code>NSString</code>
+              , you must have your class inherit from
+              <code>NSString</code> and override at least the
+              two primitive methods -
+              <a rel="gsdoc" href="#method$NSString-length">
+                -length
+              </a>
+
+              and
+              <a rel="gsdoc" href="#method$NSString-characterAtIndex$">
+                -characterAtIndex:
+              </a>
+
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              In general the rule is that your subclass must
+              override any initialiser that you want to use
+              with it. The GNUstep implementation relaxes that to
+              say that, you may override only the
+              <em>designated initialiser</em> and the other
+              initialisation methods should work.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Where an NSString instance method returns an
+              NSString object, the class of the actual object
+              returned may be any subclass of NSString. The
+              actual value returned may be a new autoreleased
+              object, an autoreleased copy of the receiver, or
+              the receiver itsself. While the abstract base class
+              implementations of methods (other than
+              initialisers) will avoid returning mutable
+              strings by returning an autoreleased copy of a
+              mutable receiver, concrete subclasses may behave
+              differently, so code should not rely upon
+              the mutability of returned strings nor upon their
+              lifetime being greater than that of the receiver
+              which returned them.
+                </p>
+    <p>
+      
+        
+    </div>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSLinguisticTagger.html#method$NSString(NSLinguisticAnalysis)-enumerateLinguisticTagsInRange$scheme$options$orthography$usingBlock$">-enumerateLinguisticTagsInRange:scheme:options:orthography:usingBlock:</a></li>
+      <li><a rel="gsdoc" href="NSLinguisticTagger.html#method$NSString(NSLinguisticAnalysis)-linguisticTagsInRange$scheme$options$orthography$tokenRanges$">-linguisticTagsInRange:scheme:options:orthography:tokenRanges:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString+availableStringEncodings">+availableStringEncodings</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString+constantStringClass">+constantStringClass</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString+defaultCStringEncoding">+defaultCStringEncoding</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString+localizedNameOfStringEncoding$">+localizedNameOfStringEncoding:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString+localizedStringWithFormat$,...">+localizedStringWithFormat:,...</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString+pathWithComponents$">+pathWithComponents:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString+string">+string</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString+stringWithCString$">+stringWithCString:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString+stringWithCString$encoding$">+stringWithCString:encoding:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString+stringWithCString$length$">+stringWithCString:length:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString+stringWithCharacters$length$">+stringWithCharacters:length:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString+stringWithContentsOfFile$">+stringWithContentsOfFile:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString+stringWithContentsOfFile$encoding$error$">+stringWithContentsOfFile:encoding:error:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString+stringWithContentsOfFile$usedEncoding$error$">+stringWithContentsOfFile:usedEncoding:error:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString+stringWithContentsOfURL$">+stringWithContentsOfURL:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString+stringWithContentsOfURL$encoding$error$">+stringWithContentsOfURL:encoding:error:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString+stringWithContentsOfURL$usedEncoding$error$">+stringWithContentsOfURL:usedEncoding:error:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString+stringWithFormat$,...">+stringWithFormat:,...</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString+stringWithString$">+stringWithString:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString+stringWithUTF8String$">+stringWithUTF8String:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-UTF8String">-UTF8String</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-_baseLength">-_baseLength</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-boolValue">-boolValue</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-cString">-cString</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-cStringLength">-cStringLength</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-cStringUsingEncoding$">-cStringUsingEncoding:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-canBeConvertedToEncoding$">-canBeConvertedToEncoding:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-capitalizedString">-capitalizedString</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-caseInsensitiveCompare$">-caseInsensitiveCompare:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-characterAtIndex$">-characterAtIndex:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-commonPrefixWithString$options$">-commonPrefixWithString:options:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-compare$">-compare:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-compare$options$">-compare:options:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-compare$options$range$">-compare:options:range:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-compare$options$range$locale$">-compare:options:range:locale:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-completePathIntoString$caseSensitive$matchesIntoArray$filterTypes$">-completePathIntoString:caseSensitive:matchesIntoArray:filterTypes:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-componentsSeparatedByCharactersInSet$">-componentsSeparatedByCharactersInSet:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-componentsSeparatedByString$">-componentsSeparatedByString:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-containsString$">-containsString:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-dataUsingEncoding$">-dataUsingEncoding:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-dataUsingEncoding$allowLossyConversion$">-dataUsingEncoding:allowLossyConversion:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-decomposedStringWithCanonicalMapping">-decomposedStringWithCanonicalMapping</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-decomposedStringWithCompatibilityMapping">-decomposedStringWithCompatibilityMapping</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-description">-description</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-doubleValue">-doubleValue</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-enumerateLinesUsingBlock$">-enumerateLinesUsingBlock:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-enumerateSubstringsInRange$options$usingBlock$">-enumerateSubstringsInRange:options:usingBlock:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-fastestEncoding">-fastestEncoding</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-fileSystemRepresentation">-fileSystemRepresentation</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-floatValue">-floatValue</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-getCString$">-getCString:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-getCString$maxLength$">-getCString:maxLength:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-getCString$maxLength$encoding$">-getCString:maxLength:encoding:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-getCString$maxLength$range$remainingRange$">-getCString:maxLength:range:remainingRange:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-getCharacters$">-getCharacters:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-getCharacters$range$">-getCharacters:range:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-getFileSystemRepresentation$maxLength$">-getFileSystemRepresentation:maxLength:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-getLineStart$end$contentsEnd$forRange$">-getLineStart:end:contentsEnd:forRange:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-getParagraphStart$end$contentsEnd$forRange$">-getParagraphStart:end:contentsEnd:forRange:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-hasPrefix$">-hasPrefix:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-hasSuffix$">-hasSuffix:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-hash">-hash</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-init">-init</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-initWithBytes$length$encoding$">-initWithBytes:length:encoding:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-initWithBytesNoCopy$length$encoding$freeWhenDone$">-initWithBytesNoCopy:length:encoding:freeWhenDone:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-initWithCString$">-initWithCString:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-initWithCString$encoding$">-initWithCString:encoding:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-initWithCString$length$">-initWithCString:length:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-initWithCStringNoCopy$length$freeWhenDone$">-initWithCStringNoCopy:length:freeWhenDone:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-initWithCharacters$length$">-initWithCharacters:length:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-initWithCharactersNoCopy$length$freeWhenDone$">-initWithCharactersNoCopy:length:freeWhenDone:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-initWithContentsOfFile$">-initWithContentsOfFile:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-initWithContentsOfFile$encoding$error$">-initWithContentsOfFile:encoding:error:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-initWithContentsOfFile$usedEncoding$error$">-initWithContentsOfFile:usedEncoding:error:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-initWithContentsOfURL$">-initWithContentsOfURL:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-initWithContentsOfURL$encoding$error$">-initWithContentsOfURL:encoding:error:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-initWithContentsOfURL$usedEncoding$error$">-initWithContentsOfURL:usedEncoding:error:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-initWithData$encoding$">-initWithData:encoding:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-initWithFormat$,...">-initWithFormat:,...</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-initWithFormat$arguments$">-initWithFormat:arguments:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-initWithFormat$locale$,...">-initWithFormat:locale:,...</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-initWithFormat$locale$arguments$">-initWithFormat:locale:arguments:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-initWithString$">-initWithString:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-initWithUTF8String$">-initWithUTF8String:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-intValue">-intValue</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-integerValue">-integerValue</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-isAbsolutePath">-isAbsolutePath</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-isEqual$">-isEqual:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-isEqualToString$">-isEqualToString:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-lastPathComponent">-lastPathComponent</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-length">-length</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-lengthOfBytesUsingEncoding$">-lengthOfBytesUsingEncoding:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-lineRangeForRange$">-lineRangeForRange:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-localizedCaseInsensitiveCompare$">-localizedCaseInsensitiveCompare:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-localizedCompare$">-localizedCompare:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-longLongValue">-longLongValue</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-lossyCString">-lossyCString</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-lowercaseString">-lowercaseString</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-maximumLengthOfBytesUsingEncoding$">-maximumLengthOfBytesUsingEncoding:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-paragraphRangeForRange$">-paragraphRangeForRange:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-pathComponents">-pathComponents</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-pathExtension">-pathExtension</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-precomposedStringWithCanonicalMapping">-precomposedStringWithCanonicalMapping</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-precomposedStringWithCompatibilityMapping">-precomposedStringWithCompatibilityMapping</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-propertyList">-propertyList</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-propertyListFromStringsFileFormat">-propertyListFromStringsFileFormat</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-rangeOfCharacterFromSet$">-rangeOfCharacterFromSet:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-rangeOfCharacterFromSet$options$">-rangeOfCharacterFromSet:options:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-rangeOfCharacterFromSet$options$range$">-rangeOfCharacterFromSet:options:range:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-rangeOfComposedCharacterSequenceAtIndex$">-rangeOfComposedCharacterSequenceAtIndex:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-rangeOfComposedCharacterSequencesForRange$">-rangeOfComposedCharacterSequencesForRange:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-rangeOfString$">-rangeOfString:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-rangeOfString$options$">-rangeOfString:options:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-rangeOfString$options$range$">-rangeOfString:options:range:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-rangeOfString$options$range$locale$">-rangeOfString:options:range:locale:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-smallestEncoding">-smallestEncoding</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-stringByAbbreviatingWithTildeInPath">-stringByAbbreviatingWithTildeInPath</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-stringByAddingPercentEncodingWithAllowedCharacters$">-stringByAddingPercentEncodingWithAllowedCharacters:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-stringByAddingPercentEscapesUsingEncoding$">-stringByAddingPercentEscapesUsingEncoding:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-stringByAppendingFormat$,...">-stringByAppendingFormat:,...</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-stringByAppendingPathComponent$">-stringByAppendingPathComponent:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-stringByAppendingPathExtension$">-stringByAppendingPathExtension:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-stringByAppendingString$">-stringByAppendingString:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-stringByDeletingLastPathComponent">-stringByDeletingLastPathComponent</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-stringByDeletingPathExtension">-stringByDeletingPathExtension</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-stringByExpandingTildeInPath">-stringByExpandingTildeInPath</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-stringByPaddingToLength$withString$startingAtIndex$">-stringByPaddingToLength:withString:startingAtIndex:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-stringByRemovingPercentEncoding">-stringByRemovingPercentEncoding</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-stringByReplacingCharactersInRange$withString$">-stringByReplacingCharactersInRange:withString:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-stringByReplacingOccurrencesOfString$withString$">-stringByReplacingOccurrencesOfString:withString:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-stringByReplacingOccurrencesOfString$withString$options$range$">-stringByReplacingOccurrencesOfString:withString:options:range:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-stringByReplacingPercentEscapesUsingEncoding$">-stringByReplacingPercentEscapesUsingEncoding:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-stringByResolvingSymlinksInPath">-stringByResolvingSymlinksInPath</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-stringByStandardizingPath">-stringByStandardizingPath</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-stringByTrimmingCharactersInSet$">-stringByTrimmingCharactersInSet:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-stringsByAppendingPaths$">-stringsByAppendingPaths:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-substringFromIndex$">-substringFromIndex:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-substringToIndex$">-substringToIndex:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-substringWithRange$">-substringWithRange:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-uppercaseString">-uppercaseString</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-writeToFile$atomically$">-writeToFile:atomically:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-writeToFile$atomically$encoding$error$">-writeToFile:atomically:encoding:error:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-writeToURL$atomically$">-writeToURL:atomically:</a></li>
+      <li><a rel="gsdoc" href="NSString.html#method$NSString-writeToURL$atomically$encoding$error$">-writeToURL:atomically:encoding:error:</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSString+availableStringEncodings">availableStringEncodings&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>*) <b>availableStringEncodings</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns an array of all available string encodings,
+            terminated by a null value.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString+constantStringClass">constantStringClass&nbsp;</a></h3>
+    + (Class) <b>constantStringClass</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br />
+    <div class="desc">
+      
+            Return the class used to store constant strings
+            (those ascii strings placed in the source code using
+            the @&quot;this is a string&quot; syntax). <br/> Use this method
+            to obtain the constant string class rather than using
+            the obsolete name <em>NXConstantString</em> in your
+            code... with more recent compiler versions the name of
+            this class is variable (and will automatically be
+            changed by GNUstep to avoid conflicts with the
+            default implementation in the Objective-C runtime
+            library).
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString+defaultCStringEncoding">defaultCStringEncoding&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>) <b>defaultCStringEncoding</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Returns the encoding used for any method
+              accepting a C string. This value is determined
+              automatically from the program&apos;s
+              environment and cannot be changed
+              programmatically.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              You should <em>NOT</em> override this method in an
+              attempt to change the encoding being used... it
+              won&apos;t work.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              In GNUstep, this encoding is determined by the initial
+              value of the <code>GNUSTEP_STRING_ENCODING</code>
+              environment variable. If this is not defined,
+              <code>NSISOLatin1StringEncoding</code> is assumed.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString+localizedNameOfStringEncoding$">localizedNameOfStringEncoding:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>localizedNameOfStringEncoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>)encoding;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the localized name of the
+            <var>encoding</var> specified.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString+localizedStringWithFormat$,...">localizedStringWithFormat:&nbsp;,...</a></h3>
+    + (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>localizedStringWithFormat:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)format<b>,...</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns an autoreleased string with given
+            <var>format</var> using the default locale.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString+pathWithComponents$">pathWithComponents:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>pathWithComponents:</b> (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*)components;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Concatenates the path <var>components</var> in
+            the array and returns the result. <br/> This method
+            does not remove empty path <var>components</var>, but
+            does recognize an empty initial component as a special
+            case meaning that the string returned will begin with
+            a slash.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString+string">string&nbsp;</a></h3>
+    + (instancetype) <b>string</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Create an empty string.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString+stringWithCString$">stringWithCString:&nbsp;</a></h3>
+    + (instancetype) <b>stringWithCString:</b> (const char*)byteString;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Create a string based on the given C (char[])
+            string, which should be null-terminated and encoded
+            in the default C string encoding. (Characters will be
+            converted to unicode representation internally.)
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString+stringWithCString$encoding$">stringWithCString:&nbsp;encoding:&nbsp;</a></h3>
+    + (instancetype) <b>stringWithCString:</b> (const char*)byteString<b> encoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>)encoding;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0, Base 1.2.0</div>
+<br />
+    <div class="desc">
+      
+            Create a string based on the given C (char[])
+            string, which should be null-terminated and encoded
+            in the specified C string <var>encoding</var>.
+            Characters may be converted to unicode
+            representation internally.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString+stringWithCString$length$">stringWithCString:&nbsp;length:&nbsp;</a></h3>
+    + (instancetype) <b>stringWithCString:</b> (const char*)byteString<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)length;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Create a string based on the given C (char[])
+            string, which may contain null bytes and should be
+            encoded in the default C string encoding.
+            (Characters will be converted to unicode
+            representation internally.)
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString+stringWithCharacters$length$">stringWithCharacters:&nbsp;length:&nbsp;</a></h3>
+    + (instancetype) <b>stringWithCharacters:</b> (const <a rel="gsdoc" href="TypesAndConstants.html#type$unichar">unichar</a>*)chars<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)length;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Create a string of unicode characters.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString+stringWithContentsOfFile$">stringWithContentsOfFile:&nbsp;</a></h3>
+    + (instancetype) <b>stringWithContentsOfFile:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)path;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Load contents of file at <var>path</var> into a new
+            string. Will interpret file as containing direct
+            unicode if it begins with the unicode byte order
+            mark, else converts to unicode using default C string
+            encoding.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString+stringWithContentsOfFile$encoding$error$">stringWithContentsOfFile:&nbsp;encoding:&nbsp;error:&nbsp;</a></h3>
+    + (instancetype) <b>stringWithContentsOfFile:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)path<b> encoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>)enc<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            Load contents of file at <var>path</var> into a new
+            string using the
+            <a rel="gsdoc" href="#method$NSString-initWithContentsOfFile$encoding$error$">-initWithContentsOfFile:encoding:error:</a>
+ method.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString+stringWithContentsOfFile$usedEncoding$error$">stringWithContentsOfFile:&nbsp;usedEncoding:&nbsp;error:&nbsp;</a></h3>
+    + (instancetype) <b>stringWithContentsOfFile:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)path<b> usedEncoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>*)enc<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            Load contents of file at <var>path</var> into a new
+            string using the
+            <a rel="gsdoc" href="#method$NSString-initWithContentsOfFile$usedEncoding$error$">-initWithContentsOfFile:usedEncoding:error:</a>
+ method.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString+stringWithContentsOfURL$">stringWithContentsOfURL:&nbsp;</a></h3>
+    + (instancetype) <b>stringWithContentsOfURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)url;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Load contents of given URL into a new string. Will
+            interpret contents as containing direct unicode
+            if it begins with the unicode byte order mark, else
+            converts to unicode using default C string
+            encoding.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString+stringWithContentsOfURL$encoding$error$">stringWithContentsOfURL:&nbsp;encoding:&nbsp;error:&nbsp;</a></h3>
+    + (instancetype) <b>stringWithContentsOfURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)url<b> encoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>)enc<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString+stringWithContentsOfURL$usedEncoding$error$">stringWithContentsOfURL:&nbsp;usedEncoding:&nbsp;error:&nbsp;</a></h3>
+    + (instancetype) <b>stringWithContentsOfURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)url<b> usedEncoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>*)enc<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString+stringWithFormat$,...">stringWithFormat:&nbsp;,...</a></h3>
+    + (instancetype) <b>stringWithFormat:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)format<b>,...</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Creates a new string using C printf-style
+            formatting. First argument should be a constant
+            <var>format</var> string, like &apos;
+            <code>@&quot;float val = %f&quot;</code> &apos;, remaining
+            arguments should be the variables to print the
+            values of, comma-separated.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString+stringWithString$">stringWithString:&nbsp;</a></h3>
+    + (instancetype) <b>stringWithString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)aString;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Create a copy of <var>aString</var>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString+stringWithUTF8String$">stringWithUTF8String:&nbsp;</a></h3>
+    + (instancetype) <b>stringWithUTF8String:</b> (const char*)bytes;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Create a string based on the given UTF-8 string,
+            null-terminated. <br/> Raises
+            NSInvalidArgumentException if
+            given NULL pointer.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-UTF8String">UTF8String&nbsp;</a></h3>
+    - (const char*) <b>UTF8String</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns null-terminated UTF-8 version of this
+            unicode string. The char[] memory comes from an
+            autoreleased object, so it will eventually go
+            out of scope.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-_baseLength">_baseLength&nbsp;</a></h3>
+    - (int) <b>_baseLength</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-boolValue">boolValue&nbsp;</a></h3>
+    - (BOOL) <b>boolValue</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            Returns <code>YES</code> when scanning the
+            receiver&apos;s text from left to right finds an
+            initial digit in the range 1-9 or a letter in the
+            set (&apos;Y&apos;, &apos;y&apos;, &apos;T&apos;, &apos;t&apos;). <br/> Any trailing
+            characters are ignored. <br/> Any leading
+            whitespace or zeros or signs are also ignored.
+            <br/> Returns <code>NO</code> if the above
+            conditions are not met.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-cString">cString&nbsp;</a></h3>
+    - (const char*) <b>cString</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns a pointer to a null terminated string of
+            8-bit characters in the default encoding. The memory
+            pointed to is not owned by the caller, so the
+            caller must copy its contents to keep it. Raises an
+            <code>NSCharacterConversionException</code> if loss
+            of information would occur during conversion. (See
+            <a rel="gsdoc" href="#method$NSString-canBeConvertedToEncoding$">
+              -canBeConvertedToEncoding:
+            </a>
+
+            .)
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-cStringLength">cStringLength&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>cStringLength</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns length of a version of this unicode string
+            converted to bytes using the default C string
+            encoding. If the conversion would result in
+            information loss, the results are
+            unpredictable. Check
+            <a rel="gsdoc" href="#method$NSString-canBeConvertedToEncoding$">
+              -canBeConvertedToEncoding:
+            </a>
+
+            first.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-cStringUsingEncoding$">cStringUsingEncoding:&nbsp;</a></h3>
+    - (const char*) <b>cStringUsingEncoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>)encoding;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0, Base 1.2.0</div>
+<br />
+    <div class="desc">
+      
+            Returns a pointer to a null terminated string of
+            characters in the specified <var>encoding</var>.
+            <br/> NB. under GNUstep you can used this to obtain
+            a nul terminated utf-16 string (sixteen bit characters)
+            as well as eight bit strings. <br/> The memory pointed
+            to is not owned by the caller, so the caller must copy
+            its contents to keep it. <br/> Raises an
+            <code>NSCharacterConversionException</code> if loss
+            of information would occur during conversion.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-canBeConvertedToEncoding$">canBeConvertedToEncoding:&nbsp;</a></h3>
+    - (BOOL) <b>canBeConvertedToEncoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>)encoding;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns whether this string can be converted to the
+            given string <var>encoding</var> without information
+            loss.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-capitalizedString">capitalizedString&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>capitalizedString</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns version of string in which each
+            whitespace-delimited <em>word</em> is
+            capitalized (not every letter). Conversion to
+            capitals is done in a unicode-compliant manner but
+            there may be exceptional cases where behavior is not
+            what is desired.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-caseInsensitiveCompare$">caseInsensitiveCompare:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSComparisonResult">NSComparisonResult</a>) <b>caseInsensitiveCompare:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)aString;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Compares this string with <var>aString</var>
+            ignoring case. Convenience for
+            <a rel="gsdoc" href="#method$NSString-compare$options$range$">
+              -compare:options:range:
+            </a>
+
+            with the <code>NSCaseInsensitiveSearch</code> option,
+            in the default locale.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-characterAtIndex$">characterAtIndex:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$unichar">unichar</a>) <b>characterAtIndex:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)index;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns unicode character at <var>index</var>.
+            <code><strong>unichar</strong></code> is an
+            <strong>unsigned</strong> <strong>short</strong>.
+            Thus, a 16-bit character is returned.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-commonPrefixWithString$options$">commonPrefixWithString:&nbsp;options:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>commonPrefixWithString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)aString<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)mask;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the largest initial portion of this
+            instance shared with <var>aString</var>.
+            <var>mask</var> may be either
+            <code>NSCaseInsensitiveSearch</code> or
+            <code>NSLiteralSearch</code>. The latter requests a
+            literal byte-by-byte comparison, which is fastest
+            but may return inaccurate results in cases where two
+            different composed character sequences may be
+            used to express the same character.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-compare$">compare:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSComparisonResult">NSComparisonResult</a>) <b>compare:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)aString;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Compares this instance with <var>aString</var>.
+              Returns <code>NSOrderedAscending</code>,
+              <code>NSOrderedDescending</code>, or
+              <code>NSOrderedSame</code>, depending on whether
+              this instance occurs before or after string in
+              lexical order, or is equal to it.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-compare$options$">compare:&nbsp;options:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSComparisonResult">NSComparisonResult</a>) <b>compare:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)aString<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)mask;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Compares this instance with <var>aString</var>.
+              <var>mask</var> may be either
+              <code>NSCaseInsensitiveSearch</code> or
+              <code>NSLiteralSearch</code>. The latter requests
+              a literal byte-by-byte comparison, which is fastest but
+              may return inaccurate results in cases where two
+              different composed character sequences may be
+              used to express the same character.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-compare$options$range$">compare:&nbsp;options:&nbsp;range:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSComparisonResult">NSComparisonResult</a>) <b>compare:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)aString<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)mask<b> range:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)aRange;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Compares this instance with string.
+              <var>mask</var> may be either
+              <code>NSCaseInsensitiveSearch</code> or
+              <code>NSLiteralSearch</code>. The latter requests
+              a literal byte-by-byte comparison, which is fastest but
+              may return inaccurate results in cases where two
+              different composed character sequences may be
+              used to express the same character.
+              <var>aRange</var> refers to this instance, and
+              should be set to 0..length to compare the whole
+              string.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-compare$options$range$locale$">compare:&nbsp;options:&nbsp;range:&nbsp;locale:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSComparisonResult">NSComparisonResult</a>) <b>compare:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)string<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)mask<b> range:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)compareRange<b> locale:</b> (id)locale;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Compares this instance with <var>string</var>.
+              If <var>locale</var> is an NSLocale instance and ICU
+              is available, performs a comparison using the ICU
+              collator for that <var>locale</var>. If
+              <var>locale</var> is an instance of a class other
+              than NSLocale, perform a comparison using +[NSLocale
+              currentLocale]. If <var>locale</var> is
+              <code>nil</code>, or ICU is not available, use a
+              POSIX-style collation (for example, latin
+              capital letters A-Z are ordered before all of the
+              lowercase letter, a-z.)
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              <var>mask</var> may be <code>NSLiteralSearch</code>
+              , which requests a literal byte-by-byte comparison,
+              which is fastest but may return inaccurate results
+              in cases where two different composed character
+              sequences may be used to express the same
+              character;
+              <code>NSCaseInsensitiveSearch</code>, which
+              ignores case differences;
+              <code>NSDiacriticInsensitiveSearch</code> which
+              ignores accent differences;
+              <code>NSNumericSearch</code>, which sorts groups
+              of digits as numbers, so &quot;abc2&quot; sorts before &quot;abc100&quot;.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              <var>compareRange</var> refers to this instance,
+              and should be set to 0..length to compare the whole
+              <var>string</var>.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Returns <code>NSOrderedAscending</code>,
+              <code>NSOrderedDescending</code>, or
+              <code>NSOrderedSame</code>, depending on whether
+              this instance occurs before or after
+              <var>string</var> in lexical order, or is equal to
+              it.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-completePathIntoString$caseSensitive$matchesIntoArray$filterTypes$">completePathIntoString:&nbsp;caseSensitive:&nbsp;matchesIntoArray:&nbsp;filterTypes:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>completePathIntoString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>**)outputName<b> caseSensitive:</b> (BOOL)flag<b> matchesIntoArray:</b> (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>**)outputArray<b> filterTypes:</b> (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*)filterTypes;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Attempts to complete this string as a path in the
+            filesystem by finding a unique completion if one
+            exists and returning it by reference in
+            <var>outputName</var> (which must be a non-nil
+            pointer), or if it finds a set of completions
+            they are returned by reference in
+            <var>outputArray</var>, if it is non-nil.
+            <var>filterTypes</var> can be an array of strings
+            specifying extensions to consider; files without
+            these extensions will be ignored and will not
+            constitute completions. Returns 0 if no match
+            found, else a positive number that is only accurate
+            if <var>outputArray</var> was non-nil.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-componentsSeparatedByCharactersInSet$">componentsSeparatedByCharactersInSet:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>componentsSeparatedByCharactersInSet:</b> (<a rel="gsdoc" href="NSCharacterSet.html#class$NSCharacterSet">NSCharacterSet</a>*)separator;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Returns an array of
+              <a rel="gsdoc" href="#class$NSString">NSString</a>
+
+                s representing substrings of this string that are
+                separated by characters in the set (which
+                must not be <code>nil</code>). If there are no
+                occurrences of <var>separator</var>, the
+                whole string is returned. If string begins or
+                ends with <var>separator</var>, empty strings will
+                be returned for those positions.
+                  </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-componentsSeparatedByString$">componentsSeparatedByString:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>componentsSeparatedByString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)separator;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Returns an array of
+              <a rel="gsdoc" href="#class$NSString">NSString</a>
+
+                s representing substrings of this string that are
+                separated by <var>separator</var> (which
+                itself is never returned in the array). If there
+                are no occurrences of <var>separator</var>, the
+                whole string is returned. If string begins or
+                ends with <var>separator</var>, empty strings will
+                be returned for those positions.
+                  </p>
+    <p>
+      
+              
+    </p>
+    <p>
+
+                Note, use an
+                <a rel="gsdoc" href="NSScanner.html#class$NSScanner">NSScanner</a>
+
+                  if you need more sophisticated parsing.
+                    </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-containsString$">containsString:&nbsp;</a></h3>
+    - (BOOL) <b>containsString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.10.0</div>
+<br />
+    <div class="desc">
+      
+            Returns <code>YES</code> if the receiver contains
+            <var>string</var>, otherwise, <code>NO</code>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-dataUsingEncoding$">dataUsingEncoding:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*) <b>dataUsingEncoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>)encoding;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Converts string to a byte array in the given
+            <var>encoding</var>, returning <code>nil</code> if
+            this would result in information loss.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-dataUsingEncoding$allowLossyConversion$">dataUsingEncoding:&nbsp;allowLossyConversion:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*) <b>dataUsingEncoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>)encoding<b> allowLossyConversion:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Conversion to an <var>encoding</var> where byte
+            order matters but is not specified
+            (NSUnicodeStringEncoding,
+            NSUTF16StringEncoding,
+            NSUTF32StringEncoding) produces data
+            with a Byte Order Marker (BOM) at the start of the
+            data. <br/> Converts string to a byte array in the
+            given <var>encoding</var>. If <var>flag</var> is
+            <code>NO</code>, <code>nil</code> would be returned
+            if this would result in information loss.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-decomposedStringWithCanonicalMapping">decomposedStringWithCanonicalMapping&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>decomposedStringWithCanonicalMapping</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br />
+    <div class="desc">
+      
+            Returns a copy of the receiver normalised using the
+            D form.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-decomposedStringWithCompatibilityMapping">decomposedStringWithCompatibilityMapping&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>decomposedStringWithCompatibilityMapping</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br />
+    <div class="desc">
+      
+            Returns a copy of the receiver normalised using the
+            KD form.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-description">description&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>description</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns <code>self</code>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-doubleValue">doubleValue&nbsp;</a></h3>
+    - (double) <b>doubleValue</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the string&apos;s content as a
+            <strong>double</strong>. Skips leading whitespace.
+            <br/> Conversion is not localised (i.e. uses &apos;.&apos; as
+            the decimal separator). <br/> Returns 0.0 on underflow
+            or if the string does not contain a number.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-enumerateLinesUsingBlock$">enumerateLinesUsingBlock:&nbsp;</a></h3>
+    - (void) <b>enumerateLinesUsingBlock:</b> (GSNSStringLineEnumerationBlock)block;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-enumerateSubstringsInRange$options$usingBlock$">enumerateSubstringsInRange:&nbsp;options:&nbsp;usingBlock:&nbsp;</a></h3>
+    - (void) <b>enumerateSubstringsInRange:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)range<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEnumerationOptions">NSStringEnumerationOptions</a>)opts<b> usingBlock:</b> (GSNSStringEnumerationBlock)block;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-fastestEncoding">fastestEncoding&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>) <b>fastestEncoding</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the encoding with which this string can be
+            converted without information loss that would
+            result in most efficient character access.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-fileSystemRepresentation">fileSystemRepresentation&nbsp;</a></h3>
+    - (const GSNativeChar*) <b>fileSystemRepresentation</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Converts the receiver to a C string path expressed
+            in the character encoding appropriate for the local host
+            file system. This string will be automatically freed
+            soon after it is returned, so copy it if you need it
+            for <strong>long</strong>. <br/> NB. On mingw32
+            systems the filesystem representation of a path is
+            a 16-bit unicode character string, so you should only
+            pass the value returned by this method to functions
+            expecting wide characters. <br/> This method
+            uses
+            <a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-fileSystemRepresentationWithPath$">[NSFileManager -fileSystemRepresentationWithPath:]</a>
+ to perform the conversion.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-floatValue">floatValue&nbsp;</a></h3>
+    - (float) <b>floatValue</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the string&apos;s content as a
+            <strong>float</strong>. Skips leading whitespace.
+            <br/> Conversion is not localised (i.e. uses &apos;.&apos; as
+            the decimal separator). <br/> Returns 0.0 on underflow
+            or if the string does not contain a number.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-getCString$">getCString:&nbsp;</a></h3>
+    - (void) <b>getCString:</b> (char*)buffer;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Deprecated... do not use. <br/>. Use
+            <a rel="gsdoc" href="#method$NSString-getCString$maxLength$encoding$">
+              -getCString:maxLength:encoding:
+            </a>
+
+            instead.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-getCString$maxLength$">getCString:&nbsp;maxLength:&nbsp;</a></h3>
+    - (void) <b>getCString:</b> (char*)buffer<b> maxLength:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)maxLength;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Deprecated... do not use. <br/>. Use
+            <a rel="gsdoc" href="#method$NSString-getCString$maxLength$encoding$">
+              -getCString:maxLength:encoding:
+            </a>
+
+            instead.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-getCString$maxLength$encoding$">getCString:&nbsp;maxLength:&nbsp;encoding:&nbsp;</a></h3>
+    - (BOOL) <b>getCString:</b> (char*)buffer<b> maxLength:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)maxLength<b> encoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>)encoding;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0, Base 1.2.0</div>
+<br />
+    <div class="desc">
+      
+            Retrieve up to <var>maxLength</var> bytes from the
+            receiver into the <var>buffer</var>. <br/> In
+            GNUstep, this method implements the actual
+            behavior of the MacOS-X method rather than it&apos;s
+            documented behavior... <br/> The
+            <var>maxLength</var> argument must be the size (in
+            bytes) of the area of memory pointed to by the
+            <var>buffer</var> argument. <br/> Returns
+            <code>YES</code> on success. <br/> Returns
+            <code>NO</code> if <var>maxLength</var> is too small
+            to hold the entire string including a terminating nul
+            character. <br/> If it returns <code>NO</code>,
+            the terminating nul will <em>not</em> have been written
+            to the <var>buffer</var>. <br/> Raises an exception if
+            the string can not be converted to the specified
+            <var>encoding</var> without loss of information.
+            <br/> eg. If the receiver is @&quot;hello&quot; then the
+            provided <var>buffer</var> must be at least six
+            bytes <strong>long</strong> and the value of
+            <var>maxLength</var> must be at least six if
+            NSASCIIStringEncoding is requested,
+            but they must be at least twelve if
+            NSUnicodeStringEncoding is
+            requested.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-getCString$maxLength$range$remainingRange$">getCString:&nbsp;maxLength:&nbsp;range:&nbsp;remainingRange:&nbsp;</a></h3>
+    - (void) <b>getCString:</b> (char*)buffer<b> maxLength:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)maxLength<b> range:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)aRange<b> remainingRange:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>*)leftoverRange;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Deprecated... do not use. <br/>. Use
+            <a rel="gsdoc" href="#method$NSString-getCString$maxLength$encoding$">
+              -getCString:maxLength:encoding:
+            </a>
+
+            instead.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-getCharacters$">getCharacters:&nbsp;</a></h3>
+    - (void) <b>getCharacters:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$unichar">unichar</a>*)buffer;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns this string as an array of 16-bit
+            <code><strong>unichar</strong></code> (
+            <strong>unsigned</strong> <strong>short</strong>)
+            values. <var>buffer</var> must be preallocated and
+            should be capable of holding
+            <a rel="gsdoc" href="#method$NSString-length">
+              -length
+            </a>
+
+            shorts.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-getCharacters$range$">getCharacters:&nbsp;range:&nbsp;</a></h3>
+    - (void) <b>getCharacters:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$unichar">unichar</a>*)buffer<b> range:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)aRange;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns <var>aRange</var> of string as an array of
+            16-bit <code><strong>unichar</strong></code> (
+            <strong>unsigned</strong> <strong>short</strong>)
+            values. <var>buffer</var> must be preallocated and
+            should be capable of holding a sufficient number of
+            shorts.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-getFileSystemRepresentation$maxLength$">getFileSystemRepresentation:&nbsp;maxLength:&nbsp;</a></h3>
+    - (BOOL) <b>getFileSystemRepresentation:</b> (GSNativeChar*)buffer<b> maxLength:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)size;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Converts the receiver to a C string path using the
+            character encoding appropriate to the local file
+            system. This string will be stored into
+            <var>buffer</var> if it is shorter (number of
+            characters) than <var>size</var>, otherwise
+            <code>NO</code> is returned. <br/> NB. On mingw32
+            systems the filesystem representation of a path is
+            a 16-bit unicode character string, so the
+            <var>buffer</var> you pass to this method must be
+            twice as many bytes as the <var>size</var> (number of
+            characters) you expect to receive. <br/> This
+            method uses
+            <a rel="gsdoc" href="NSFileManager.html#method$NSFileManager-fileSystemRepresentationWithPath$">[NSFileManager -fileSystemRepresentationWithPath:]</a>
+ to perform the conversion.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-getLineStart$end$contentsEnd$forRange$">getLineStart:&nbsp;end:&nbsp;contentsEnd:&nbsp;forRange:&nbsp;</a></h3>
+    - (void) <b>getLineStart:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>*)startIndex<b> end:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>*)lineEndIndex<b> contentsEnd:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>*)contentsEndIndex<b> forRange:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)aRange;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Determines the smallest range of lines
+            containing <var>aRange</var> and returns the
+            locations in that range. <br/> Lines are
+            delimited by any of these character sequences,
+            the longest (CRLF) sequence preferred.
+            
+      <ul>
+        <li>
+          U+000A (linefeed)
+        </li>
+        <li>
+          U+000D (carriage return)
+        </li>
+        <li>
+          U+2028 (Unicode line separator)
+        </li>
+        <li>
+          U+2029 (Unicode paragraph separator)
+        </li>
+        <li>
+          U+000D U+000A (CRLF)
+        </li>
+      </ul>
+      
+            The index of the first character of the line at or
+            before <var>aRange</var> is returned in
+            <var>startIndex</var>. <br/> The index of the first
+            character of the next line after the line
+            terminator is returned in endIndex. <br/> The
+            index of the last character before the line
+            terminator is returned
+            <var>contentsEndIndex</var>. <br/> Raises an
+            NSRangeException if the range is invalid,
+            but permits the index arguments to be null pointers (in
+            which case no value is returned in that argument).
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-getParagraphStart$end$contentsEnd$forRange$">getParagraphStart:&nbsp;end:&nbsp;contentsEnd:&nbsp;forRange:&nbsp;</a></h3>
+    - (void) <b>getParagraphStart:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>*)startIndex<b> end:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>*)parEndIndex<b> contentsEnd:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>*)contentsEndIndex<b> forRange:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)range;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br />
+    <div class="desc">
+      
+            Not implemented
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-hasPrefix$">hasPrefix:&nbsp;</a></h3>
+    - (BOOL) <b>hasPrefix:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)aString;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns whether this string starts with
+            <var>aString</var>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-hasSuffix$">hasSuffix:&nbsp;</a></h3>
+    - (BOOL) <b>hasSuffix:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)aString;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns whether this string ends with
+            <var>aString</var>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-hash">hash&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>hash</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Return 28-bit hash value (in 32-bit integer). The
+            top few bits are used for other purposes in a bitfield
+            in the concrete string subclasses, so we must not use
+            the full <strong>unsigned</strong> integer.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-init">init&nbsp;</a></h3>
+    - (instancetype) <b>init</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              In MacOS-X class clusters do not have designated
+              initialisers, and there is a general rule
+              that <a rel="gsdoc" href="#method$NSString-init">-init</a>
+ is
+              treated as the designated initialiser of the
+              class cluster, but that other intitialisers may not
+              work as expected and would need to be individually
+              overridden in any subclass.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              GNUstep tries to make it easier to subclass a
+              class cluster, by making class clusters follow the
+              same convention as normal classes, so the designated
+              initialiser is the <em>richest</em>
+              initialiser. This means that all other
+              initialisers call the documented designated
+              initialiser (which calls
+              <a rel="gsdoc" href="#method$NSString-init">
+                -init
+              </a>
+
+              only for MacOS-X compatibility), and anyone writing
+              a subclass only needs to override that one initialiser
+              in order to have all the other ones work.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              For MacOS-X compatibility, you may also need to
+              override various other initialisers. Exactly
+              which ones, you will need to determine by trial on
+              a MacOS-X system... and may vary between releases of
+              MacOS-X. So to be safe, on MacOS-X you probably
+              need to re-implement <em>all</em> the class cluster
+              initialisers you might use in conjunction
+              with your subclass.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              NB. The GNUstep designated initialiser for the
+              NSString class cluster has changed to
+              <a rel="gsdoc" href="#method$NSString-initWithBytesNoCopy$length$encoding$freeWhenDone$">-initWithBytesNoCopy:length:encoding:freeWhenDone:</a>
+ from <a rel="gsdoc" href="#method$NSString-initWithCharactersNoCopy$length$freeWhenDone$">-initWithCharactersNoCopy:length:freeWhenDone:</a>
+ and older code subclassing NSString will need to be updated.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-initWithBytes$length$encoding$">initWithBytes:&nbsp;length:&nbsp;encoding:&nbsp;</a></h3>
+    - (instancetype) <b>initWithBytes:</b> (const void*)bytes<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)length<b> encoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>)encoding;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0, Base 1.2.0</div>
+<br />
+    <div class="desc">
+      
+            Initialises the receiver with a copy of the
+            supplied <var>length</var> of <var>bytes</var>,
+            using the specified <var>encoding</var>. <br/> For
+            NSUnicodeStringEncoding and
+            NSUTF8String <var>encoding</var>, a Byte Order
+            Marker (if present at the start of the data) is
+            removed automatically. <br/> If the data can not
+            be interpreted using the <var>encoding</var>, the
+            receiver is released and <code>nil</code> is
+            returned.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-initWithBytesNoCopy$length$encoding$freeWhenDone$">initWithBytesNoCopy:&nbsp;length:&nbsp;encoding:&nbsp;freeWhenDone:&nbsp;</a></h3>
+    - (instancetype) <b>initWithBytesNoCopy:</b> (void*)bytes<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)length<b> encoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>)encoding<b> freeWhenDone:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0, Base 1.2.0</div>
+<br />
+This is a designated initialiser for the class.<br />
+Subclasses <strong>must</strong> override this method.<br />
+    <div class="desc">
+      
+            Initialises the receiver with the supplied
+            <var>length</var> of <var>bytes</var>, using the
+            specified <var>encoding</var>. <br/> For
+            NSUnicodeStringEncoding and
+            NSUTF8String <var>encoding</var>, a Byte Order
+            Marker (if present at the start of the data) is
+            removed automatically. <br/> If the data is not in
+            a format which can be used internally unmodified, it is
+            copied, otherwise it is used as is. If the data is
+            not copied the <var>flag</var> determines whether the
+            string will free it when it is no longer needed (ie
+            whether the new NSString instance &apos;owns&apos; the
+            memory). <br/> In the case of non-owned memory,
+            it is the caller&apos;s responsibility to ensure that the
+            data continues to exist and is not modified until the
+            receiver is deallocated. <br/> If the data can
+            not be interpreted using the <var>encoding</var>, the
+            receiver is released and <code>nil</code> is
+            returned.
+            
+    </p>
+    <p>
+
+              Note, this is the most basic initialiser for
+              strings. In the GNUstep implementation, your
+              subclasses may override this initialiser in
+              order to have all other functionality.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-initWithCString$">initWithCString:&nbsp;</a></h3>
+    - (instancetype) <b>initWithCString:</b> (const char*)byteString;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Initialize with given C string
+              <var>byteString</var>, which should be
+              null-terminated. Characters are
+              converted to unicode based on the default C
+              encoding. Copies the string.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-initWithCString$encoding$">initWithCString:&nbsp;encoding:&nbsp;</a></h3>
+    - (instancetype) <b>initWithCString:</b> (const char*)byteString<b> encoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>)encoding;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0, Base 1.2.0</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Initialize with given C string
+              <var>byteString</var> up to first nul byte.
+              Characters converted to unicode based on the
+              specified C <var>encoding</var>. Copies the
+              string.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-initWithCString$length$">initWithCString:&nbsp;length:&nbsp;</a></h3>
+    - (instancetype) <b>initWithCString:</b> (const char*)byteString<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)length;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Initialize with given C string
+              <var>byteString</var> up to <var>length</var>,
+              regardless of presence of null bytes.
+              Characters converted to unicode based on the
+              default C encoding. Copies the string.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-initWithCStringNoCopy$length$freeWhenDone$">initWithCStringNoCopy:&nbsp;length:&nbsp;freeWhenDone:&nbsp;</a></h3>
+    - (instancetype) <b>initWithCStringNoCopy:</b> (char*)byteString<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)length<b> freeWhenDone:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Initialize with given C string
+              <var>byteString</var> up to <var>length</var>,
+              regardless of presence of null bytes.
+              Characters converted to unicode based on the
+              default C encoding. Does not copy the string. If
+              <var>flag</var>, frees its storage when this
+              instance is deallocated.
+                </p>
+    <p>
+      
+            See
+            <a rel="gsdoc" href="#method$NSString-initWithBytesNoCopy$length$encoding$freeWhenDone$">-initWithBytesNoCopy:length:encoding:freeWhenDone:</a>
+ for more details.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-initWithCharacters$length$">initWithCharacters:&nbsp;length:&nbsp;</a></h3>
+    - (instancetype) <b>initWithCharacters:</b> (const <a rel="gsdoc" href="TypesAndConstants.html#type$unichar">unichar</a>*)chars<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)length;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Initialize with given unicode <var>chars</var>
+              up to <var>length</var>, regardless of presence of
+              null bytes. Copies the string and frees copy when
+              deallocated.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-initWithCharactersNoCopy$length$freeWhenDone$">initWithCharactersNoCopy:&nbsp;length:&nbsp;freeWhenDone:&nbsp;</a></h3>
+    - (instancetype) <b>initWithCharactersNoCopy:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$unichar">unichar</a>*)chars<b> length:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)length<b> freeWhenDone:</b> (BOOL)flag;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Initialize with given unicode <var>chars</var>
+              up to <var>length</var>, regardless of presence of
+              null bytes. Does not copy the string. If
+              <var>flag</var>, frees its storage when this
+              instance is deallocated.
+                </p>
+    <p>
+      
+            See
+            <a rel="gsdoc" href="#method$NSString-initWithBytesNoCopy$length$encoding$freeWhenDone$">-initWithBytesNoCopy:length:encoding:freeWhenDone:</a>
+ for more details.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-initWithContentsOfFile$">initWithContentsOfFile:&nbsp;</a></h3>
+    - (instancetype) <b>initWithContentsOfFile:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)path;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Initialises the receiver with the contents of
+              the file at <var>path</var>.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Invokes
+              <a rel="gsdoc" href="NSData.html#method$NSData-initWithContentsOfFile$">[NSData -initWithContentsOfFile:]</a>
+ to read the file, then examines the data to infer its encoding type, and converts the data to a string using <a rel="gsdoc" href="#method$NSString-initWithData$encoding$">-initWithData:encoding:</a>
+
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The encoding to use is determined as follows... if
+              the data begins with the 16-bit unicode Byte Order
+              Marker, then it is assumed to be unicode data in
+              the appropriate ordering and converted as such.
+              <br/> If it begins with a UTF8 representation of
+              the BOM, the UTF8 encoding is used. <br/> Otherwise,
+              the default C String encoding is used.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Releases the receiver and returns
+              <code>nil</code> if the file could not be read and
+              converted to a string.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-initWithContentsOfFile$encoding$error$">initWithContentsOfFile:&nbsp;encoding:&nbsp;error:&nbsp;</a></h3>
+    - (instancetype) <b>initWithContentsOfFile:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)path<b> encoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>)enc<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-initWithContentsOfFile$usedEncoding$error$">initWithContentsOfFile:&nbsp;usedEncoding:&nbsp;error:&nbsp;</a></h3>
+    - (instancetype) <b>initWithContentsOfFile:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)path<b> usedEncoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>*)enc<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Initialises the receiver with the contents of
+              the file at <var>path</var>.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Invokes
+              <a rel="gsdoc" href="NSData.html#method$NSData-initWithContentsOfFile$">[NSData -initWithContentsOfFile:]</a>
+ to read the file, then examines the data to infer its encoding type, and converts the data to a string using <a rel="gsdoc" href="#method$NSString-initWithData$encoding$">-initWithData:encoding:</a>
+
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The encoding to use is determined as follows... if
+              the data begins with the 16-bit unicode Byte Order
+              Marker, then it is assumed to be unicode data in
+              the appropriate ordering and converted as such.
+              <br/> If it begins with a UTF8 representation of
+              the BOM, the UTF8 encoding is used. <br/> Otherwise,
+              the default C String encoding is used.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Releases the receiver and returns
+              <code>nil</code> if the file could not be read and
+              converted to a string.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-initWithContentsOfURL$">initWithContentsOfURL:&nbsp;</a></h3>
+    - (instancetype) <b>initWithContentsOfURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)url;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Initialises the receiver with the contents of
+              the given URL.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Invokes
+              <a rel="gsdoc" href="NSData.html#method$NSData+dataWithContentsOfURL$">[NSData +dataWithContentsOfURL:]</a>
+ to read the contents, then examines the data to infer its encoding type, and converts the data to a string using <a rel="gsdoc" href="#method$NSString-initWithData$encoding$">-initWithData:encoding:</a>
+
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The encoding to use is determined as follows... if
+              the data begins with the 16-bit unicode Byte Order
+              Marker, then it is assumed to be unicode data in
+              the appropriate ordering and converted as such.
+              <br/> If it begins with a UTF8 representation of
+              the BOM, the UTF8 encoding is used. <br/> Otherwise,
+              the default C String encoding is used.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Releases the receiver and returns
+              <code>nil</code> if the URL contents could not be
+              read and converted to a string.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-initWithContentsOfURL$encoding$error$">initWithContentsOfURL:&nbsp;encoding:&nbsp;error:&nbsp;</a></h3>
+    - (instancetype) <b>initWithContentsOfURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)url<b> encoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>)enc<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-initWithContentsOfURL$usedEncoding$error$">initWithContentsOfURL:&nbsp;usedEncoding:&nbsp;error:&nbsp;</a></h3>
+    - (instancetype) <b>initWithContentsOfURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)url<b> usedEncoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>*)enc<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-initWithData$encoding$">initWithData:&nbsp;encoding:&nbsp;</a></h3>
+    - (instancetype) <b>initWithData:</b> (<a rel="gsdoc" href="NSData.html#class$NSData">NSData</a>*)data<b> encoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>)encoding;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Initialises the receiver with the supplied
+            <var>data</var>, using the specified
+            <var>encoding</var>. <br/> For
+            NSUnicodeStringEncoding and
+            NSUTF8String <var>encoding</var>, a Byte Order
+            Marker (if present at the start of the
+            <var>data</var>) is removed automatically. <br/> If
+            the <var>data</var> can not be interpreted using the
+            <var>encoding</var>, the receiver is released and
+            <code>nil</code> is returned.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-initWithFormat$,...">initWithFormat:&nbsp;,...</a></h3>
+    - (instancetype) <b>initWithFormat:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)format<b>,...</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Invokes
+            <a rel="gsdoc" href="#method$NSString-initWithFormat$locale$arguments$">
+              -initWithFormat:locale:arguments:
+            </a>
+
+            with a <code>nil</code> locale.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-initWithFormat$arguments$">initWithFormat:&nbsp;arguments:&nbsp;</a></h3>
+    - (instancetype) <b>initWithFormat:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)format<b> arguments:</b> (va_list)argList;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Invokes
+            <a rel="gsdoc" href="#method$NSString-initWithFormat$locale$arguments$">
+              -initWithFormat:locale:arguments:
+            </a>
+
+            with a <code>nil</code> locale.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-initWithFormat$locale$,...">initWithFormat:&nbsp;locale:&nbsp;,...</a></h3>
+    - (instancetype) <b>initWithFormat:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)format<b> locale:</b> (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*)locale<b>,...</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Invokes
+            <a rel="gsdoc" href="#method$NSString-initWithFormat$locale$arguments$">
+              -initWithFormat:locale:arguments:
+            </a>
+
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-initWithFormat$locale$arguments$">initWithFormat:&nbsp;locale:&nbsp;arguments:&nbsp;</a></h3>
+    - (instancetype) <b>initWithFormat:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)format<b> locale:</b> (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*)locale<b> arguments:</b> (va_list)argList;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Initialises the string using the specified
+            <var>format</var> and <var>locale</var> to
+            <var>format</var> the following arguments.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-initWithString$">initWithString:&nbsp;</a></h3>
+    - (instancetype) <b>initWithString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Initialize to be a copy of the given
+            <var>string</var>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-initWithUTF8String$">initWithUTF8String:&nbsp;</a></h3>
+    - (instancetype) <b>initWithUTF8String:</b> (const char*)bytes;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Initialize based on given null-terminated UTF-8
+            string <var>bytes</var>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-intValue">intValue&nbsp;</a></h3>
+    - (int) <b>intValue</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Returns the string&apos;s content as an
+              <strong>int</strong>. <br/> Current
+              implementation uses a C runtime library
+              function, which does not detect conversion
+              errors -- use with care!
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-integerValue">integerValue&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSInteger">NSInteger</a>) <b>integerValue</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-isAbsolutePath">isAbsolutePath&nbsp;</a></h3>
+    - (BOOL) <b>isAbsolutePath</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns <code>YES</code> if the receiver represents
+            an absolute path... <br/> Returns <code>NO</code>
+            otherwise. <br/> An absolute path in unix mode
+            is one which begins with a slash or tilde. <br/> In
+            windows mode a drive specification (eg C:) followed
+            by a slash or backslash, is an absolute path, as is any
+            path beginning with a tilde. <br/> In any mode a UNC
+            path (//host/share...) is always absolute. <br/> In
+            the default gnustep path handling mode, the rules are
+            the same as for windows, except that a path whose root
+            is a slash denotes an absolute path when running on unix
+            and a relative path when running under windows.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-isEqual$">isEqual:&nbsp;</a></h3>
+    - (BOOL) <b>isEqual:</b> (id)anObject;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns whether the receiver and an
+            <var>anObject</var> are equals as strings. If
+            <var>anObject</var> isn&apos;t an NSString, returns
+            <code>NO</code>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-isEqualToString$">isEqualToString:&nbsp;</a></h3>
+    - (BOOL) <b>isEqualToString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)aString;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns whether this instance is equal as a string
+            to <var>aString</var>. See also
+            <a rel="gsdoc" href="#method$NSString-compare$">
+              -compare:
+            </a>
+
+            and related methods.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-lastPathComponent">lastPathComponent&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>lastPathComponent</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns a string containing the last path component
+            of the receiver. <br/> The path component is the last
+            non-empty substring delimited by the ends of the
+            string, or by path separator characters. <br/> If
+            the receiver only contains a root part, this method
+            returns it. <br/> If there are no non-empty
+            substrings, this returns an empty string.
+            <br/> NB. In a windows UNC path, the host and share
+            specification is treated as a single path
+            component, even though it contains separators.
+            So a string of the form &apos;//host/share&apos; may be returned.
+            <br/> Other special cases are apply when the string
+            is the root.
+
+<pre>
+   @&quot;foo/bar&quot; produces @&quot;bar&quot;
+   @&quot;foo/bar/&quot; produces @&quot;bar&quot;
+   @&quot;/foo/bar&quot; produces @&quot;bar&quot;
+   @&quot;/foo&quot; produces @&quot;foo&quot;
+   @&quot;/&quot; produces @&quot;/&quot; (root is a special case)
+   @&quot;&quot; produces @&quot;&quot;
+   @&quot;C:/&quot; produces @&quot;C:/&quot; (root is a special case)
+   @&quot;C:&quot; produces @&quot;C:&quot;
+   @&quot;//host/share/&quot; produces @&quot;//host/share/&quot; (root is a special case)
+   @&quot;//host/share&quot; produces @&quot;//host/share&quot;
+ </pre>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-length">length&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>length</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the number of Unicode characters in this
+            string, including the individual characters of
+            composed character sequences,
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-lengthOfBytesUsingEncoding$">lengthOfBytesUsingEncoding:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>lengthOfBytesUsingEncoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>)encoding;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0, Base 1.2.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the number of bytes needed to encode the
+            receiver in the specified <var>encoding</var>
+            (without adding a nul character terminator).
+            <br/> Returns 0 if the conversion is not possible.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-lineRangeForRange$">lineRangeForRange:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>) <b>lineRangeForRange:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)aRange;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Determines the smallest range of lines
+            containing <var>aRange</var> and returns the
+            information as a range. <br/> Calls
+            <a rel="gsdoc" href="#method$NSString-getLineStart$end$contentsEnd$forRange$">-getLineStart:end:contentsEnd:forRange:</a>
+ to do the work.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-localizedCaseInsensitiveCompare$">localizedCaseInsensitiveCompare:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSComparisonResult">NSComparisonResult</a>) <b>localizedCaseInsensitiveCompare:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Compares this instance with <var>string</var>,
+            using +[NSLocale currentLocale], ignoring case.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-localizedCompare$">localizedCompare:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSComparisonResult">NSComparisonResult</a>) <b>localizedCompare:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Compares this instance with <var>string</var>,
+            using +[NSLocale currentLocale].
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-longLongValue">longLongValue&nbsp;</a></h3>
+    - (long long) <b>longLongValue</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-lossyCString">lossyCString&nbsp;</a></h3>
+    - (const char*) <b>lossyCString</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns a C string converted using the default C
+            string encoding, which may result in information
+            loss. The memory pointed to is not owned by the
+            caller, so the caller must copy its contents to
+            keep it.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-lowercaseString">lowercaseString&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>lowercaseString</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns a copy of the receiver with all characters
+            converted to lowercase.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-maximumLengthOfBytesUsingEncoding$">maximumLengthOfBytesUsingEncoding:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>maximumLengthOfBytesUsingEncoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>)encoding;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0, Base 1.2.0</div>
+<br />
+    <div class="desc">
+      
+            Returns a size guaranteed to be large enough to
+            encode the receiver in the specified
+            <var>encoding</var> (without adding a nul character
+            terminator). This may be larger than the
+            actual number of bytes needed.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-paragraphRangeForRange$">paragraphRangeForRange:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>) <b>paragraphRangeForRange:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)range;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br />
+    <div class="desc">
+      
+            Not implemented
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-pathComponents">pathComponents&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>pathComponents</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns the path components of the receiver
+            separated into an array. <br/> If the receiver
+            begins with a root sequence such as the path
+            separator character (or a drive specification in
+            windows) then that is used as the first element in
+            the array. <br/> Empty components are removed. <br/>
+            If a trailing path separator (which was not part of the
+            root) was present, it is added as the last element in
+            the array.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-pathExtension">pathExtension&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>pathExtension</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns a new string containing the path extension
+            of the receiver. <br/> The path extension is a suffix
+            on the last path component which starts with the
+            extension separator (a &apos;.&apos;) (for example.tiff is
+            the pathExtension for /foo/bar.tiff). <br/> Returns an
+            empty string if no such extension exists.
+
+<pre>
+   @&quot;a.b&quot; produces @&quot;b&quot;
+   @&quot;a.b/&quot; produces @&quot;b&quot;
+   @&quot;/path/a.ext&quot; produces @&quot;ext&quot;
+   @&quot;/path/a.&quot; produces @&quot;&quot;
+   @&quot;/path/.a&quot; produces @&quot;&quot; (.a is not an extension to a file)
+   @&quot;.a&quot; produces @&quot;&quot; (.a is not an extension to a file)
+ </pre>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-precomposedStringWithCanonicalMapping">precomposedStringWithCanonicalMapping&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>precomposedStringWithCanonicalMapping</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br />
+    <div class="desc">
+      
+            Returns a copy of the receiver normalised using the
+            C form.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-precomposedStringWithCompatibilityMapping">precomposedStringWithCompatibilityMapping&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>precomposedStringWithCompatibilityMapping</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br />
+    <div class="desc">
+      
+            Returns a copy of the receiver normalised using the
+            KC form.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-propertyList">propertyList&nbsp;</a></h3>
+    - (id) <b>propertyList</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Attempts to interpret the receiver as a
+              <em>property list</em> and returns the result. If
+              the receiver does not contain a string representation
+              of a <em>property list</em> then the method returns
+              <code>nil</code>.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Containers (arrays and dictionaries) are
+              decoded as <em>mutable</em> objects.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              There are three readable <em>property list</em>
+              storage formats - The binary format used by
+              <a rel="gsdoc" href="NSSerialization.html#class$NSSerializer">NSSerializer</a>
+
+                does not concern us here, but there are two &apos;human
+                readable&apos; formats, the <em>traditional</em>
+                OpenStep format (which is extended in GNUstep)
+                and the <em>XML</em> format.
+                  </p>
+    <p>
+      
+              
+    </p>
+    <p>
+
+                The
+                <a rel="gsdoc" href="NSArray.html#method$NSArray-descriptionWithLocale$indent$">[NSArray -descriptionWithLocale:indent:]</a>
+ and <a rel="gsdoc" href="NSDictionary.html#method$NSDictionary-descriptionWithLocale$indent$">[NSDictionary -descriptionWithLocale:indent:]</a>
+ methods both generate strings containing traditional style <em>property lists</em>, but <a rel="gsdoc" href="NSArray.html#method$NSArray-writeToFile$atomically$">[NSArray -writeToFile:atomically:]</a>
+ and <a rel="gsdoc" href="NSDictionary.html#method$NSDictionary-writeToFile$atomically$">[NSDictionary -writeToFile:atomically:]</a>
+ generate either traditional or XML style <em>property lists</em> depending on the value of the GSMacOSXCompatible and NSWriteOldStylePropertyLists user defaults. <br/> If GSMacOSXCompatible is <code>YES</code> then XML <em>property lists</em> are written unless NSWriteOldStylePropertyLists is also <code>YES</code>. <br/> By default GNUstep writes old style data and always supports reading of either style.
+                  </p>
+    <p>
+      
+              
+    </p>
+    <p>
+
+                The traditional format is more compact and more
+                easily readable by people, but (without the
+                GNUstep extensions) cannot represent date and
+                number objects (except as strings). The XML
+                format is more verbose and less readable, but
+                can be fed into modern XML tools and thus used to
+                pass data to non-OpenStep applications more
+                readily.
+                  </p>
+    <p>
+      
+              
+    </p>
+    <p>
+
+                The traditional format is strictly ascii encoded,
+                with any unicode characters represented by escape
+                sequences. The XML format is encoded as UTF8
+                data.
+                  </p>
+    <p>
+      
+              
+    </p>
+    <p>
+
+                Both the traditional format and the XML format
+                permit comments to be placed in
+                <em>property list</em> documents. In traditional
+                format the comment notations used in Objective-C
+                programming are supported, while in XML
+                format, the standard SGML comment sequences are
+                used.
+                  </p>
+    <p>
+      
+              
+    </p>
+    <p>
+
+                See the documentation for
+                <a rel="gsdoc" href="NSPropertyList.html#class$NSPropertyListSerialization">NSPropertyListSerialization</a>
+for more information on what a property list is.    </p>
+    <p>
+      
+                
+    </p>
+    <p>
+
+                  If the string cannot be parsed as a normal
+                  property list format, this method also tries
+                  to parse it as &apos;strings file&apos; format (see the
+                  <a rel="gsdoc" href="#method$NSString-propertyListFromStringsFileFormat">-propertyListFromStringsFileFormat</a>
+ method).
+                    </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-propertyListFromStringsFileFormat">propertyListFromStringsFileFormat&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSDictionary.html#class$NSDictionary">NSDictionary</a>*) <b>propertyListFromStringsFileFormat</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Reads a <em>property list</em> (see -propertyList)
+              from a simplified file format. This format is a
+              traditional style property list file
+              containing a single dictionary, but with the
+              leading &apos;{&apos; and trailing &apos;}&apos; characters omitted.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              That is to say, the file contains only semicolon
+              separated key/value pairs (and optionally
+              comments). As a convenience, it is possible to
+              omit the equals sign and the value, so an entry
+              consists of a key string followed by a
+              semicolon. In this case, the value for that
+              key is assumed to be an empty string.
+                </p>
+    <p>
+      
+
+<pre>
+   // Strings file entries follow -
+   key1 = &quot; a string value&quot;;
+   key2;	// This key has an empty string as a value.
+   &quot;Another key&quot; = &quot;a longer string value for th third key&quot;;
+ </pre>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-rangeOfCharacterFromSet$">rangeOfCharacterFromSet:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>) <b>rangeOfCharacterFromSet:</b> (<a rel="gsdoc" href="NSCharacterSet.html#class$NSCharacterSet">NSCharacterSet</a>*)aSet;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns position of first character in this string
+            that is in <var>aSet</var>. Positions start at 0. If
+            the character is a composed character sequence, the
+            range returned will contain the whole sequence, else
+            just the character itself.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-rangeOfCharacterFromSet$options$">rangeOfCharacterFromSet:&nbsp;options:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>) <b>rangeOfCharacterFromSet:</b> (<a rel="gsdoc" href="NSCharacterSet.html#class$NSCharacterSet">NSCharacterSet</a>*)aSet<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)mask;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns position of first character in this string
+            that is in <var>aSet</var>. Positions start at 0. If
+            the character is a composed character sequence, the
+            range returned will contain the whole sequence, else
+            just the character itself. <var>mask</var> may contain
+            <code>NSCaseInsensitiveSearch</code>,
+            <code>NSLiteralSearch</code> (don&apos;t consider
+            alternate forms of composed characters equal), or
+            <code>NSBackwardsSearch</code> (search from end of
+            string).
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-rangeOfCharacterFromSet$options$range$">rangeOfCharacterFromSet:&nbsp;options:&nbsp;range:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>) <b>rangeOfCharacterFromSet:</b> (<a rel="gsdoc" href="NSCharacterSet.html#class$NSCharacterSet">NSCharacterSet</a>*)aSet<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)mask<b> range:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)aRange;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns position of first character in this string
+            that is in <var>aSet</var>. Positions start at 0. If
+            the character is a composed character sequence, the
+            range returned will contain the whole sequence, else
+            just the character itself. <var>mask</var> may contain
+            <code>NSCaseInsensitiveSearch</code>,
+            <code>NSLiteralSearch</code> (don&apos;t consider
+            alternate forms of composed characters equal), or
+            <code>NSBackwardsSearch</code> (search from end of
+            string). Search only carried out within
+            <var>aRange</var>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-rangeOfComposedCharacterSequenceAtIndex$">rangeOfComposedCharacterSequenceAtIndex:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>) <b>rangeOfComposedCharacterSequenceAtIndex:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)anIndex;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Unicode utility method. If character at
+            <var>anIndex</var> is part of a composed character
+            sequence <var>anIndex</var> (note indices start
+            from 0), returns the full range of this sequence.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-rangeOfComposedCharacterSequencesForRange$">rangeOfComposedCharacterSequencesForRange:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>) <b>rangeOfComposedCharacterSequencesForRange:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)range;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            Not implemented
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-rangeOfString$">rangeOfString:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>) <b>rangeOfString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)string;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Invokes
+            <a rel="gsdoc" href="#method$NSString-rangeOfString$options$">
+              -rangeOfString:options:
+            </a>
+
+            with no options.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-rangeOfString$options$">rangeOfString:&nbsp;options:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>) <b>rangeOfString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)string<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)mask;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Invokes
+            <a rel="gsdoc" href="#method$NSString-rangeOfString$options$range$">
+              -rangeOfString:options:range:
+            </a>
+
+            with the range set set to the range of the whole of
+            the receiver.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-rangeOfString$options$range$">rangeOfString:&nbsp;options:&nbsp;range:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>) <b>rangeOfString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)aString<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)mask<b> range:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)aRange;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the range giving the location and length of
+            the first occurrence of <var>aString</var> within
+            <var>aRange</var>. <br/> If <var>aString</var> does
+            not exist in the receiver (an empty string is never
+            considered to exist in the receiver), the length
+            of the returned range is zero. <br/> If
+            <var>aString</var> is <code>nil</code>, an exception
+            is raised. <br/> If any part of <var>aRange</var> lies
+            outside the range of the receiver, an exception is
+            raised. <br/> The options <var>mask</var> may
+            contain the following options -
+            
+      <ul>
+        <li>
+          <code>NSCaseInsensitiveSearch</code>
+        </li>
+        <li>
+          <code>NSLiteralSearch</code>
+        </li>
+        <li>
+          <code>NSBackwardsSearch</code>
+        </li>
+        <li>
+          <code>NSAnchoredSearch</code>
+        </li>
+      </ul>
+      
+            The <code>NSAnchoredSearch</code> option means
+            <var>aString</var> must occur at the beginning (or
+            end, if <code>NSBackwardsSearch</code> is also given)
+            of the string. Options should be OR&apos;d together using
+            <code>&apos;|&apos;</code>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-rangeOfString$options$range$locale$">rangeOfString:&nbsp;options:&nbsp;range:&nbsp;locale:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>) <b>rangeOfString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)aString<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringCompareOptions">NSStringCompareOptions</a>)mask<b> range:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)searchRange<b> locale:</b> (<a rel="gsdoc" href="NSLocale.html#class$NSLocale">NSLocale</a>*)locale;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            Not implemented
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-smallestEncoding">smallestEncoding&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>) <b>smallestEncoding</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns the smallest encoding with which this
+            string can be converted without information loss.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-stringByAbbreviatingWithTildeInPath">stringByAbbreviatingWithTildeInPath&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>stringByAbbreviatingWithTildeInPath</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns a string where a prefix of the current
+            user&apos;s home directory is abbreviated by &apos;~&apos;, or
+            returns the receiver (or an immutable copy) if it
+            was not found to have the home directory as a prefix.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-stringByAddingPercentEncodingWithAllowedCharacters$">stringByAddingPercentEncodingWithAllowedCharacters:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>stringByAddingPercentEncodingWithAllowedCharacters:</b> (<a rel="gsdoc" href="NSCharacterSet.html#class$NSCharacterSet">NSCharacterSet</a>*)aSet;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.9.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-stringByAddingPercentEscapesUsingEncoding$">stringByAddingPercentEscapesUsingEncoding:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>stringByAddingPercentEscapesUsingEncoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>)e;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Constructs a new ASCII string which is a
+            representation of the receiver in which
+            characters are escaped where necessary in order
+            to produce a version of the string legal for inclusion
+            within a URL. <br/> The original string is
+            converted to bytes using the specified encoding
+            and then those bytes are escaped unless they correspond
+            to &apos;legal&apos; ASCII characters. The byte values escaped are
+            any below 32 and any above 126 as well as 32 (space),
+            34 (&quot;), 35 (#), 37 (%), 60 (&lt;), 62 (&gt;), 91 ([), 92
+            (\), 93 (]), 94 (^), 96 (~), 123 ({), 124 (|), and 125
+            (}). <br/> Returns <code>nil</code> if the receiver
+            cannot be represented using the specified encoding.
+            <br/> NB. This behavior is MacOS-X (4.2)
+            compatible, and it should be noted that it does
+            <em>not</em> produce a string suitable for use as a
+            field value in a url-encoded form as it does
+            <strong>not</strong> escape the &apos;+&apos;, &apos;=&apos; and
+            &apos;&amp;&apos; characters used in such forms. If you need
+            to add a string as a form field value (or name) you must
+            add percent escapes for those characters yourself.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-stringByAppendingFormat$,...">stringByAppendingFormat:&nbsp;,...</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>stringByAppendingFormat:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)format<b>,...</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Constructs a new string consisting of this
+            instance followed by the string specified by
+            <var>format</var>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-stringByAppendingPathComponent$">stringByAppendingPathComponent:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>stringByAppendingPathComponent:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)aString;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns a new string with the path component given
+            in <var>aString</var> appended to the receiver. <br/>
+            This removes trailing path separators from the
+            receiver and the root part from <var>aString</var>
+            and replaces them with a single slash as a path
+            separator. <br/> Also condenses any multiple
+            separator sequences in the result into single
+            path separators.
+
+<pre>
+   @&quot;&quot; with @&quot;file&quot; produces @&quot;file&quot;
+   @&quot;path&quot; with @&quot;file&quot; produces @&quot;path/file&quot;
+   @&quot;/&quot; with @&quot;file&quot; produces @&quot;/file&quot;
+   @&quot;/&quot; with @&quot;file&quot; produces @&quot;/file&quot;
+   @&quot;/&quot; with @&quot;/file&quot; produces @&quot;/file&quot;
+   @&quot;path with @&quot;C:/file&quot; produces @&quot;path/file&quot;
+ </pre>
+      
+            NB. Do not use this method to modify strings other than
+            filesystem paths as the behavior in such cases
+            is undefined... for instance the string may have
+            repeated slashes or slash-dot-slash sequences
+            removed.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-stringByAppendingPathExtension$">stringByAppendingPathExtension:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>stringByAppendingPathExtension:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)aString;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns a new string with the path extension given
+            in <var>aString</var> appended to the receiver after an
+            extensionSeparator (&apos;.&apos;). <br/> If the
+            receiver has trailing path separator characters,
+            they are stripped before the extension separator is
+            added. <br/> If the receiver contains no components
+            after the root, the extension cannot be appended (an
+            extension can only be appended to a file name),
+            so a copy of the unmodified receiver is returned. <br/>
+            An empty string may be used as an extension... in which
+            case the extension separator is appended. <br/> This
+            behavior mirrors that of the
+            <a rel="gsdoc" href="#method$NSString-stringByDeletingPathExtension">
+              -stringByDeletingPathExtension
+            </a>
+
+            method.
+
+<pre>
+   @&quot;Mail&quot; with @&quot;app&quot; produces @&quot;Mail.app&quot;
+   @&quot;Mail.app&quot; with @&quot;old&quot; produces @&quot;Mail.app.old&quot;
+   @&quot;file&quot; with @&quot;&quot; produces @&quot;file.&quot;
+   @&quot;/&quot; with @&quot;app&quot; produces @&quot;/&quot; (no file name to append to)
+   @&quot;&quot; with @&quot;app&quot; produces @&quot;&quot; (no file name to append to)
+ </pre>
+      
+            NB. Do not use this method to modify strings other than
+            filesystem paths as the behavior in such cases
+            is undefined... for instance the string may have
+            repeated slashes or slash-dot-slash sequences
+            removed.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-stringByAppendingString$">stringByAppendingString:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>stringByAppendingString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)aString;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Constructs a new string consisting of this
+            instance followed by the <var>aString</var>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-stringByDeletingLastPathComponent">stringByDeletingLastPathComponent&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>stringByDeletingLastPathComponent</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns a new string with the last path component
+            (including any final path separators) removed
+            from the receiver. <br/> A string without a path
+            component other than the root is returned without
+            alteration. <br/> See
+            <a rel="gsdoc" href="#method$NSString-lastPathComponent">
+              -lastPathComponent
+            </a>
+
+            for a definition of a path component.
+
+<pre>
+   @&quot;hello/there&quot; produces @&quot;hello&quot; (a relative path)
+   @&quot;hello&quot; produces @&quot;&quot; (a relative path)
+   @&quot;/hello&quot; produces @&quot;/&quot; (an absolute unix path)
+   @&quot;/&quot; produces @&quot;/&quot; (an absolute unix path)
+   @&quot;C:file&quot; produces @&quot;C:&quot; (a relative windows path)
+   @&quot;C:&quot; produces @&quot;C:&quot; (a relative windows path)
+   @&quot;C:/file&quot; produces @&quot;C:/&quot; (an absolute windows path)
+   @&quot;C:/&quot; produces @&quot;C:/&quot; (an absolute windows path)
+   @&quot;//host/share/file&quot; produces @&quot;//host/share/&quot; (a UNC path)
+   @&quot;//host/share/&quot; produces @&quot;//host/share/&quot; (a UNC path)
+   @&quot;//path/file&quot; produces @&quot;//path&quot; (an absolute Unix path)
+ </pre>
+      
+            NB. Do not use this method to modify strings other than
+            filesystem paths as the behavior in such cases
+            is undefined... for instance the string may have
+            repeated slashes or slash-dot-slash sequences
+            removed.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-stringByDeletingPathExtension">stringByDeletingPathExtension&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>stringByDeletingPathExtension</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns a new string with the path extension
+            removed from the receiver. <br/> Strips any
+            trailing path separators before checking for the
+            extension separator. <br/> NB. This method does
+            not consider a string which contains nothing between
+            the root part and the extension separator (&apos;.&apos;) to be a
+            path extension. This mirrors the behavior of the
+            <a rel="gsdoc" href="#method$NSString-stringByAppendingPathExtension$">
+              -stringByAppendingPathExtension:
+            </a>
+
+            method.
+
+<pre>
+   @&quot;file.ext&quot; produces @&quot;file&quot;
+   @&quot;/file.ext&quot; produces @&quot;/file&quot;
+   @&quot;/file.ext/&quot; produces @&quot;/file&quot; (trailing path separators are ignored)
+   @&quot;/file..ext&quot; produces @&quot;/file.&quot;
+   @&quot;/file.&quot; produces @&quot;/file&quot;
+   @&quot;/.ext&quot; produces @&quot;/.ext&quot; (there is no file to strip from)
+   @&quot;.ext&quot; produces @&quot;.ext&quot; (there is no file to strip from)
+ </pre>
+      
+            NB. Do not use this method to modify strings other than
+            filesystem paths as the behavior in such cases
+            is undefined... for instance the string may have
+            repeated slashes or slash-dot-slash sequences
+            removed.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-stringByExpandingTildeInPath">stringByExpandingTildeInPath&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>stringByExpandingTildeInPath</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns a string created by expanding the initial
+            tilde (&apos;~&apos;) and any following username to be the home
+            directory of the current user or the named user.
+            <br/> Returns the receiver or an immutable copy if
+            it was not possible to expand it.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-stringByPaddingToLength$withString$startingAtIndex$">stringByPaddingToLength:&nbsp;withString:&nbsp;startingAtIndex:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>stringByPaddingToLength:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)newLength<b> withString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)padString<b> startingAtIndex:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)padIndex;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns a string formed by extending or truncating
+            the receiver to <var>newLength</var> characters. If the
+            new string is larger, it is padded by appending
+            characters from <var>padString</var> (appending
+            it as many times as required). The first character from
+            <var>padString</var> to be appended is specified by
+            <var>padIndex</var>. <br/>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-stringByRemovingPercentEncoding">stringByRemovingPercentEncoding&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>stringByRemovingPercentEncoding</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.9.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-stringByReplacingCharactersInRange$withString$">stringByReplacingCharactersInRange:&nbsp;withString:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>stringByReplacingCharactersInRange:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)aRange<b> withString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)by;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            Returns a new string where the substring in the
+            given range is replaced <var>by</var> the passed
+            string.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-stringByReplacingOccurrencesOfString$withString$">stringByReplacingOccurrencesOfString:&nbsp;withString:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>stringByReplacingOccurrencesOfString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)replace<b> withString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)by;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-stringByReplacingOccurrencesOfString$withString$options$range$">stringByReplacingOccurrencesOfString:&nbsp;withString:&nbsp;options:&nbsp;range:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>stringByReplacingOccurrencesOfString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)replace<b> withString:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)by<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringCompareOptions">NSStringCompareOptions</a>)opts<b> range:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)searchRange;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-stringByReplacingPercentEscapesUsingEncoding$">stringByReplacingPercentEscapesUsingEncoding:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>stringByReplacingPercentEscapesUsingEncoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>)e;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns a string created by replacing percent
+            escape sequences in the receiver assuming that the
+            resulting data represents characters in the
+            specified encoding. <br/> Returns
+            <code>nil</code> if the result is not a string in
+            the specified encoding.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-stringByResolvingSymlinksInPath">stringByResolvingSymlinksInPath&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>stringByResolvingSymlinksInPath</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            First calls
+            <a rel="gsdoc" href="#method$NSString-stringByExpandingTildeInPath">
+              -stringByExpandingTildeInPath
+            </a>
+
+            if necessary. <br/> Replaces path string by one in
+            which path components representing symbolic links
+            have been replaced by their referents. <br/> Removes
+            a leading &apos;/private&apos; if the result is valid. <br/> If
+            links cannot be resolved, returns an unmodified copy
+            of the receiver.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-stringByStandardizingPath">stringByStandardizingPath&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>stringByStandardizingPath</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns a standardised form of the receiver, with
+            unnecessary parts removed, tilde characters
+            expanded, and symbolic links resolved where
+            possible. <br/> NB. Refers to the local
+            filesystem to resolve symbolic links in absolute
+            paths, and to expand tildes... so this can&apos;t be used
+            for general path manipulation. <br/> If the string is
+            an invalid path, the unmodified receiver is returned.
+            <br/>
+            
+    </p>
+    <p>
+
+              Uses
+              <a rel="gsdoc" href="#method$NSString-stringByExpandingTildeInPath">
+                -stringByExpandingTildeInPath
+              </a>
+
+              to expand tilde expressions. <br/> Simplifies &apos;//&apos;
+              and &apos;/./&apos; sequences and removes trailing &apos;/&apos; or &apos;.&apos;.
+              <br/>
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              For absolute paths, uses
+              <a rel="gsdoc" href="#method$NSString-stringByResolvingSymlinksInPath">-stringByResolvingSymlinksInPath</a>
+ to resolve any links, then gets rid of &apos;/../&apos; sequences and removes any &apos;/private&apos; prefix.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-stringByTrimmingCharactersInSet$">stringByTrimmingCharactersInSet:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>stringByTrimmingCharactersInSet:</b> (<a rel="gsdoc" href="NSCharacterSet.html#class$NSCharacterSet">NSCharacterSet</a>*)aSet;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Return a string formed by removing characters from
+            the ends of the receiver. Characters are removed only
+            if they are in <var>aSet</var>. <br/> If the string
+            consists entirely of characters in <var>aSet</var>
+            , an empty string is returned. <br/> The <var>aSet</var>
+            argument must not be <code>nil</code>. <br/>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-stringsByAppendingPaths$">stringsByAppendingPaths:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>stringsByAppendingPaths:</b> (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*)paths;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns an array of strings made by appending the
+            values in <var>paths</var> to the receiver.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-substringFromIndex$">substringFromIndex:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>substringFromIndex:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)index;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns a substring of the receiver from character
+            at the specified <var>index</var> to the end of the
+            string. <br/> So, supplying an <var>index</var> of
+            3 would return a substring consisting of the entire
+            string apart from the first three character (those
+            would be at <var>index</var> 0, 1, and 2). <br/> If
+            the supplied <var>index</var> is greater than or equal
+            to the length of the receiver an exception is raised.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-substringToIndex$">substringToIndex:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>substringToIndex:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)index;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns a substring of the receiver from the start
+            of the string to (but not including) the specified
+            <var>index</var> position. <br/> So, supplying an
+            <var>index</var> of 3 would return a substring
+            consisting of the first three characters of the
+            receiver. <br/> If the supplied <var>index</var>
+            is greater than the length of the receiver an exception
+            is raised.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-substringWithRange$">substringWithRange:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>substringWithRange:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSRange">NSRange</a>)aRange;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Returns a substring of the receiver containing the
+            characters in <var>aRange</var>. <br/> If
+            <var>aRange</var> specifies any character position
+            not present in the receiver, an exception is raised.
+            <br/> If <var>aRange</var> has a length of zero, an
+            empty string is returned.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-uppercaseString">uppercaseString&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSString">NSString</a>*) <b>uppercaseString</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns a copy of the receiver with all characters
+            converted to uppercase.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-writeToFile$atomically$">writeToFile:&nbsp;atomically:&nbsp;</a></h3>
+    - (BOOL) <b>writeToFile:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)filename<b> atomically:</b> (BOOL)useAuxiliaryFile;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Writes contents out to file at <var>filename</var>,
+            using the default C string encoding unless this would
+            result in information loss, otherwise straight
+            unicode. The &apos; <code>atomically</code> &apos; option if
+            set will cause the contents to be written to a temp
+            file, which is then closed and renamed to
+            <var>filename</var>. Thus, an incomplete file at
+            <var>filename</var> should never result.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-writeToFile$atomically$encoding$error$">writeToFile:&nbsp;atomically:&nbsp;encoding:&nbsp;error:&nbsp;</a></h3>
+    - (BOOL) <b>writeToFile:</b> (<a rel="gsdoc" href="#class$NSString">NSString</a>*)path<b> atomically:</b> (BOOL)atomically<b> encoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>)enc<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            Writes contents out to file at filename, using the
+            default C string encoding unless this would result
+            in information loss, otherwise straight unicode. The &apos;
+            <code><var>atomically</var></code> &apos; option if set
+            will cause the contents to be written to a temp file,
+            which is then closed and renamed to filename. Thus,
+            an incomplete file at filename should never result.
+            <br/> If there is a problem and <var>error</var> is
+            not NULL, the cause of the problem is returned in
+            *error.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-writeToURL$atomically$">writeToURL:&nbsp;atomically:&nbsp;</a></h3>
+    - (BOOL) <b>writeToURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)url<b> atomically:</b> (BOOL)atomically;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br />
+    <div class="desc">
+      
+            Writes contents out to <var>url</var>, using the
+            default C string encoding unless this would result
+            in information loss, otherwise straight unicode. See
+            <a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-writeData$">
+              [NSURLHandle -writeData:]
+            </a>
+
+            on which URL types are supported. The &apos;
+            <code><var>atomically</var></code> &apos; option is only
+            heeded if the URL is a <code>file://</code> URL; see
+            <a rel="gsdoc" href="#method$NSString-writeToFile$atomically$">
+              -writeToFile:atomically:
+            </a>
+
+            .
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSString-writeToURL$atomically$encoding$error$">writeToURL:&nbsp;atomically:&nbsp;encoding:&nbsp;error:&nbsp;</a></h3>
+    - (BOOL) <b>writeToURL:</b> (<a rel="gsdoc" href="NSURL.html#class$NSURL">NSURL</a>*)url<b> atomically:</b> (BOOL)atomically<b> encoding:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSStringEncoding">NSStringEncoding</a>)enc<b> error:</b> (<a rel="gsdoc" href="NSError.html#class$NSError">NSError</a>**)error;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br />
+    <div class="desc">
+      
+            Writes contents out to <var>url</var>, using the
+            default C string encoding unless this would result
+            in information loss, otherwise straight unicode. See
+            <a rel="gsdoc" href="NSURLHandle.html#method$NSURLHandle-writeData$">
+              [NSURLHandle -writeData:]
+            </a>
+
+            on which URL types are supported. The &apos;
+            <code><var>atomically</var></code> &apos; option is only
+            heeded if the URL is a <code>file://</code> URL; see
+            <a rel="gsdoc" href="#method$NSString-writeToFile$atomically$">
+              -writeToFile:atomically:
+            </a>
+
+            . <br/> If there is a problem and <var>error</var> is
+            not NULL, the cause of the problem is returned in
+            *error.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+
+          <h1><a name="004000000000">
+        Software documentation for the NXConstantString class
+      </a></h1>
+    <h2 class="class"><a name="class$NXConstantString">NXConstantString</a> : <a rel="gsdoc" href="#class$NSString">NSString</a></h2>
+<svg width="231pt" height="116pt"
+ viewBox="0.00 0.00 231.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>class_NXConstantString</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 227,-112 227,4 -4,4"/>
+<!-- NSString -->
+<g id="node1" class="node">
+<title>NSString</title>
+<g id="a_node1"><a xlink:href="#class$NSString" xlink:title="NSString">
+<polygon fill="lightgrey" stroke="black" points="168,-108 55,-108 55,-72 168,-72 168,-108"/>
+<text text-anchor="middle" x="111.5" y="-83.8" font-family="Times,serif" font-size="24.00" fill="blue">NSString</text>
+</a>
+</g>
+</g>
+<!-- NXConstantString -->
+<g id="node2" class="node">
+<title>NXConstantString</title>
+<polygon fill="lightgrey" stroke="black" points="223,-36 0,-36 0,0 223,0 223,-36"/>
+<text text-anchor="middle" x="111.5" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">NXConstantString</text>
+</g>
+<!-- NSString&#45;&gt;NXConstantString -->
+<g id="edge1" class="edge">
+<title>NSString&#45;&gt;NXConstantString</title>
+<path fill="none" stroke="black" d="M111.5,-71.7C111.5,-63.98 111.5,-54.71 111.5,-46.11"/>
+<polygon fill="black" stroke="black" points="115,-46.1 111.5,-36.1 108,-46.1 115,-46.1"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSString.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            The NXConstantString class is used to hold constant
+            8-bit character string objects produced by the
+            compiler where it sees @&quot;...&quot; in the source. The
+            compiler generates the instances of this class -
+            which has three instance variables -
+              </p>
+    <p>
+      
+          
+      <ul>
+        <li>
+          
+              a pointer to the class (this is the sole ivar of
+              NSObject)
+            
+        </li>
+        <li>
+          a pointer to the 8-bit data
+        </li>
+        <li>
+          the length of the string
+        </li>
+      </ul>
+      
+          
+    </p>
+    <p>
+
+            In older versions of the compiler, the isa variable is
+            always set to the NXConstantString class. In newer
+            versions a compiler option was added for GNUstep,
+            to permit the isa variable to be set to another class,
+            and GNUstep uses this to avoid conflicts with the
+            default implementation of NXConstantString in the
+            ObjC runtime library (the preprocessor is used to
+            change all occurrences of NXConstantString in the
+            source code to NSConstantString).
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            Since GNUstep will generally use the GNUstep
+            extension to the compiler, you should never refer
+            to the constant string class by name, but should use the
+            <a rel="gsdoc" href="#method$NSString+constantStringClass">[NSString +constantStringClass]</a>
+ method to get the actual class being used for constant strings.
+              </p>
+    <p>
+      
+          What follows is a dummy declaration of the class to keep
+          the compiler happy.
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_NXConstantString_ivars">Instance Variables</a>
+    <br/><br/>
+<a name="_NXConstantString_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for NXConstantString Class</h2>
+    <h3><a name="ivariable$NXConstantString*flags">flags</a></h3>
+    @public uint32_t <b>flags</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Flags. The low 16 bits are reserved for the
+            compiler, the top 16 for use by the Foundation
+            Framework. Currently only the low 2 bits are
+            used, to indicate the encoding of the string, with
+            the following values: 0. ASCII (UTF-8 using only 7-bit
+            characters) 1. UTF-8 2. UTF-16 3. UTF-32
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NXConstantString*hash">hash</a></h3>
+    @public uint32_t <b>hash</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Hash value.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NXConstantString*nxcslen">nxcslen</a></h3>
+    @public const unsigned int <b>nxcslen</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NXConstantString*nxcsptr">nxcsptr</a></h3>
+    @public const char* const <b>nxcsptr</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NXConstantString*size">size</a></h3>
+    @public uint32_t <b>size</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            The number of bytes in the string. For fixed-length
+            encodings, this is a fixed multiple of nxcslen,
+            but for UTF-8 it can be different.
+          
+    </div>
+    <hr class="method-separator"/>
+    <br/><hr width="50%" align="left" /><br/>
+    <br />
+    <a href="Base.html">Up</a>
+    </body>
+</html>

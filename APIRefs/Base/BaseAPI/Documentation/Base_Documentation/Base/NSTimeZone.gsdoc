@@ -1,0 +1,385 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSTimeZone" stylesheeturl="gnustepStyle" up="Base">
+  <head>
+    <title>NSTimeZone class reference</title>
+    <author name="Yoo C. Chung">
+      <email address="wacko@laplace.snu.ac.kr">
+        wacko@laplace.snu.ac.kr
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 16:52:01 -0500</date>
+    <copy>1994, 1996, 1999 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSTimeZone class
+      </heading>
+      <class name="NSTimeZone" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSTimeZone.h</declared>
+        <desc>
+          <p>
+            The local time zone is obtained from, in order of
+            preference: <br /> 1) the user defaults
+            database: NSGlobalDomain "Local Time Zone" <br />
+            2) the GNUSTEP_TZ environment variable <br /> 3) the
+            file "localtime" in
+            System/Library/Libraries/Resources/NSTimeZone
+            <br /> 4) the TZ environment variable <br /> 5) The
+            system zone settings (typically in /etc/localtime)
+            <br /> 6) tzset and tznam on platforms which have it
+            <br /> 7) Windows registry, on Win32 systems <br />
+            8) or the fallback time zone (which is UTC) <br />
+          </p>
+          <p>
+            If the GNUstep time zone datafiles become too out of
+            date, one can download an updated database from
+            <uref url="ftp://elsie.nci.nih.gov/pub/">
+              ftp://elsie.nci.nih.gov/pub/
+            </uref>
+            and compile it as specified in the README file in the
+            NSTimeZones directory.
+          </p>
+          <p>
+            Time zone names in NSDates should be GMT, MET etc. not
+            Europe/Berlin, America/Washington etc.
+          </p>
+          <p>
+            The problem with this is that various time zones may
+            use the same abbreviation (e.g. Australia/Brisbane and
+            America/New_York both use EST), and some
+            time zones may have different rules for daylight
+            saving time even if the abbreviation and offsets
+            from UTC are the same.
+          </p>
+          <p>
+            The problems with depending on the OS for providing
+            time zone info are that time zone names may vary
+            wildly between OSes (this could be a big problem
+            when archiving is used between different systems).
+          </p>
+          <p>
+            Win32: Time zone names read from the registry are
+            different from other GNUstep installations. Be
+            careful when moving data between platforms in this
+            case.
+          </p>
+        </desc>
+        <method type="NSDictionary*" factory="yes" ovadd="1.0.0">
+          <sel>abbreviationDictionary</sel>
+          <desc>
+            Returns a dictionary containing time zone
+            abbreviations and their corresponding time
+            zone names. More than one time zone may be associated
+            with a single abbreviation. In this case, the
+            dictionary contains only one (usually the most
+            common) time zone name for the abbreviation.
+          </desc>
+        </method>
+        <method type="NSDictionary*" factory="yes" ovadd="0.0.0">
+          <sel>abbreviationMap</sel>
+          <desc>
+            Returns a dictionary that maps abbreviations to the
+            array containing all the time zone names that use the
+            abbreviation.
+          </desc>
+        </method>
+        <method type="NSTimeZone*" factory="yes" ovadd="1.0.0">
+          <sel>defaultTimeZone</sel>
+          <desc>
+            Return the default time zone for this process.
+          </desc>
+        </method>
+        <method type="NSArray*" factory="yes" ovadd="1.0.0">
+          <sel>knownTimeZoneNames</sel>
+          <desc>
+            Returns an array of all known time zone names.
+          </desc>
+        </method>
+        <method type="NSTimeZone*" factory="yes" ovadd="1.0.0">
+          <sel>localTimeZone</sel>
+          <desc>
+            Return a proxy to the default time zone for this
+            process.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="10.0.0">
+          <sel>resetSystemTimeZone</sel>
+          <desc>
+            Destroy the system time zone so that it will be
+            recreated next time it is used.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="1.0.0">
+          <sel>setDefaultTimeZone:</sel>
+          <arg type="NSTimeZone*">aTimeZone</arg>
+          <desc>
+            Set the default time zone to be used for this process.
+          </desc>
+        </method>
+        <method type="NSTimeZone*" factory="yes" ovadd="10.0.0">
+          <sel>systemTimeZone</sel>
+          <desc>
+            Returns the current system time zone for the
+            process.
+          </desc>
+        </method>
+        <method type="NSArray*" factory="yes" ovadd="1.0.0">
+          <sel>timeZoneArray</sel>
+          <desc>
+            Returns an array of all the known regions. <br />
+            There are 24 elements, of course, one for each time
+            zone. Each element contains an array of NSStrings
+            which are the region names.
+          </desc>
+        </method>
+        <method type="NSTimeZone*" factory="yes" ovadd="1.0.0">
+          <sel>timeZoneForSecondsFromGMT:</sel>
+          <arg type="NSInteger">seconds</arg>
+          <desc>
+            Return a timezone for the specified offset from GMT.
+            <br /> The timezone returned does <em>not</em> use
+            daylight savings time. The actual timezone
+            returned has an offset rounded to the nearest
+            minute. <br /> Time zones with an offset of more
+            than +/- 18 hours are disallowed, and <code>nil</code>
+            is returned.
+          </desc>
+        </method>
+        <method type="NSTimeZone*" factory="yes" ovadd="1.0.0">
+          <sel>timeZoneWithAbbreviation:</sel>
+          <arg type="NSString*">abbreviation</arg>
+          <desc>
+            Returns a timezone for the specified
+            <var>abbreviation</var>. The same abbreviations are
+            used in different regions so this isn't particularly
+            useful. <br /> Calls NSTimeZone-abbreviation
+            dictionary an so uses a lot of memory.
+          </desc>
+        </method>
+        <method type="NSTimeZone*" factory="yes" ovadd="1.0.0">
+          <sel>timeZoneWithName:</sel>
+          <arg type="NSString*">aTimeZoneName</arg>
+          <desc>
+            Returns a timezone for the specified name.
+          </desc>
+        </method>
+        <method type="NSTimeZone*" factory="yes" ovadd="10.0.0">
+          <sel>timeZoneWithName:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>data:</sel>
+          <arg type="NSData*">data</arg>
+          <desc>
+            Returns a timezone for aTimeZoneName, created from
+            the supplied time zone <var>data</var>. Data must be in
+            TZ format as per the Olson database.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>abbreviation</sel>
+          <desc>
+            Returns the abbreviation for this timezone now.
+            Invokes
+            <ref type="method" id="-abbreviationForDate:">
+              -abbreviationForDate:
+            </ref>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>abbreviationForDate:</sel>
+          <arg type="NSDate*">aDate</arg>
+          <desc>
+            Returns the abbreviation for this timezone at
+            <var>aDate</var>. This may differ depending on
+            whether daylight savings time is in effect or not.
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="10.0.0">
+          <sel>data</sel>
+          <desc>
+            Returns the data with which the receiver was
+            initialised.
+          </desc>
+        </method>
+        <method type="NSTimeInterval" ovadd="10.5.0">
+          <sel>daylightSavingTimeOffset</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSTimeInterval" ovadd="10.5.0">
+          <sel>daylightSavingTimeOffsetForDate:</sel>
+          <arg type="NSDate*">aDate</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>initWithName:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            Initialise a timezone with the supplied
+            <var>name</var>. May return a cached timezone object
+            rather than the newly created one.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>initWithName:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>data:</sel>
+          <arg type="NSData*">data</arg>
+          <desc>
+            Initialises a time zone object using the
+            supplied <var>data</var> object. <br /> This
+            method is intended for internal use by the
+            NSTimeZone class cluster. Don't use it... use
+            <ref type="method" id="-initWithName:">
+              -initWithName:
+            </ref>
+            instead.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>isDaylightSavingTime</sel>
+          <desc>
+            Returns a boolean indicating whether daylight
+            savings time is in effect now. Invokes
+            <ref type="method" id="-isDaylightSavingTimeForDate:">
+              -isDaylightSavingTimeForDate:
+            </ref>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>isDaylightSavingTimeForDate:</sel>
+          <arg type="NSDate*">aDate</arg>
+          <desc>
+            Returns a boolean indicating whether daylight
+            savings time is in effect for this time zone at
+            <var>aDate</var>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>isEqualToTimeZone:</sel>
+          <arg type="NSTimeZone*">aTimeZone</arg>
+          <desc>
+            Returns <code>YES</code> if the time zones have the
+            same name.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.5.0">
+          <sel>localizedName:</sel>
+          <arg type="NSTimeZoneNameStyle">style</arg>
+          <sel>locale:</sel>
+          <arg type="NSLocale*">locale</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>name</sel>
+          <desc>
+            Returns the name of the timezone
+          </desc>
+        </method>
+        <method type="NSDate*" ovadd="10.5.0">
+          <sel>nextDaylightSavingTimeTransition</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDate*" ovadd="10.5.0">
+          <sel>nextDaylightSavingTimeTransitionAfterDate:</sel>
+          <arg type="NSDate*">aDate</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.0.0">
+          <sel>secondsFromGMT</sel>
+          <desc>
+            Returns the number of seconds by which the receiver
+            differs from Greenwich Mean Time at the current
+            date and time. <br /> Invokes
+            <ref type="method" id="-secondsFromGMTForDate:">
+              -secondsFromGMTForDate:
+            </ref>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.0.0">
+          <sel>secondsFromGMTForDate:</sel>
+          <arg type="NSDate*">aDate</arg>
+          <desc>
+            Returns the number of seconds by which the receiver
+            differs from Greenwich Mean Time at the date
+            <var>aDate</var>. <br /> If the time zone uses
+            daylight savings time, the returned value will
+            vary at different times of year.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>timeZoneDetailArray</sel>
+          <desc>
+            DEPRECATED: see NSTimeZoneDetail
+          </desc>
+        </method>
+        <method type="NSTimeZoneDetail*" ovadd="4.0.0" ovrem="10.0.0">
+          <sel>timeZoneDetailForDate:</sel>
+          <arg type="NSDate*">date</arg>
+          <desc>
+            DEPRECATED: see NSTimeZoneDetail
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="4.0.0" ovrem="10.0.0">
+          <sel>timeZoneName</sel>
+          <desc>
+            Returns the name of this timezone.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSTimeZoneDetail class
+      </heading>
+      <class name="NSTimeZoneDetail" super="NSTimeZone" ovadd="4.0.0" ovrem="10.0.0">
+        <declared>Foundation/NSTimeZone.h</declared>
+        <desc>
+          This class serves no useful purpose in GNUstep other
+          than to provide a backup mechanism for handling
+          abbreviations where the precomputed data files
+          cannot be found. It is provided primarily for backward
+          compatibility with the OpenStep spec. It is
+          missing entirely from MacOS-X.
+        </desc>
+        <method type="BOOL" ovadd="4.0.0" ovrem="10.0.0">
+          <sel>isDaylightSavingTimeZone</sel>
+          <desc>
+            DEPRECATED: <strong>Class</strong> is no longer
+            used.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="4.0.0" ovrem="10.0.0">
+          <sel>timeZoneAbbreviation</sel>
+          <desc>
+            DEPRECATED: <strong>Class</strong> is no longer
+            used.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="4.0.0" ovrem="10.0.0">
+          <sel>timeZoneSecondsFromGMT</sel>
+          <desc>
+            DEPRECATED: <strong>Class</strong> is no longer
+            used.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

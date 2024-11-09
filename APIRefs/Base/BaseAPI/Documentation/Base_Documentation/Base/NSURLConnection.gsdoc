@@ -1,0 +1,456 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSURLConnection" stylesheeturl="gnustepStyle" up="Base">
+  <head>
+    <title>NSURLConnection class documentation</title>
+    <author name="Armando Pesenti Gritti">
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 16:52:01 -0500</date>
+    <copy>2006 Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSURLConnection class
+      </heading>
+      <class name="NSURLConnection" super="NSObject" ovadd="10.2.0" gvadd="1.13.0">
+        <declared>Foundation/NSURLConnection.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <ivariable type="void*" name="_NSURLConnectionInternal" validity="protected" ovadd="10.2.0" gvadd="1.13.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="BOOL" factory="yes" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>canHandleRequest:</sel>
+          <arg type="NSURLRequest*">request</arg>
+          <desc>
+            Performs a preliminary check to see if a load of
+            the specified <var>request</var> can be handled by an
+            instance of this class. <br /> The results of this
+            method may be invalidated by subsequent changes to
+            the <var>request</var> or changes to the registered
+            protocols etc.
+          </desc>
+        </method>
+        <method type="NSURLConnection*" factory="yes" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>connectionWithRequest:</sel>
+          <arg type="NSURLRequest*">request</arg>
+          <sel>delegate:</sel>
+          <arg type="id">delegate</arg>
+          <desc>
+            Allocates and returns the autoreleased instance
+            which it initialises using the
+            <ref type="method" id="-initWithRequest:delegate:">
+              -initWithRequest:delegate:
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>cancel</sel>
+          <desc>
+            Cancel the asynchronous load in progress (if any)
+            for this connection.
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>initWithRequest:</sel>
+          <arg type="NSURLRequest*">request</arg>
+          <sel>delegate:</sel>
+          <arg type="id">delegate</arg>
+          <desc>
+            Initialises the receiver with the specified
+            <var>request</var> (performing a deep copy so that
+            the <var>request</var> does not change during loading)
+            and <var>delegate</var>. <br /> This automatically
+            initiates an asynchronous load for the
+            <var>request</var>. <br /> Processing of the
+            <var>request</var> is done in the thread which calls
+            this method, so the thread must run its current run
+            loop (in NSDefaultRunLoopMode) for processing to
+            continue/complete. <br /> The
+            <var>delegate</var> will receive callbacks informing
+            it of the progress of the load. <br /> This method
+            breaks with convention and retains the
+            <var>delegate</var> object, releasing it when the
+            connection finished loading, fails, or is
+            cancelled.
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="10.5.0" gvadd="1.13.0">
+          <sel>initWithRequest:</sel>
+          <arg type="NSURLRequest*">request</arg>
+          <sel>delegate:</sel>
+          <arg type="id">delegate</arg>
+          <sel>startImmediately:</sel>
+          <arg type="BOOL">startImmediately</arg>
+          <desc>
+            Initialises the receiver with the specified
+            <var>request</var> (performing a deep copy so that
+            the <var>request</var> does not change during loading)
+            and <var>delegate</var>. <br /> This automatically
+            initiates an asynchronous load for the
+            <var>request</var> if and only if
+            <var>startImmediately</var> is set to
+            <code>YES</code>. <br /> Processing of the
+            <var>request</var> is done in the thread which calls
+            this method, so the thread must run its current run
+            loop (in NSDefaultRunLoopMode) for processing to
+            continue/complete. <br /> The
+            <var>delegate</var> will receive callbacks informing
+            it of the progress of the load. <br /> This method
+            breaks with convention and retains the
+            <var>delegate</var> object, releasing it when the
+            connection finished loading, fails, or is
+            cancelled.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0" gvadd="1.13.0">
+          <sel>scheduleInRunLoop:</sel>
+          <arg type="NSRunLoop*">aRunLoop</arg>
+          <sel>forMode:</sel>
+          <arg type="NSRunLoopMode">mode</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0" gvadd="1.13.0">
+          <sel>start</sel>
+          <desc>
+            Start the asynchronous load. This method is only
+            needed if <code>NO</code> is passed into
+            startImmediately when calling
+            initWithRequest: delegate:
+            startImmediately.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0" gvadd="1.13.0">
+          <sel>unscheduleFromRunLoop:</sel>
+          <arg type="NSRunLoop*">aRunLoop</arg>
+          <sel>forMode:</sel>
+          <arg type="NSRunLoopMode">mode</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSURLConnectionDelegate)
+        category
+      </heading>
+      <category name="NSURLConnectionDelegate" class="NSObject" ovadd="10.2.0" gvadd="1.13.0">
+        <declared>Foundation/NSURLConnection.h</declared>
+        <desc>
+          This category is an informal protocol specifying how an
+          NSURLConnection instance will communicate
+          with its delegate to inform it of (and allow it to
+          manage) the progress of a load request. <br /> A load
+          operation is performed by asynchronous I/O using
+          the run loop of the thread in which it was initiated, so
+          all callbacks will occur in that thread. <br /> The
+          process of loading a resource occurs as follows -
+          <br />
+          <list>
+            <item>
+              Any number of
+              <ref type="method" id="-connection:willSendRequest:redirectResponse:">-connection:willSendRequest:redirectResponse:</ref> messages may be sent to the delegate before any other messages in this list are sent. This permits a chain of redirects to be followed before eventual loading of 'real' data.
+            </item>
+            <item>
+              A
+              <ref type="method" id="-connection:didReceiveAuthenticationChallenge:">-connection:didReceiveAuthenticationChallenge:</ref> message may be sent to the delegate (where authentication is required) before response data can be downloaded.
+            </item>
+            <item>
+              Any number of
+              <ref type="method" id="-connection:didReceiveResponse:">
+                -connection:didReceiveResponse:
+              </ref>
+              messages may be be sent to the delegate before a
+              <ref type="method" id="-connection:didReceiveData:">
+                -connection:didReceiveData:
+              </ref>
+              message. Usually there is exactly one of these,
+              but for multipart/x-mixed-replace there may be
+              multiple responses for each part, and if an
+              error occurs in the download the delegate may not
+              receive a response at all. <br /> Delegates
+              should discard previously handled data when they
+              receive a new response.
+            </item>
+            <item>
+              Any number of
+              <ref type="method" id="-connection:didReceiveData:">
+                -connection:didReceiveData:
+              </ref>
+              messages may be sent before the load completes
+              as described below.
+            </item>
+            <item>
+              A single
+              <ref type="method" id="-connection:willCacheResponse:">
+                -connection:willCacheResponse:
+              </ref>
+              message may be sent to the delegate after any
+              <ref type="method" id="-connection:didReceiveData:">
+                -connection:didReceiveData:
+              </ref>
+              messages are sent but before a
+              <ref type="method" id="-connectionDidFinishLoading:">
+                -connectionDidFinishLoading:
+              </ref>
+              message is sent.
+            </item>
+            <item>
+              Unless the NSURLConnection receives a
+              <ref type="method" id="-cancel">
+                -cancel
+              </ref>
+              message, the delegate will receive one and only
+              one of
+              <ref type="method" id="-connectionDidFinishLoading:">
+                -connectionDidFinishLoading:
+              </ref>
+              , or
+              <ref type="method" id="-connection:didFailWithError:">
+                -connection:didFailWithError:
+              </ref>
+              message, but never both. <br /> Once either of
+              these terminal messages is sent the delegate will
+              receive no further messages from the
+              NSURLConnection.
+            </item>
+          </list>
+        </desc>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>connection:</sel>
+          <arg type="NSURLConnection*">connection</arg>
+          <sel>didCancelAuthenticationChallenge:</sel>
+          <arg type="NSURLAuthenticationChallenge*">challenge</arg>
+          <desc>
+            Instructs the delegate that authentication for
+            <var>challenge</var> has been cancelled for the
+            request loading on <var>connection</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>connection:</sel>
+          <arg type="NSURLConnection*">connection</arg>
+          <sel>didFailWithError:</sel>
+          <arg type="NSError*">error</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>connection:</sel>
+          <arg type="NSURLConnection*">connection</arg>
+          <sel>didReceiveAuthenticationChallenge:</sel>
+          <arg type="NSURLAuthenticationChallenge*">challenge</arg>
+          <desc>
+            Called when an authentication <var>challenge</var>
+            is received... the delegate should send
+            <ref type="method" id="-useCredential:forAuthenticationChallenge:">-useCredential:forAuthenticationChallenge:</ref> or <ref type="method" id="-continueWithoutCredentialForAuthenticationChallenge:">-continueWithoutCredentialForAuthenticationChallenge:</ref> or <ref type="method" id="-cancelAuthenticationChallenge:">-cancelAuthenticationChallenge:</ref> to the <var>challenge</var> sender when done.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>connection:</sel>
+          <arg type="NSURLConnection*">connection</arg>
+          <sel>didReceiveData:</sel>
+          <arg type="NSData*">data</arg>
+          <desc>
+            Called when content <var>data</var> arrives during a
+            load operations... this may be incremental or may be
+            the compolete <var>data</var> for the load.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>connection:</sel>
+          <arg type="NSURLConnection*">connection</arg>
+          <sel>didReceiveResponse:</sel>
+          <arg type="NSURLResponse*">response</arg>
+          <desc>
+            Called when enough information to build a
+            NSURLResponse object has been received.
+          </desc>
+        </method>
+        <method type="NSCachedURLResponse*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>connection:</sel>
+          <arg type="NSURLConnection*">connection</arg>
+          <sel>willCacheResponse:</sel>
+          <arg type="NSCachedURLResponse*">cachedResponse</arg>
+          <desc>
+            Called with the <var>cachedResponse</var> to be
+            stored in the cache. The delegate can inspect the
+            <var>cachedResponse</var> and return a modified copy
+            if if wants changed to what whill be stored. <br /> If
+            it returns <code>nil</code>, nothing will be stored in
+            the cache.
+          </desc>
+        </method>
+        <method type="NSURLRequest*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>connection:</sel>
+          <arg type="NSURLConnection*">connection</arg>
+          <sel>willSendRequest:</sel>
+          <arg type="NSURLRequest*">request</arg>
+          <sel>redirectResponse:</sel>
+          <arg type="NSURLResponse*">response</arg>
+          <desc>
+            Informs the delegate that the <var>connection</var>
+            must change the URL of the <var>request</var> in order
+            to continue with the load operation. <br /> This allows
+            the delegate to ionspect and/or modify a copy of the
+            <var>request</var> before the <var>connection</var>
+            continues loading it. Normally the delegate can
+            return the <var>request</var> unmodifield. <br />
+            The redirection can be rejectected by the delegate
+            calling
+            <ref type="method" id="-cancel">
+              -cancel
+            </ref>
+            or returning <code>nil</code>. <br /> Cancelling the
+            load will simply stop it, but returning
+            <code>nil</code> will cause it to complete with a
+            redirection failure. <br /> As a special case,
+            this method may be called with a <code>nil</code>
+            <var>response</var>, indicating a change of URL made
+            internally by the system rather than due to a
+            <var>response</var> from the server.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>connectionDidFinishLoading:</sel>
+          <arg type="NSURLConnection*">connection</arg>
+          <desc>
+            Called when an NSURLConnection has finished loading
+            successfully.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSURLConnection(NSURLConnectionSynchronousLoading)
+        category
+      </heading>
+      <category name="NSURLConnectionSynchronousLoading" class="NSURLConnection" ovadd="10.2.0" gvadd="1.13.0">
+        <declared>Foundation/NSURLConnection.h</declared>
+        <desc>
+          An interface to perform synchronous loading of URL
+          requests.
+        </desc>
+        <method type="NSData*" factory="yes" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>sendSynchronousRequest:</sel>
+          <arg type="NSURLRequest*">request</arg>
+          <sel>returningResponse:</sel>
+          <arg type="NSURLResponse**">response</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">error</arg>
+          <desc>
+            Performs a synchronous load of <var>request</var>
+            and returns the
+            <ref type="class" id="NSURLResponse">NSURLResponse</ref>
+              in <var>response</var>. <br /> Returns the result of
+              the load or <code>nil</code> if the load failed.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSURLConnectionDataDelegate
+        protocol
+      </heading>
+      <protocol name="NSURLConnectionDataDelegate" ovadd="10.2.0" gvadd="1.13.0">
+        <declared>Foundation/NSURLConnection.h</declared>
+        <conform>NSURLConnectionDelegate</conform>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>connection:</sel>
+          <arg type="NSURLConnection*">connection</arg>
+          <sel>didReceiveData:</sel>
+          <arg type="NSData*">data</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>connection:</sel>
+          <arg type="NSURLConnection*">connection</arg>
+          <sel>didReceiveResponse:</sel>
+          <arg type="NSURLResponse*">response</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>connection:</sel>
+          <arg type="NSURLConnection*">connection</arg>
+          <sel>didSendBodyData:</sel>
+          <arg type="NSInteger">bytesWritten</arg>
+          <sel>totalBytesWritten:</sel>
+          <arg type="NSInteger">totalBytesWritten</arg>
+          <sel>totalBytesExpectedToWrite:</sel>
+          <arg type="NSInteger">totalBytesExpectedToWrite</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInputStream*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>connection:</sel>
+          <arg type="NSURLConnection*">connection</arg>
+          <sel>needNewBodyStream:</sel>
+          <arg type="NSURLRequest*">request</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSCachedURLResponse*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>connection:</sel>
+          <arg type="NSURLConnection*">connection</arg>
+          <sel>willCacheResponse:</sel>
+          <arg type="NSCachedURLResponse*">cachedResponse</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSURLRequest*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>connection:</sel>
+          <arg type="NSURLConnection*">connection</arg>
+          <sel>willSendRequest:</sel>
+          <arg type="NSURLRequest*">request</arg>
+          <sel>redirectResponse:</sel>
+          <arg type="NSURLResponse*">response</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>connectionDidFinishLoading:</sel>
+          <arg type="NSURLConnection*">connection</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </protocol>
+    </chapter>
+  </body>
+</gsdoc>

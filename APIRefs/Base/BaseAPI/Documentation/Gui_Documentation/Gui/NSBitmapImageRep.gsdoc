@@ -1,0 +1,763 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSBitmapImageRep" up="Gui">
+  <head>
+    <title>NSBitmapImageRep.m</title>
+    <author name="Adam Fedor">
+      <email address="fedor@gnu.org">
+        fedor@gnu.org
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 19:58:28 -0500</date>
+    <abstract>Bitmap image representation.</abstract>
+    <copy>1996-2024 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading><strong>Class</strong> Description</heading>
+      <p>
+        NSBitmapImageRep is an image representation
+        for handling images composed of pixels. The standard image
+        format for NSBitmapImageRep is the TIFF format. However,
+        through the use of image filters and other methods,
+        many other standard image formats can be handled by
+        NSBitmapImageRep. Images are typically
+        handled through the NSImage class and there is often no
+        need to use the NSBitmapImageRep class directly. However
+        there may be cases where you want to manipulate the image
+        bitmap data directly.
+      </p>
+      <class name="NSBitmapImageRep" super="NSImageRep" ovadd="1.0.0">
+        <declared>AppKit/NSBitmapImageRep.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <ivariable type="NSInteger" name="_bitsPerPixel" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSInteger" name="_bytesPerRow" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="float" name="_comp_factor" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned short int" name="_compression" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="_format" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSData*" name="_imageData" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned char**" name="_imagePlanes" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_isPlanar" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSInteger" name="_numColors" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableDictionary*" name="_properties" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="NSData*" factory="yes" ovadd="1.0.0">
+          <sel>TIFFRepresentationOfImageRepsInArray:</sel>
+          <arg type="NSArray*">anArray</arg>
+          <desc>
+            Produces an NSData object containing a TIFF
+            representation of all the images stored in
+            <var>anArray</var>. BUGS: Currently this only works
+            if the images are NSBitmapImageRep objects.
+          </desc>
+        </method>
+        <method type="NSData*" factory="yes" ovadd="1.0.0">
+          <sel>TIFFRepresentationOfImageRepsInArray:</sel>
+          <arg type="NSArray*">anArray</arg>
+          <sel>usingCompression:</sel>
+          <arg type="NSTIFFCompression">type</arg>
+          <sel>factor:</sel>
+          <arg type="float">factor</arg>
+          <desc>
+            Produces an NSData object containing a TIFF
+            representation of all the images stored in
+            <var>anArray</var>. The image is compressed according
+            to the compression <var>type</var> and <var>factor</var>
+            . BUGS: Currently this only works if the images are
+            NSBitmapImageRep objects.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="1.0.0">
+          <sel>getTIFFCompressionTypes:</sel>
+          <arg type="const NSTIFFCompression**">list</arg>
+          <sel>count:</sel>
+          <arg type="NSInteger*">numTypes</arg>
+          <desc>
+            Returns a C-array of available TIFF compression
+            types.
+          </desc>
+        </method>
+        <method type="id" factory="yes" ovadd="1.0.0">
+          <sel>imageRepWithData:</sel>
+          <arg type="NSData*">imageData</arg>
+          <desc>
+            <p>
+              Returns a newly allocated NSBitmapImageRep object
+              representing the image stored in
+              <var>imageData</var>. If the image data contains
+              more than one image, the first one is choosen.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="+imageRepsWithData:">
+                +imageRepsWithData:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="NSArray*" factory="yes" ovadd="1.0.0">
+          <sel>imageRepsWithData:</sel>
+          <arg type="NSData*">imageData</arg>
+          <desc>
+            <p>
+              Returns an array containing newly allocated
+              NSBitmapImageRep objects representing
+              the images stored in <var>imageData</var>.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="+imageRepWithData:">
+                +imageRepWithData:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="NSString*" factory="yes" ovadd="1.0.0">
+          <sel>localizedNameForTIFFCompressionType:</sel>
+          <arg type="NSTIFFCompression">type</arg>
+          <desc>
+            Returns a localized string describing a TIFF
+            compression <var>type</var>.
+          </desc>
+        </method>
+        <method type="NSData*" factory="yes" ovadd="10.0.0">
+          <sel>representationOfImageRepsInArray:</sel>
+          <arg type="NSArray*">imageReps</arg>
+          <sel>usingType:</sel>
+          <arg type="NSBitmapImageFileType">storageType</arg>
+          <sel>properties:</sel>
+          <arg type="NSDictionary*">properties</arg>
+          <desc>
+            <p>
+              Returns a data object in the selected format with
+              multiple images.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-setProperty:withValue:">
+                -setProperty:withValue:
+              </ref>
+              for the options supported in the
+              <var>properties</var>.
+            </p>
+            <p>
+              FIXME: returns only the first image in the array,
+              and only works for NSBitmapImageRep or subclasses
+              thereof.
+            </p>
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="1.0.0">
+          <sel>TIFFRepresentation</sel>
+          <desc>
+            Returns an NSData object containing a TIFF
+            representation of the receiver.
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="1.0.0">
+          <sel>TIFFRepresentationUsingCompression:</sel>
+          <arg type="NSTIFFCompression">type</arg>
+          <sel>factor:</sel>
+          <arg type="float">factor</arg>
+          <desc>
+            Returns an NSData object containing a TIFF
+            representation of the receiver. The TIFF
+            data is compressed using compresssion <var>type</var>
+            and <var>factor</var>.
+          </desc>
+        </method>
+        <method type="unsigned char*" ovadd="1.0.0">
+          <sel>bitmapData</sel>
+          <desc>
+            Returns the first plane of data representing the
+            image.
+          </desc>
+        </method>
+        <method type="NSBitmapFormat" ovadd="10.4.0">
+          <sel>bitmapFormat</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>bitsPerPixel</sel>
+          <desc>
+            Returns the number of bits need to contain one
+            pixels worth of data. This is normally the number of
+            samples per pixel times the number of bits in one
+            sample.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>bytesPerPlane</sel>
+          <desc>
+            Returns the number of bytes in a plane. This is the
+            number of bytes in a row times tne height of the
+            image.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>bytesPerRow</sel>
+          <desc>
+            Returns the number of bytes in a row. This is
+            typically based on the width of the image and the
+            bits per sample and samples per pixel (if in medhed
+            configuration). However it may differ from
+            this if set explicitly in
+            <ref type="method" id="-initWithBitmapDataPlanes:pixelsWide:pixelsHigh:bitsPerSample:samplesPerPixel:hasAlpha:isPlanar:colorSpaceName:bytesPerRow:bitsPerPixel:">-initWithBitmapDataPlanes:pixelsWide:pixelsHigh:bitsPerSample:samplesPerPixel:hasAlpha:isPlanar:colorSpaceName:bytesPerRow:bitsPerPixel:</ref>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>canBeCompressedUsing:</sel>
+          <arg type="NSTIFFCompression">compression</arg>
+          <desc>
+            Returns <code>YES</code> if the receiver can be
+            stored in a representation compressed using the
+            <var>compression</var> type.
+          </desc>
+        </method>
+        <method type="NSColor*" ovadd="10.4.0">
+          <sel>colorAtX:</sel>
+          <arg type="NSInteger">x</arg>
+          <sel>y:</sel>
+          <arg type="NSInteger">y</arg>
+          <desc>
+            Returns an NSColor object representing the color of
+            the pixel (<var>x</var>,y), where (0,0) is the top-left
+            pixel in the image.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>colorizeByMappingGray:</sel>
+          <arg type="CGFloat">midPoint</arg>
+          <sel>toColor:</sel>
+          <arg type="NSColor*">midPointColor</arg>
+          <sel>blackMapping:</sel>
+          <arg type="NSColor*">shadowColor</arg>
+          <sel>whiteMapping:</sel>
+          <arg type="NSColor*">lightColor</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>getBitmapDataPlanes:</sel>
+          <arg type="unsigned char**">data</arg>
+          <desc>
+            Files the array <var>data</var> with pointers to each
+            of the <var>data</var> planes representing the image.
+            The <var>data</var> array must be allocated to contain
+            at least
+            <ref type="method" id="-samplesPerPixel">
+              -samplesPerPixel
+            </ref>
+            pointers.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>getCompression:</sel>
+          <arg type="NSTIFFCompression*">compression</arg>
+          <sel>factor:</sel>
+          <arg type="float*">factor</arg>
+          <desc>
+            Returns the receivers <var>compression</var> and
+            <var>compression</var> <var>factor</var>, which is
+            set either when the image is read in or by
+            <ref type="method" id="-setCompression:factor:">
+              -setCompression:factor:
+            </ref>
+            . Factor is ignored in many <var>compression</var>
+            schemes. For JPEG <var>compression</var>,
+            <var>factor</var> can be any value from 0 to 1, with
+            1 being the maximum quality.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>getPixel:</sel>
+          <arg type="NSUInteger[]">pixelData</arg>
+          <sel>atX:</sel>
+          <arg type="NSInteger">x</arg>
+          <sel>y:</sel>
+          <arg type="NSInteger">y</arg>
+          <desc>
+            Returns the values of the components of pixel (
+            <var>x</var>,y), where (0,0) is the top-left pixel in
+            the image, by storing them in the array
+            <var>pixelData</var>.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.2.0">
+          <sel>incrementalLoadFromData:</sel>
+          <arg type="NSData*">data</arg>
+          <sel>complete:</sel>
+          <arg type="BOOL">complete</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.2.0">
+          <sel>initForIncrementalLoad</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.4.0">
+          <sel>initWithBitmapDataPlanes:</sel>
+          <arg type="unsigned char**">planes</arg>
+          <sel>pixelsWide:</sel>
+          <arg type="NSInteger">width</arg>
+          <sel>pixelsHigh:</sel>
+          <arg type="NSInteger">height</arg>
+          <sel>bitsPerSample:</sel>
+          <arg type="NSInteger">bps</arg>
+          <sel>samplesPerPixel:</sel>
+          <arg type="NSInteger">spp</arg>
+          <sel>hasAlpha:</sel>
+          <arg type="BOOL">alpha</arg>
+          <sel>isPlanar:</sel>
+          <arg type="BOOL">isPlanar</arg>
+          <sel>colorSpaceName:</sel>
+          <arg type="NSString*">colorSpaceName</arg>
+          <sel>bitmapFormat:</sel>
+          <arg type="NSBitmapFormat">bitmapFormat</arg>
+          <sel>bytesPerRow:</sel>
+          <arg type="NSInteger">rowBytes</arg>
+          <sel>bitsPerPixel:</sel>
+          <arg type="NSInteger">pixelBits</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="1.0.0">
+          <sel>initWithBitmapDataPlanes:</sel>
+          <arg type="unsigned char**">planes</arg>
+          <sel>pixelsWide:</sel>
+          <arg type="NSInteger">width</arg>
+          <sel>pixelsHigh:</sel>
+          <arg type="NSInteger">height</arg>
+          <sel>bitsPerSample:</sel>
+          <arg type="NSInteger">bitsPerSample</arg>
+          <sel>samplesPerPixel:</sel>
+          <arg type="NSInteger">samplesPerPixel</arg>
+          <sel>hasAlpha:</sel>
+          <arg type="BOOL">alpha</arg>
+          <sel>isPlanar:</sel>
+          <arg type="BOOL">isPlanar</arg>
+          <sel>colorSpaceName:</sel>
+          <arg type="NSString*">colorSpaceName</arg>
+          <sel>bytesPerRow:</sel>
+          <arg type="NSInteger">rowBytes</arg>
+          <sel>bitsPerPixel:</sel>
+          <arg type="NSInteger">pixelBits</arg>
+          <desc>
+            <p>
+              Initializes a newly created NSBitmapImageRep
+              object to hold image data specified in the
+              <var>planes</var> buffer and organized according to
+              the additional arguments passed into the method.
+            </p>
+            <p>
+              The <var>planes</var> argument is an array of
+              <strong>char</strong> pointers where each array
+              holds a single component or plane of data. Note
+              that if data is passed into the method via
+              <var>planes</var>, the data is NOT copied and not
+              freed when the object is deallocated. It is assumed
+              that the data will always be available. If
+              <var>planes</var> is NULL, then a suitable amount
+              of memory will be allocated to store the information
+              needed. One can then obtain a pointer to the
+              <var>planes</var> data using the
+              <ref type="method" id="-bitmapData">
+                -bitmapData
+              </ref>
+              or
+              <ref type="method" id="-getBitmapDataPlanes:">
+                -getBitmapDataPlanes:
+              </ref>
+              method.
+            </p>
+            <p>
+              Each component of the data is in "standard" order,
+              such as red, green, blue for RGB color images. The
+              transparency component, if these is one,
+              should always be last.
+            </p>
+            <p>
+              The other arguments to the method consist of:
+            </p>
+            <deflist>
+              <term>
+                <var>width</var> and <var>height</var>
+              </term>
+              <desc>
+                The <var>width</var> and <var>height</var> of the
+                image in pixels
+              </desc>
+              <term>bps</term>
+              <desc>
+                The bits per sample or the number of bits used to
+                store a number in one component of one pixel of
+                the image. Typically this is 8 (bits) but can be 2
+                or 4, although not all values are supported.
+              </desc>
+              <term>spp</term>
+              <desc>
+                Samples per pixel, or the number of components
+                of color in the pixel. For instance this would be 4
+                for an RGB image with transparency.
+              </desc>
+              <term><var>alpha</var></term>
+              <desc>
+                Set to <code>YES</code> if the image has a
+                transparency component.
+              </desc>
+              <term><var>isPlanar</var></term>
+              <desc>
+                Set to <code>YES</code> if the data is arranged in
+                <var>planes</var>, i.e. one component per buffer
+                as stored in the <var>planes</var> array. If
+                <code>NO</code>, then the image data is mixed in
+                one buffer. For instance, for RGB data, the first
+                sample would contain red, then next green, then
+                blue, followed by red for the next pixel.
+              </desc>
+              <term><var>colorSpaceName</var></term>
+              <desc>
+                This argument specifies how the data values are to
+                be interpreted. Possible values include the typical
+                colorspace names (although not all values
+                are currently supported)
+              </desc>
+              <term><var>rowBytes</var></term>
+              <desc>
+                Specifies the number of bytes contained in a
+                single scan line of the data. Normally this can
+                be computed from the <var>width</var> of the image,
+                the samples per pixel and the bits per sample.
+                However, if the data is aligned along word
+                boundaries, this value may differ from
+                this. If <var>rowBytes</var> is 0, the method
+                will calculate the value assuming there are no
+                extra bytes at the end of the scan line.
+              </desc>
+              <term><var>pixelBits</var></term>
+              <desc>
+                This is normally bps for planar data and bps times
+                spp for non-planar data, but sometimes images have
+                extra bits. If <var>pixelBits</var> is 0 it will
+                be calculated as described above.
+              </desc>
+            </deflist>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>initWithBitmapHandle:</sel>
+          <arg type="void*">bitmap</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithData:</sel>
+          <arg type="NSData*">imageData</arg>
+          <desc>
+            Loads only the default (first) image from the image
+            contained in data.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithFocusedViewRect:</sel>
+          <arg type="NSRect">rect</arg>
+          <desc>
+            Initialize with bitmap data from a
+            <var>rect</var> within the focused view
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>initWithIconHandle:</sel>
+          <arg type="void*">icon</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isPlanar</sel>
+          <desc>
+            Returns <code>YES</code> if the image components
+            are stored separately. Returns <code>NO</code> if the
+            components are meshed (i.e. all the samples for
+            one pixel come before the next pixel).
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>numberOfPlanes</sel>
+          <desc>
+            Returns the number of planes in an image. Typically
+            this is equal to the number of samples in a planar
+            image or 1 for a non-planar image.
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="10.0.0">
+          <sel>representationUsingType:</sel>
+          <arg type="NSBitmapImageFileType">storageType</arg>
+          <sel>properties:</sel>
+          <arg type="NSDictionary*">properties</arg>
+          <desc>
+            <p>
+              Returns a data object in one of the supported
+              bitmap graphics file types. A limited set of
+              options may be passed via the
+              <var>properties</var>. If the passed in
+              <var>properties</var> is <code>nil</code>, it falls
+              back to the options set with
+              <ref type="method" id="-setProperty:withValue:">
+                -setProperty:withValue:
+              </ref>
+              . File types not yet implemented return
+              <code>nil</code> and log an error message.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-setProperty:withValue:">
+                -setProperty:withValue:
+              </ref>
+              for supported options in the <var>properties</var>.
+            </p>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>samplesPerPixel</sel>
+          <desc>
+            Returns the number of samples in a pixel. For
+            instance, a normal RGB image with transparency
+            would have a samplesPerPixel of 4.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setColor:</sel>
+          <arg type="NSColor*">color</arg>
+          <sel>atX:</sel>
+          <arg type="NSInteger">x</arg>
+          <sel>y:</sel>
+          <arg type="NSInteger">y</arg>
+          <desc>
+            Sets the <var>color</var> of pixel (<var>x</var>,y),
+            where (0,0) is the top-left pixel in the image.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setCompression:</sel>
+          <arg type="NSTIFFCompression">compression</arg>
+          <sel>factor:</sel>
+          <arg type="float">factor</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setPixel:</sel>
+          <arg type="NSUInteger[]">pixelData</arg>
+          <sel>atX:</sel>
+          <arg type="NSInteger">x</arg>
+          <sel>y:</sel>
+          <arg type="NSInteger">y</arg>
+          <desc>
+            Sets the components of pixel (<var>x</var>,y), where
+            (0,0) is the top-left pixel in the image, to the
+            given array of pixel components.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setProperty:</sel>
+          <arg type="NSString*">property</arg>
+          <sel>withValue:</sel>
+          <arg type="id">value</arg>
+          <desc>
+            <p>
+              Properties are key-value pairs associated with
+              the representation. Arbitrary key-value pairs may be
+              set. If the <var>value</var> is <code>nil</code>,
+              the key is erased from properties. There are standard
+              keys that are used to pass information and options
+              related to the standard file types that may be
+              read from or written to. Certain properties are
+              automatically set when reading in image
+              data. Certain properties may be set by the user
+              prior to writing image data in order to set options
+              for the data format.
+            </p>
+            <deflist>
+              <term>NSImageCompressionMethod</term>
+              <desc>
+                NSNumber; automatically set when reading TIFF
+                data; writing TIFF data
+              </desc>
+              <term>NSImageCompressionFactor</term>
+              <desc>
+                NSNumber 0.0 to 1.0; writing JPEG data
+                (GNUstep extension: JPEG-compressed TIFFs too)
+              </desc>
+              <term>NSImageProgressive</term>
+              <desc>
+                NSNumber boolean; automatically set when
+                reading JPEG data; writing JPEG data. Note:
+                progressive display is not supported in
+                GNUstep at this time.
+              </desc>
+              <term>NSImageInterlaced</term>
+              <desc>
+                NSNumber boolean; only for writing PNG data
+              </desc>
+              <term>NSImageGamma</term>
+              <desc>
+                NSNumber 0.0 to 1.0; only for reading or
+                writing PNG data
+              </desc>
+              <term>NSImageRGBColorTable</term>
+              <desc>
+                NSData; automatically set when reading GIF
+                data; writing GIF data
+              </desc>
+              <term>NSImageFrameCount</term>
+              <desc>
+                NSNumber integer; automatically set when
+                reading animated GIF data. Not currently
+                implemented.
+              </desc>
+              <term>NSImageCurrentFrame</term>
+              <desc>
+                NSNumber integer; only for animated GIF files.
+                Not currently implemented.
+              </desc>
+              <term>NSImageCurrentFrameDuration</term>
+              <desc>
+                NSNumber <strong>float</strong>; automatically
+                set when reading animated GIF data
+              </desc>
+              <term>NSImageLoopCount</term>
+              <desc>
+                NSNumber integer; automatically set when
+                reading animated GIF data
+              </desc>
+              <term>NSImageDitherTranparency</term>
+              <desc>
+                NSNumber boolean; only for writing GIF data.
+                Not currently supported.
+              </desc>
+            </deflist>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>valueForProperty:</sel>
+          <arg type="NSString*">property</arg>
+          <desc>
+            Returns the value of a <var>property</var>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSBitmapImageRep(GNUstepExtension)
+        category
+      </heading>
+      <category name="GNUstepExtension" class="NSBitmapImageRep" ovadd="1.0.0">
+        <declared>AppKit/NSBitmapImageRep.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="NSArray*" factory="yes" ovadd="1.0.0">
+          <sel>imageRepsWithFile:</sel>
+          <arg type="NSString*">filename</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

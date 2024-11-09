@@ -1,0 +1,202 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSSpellServer" stylesheeturl="gnustepStyle" up="Base">
+  <head>
+    <title>NSSpellServer</title>
+    <author name="Gregory John Casamento">
+      <email address="borgheron@yahoo.com">
+        borgheron@yahoo.com
+      </email>
+    </author>
+    <author name="Scott Christley">
+      <email address="scottc@net-community.com">
+        scottc@net-community.com
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 16:52:01 -0500</date>
+    <abstract>
+      <strong>Class</strong> to allow a spell checker to be
+      available to other apps.
+    </abstract>
+    <copy>2001, 1996 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSSpellServer class
+      </heading>
+      <class name="NSSpellServer" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSSpellServer.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="id" ovadd="1.0.0">
+          <sel>delegate</sel>
+          <desc>
+            Return the spell server delegate.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isWordInUserDictionaries:</sel>
+          <arg type="NSString*">word</arg>
+          <sel>caseSensitive:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Checks to see if the <var>word</var> is in the
+            user's dictionary. The user dictionary is a set of
+            words learned by the spell service for that
+            particular user combined with the set of ignored
+            words in the current document.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>registerLanguage:</sel>
+          <arg type="NSString*">language</arg>
+          <sel>byVendor:</sel>
+          <arg type="NSString*">vendor</arg>
+          <desc>
+            This method vends the spell server to the Distributed
+            Objects system so that it can be connected to by
+            clients.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>run</sel>
+          <desc>
+            Initiate the run loop of this service. Once the
+            spell server object is vended, this method is called
+            so that the server can start responding to the messages
+            sent by the client. These messages are passed on to
+            the NSSpellServer instance's delegate.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setDelegate:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            This method is used to set the delegate of the
+            spellserver. When a spelling service is run
+            the spell server is vended out to DO. The spelling
+            service must instantiate an instance of this class
+            and set itself to be the delegate. This allows the
+            service to respond to messages sent by the client.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSSpellServerDelegate)
+        informal protocol
+      </heading>
+      <category name="NSSpellServerDelegate" class="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSSpellServer.h</declared>
+        <desc>
+          This is an informal protocol since the NSSpellChecker
+          will need to use a proxy object to call these methods.
+          These methods need to be implemented by the spell
+          service so that the NSSpellServer instance call call
+          them when necessary.
+        </desc>
+        <method type="NSRange" ovadd="10.5.0">
+          <sel>spellServer:</sel>
+          <arg type="NSSpellServer*">sender</arg>
+          <sel>checkGrammarInString:</sel>
+          <arg type="NSString*">stringToCheck</arg>
+          <sel>language:</sel>
+          <arg type="NSString*">language</arg>
+          <sel>details:</sel>
+          <arg type="NSArray**">details</arg>
+          <desc>
+            Not implemented
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>spellServer:</sel>
+          <arg type="NSSpellServer*">sender</arg>
+          <sel>didForgetWord:</sel>
+          <arg type="NSString*">word</arg>
+          <sel>inLanguage:</sel>
+          <arg type="NSString*">language</arg>
+          <desc>
+            Forgets the given <var>word</var> in the user's
+            dictionary for the given <var>language</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>spellServer:</sel>
+          <arg type="NSSpellServer*">sender</arg>
+          <sel>didLearnWord:</sel>
+          <arg type="NSString*">word</arg>
+          <sel>inLanguage:</sel>
+          <arg type="NSString*">language</arg>
+          <desc>
+            Records the new <var>word</var> in the user's
+            dictionary for the given <var>language</var>.
+          </desc>
+        </method>
+        <method type="NSRange" ovadd="1.0.0">
+          <sel>spellServer:</sel>
+          <arg type="NSSpellServer*">sender</arg>
+          <sel>findMisspelledWordInString:</sel>
+          <arg type="NSString*">stringToCheck</arg>
+          <sel>language:</sel>
+          <arg type="NSString*">language</arg>
+          <sel>wordCount:</sel>
+          <arg type="int32_t*">wordCount</arg>
+          <sel>countOnly:</sel>
+          <arg type="BOOL">countOnly</arg>
+          <desc>
+            <p>
+              This method is called when the user begins spell
+              checking the document. The parameters are:
+              <code><var>sender</var></code> the spell server
+              instance which invoked this method,
+              <code><var>stringToCheck</var></code> this is the
+              string which the spell service is going to attempt
+              to find misspelled words in,
+              <code><var>language</var></code> the
+              <var>language</var> to check in,
+              <code><var>wordCount</var></code> the number of
+              words checked, and
+              <code><var>countOnly</var></code> a flag which
+              dictates if them method checks the spelling or
+              just counts the words in the given string.
+            </p>
+            <p>
+              Returns a range for any word it finds that is
+              misspelled.
+            </p>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.3.0">
+          <sel>spellServer:</sel>
+          <arg type="NSSpellServer*">sender</arg>
+          <sel>suggestCompletionsForPartialWordRange:</sel>
+          <arg type="NSRange">range</arg>
+          <sel>inString:</sel>
+          <arg type="NSString*">string</arg>
+          <sel>language:</sel>
+          <arg type="NSString*">language</arg>
+          <desc>
+            Not implemented
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>spellServer:</sel>
+          <arg type="NSSpellServer*">sender</arg>
+          <sel>suggestGuessesForWord:</sel>
+          <arg type="NSString*">word</arg>
+          <sel>inLanguage:</sel>
+          <arg type="NSString*">language</arg>
+          <desc>
+            Attempts to guess the correct spelling of
+            <code><var>word</var></code>.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

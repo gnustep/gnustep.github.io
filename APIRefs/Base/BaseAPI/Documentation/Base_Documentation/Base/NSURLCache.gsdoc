@@ -1,0 +1,277 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSURLCache" stylesheeturl="gnustepStyle" up="Base">
+  <head>
+    <title>NSURLCache documentation</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 16:52:01 -0500</date>
+    <copy>2006 Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSCachedURLResponse
+        class
+      </heading>
+      <class name="NSCachedURLResponse" super="NSObject" ovadd="10.2.0" gvadd="1.13.0">
+        <declared>Foundation/NSURLCache.h</declared>
+        <conform>NSCoding</conform>
+        <conform>NSCopying</conform>
+        <desc>
+          Encapsulates a cached response to a URL load
+          request.
+        </desc>
+        <ivariable type="void*" name="_NSCachedURLResponseInternal" validity="protected" ovadd="10.2.0" gvadd="1.13.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="NSData*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>data</sel>
+          <desc>
+            Returns the data with which the receiver was
+            initialised.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>initWithResponse:</sel>
+          <arg type="NSURLResponse*">response</arg>
+          <sel>data:</sel>
+          <arg type="NSData*">data</arg>
+          <desc>
+            Uses the NSURLCacheStorageAllowed policy to cache the
+            specified <var>response</var> and <var>data</var>
+            . <br /> Returns the cached <var>response</var>.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>initWithResponse:</sel>
+          <arg type="NSURLResponse*">response</arg>
+          <sel>data:</sel>
+          <arg type="NSData*">data</arg>
+          <sel>userInfo:</sel>
+          <arg type="NSDictionary*">userInfo</arg>
+          <sel>storagePolicy:</sel>
+          <arg type="NSURLCacheStoragePolicy">storagePolicy</arg>
+          <desc>
+            Returns the receiver initialized with the provided
+            parameters.
+          </desc>
+        </method>
+        <method type="NSURLResponse*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>response</sel>
+          <desc>
+            Returns the response with which the receiver was
+            initialised.
+          </desc>
+        </method>
+        <method type="NSURLCacheStoragePolicy" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>storagePolicy</sel>
+          <desc>
+            Returns the storage policy with which the receiver
+            was initialised.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>userInfo</sel>
+          <desc>
+            Returns the user info dictionary with which the
+            receiver was initialised (if any).
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSURLCache class
+      </heading>
+      <class name="NSURLCache" super="NSObject" ovadd="10.2.0" gvadd="1.13.0">
+        <declared>Foundation/NSURLCache.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <ivariable type="void*" name="_NSURLCacheInternal" validity="protected" ovadd="10.2.0" gvadd="1.13.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="void" factory="yes" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>setSharedURLCache:</sel>
+          <arg type="NSURLCache*">cache</arg>
+          <desc>
+            Sets the shared
+            <ref type="class" id="NSURLCache">NSURLCache</ref>
+              used throughout the process. <br /> If you are going
+              to call this method to specify an alternative to the
+              default <var>cache</var>, you should do so before
+              the shared <var>cache</var> is used in order to avoid
+              loss of data that was in the old <var>cache</var>.
+          </desc>
+        </method>
+        <method type="NSURLCache*" factory="yes" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>sharedURLCache</sel>
+          <desc>
+            Returns the shared cache instance set by
+            <ref type="method" id="+setSharedURLCache:">
+              +setSharedURLCache:
+            </ref>
+            or, if none has been set, returns an instance
+            initialised with <br />
+            <deflist>
+              <term>Memory capacity</term>
+              <desc>4 megabytes</desc>
+              <term>Disk capacity</term>
+              <desc>20 megabytes</desc> <term>Disk path</term>
+              <desc>
+                user-library-path/Caches/current-app-name
+              </desc>
+            </deflist>
+          </desc>
+        </method>
+        <method type="NSCachedURLResponse*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>cachedResponseForRequest:</sel>
+          <arg type="NSURLRequest*">request</arg>
+          <desc>
+            Returns the
+            <ref type="class" id="NSCachedURLResponse">NSCachedURLResponse</ref>
+              cached for the specified <var>request</var> or
+              <code>nil</code> if there is no matching response
+              in tthe cache.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>currentDiskUsage</sel>
+          <desc>
+            Returns the current size (butes) of the data stored
+            in the on-disk cache.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>currentMemoryUsage</sel>
+          <desc>
+            Returns the current size (butes) of the data stored
+            in the in-memory cache.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>diskCapacity</sel>
+          <desc>
+            Returns the disk capacity (in bytes) of the cache.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>initWithMemoryCapacity:</sel>
+          <arg type="NSUInteger">memoryCapacity</arg>
+          <sel>diskCapacity:</sel>
+          <arg type="NSUInteger">diskCapacity</arg>
+          <sel>diskPath:</sel>
+          <arg type="NSString*">path</arg>
+          <desc>
+            Returns the receiver initialised with the specified
+            capacities (in bytes) and using the specified
+            location on disk for persistent storage.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>memoryCapacity</sel>
+          <desc>
+            Returns the memory capacity (in bytes) of the
+            cache.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>removeAllCachedResponses</sel>
+          <desc>
+            Empties the cache.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>removeCachedResponseForRequest:</sel>
+          <arg type="NSURLRequest*">request</arg>
+          <desc>
+            Removes from the cache (if present) the
+            <ref type="class" id="NSCachedURLResponse">NSCachedURLResponse</ref>
+              which was stored using the specified
+              <var>request</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>setDiskCapacity:</sel>
+          <arg type="NSUInteger">diskCapacity</arg>
+          <desc>
+            Sets the disk capacity (in bytes) truncating cache
+            contents if necessary.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>setMemoryCapacity:</sel>
+          <arg type="NSUInteger">memoryCapacity</arg>
+          <desc>
+            Sets the memory capacity (in bytes) truncating cache
+            contents if necessary.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>storeCachedResponse:</sel>
+          <arg type="NSCachedURLResponse*">cachedResponse</arg>
+          <sel>forRequest:</sel>
+          <arg type="NSURLRequest*">request</arg>
+          <desc>
+            Stores <var>cachedResponse</var> in the cache, keyed
+            on <var>request</var>. <br /> Replaces any existing
+            response with the same key.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSURLCache(NSURLSessionTaskAdditions)
+        category
+      </heading>
+      <category name="NSURLSessionTaskAdditions" class="NSURLCache" ovadd="10.2.0" gvadd="1.13.0">
+        <declared>Foundation/NSURLCache.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="NSCachedURLResponse*" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>cachedResponseForDataTask:</sel>
+          <arg type="NSURLSessionDataTask*">dataTask</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>removeCachedResponseForDataTask:</sel>
+          <arg type="NSURLSessionDataTask*">dataTask</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0" gvadd="1.13.0">
+          <sel>storeCachedResponse:</sel>
+          <arg type="NSCachedURLResponse*">cachedResponse</arg>
+          <sel>forDataTask:</sel>
+          <arg type="NSURLSessionDataTask*">dataTask</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

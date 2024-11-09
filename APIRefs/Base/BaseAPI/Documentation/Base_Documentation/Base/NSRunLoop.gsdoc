@@ -1,0 +1,419 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSRunLoop" stylesheeturl="gnustepStyle" up="Base">
+  <head>
+    <title>NSRunLoop class reference</title>
+    <author name="Andrew Kachites McCallum">
+      <email address="mccallum@gnu.ai.mit.edu">
+        mccallum@gnu.ai.mit.edu
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 16:52:01 -0500</date>
+    <copy>1996-1999 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSRunLoop class
+      </heading>
+      <class name="NSRunLoop" super="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSRunLoop.h</declared>
+        <desc>
+          <p>
+            <code>NSRunLoop</code> instances handle various
+            utility tasks that must be performed repetitively
+            in an application, such as processing input events,
+            listening for distributed objects communications,
+            firing
+            <ref type="class" id="NSTimer">NSTimer</ref>
+              s, and sending notifications and other messages
+              asynchronously.
+            </p>
+            <p>
+              There is one run loop per thread in an application,
+              which may always be obtained through the
+              <code>
+                <ref type="method" id="+currentRunLoop">
+                  +currentRunLoop
+                </ref>
+              </code>
+              method (you cannot use
+              <ref type="method" id="-init">
+                -init
+              </ref>
+              or +new), however unless you are using the AppKit and
+              the <code>NSApplication</code> class, the run loop
+              will not be started unless you explicitly send it a
+              <code>
+                <ref type="method" id="-run">
+                  -run
+                </ref>
+              </code>
+              message.
+            </p>
+            <p>
+              At any given point, a run loop operates in a single
+              <em>mode</em>, usually
+              <code>NSDefaultRunLoopMode</code>. Other options
+              include <code>NSConnectionReplyMode</code>, and
+              certain modes used by the AppKit.
+            </p>
+        </desc>
+        <method type="NSRunLoop*" factory="yes" ovadd="1.0.0">
+          <sel>currentRunLoop</sel>
+          <desc>
+            Returns the run loop instance for the current
+            thread.
+          </desc>
+        </method>
+        <method type="NSRunLoop*" factory="yes" ovadd="10.5.0">
+          <sel>mainRunLoop</sel>
+          <desc>
+            Returns the run loop instance of the main thread.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>acceptInputForMode:</sel>
+          <arg type="NSString*">mode</arg>
+          <sel>beforeDate:</sel>
+          <arg type="NSDate*">limit_date</arg>
+          <desc>
+            Listen for events from input sources. <br /> If
+            <var>limit_date</var> is <code>nil</code> or in the
+            past, then don't wait; just fire timers, poll inputs
+            and return, otherwise block (firing timers when they
+            are due) until input is available or until the earliest
+            limit date has passed (whichever comes first). <br />
+            If the supplied <var>mode</var> is <code>nil</code>,
+            uses NSDefaultRunLoopMode. <br /> If there are no
+            input sources or timers in the <var>mode</var>,
+            returns immediately.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>addTimer:</sel>
+          <arg type="NSTimer*">timer</arg>
+          <sel>forMode:</sel>
+          <arg type="NSString*">mode</arg>
+          <desc>
+            Adds a <var>timer</var> to the loop in the specified
+            <var>mode</var>. <br /> Timers are removed
+            automatically when they are invalid. <br />
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>currentMode</sel>
+          <desc>
+            Returns the current mode of this runloop. If the
+            runloop is not running then this method returns
+            <code>nil</code>.
+          </desc>
+        </method>
+        <method type="NSDate*" ovadd="1.0.0">
+          <sel>limitDateForMode:</sel>
+          <arg type="NSString*">mode</arg>
+          <desc>
+            Fires timers whose fire date has passed, and checks
+            timers and limit dates for input sources,
+            determining the earliest time that any future
+            timeout becomes due. Returns that date/time. <br />
+            Returns distant future if the loop contains no
+            timers, just input sources without timeouts. <br />
+            Returns <code>nil</code> if the loop contains
+            neither timers nor input sources.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>run</sel>
+          <desc>
+            Runs the loop in <code>NSDefaultRunLoopMode</code> by
+            repeated calls to
+            <ref type="method" id="-runMode:beforeDate:">
+              -runMode:beforeDate:
+            </ref>
+            while there are still input sources. Exits when no
+            more input sources remain.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>runMode:</sel>
+          <arg type="NSString*">mode</arg>
+          <sel>beforeDate:</sel>
+          <arg type="NSDate*">date</arg>
+          <desc>
+            Calls
+            <ref type="method" id="-limitDateForMode:">
+              -limitDateForMode:
+            </ref>
+            to determine if a timeout occurs before the specified
+            <var>date</var>, then calls
+            <ref type="method" id="-acceptInputForMode:beforeDate:">
+              -acceptInputForMode:beforeDate:
+            </ref>
+            to run the loop once. <br /> The specified
+            <var>date</var> may be <code>nil</code>... in which
+            case the loop runs until the limit <var>date</var> of
+            the first input or timeout. <br /> If the specified
+            <var>date</var> is in the past, this runs the loop
+            once only, to handle any events already available.
+            <br /> If there are no input sources or timers in
+            <var>mode</var>, this method returns <code>NO</code>
+            without running the loop (irrespective of the
+            supplied <var>date</var> argument), otherwise
+            returns <code>YES</code>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>runUntilDate:</sel>
+          <arg type="NSDate*">date</arg>
+          <desc>
+            Runs the loop in <code>NSDefaultRunLoopMode</code> by
+            repeated calls to
+            <ref type="method" id="-runMode:beforeDate:">
+              -runMode:beforeDate:
+            </ref>
+            while there are still input sources. Exits when no
+            more input sources remain, or <var>date</var> is
+            reached, whichever occurs first.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSObject(RunLoopEvents)
+        informal protocol
+      </heading>
+      <category name="RunLoopEvents" class="NSObject" ovadd="1.0.0">
+        <declared>Foundation/NSRunLoop.h</declared>
+        <desc>
+          This informal protocol defiens optional methods of the
+          run loop watcher.
+        </desc>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>runLoopShouldBlock:</sel>
+          <arg type="BOOL*">shouldTrigger</arg>
+          <desc>
+            Called by the run loop to find out whether it needs
+            to block to wait for events for this watcher. The
+            <var>shouldTrigger</var> flag is used to inform the
+            run loop if tit should immediately trigger a received
+            event for the watcher.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSRunLoop(GNUstepExtensions)
+        category
+      </heading>
+      <category name="GNUstepExtensions" class="NSRunLoop" ovadd="1.0.0">
+        <declared>Foundation/NSRunLoop.h</declared>
+        <desc>
+          The run loop watcher API was originally intended to
+          perform two tasks... 1. provide the most efficient
+          API reasonably possible to integrate unix networking code
+          into the runloop. 2. provide a standard mechanism to
+          allow people to contribute code to add new I/O
+          mechanisms to GNUstep (OpenStep didn't allow
+          this). It succeeded in 1, and partially succeeded in 2
+          (adding support for the win32 API).
+        </desc>
+        <method type="void" ovadd="1.0.0">
+          <sel>addEvent:</sel>
+          <arg type="void*">data</arg>
+          <sel>type:</sel>
+          <arg type="RunLoopEventType">type</arg>
+          <sel>watcher:</sel>
+          <arg type="id&lt;RunLoopEvents&gt;">watcher</arg>
+          <sel>forMode:</sel>
+          <arg type="NSString*">mode</arg>
+          <desc>
+            Adds a <var>watcher</var> to the receiver... the
+            <var>watcher</var> is used to monitor events of the
+            specified <var>type</var> which are associted
+            with the event handle <var>data</var> and it operates
+            in the specified run loop modes. <br /> The
+            <var>watcher</var> is not retained, but remains in
+            place until a corresponding call to
+            <ref type="method" id="-removeEvent:type:forMode:all:">
+              -removeEvent:type:forMode:all:
+            </ref>
+            is made. If is the watchers responsibility to ensure
+            that it is removed from the run loop safely.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeEvent:</sel>
+          <arg type="void*">data</arg>
+          <sel>type:</sel>
+          <arg type="RunLoopEventType">type</arg>
+          <sel>forMode:</sel>
+          <arg type="NSString*">mode</arg>
+          <sel>all:</sel>
+          <arg type="BOOL">removeAll</arg>
+          <desc>
+            Removes a watcher from the receiver... the watcher
+            must have been previously added using
+            <ref type="method" id="-addEvent:type:watcher:forMode:">
+              -addEvent:type:watcher:forMode:
+            </ref>
+            <br /> This method mirrors exactly one addition of a
+            watcher unless <var>removeAll</var> is
+            <code>YES</code>, in which case it removes all
+            additions of watchers matching the other
+            paramters.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSRunLoop(OPENSTEP)
+        category
+      </heading>
+      <category name="OPENSTEP" class="NSRunLoop" ovadd="1.0.0">
+        <declared>Foundation/NSRunLoop.h</declared>
+        <desc>
+          OpenStep-compatibility methods for
+          <ref type="class" id="NSRunLoop">NSRunLoop</ref>
+            . These methods are also all in OS X.
+        </desc>
+        <method type="void" ovadd="1.0.0">
+          <sel>addPort:</sel>
+          <arg type="NSPort*">port</arg>
+          <sel>forMode:</sel>
+          <arg type="NSString*">mode</arg>
+          <desc>
+            Adds <var>port</var> to be monitored in given
+            <var>mode</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>cancelPerformSelector:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>target:</sel>
+          <arg type="id">target</arg>
+          <sel>argument:</sel>
+          <arg type="id">argument</arg>
+          <desc>
+            Cancels any perform operations set up for the
+            specified <var>target</var> in the receiver, but
+            only if the value of <var>aSelector</var> and
+            <var>argument</var> with which the performs were set
+            up match those supplied. <br /> Matching of the
+            <var>argument</var> may be either by pointer equality
+            or by use of the
+            <ref type="method" id="-isEqual:" class="NSObject">
+              [NSObject -isEqual:]
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>cancelPerformSelectorsWithTarget:</sel>
+          <arg type="id">target</arg>
+          <desc>
+            Cancels any perform operations set up for the
+            specified <var>target</var> in the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>configureAsServer</sel>
+          <desc>
+            Configure event processing for acting as a server
+            process for distributed objects. (In the current
+            implementation this is a no-op.)
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>performSelector:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>target:</sel>
+          <arg type="id">target</arg>
+          <sel>argument:</sel>
+          <arg type="id">argument</arg>
+          <sel>order:</sel>
+          <arg type="NSUInteger">order</arg>
+          <sel>modes:</sel>
+          <arg type="NSArray*">modes</arg>
+          <desc>
+            Sets up sending of <var>aSelector</var> to
+            <var>target</var> with <var>argument</var>. <br />
+            The selector is sent before the next runloop iteration
+            (unless cancelled before then) in any of the
+            specified <var>modes</var>. <br /> The
+            <var>target</var> and <var>argument</var> objects are
+            retained. <br /> The <var>order</var> value is
+            used to determine the <var>order</var> in which
+            messages are sent if multiple messages have been
+            set up. Messages with a lower <var>order</var> value
+            are sent first. <br /> If the <var>modes</var> array is
+            empty, this method has no effect.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removePort:</sel>
+          <arg type="NSPort*">port</arg>
+          <sel>forMode:</sel>
+          <arg type="NSString*">mode</arg>
+          <desc>
+            Removes <var>port</var> to be monitored from given
+            <var>mode</var>. Ports are also removed if they are
+            detected to be invalid.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the RunLoopEvents protocol
+      </heading>
+      <protocol name="RunLoopEvents" ovadd="1.0.0">
+        <declared>Foundation/NSRunLoop.h</declared>
+        <desc>
+          This protocol defines the mandatory interface a run loop
+          watcher must provide in order for it to be notified
+          of events occurring in the loop it is watching. <br />
+          Optional methods are documented in the
+          NSObject(RunLoopEvents) category.
+        </desc>
+        <method type="void" ovadd="1.0.0">
+          <sel>receivedEvent:</sel>
+          <arg type="void*">data</arg>
+          <sel>type:</sel>
+          <arg type="RunLoopEventType">type</arg>
+          <sel>extra:</sel>
+          <arg type="void*">extra</arg>
+          <sel>forMode:</sel>
+          <arg type="NSString*">mode</arg>
+          <desc>
+            This is the message sent back to a watcher when an
+            event is observed by the run loop. <br /> The 'data',
+            'type' and 'mode' arguments are the same as the
+            arguments passed to the
+            <ref type="method" id="-addEvent:type:watcher:forMode:">
+              -addEvent:type:watcher:forMode:
+            </ref>
+            method. <br /> The 'extra' argument varies. For an
+            ET_TRIGGER event, it is the same as the 'data'
+            argument. For other events on unix it is the file
+            descriptor associated with the event (which may
+            be the same as the 'data' argument, but is not in the
+            case of ET_RPORT). <br /> For windows it will be the
+            handle or the windows message assciated with the
+            event.
+          </desc>
+        </method>
+      </protocol>
+    </chapter>
+  </body>
+</gsdoc>

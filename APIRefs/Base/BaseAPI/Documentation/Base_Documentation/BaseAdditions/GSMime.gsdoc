@@ -1,0 +1,2097 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="GSMime" up="BaseAdditions">
+  <head>
+    <title>The MIME parsing system</title>
+    <author name="Richard Frith-Macdonald">
+      <email address="rfm@gnu.org">
+        rfm@gnu.org
+      </email>
+    </author>
+    <date>Generated at 2024-11-07 16:52:12 -0500</date>
+    <copy>2000-2016 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>Mime Parser</heading>
+      <p>
+        The GNUstep Mime parser. This is collection Objective-C
+        classes for representing MIME (and HTTP) documents and
+        managing conversions to and from convenient internal
+        formats.
+      </p>
+      <p>
+        The idea is to center round two classes -
+      </p>
+      <deflist>
+        <term>document</term>
+        <desc>
+          A container for the actual data (and headers) of a
+          mime/http document, this is also used to create raw
+          MIME data for sending.
+        </desc>
+        <term>parser</term>
+        <desc>
+          An object that can be fed data and will parse it into a
+          document. This object also provides various utility
+          methods and an API that permits overriding in order
+          to extend the functionality to cope with new document
+          types.
+        </desc>
+      </deflist>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSMimeCodingContext
+        class
+      </heading>
+      <class name="GSMimeCodingContext" super="NSObject" ovadd="0.0.0">
+        <declared>GNUstepBase/GSMime.h</declared>
+        <desc>
+          Coding contexts are objects used by the parser to
+          store the state of decoding incoming data while it is
+          being incrementally parsed. <br /> The most rudimentary
+          context... this is used for decoding plain text and
+          binary data (ie data which is not really decoded at
+          all) and all other decoding work is done by a subclass.
+        </desc>
+        <ivariable type="BOOL" name="atEnd" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>atEnd</sel>
+          <desc>
+            Returns the current value of the 'atEnd' flag.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>decodeData:</sel>
+          <arg type="const void*">sData</arg>
+          <sel>length:</sel>
+          <arg type="NSUInteger">length</arg>
+          <sel>intoData:</sel>
+          <arg type="NSMutableData*">dData</arg>
+          <desc>
+            Decode <var>length</var> bytes of data from
+            <var>sData</var> and append the results to
+            <var>dData</var>. <br /> Return <code>YES</code> on
+            success, <code>NO</code> if there is an error.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setAtEnd:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Sets the current value of the 'atEnd' <var>flag</var>.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSMimeDocument class
+      </heading>
+      <class name="GSMimeDocument" super="NSObject" ovadd="0.0.0">
+        <declared>GNUstepBase/GSMime.h</declared>
+        <conform>NSCopying</conform>
+        <desc>
+          <p>
+            This class is intended to provide a wrapper for MIME
+            messages permitting easy access to the contents of
+            a message and providing a basis for parsing an unparsing
+            messages that have arrived via email or as a web
+            document.
+          </p>
+          <p>
+            The class keeps track of all the document headers, and
+            provides methods for modifying and examining the
+            headers that apply to a document.
+          </p>
+        </desc>
+        <ivariable type="void*" name="_unused" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="content" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableArray*" name="headers" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <method type="NSString*" factory="yes" ovadd="0.0.0">
+          <sel>charsetForXml:</sel>
+          <arg type="id">xml</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" factory="yes" ovadd="0.0.0">
+          <sel>charsetFromEncoding:</sel>
+          <arg type="NSStringEncoding">enc</arg>
+          <desc>
+            Return the MIME characterset name corresponding to
+            the specified string encoding. <br /> As a special
+            case, returns "us-ascii" if <var>enc</var> is zero.
+            <br /> Returns <code>nil</code> if <var>enc</var>
+            cannot be mapped to a charset. <br /> NB. The
+            correspondence between charsets and
+            encodings is not a direct one to one mapping, so
+            successive calls to
+            <ref type="method" id="+encodingFromCharset:">
+              +encodingFromCharset:
+            </ref>
+            and
+            <ref type="method" id="+charsetFromEncoding:">
+              +charsetFromEncoding:
+            </ref>
+            may not produce the original input.
+          </desc>
+        </method>
+        <method type="NSData*" factory="yes" ovadd="0.0.0">
+          <sel>decodeBase64:</sel>
+          <arg type="NSData*">source</arg>
+          <desc>
+            Decode the <var>source</var> data from base64
+            encoding and return the result. <br /> The
+            <var>source</var> data is expected to be ASCII text
+            and may be multiple lines or a line of any length
+            (decoding is very tolerant).
+          </desc>
+        </method>
+        <method type="NSString*" factory="yes" ovadd="0.0.0">
+          <sel>decodeBase64String:</sel>
+          <arg type="NSString*">source</arg>
+          <desc>
+            Converts the base64 encoded data in
+            <var>source</var> to a decoded ASCII or UTF8 string
+            using the
+            <ref type="method" id="+decodeBase64:">
+              +decodeBase64:
+            </ref>
+            method. If the encoded data does not represent an
+            ASCII or UTF8 string, you should use the
+            <ref type="method" id="+decodeBase64:">
+              +decodeBase64:
+            </ref>
+            method directly.
+          </desc>
+        </method>
+        <method type="GSMimeDocument*" factory="yes" ovadd="0.0.0">
+          <sel>documentWithContent:</sel>
+          <arg type="id">newContent</arg>
+          <sel>type:</sel>
+          <arg type="NSString*">type</arg>
+          <sel>name:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            Convenience method to return an autoreleased
+            document using the specified content,
+            <var>type</var>, and <var>name</var> value. This
+            calls the
+            <ref type="method" id="-setContent:type:name:">
+              -setContent:type:name:
+            </ref>
+            method to set up the document.
+          </desc>
+        </method>
+        <method type="NSData*" factory="yes" ovadd="0.0.0">
+          <sel>encodeBase64:</sel>
+          <arg type="NSData*">source</arg>
+          <desc>
+            Encode the <var>source</var> data to base64 encoding
+            and return the result. <br /> The resulting data is
+            ASCII text and contains only the base64 encoded
+            values with no line breaks or extraneous data. This
+            is base64 encoded data in it's general format as
+            mandated in RFC 3548. If the data is to be used as
+            part of a MIME document body, line breaks must be
+            introduced at 76 byte intervals (GSMime does
+            this when automatically encoding data for you). If the
+            data is to be used in a PEM document line breaks must
+            be introduced at 74 byte intervals.
+          </desc>
+        </method>
+        <method type="NSString*" factory="yes" ovadd="0.0.0">
+          <sel>encodeBase64String:</sel>
+          <arg type="NSString*">source</arg>
+          <desc>
+            Converts the ASCII or UTF8 string
+            <var>source</var> into base64 encoded data using the
+            <ref type="method" id="+encodeBase64:">
+              +encodeBase64:
+            </ref>
+            method. If the original data is not an ASCII or
+            UTF8 string, you should use the
+            <ref type="method" id="+encodeBase64:">
+              +encodeBase64:
+            </ref>
+            method directly.
+          </desc>
+        </method>
+        <method type="NSStringEncoding" factory="yes" ovadd="0.0.0">
+          <sel>encodingFromCharset:</sel>
+          <arg type="NSString*">charset</arg>
+          <desc>
+            Return the string encoding corresponding to the
+            specified MIME characterset name. <br /> As a
+            special case, returns NSASCIIStringEncoding if
+            <var>charset</var> is <code>nil</code>. <br />
+            Returns 0 if <var>charset</var> cannot be found.
+            <br /> NB. We treat iso-10646-ucs-2 as utf-16, which
+            should work for most text, but is not strictly
+            correct. <br /> The correspondence between
+            charsets and encodings is not a direct one to one
+            mapping, so successive calls to
+            <ref type="method" id="+encodingFromCharset:">
+              +encodingFromCharset:
+            </ref>
+            and
+            <ref type="method" id="+charsetFromEncoding:">
+              +charsetFromEncoding:
+            </ref>
+            may not produce the original input.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>addContent:</sel>
+          <arg type="id">newContent</arg>
+          <desc>
+            Adds a part to a multipart document
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>addHeader:</sel>
+          <arg type="GSMimeHeader*">info</arg>
+          <desc>
+            <p>
+              This method may be called to add a header to the
+              document. The header must be a mutable
+              dictionary object that contains at least the
+              fields that are standard for all headers.
+            </p>
+            <p>
+              Certain well-known headers are restricted to one
+              occurrence in an email, and when extra copies
+              are added they replace originals.
+            </p>
+            <p>
+              The mime-version header is special... it is inserted
+              before any other mime headers rather than being
+              added at the end.
+            </p>
+          </desc>
+        </method>
+        <method type="GSMimeHeader*" ovadd="0.0.0">
+          <sel>addHeader:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>value:</sel>
+          <arg type="NSString*">value</arg>
+          <sel>parameters:</sel>
+          <arg type="NSDictionary*">parameters</arg>
+          <desc>
+            Convenience method to create a new header and
+            add it to the receiver. <br /> Returns the newly
+            created header. <br /> See
+            <ref type="method" id="-initWithName:value:parameters:" class="GSMimeHeader">[GSMimeHeader -initWithName:value:parameters:]</ref> and <ref type="method" id="-addHeader:">-addHeader:</ref> methods.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="0.0.0">
+          <sel>allHeaders</sel>
+          <desc>
+            <p>
+              This method returns an array containing GSMimeHeader
+              objects representing the headers associated with
+              the document.
+            </p>
+            <p>
+              The order of the headers in the array is the order of
+              the headers in the document.
+            </p>
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>content</sel>
+          <desc>
+            This returns the content data of the document in the
+            same format in which the data was placed in the
+            document. This may be one of -
+            <deflist>
+              <term>text</term> <desc>an NSString object</desc>
+              <term>binary</term> <desc>an NSData object</desc>
+              <term>multipart</term>
+              <desc>
+                an NSArray object containing GSMimeDocument objects
+              </desc>
+            </deflist>
+            If you want to be sure that you get a particular type of
+            data, use the
+            <ref type="method" id="-convertToData">
+              -convertToData
+            </ref>
+            or
+            <ref type="method" id="-convertToText">
+              -convertToText
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>contentByID:</sel>
+          <arg type="NSString*">key</arg>
+          <desc>
+            Search the content of this document to locate a part
+            whose content ID matches the specified <var>key</var>
+            . Recursively descend into other documents. <br /> Wraps
+            the supplied <var>key</var> in angle brackets if they
+            are not present. <br /> Return <code>nil</code> if no
+            match is found, the matching GSMimeDocument
+            otherwise.
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>contentByLocation:</sel>
+          <arg type="NSString*">key</arg>
+          <desc>
+            Search the content of this document to locate a part
+            whose content ID matches the specified <var>key</var>
+            . Recursively descend into other documents. <br /> Wraps
+            the supplied <var>key</var> in angle brackets if they
+            are not present. <br /> Return <code>nil</code> if no
+            match is found, the matching GSMimeDocument
+            otherwise.
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>contentByName:</sel>
+          <arg type="NSString*">key</arg>
+          <desc>
+            Search the content of this document to locate a part
+            whose content-type name or content-disposition name
+            matches the specified <var>key</var>. Recursively
+            descend into other documents. <br /> Return
+            <code>nil</code> if no match is found, the matching
+            GSMimeDocument otherwise.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>contentFile</sel>
+          <desc>
+            Convenience method to fetch the content file
+            name from the content-type or content-disposition
+            header.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>contentID</sel>
+          <desc>
+            Convenience method to fetch the content ID from
+            the header.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>contentLocation</sel>
+          <desc>
+            Convenience method to fetch the content
+            location from the header.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>contentName</sel>
+          <desc>
+            Convenience method to fetch the content name
+            from the header.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>contentSubtype</sel>
+          <desc>
+            Convenience method to fetch the content
+            sub-type from the header.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>contentType</sel>
+          <desc>
+            Convenience method to fetch the content type
+            from the header.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="0.0.0">
+          <sel>contentsByName:</sel>
+          <arg type="NSString*">key</arg>
+          <desc>
+            Search the content of this document to locate all
+            parts whose content-type name or content-disposition
+            name matches the specified <var>key</var>. Do
+            <em>NOT</em> recurse into other documents. <br />
+            Return <code>nil</code> if no match is found, an
+            array of matching GSMimeDocument instances otherwise.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>convertTo7BitSafe</sel>
+          <desc>
+            Converts any binary parts of the receiver's
+            content to be base64 (or quoted-printable for text
+            parts) encoded rather than 8bit or binary encoded...
+            a convenience method to make the results of the
+            <ref type="method" id="-rawMimeData">
+              -rawMimeData
+            </ref>
+            method safe for sending via routes which only
+            support 7bit data.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>convertToBase64</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>convertToBinary</sel>
+          <desc>
+            Converts any base64 (or quoted-printable) encoded
+            parts of the receiver's content to be binary encoded
+            instead... a convenience method to shrink down the
+            size of the message when converted to data using the
+            <ref type="method" id="-rawMimeData">
+              -rawMimeData
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="0.0.0">
+          <sel>convertToData</sel>
+          <desc>
+            Return the content as an NSData object (unless it is
+            multipart) <br /> Perform conversion from text
+            to data using the charset specified in the content-type
+            header, or infer the charset, and update the header
+            accordingly. <br /> If the content can not be
+            represented as a plain NSData object, this
+            method returns <code>nil</code>.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>convertToText</sel>
+          <desc>
+            Return the content as an NSString object (unless it
+            is multipart) If the content cannot be represented as
+            text, this returns <code>nil</code>.
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>copyWithZone:</sel>
+          <arg type="NSZone*">z</arg>
+          <desc>
+            Returns a copy of the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>deleteContent:</sel>
+          <arg type="GSMimeDocument*">aPart</arg>
+          <desc>
+            Deletes all ocurrances of parts identical to
+            <var>aPart</var> from the receiver. <br />
+            Recursively deletes from enclosed documents as
+            necessary.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>deleteHeader:</sel>
+          <arg type="GSMimeHeader*">aHeader</arg>
+          <desc>
+            This method removes all occurrences of header objects
+            identical to the one supplied as an argument.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>deleteHeaderNamed:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            This method removes all occurrences of headers whose
+            <var>name</var> matches the supplied string.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="0.0.0">
+          <sel>estimatedSize</sel>
+          <desc>
+            How big this document might be when represented as raw
+            MIME data.
+          </desc>
+        </method>
+        <method type="GSMimeHeader*" ovadd="0.0.0">
+          <sel>headerNamed:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            This method returns the first header whose
+            <var>name</var> equals the supplied argument.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="0.0.0">
+          <sel>headersNamed:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            This method returns an array of GSMimeHeader objects
+            for all headers whose names equal the supplied
+            argument.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>makeBoundary</sel>
+          <desc>
+            <p>
+              Make a probably unique string suitable for use as
+              the boundary parameter in the content of a multipart
+              document.
+            </p>
+            <p>
+              This implementation provides base64 encoded data
+              consisting of an MD5 digest of some pseudo
+              random stuff, plus an incrementing counter. The
+              inclusion of the counter guarantees that we
+              won't produce two identical strings in the same run
+              of the program.
+            </p>
+            <p>
+              The boundary has a suffix of '=_' to ensure it's not
+              mistaken for quoted-printable data.
+            </p>
+          </desc>
+        </method>
+        <method type="GSMimeHeader*" ovadd="0.0.0">
+          <sel>makeContentID</sel>
+          <desc>
+            Create new content ID header, set it as the content
+            ID of the document and return it. <br /> This is a
+            convenience method which simply places angle
+            brackets around an
+            <ref type="method" id="-globallyUniqueString" class="NSProcessInfo">[NSProcessInfo -globallyUniqueString]</ref> to form the header value.
+          </desc>
+        </method>
+        <method type="GSMimeHeader*" ovadd="0.0.0">
+          <sel>makeHeader:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>value:</sel>
+          <arg type="NSString*">value</arg>
+          <sel>parameters:</sel>
+          <arg type="NSDictionary*">parameters</arg>
+          <desc>
+            Deprecated... use
+            <ref type="method" id="-setHeader:value:parameters:">
+              -setHeader:value:parameters:
+            </ref>
+          </desc>
+        </method>
+        <method type="GSMimeHeader*" ovadd="0.0.0">
+          <sel>makeMessageID</sel>
+          <desc>
+            Create new message ID header, set it as the message
+            ID of the document and return it. <br /> This is a
+            convenience method which simply places angle
+            brackets around an
+            <ref type="method" id="-globallyUniqueString" class="NSProcessInfo">[NSProcessInfo -globallyUniqueString]</ref> to form the header value.
+          </desc>
+        </method>
+        <method type="NSMutableData*" ovadd="0.0.0">
+          <sel>rawMimeData</sel>
+          <desc>
+            Return an NSData object representing the MIME
+            document as raw data ready to be sent via an email
+            system. <br /> Calls
+            <ref type="method" id="-rawMimeData:">
+              -rawMimeData:
+            </ref>
+            with the isOuter flag set to <code>YES</code>.
+          </desc>
+        </method>
+        <method type="NSMutableData*" ovadd="0.0.0">
+          <sel>rawMimeData:</sel>
+          <arg type="BOOL">isOuter</arg>
+          <desc>
+            <p>
+              Return an NSData object representing the MIME
+              document as raw data ready to be sent via an
+              email system.
+            </p>
+            <p>
+              The <var>isOuter</var> flag denotes whether this
+              document is the outermost part of a MIME
+              message, or is a part of a multipart message.
+            </p>
+            <p>
+              Long lines are folded at the default column.
+            </p>
+          </desc>
+        </method>
+        <method type="NSMutableData*" ovadd="0.0.0">
+          <sel>rawMimeData:</sel>
+          <arg type="BOOL">isOuter</arg>
+          <sel>foldedAt:</sel>
+          <arg type="NSUInteger">fold</arg>
+          <desc>
+            <p>
+              Return an NSData object representing the MIME
+              document as raw data ready to be sent via an
+              email system.
+            </p>
+            <p>
+              The <var>isOuter</var> flag denotes whether this
+              document is the outermost part of a MIME
+              message, or is a part of a multipart message.
+            </p>
+            <p>
+              The <var>fold</var> number specifes the column at
+              which lines are considered to be 'long', and get
+              broken/folded.
+            </p>
+            <p>
+              During generation of the document this method will
+              perform some consistency checks and try to
+              automatically generate missing header
+              information needed to build the mime data
+              (eg. filling in the boundary parameter in the
+              content-type header for multipart
+              documents). <br /> However, you should not
+              depend on automatic behaviors but should fill in
+              as much detail as possible before generating data.
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setContent:</sel>
+          <arg type="id">newContent</arg>
+          <desc>
+            Sets a new value for the content of the document.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setContent:</sel>
+          <arg type="id">newContent</arg>
+          <sel>type:</sel>
+          <arg type="NSString*">type</arg>
+          <desc>
+            Convenience method calling
+            <ref type="method" id="-setContent:type:name:">
+              -setContent:type:name:
+            </ref>
+            to set document content and <var>type</var> with a
+            <code>nil</code> value for name... useful for
+            top-level documents rather than parts within a
+            document (parts should really be named).
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setContent:</sel>
+          <arg type="id">newContent</arg>
+          <sel>type:</sel>
+          <arg type="NSString*">type</arg>
+          <sel>name:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            <p>
+              Convenience method to set the content of the
+              document along with creating a content-type
+              header for it.
+            </p>
+            <p>
+              The <var>type</var> parameter may be a simple common
+              content <var>type</var> (text, multipart, or
+              application), in which case the default
+              subtype for that <var>type</var> is used.
+              Alternatively it may be full detail of a
+              content <var>type</var> header value, which will
+              be parsed into 'type', 'subtype' and 'parameters'.
+              <br /> NB. In this case, if the parsed data
+              contains a 'name' parameter and the
+              <var>name</var> argument is non-nil, the argument
+              value will override the parsed value.
+            </p>
+            <p>
+              You can get the same effect by calling
+              <ref type="method" id="-setContent:">
+                -setContent:
+              </ref>
+              to set the document content, then creating a
+              <ref type="class" id="GSMimeHeader">GSMimeHeader</ref>
+                instance, initialising it with the content
+                <var>type</var> information you want using
+                <ref type="method" id="-initWithName:value:parameters:" class="GSMimeHeader">[GSMimeHeader -initWithName:value:parameters:]</ref>, and calling the <ref type="method" id="-setHeader:">-setHeader:</ref> method to attach it to the document.
+              </p>
+              <p>
+                Using this method imposes a few extra checks and
+                restrictions on the combination of content
+                and type/subtype you may use... so you may want to
+                use the more primitive methods in order to bypass
+                these checks if you are using unusual
+                type/subtype information or if you need to
+                provide additional parameters in the header.
+              </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setContentType:</sel>
+          <arg type="NSString*">newType</arg>
+          <desc>
+            <p>
+              Convenience method to set the content type of
+              the document without altering any content. The
+              supplied <var>newType</var> may be full type
+              information including subtype and parameters
+              as found after the colon in a mime Content-Type
+              header.
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setHeader:</sel>
+          <arg type="GSMimeHeader*">info</arg>
+          <desc>
+            This method may be called to set a header in the
+            document. Any other headers with the same name
+            will be removed from the document.
+          </desc>
+        </method>
+        <method type="GSMimeHeader*" ovadd="0.0.0">
+          <sel>setHeader:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>value:</sel>
+          <arg type="NSString*">value</arg>
+          <sel>parameters:</sel>
+          <arg type="NSDictionary*">parameters</arg>
+          <desc>
+            Convenience method to create a new header and
+            add it to the receiver replacing any existing header of
+            the same <var>name</var>. <br /> Returns the newly
+            created header. <br /> See
+            <ref type="method" id="-initWithName:value:parameters:" class="GSMimeHeader">[GSMimeHeader -initWithName:value:parameters:]</ref> and <ref type="method" id="-setHeader:">-setHeader:</ref> methods.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSMimeHeader class
+      </heading>
+      <class name="GSMimeHeader" super="NSObject" ovadd="0.0.0">
+        <declared>GNUstepBase/GSMime.h</declared>
+        <conform>NSCopying</conform>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <ivariable type="NSString*" name="lower" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="name" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableDictionary*" name="objects" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableDictionary*" name="params" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="value" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <method type="GSMimeHeader*" factory="yes" ovadd="0.0.0">
+          <sel>headerWithName:</sel>
+          <arg type="NSString*">n</arg>
+          <sel>value:</sel>
+          <arg type="NSString*">v</arg>
+          <sel>parameters:</sel>
+          <arg type="NSDictionary*">p</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" factory="yes" ovadd="0.0.0">
+          <sel>makeQuoted:</sel>
+          <arg type="NSString*">v</arg>
+          <sel>always:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Makes the value into a quoted string if necessary (ie
+            if it contains any special / non-token characters). If
+            <var>flag</var> is <code>YES</code> then the value is
+            made into a quoted string even if it does not contain
+            special characters.
+          </desc>
+        </method>
+        <method type="NSString*" factory="yes" ovadd="0.0.0">
+          <sel>makeToken:</sel>
+          <arg type="NSString*">t</arg>
+          <desc>
+            Convert the supplied string to a standardized token
+            by making it lowercase and removing all illegal
+            characters.
+          </desc>
+        </method>
+        <method type="NSString*" factory="yes" ovadd="0.0.0">
+          <sel>makeToken:</sel>
+          <arg type="NSString*">t</arg>
+          <sel>preservingCase:</sel>
+          <arg type="BOOL">preserve</arg>
+          <desc>
+            Convert the supplied string to a standardized token
+            by removing all illegal characters. If
+            <var>preserve</var> is <code>NO</code> then the
+            result is converted to lowercase. <br /> Returns an
+            autoreleased (and possibly modified) copy of
+            the original.
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>copyWithZone:</sel>
+          <arg type="NSZone*">z</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="0.0.0">
+          <sel>estimatedSize</sel>
+          <desc>
+            How big this header might be when represented as raw
+            MIME data.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>fullValue</sel>
+          <desc>
+            Returns the full value of the header including any
+            parameters and preserving case. This is an
+            unfolded (<strong>long</strong>) line with no
+            escape sequences (ie contains a unicode string not
+            necessarily plain ASCII). <br /> If you just
+            want the plain value excluding any parameters, use the
+            <ref type="method" id="-value">
+              -value
+            </ref>
+            method instead.
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>initWithName:</sel>
+          <arg type="NSString*">n</arg>
+          <sel>value:</sel>
+          <arg type="NSString*">v</arg>
+          <desc>
+            Convenience method calling
+            <ref type="method" id="-initWithName:value:parameters:">
+              -initWithName:value:parameters:
+            </ref>
+            with the supplied argument and <code>nil</code>
+            parameters.
+          </desc>
+        </method>
+        <method type="id" init="yes" ovadd="0.0.0">
+          <sel>initWithName:</sel>
+          <arg type="NSString*">n</arg>
+          <sel>value:</sel>
+          <arg type="NSString*">v</arg>
+          <sel>parameters:</sel>
+          <arg type="NSDictionary*">p</arg>
+          <desc>
+            Initialise a GSMimeHeader supplying a name, a
+            value and a dictionary of any parameters occurring
+            after the value.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>name</sel>
+          <desc>
+            Returns the name of this header... a lowercase
+            string.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>namePreservingCase:</sel>
+          <arg type="BOOL">preserve</arg>
+          <desc>
+            Returns the name of this header as originally set
+            (without conversion to lowercase) if
+            <var>preserve</var> is <code>YES</code>, but as a
+            lowercase string if <var>preserve</var> is
+            <code>NO</code>.
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>objectForKey:</sel>
+          <arg type="NSString*">k</arg>
+          <desc>
+            Return extra information specific to a particular
+            header type.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="0.0.0">
+          <sel>objects</sel>
+          <desc>
+            Returns a dictionary of all the additional objects
+            for the header.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>parameterForKey:</sel>
+          <arg type="NSString*">k</arg>
+          <desc>
+            Return the named parameter value.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="0.0.0">
+          <sel>parameters</sel>
+          <desc>
+            Returns the parameters of this header... a
+            dictionary whose keys are all lowercase strings,
+            and whose values are strings which may contain mixed
+            case.
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="0.0.0">
+          <sel>parametersPreservingCase:</sel>
+          <arg type="BOOL">preserve</arg>
+          <desc>
+            Returns the parameters of this header... a
+            dictionary whose keys are strings preserving the
+            case originally used to set the values or all
+            lowercase depending on the <var>preserve</var>
+            argument.
+          </desc>
+        </method>
+        <method type="NSMutableData*" ovadd="0.0.0">
+          <sel>rawMimeData</sel>
+          <desc>
+            Returns the full text of the header, built from its
+            component parts, and including a terminating
+            CR-LF
+          </desc>
+        </method>
+        <method type="NSMutableData*" ovadd="0.0.0">
+          <sel>rawMimeDataPreservingCase:</sel>
+          <arg type="BOOL">preserve</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSMutableData*" ovadd="0.0.0">
+          <sel>rawMimeDataPreservingCase:</sel>
+          <arg type="BOOL">preserve</arg>
+          <sel>foldedAt:</sel>
+          <arg type="NSUInteger">fold</arg>
+          <desc>
+            Returns the full text of the header, built from its
+            component parts, and including a terminating
+            CR-LF. <br /> If <var>preserve</var> is
+            <code>YES</code> then we attempt to build the text
+            using the same case as it was originally parsed/set
+            from, otherwise we use common conventions of
+            capitalising the header names and using
+            lowercase parameter names. <br /> If
+            <var>fold</var> is greater than zero, lines with more
+            than the specified number of characters are considered
+            'long' and are folded into multiple lines.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>rawMimeDataPreservingCase:</sel>
+          <arg type="BOOL">preserve</arg>
+          <sel>foldedAt:</sel>
+          <arg type="NSUInteger">fold</arg>
+          <sel>to:</sel>
+          <arg type="NSMutableData*">md</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setObject:</sel>
+          <arg type="id">o</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">k</arg>
+          <desc>
+            Method to store specific information for particular
+            types of header. This is used for non-standard parts
+            of headers. <br /> Setting a <code>nil</code> value for
+            <var>o</var> will remove any existing value set using
+            the <var>k</var> as its key.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setParameter:</sel>
+          <arg type="NSString*">v</arg>
+          <sel>forKey:</sel>
+          <arg type="NSString*">k</arg>
+          <desc>
+            Sets a parameter of this header... converts name to
+            lowercase and removes illegal characters. <br />
+            If a <code>nil</code> parameter name is supplied,
+            removes any parameter with the specified key.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setParameters:</sel>
+          <arg type="NSDictionary*">d</arg>
+          <desc>
+            Sets all parameters of this header... converts names
+            to lowercase and removes illegal characters from them.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setValue:</sel>
+          <arg type="NSString*">s</arg>
+          <desc>
+            Sets the value of this header (without changing
+            parameters). <br /> If given a
+            <code>nil</code> argument, set an empty string
+            value.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>text</sel>
+          <desc>
+            Returns the full text of the header, built from its
+            component parts, and including a terminating
+            CR-LF
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>value</sel>
+          <desc>
+            Returns the value of this header (excluding any
+            parameters). <br /> Use the
+            <ref type="method" id="-fullValue">
+              -fullValue
+            </ref>
+            method if you want parameter included.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSMimeParser class
+      </heading>
+      <class name="GSMimeParser" super="NSObject" ovadd="0.0.0">
+        <declared>GNUstepBase/GSMime.h</declared>
+        <desc>
+          <p>
+            This class provides support for parsing MIME messages
+            into GSMimeDocument objects. Each parser object
+            maintains an associated document into which data
+            is stored.
+          </p>
+          <p>
+            You supply the document to be parsed as one or more
+            data items passed to the
+            <ref type="method" id="-parse:">
+              -parse:
+            </ref>
+            method, and (if the method always returns
+            <code>YES</code>, you give it a final
+            <code>nil</code> argument to mark the end of the
+            document.
+          </p>
+          <p>
+            On completion of parsing a valid document, the
+            <ref type="method" id="-mimeDocument" class="GSMimeParser">[GSMimeParser -mimeDocument]</ref> method returns the resulting parsed document.
+          </p>
+          <p>
+            If you need to parse faulty documents (eg where a faulty
+            mail client has produced an email which does not
+            conform to the MIME standards), you should look at
+            the
+            <ref type="method" id="-setBuggyQuotes:">
+              -setBuggyQuotes:
+            </ref>
+            and
+            <ref type="method" id="-setDefaultCharset:">
+              -setDefaultCharset:
+            </ref>
+            methods, which are designed to cope with the most
+            common faults.
+          </p>
+        </desc>
+        <ivariable type="NSStringEncoding" name="_defaultEncoding" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="void*" name="_unused" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSData*" name="boundary" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned char*" name="bytes" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="GSMimeParser*" name="child" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="GSMimeCodingContext*" name="context" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableData*" name="data" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="dataEnd" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="GSMimeDocument*" name="document" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="expect" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="input" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="lineEnd" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="lineStart" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="rawBodyLength" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="sectionStart" validity="protected" ovadd="0.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <method type="GSMimeDocument*" factory="yes" ovadd="0.0.0">
+          <sel>documentFromData:</sel>
+          <arg type="NSData*">mimeData</arg>
+          <desc>
+            Convenience method to parse a single data item
+            as a MIME message and return the resulting document.
+          </desc>
+        </method>
+        <method type="GSMimeParser*" factory="yes" ovadd="0.0.0">
+          <sel>mimeParser</sel>
+          <desc>
+            Create and return a parser.
+          </desc>
+        </method>
+        <method type="GSMimeCodingContext*" ovadd="0.0.0">
+          <sel>contextFor:</sel>
+          <arg type="GSMimeHeader*">info</arg>
+          <desc>
+            Return a coding context object to be used for
+            decoding data according to the scheme specified in
+            the header.
+            <p>
+              The default implementation supports the following
+              transfer encodings specified in either a
+              <code>transfer-encoding</code> of
+              <code>content-transfer-encoding</code> header -
+            </p>
+            <list>
+              <item>base64</item> <item>quoted-printable</item>
+              <item>binary (no coding actually performed)</item>
+              <item>7bit (no coding actually performed)</item>
+              <item>8bit (no coding actually performed)</item>
+              <item>chunked (for HTTP/1.1)</item>
+              <item>x-uuencode</item>
+            </list>
+            To add new coding schemes to the parser, you need to
+            override this method to return a new coding
+            context for your scheme when the <var>info</var>
+            argument indicates that this is appropriate.
+          </desc>
+        </method>
+        <method type="NSMutableData*" ovadd="0.0.0">
+          <sel>data</sel>
+          <desc>
+            Return the data accumulated in the parser. If the
+            parser is still parsing headers, this will be the
+            header data read so far. If the parse has parsed the
+            body of the message, this will be the data of the
+            body, with any transfer encoding removed.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>decodeData:</sel>
+          <arg type="NSData*">sData</arg>
+          <sel>fromRange:</sel>
+          <arg type="NSRange">aRange</arg>
+          <sel>intoData:</sel>
+          <arg type="NSMutableData*">dData</arg>
+          <sel>withContext:</sel>
+          <arg type="GSMimeCodingContext*">con</arg>
+          <desc>
+            <p>
+              Decodes the raw data from the specified range in
+              the source data object and appends it to the
+              destination data object. The context object
+              provides information about the content encoding
+              type in use, and the state of the decoding
+              operation.
+            </p>
+            <p>
+              This method may be called repeatedly to
+              incrementally decode information as it
+              arrives on some communications channel. It should
+              be called with a <code>nil</code> source data item (or
+              with the atEnd flag of the context set to
+              <code>YES</code>) in order to flush any
+              information held in the context to the output
+              data object.
+            </p>
+            <p>
+              You may override this method in order to implement
+              additional coding schemes, but usually it
+              should be enough for you to implement a custom
+              GSMimeCodingContext subclass fotr
+              this method to use.
+            </p>
+            Correct the size of the output buffer (shrink back
+            from the original allocation to the actual unchunked
+            size).
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="0.0.0">
+          <sel>excess</sel>
+          <desc>
+            If there was more data passed to the parser than
+            actually needed to form the document, this method
+            returns that excess data, othrwise it returns
+            <code>nil</code>.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>expectNoHeaders</sel>
+          <desc>
+            This method may be called to tell the parser that it
+            should not expect to parse any headers, and that the
+            data it will receive is body data. <br /> If the parse
+            is already in the body, or is complete, this method has
+            no effect. <br /> This is for use when some other
+            utility has been used to parse headers, and you
+            have set the headers of the document owned by the
+            parser accordingly. You can then use the
+            GSMimeParser to read the body data into the
+            document.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>isComplete</sel>
+          <desc>
+            Returns <code>YES</code> if the document parsing is
+            known to be completed successfully. Returns
+            <code>NO</code> if either more data is needed, or if
+            the parser encountered an error.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>isHttp</sel>
+          <desc>
+            Returns <code>YES</code> if the parser is parsing
+            an HTTP document rather than a true MIME document.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>isInBody</sel>
+          <desc>
+            Returns <code>YES</code> if all the document
+            headers have been parsed but the document body
+            parsing may not yet be complete.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>isInHeaders</sel>
+          <desc>
+            Returns <code>YES</code> if parsing of the document
+            headers has not yet been completed.
+          </desc>
+        </method>
+        <method type="GSMimeDocument*" ovadd="0.0.0">
+          <sel>mimeDocument</sel>
+          <desc>
+            Returns the GSMimeDocument instance into which data
+            is being parsed or has been parsed.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>parse:</sel>
+          <arg type="NSData*">d</arg>
+          <desc>
+            <p>
+              This method is called repeatedly to pass raw mime
+              data into the parser. It returns <code>YES</code> as
+              <strong>long</strong> as it wants more data to
+              complete parsing of a document, and
+              <code>NO</code> if parsing is complete, either due
+              to having reached the end of a document or due to an
+              error.
+            </p>
+            <p>
+              Since it is not always possible to determine if the
+              end of a MIME document has been reached from its
+              content, the method may need to be called with a
+              <code>nil</code> or empty argument after you have
+              passed all the data to it... this tells it that
+              the data is complete.
+            </p>
+            <p>
+              The parser attempts to be as flexible as possible and
+              to continue parsing wherever it can. If an error
+              occurs in parsing, the
+              <ref type="method" id="-isComplete">
+                -isComplete
+              </ref>
+              method will always return <code>NO</code>, even
+              after the
+              <ref type="method" id="-parse:">
+                -parse:
+              </ref>
+              method has been called with a <code>nil</code>
+              argument.
+            </p>
+            <p>
+              A multipart document will be parsed to content
+              consisting of an NSArray of GSMimeDocument
+              instances representing each part. <br />
+              Otherwise, a document will become content of
+              type NSData, unless it is of content type
+              <em>text</em>, in which case it will be an NSString.
+              <br /> If a document has no content type
+              specified, it will be treated as <em>text</em>
+              , unless it is identifiable as a <em>file</em> (eg. t
+              has a content-disposition header containing a
+              filename parameter).
+            </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>parseHeader:</sel>
+          <arg type="NSString*">aHeader</arg>
+          <desc>
+            <p>
+              This method is called to parse a header line
+              <em>for the current document</em>, split its
+              contents into a GSMimeHeader object, and add
+              that information to the document. <br /> The method
+              is normally used internally by the
+              <ref type="method" id="-parse:">
+                -parse:
+              </ref>
+              method, but you may also call it to parse an
+              entire header line and add it to the document
+              (this may be useful in conjunction with the
+              <ref type="method" id="-expectNoHeaders">
+                -expectNoHeaders
+              </ref>
+              method, to parse a document body data into a
+              document where the headers are available from a
+              separate source).
+            </p>
+<example>
+   GSMimeParser *parser = [GSMimeParser mimeParser];
+
+   [parser parseHeader: @"content-type: text/plain"];
+   [parser expectNoHeaders];
+   [parser parse: bodyData];
+   [parser parse: nil];
+ </example>
+            <p>
+              The standard implementation of this method scans the
+              header name and then calls
+              <ref type="method" id="-scanHeaderBody:into:">
+                -scanHeaderBody:into:
+              </ref>
+              to complete the parsing of the header.
+            </p>
+            <p>
+              This method also performs consistency checks on
+              headers scanned so it is recommended that it is
+              not overridden, but that subclasses override
+              <ref type="method" id="-scanHeaderBody:into:">
+                -scanHeaderBody:into:
+              </ref>
+              to implement custom scanning.
+            </p>
+            <p>
+              As a special case, for HTTP support, this method also
+              parses lines in the format of HTTP responses as if
+              they were headers named <code>http</code>. The
+              resulting header object contains additional
+              object values -
+            </p>
+            <deflist>
+              <term>HttpMajorVersion</term>
+              <desc>The first part of the version number</desc>
+              <term>HttpMinorVersion</term>
+              <desc>The second part of the version number</desc>
+              <term>NSHTTPPropertyServerHTTPVersionKey</term>
+              <desc>The full HTTP protocol version number</desc>
+              <term>NSHTTPPropertyStatusCodeKey</term>
+              <desc>The HTTP status code (numeric)</desc>
+              <term>NSHTTPPropertyStatusReasonKey</term>
+              <desc>
+                The text message (if any) after the status code
+              </desc>
+            </deflist>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>parseHeaders:</sel>
+          <arg type="NSData*">d</arg>
+          <sel>remaining:</sel>
+          <arg type="NSData**">body</arg>
+          <desc>
+            Parses headers from the supplied data returning
+            <code>YES</code> if more data is needed before the
+            end of thge headers are reached. <br /> If
+            <var>body</var> is not NULL and the end of the
+            headers were reached leaving some unused data, that
+            remaining data is returned. <br /> NB. The
+            returned data is a reference to part of the
+            original memory buffer provided in <var>d</var>,
+            so you must copy it if you intend to use it after
+            modifying or deallocating the original data.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>scanHeaderBody:</sel>
+          <arg type="NSScanner*">scanner</arg>
+          <sel>into:</sel>
+          <arg type="GSMimeHeader*">info</arg>
+          <desc>
+            <p>
+              This method is called to parse a header line and
+              split its contents into the supplied
+              <ref type="class" id="GSMimeHeader">GSMimeHeader</ref>
+                instance.
+              </p>
+              <p>
+                On entry, the header (<var>info</var>) is already
+                partially filled, the name is a lowercase
+                representation of the header name. The
+                the <var>scanner</var> must be set to a scan
+                location immediately after the colon in the
+                original header string (ie to the header value
+                string).
+              </p>
+              <p>
+                If the header is parsed successfully, the method
+                should return <code>YES</code>, otherwise
+                <code>NO</code>.
+              </p>
+              <p>
+                You would not normally call this method directly
+                yourself, but may override it to support
+                parsing of new headers. <br /> If you do call
+                this yourself, you need to be aware that it may
+                change the state of the document in the parser.
+              </p>
+              <p>
+                You should be aware of the parsing that the
+                standard implementation performs, and that
+                <em>needs</em> to be done for certain headers in
+                order to permit the parser to work generally -
+              </p>
+              <deflist>
+                <term>content-disposition</term>
+                <desc>
+                  <deflist>
+                    <term>Value</term>
+                    <desc>
+                      The content disposition (excluding
+                      parameters) as a lowercase string.
+                    </desc>
+                  </deflist>
+                </desc>
+                <term>content-type</term>
+                <desc>
+                  <deflist>
+                    <term>Subtype</term>
+                    <desc>The MIME subtype lowercase</desc>
+                    <term>Type</term>
+                    <desc>The MIME type lowercase</desc>
+                    <term>value</term>
+                    <desc>
+                      The full MIME type (xxx/yyy) in lowercase
+                    </desc>
+                  </deflist>
+                </desc>
+                <term>content-transfer-encoding</term>
+                <desc>
+                  <deflist>
+                    <term>Value</term>
+                    <desc>
+                      The transfer encoding type in lowercase
+                    </desc>
+                  </deflist>
+                </desc>
+                <term>http</term>
+                <desc>
+                  <deflist>
+                    <term>HttpVersion</term>
+                    <desc>
+                      The HTTP protocol version number
+                    </desc>
+                    <term>HttpMajorVersion</term>
+                    <desc>
+                      The first component of the version number
+                    </desc>
+                    <term>HttpMinorVersion</term>
+                    <desc>
+                      The second component of the version number
+                    </desc>
+                    <term>HttpStatus</term>
+                    <desc>
+                      The response status value (numeric code)
+                    </desc>
+                    <term>Value</term>
+                    <desc>The text message (if any)</desc>
+                  </deflist>
+                </desc>
+                <term>transfer-encoding</term>
+                <desc>
+                  <deflist>
+                    <term>Value</term>
+                    <desc>
+                      The transfer encoding type in lowercase
+                    </desc>
+                  </deflist>
+                </desc>
+              </deflist>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>scanName:</sel>
+          <arg type="NSScanner*">scanner</arg>
+          <desc>
+            A convenience method to use a <var>scanner</var> (that is
+            set up to scan a header line) to scan a name - a simple
+            word.
+            <list>
+              <item>Leading whitespace is ignored.</item>
+            </list>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>scanPastSpace:</sel>
+          <arg type="NSScanner*">scanner</arg>
+          <desc>
+            A convenience method to scan past any whitespace in the
+            <var>scanner</var> in preparation for scanning
+            something more interesting that comes after it.
+            Returns <code>YES</code> if any space was read,
+            <code>NO</code> otherwise.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>scanSpecial:</sel>
+          <arg type="NSScanner*">scanner</arg>
+          <desc>
+            A convenience method to use a <var>scanner</var> (that is
+            set up to scan a header line) to scan in a special
+            character that terminated a token previously
+            scanned. If the token was terminated by whitespace
+            and no other special character, the string returned
+            will contain a single space character.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>scanToken:</sel>
+          <arg type="NSScanner*">scanner</arg>
+          <desc>
+            A convenience method to use a <var>scanner</var> (that is
+            set up to scan a header line) to scan a header token -
+            either a quoted string or a simple word.
+            <list>
+              <item>Leading whitespace is ignored.</item>
+              <item>
+                Backslash escapes in quoted text are
+                converted
+              </item>
+            </list>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setBuggyQuotes:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Method to inform the parser that the data it is
+            parsing is likely to contain fields with buggy use
+            of backslash quotes... and it should try to be tolerant
+            of them and treat them as is they were escaped
+            backslashes. This is for use with things like
+            microsoft internet explorer, which puts the
+            backslashes used as file path separators in
+            parameters without quoting them.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setDefaultCharset:</sel>
+          <arg type="NSString*">aName</arg>
+          <desc>
+            This is a method to inform the parser that body parts
+            with no content-type header (which are treated as
+            text/plain) should use the specified
+            characterset rather than the default
+            (us-ascii). <br /> This also controls the
+            parsing of headers... in a legal MIME document
+            these must consist solely of us-ascii characters, but
+            setting a different default characterset (such as
+            latin1) will permit many illegal header lines
+            (produced by faulty mail clients) to be parsed.
+            <br /> HTTP requests use headers in the latin1
+            characterset, so this is the header line
+            characterset used most commonly by faulty
+            clients.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setHeadersOnly</sel>
+          <desc>
+            Method to inform the parser that only the headers
+            should be parsed and any remaining data be treated
+            as excess
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setIsHttp</sel>
+          <desc>
+            Method to inform the parser that the data it is
+            parsing is an HTTP document rather than true MIME.
+            This method is called internally if the parser detects
+            an HTTP response line at the start of the headers it is
+            parsing.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSMimeSMTPClient class
+      </heading>
+      <class name="GSMimeSMTPClient" super="NSObject" ovadd="0.0.0">
+        <declared>GNUstepBase/GSMime.h</declared>
+        <desc>
+          The GSMimeSMTPClient class provides the ability to send
+          EMails ([GSMimeDocument] instances) via an SMTP
+          server.
+        </desc>
+        <method type="void" ovadd="0.0.0">
+          <sel>abort</sel>
+          <desc>
+            Shut down any message send in progress and abort any
+            queued messages.
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>delegate</sel>
+          <desc>
+            Returns the current delegate.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>flush:</sel>
+          <arg type="NSDate*">limit</arg>
+          <desc>
+            Tries to flush any queued messages to the SMTP
+            server, completing by the specified
+            <var>limit</var> date. <br /> If <var>limit</var> is
+            <code>nil</code> then a date in the distant future
+            is used. <br /> If the queue is emptied in time, this
+            method returns <code>YES</code>, otherwise it
+            returns <code>NO</code>.
+          </desc>
+        </method>
+        <method type="NSError*" ovadd="0.0.0">
+          <sel>lastError</sel>
+          <desc>
+            Returns the last error encountered, or
+            <code>nil</code> if there is none recorded.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="0.0.0">
+          <sel>queueSize</sel>
+          <desc>
+            Returns the number of messages currently in the
+            queue.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>send:</sel>
+          <arg type="GSMimeDocument*">message</arg>
+          <desc>
+            Add the <var>message</var> to the queue of emails to be
+            sent by the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>send:</sel>
+          <arg type="GSMimeDocument*">message</arg>
+          <sel>envelopeID:</sel>
+          <arg type="NSString*">envid</arg>
+          <desc>
+            Add the <var>message</var> to the queue of emails to be
+            sent by the receiver. <br /> Also adds an envelope ID
+            string to be used to uniquely identify the
+            <var>message</var> for delivery receipting purposes.
+            <br /> For this to work, the SMTP gateway being used
+            must support the SMTP service extension for delivery
+            status notification (RFC 3460).
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setDelegate:</sel>
+          <arg type="id">d</arg>
+          <desc>
+            Set the delegate to receive callback methods indicating
+            when a message is sent, failed, or removed from the
+            queue unsent.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setHostname:</sel>
+          <arg type="NSString*">s</arg>
+          <desc>
+            Set the host for the SMTP server. If this is not set
+            (or is set to <code>nil</code>) then the
+            GSMimeSMTPClientHost user default is
+            used. If the host is <code>nil</code> or an empty
+            string then 'localhost' is used.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setIdentity:</sel>
+          <arg type="NSString*">s</arg>
+          <desc>
+            Set the host for the SMTP client to identify itsself to
+            the server. If this is not set (or is set to
+            <code>nil</code>) then the GSMimeSMTPClientIdentity
+            user default is used. If the identity is
+            <code>nil</code> or an empty string then a name of
+            the current host is use.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="0.0.0">
+          <sel>setMaximum:</sel>
+          <arg type="NSUInteger">m</arg>
+          <desc>
+            Sets the maximum number of messages which may remain
+            in the queue. If this is exceeded then any unsuccessful
+            send attempt results in excess queued messages
+            discarded as unsent. <br /> The method returns
+            the previous setting.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setOriginator:</sel>
+          <arg type="NSString*">s</arg>
+          <desc>
+            Set the originator for any emails sent by the SMTP
+            client. <br /> This overrides the value in the
+            'from' header of an email. <br /> If this is not set
+            (or is set to <code>nil</code>) then the
+            GSMimeSMTPClientOriginator user
+            default is used. If the originator is
+            <code>nil</code> or an empty string then the value
+            in the 'from' header of the email is used.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setPort:</sel>
+          <arg type="NSString*">s</arg>
+          <desc>
+            Set the port for the SMTP server. If this is not set
+            (or is set to <code>nil</code>) then the
+            GSMimeSMTPClientPort user default is
+            used. If the port is not an integer in the 1-65535
+            range, then '25' (the default SMTP port) is used.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setUsername:</sel>
+          <arg type="NSString*">s</arg>
+          <desc>
+            Set the username for authentication to the SMTP server.
+            If this is not set (or is set to <code>nil</code>) then
+            the GSMimeSMTPClientUsername user default is used. If
+            the username is <code>nil</code> or an empty string
+            then authentication is not attempted.
+          </desc>
+        </method>
+        <method type="int" ovadd="0.0.0">
+          <sel>state</sel>
+          <desc>
+            returns the receivers current state.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>stateDesc</sel>
+          <desc>
+            Returns a string describing the receiver's current
+            state
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the GSMimeSerializer class
+      </heading>
+      <class name="GSMimeSerializer" super="NSObject" ovadd="0.0.0">
+        <declared>GNUstepBase/GSMime.h</declared>
+        <conform>NSCopying</conform>
+        <desc>
+          Instances of the GSMimeSerializer class are used to
+          serialise GSMimeDocument objects to NSMutableData
+          objects, producing data in a form suitable for
+          sending as an Email over the SMTP protocol or in
+          other forms.
+        </desc>
+        <ivariable type="NSString*" name="dataEncoding" validity="protected" ovadd="0.0.0">
+          <desc>
+            To make 8bit data 7bit-safe
+          </desc>
+        </ivariable>
+        <ivariable type="NSUInteger" name="foldAt" validity="protected" ovadd="0.0.0">
+          <desc>
+            Fold <strong>long</strong> lines at this position
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="textEncoding" validity="protected" ovadd="0.0.0">
+          <desc>
+            To make 8bit text 7bit-safe
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="use8bit" validity="protected" ovadd="0.0.0">
+          <desc>
+            Output does not need to be 7bit-safe
+          </desc>
+        </ivariable>
+        <method type="GSMimeSerializer*" factory="yes" ovadd="0.0.0">
+          <sel>binarySerializer</sel>
+          <desc>
+            Returns an autorelease GSMimeSerializer configured
+            for transfer over binary safe protocols with unliumited
+            line lenth).
+          </desc>
+        </method>
+        <method type="GSMimeSerializer*" factory="yes" ovadd="0.0.0">
+          <sel>smtp7bitSerializer</sel>
+          <desc>
+            Returns an autorelease GSMimeSerializer configured
+            for Email to be sent as 7bit data over SMTP.
+          </desc>
+        </method>
+        <method type="id" ovadd="0.0.0">
+          <sel>copyWithZone:</sel>
+          <arg type="NSZone*">aZone</arg>
+          <desc>
+            Returns a copy of the receiver.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>dataEncoding</sel>
+          <desc>
+            Returns the default content transfer encoding used
+            when 8bit data needs to be made 7bit safe. This is
+            base64 by default.
+          </desc>
+        </method>
+        <method type="NSMutableData*" ovadd="0.0.0">
+          <sel>encodeDocument:</sel>
+          <arg type="GSMimeDocument*">document</arg>
+          <desc>
+            Encodes the <var>document</var> and returns the
+            resulting raw mime data.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>encodePart:</sel>
+          <arg type="GSMimeDocument*">document</arg>
+          <sel>to:</sel>
+          <arg type="NSMutableData*">md</arg>
+          <desc>
+            Appends a <var>document</var> part to the supplied
+            data object.
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="0.0.0">
+          <sel>foldAt</sel>
+          <desc>
+            Returns the maximum line length (excluding the
+            trailing CRLF) to which we will encode data. See
+            also the
+            <ref type="method" id="-setFoldAt:">
+              -setFoldAt:
+            </ref>
+            method.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setDataEncoding:</sel>
+          <arg type="NSString*">encoding</arg>
+          <desc>
+            Sets the content transfer <var>encoding</var> used
+            when 8bit data needs to be sent in a 7bit safe form.
+            <br /> Setting a nil/empty <var>encoding</var>
+            reverts to the default (base64). <br /> Setting an
+            unknown/inapplicable
+            <var>encoding</var> raises an exception.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setFoldAt:</sel>
+          <arg type="NSUInteger">position</arg>
+          <desc>
+            This method allows you to control the
+            <var>position</var> at which lines in headers and the
+            body data are wrapped. <br /> RFC 2822 says that the
+            absolute maximum (except for 'binary' content
+            transfer encoding) is 998 (excluding CRLF), but
+            the recommended maximum is 78 so we use that by
+            default. <br /> Setting any ridiculously
+            <strong>short</strong> value (less than 20) or an
+            excessively <strong>long</strong> value
+            (greater than the 998 character limit supported by
+            SMTP) actually sets a value of zero, meaning that
+            there is no limit.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setTextEncoding:</sel>
+          <arg type="NSString*">encoding</arg>
+          <desc>
+            Sets the content transfer <var>encoding</var> used
+            when 8bit text needs to be sent in a 7bit safe form.
+            <br /> Setting a nil/empty <var>encoding</var>
+            reverts to the default (quoted-printable). <br />
+            Setting an unknown/inapplicable <var>encoding</var>
+            raises an exception.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>setUse8bit:</sel>
+          <arg type="BOOL">aFlag</arg>
+          <desc>
+            Sets whether we will allow 8bit data in the output.
+            <br /> The default is <code>NO</code> (because 8bit
+            data breaks some mail transfer agents).
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="0.0.0">
+          <sel>textEncoding</sel>
+          <desc>
+            Returns the default content transfer encoding used
+            when 8bit text needs to be made 7bit safe. This is
+            quoted-printable by default.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0">
+          <sel>use8bit</sel>
+          <desc>
+            Returns <code>YES</code> is we will allow 8bit data
+            in the output, <code>NO</code> if we encode everything
+            in a 7bit safe form.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(GSMimeSMTPClient) category
+      </heading>
+      <category name="GSMimeSMTPClient" class="NSObject" ovadd="0.0.0">
+        <declared>GNUstepBase/GSMime.h</declared>
+        <desc>
+          Informal protocol for delegates of the
+          GSMimeSMTPClient class. The default
+          implementations of these methods do nothing.
+        </desc>
+        <method type="void" ovadd="0.0.0">
+          <sel>smtpClient:</sel>
+          <arg type="GSMimeSMTPClient*">client</arg>
+          <sel>mimeFailed:</sel>
+          <arg type="GSMimeDocument*">doc</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>smtpClient:</sel>
+          <arg type="GSMimeSMTPClient*">client</arg>
+          <sel>mimeSent:</sel>
+          <arg type="GSMimeDocument*">doc</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0">
+          <sel>smtpClient:</sel>
+          <arg type="GSMimeSMTPClient*">client</arg>
+          <sel>mimeUnsent:</sel>
+          <arg type="GSMimeDocument*">doc</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

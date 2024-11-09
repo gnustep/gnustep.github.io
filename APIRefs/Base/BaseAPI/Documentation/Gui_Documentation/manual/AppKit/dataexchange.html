@@ -1,0 +1,534 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- (C) 2005-2006 Christopher Armstrong.
+
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2, as published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included in the section entitled "GNU Free Documentation License".
+
+This documentation is provided on an "AS IS" BASIS, WITHOUT WARRANTY
+OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED
+TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND USEFULNESS
+OF THE DOCUMENTATION IS WITH YOU (THE LICENSEE). IN NO EVENT WILL THE COPYRIGHT
+HOLDERS BE LIABLE FOR DAMAGES, INCLUDING ANY DIRECT, INDIRECT,
+SPECIAL, GENERAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF
+THE USE OR INABILITY TO USE THIS DOCUMENTATION (INCLUDING BUT NOT
+LIMITED TO LOSS OF DATA, USE, OR PROFITS; PROCUREMENT OF SUBSTITUTE
+GOODS AND SERVICES; OR BUSINESS INTERUPTION) HOWEVER CAUSED, EVEN
+IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. -->
+<title>dataexchange (Using the GNUstep AppKit 0.1)</title>
+
+<meta name="description" content="dataexchange (Using the GNUstep AppKit 0.1)">
+<meta name="keywords" content="dataexchange (Using the GNUstep AppKit 0.1)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="conceptindex.html" rel="index" title="conceptindex">
+<link href="index.html" rel="up" title="Top">
+<link href="images.html" rel="next" title="images">
+<link href="browsercontrols.html" rel="prev" title="browsercontrols">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="chapter" id="dataexchange">
+<div class="header">
+<p>
+Next: <a href="images.html" accesskey="n" rel="next">Images and Imageviews</a>, Previous: <a href="browsercontrols.html" accesskey="p" rel="prev">Browsers</a>, Up: <a href="index.html" accesskey="u" rel="up">Using the GNUstep AppKit</a> &nbsp; [<a href="conceptindex.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Data-Exchange"></span><h2 class="chapter">13 Data Exchange</h2>
+
+<p><em>Data Exchange</em> refers to the many high-level options GNUstep provides for allowing different applications to exchange common types of data. The sorts of services include &quot;cut and paste&quot;, &quot;drag and drop&quot;, service applications, filter services and distributed objects.
+</p>
+<p>We begin our discussion with an explanation of pasteboards, which form the basis of data exchange in GNUstep. We will then go on to explain how your application can expose or consume these different sorts of data exchange services. However you receive data, it will most likely involve the use of pasteboards, hence the next section is very important.
+</p>
+<ul class="section-toc">
+<li><a href="#Pasteboards" accesskey="1">Pasteboards</a></li>
+<li><a href="#Cut-and-Paste" accesskey="2">Cut and Paste</a></li>
+<li><a href="#Drag-and-Drop-1" accesskey="3">Drag and Drop</a></li>
+<li><a href="#Services-and-Filter-Services" accesskey="4">Services and Filter Services</a></li>
+<li><a href="#Providing-Services" accesskey="5">Providing Services</a></li>
+<li><a href="#Using-Services" accesskey="6">Using Services</a></li>
+</ul>
+<div class="section" id="Pasteboards">
+<h3 class="section">13.1 Pasteboards</h3>
+
+<p>A <em>pasteboard</em> is the helper object used to exchange data between applications. It is an instance of the <code>NSPasteboard</code> class. Data is written to the pasteboard in different forms that it can be represented, so that the application or service receiving the data can use it.
+</p>
+<p>There is a pasteboard server, a service provided with GNUstep which handles pasting between GNUstep applications. You may recognise it as the <code>gpbs</code> application.
+</p>
+<span id="index-pasteboards_002c-standard-names"></span>
+<p>Every pasteboard has a name that can be used to identify it. This is a string, which should be unique, but some standard pasteboard names are defined for certain uses:
+</p><dl compact="compact">
+<dt id='index-NSGeneralPboard'><span><code>NSGeneralPboard</code><a href='#index-NSGeneralPboard' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>The <em>general pasteboard</em>, often used with copy and paste.
+</p>
+</dd>
+<dt id='index-NSFontPboard'><span><code>NSFontPboard</code><a href='#index-NSFontPboard' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Used for the exchange of font data.
+</p>
+</dd>
+<dt id='index-NSRulerPboard'><span><code>NSRulerPboard</code><a href='#index-NSRulerPboard' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Used for the exchange of ruler data.
+</p>
+</dd>
+<dt id='index-NSFindPboard'><span><code>NSFindPboard</code><a href='#index-NSFindPboard' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Used for &quot;Find and Replace&quot; editing.
+</p>
+</dd>
+<dt id='index-NSDragPboard'><span><code>NSDragPboard</code><a href='#index-NSDragPboard' class='copiable-anchor'> &para;</a></span></dt>
+<dd><p>Used in the exchange of drag&rsquo;n&rsquo;drop data.
+</p>
+</dd>
+</dl>
+
+<p>You can retreive a pasteboard by name using the <code>+pasteboardWithName:</code> method, or with a guaranteed unique name with the <code>+pasteboardWithUniqueName</code> method.
+</p>
+<p>All pasteboards also have any number of <em>types</em>. A <em>type</em> is simply one form of data that the pasteboard will contain, such as HTML data or text data. The supported data types are listed below:
+<span id="index-pasteboards_002c-standard-types"></span>
+</p><ul>
+<li> NSColorPboardType
+</li><li> NSDataLinkPboardType
+</li><li> NSFileContentsPboardType
+</li><li> NSFilenamesPboardType
+</li><li> NSFontPboardType
+</li><li> NSGeneralPboardType
+</li><li> NSHTMLPboardType
+</li><li> NSPostScriptPboardType
+</li><li> NSPDFPboardType
+</li><li> NSPICTPboardType
+</li><li> NSRTFPboardType
+</li><li> NSRTFDPboardType
+</li><li> NSRulerPboardType
+</li><li> NSStringPboardType
+</li><li> NSTabularTextPboardType
+</li><li> NSTIFFPboardType
+</li><li> NSURLPboardType
+</li></ul>
+<p>See the AppKit manual for more information about storing these types of data on a pasteboard.
+</p>
+<p>Finally a pasteboard may or may not have an <em>owner</em>. An <em>owner</em> is an object implmenting the <code>NSPasteboardOwner</code> informal protocol that can provide the pasteboard with data of a certain type upon request. If you don&rsquo;t supply an owner object, you should store the data onto the pasteboard straight away.
+</p>
+<ul class="section-toc">
+<li><a href="#Constructing-a-pasteboard" accesskey="1">Constructing a pasteboard</a></li>
+<li><a href="#Using-an-Owner" accesskey="2">Using an Owner</a></li>
+</ul>
+<div class="subsection" id="Constructing-a-pasteboard">
+<h4 class="subsection">13.1.1 Constructing a pasteboard</h4>
+
+<p>You can get a pasteboard using the <code>+pasteboardWithName:</code> method with one of the standard names above, or the <code>+pasteboardWithUniqueName:</code> for a pasteboard with a name that is unique to the pasteboard server. You can also get a pasteboard based on the available filter services by calling <code>+pasteboardByFilteringFile:</code> for a pasteboard containing file, accessible by all the data types that it can be filtered to. If you know the source data type, you can use <code>+pasteboardByFilterData:ofType:</code> specifying a data object for a pasteboard that can convert data to different types that can be filtered from your data&rsquo;s type.
+</p>
+<p>If you are constructing a pasteboard, you will want to call <code>-setData:forType:</code> method to put the associated data in the pasteboard for another object to read it out. Use <code>-declareTypes:owner:</code> to declare the types that this pasteboard will contain, and an owner object that will supply the data for those types that you don&rsquo;t explicitly write to the pasteboard. 
+</p>
+</div>
+<div class="subsection" id="Using-an-Owner">
+<h4 class="subsection">13.1.2 Using an Owner</h4>
+
+<p>You can provide a pasteboard owner by implementing the <code>NSPasteboardOwner</code> informal protocol. This is used for the &quot;lazy&quot; provision of data. The pasteboard will call methods on the owner when it can&rsquo;t find the data being requested already stored on it.
+</p>
+<p>The first method to implement is <code>-pasteboard:provideDataForType:</code>. This is called when the pasteboard doesn&rsquo;t have the data specified by <var>type</var>. You give it to the pasteboard by calling <code>-setData:forType:</code> on the pasteboard.
+</p>
+<p>We can also implement <code>-pasteboardChangedOwner:</code>, which informs us that the owner has been changed and we no longer have to provide data to the pasteboard. GNUstep also has an extension, the <code>-pasteboard:provideDataForType:andVersion:</code> which should be implemented when data of a certain version as well is required. 
+</p>
+</div>
+</div>
+<div class="section" id="Cut-and-Paste">
+<h3 class="section">13.2 Cut and Paste</h3>
+
+<p>Cut, copy and paste is the most common service you will want to provide in your application. Thankfully, all standard GNUstep objects handle copying and pasting where commonly appropriate, such as the NSText variety of objects. However, in some cases it may be useful to provide copying and pasting services, especially for your own views or on customised GNUstep views.
+</p>
+<p>The first thing to to is to provide two methods on your object called <code>-cut:</code>, <code>-copy:</code>, and/or <code>-paste:</code> both taking an object (the sender) as their first parameter. This will enable Gorm&rsquo;s standard &quot;Cut&quot;, &quot;Copy&quot; and &quot;Paste&quot; menu items if you place them in your interface. 
+</p>
+<p>You will usually use the general pasteboard for cut and paste, which can be retreived by going:
+</p><div class="example">
+<pre class="example">NSPasteboard* generalPB = [NSPasteboard pasteboardWithName:NSGeneralPboard];
+</pre></div>
+
+<p>The implementation of these methods should then follow. For cutting and copying:
+</p><ol>
+<li> Create a pasteboard
+
+<p>Usually we use the general pasteboard, but you can create one with your own name if you like.
+</p>
+</li><li> Register types of data to be provided
+
+<p>The next thing to do is specify which types of data you will provide on the pasteboard. Use the <code>-declareTypes:owner:</code> method, passing an array of types, and optionally, an owner object. 
+</p>
+</li><li> Provide data for pasting
+
+<p>You supply data to the pasteboard for pasting by using the <code>-setData:forType:</code> method. If you have used an owner, make sure that it implements the <code>NSPasteboardOwner</code> protocol and that it can return data in the form(s) specified in the previous step.
+</p></li></ol>
+
+<p>If you decide to provide data in a number of types, it is often recommended you supply the <i>richest</i> type directly to the pasteboard, and use an owner to supply more basic data types. Simply use <code>if/else if</code> statements in the <code>-pasteboard:provideDataForType:</code> method on your owner.
+</p>
+<p>Pasting data is much simpler. Simply retreive the general pasteboard, and call the <code>-stringForType:</code> or <code>-propertyListForType:</code> method, passing in a type.
+</p>
+<p>Make sure that you declare the types your pasteboard supports with the <code>-declareTypes:owner:</code> method. You can specify nil for the owner if you are not using lazy data provision.
+</p>
+</div>
+<div class="section" id="Drag-and-Drop-1">
+<h3 class="section">13.3 Drag and Drop</h3>
+
+<p><em>Drag and drop</em> is often more complex. Many different standard views provide their own delegate protocols for receiving drag and drop events, and you should refer to the documentation for those (especially tableviews and outline views) before following the instructions in this section. However, this is still useful in explaining some important concepts.
+</p>
+<p>Such operations consist of both a <em>drag</em> and a <em>drop</em><a id="DOCF16" href="#FOOT16"><sup>16</sup></a>. The <em>drag</em> occurs when the user clicks their mouse button on a visible GUI element, and begins to mouse the mouse away from it. A <em>drop</em> occurs when the user moves the mouse over another GUI element and releases the mouse button. Obviously, dragging and dropping can only occur on visible elements of the screen that take up some real estate.
+</p>
+<p>Below, we discuss dragging sources and dragging destinations, and what is required to make your views responsive as such.
+</p>
+<ul class="section-toc">
+<li><a href="#Dragging-Sources" accesskey="1">Dragging Sources</a></li>
+<li><a href="#Dragging-Destinations" accesskey="2">Dragging Destinations</a></li>
+<li><a href="#Dragging-Information" accesskey="3">Dragging Information</a></li>
+</ul>
+<div class="subsection" id="Dragging-Sources">
+<h4 class="subsection">13.3.1 Dragging Sources</h4>
+
+<span id="index-dragging_002c-sources"></span>
+<p>When a drag event is initiated, the <code>-dragImage:at:offset: event:pasteboard: source:slideBack:</code> method is called on your subclass of NSView.  In this method, you need to supply a dragging image, a pasteboard to hold the data, and and a <em>dragging source</em> object (specified by the <code>source:</code> parameter).
+</p>
+<span id="index-protocols_002c-NSDraggingSource"></span>
+<p>The <em>dragging source</em> object should implement the <code>NSDraggingSource</code> protocol. The main method to implement is <code>-draggingSourceOperationMaskForLocal:</code>, whereas the others are used for dragging session events (and are otherwise optional). In this method, you should return the set of binary or-ed values corresponding to the permitted drag operations on this displayed image representation, listed below:
+<span id="index-dragging_002c-operations"></span>
+</p><dl compact="compact">
+<dt><span><code>NSDragOperationNone</code></span></dt>
+<dd><p>No drag operations are permitted with this data.
+</p>
+</dd>
+<dt><span><code>NSDragOperationCopy</code></span></dt>
+<dd><p>This data can be copied.
+</p>
+</dd>
+<dt><span><code>NSDragOperationLink</code></span></dt>
+<dd><p>This data can be &quot;shared&quot;. FIXME: WTF does this mean.
+</p>
+</dd>
+<dt><span><code>NSDragOperationGeneric</code></span></dt>
+<dd><p>The type of drag operation that this is can be defined by the dragging destination.
+</p>
+</dd>
+<dt><span><code>NSDragOperationPrivate</code></span></dt>
+<dd><p>This type of drag operation is defined privately by the source and destination objects, and hence negotiated between them.
+</p>
+</dd>
+<dt><span><code>NSDragOperationMove</code></span></dt>
+<dd><p>The data represented by this drag operation can be moved to the destination.
+</p>
+</dd>
+<dt><span><code>NSDragOperationDelete</code></span></dt>
+<dd><p>The destination can be responsible for deleting the data.
+</p>
+</dd>
+<dt><span><code>NSDragOperationAll</code></span></dt>
+<dt><span><code>NSDragOperationEvery</code></span></dt>
+<dd><p>All the above drag operations are acceptable.
+</p></dd>
+</dl>
+
+<p>You can specify more than one of the above by binary or-ing them together (the single pipe operator). Note that if you permit the <code>NSDragOperationMove</code> or <code>NSDragOperationDelete</code> methods, you must implement the <code>-draggedImage:endedAt:operation:</code> method, which is called when a dragging operation is finished so that your source can cleanup any visual or internal data in the source (such as making the source image disappear).
+</p>
+</div>
+<div class="subsection" id="Dragging-Destinations">
+<h4 class="subsection">13.3.2 Dragging Destinations</h4>
+
+<span id="index-dragging_002c-destinations"></span>
+<span id="index-protocols_002c-NSDraggingDestination"></span>
+<p>A view or window that is to act as a <em>dragging destination</em> should be sent the message <code>-registerForDraggedTypes:</code> with an array of the accepted dragging types. The view or window should then implement some of the methods in the <code>NSDraggingDestination</code> informal protocol.
+</p>
+<p>Some of these methods are listed below:
+</p><dl compact="compact">
+<dt><span><code>- draggingEntered:</code></span></dt>
+<dd><p>This is method is called when the user drags something into the frame of your window or view. Use it to return what dragging types you will permit for the dragging info passed in <code>sender</code>. 
+</p>
+</dd>
+<dt><span><code>- prepareForDragOperation:</code></span></dt>
+<dd><p>This is called just after the user has dropped the dragged object. Use this method to make any preparations for the drop. Return YES to cancel the drop.
+</p>
+</dd>
+<dt><span><code>- performDragOperation:</code></span></dt>
+<dd><p>This method is called so that you can perform the drop operation. This method is a must to implement. 
+</p>
+</dd>
+<dt><span><code>- concludeDragOperation:</code></span></dt>
+<dd><p>This is again optional, and can be used to perform any cleanup or post-drop operations.
+</p>
+</dd>
+<dt><span><code>- draggingUpdated:</code></span></dt>
+<dd><p>This is called periodically as the drag image is moved within your frame. It can be optionally implemented to update the drag operation with different drag types (returned) as the user moves the drag images over various parts of your view. It may be useful if drag operations are context sensitive with respect to the graphical elements that your view displays.
+</p>
+</dd>
+</dl>
+
+<p>Hence to act as a dragging destination, you need to at least implement <code>-draggingEntered:</code> and <code>-performDragOperation</code>. Make sure that when you actually perform the drag operation, that you retreive the pasteboard being used from the dragging destination (see below), as opposed to just retreiving the <code>NSDragPboard</code> named pasteboard, as you cannot be certain which pasteboard the dragging source has used for the drag operation.
+</p>
+</div>
+<div class="subsection" id="Dragging-Information">
+<h4 class="subsection">13.3.3 Dragging Information</h4>
+
+<p>Both <code>NSDraggingSource</code> and <code>NSDraggingDestination</code> use objects implementing the <code>NSDraggingInformation</code> protocol to convey information about the drag&rsquo;n&rsquo;drop operation. You can use this to make better decisions in many of the above mentioned methods with relation to permitting/disallowing different drag types and drag operations. You never implement this protocol, however.
+</p>
+<p>The pasteboard being used for the drag operation can be retreived via the <code>-draggingPasteboard</code> method. The image being used for the drag operation and its location can be retrieved via the <code>-draggingImage</code> and <code>-draggingImageLocation</code> methods respectively. If you need to snap the image during the drag operation, use the <code>-slideDraggedImageTo:</code> method, but only do this during <code>-prepareForDragOperation:</code> in the destination object.
+</p>
+</div>
+</div>
+<div class="section" id="Services-and-Filter-Services">
+<h3 class="section">13.4 Services and Filter Services</h3>
+
+<p>A <em>service</em> is a special type of application or tool that can be used to process data outside of the application. An application can both take advantage of services, or provide them to other applications. Like &quot;cut and paste&quot; and &quot;drag&rsquo;n&rsquo;drop&quot;, services use pasteboard to receive data and send it back to the calling application.
+</p>
+<p>A user can usually make use of a service by selecting something in your application (such as some text or an object) and selecting a service from the &quot;Services&quot; menu. You can also invoke services programmatically.
+</p>
+<p>One way is to put a <var>Services</var> sub-menu in your interface file&rsquo;s menu using <code>Gorm</code> (as mentioned above. The other way is to call the <code>NSPerformService()</code> function. It takes two parameters, a service name and a pasteboard. If the service invocation is successful, the pasteboard will contain the output data from the service. The latter method is useful for filter services (described below).
+</p>
+<p>A service becomes available to any NSResponder object in your application&rsquo;s interface. Most GNUstep classes are setup to consume services, but if you have your own <code>NSView</code> or <code>NSWindow</code> subclasses, you will need to implement extra methods so that it can make use of services. A service that isn&rsquo;t available to an object will not appear available in the Services menu.
+</p>
+<p>Providing services is a little bit different, and requires a bit more work. You can implement a service as a normal GNUstep application, or as a special command-line type using the <code>service.make</code> template in your GNUmakefile. Either way, you need to also provide extra information in your <samp>Info-gnustep.plist</samp> file that describes what services your application provides.
+</p>
+</div>
+<div class="section" id="Providing-Services">
+<h3 class="section">13.5 Providing Services</h3>
+
+<p>There are two types of services you can provide: normal services and filter services. Normal services may either send, receive or both send and receive data. They are often useful for initiating outside processes based on simple string information, such as loading up a &quot;New Message&quot; window in your email client with an email address that the user has highlighted in your application. Such as service wouldn&rsquo;t need to return any data. These services also are registered to appear in the &quot;Services&quot; menu of applications.
+</p>
+<p>For example, the user would highlight an email address in a text box, and then select &quot;Send Email&quot; from the services menu. GNUstep would then locate the associated service and put the email address on a pasteboard. The pasteboard is sent to the service application (and loaded if necessary), which processes it accordingly.
+</p>
+<p>On the other hand, a filter service is much more specific. They are designed to convert data from one type to another, and are only ever invoked programatically i.e. they don&rsquo;t appear in the &quot;Services&quot; menu.
+</p>
+<p>We begin making our application or command-line service ready for acting as a service by calling <code>-setServicesProvider:</code> on the <code>NSApplication</code> object, or by calling the <code>NSRegisterServicesProvider()</code> function. Both take an object, which will provide the service, as a parameter, and the latter also takes a <em>port name</em> as a string, which will be used to contact the application. <code>NSApplication</code> uses the name of your application as the port name.
+</p>
+<p>Secondly, the object that will provide the service needs to implement a method in the form of: <code>[methodname]:userData:error:</code>, where <var>methodname</var> is a custom, arbitrary name of the method. For example if you were to create a service that encrypts data and you want to call it something like <code>-encryptData</code>, the method would take the form:
+</p><div class="example">
+<pre class="example">- (void) encryptData:(NSPasteboard*)pBoard 
+	    userData:(NSString*)userData 
+	       error:(NSString**)error;
+</pre></div>
+
+<p>As you can see, the first part is arbitrary, but the rest must be the same for all services. It is the first part that you will use in the <code>NSMessage</code> key below.
+</p>
+<p>Lastly, all services need a special addition to their Info-gnustep.plist file, which should be included as a <code>RESOURCE</code> in your <samp>GNUmakefile</samp>. See the <cite>GNUstep Makefile Manual</cite> for more details.
+</p>
+<ul class="section-toc">
+<li><a href="#Normal-Services" accesskey="1">Normal Services</a></li>
+<li><a href="#Filter-Services" accesskey="2">Filter Services</a></li>
+<li><a href="#Registering-Services" accesskey="3">Registering Services</a></li>
+</ul>
+<div class="subsection" id="Normal-Services">
+<h4 class="subsection">13.5.1 Normal Services</h4>
+
+<p>As mentioned before, normal services may either send data, receive data, or both. Their Info-gnustep.plist file must have a top-level key named <code>NSServices</code>, which becomes an array of dictionaries. This array has one dictionary per service that is provided. 
+</p>
+<p>Each service dictionary has the following keys:
+</p><dl compact="compact">
+<dt><span><var>NSMessage</var></span></dt>
+<dd><p>This is the first part of the method name (as described above). For example, if your services provider object implements a method called <code>-randomData:userData:error:</code>, this key should take a string value equal to <code>&quot;randomData&quot;</code>.
+</p>
+</dd>
+<dt><span><var>NSSendTypes</var></span></dt>
+<dd><p>This key contains an array of the types of data that your service provider can handle (the types of data that may be sent to it). These types are the string values defined earlier for pasteboard types. Simply use the same name as used in the source code, e.g. <code>NSStringPboardType</code>.
+</p>
+</dd>
+<dt><span><var>NSReturnTypes</var></span></dt>
+<dd><p>This is an array of string values that contains the types your service provider can return.
+</p>
+</dd>
+<dt><span><var>NSPortName</var></span></dt>
+<dd><p>A service must be contacted via a distributed objects port, and this string value must contain the name of the port your application will be listening on for message. Unless you are not writing an application, this is usually set to the name of the application.
+</p>
+</dd>
+<dt><span><var>NSMenuItem</var></span></dt>
+<dd><p>This is a dictionary used to set the menu item name for this service. Each key in the dictionary is the name of a language, with the value set to a string that will be displayed as the menu item for this service in the set language. You can also provide a <var>default</var> key, which will be displayed if none of the translations you have provided match the user&rsquo;s language settings. You may also place one forward slash character (&rsquo;/&rsquo;) in the menu item name, which will be used to split the item into a sub-menu of <code>Services</code> and the menu item. It is useful for grouping related services in a sub-menu.
+</p>
+</dd>
+<dt><span><var>NSUserData</var></span></dt>
+<dd><p>This key is optional, and is set to a string value which may be whatever you like. It is passed to the method implementing the service. Use this if you want the one method to handle a number of service implementations, which are selected based on this string.
+</p>
+</dd>
+<dt><span><var>NSKeyEquivalent</var></span></dt>
+<dd><p>This is an optional dictionary which contains the key equivalents to the menu items you have listed in <var>NSMenuItem</var>. Each dictionary key is the name of a language (or <var>default</var> as described above) with its value set to a single letter that corresponds to a keyboard key.
+</p>
+</dd>
+<dt><span><var>NSTimeout</var></span></dt>
+<dd><p>This key is optional, and specifies how long the system should wait for the service provider to complete providing the service. It is a number in milliseconds. By default, the system waits 30 seconds.
+</p>
+</dd>
+<dt><span><var>NSExecutable</var></span></dt>
+<dd><p>This is an optional string value that contains the path of the executable which should be launched if the service is not already running. You will not usually need this for normal applications.
+</p></dd>
+</dl>
+
+<span id="Example"></span><h4 class="subsubheading">Example</h4>
+<p>We want to provide a service that turns ordinary string data into coded HTML text. Our service application is called &quot;WebSiteEditor&quot; and the method that provides the HTML translation is called <code>textToHtml:</code>. It accepts string data, and publishes the HTML back in string form.
+</p>
+<p>Our example Info-gnustep.plist array could be:
+</p><div class="example">
+<pre class="example">{ 
+  ..
+
+   (application specific keys)
+
+  ..
+
+  NSServices = (
+    {
+      NSPortName = WebSiteEditor;
+      NSMessage = textToHtml;
+      NSSendTypes = ( NSStringPboardType );
+      NSReturnTypes = ( NSStringPboardType );
+      NSMenuItem = { 
+        default = &quot;Convert to HTML&quot;;
+      };
+      NSTimeout = 25000;
+      NSKeyEquivalent = {
+        default = H;
+      };
+      NSUserData = &quot;NoBodyTags&quot;;
+    }
+    .. (More service definitions)
+  );
+}
+</pre></div>
+
+<p>As can be seen above, <var>NSServices</var> is an array containing one dictionary, which corresponds to one service. The service appears in the menu as &quot;Convert to HTML&quot;, which expects string data.
+</p>
+<p>A possible code implementation may be:
+</p><div class="example">
+<pre class="example">
+
+- (void) textToHTML:(NSPasteboard*)pboard
+           userData:(NSString*)userData
+              error:(NString**)error
+{
+  NSString* data, *convertedData;
+  if ([[pboard types] containsObject:NSStringPboardType])
+  {
+     // Extract string data from pasteboard
+     data = [pboard stringForType:NSStringPboardType];
+     
+     // Convert to HTML as a string
+     //..
+
+     // Put the result back onto the pasteboard
+     [pboard declareTypes:[NSArrayWithObject:NSStringPboardType]
+                    owner:nil
+     [pboard setString:convertedData forType:NSStringPboardType];
+  }
+  else
+    *error = &Iuml;ncorrect data type provided to textToHTML: service.&quot;;
+}
+
+</pre></div>
+
+</div>
+<div class="subsection" id="Filter-Services">
+<h4 class="subsection">13.5.2 Filter Services</h4>
+
+<p>As mentioned before, filter services are not initiated by the user, but are initiated by programme&rsquo;s to convert data from one type to another. They also have entries in an application&rsquo;s <samp>Info-gnustep.plist</samp> <var>NSServices</var> array. These entries are dictionaries as well, but they contain the following keys:
+</p><dl compact="compact">
+<dt><span><var>NSFilter</var></span></dt>
+<dd><p>This is the equivalent of the <var>NSMessage</var> key used for normal services. It is the name of the distributed objects port that the filter service will listen on for messages. It again is usually set to the name of the application, but as filter services are more likely to be standalone tools, this one can differ somewhat.
+</p>
+</dd>
+<dt><span><var>NSInputMechanism</var></span></dt>
+<dd><p>This is an optional key that specifies a string value corresponding to a different input mechanism than the usual distributed objects message passing.
+These values may be:
+</p><dl compact="compact">
+<dt><span><var>NSIdentity</var></span></dt>
+<dd><p>The data is placed on a pasteboard. It is not changed.
+</p>
+</dd>
+<dt><span><var>NSMapFile</var></span></dt>
+<dd><p>The data is the name of a file. The contents of this file will be placed on the pasteboard instead.
+</p>
+</dd>
+<dt><span><var>NSUnixStdio</var></span></dt>
+<dd><p>The data is the name of a file. This file is passed as an argument to a command-line programme, which is executed. The stdout of the programme is placed on the pasteboard instead.
+</p></dd>
+</dl>
+</dd>
+</dl>
+
+</div>
+<div class="subsection" id="Registering-Services">
+<h4 class="subsection">13.5.3 Registering Services</h4>
+<p>Before a service can be consumed by applications, it must be registered programatically and on the command line.
+</p>
+<p>An application registers the object that will be providing service(s) by calling <code>-setServicesProvider:</code> on their <code>NSApplication</code> object. Tool applications must call <code>NSRegisterServicesProvider()</code>, which is a function that takes the service object and the port name (as specified by <code>NSMessage</code> or <code>NSFilter</code> in the <samp>Info-gnustep.plist</samp> file).
+</p>
+<p>Once that is in code and your application has been installed, you also need to execute <code>make_services</code>, which is a script that comes with GNUstep. It locates the Info-gnustep.plist file and builds a list of services. This list of services becomes available to applications started after the script is executed.
+</p>
+</div>
+</div>
+<div class="section" id="Using-Services">
+<h3 class="section">13.6 Using Services</h3>
+
+<p>For the most part, AppKit objects are implemented to take advantage of most service types where appropriate, especially in regard to string data. However, there are situations where you will want to register for service consumption yourself, or where you want to allow your custom views to consume services.
+</p>
+<p>An <var>NSResponder</var> object must first register the pasteboard types it supports. Then, when a user tries to invoke a service, GNUstep first checks the responder chain for an object that can handle the service&rsquo;s input type, and then it queries the object for the data to be processed by the service. If data is returned from the service, GNUstep then gives the pasteboard back to the object for it&rsquo;s own processing.
+</p>
+<ol>
+<li> Registering for service consumption
+
+<p>Your object must at some point register it&rsquo;s ability to consume services of certain pasteboard types. It does this by calling <code>-registerServicesMenuSendTypes: returnTypes:</code> with an array of send types (the pasteboard types the object can send to a service) and return types (the pasteboard types the object can receive from a service).
+</p>
+<p>This method is to be only called once for your subclass. It is convenient to put it in your class&rsquo; <code>+initialize</code> method, which is usually called after your class is loaded into the runtime (and hence only once).
+</p>
+</li><li> Sending data to a Service
+
+<p>When sending data to a service, GNUstep must first check that your object can send those types of data before it requests the pasteboard from your object.
+</p>
+<p>So that GNUstep can check whether your object is able to export the pasteboard types requested by the service, you must implement the <code>-validRequestorForSendType:returnType:</code> method. It is passed a send pasteboard type and a return pasteboard type. 
+</p>
+<p>Your implementation should return an object if it is capable of handling that combination of send and return type (and is ready to do so), or return nil if it can&rsquo;t. It usually returns <code>self</code>.
+</p>
+<p>If GNUstep gets a positive answer to this method, it will then call <code>-writeSelectionToPasteboard:types</code> on your object. You should implement this method to fill the pasteboard with data (or use lazy provision, as discussed earlier in this chapter). It should return <code>YES</code> if it suceeds, or <code>NO</code> if it fails.
+</p>
+</li><li> Receiving data from a service
+
+<p>If the service being invoked returns data, GNUstep will call <code>-readSelectionFromPasteboard:</code> on your object when the service returns. This method should retrieve the service data from the pasteboard and use that data to update it&rsquo;s object&rsquo;s state.
+</p>
+</li></ol>
+
+</div>
+</div>
+<div class="footnote">
+<hr>
+<h4 class="footnotes-heading">Footnotes</h4>
+
+<h5><a id="FOOT16" href="#DOCF16">(16)</a></h5>
+<p>I know this seems really, really obvious, but just play along; I&rsquo;m not trying to be patronising.</p>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="images.html">Images and Imageviews</a>, Previous: <a href="browsercontrols.html">Browsers</a>, Up: <a href="index.html">Using the GNUstep AppKit</a> &nbsp; [<a href="conceptindex.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,1206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+    <head>
+    <title>NSThread class reference</title>
+    <style type="text/css">
+    hr.method-separator { width:25%; margin-left:0; }
+    </style>
+  </head>
+  <body>
+    <a href="Base.html">Up</a>
+    <br />
+    <h1><a name="title$NSThread">NSThread class reference</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Scott Christley (<a href="mailto:scottc@net-community.com"><code>scottc@net-community.com</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Andrew Kachites McCallum (<a href="mailto:mccallum@gnu.ai.mit.edu"><code>mccallum@gnu.ai.mit.edu</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Richard Frith-Macdonald (<a href="mailto:richard@brainstorm.co.uk"><code>richard@brainstorm.co.uk</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Nicola Pero (<a href="mailto:n.pero@mi.flashnet.it"><code>n.pero@mi.flashnet.it</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Date:</b> Generated at 2024-11-07 16:52:01 -0500</p>
+    <p><b>Copyright:</b> (C) 1996-2018 Free Software Foundation, Inc.</p>
+
+        <div>
+      <hr width="50%" align="left" />
+      <h3>Contents -</h3>
+      <ol>
+        <li>
+          <a href="#001000000000">Software documentation for the NSThread class</a>
+        </li>
+        <li>
+          <a href="#002000000000">Software documentation for the
+        NSObject(NSThreadPerformAdditions)
+        category</a>
+        </li>
+        <li>
+          <a href="#003000000000">Software documentation for the
+        NSThread(BlockAdditions) category</a>
+        </li>
+        <li>
+          <a href="#004000000000">Software documentation for the
+        NSThread(CallStackSymbols) category</a>
+        </li>
+        <li>
+          <a href="#005000000000">Software documentation for the NSThread(GSLockInfo)
+        category</a>
+        </li>
+      </ol>
+      <hr width="50%" align="left" />
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSThread class
+      </a></h1>
+    <h2 class="class"><a name="class$NSThread">NSThread</a> : <a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a></h2>
+<svg width="132pt" height="116pt"
+ viewBox="0.00 0.00 132.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>class_NSThread</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 128,-112 128,4 -4,4"/>
+<!-- NSObject -->
+<g id="node1" class="node">
+<title>NSObject</title>
+<g id="a_node1"><a xlink:href="NSObject.html#class$NSObject" xlink:title="NSObject">
+<polygon fill="lightgrey" stroke="black" points="121,-108 3,-108 3,-72 121,-72 121,-108"/>
+<text text-anchor="middle" x="62" y="-83.8" font-family="Times,serif" font-size="24.00" fill="blue">NSObject</text>
+</a>
+</g>
+</g>
+<!-- NSThread -->
+<g id="node2" class="node">
+<title>NSThread</title>
+<polygon fill="lightgrey" stroke="black" points="124,-36 0,-36 0,0 124,0 124,-36"/>
+<text text-anchor="middle" x="62" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">NSThread</text>
+</g>
+<!-- NSObject&#45;&gt;NSThread -->
+<g id="edge1" class="edge">
+<title>NSObject&#45;&gt;NSThread</title>
+<path fill="none" stroke="black" d="M62,-71.7C62,-63.98 62,-54.71 62,-46.11"/>
+<polygon fill="black" stroke="black" points="65.5,-46.1 62,-36.1 58.5,-46.1 65.5,-46.1"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSThread.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          This class encapsulates OpenStep threading. See
+          <a rel="gsdoc" href="NSLock.html#class$NSLock">NSLock</a>
+
+            and its subclasses for handling synchronisation between
+            threads. <br/> Each process begins with a main
+            thread and additional threads can be created using
+            NSThread. The GNUstep implementation of OpenStep
+            has been carefully designed so that the internals of
+            the base library do not use threading (except for
+            methods which explicitly deal with threads of
+            course) so that you can write applications without
+            threading. Non-threaded applications are more
+            efficient (no locking is required) and are easier
+            to debug during development.
+        
+    </div>
+    <hr width="50%" align="left" />
+    <a href="#_NSThread_ivars">Instance Variables</a>
+    <br/><br/>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread(BlockAdditions)+detachNewThreadWithBlock$">+detachNewThreadWithBlock:</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread(BlockAdditions)-initWithBlock$">-initWithBlock:</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread(CallStackSymbols)+callStackSymbols">+callStackSymbols</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread(GSLockInfo)-mutexDrop$">-mutexDrop:</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread(GSLockInfo)-mutexHold$">-mutexHold:</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread(GSLockInfo)-mutexWait$">-mutexWait:</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread+callStackReturnAddresses">+callStackReturnAddresses</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread+currentThread">+currentThread</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread+detachNewThreadSelector$toTarget$withObject$">+detachNewThreadSelector:toTarget:withObject:</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread+exit">+exit</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread+isMainThread">+isMainThread</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread+isMultiThreaded">+isMultiThreaded</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread+mainThread">+mainThread</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread+setThreadPriority$">+setThreadPriority:</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread+sleepForTimeInterval$">+sleepForTimeInterval:</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread+sleepUntilDate$">+sleepUntilDate:</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread+threadPriority">+threadPriority</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread-cancel">-cancel</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread-init">-init</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread-initWithTarget$selector$object$">-initWithTarget:selector:object:</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread-isCancelled">-isCancelled</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread-isExecuting">-isExecuting</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread-isFinished">-isFinished</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread-isMainThread">-isMainThread</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread-main">-main</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread-name">-name</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread-setName$">-setName:</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread-setStackSize$">-setStackSize:</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread-stackSize">-stackSize</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread-start">-start</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread-threadDictionary">-threadDictionary</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSThread+callStackReturnAddresses">callStackReturnAddresses&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>callStackReturnAddresses</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0, Base 1.15.1</div>
+<br />
+    <div class="desc">
+      
+            Returns an array of the call stack return
+            addresses.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread+currentThread">currentThread&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSThread">NSThread</a>*) <b>currentThread</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Returns the NSThread object corresponding to the
+              current thread.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              NB. In GNUstep the library internals use the
+              
+                GSCurrentThread()
+              
+
+              function as a more efficient mechanism for doing
+              this job - so you cannot use a category to override
+              this method and expect the library internals to use
+              your implementation.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread+detachNewThreadSelector$toTarget$withObject$">detachNewThreadSelector:&nbsp;toTarget:&nbsp;withObject:&nbsp;</a></h3>
+    + (void) <b>detachNewThreadSelector:</b> (SEL)aSelector<b> toTarget:</b> (id)aTarget<b> withObject:</b> (id)anArgument;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Create a new thread - use this method rather than
+              alloc-init. The new thread will begin
+              executing the message given by
+              <var>aSelector</var>, <var>aTarget</var>, and
+              <var>anArgument</var>. This should have no return
+              value, and must set up an autorelease pool if
+              retain/release memory management is used.
+              It should free this pool before it finishes execution.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread+exit">exit&nbsp;</a></h3>
+    + (void) <b>exit</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Terminates the current thread. <br/> Normally
+            you don&apos;t need to call this method explicitly, since
+            exiting the method with which the thread was
+            detached causes this method to be called
+            automatically.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread+isMainThread">isMainThread&nbsp;</a></h3>
+    + (BOOL) <b>isMainThread</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0, Base 1.15.1</div>
+<br />
+    <div class="desc">
+      
+            Returns a boolean indicating whether this thread is
+            the main thread of the process.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread+isMultiThreaded">isMultiThreaded&nbsp;</a></h3>
+    + (BOOL) <b>isMultiThreaded</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Returns a flag to say whether the application is
+            multi-threaded or not. <br/> An application
+            is considered to be multi-threaded if any thread other
+            than the main thread has been started, irrespective of
+            whether that thread has since terminated. <br/>
+            NB. This method returns <code>YES</code> if called
+            within a handler processing
+            <code>NSWillBecomeMultiThreadedNotification</code>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread+mainThread">mainThread&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSThread">NSThread</a>*) <b>mainThread</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0, Base 1.15.1</div>
+<br />
+    <div class="desc">
+      
+            Returns the main thread of the process.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread+setThreadPriority$">setThreadPriority:&nbsp;</a></h3>
+    + (BOOL) <b>setThreadPriority:</b> (double)pri;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0, Base 1.2.0</div>
+<br />
+    <div class="desc">
+      
+            Set the priority of the current thread. This is a value
+            in the range 0.0 (lowest) to 1.0 (highest) which is
+            mapped to the underlying system priorities.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread+sleepForTimeInterval$">sleepForTimeInterval:&nbsp;</a></h3>
+    + (void) <b>sleepForTimeInterval:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSTimeInterval">NSTimeInterval</a>)ti;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0, Base 1.15.1</div>
+<br />
+    <div class="desc">
+      
+            Suspends execution of the process for the
+            specified period.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread+sleepUntilDate$">sleepUntilDate:&nbsp;</a></h3>
+    + (void) <b>sleepUntilDate:</b> (<a rel="gsdoc" href="NSDate.html#class$NSDate">NSDate</a>*)date;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Delaying a thread... pause until the specified
+            <var>date</var>.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread+threadPriority">threadPriority&nbsp;</a></h3>
+    + (double) <b>threadPriority</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0, Base 1.2.0</div>
+<br />
+    <div class="desc">
+      
+            Return the priority of the current thread.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread-cancel">cancel&nbsp;</a></h3>
+    - (void) <b>cancel</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0, Base 1.15.1</div>
+<br />
+    <div class="desc">
+      
+            Cancels the receiving thread.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread-init">init&nbsp;</a></h3>
+    - (id) <b>init</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0, Base 1.15.1</div>
+<br />
+This is a designated initialiser for the class.<br />
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread-initWithTarget$selector$object$">initWithTarget:&nbsp;selector:&nbsp;object:&nbsp;</a></h3>
+    - (id) <b>initWithTarget:</b> (id)aTarget<b> selector:</b> (SEL)aSelector<b> object:</b> (id)anArgument;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0, Base 1.15.1</div>
+<br />
+    <div class="desc">
+      
+            Initialises the receiver to send the message
+            <var>aSelector</var> to the object <var>aTarget</var>
+            with the argument <var>anArgument</var> (which may be
+            <code>nil</code>). <br/> The arguments
+            <var>aTarget</var> and <var>aSelector</var> are
+            retained while the thread is running.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread-isCancelled">isCancelled&nbsp;</a></h3>
+    - (BOOL) <b>isCancelled</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0, Base 1.15.1</div>
+<br />
+    <div class="desc">
+      
+            Returns a boolean indicating whether the receiving
+            thread has been cancelled.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread-isExecuting">isExecuting&nbsp;</a></h3>
+    - (BOOL) <b>isExecuting</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0, Base 1.15.1</div>
+<br />
+    <div class="desc">
+      
+            Returns a boolean indicating whether the receiving
+            thread has been started (and has not yet finished or
+            been cancelled).
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread-isFinished">isFinished&nbsp;</a></h3>
+    - (BOOL) <b>isFinished</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0, Base 1.15.1</div>
+<br />
+    <div class="desc">
+      
+            Returns a boolean indicating whether the receiving
+            thread has completed executing.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread-isMainThread">isMainThread&nbsp;</a></h3>
+    - (BOOL) <b>isMainThread</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0, Base 1.15.1</div>
+<br />
+    <div class="desc">
+      
+            Returns a boolean indicating whether this thread is
+            the main thread of the process.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread-main">main&nbsp;</a></h3>
+    - (void) <b>main</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0, Base 1.15.1</div>
+<br />
+    <div class="desc">
+      
+            FIXME... what does this do?
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread-name">name&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>name</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0, Base 1.15.1</div>
+<br />
+    <div class="desc">
+      
+            Returns the name of the receiver.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread-setName$">setName:&nbsp;</a></h3>
+    - (void) <b>setName:</b> (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*)aName;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0, Base 1.15.1</div>
+<br />
+    <div class="desc">
+      
+            Sets the name of the receiver.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread-setStackSize$">setStackSize:&nbsp;</a></h3>
+    - (void) <b>setStackSize:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>)stackSize;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0, Base 1.15.1</div>
+<br />
+    <div class="desc">
+      
+            Sets the size of the receiver&apos;s stack.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread-stackSize">stackSize&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSUInteger">NSUInteger</a>) <b>stackSize</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0, Base 1.15.1</div>
+<br />
+    <div class="desc">
+      
+            Returns the size of the receiver&apos;s stack.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread-start">start&nbsp;</a></h3>
+    - (void) <b>start</b>;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0, Base 1.15.1</div>
+<br />
+    <div class="desc">
+      
+            Starts the receiver executing.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread-threadDictionary">threadDictionary&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSDictionary.html#class$NSMutableDictionary">NSMutableDictionary</a>*) <b>threadDictionary</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            Return the thread dictionary. This dictionary can be
+            used to store arbitrary thread specific data. <br/>
+            NB. This cannot be autoreleased, since we cannot be
+            sure that the autorelease pool for the thread will
+            continue to exist for the entire life of the
+            thread!
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<a name="_NSThread_ivars"/>    <br/><hr width="50%" align="left" />
+    <h2>Instance Variables for NSThread Class</h2>
+    <h3><a name="ivariable$NSThread*_active">_active</a></h3>
+    @public BOOL <b>_active</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSThread*_arg">_arg</a></h3>
+    @public id <b>_arg</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSThread*_autorelease_vars">_autorelease_vars</a></h3>
+    @public struct autorelease_thread_vars <b>_autorelease_vars</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSThread*_cancelled">_cancelled</a></h3>
+    @public BOOL <b>_cancelled</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSThread*_exception_handler">_exception_handler</a></h3>
+    @public NSHandler* <b>_exception_handler</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSThread*_finished">_finished</a></h3>
+    @public BOOL <b>_finished</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSThread*_gcontext">_gcontext</a></h3>
+    @public id <b>_gcontext</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSThread*_name">_name</a></h3>
+    @public NSString* <b>_name</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSThread*_runLoopInfo">_runLoopInfo</a></h3>
+    @public void* <b>_runLoopInfo</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSThread*_selector">_selector</a></h3>
+    @public SEL <b>_selector</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSThread*_stackSize">_stackSize</a></h3>
+    @public NSUInteger <b>_stackSize</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSThread*_stringCollatorCache">_stringCollatorCache</a></h3>
+    @public id <b>_stringCollatorCache</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSThread*_target">_target</a></h3>
+    @public id <b>_target</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSThread*_targetIsBlock">_targetIsBlock</a></h3>
+    @public BOOL <b>_targetIsBlock</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSThread*_thread_dictionary">_thread_dictionary</a></h3>
+    @public NSMutableDictionary* <b>_thread_dictionary</b>;<br />
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <br/><hr width="50%" align="left" /><br/>
+
+          <h1><a name="002000000000">
+        Software documentation for the
+        NSObject(NSThreadPerformAdditions)
+        category
+      </a></h1>
+    <h2><a rel="gsdoc" href="NSObject.html#class$NSObject">NSObject</a>(<a name="category$NSObject(NSThreadPerformAdditions)">NSThreadPerformAdditions</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSThread.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          Extra methods to permit messages to be sent to an
+          object such that they are executed in <em>another</em>
+          thread. <br/> The main thread is the thread in which
+          the GNUstep system is started, and where the GNUstep gui
+          is used, it is the thread in which gui drawing operations
+          <strong>must</strong> be performed.
+        
+    </div>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSObject(NSThreadPerformAdditions)-performSelector$onThread$withObject$waitUntilDone$">-performSelector:onThread:withObject:waitUntilDone:</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSObject(NSThreadPerformAdditions)-performSelector$onThread$withObject$waitUntilDone$modes$">-performSelector:onThread:withObject:waitUntilDone:modes:</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSObject(NSThreadPerformAdditions)-performSelectorInBackground$withObject$">-performSelectorInBackground:withObject:</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSObject(NSThreadPerformAdditions)-performSelectorOnMainThread$withObject$waitUntilDone$">-performSelectorOnMainThread:withObject:waitUntilDone:</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSObject(NSThreadPerformAdditions)-performSelectorOnMainThread$withObject$waitUntilDone$modes$">-performSelectorOnMainThread:withObject:waitUntilDone:modes:</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSObject(NSThreadPerformAdditions)-performSelector$onThread$withObject$waitUntilDone$">performSelector:&nbsp;onThread:&nbsp;withObject:&nbsp;waitUntilDone:&nbsp;</a></h3>
+    - (void) <b>performSelector:</b> (SEL)aSelector<b> onThread:</b> (<a rel="gsdoc" href="#class$NSThread">NSThread</a>*)aThread<b> withObject:</b> (id)anObject<b> waitUntilDone:</b> (BOOL)aFlag;<br />
+    <div class="availability">
+<b>Availability:</b> Base 10.5.0<br/>
+</div>
+<br/>
+    <div class="desc">
+      
+            Invokes
+            <a rel="gsdoc" href="#method$NSObject(NSThreadPerformAdditions)-performSelector$onThread$withObject$waitUntilDone$modes$">-performSelector:onThread:withObject:waitUntilDone:modes:</a>
+ using the supplied arguments and an array containing common modes. <br/> These modes consist of NSRunLoopMode, NSConnectionreplyMode, and if in an application, the NSApplication modes.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSThreadPerformAdditions)-performSelector$onThread$withObject$waitUntilDone$modes$">performSelector:&nbsp;onThread:&nbsp;withObject:&nbsp;waitUntilDone:&nbsp;modes:&nbsp;</a></h3>
+    - (void) <b>performSelector:</b> (SEL)aSelector<b> onThread:</b> (<a rel="gsdoc" href="#class$NSThread">NSThread</a>*)aThread<b> withObject:</b> (id)anObject<b> waitUntilDone:</b> (BOOL)aFlag<b> modes:</b> (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*)anArray;<br />
+    <div class="availability">
+<b>Availability:</b> Base 10.5.0<br/>
+</div>
+<br/>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              This method performs <var>aSelector</var> on the
+              receiver, passing <var>anObject</var> as an
+              argument, but does so in the specified thread.
+              The receiver and <var>anObject</var> are both
+              retained until the method is performed.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The selector is performed when the runloop of
+              <var>aThread</var> next runs in one of the modes
+              specified in <var>anArray</var>. <br/> Where
+              this method has been called more than once before
+              the runloop of the thread runs in the required mode,
+              the order in which the operations in the thread is
+              done is the same as that in which they were added
+              using this method.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              If there are no modes in <var>anArray</var>, the
+              method has no effect and simply returns
+              immediately.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The argument <var>aFlag</var> specifies whether the
+              method should wait until the selector has been
+              performed before returning. <br/>
+              <strong>NB.</strong> This method does
+              <em>not</em> cause the runloop of <var>aThread</var>
+              to be run... so if the runloop is not executed by some
+              code in <var>aThread</var>, the thread waiting for
+              the perform to complete will block forever.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              As a special case, if <var>aFlag</var> ==
+              <code>YES</code> and the current thread is
+              <var>aThread</var>, the modes array is ignored and
+              the selector is performed immediately. This behavior
+              is necessary to avoid the current thread being blocked
+              by waiting for a perform which will never happen
+              because the runloop is not executing.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSThreadPerformAdditions)-performSelectorInBackground$withObject$">performSelectorInBackground:&nbsp;withObject:&nbsp;</a></h3>
+    - (void) <b>performSelectorInBackground:</b> (SEL)aSelector<b> withObject:</b> (id)anObject;<br />
+    <div class="availability">
+<b>Availability:</b> Base 10.5.0<br/>
+</div>
+<br/>
+    <div class="desc">
+      
+            Creates and runs a new background thread sending
+            <var>aSelector</var> to the receiver and passing
+            <var>anObject</var> (which may be <code>nil</code>)
+            as the argument.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSThreadPerformAdditions)-performSelectorOnMainThread$withObject$waitUntilDone$">performSelectorOnMainThread:&nbsp;withObject:&nbsp;waitUntilDone:&nbsp;</a></h3>
+    - (void) <b>performSelectorOnMainThread:</b> (SEL)aSelector<b> withObject:</b> (id)anObject<b> waitUntilDone:</b> (BOOL)aFlag;<br />
+    <div class="availability">
+<b>Availability:</b> Base 10.2.0<br/>
+</div>
+<br/>
+    <div class="desc">
+      
+            Invokes
+            <a rel="gsdoc" href="#method$NSObject(NSThreadPerformAdditions)-performSelectorOnMainThread$withObject$waitUntilDone$modes$">-performSelectorOnMainThread:withObject:waitUntilDone:modes:</a>
+ using the supplied arguments and an array containing common modes. <br/> These modes consist of NSRunLoopMode, NSConnectionReplyMode, and if in an application, the NSApplication modes.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSThreadPerformAdditions)-performSelectorOnMainThread$withObject$waitUntilDone$modes$">performSelectorOnMainThread:&nbsp;withObject:&nbsp;waitUntilDone:&nbsp;modes:&nbsp;</a></h3>
+    - (void) <b>performSelectorOnMainThread:</b> (SEL)aSelector<b> withObject:</b> (id)anObject<b> waitUntilDone:</b> (BOOL)aFlag<b> modes:</b> (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*)anArray;<br />
+    <div class="availability">
+<b>Availability:</b> Base 10.2.0<br/>
+</div>
+<br/>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              This method performs <var>aSelector</var> on the
+              receiver, passing <var>anObject</var> as an
+              argument, but does so in the main thread of the
+              program. The receiver and <var>anObject</var>
+              are both retained until the method is performed.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The selector is performed when the runloop of the
+              main thread next runs in one of the modes specified
+              in <var>anArray</var>. <br/> Where this method has
+              been called more than once before the runloop of the
+              main thread runs in the required mode, the order in
+              which the operations in the main thread is done is
+              the same as that in which they were added using this
+              method.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              If there are no modes in <var>anArray</var>, the
+              method has no effect and simply returns
+              immediately.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The argument <var>aFlag</var> specifies whether the
+              method should wait until the selector has been
+              performed before returning. <br/>
+              <strong>NB.</strong> This method does
+              <em>not</em> cause the runloop of the main thread to
+              be run... so if the runloop is not executed by some
+              code in the main thread, the thread waiting for the
+              perform to complete will block forever.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              As a special case, if <var>aFlag</var> ==
+              <code>YES</code> and the current thread is the
+              main thread, the modes array is ignored and the
+              selector is performed immediately. This behavior
+              is necessary to avoid the main thread being blocked by
+              waiting for a perform which will never happen
+              because the runloop is not executing.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+
+          <h1><a name="003000000000">
+        Software documentation for the
+        NSThread(BlockAdditions) category
+      </a></h1>
+    <h2><a rel="gsdoc" href="#class$NSThread">NSThread</a>(<a name="category$NSThread(BlockAdditions)">BlockAdditions</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSThread.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          This category contains convenience initialisers and
+          methods for executing blocks in different threads and
+          creating NSThread objects with a block as entry
+          point.
+        
+    </div>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread(BlockAdditions)+detachNewThreadWithBlock$">+detachNewThreadWithBlock:</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread(BlockAdditions)-initWithBlock$">-initWithBlock:</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSThread(BlockAdditions)+detachNewThreadWithBlock$">detachNewThreadWithBlock:&nbsp;</a></h3>
+    + (void) <b>detachNewThreadWithBlock:</b> (GSThreadBlock)block;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.12.0</div>
+<br />
+    <div class="desc">
+      
+            Detaches a new thread with <var>block</var> as its
+            entry point.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread(BlockAdditions)-initWithBlock$">initWithBlock:&nbsp;</a></h3>
+    - (instancetype) <b>initWithBlock:</b> (GSThreadBlock)block;<br />
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.12.0</div>
+<br />
+    <div class="desc">
+      
+            Initialises a NSThread object with
+            <var>block</var> as the entry point.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+
+          <h1><a name="004000000000">
+        Software documentation for the
+        NSThread(CallStackSymbols) category
+      </a></h1>
+    <h2><a rel="gsdoc" href="#class$NSThread">NSThread</a>(<a name="category$NSThread(CallStackSymbols)">CallStackSymbols</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSThread.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br />
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread(CallStackSymbols)+callStackSymbols">+callStackSymbols</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSThread(CallStackSymbols)+callStackSymbols">callStackSymbols&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="NSArray.html#class$NSArray">NSArray</a>*) <b>callStackSymbols</b>;<br />
+    <div class="availability">
+<b>Availability:</b> Base 10.6.0<br/>
+</div>
+<br/>
+    <div class="desc">
+      
+            Returns an array of NSString objects representing
+            the current stack in an implementation-defined format.
+            May return an empty array if this feature is not
+            available.
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+
+          <h1><a name="005000000000">
+        Software documentation for the NSThread(GSLockInfo)
+        category
+      </a></h1>
+    <h2><a rel="gsdoc" href="#class$NSThread">NSThread</a>(<a name="category$NSThread(GSLockInfo)">GSLockInfo</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>Foundation/NSThread.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Base<br/>
+ Likely to be changed/moved/removed at 0.0.0</div>
+<br/>
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+<div class="global_method_index">
+    <b>Method summary</b>
+    <ul>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread(GSLockInfo)-mutexDrop$">-mutexDrop:</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread(GSLockInfo)-mutexHold$">-mutexHold:</a></li>
+      <li><a rel="gsdoc" href="NSThread.html#method$NSThread(GSLockInfo)-mutexWait$">-mutexWait:</a></li>
+    </ul>
+</div>
+    <hr width="50%" align="left" />
+<div class="method">
+    <h3><a name="method$NSThread(GSLockInfo)-mutexDrop$">mutexDrop:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>mutexDrop:</b> (id)mutex;<br />
+    <div class="availability">
+<b>Availability:</b> Base<br/>
+ Likely to be changed/moved/removed at 0.0.0</div>
+<br/>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread(GSLockInfo)-mutexHold$">mutexHold:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>mutexHold:</b> (id)mutex;<br />
+    <div class="availability">
+<b>Availability:</b> Base<br/>
+ Likely to be changed/moved/removed at 0.0.0</div>
+<br/>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+<div class="method">
+    <h3><a name="method$NSThread(GSLockInfo)-mutexWait$">mutexWait:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSString.html#class$NSString">NSString</a>*) <b>mutexWait:</b> (id)mutex;<br />
+    <div class="availability">
+<b>Availability:</b> Base<br/>
+ Likely to be changed/moved/removed at 0.0.0</div>
+<br/>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+</div>
+    <br />
+    <a href="Base.html">Up</a>
+    </body>
+</html>

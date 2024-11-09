@@ -1,0 +1,398 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- (C) 2005-2006 Christopher Armstrong.
+
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2, as published by the Free Software Foundation; with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included in the section entitled "GNU Free Documentation License".
+
+This documentation is provided on an "AS IS" BASIS, WITHOUT WARRANTY
+OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING, BUT NOT LIMITED
+TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A
+PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND USEFULNESS
+OF THE DOCUMENTATION IS WITH YOU (THE LICENSEE). IN NO EVENT WILL THE COPYRIGHT
+HOLDERS BE LIABLE FOR DAMAGES, INCLUDING ANY DIRECT, INDIRECT,
+SPECIAL, GENERAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF
+THE USE OR INABILITY TO USE THIS DOCUMENTATION (INCLUDING BUT NOT
+LIMITED TO LOSS OF DATA, USE, OR PROFITS; PROCUREMENT OF SUBSTITUTE
+GOODS AND SERVICES; OR BUSINESS INTERUPTION) HOWEVER CAUSED, EVEN
+IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. -->
+<title>Introduction (Using the GNUstep AppKit 0.1)</title>
+
+<meta name="description" content="Introduction (Using the GNUstep AppKit 0.1)">
+<meta name="keywords" content="Introduction (Using the GNUstep AppKit 0.1)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="conceptindex.html" rel="index" title="conceptindex">
+<link href="index.html" rel="up" title="Top">
+<link href="basicconcepts.html" rel="next" title="basicconcepts">
+<link href="index.html" rel="prev" title="Top">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="chapter" id="Introduction">
+<div class="header">
+<p>
+Next: <a href="basicconcepts.html" accesskey="n" rel="next">Basic Concepts</a>, Previous: <a href="index.html" accesskey="p" rel="prev">Using the GNUstep AppKit</a>, Up: <a href="index.html" accesskey="u" rel="up">Using the GNUstep AppKit</a> &nbsp; [<a href="conceptindex.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<span id="Introduction-1"></span><h2 class="chapter">1 Introduction</h2>
+
+<p>This manual documents some configuration and installation issues
+with the GNUstep GUI Library and also differences between the GUI
+Library and libraries that implement the OpenStep AppKit specification
+and the MacOS-X AppKit implementation.
+</p>
+<ul class="section-toc">
+<li><a href="#Overview" accesskey="1">Overview</a></li>
+<li><a href="#Implementation-Details" accesskey="2">Implementation Details</a></li>
+<li><a href="#Contributing" accesskey="3">Contributing</a></li>
+</ul>
+<div class="section" id="Overview">
+<h3 class="section">1.1 Overview</h3>
+
+<p>The GNUstep GUI Library is a library of objects useful for writing
+graphical applications.  For example, it includes classes for drawing
+and manipulating graphics objects on the screen: windows, menus,
+buttons, sliders, text fields, and events.  There are also many
+peripheral classes that offer operating-system-independent interfaces to
+images, cursors, colors, fonts, pasteboards, printing.  There are also
+workspace support classes such as data links, open/save panels,
+context-dependent help, spell checking.
+</p>
+<p>It provides functionality that aims to implement the &lsquo;<samp>AppKit</samp>&rsquo;
+portion of the OpenStep / Cocoa API.  However the implementation has
+been written to take advantage of GNUstep enhancements wherever possible.
+</p>
+<p>The GNUstep GUI Library is divided into a front and back-end.  The
+front-end contains the majority of implementation, but leaves out the
+low-level drawing and event code.  Different back-ends will make GNUstep
+available on various platforms.  The default GNU back-end currently runs
+on top of the X Window System and uses only Xlib calls for
+graphics. Another backend uses a Display Postscript Server for graphics.
+Much work will be saved by this clean separation between front and
+back-end, because it allows different platforms to share the large
+amount of front-end code. Documentation for how the individual backends
+work is coverered in a separate document.
+</p>
+<p>The backend is divided into two parts: graphical and event handling. The
+graphical portion renders the widgets based on code in the AppKit/GUI
+framework.  The events portion processes the events from mouse and
+keyboard input.  Both portions are operating system / environment
+specific.
+</p>
+<p>The backends supported by GNUstep currently are:
+</p><dl compact="compact">
+<dt><span><code>Cairo</code></span></dt>
+<dd><p>The Cairo backend uses the more postscript like rendering of the cairo
+graphics library (available from opendesktop.org) to render.
+</p>
+</dd>
+<dt><span><code>Win32 / GDI</code></span></dt>
+<dd><p>This backend uses GDI to render the widgets.
+</p>
+</dd>
+<dt><span><code>Wayland</code></span></dt>
+<dd><p>This backend uses the Wayland display technology to render.  This is
+an expermental backend at present.
+</p>
+</dd>
+<dt><span><code>Art</code></span></dt>
+<dd><p>The art backend uses libart (the LGPL version) to render the widgets.
+This backend is deprecated.
+</p>
+</dd>
+<dt><span><code>Xlib</code></span></dt>
+<dd><p>The Xlib backend is the bare X11 backend that uses primitive calls to
+render the objects.  This backend is deprecated.
+</p>
+</dd>
+</dl>
+
+<p>In general, GNUstep GUI can theoretically be used on any system on which
+you can build a backend.  Currently, you can build on most UNIX systems
+(not Darwin, currently) as well as Windows under MSYS2 and MSVC.
+</p>
+</div>
+<div class="section" id="Implementation-Details">
+<h3 class="section">1.2 Implementation Details</h3>
+
+<p>Following are some implementation details of the GUI library. These will
+mostly be of interest to developers of the GUI library itself.
+</p>
+<ul class="section-toc">
+<li><a href="#Drag-and-Drop" accesskey="1">Drag and Drop</a></li>
+<li><a href="#Theming" accesskey="2">Theming</a></li>
+<li><a href="#NSWorkspace" accesskey="3">NSWorkspace</a></li>
+</ul>
+<div class="subsection" id="Drag-and-Drop">
+<h4 class="subsection">1.2.1 Drag and Drop</h4>
+
+<p>The drag types info for each view is kept in a global map table (protected by
+locks) and can be accessed by the backend library using the function -
+</p>
+<div class="example">
+<pre class="example">NSArray *GSGetDragTypes(Nsview *aView);
+</pre></div>
+
+<p>Drag type information for each window (a union of the drag type info for all
+the views in the window) is maintained in the graphics context.
+The backend can get this information (as a counted set) using -
+</p>
+<div class="example">
+<pre class="example">- (NSCountedSet*) _dragTypesForWindow: (int)winNum;
+</pre></div>
+
+<p>Whenever a DnD aware view is added to, or removed from a window, the type
+information for that view is added to/removed from the type information
+for the window, altering the counted set.  If the alteration results in a
+change in the types for the window, the method making the change returns YES.
+</p>
+<div class="example">
+<pre class="example">- (BOOL) _addDragTypes: (NSArray*)types toWindow: (int)winNum;
+- (BOOL) _removeDragTypes: (NSArray*)types fromWindow: (int)winNum;
+</pre></div>
+
+<p>The backend library should therefore override these methods and call &rsquo;super&rsquo;
+to handle the update.  If the call to the super method returns YES, the
+backend should make any changes as appropriate (in the case of the xdnd
+protocol this means altering the XdndAware property of the X window).
+</p>
+<p>You will notice that these methods use the integer window number rather
+than the NSWindow object - this is for the convenience of the backend
+library which should (eventually) use window numbers for everything
+</p>
+</div>
+<div class="subsection" id="Theming">
+<h4 class="subsection">1.2.2 Theming</h4>
+
+<p>GNUstep implements Theming via the GSTheme class.  This class can be subclassed
+to override the existing drawing being done by the widgets.  Each widget has
+a category in this class in which the drawing for that widget is done. There are
+two types of theme: code and non-code...
+</p>
+<dl compact="compact">
+<dt><span><code>Code</code></span></dt>
+<dd><p>Code themes, for example, the WinUXTheme, use code to override specific things in
+the GSTheme class so that the theme can display using the native widgets.  These
+can be combined with custom widgets as well as color and image settings.
+</p>
+</dd>
+<dt><span><code>Non-code</code></span></dt>
+<dd><p>Non-code themes use .plist files (which can also be used in code based themes) to
+override standard images and color settings in GNUstep.
+</p>
+</dd>
+</dl>
+
+<p>Theming is extremely flexible.  GNUstep can be made to blend into most environments.
+The application to modify themes is called Thematic.
+</p>
+<p>You can set the theme using the follow command:
+</p>
+<div class="example">
+<pre class="example">defaults write NSGlobalDomain GSTheme THEMENAME
+</pre></div>
+
+<p>Where THEMENAME is the name of the theme installed.  The locations for themes are:
+</p>
+<dl compact="compact">
+<dt><span>&lsquo;<samp>PREFIX/System/Library/Themes</samp>&rsquo;</span></dt>
+<dd><p>System themes
+</p>
+</dd>
+<dt><span>&lsquo;<samp>PREFIX/Local/Library/Themes</samp>&rsquo;</span></dt>
+<dd><p>Locally installed themes
+</p>
+</dd>
+<dt><span>&lsquo;<samp>~/GNUstep/Library/Themes</samp>&rsquo;</span></dt>
+<dd><p>User installed themes
+</p>
+</dd>
+</dl>
+
+<p>Where PREFIX is whatever prefix that was specified when building GNUstep. Usually
+this is /usr/GNUstep, /usr/local/GNUstep, or /.
+</p>
+</div>
+<div class="subsection" id="NSWorkspace">
+<h4 class="subsection">1.2.3 NSWorkspace</h4>
+
+<p>Here is (I think) the current state of the code (largely untested) -
+</p>
+<p>The make_services tool examines all applications (anything with a .app,
+.debug, or .profile suffix) in the system, local, and user Apps Directories.
+</p>
+<p>In addition to the cache of services information, it builds a cache of
+information about known applications (including information about file types
+they handle).
+</p>
+<p>NSWorkspace reads the cache and uses it to determine which application to use
+to open a document and which icon to use to represent that document.
+</p>
+<p>The NSWorkspace API has been extended to provide methods for finding/setting
+the preferred icon/application for a particular file type.  NSWorkspace will
+use the &rsquo;best&rsquo; icon/application available.
+</p>
+<p>To determine the executable to launch, if there was an
+Info-gnustep.plist/Info.plist in the app wrapper and it had an
+NSExecutable field - use that name.  Otherwise, try to use the name of
+the app - eg. foo.app/foo The executable is launched by NSTask, which
+handles the addition of machine/os/library path components as necessary.
+</p>
+<p>To determine the icon for a file, use the value from the cache of icons
+for the file extension, or use an &rsquo;unknown&rsquo; icon.
+</p>
+<p>To determine the icon for a folder, if the folder has a &rsquo;.app&rsquo;, &rsquo;.debug&rsquo;
+or &rsquo;.profile&rsquo; extension - examine the Info.plist file for an &rsquo;NSIcon&rsquo;
+value and try to use that.  If there is no value specified - try
+foo.app/foo.tiff&rsquo; or &rsquo;foo.app/.dir.tiff&rsquo;
+</p>
+<p>If the folder was not an application wrapper, just try the .dir.tiff file.
+</p>
+<p>If no icon was available, use a default folder icon or a special icon for the
+root directory.
+</p>
+<p>The information about what file types an app can handle needs to be in
+the MacOS-X format in the Info-gnustep.plist/Info.plist for the app -
+see
+<a href="http://developer.apple.com/techpubs/macosxserver/System/Documentation/Developer/YellowBox/ReleaseNotes/InfoPlist.html">http://developer.apple.com/techpubs/macosxserver/System/Documentation/Developer/YellowBox/ReleaseNotes/InfoPlist.html</a>.
+</p>
+<p>In the NSTypes fields, I used NSIcon (the icon to use for the type)
+NSUnixExtensions (a list of file extensions corresponding to the type)
+and NSRole (what the app can do with documents of this type).  In the
+AppList cache, I generate a dictionary, keyed by file extension, whose
+values are the dictionaries containing the NSTypes dictionaries of each
+of the apps that handle the extension.
+</p>
+<p>I tested the code briefly with the FileViewer app, and it seemed to
+provide the icons as expected.
+</p>
+<p>With this model the software doesn&rsquo;t need to monitor loads of
+different files, just register to recieve notifications when the
+defaults database changes, and check an appropriate default value.  At
+present, there are four hidden files used by the software:
+</p>
+<dl compact="compact">
+<dt><span>&lsquo;<samp>~/GNUstep/Services/.GNUstepAppList</samp>&rsquo;</span></dt>
+<dd><p>Cached information about applications and file extensions.
+</p></dd>
+<dt><span>&lsquo;<samp>~/GNUstep/Services/.GNUstepExtPrefs</samp>&rsquo;</span></dt>
+<dd><p>User preferences for which apps/icons should be used for each file
+	extension.
+</p></dd>
+<dt><span>&lsquo;<samp>~/GNUstep/Services/.GNUstepServices</samp>&rsquo;</span></dt>
+<dd><p>Cache of services provides by apps and services daemons
+</p></dd>
+<dt><span>&lsquo;<samp>~/GNUstep/Services/.GNUstepDisabled</samp>&rsquo;</span></dt>
+<dd><p>User settings to determine which services should not appear in the
+	services menu.
+</p></dd>
+</dl>
+
+<p>Each of these is a serialized property list.
+</p>
+<p>Almost forgot - Need to modify NSApplication to understand &rsquo;-GSOpenFile ...&rsquo;
+as an instruction to open the specified file on launching.  Need to modify
+NSWorkspace to supply the appropriate arguments when launching a task rather
+than using the existing mechanism of using DO to request that the app opens
+the file.  When these changes are made, we can turn any program into a
+pseudo-GNUstep app by creating the appropriate app wrapper.
+An app wrapper then need only contain a shell-script that understands the
+-GSOpenFile argument and uses it to start the program - though provision of
+a GNUstep-info.plist and various icons would obviously make things prettier.
+</p>
+<p>For instance - you could set up xv.app to contain a shellscript &rsquo;xv&rsquo; that
+would start the real xv binary passing it a file to open if the -GSOpenFile
+argument was given.  The Info-gnustep.plist file could look like this:
+</p>
+<div class="example">
+<pre class="example">{
+  NSExecutable = &quot;xv&quot;;
+  NSIcon = &quot;xv.tiff&quot;;
+  NSTypes = (
+    {
+      NSIcon = &quot;tiff.tiff&quot;;
+      NSUnixExtensions = ( tiff, tif );
+    },
+    {
+      NSIcon = &quot;xbm.tiff&quot;;
+      NSUnixExtensions = ( xbm );
+    }
+  );
+}
+</pre></div>
+
+</div>
+</div>
+<div class="section" id="Contributing">
+<h3 class="section">1.3 Contributing</h3>
+
+<p>Contributing code is not difficult. Here are
+some general guidelines:
+</p>
+<ul>
+<li> FSF must maintain the right to accept or reject potential contributions.
+Generally, the only reasons for rejecting contributions are cases where
+they duplicate existing or nearly-released code, contain unremovable
+specific machine dependencies, or are somehow incompatible with the
+rest of the library. 
+
+</li><li> Acceptance of contributions means that the code is accepted for adaptation
+into libgnustep-gui.  FSF must reserve the right to make various editorial
+changes in code. Very often, this merely entails formatting, maintenance of
+various conventions, etc. Contributors are always given authorship credit and
+shown the final version for approval.
+
+</li><li> Contributors must assign their copyright to FSF via a form sent out
+upon acceptance. Assigning copyright to FSF ensures that the code
+may be freely distributed.
+
+</li><li> Assistance in providing documentation, test files, and debugging
+support is strongly encouraged.
+
+</li></ul>
+
+<p>Extensions, comments, and suggested modifications of existing libgnustep-gui
+features are also very welcome.
+</p>
+
+
+</div>
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="basicconcepts.html">Basic Concepts</a>, Previous: <a href="index.html">Using the GNUstep AppKit</a>, Up: <a href="index.html">Using the GNUstep AppKit</a> &nbsp; [<a href="conceptindex.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>
