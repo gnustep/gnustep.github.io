@@ -1,0 +1,2430 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>NSPasteboard</title>
+<meta http-equiv="Content-Style-Type" content="text/css"/>
+<link rel="stylesheet" type="text/css" href="default-styles.css" media="screen" title="Normal" />
+  </head>
+  <body>
+    <a href="Gui.html">Up</a>
+    <br>
+    <h1><a name="title$NSPasteboard">NSPasteboard</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Richard Frith-Macdonald (<a href="mailto:richard@brainstorm.co.uk"><code>richard@brainstorm.co.uk</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Date:</b> Generated at 2024-11-13 12:52:37 -0500</p>
+    <blockquote>
+      
+      Implementation of class for communicating with the
+      pasteboard server.
+    
+    </blockquote>
+    <p><b>Copyright:</b> (C) 1997,1999,2003 Free Software Foundation, Inc.</p>
+
+        <div>
+      <hr class="section-separator">
+      <h3>Contents -</h3>
+      <ol>
+        <li>
+          <a href="#001000000000">The pasteboard system</a>
+        </li>
+        <li>
+          <a href="#001001000000">Cut and Paste</a>
+        </li>
+        <li>
+          <a href="#001002000000">Drag and Drop</a>
+        </li>
+        <li>
+          <a href="#001003000000">Services</a>
+        </li>
+        <li>
+          <a href="#001004000000">Filter services</a>
+        </li>
+        <li>
+          <a href="#001005000000">Distributed Objects services</a>
+        </li>
+        <li>
+          <a href="#002000000000">Software documentation for the NSPasteboard class</a>
+        </li>
+        <li>
+          <a href="#003000000000">Software documentation for the
+        NSObject(NSPasteboardOwner)
+        informal protocol</a>
+        </li>
+        <li>
+          <a href="#004000000000">Software documentation for the
+        NSObject(NSPasteboardReading)
+        informal protocol</a>
+        </li>
+        <li>
+          <a href="#005000000000">Software documentation for the
+        NSObject(NSPasteboardWriting)
+        informal protocol</a>
+        </li>
+        <li>
+          <a href="#006000000000">Software documentation for the
+        NSPasteboard(GNUstepExtensions)
+        category</a>
+        </li>
+        <li>
+          <a href="#007000000000">Software documentation for the NSURL(NSPasteboard)
+        category</a>
+        </li>
+        <li>
+          <a href="#008000000000">Software documentation for the NSPasteboardReading
+        protocol</a>
+        </li>
+        <li>
+          <a href="#009000000000">Software documentation for the NSPasteboardWriting
+        protocol</a>
+        </li>
+      </ol>
+      <hr class="section-separator">
+    </div>
+
+          <h1><a name="001000000000">The pasteboard system</a></h1>
+    <p>
+
+        The pasteboard system is the core of OpenStep
+        inter-application communications. This
+        chapter is concerned with the use of the system, for
+        detailed reference see the
+        <a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>
+
+          class. <br> For non-standard services provided by
+          applications (ie those which do not fit the
+          general <em>services</em> mechanism described below),
+          you generally use the Distributed Objects system (see
+          NSConnection
+
+            ) directly, and some hints about that are provided at the
+            end of this chapter.
+              </p>
+
+                <h2><a name="001001000000">Cut and Paste</a></h2>
+    <p>
+
+              The most obvious use of the pasteboard system is to
+              support cut and paste of text and other data,
+              permitting the user to take selected
+              information from a document open in an
+              application, and move it around in the same
+              document, or to another document open in the
+              same application, or to a document open in another
+              application entirely.
+                </p>
+    <p>
+
+              While some objects (eg instances of
+              <a rel="gsdoc" href="NSText.html#class$NSText">NSText</a>
+
+                ) will handle cut and paste for you automatically,
+                you may often need to do this yourself in your own
+                classes. The mechanism for this is quite
+                simple, and should be done in a method called
+                when the user selects the <em>Cut</em> or
+                <em>Copy</em> item on the <em>Edit</em> menu.
+                <br> The methods to do this should be called
+                <em>cut:</em> and <em>copy:</em> respectively, and
+                will be called automatically when the menu items
+                are selected.
+                  </p>
+    <ul>
+      <li>
+        
+                  <strong>Select a pasteboard to use</strong>
+                  <br> There some standard pasteboards, or you
+                  can obtain or create other ones with the
+                  <a rel="gsdoc" href="#method$NSPasteboard+pasteboardWithName$">[NSPasteboard +pasteboardWithName:]</a>
+ method. <br> Usually you will want to use a standard pasteboard such as the one returned by the <a rel="gsdoc" href="#method$NSPasteboard+generalPasteboard">[NSPasteboard +generalPasteboard]</a>
+ method.
+
+<pre>
+  NSPasteboard *pb = [NSPasteboard generalPasteboard];
+</pre>
+        
+  
+      </li>
+      <li>
+        
+    <strong>Declare ownership and types</strong> <br> When
+    you are going to supply data for pasting, you must take
+    ownership of the pasteboard and specify what types of
+    data can be provided. If you are going to place the data on
+    the pasteboard immediately, you don&apos;t need to set a pasteboard
+    owner, but if you plan to supply the data <em>lazily</em>
+    (ie on-demand), you need to specify an object which the system
+    can ask to provide the data when it needs it. In either case,
+    you need to say what kinds of data the pasteboard will supply,
+    and you use the
+    <a rel="gsdoc" href="#method$NSPasteboard-declareTypes$owner$">
+      [NSPasteboard -declareTypes:owner:]
+    </a>
+
+    method to do this.
+
+<pre>
+  // Provide string data immediately.
+  [pb declareTypes: [NSArray arrayWithObject: NSStringPboardType]
+	     owner: nil];
+  [pb setString: myString forType: NSStringPboardType];
+</pre>
+        
+  
+      </li>
+      <li>
+        
+    <strong>Provide data for pasting</strong> <br> If you
+    decided to provide data lazily (recommended) then the
+    pasteboard owner you declared will be asked to provide
+    the data when it is needed for pasting.
+
+<pre>
+- (void) pasteboard: (NSPasteboard*)pb provideDataForType: (NSString*)type
+{
+  // Place the data needed for pasting onto the pasteboard.
+  [pb setData: data forType: type];
+}
+</pre>
+        
+  
+      </li>
+      <li>
+        
+    <strong>Support multiple types</strong> <br> Normally,
+    it is best to support pasting of multiple types of data so that
+    the object into which the data is being pasted can handle the
+    pasted information readily. To do this it is conventional to
+    supply data in the <em>richest</em> possible format in the
+    cut: or copy: method, and supply other forms of data lazily.
+
+<pre>
+// Supply RTF data to the pasteboard system.
+- (id) copy: (id)sender
+{
+  NSPasteboard *pb = [NSPasteboard generalPasteboard];
+  [pb declareTypes: [NSArray arrayWithObjects: NSRTFPboardType,
+    NSStringPboardType, nil]
+	     owner: nil];
+  [pb setData: myData forType: NSRTFPboardType];
+}
+</pre>
+        
+    The providing object can retrieve the data initially stored in
+    the pasteboard, and set the type of data actually needed.
+
+<pre>
+- (void) pasteboard: (NSPasteboard*)pb provideDataForType: (NSString*)type
+{
+  if ([type isEqualToString: NSStringPboardType] == YES)
+    {
+      NSData *d = [pb dataForType: NSRTFPboardType];
+      NSString *s = [self convertToString: d];
+      [pb setString: s forType: NSStringPboardType];
+    }
+  else
+    {
+      // Unsupported type ... should not happen
+      [pb setData: nil forType: type];
+    }
+}
+</pre>
+        
+  
+      </li>
+    </ul>
+    <p>
+
+    Similarly, when the user selects the <em>Paste</em> item
+    on the <em>Edit</em> menu, the <em>paste:</em> method in your
+    code will be called, and this method should retrieve data from
+    the pasteboard and insert it into your custom object so that
+    the user can see it.
+      </p>
+    <ul>
+      <li>
+        
+      <strong>Retrieve data from pasteboard</strong>
+
+<pre>
+- (id) paste: (id)sender
+{
+  NSPasteboard *pb = [NSPasteboard generalPasteboard];
+  NSString *info = [pb stringForType: NSStringPboardType];
+  // Now make use of info
+  return self;
+}
+	</pre>
+        
+  
+      </li>
+    </ul>
+
+        <h2><a name="001002000000">Drag and Drop</a></h2>
+    <p>
+
+      The drag and drop system for transferring data is in essence
+      a simple extension of copy and paste, where the data being
+      dragged is a copy of some initially selected data, and
+      the location to which it is pasted depends on where it is
+      dropped. <br> To support drag and drop, you use a few
+      standard methods to interact with pasteboards, but you
+      need to extend this with DnD specific methods to handle the
+      drag and drop process.
+        </p>
+
+        <h2><a name="001003000000">Services</a></h2>
+    <p>
+
+      The services system provides a standardised mechanism for an
+      application to provide services to other
+      applications. Like cut and paste, or drag and drop,
+      the use of an application service is normally initiated by
+      the user selecting some data to work with. The user then goes
+      to the services menu, and selects a service listed there. The
+      selection of a menu item causes the data to be placed
+      on a pasteboard and transferred to the service providing
+      application, where the action of the service is
+      performed on it, and resulting data transferred back to
+      the original system via the pasteboard system again.
+        </p>
+    <p>
+
+      To make use of a service then, you typically need to make
+      <em>no</em> changes to your application, making the services
+      facility supremely easy to deal with! <br> If however,
+      you wish to make use of a service programmatically (rather
+      than from the services menu), you can use the
+      <a rel="gsdoc" href="Functions.html#function$NSPerformService">
+        NSPerformService()
+      </a>
+
+      function to invoke the service directly...
+        </p>
+<pre>
+  // Create a pasteboard and store a string in it.
+  NSPasteboard *pb = [NSPasteboard pasteboardWithUniqueName];
+  [pb declareTypes: [NSArray arrayWithObject: NSStringPboardType]
+	     owner: nil];
+  [pb setString: myString forType: NSStringPboardType];
+  // Invoke a service which takes string input and produces data output.
+  if (NSPerformService(@&quot;TheServiceName&quot;, pb) == YES)
+    {
+      result = [pb dataForType: NSGeneralPboardType];
+    }
+    </pre>
+    <p>
+
+      Providing a service is a bit trickier, it involves
+      implementing a method to perform the service
+      (usually in your
+      <a rel="gsdoc" href="NSApplication.html#method$NSApplication-delegate">
+        [NSApplication -delegate]
+      </a>
+
+      object) and specifying information about your service in
+      the Info.plist file for your application. <br> When your
+      application is installed in one of the standard
+      locations, and the <em>make_services</em> tool is run
+      to update the cache of services information, your service
+      automatically becomes available on the services
+      menu of every application you run. <br> At runtime, you
+      use
+      <a rel="gsdoc" href="NSApplication.html#method$NSApplication-setServicesProvider$">[NSApplication -setServicesProvider:]</a>
+ to specify the object which implements the method to perform the service, or, if you are providing the service from a process other than a GUI application, you use the <a rel="gsdoc" href="Functions.html#function$NSRegisterServicesProvider">NSRegisterServicesProvider()</a>
+ function.
+        </p>
+    <p>
+
+      Your Info.plist should contain an array named
+      <code>NSServices</code> listing all the services your
+      application provides. Each service definition should
+      be a dictionary containing the following information -
+        </p>
+    <dl>
+      <dt>NSSendTypes</dt>
+      <dd>
+        
+        This is an array containing the string values of the types
+        of data that the service provider can handle (ie the types
+        of data the application requesting the service may send).
+        <br> The string values are the same as the standard
+        constant names for these types, so the string
+        &quot;NSStringPboardType&quot; would match the use
+        of the <code>NSStringPboardType</code> in your code. <br>
+        Similarly, the functions
+        <a rel="gsdoc" href="Functions.html#function$NSCreateFileContentsPboardType">
+          NSCreateFileContentsPboardType()
+        </a>
+
+        and
+        <a rel="gsdoc" href="Functions.html#function$NSCreateFilenamePboardType">
+          NSCreateFilenamePboardType()
+        </a>
+
+        return types whose string values are found by appending
+        the filename extension concerned to the strings
+        &quot;NSTypedFileContentsPboardType:&quot;
+        and &quot;NSTypedFilenamesPboardType:&quot; respectively.
+      
+      </dd>
+      <dt>NSReturnTypes</dt>
+      <dd>
+        
+        These are the types of data that the service provider may
+        return and are specified in the same way as the
+        NSSendTypes. <br> NB. A service must handle at
+        least one send type or one return type, but it is OK to
+        have a service which expects no input data or one which
+        produces no output data.
+      
+      </dd>
+      <dt>NSMessage</dt>
+      <dd>
+        
+        This mandatory string value is the interesting part of the
+        message which is sent to your service provider in order
+        to perform the service. <br> The method in your
+        application which does the work, must take three
+        arguments and have a name formed of this value
+        followed by <code>:userData:error:</code>
+
+<pre>
+// If NSMessage=encryptData
+- (void) encryptString: (NSPasteboard*)pboard
+	      userData: (NSString*)userData
+		 error: (NSString**)error;
+</pre>
+        
+    This method will be pass the pasteboard to use and an optional
+    user data string, and must return results in the pasteboard,
+    or an error message in the error argument.
+  
+      </dd>
+      <dt>NSPortName</dt>
+      <dd>
+        
+    This specifies the name of the Distributed Objects port (see
+    NSConnection
+
+      and
+      NSPort
+
+        ) on which the service provider will be listening for
+        messages. While its value depends on how you register
+        the service, it is normally the name of the application
+        providing the service. This information is required
+        in order for other applications to know how to contact the
+        service provider.
+      
+      </dd>
+      <dt>NSUserData</dt>
+      <dd>
+        
+        This is an optional arbitrary string which (if present) is
+        passed as the userData argument to the method
+        implementing the service. This permits a service
+        provider to implement a single method to handle a
+        variety of similar services, whose exact
+        characteristics are determined by this
+        parameter.
+      
+      </dd>
+      <dt>NSMenuItem</dt>
+      <dd>
+        
+        This is a dictionary containing language names and the
+        text to appear in the services menu for each language. It
+        may contain an entry where the language name is
+        <code>default</code> and this entry will be used where
+        none of the specific languages listed are found in the
+        application user&apos;s preferences. <br> These text
+        items may contain a single slash (&apos;/&apos;) character, and if
+        this is present, the text after the slash will appear in a
+        submenu of the services menu, with the text before the
+        slash being the name of that submenu. This is very useful
+        where a single application provides a variety of services
+        and wishes to group them together.
+      
+      </dd>
+      <dt>NSKeyEquivalent</dt>
+      <dd>
+        
+        This is an optional dictionary specifying the key
+        equivalents to select the menu items listed in the
+        NSMenuItem specification.
+      
+      </dd>
+      <dt>NSTimeout</dt>
+      <dd>
+        
+        This is an optional timeout (in milliseconds) specifying
+        how <strong>long</strong> the system should wait for the
+        service provider to perform the service. If omitted, it
+        defaults to 30000 (30 seconds).
+      
+      </dd>
+      <dt>NSExecutable</dt>
+      <dd>
+        
+        This is an optional path to the executable binary of the
+        program which performs the service.. it&apos;s used to
+        launch the program if it is not already running.
+        Normally, for an application, this is not necessary,
+        as the system knows how to launch any applications found
+        installed in standard locations.
+      
+      </dd>
+      <dt>NSHost</dt>
+      <dd>
+        
+        Not yet implemented... this provides for the system to
+        launch the executable for this service on a different
+        host on the network.
+      
+      </dd>
+    </dl>
+    <p>
+
+      The actual code to implement a service is very simple, even
+      with error checking added -
+        </p>
+<pre>
+- (void) encryptString: (NSPasteboard*)pboard
+	      userData: (NSString*)userData
+		 error: (NSString**)error
+{
+  NSString	*d;
+
+  if ([pboard types] containsObject: NSStringPboardType] == NO)
+    {
+      *error = @&quot;Bad types for encrypt service ... no string data&quot;;
+      return;
+    }
+  s = [pboard stringForType: NSStringPboardType];
+  if ([d length] == 0)
+    {
+      *error = @&quot;No data supplied for encrypt service&quot;;
+      return;
+    }
+  s = [self encryptString: s];	// Do the real work
+  [pboard declareTypes: [NSArray arrayWithObject: NSStringPboardType
+		 owner: nil];
+  [pboard setString: s forType: NSStringPboardType];
+  return;
+}
+    </pre>
+
+        <h2><a name="001004000000">Filter services</a></h2>
+    <p>
+
+      A filter service is a special case of an inter-application
+      service. Its action is to take data of one type and
+      convert it to another type. Unlike general services, this
+      is not directly initiated by user action clicking on an item
+      in the services menu (indeed, filter services do not appear on
+      the services menu), but is instead performed transparently
+      when the application asks the pasteboard system for data of
+      a particular type, but the pasteboard only contains data of
+      some other type.
+        </p>
+    <p>
+
+      A filter service definition in the Info.plist file differs from
+      that of a standard service in that the <em>NSMessage</em>
+      entry is replaced by an <em>NSFilter</em> entry, the
+      <em>NSMenuItem</em> and <em>NSKeyEquivalent</em> entries are
+      omitted, and a few other entries may be added -
+        </p>
+    <dl>
+      <dt>NSFilter</dt>
+      <dd>
+        
+        This is the first part of the message name for the method
+        which actually implements the filter service... just like
+        the NSMessage entry in a normal service.
+      
+      </dd>
+      <dt>NSInputMechanism</dt>
+      <dd>
+        
+        This (optional) entry is a string value specifying an
+        alternative mechanism for performing the filer
+        service (instead of sending a message to an application
+        to ask it to do it). <br> Possible values are -
+        
+        <dl>
+          <dt>NSIdentity</dt>
+          <dd>
+            
+            The data to be filtered is simply placed upon the
+            pasteboard without any transformation.
+          
+          </dd>
+          <dt>NSMapFile</dt>
+          <dd>
+            
+            The data to be filtered is the name of a file, which is
+            loaded into memory and placed on the pasteboard
+            without any transformation. <br> If the data to
+            be filtered contains multiple file names, only the first
+            is used.
+          
+          </dd>
+          <dt>NSUnixStdio</dt>
+          <dd>
+            
+            The data to be filtered is the name of a file, which is
+            passed as the argument to a unix command-line
+            program, and the standard output of that program
+            is captured and placed on the pasteboard. The program is
+            run each time data is requested, so this is inefficient
+            in comparison to a filter implemented using the standard
+            method (of sending a message to a running
+            application). <br> If the data to be
+            filtered contains multiple file names, only the
+            first is used.
+          
+          </dd>
+        </dl>
+        
+      
+      </dd>
+    </dl>
+    <p>
+
+      Filter services are used implicitly whenever you get a
+      pasteboard by using one of the methods
+      <a rel="gsdoc" href="#method$NSPasteboard+pasteboardByFilteringData$ofType$">
+        +pasteboardByFilteringData:ofType:
+      </a>
+
+      ,
+      <a rel="gsdoc" href="#method$NSPasteboard+pasteboardByFilteringFile$">
+        +pasteboardByFilteringFile:
+      </a>
+
+      or
+      <a rel="gsdoc" href="#method$NSPasteboard+pasteboardByFilteringTypesInPasteboard$">+pasteboardByFilteringTypesInPasteboard:</a>
+ as the pasteboard system will automatically invoke any available filter to convert the data in the pasteboard to any required type as <strong>long</strong> as a conversion can be done using a single filter.
+        </p>
+
+        <h2><a name="001005000000">Distributed Objects services</a></h2>
+    <p>
+
+      While the general <em>services</em> mechanism described
+      above covers most eventualities, there are some
+      circumstances where you might want your application
+      to offer more complex services which require the client
+      application to have been written to make use of those
+      services and where the interaction between the two is
+      much trickier.
+        </p>
+    <p>
+
+      In most cases, such situations are handled by server processes
+      rather than GUI applications, thus avoiding all the
+      overheads of a GUI application... linking with the GUI
+      library and using the windowing system etc. On occasion
+      you may actually want the services to use facilities from the
+      GUI library (such as the
+      <a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>
+
+        or
+        <a rel="gsdoc" href="NSWorkspace.html#class$NSWorkspace">NSWorkspace</a>
+
+          class).
+            </p>
+    <p>
+
+          Traditionally, NeXTstep and GNUstep
+          applications permit you to connect to an
+          application using the standard
+          NSConnection
+
+            mechanisms, with the name of the port you
+            connect to being (by convention) the name of the
+            application. The root proxy of the
+            NSConnection obtained this way would be the
+            <a rel="gsdoc" href="NSApplication.html#method$NSApplication-delegate">
+              [NSApplication -delegate]
+            </a>
+
+            object, and any messages sent to this object would
+            be handled by the application delegate.
+              </p>
+    <p>
+
+            In the interests of security, GNUstep provides a
+            mechanism to ensure that <em>only</em> those
+            methods you explicitly want to be available to
+            remote processes are actually available. <br>
+            Those methods are assumed to be any of the standard
+            application methods, and any methods
+            implementing the standard <em>services</em>
+            mechanism (ie. methods whose names begin
+            <code>application:</code> or end with
+            <code>:userData:error:</code>), plus any methods
+            listed in the array returned by the
+            <code>GSPermittedMessages</code> user default.
+            <br> If your application wishes to make
+            non-standard methods available, it should use
+            [NSUserDefaults -registerDefaults:]
+ to set a standard value for GSPermittedMessages. Users of the application can then use the defaults system to override that standard setting for the application in order to reduce or increase the list of messages available to remote processes.
+              </p>
+    <p>
+
+            To make use of a service, you need to check to ensure
+            that the application providing the service is running,
+            connect to it, and then send messages to it. You
+            should take care to catch exceptions and deal with a
+            loss of connection to the server application. <br>
+            As an aid to using the services, GNUstep provides a
+            helper function (GSContactApplication()) which
+            encapsulates the process of establishing a
+            connection and launching the server application
+            if necessary.
+              </p>
+<pre>
+  id	proxy = GSContactApplication(@&quot;pathToApp&quot;, nil, nil);
+  if (proxy != nil)
+    {
+      NS_EXCEPTION
+	{
+	  id result = [proxy performTask: taskName withArgument: anArgument];
+
+	  if (result == nil)
+	    {
+	      // handle error
+	    }
+	  else
+	    {
+	      // Use result
+	    }
+	}
+      NS_HANDLER
+        // Handle exception
+      NS_ENDHANDLER
+    }
+</pre>
+    <p>
+
+      If we want to send repeated messages, we may store the proxy
+      to server application, and might want to keep track of the
+      state of the connection to be sure that the proxy is still
+      valid.
+        </p>
+<pre>
+  ASSIGN(remote, proxy);
+  // We want to keep hold of the proxy for use later, so we need to know
+  // if the connection dies ... we ask for a notification to call our
+  // connectionBecameInvalid: method when the connection dies ... in that
+  // method we can release the proxy.
+  [[NSNotificationCenter defaultCenter]
+    addObserver: self
+       selector: @selector(connectionBecameInvalid:)
+	   name: NSConnectionDidDieNotification
+	 object: [remote connectionForProxy]];
+</pre>
+
+          <h1><a name="002000000000">
+        Software documentation for the NSPasteboard class
+      </a></h1>
+    <h2 class="class"><a name="class$NSPasteboard">NSPasteboard</a> : NSObject</h2>
+<svg width="181pt" height="116pt"
+ viewBox="0.00 0.00 181.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>class_NSPasteboard</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 177,-112 177,4 -4,4"/>
+<!-- NSObject -->
+<g id="node1" class="node figure_super">
+<title>NSObject</title>
+<polygon fill="lightgrey" stroke="black" points="145.5,-108 27.5,-108 27.5,-72 145.5,-72 145.5,-108"/>
+<text text-anchor="middle" x="86.5" y="-83.8" font-family="Times,serif" font-size="24.00" fill="blue">NSObject</text>
+</g>
+<!-- NSPasteboard -->
+<g id="node2" class="node figure_class">
+<title>NSPasteboard</title>
+<polygon fill="lightgrey" stroke="black" points="173,-36 0,-36 0,0 173,0 173,-36"/>
+<text text-anchor="middle" x="86.5" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">NSPasteboard</text>
+</g>
+<!-- NSObject&#45;&gt;NSPasteboard -->
+<g id="edge1" class="edge">
+<title>NSObject&#45;&gt;NSPasteboard</title>
+<path fill="none" stroke="black" d="M86.5,-71.7C86.5,-63.98 86.5,-54.71 86.5,-46.11"/>
+<polygon fill="black" stroke="black" points="90,-46.1 86.5,-36.1 83,-46.1 90,-46.1"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSPasteboard.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            The pasteboard system is the primary mechanism for data
+            exchange between OpenStep applications. It is used
+            for cut and paste of data, as the exchange mechanism
+            for <em>services</em> (as listed on the services menu),
+            for communicating with a spelling server in order to
+            perform spell checking, and for
+            <em>filter services</em> which convert data of one
+            type to another transparently.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            Pasteboards are identified by names, some of
+            which are standard and are intended to exist
+            permanently and be shared between all
+            applications, others are temporary or private
+            and are used to handle specific services.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            All data transferred to/from pasteboards is
+            <em>typed</em>. Mostly using one of several standard
+            types for common data or using standardised names
+            which identify particular kinds of files and their
+            contents (see the
+            <a rel="gsdoc" href="Functions.html#function$NSCreateFileContentsPboardType">
+              NSCreateFileContentsPboardType()
+            </a>
+
+            an
+            <a rel="gsdoc" href="Functions.html#function$NSCreateFilenamePboardType">
+              NSCreateFilenamePboardType()
+            </a>
+
+            functions for details). It is also possible for
+            cooperating applications to use their own
+            private types... any string value will do.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            Each pasteboard has an <em>owner</em>... an object
+            which declares the types of data it can provide.
+            Unless versions of the pasteboard data corresponding
+            to all the declared types are written to the pasteboard,
+            the owner is responsible for producing the data for the
+            pasteboard when it is called for (lazy provision
+            of data). <br> The pasteboard owner needs to implement
+            the methods of the NSPasteboardOwner informal protocol
+            in order to do this.
+              </p>
+    <p>
+      
+        
+    </div>
+    <hr class="section-separator">
+    <a href="#_NSPasteboard_ivars">Instance Variables</a>
+    <br><br>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)+mimeTypeForPasteboardType$">+mimeTypeForPasteboardType:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)+pasteboardTypeForMimeType$">+pasteboardTypeForMimeType:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)-setChangeCount$">-setChangeCount:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)-setHistory$">-setHistory:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard+generalPasteboard">+generalPasteboard</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard+pasteboardByFilteringData$ofType$">+pasteboardByFilteringData:ofType:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard+pasteboardByFilteringFile$">+pasteboardByFilteringFile:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard+pasteboardByFilteringTypesInPasteboard$">+pasteboardByFilteringTypesInPasteboard:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard+pasteboardWithName$">+pasteboardWithName:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard+pasteboardWithUniqueName">+pasteboardWithUniqueName</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard+typesFilterableTo$">+typesFilterableTo:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-addTypes$owner$">-addTypes:owner:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-availableTypeFromArray$">-availableTypeFromArray:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-changeCount">-changeCount</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-dataForType$">-dataForType:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-declareTypes$owner$">-declareTypes:owner:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-name">-name</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-propertyListForType$">-propertyListForType:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-readFileContentsType$toFile$">-readFileContentsType:toFile:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-readFileWrapper">-readFileWrapper</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-releaseGlobally">-releaseGlobally</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-setData$forType$">-setData:forType:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-setPropertyList$forType$">-setPropertyList:forType:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-setString$forType$">-setString:forType:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-stringForType$">-stringForType:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-types">-types</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-writeFileContents$">-writeFileContents:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard-writeFileWrapper$">-writeFileWrapper:</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$NSPasteboard+generalPasteboard">generalPasteboard&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*) <b>generalPasteboard</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the general pasteboard found by calling
+            <a rel="gsdoc" href="#method$NSPasteboard+pasteboardWithName$">
+              +pasteboardWithName:
+            </a>
+
+            with NSGeneralPboard as the name.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard+pasteboardByFilteringData$ofType$">pasteboardByFilteringData:&nbsp;ofType:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*) <b>pasteboardByFilteringData:</b> (NSData*)data<b> ofType:</b> (NSString*)type;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Creates and returns a pasteboard from which the
+              <var>data</var> in the named file can be read in
+              all the types to which it can be converted by filter
+              services. <br> The <var>type</var> of
+              <var>data</var> in the file is inferred from the
+              file extension.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              No filtering is actually performed until some object
+              asks the pasteboard for the <var>data</var>, so
+              calling this method is quite inexpensive.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard+pasteboardByFilteringFile$">pasteboardByFilteringFile:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*) <b>pasteboardByFilteringFile:</b> (NSString*)filename;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Creates and returns a pasteboard from which the
+              data in the named file can be read in all the types
+              to which it can be converted by filter services.
+              <br> The type of data in the file is inferred
+              from the file extension.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard+pasteboardByFilteringTypesInPasteboard$">pasteboardByFilteringTypesInPasteboard:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*) <b>pasteboardByFilteringTypesInPasteboard:</b> (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*)pboard;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Creates and returns a pasteboard where the data
+              contained in <var>pboard</var> is available for
+              reading in as many types as it can be converted
+              to by available filter services. This normally expands
+              on the range of types available in <var>pboard</var>.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              NB. This only permits a single level of filtering...
+              if <var>pboard</var> was previously returned by
+              another filtering method, it is returned instead
+              of a new pasteboard.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard+pasteboardWithName$">pasteboardWithName:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*) <b>pasteboardWithName:</b> (NSString*)aName;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Returns the pasteboard for the specified name.
+              Creates a new pasteboard if (and only if) one
+              with the given name does not exist.
+                </p>
+    <p>
+      
+            Standard pasteboard names are -
+            
+      <ul>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSGeneralPboard">
+                  NSGeneralPboard
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSFontPboard">
+                  NSFontPboard
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSRulerPboard">
+                  NSRulerPboard
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSFindPboard">
+                  NSFindPboard
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSDragPboard">
+                  NSDragPboard
+                </a>
+
+              
+        </li>
+      </ul>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard+pasteboardWithUniqueName">pasteboardWithUniqueName&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*) <b>pasteboardWithUniqueName</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Creates and returns a new pasteboard with a name
+            guaranteed to be unique within the pasteboard
+            server.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard+typesFilterableTo$">typesFilterableTo:&nbsp;</a></h3>
+    + (NSArray*) <b>typesFilterableTo:</b> (NSString*)type;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns an array of the types from which data of
+            the specified <var>type</var> can be produced by
+            registered filter services. <br> The original
+            <var>type</var> is always present in this array.
+            <br> Raises an exception if <var>type</var> is
+            <code>nil</code>.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard-addTypes$owner$">addTypes:&nbsp;owner:&nbsp;</a></h3>
+    - (int) <b>addTypes:</b> (NSArray*)newTypes<b> owner:</b> (id)newOwner;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Adds <var>newTypes</var> to the pasteboard and
+              declares <var>newOwner</var> to be the owner of
+              the pasteboard. Use only after
+              <a rel="gsdoc" href="#method$NSPasteboard-declareTypes$owner$">
+                -declareTypes:owner:
+              </a>
+
+              has been called for the same owner, because the new
+              owner may not support all the types declared by a
+              previous owner.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Returns the new change count for the pasteboard,
+              or zero if an error occurs.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard-availableTypeFromArray$">availableTypeFromArray:&nbsp;</a></h3>
+    - (NSString*) <b>availableTypeFromArray:</b> (NSArray*)types;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the first type listed in <var>types</var>
+            which the receiver has been declared (see
+            -declareTypes:owner:) to support.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard-changeCount">changeCount&nbsp;</a></h3>
+    - (int) <b>changeCount</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the change count for the receiving
+            pasteboard. This count is incremented whenever
+            the owner of the pasteboard is changed.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard-dataForType$">dataForType:&nbsp;</a></h3>
+    - (NSData*) <b>dataForType:</b> (NSString*)dataType;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns data from the pasteboard of the specified
+            <var>dataType</var>, or <code>nil</code> if no such
+            data is available. <br> May raise an exception if
+            communication with the pasteboard server
+            fails.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard-declareTypes$owner$">declareTypes:&nbsp;owner:&nbsp;</a></h3>
+    - (int) <b>declareTypes:</b> (NSArray*)newTypes<b> owner:</b> (id)newOwner;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Sets the owner of the pasteboard to be
+              <var>newOwner</var> and declares
+              <var>newTypes</var> as the types of data supported
+              by it. <br> This invalidates existing data in the
+              pasteboard (except where the GNUstep
+              <a rel="gsdoc" href="#method$NSPasteboard(GNUstepExtensions)-setHistory$">
+                -setHistory:
+              </a>
+
+              extension allows multi-version data to be
+              held).
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The value of <var>newOwner</var> may be
+              <code>nil</code>, but if it is, data should
+              immediately be written to the pasteboard for
+              all the value in <var>newTypes</var> as a
+              <code>nil</code> owner cannot be used for lazy
+              supply of data.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              This increments the change count for the pasteboard
+              and the new count is returned, or zero is returned if
+              an error occurs. <br> Where
+              <a rel="gsdoc" href="#method$NSPasteboard(GNUstepExtensions)-setChangeCount$">
+                -setChangeCount:
+              </a>
+
+              has been used, the highest count to date is
+              incremented and returned, rather than the
+              last value specified by the
+              <a rel="gsdoc" href="#method$NSPasteboard(GNUstepExtensions)-setChangeCount$">
+                -setChangeCount:
+              </a>
+
+              method.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The types you declare can be arbitrary strings, but
+              as at least two applications really need to be aware
+              of the same type for it to be of use, it is much more
+              normal to use a predefined (standard) type or a
+              type representing the name or content of a
+              particular kind of file (returned by the
+              <a rel="gsdoc" href="Functions.html#function$NSCreateFilenamePboardType">
+                NSCreateFilenamePboardType()
+              </a>
+
+              or
+              <a rel="gsdoc" href="Functions.html#function$NSCreateFilenamePboardType">
+                NSCreateFilenamePboardType()
+              </a>
+
+              function). <br> The standard type for raw
+              data is
+              <a rel="gsdoc" href="TypesAndConstants.html#variable$NSGeneralPboardType">
+                NSGeneralPboardType
+              </a>
+
+                </p>
+    <p>
+      
+            The predefined pasteboard types are -
+            
+      <ul>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSStringPboardType">
+                  NSStringPboardType
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSColorPboardType">
+                  NSColorPboardType
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSFileContentsPboardType">
+                  NSFileContentsPboardType
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSFilenamesPboardType">
+                  NSFilenamesPboardType
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSFontPboardType">
+                  NSFontPboardType
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSRulerPboardType">
+                  NSRulerPboardType
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSPostScriptPboardType">
+                  NSPostScriptPboardType
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSTabularTextPboardType">
+                  NSTabularTextPboardType
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSRTFPboardType">
+                  NSRTFPboardType
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSRTFDPboardType">
+                  NSRTFDPboardType
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSTIFFPboardType">
+                  NSTIFFPboardType
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSDataLinkPboardType">
+                  NSDataLinkPboardType
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSGeneralPboardType">
+                  NSGeneralPboardType
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSPDFPboardType">
+                  NSPDFPboardType
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSPICTPboardType">
+                  NSPICTPboardType
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSURLPboardType">
+                  NSURLPboardType
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="TypesAndConstants.html#variable$NSHTMLPboardType">
+                  NSHTMLPboardType
+                </a>
+
+              
+        </li>
+      </ul>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard-name">name&nbsp;</a></h3>
+    - (NSString*) <b>name</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the pasteboard name (as given to
+            +pasteboardWithName:) for the
+            receiver.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard-propertyListForType$">propertyListForType:&nbsp;</a></h3>
+    - (id) <b>propertyListForType:</b> (NSString*)dataType;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Calls
+            <a rel="gsdoc" href="#method$NSPasteboard-dataForType$">
+              -dataForType:
+            </a>
+
+            to obtain data (expected to be a serialized property
+            list) and returns the object produced by
+            deserializing it.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard-readFileContentsType$toFile$">readFileContentsType:&nbsp;toFile:&nbsp;</a></h3>
+    - (NSString*) <b>readFileContentsType:</b> (NSString*)type<b> toFile:</b> (NSString*)filename;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Obtains data of the specified dataType from the
+              pasteboard, deserializes it to the specified
+              <var>filename</var> and returns the file name (or
+              <code>nil</code> on failure).
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              This method should only be used to read data written
+              by the
+              <a rel="gsdoc" href="#method$NSPasteboard-writeFileContents$">
+                -writeFileContents:
+              </a>
+
+              or
+              <a rel="gsdoc" href="#method$NSPasteboard-writeFileWrapper$">
+                -writeFileWrapper:
+              </a>
+
+              method.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard-readFileWrapper">readFileWrapper&nbsp;</a></h3>
+    - (NSFileWrapper*) <b>readFileWrapper</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Obtains data of the specified dataType from the
+              pasteboard, deserializes it and returns the
+              resulting file wrapper (or <code>nil</code>).
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              This method should only be used to read data written
+              by the
+              <a rel="gsdoc" href="#method$NSPasteboard-writeFileContents$">
+                -writeFileContents:
+              </a>
+
+              or
+              <a rel="gsdoc" href="#method$NSPasteboard-writeFileWrapper$">
+                -writeFileWrapper:
+              </a>
+
+              method.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard-releaseGlobally">releaseGlobally&nbsp;</a></h3>
+    - (void) <b>releaseGlobally</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Releases the receiver in the pasteboard server so
+            that no other application can use the pasteboard. This
+            should not be called for any of the standard
+            pasteboards, only for temporary ones.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard-setData$forType$">setData:&nbsp;forType:&nbsp;</a></h3>
+    - (BOOL) <b>setData:</b> (NSData*)data<b> forType:</b> (NSString*)dataType;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Writes <var>data</var> of type <var>dataType</var>
+              to the pasteboard server so that other applications
+              can read it. The <var>dataType</var> must be one of
+              the types previously declared for the pasteboard.
+              <br> All the other methods for writing
+              <var>data</var> to the pasteboard call this one.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Returns <code>YES</code> on success,
+              <code>NO</code> if the <var>data</var> could not
+              be written for some reason.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard-setPropertyList$forType$">setPropertyList:&nbsp;forType:&nbsp;</a></h3>
+    - (BOOL) <b>setPropertyList:</b> (id)propertyList<b> forType:</b> (NSString*)dataType;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Serialises the data in the supplied property
+              list and writes it to the pasteboard server using
+              the
+              <a rel="gsdoc" href="#method$NSPasteboard-setData$forType$">
+                -setData:forType:
+              </a>
+
+              method.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Data written using this method can be read by
+              <a rel="gsdoc" href="#method$NSPasteboard-propertyListForType$">
+                -propertyListForType:
+              </a>
+
+              or, if it was a simple string, by
+              <a rel="gsdoc" href="#method$NSPasteboard-stringForType$">
+                -stringForType:
+              </a>
+
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              If the data is retrieved using
+              <a rel="gsdoc" href="#method$NSPasteboard-dataForType$">
+                -dataForType:
+              </a>
+
+              then it needs to be deserialized into a property
+              list.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard-setString$forType$">setString:&nbsp;forType:&nbsp;</a></h3>
+    - (BOOL) <b>setString:</b> (NSString*)string<b> forType:</b> (NSString*)dataType;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Writes <var>string</var> it to the pasteboard
+              server using the
+              <a rel="gsdoc" href="#method$NSPasteboard-setPropertyList$forType$">
+                -setPropertyList:forType:
+              </a>
+
+              method.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The data may subsequently be read from the receiver
+              using the
+              <a rel="gsdoc" href="#method$NSPasteboard-stringForType$">
+                -stringForType:
+              </a>
+
+              or
+              <a rel="gsdoc" href="#method$NSPasteboard-propertyListForType$">
+                -propertyListForType:
+              </a>
+
+              method.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              If the data is retrieved using
+              <a rel="gsdoc" href="#method$NSPasteboard-dataForType$">
+                -dataForType:
+              </a>
+
+              then it needs to be deserialized into a property
+              list.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard-stringForType$">stringForType:&nbsp;</a></h3>
+    - (NSString*) <b>stringForType:</b> (NSString*)dataType;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Obtains data of the specified <var>dataType</var>
+              from the pasteboard, deserializes it and returns the
+              resulting string (or <code>nil</code>).
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The string should have been written using the
+              <a rel="gsdoc" href="#method$NSPasteboard-setString$forType$">
+                -setString:forType:
+              </a>
+
+              or
+              <a rel="gsdoc" href="#method$NSPasteboard-setPropertyList$forType$">
+                -setPropertyList:forType:
+              </a>
+
+              method.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard-types">types&nbsp;</a></h3>
+    - (NSArray*) <b>types</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns all the types that the receiver has been
+            declared to support. <br> See
+            <a rel="gsdoc" href="#method$NSPasteboard-declareTypes$owner$">
+              -declareTypes:owner:
+            </a>
+
+            for details.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard-writeFileContents$">writeFileContents:&nbsp;</a></h3>
+    - (BOOL) <b>writeFileContents:</b> (NSString*)filename;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Writes the contents of the file
+              <var>filename</var> to the pasteboard server after
+              declaring the type NSFileContentsPboardType as
+              well as a type based on the file extension (given by
+              the
+              <a rel="gsdoc" href="Functions.html#function$NSCreateFileContentsPboardType">NSCreateFileContentsPboardType()</a>
+ function) if those types have not already been declared. <br> If the <var>filename</var> has no extension, only NSFileContentsPboardType is used.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Data written to a pasteboard by this method should
+              be read using the
+              <a rel="gsdoc" href="#method$NSPasteboard-readFileContentsType$toFile$">
+                -readFileContentsType:toFile:
+              </a>
+
+              or
+              <a rel="gsdoc" href="#method$NSPasteboard-readFileWrapper">
+                -readFileWrapper
+              </a>
+
+              method.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              If the data is retrieved using
+              <a rel="gsdoc" href="#method$NSPasteboard-dataForType$">
+                -dataForType:
+              </a>
+
+              then it needs to be deserialized by the
+              NSFileWrapper class.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard-writeFileWrapper$">writeFileWrapper:&nbsp;</a></h3>
+    - (BOOL) <b>writeFileWrapper:</b> (NSFileWrapper*)wrapper;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Writes the contents of the file <var>wrapper</var>
+              to the pasteboard server after declaring the type
+              NSFileContentsPboardType as well
+              as a type based on the file extension of the wrappers
+              preferred filename if those types have not
+              already been declared.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Raises an exception if there is no preferred
+              filename.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Data written to a pasteboard by this method should
+              be read using the
+              <a rel="gsdoc" href="#method$NSPasteboard-readFileContentsType$toFile$">
+                -readFileContentsType:toFile:
+              </a>
+
+              or
+              <a rel="gsdoc" href="#method$NSPasteboard-readFileWrapper">
+                -readFileWrapper
+              </a>
+
+              method.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              If the data is retrieved using
+              <a rel="gsdoc" href="#method$NSPasteboard-dataForType$">
+                -dataForType:
+              </a>
+
+              then it needs to be deserialized by the
+              NSFileWrapper class.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<a name="_NSPasteboard_ivars"/>    <br><hr class="section-separator">
+    <h2>Instance Variables for NSPasteboard Class</h2>
+    <h3><a name="ivariable$NSPasteboard*changeCount">changeCount</a></h3>
+    @protected int <b>changeCount</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSPasteboard*name">name</a></h3>
+    @protected NSString* <b>name</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSPasteboard*owner">owner</a></h3>
+    @protected id <b>owner</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSPasteboard*target">target</a></h3>
+    @protected id <b>target</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSPasteboard*useHistory">useHistory</a></h3>
+    @protected BOOL <b>useHistory</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <br><hr class="section-separator"><br>
+
+          <h1><a name="003000000000">
+        Software documentation for the
+        NSObject(NSPasteboardOwner)
+        informal protocol
+      </a></h1>
+    <h2>NSObject(<a name="category$NSObject(NSPasteboardOwner)">NSPasteboardOwner</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSPasteboard.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+          The NSPasteboardOwner informal protocal defines the
+          messages that the pasteboard system will send to a
+          pasteboard owner if they are implemented. These
+          are needed to support lazy provision of pasteboard data.
+        
+    </div>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSObject(NSPasteboardOwner)-pasteboard$provideDataForType$">-pasteboard:provideDataForType:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSObject(NSPasteboardOwner)-pasteboard$provideDataForType$andVersion$">-pasteboard:provideDataForType:andVersion:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSObject(NSPasteboardOwner)-pasteboardChangedOwner$">-pasteboardChangedOwner:</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$NSObject(NSPasteboardOwner)-pasteboard$provideDataForType$">pasteboard:&nbsp;provideDataForType:&nbsp;</a></h3>
+    - (void) <b>pasteboard:</b> (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*)sender<b> provideDataForType:</b> (NSString*)type;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            This method is called by the pasteboard system when it
+            does not have the data that has been asked for... the
+            pasteboard owner should supply the data to the
+            pasteboard by calling
+            <a rel="gsdoc" href="#method$NSPasteboard-setData$forType$">
+              -setData:forType:
+            </a>
+
+            or one of the related methods.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSPasteboardOwner)-pasteboard$provideDataForType$andVersion$">pasteboard:&nbsp;provideDataForType:&nbsp;andVersion:&nbsp;</a></h3>
+    - (void) <b>pasteboard:</b> (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*)sender<b> provideDataForType:</b> (NSString*)type<b> andVersion:</b> (int)version;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            Implemented where GNUstep pasteboard extensions
+            are required. <br> This method is called by the
+            pasteboard system when it does not have the data
+            that has been asked for... the pasteboard owner should
+            supply the data to the pasteboard by calling
+            <a rel="gsdoc" href="#method$NSPasteboard-setData$forType$">
+              -setData:forType:
+            </a>
+
+            or one of the related methods.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSPasteboardOwner)-pasteboardChangedOwner$">pasteboardChangedOwner:&nbsp;</a></h3>
+    - (void) <b>pasteboardChangedOwner:</b> (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*)sender;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            This method is called by the pasteboard system when
+            another object takes ownership of the pasteboard...
+            it lets the previous owner know that it is no longer
+            required to supply data.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+
+          <h1><a name="004000000000">
+        Software documentation for the
+        NSObject(NSPasteboardReading)
+        informal protocol
+      </a></h1>
+    <h2>NSObject(<a name="category$NSObject(NSPasteboardReading)">NSPasteboardReading</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSPasteboard.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br>
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSObject(NSPasteboardReading)+readingOptionsForType$pasteboard$">+readingOptionsForType:pasteboard:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSObject(NSPasteboardReading)-initWithPasteboardPropertyList$ofType$">-initWithPasteboardPropertyList:ofType:</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$NSObject(NSPasteboardReading)+readingOptionsForType$pasteboard$">readingOptionsForType:&nbsp;pasteboard:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPasteboardReadingOptions">NSPasteboardReadingOptions</a>) <b>readingOptionsForType:</b> (NSString*)type<b> pasteboard:</b> (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*)pasteboard;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSPasteboardReading)-initWithPasteboardPropertyList$ofType$">initWithPasteboardPropertyList:&nbsp;ofType:&nbsp;</a></h3>
+    - (id) <b>initWithPasteboardPropertyList:</b> (id)propertyList<b> ofType:</b> (NSString*)type;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+
+          <h1><a name="005000000000">
+        Software documentation for the
+        NSObject(NSPasteboardWriting)
+        informal protocol
+      </a></h1>
+    <h2>NSObject(<a name="category$NSObject(NSPasteboardWriting)">NSPasteboardWriting</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSPasteboard.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br>
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSObject(NSPasteboardWriting)-writingOptionsForType$pasteboard$">-writingOptionsForType:pasteboard:</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$NSObject(NSPasteboardWriting)-writingOptionsForType$pasteboard$">writingOptionsForType:&nbsp;pasteboard:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSPasteboardWritingOptions">NSPasteboardWritingOptions</a>) <b>writingOptionsForType:</b> (NSString*)type<b> pasteboard:</b> (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*)pasteboard;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+
+          <h1><a name="006000000000">
+        Software documentation for the
+        NSPasteboard(GNUstepExtensions)
+        category
+      </a></h1>
+    <h2><a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>(<a name="category$NSPasteboard(GNUstepExtensions)">GNUstepExtensions</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSPasteboard.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+          GNUstep specific extensions... <br>
+          
+    </p>
+    <p>
+
+            GNUstep adds a mechanism for mapping between
+            OpenStep pasteboard types and MIME types. This is
+            useful for inter-operation with other systems, as
+            MIME types have come into common usage (
+            <strong>long</strong> after the OpenStep
+            specification was created).
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            The other extension to the pasteboard system produced
+            by GNUstep is the ability to keep a history of recent
+            items placed in a pasteboard, and retrieve data from
+            that history rather than just the current item.
+              </p>
+    <p>
+      
+        
+    </div>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)+mimeTypeForPasteboardType$">+mimeTypeForPasteboardType:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)+pasteboardTypeForMimeType$">+pasteboardTypeForMimeType:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)-setChangeCount$">-setChangeCount:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSPasteboard(GNUstepExtensions)-setHistory$">-setHistory:</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$NSPasteboard(GNUstepExtensions)+mimeTypeForPasteboardType$">mimeTypeForPasteboardType:&nbsp;</a></h3>
+    + (NSString*) <b>mimeTypeForPasteboardType:</b> (NSString*)type;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Return the mapping for pasteboard-&gt;mime, or return
+            the original pasteboard <var>type</var> if no mapping
+            is found
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard(GNUstepExtensions)+pasteboardTypeForMimeType$">pasteboardTypeForMimeType:&nbsp;</a></h3>
+    + (NSString*) <b>pasteboardTypeForMimeType:</b> (NSString*)mimeType;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Return the mapping for mime-&gt;pasteboard, or return
+            the original pasteboard type if no mapping is found.
+            This method may not have a one-to-one mapping
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard(GNUstepExtensions)-setChangeCount$">setChangeCount:&nbsp;</a></h3>
+    - (void) <b>setChangeCount:</b> (int)count;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Once the
+              <a rel="gsdoc" href="#method$NSPasteboard(GNUstepExtensions)-setChangeCount$">
+                -setChangeCount:
+              </a>
+
+              message has been sent to an NSPasteboard the
+              object will gain an extra GNUstep behaviour - when
+              getting data from the pasteboard, the data need
+              no longer be from the latest version but may be a
+              version from a previous representation with the
+              specified change <var>count</var>.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The value of <var>count</var> must be one which has
+              previously been returned by
+              <a rel="gsdoc" href="#method$NSPasteboard-declareTypes$owner$">
+                -declareTypes:owner:
+              </a>
+
+              and should not be further in the past than specified
+              by the
+              <a rel="gsdoc" href="#method$NSPasteboard(GNUstepExtensions)-setHistory$">
+                -setHistory:
+              </a>
+
+              method.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSPasteboard(GNUstepExtensions)-setHistory$">setHistory:&nbsp;</a></h3>
+    - (void) <b>setHistory:</b> (unsigned)length;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Sets the number of changes for which pasteboard data
+            is kept. <br> This is 1 by default.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+
+          <h1><a name="007000000000">
+        Software documentation for the NSURL(NSPasteboard)
+        category
+      </a></h1>
+    <h2>NSURL(<a name="category$NSURL(NSPasteboard)">NSPasteboard</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSPasteboard.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+          Category of NSURL providing convenience methods.
+        
+    </div>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSURL(NSPasteboard)+URLFromPasteboard$">+URLFromPasteboard:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$NSURL(NSPasteboard)-writeToPasteboard$">-writeToPasteboard:</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$NSURL(NSPasteboard)+URLFromPasteboard$">URLFromPasteboard:&nbsp;</a></h3>
+    + (NSURL*) <b>URLFromPasteboard:</b> (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*)pasteBoard;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Creates a URL with data (of NSURLPboardType) from
+            <var>pasteBoard</var>.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSURL(NSPasteboard)-writeToPasteboard$">writeToPasteboard:&nbsp;</a></h3>
+    - (void) <b>writeToPasteboard:</b> (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*)pasteBoard;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Writes the receiver (as data of NSURLPboardType) to
+            <var>pasteBoard</var>.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+
+          <h1><a name="008000000000">
+        Software documentation for the NSPasteboardReading
+        protocol
+      </a></h1>
+    <h2><a name="protocol$(NSPasteboardReading)">NSPasteboardReading</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSPasteboard.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br>
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$(NSPasteboardReading)+readableTypesForPasteboard$">+readableTypesForPasteboard:</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$(NSPasteboardReading)+readableTypesForPasteboard$">readableTypesForPasteboard:&nbsp;</a></h3>
+    + (NSArray*) <b>readableTypesForPasteboard:</b> (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*)pasteboard;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+
+          <h1><a name="009000000000">
+        Software documentation for the NSPasteboardWriting
+        protocol
+      </a></h1>
+    <h2><a name="protocol$(NSPasteboardWriting)">NSPasteboardWriting</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSPasteboard.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br>
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$(NSPasteboardWriting)-pasteboardPropertyListForType$">-pasteboardPropertyListForType:</a></li>
+        <li><a rel="gsdoc" href="NSPasteboard.html#method$(NSPasteboardWriting)-writableTypesForPasteboard$">-writableTypesForPasteboard:</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$(NSPasteboardWriting)-pasteboardPropertyListForType$">pasteboardPropertyListForType:&nbsp;</a></h3>
+    - (id) <b>pasteboardPropertyListForType:</b> (NSString*)type;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$(NSPasteboardWriting)-writableTypesForPasteboard$">writableTypesForPasteboard:&nbsp;</a></h3>
+    - (NSArray*) <b>writableTypesForPasteboard:</b> (<a rel="gsdoc" href="#class$NSPasteboard">NSPasteboard</a>*)pasteboard;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+    <br>
+    <a href="Gui.html">Up</a>
+  </body>
+</html>

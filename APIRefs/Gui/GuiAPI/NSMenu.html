@@ -1,0 +1,2641 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>NSMenu</title>
+<meta http-equiv="Content-Style-Type" content="text/css"/>
+<link rel="stylesheet" type="text/css" href="default-styles.css" media="screen" title="Normal" />
+  </head>
+  <body>
+    <a href="Gui.html">Up</a>
+    <br>
+    <h1><a name="title$NSMenu">NSMenu</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Fred Kiefer (<a href="mailto:FredKiefer@gmx.de"><code>FredKiefer@gmx.de</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>David Lazaro Saz (<a href="mailto:khelekir@encomix.es"><code>khelekir@encomix.es</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Michael Hanni (<a href="mailto:mhanni@sprintmail.com"><code>mhanni@sprintmail.com</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Felipe A. Rodriguez (<a href="mailto:far@ix.netcom.com"><code>far@ix.netcom.com</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Ovidiu Predescu (<a href="mailto:ovidiu@net-community.com"><code>ovidiu@net-community.com</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Date:</b> Generated at 2024-11-13 12:52:37 -0500</p>
+    <p><b>Copyright:</b> (C) 1999,2016 Free Software Foundation, Inc.</p>
+
+        <div>
+      <hr class="section-separator">
+      <h3>Contents -</h3>
+      <ol>
+        <li>
+          <a href="#001000000000">Software documentation for the NSMenu class</a>
+        </li>
+        <li>
+          <a href="#002000000000">Software documentation for the NSMenu(GNUstepExtra)
+        category</a>
+        </li>
+        <li>
+          <a href="#003000000000">Software documentation for the
+        NSObject(NSMenuActionResponder)
+        informal protocol</a>
+        </li>
+        <li>
+          <a href="#004000000000">Software documentation for the
+        NSObject(NSMenuDelegate) informal
+        protocol</a>
+        </li>
+        <li>
+          <a href="#005000000000">Software documentation for the NSMenuDelegate protocol</a>
+        </li>
+        <li>
+          <a href="#006000000000">Software documentation for the NSMenuValidation
+        protocol</a>
+        </li>
+        <li>
+          <a href="#007000000000">Software documentation for the NSMenuView protocol</a>
+        </li>
+      </ol>
+      <hr class="section-separator">
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSMenu class
+      </a></h1>
+    <h2 class="class"><a name="class$NSMenu">NSMenu</a> : NSObject</h2>
+<svg width="126pt" height="116pt"
+ viewBox="0.00 0.00 126.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>class_NSMenu</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 122,-112 122,4 -4,4"/>
+<!-- NSObject -->
+<g id="node1" class="node figure_super">
+<title>NSObject</title>
+<polygon fill="lightgrey" stroke="black" points="118,-108 0,-108 0,-72 118,-72 118,-108"/>
+<text text-anchor="middle" x="59" y="-83.8" font-family="Times,serif" font-size="24.00" fill="blue">NSObject</text>
+</g>
+<!-- NSMenu -->
+<g id="node2" class="node figure_class">
+<title>NSMenu</title>
+<polygon fill="lightgrey" stroke="black" points="113.5,-36 4.5,-36 4.5,0 113.5,0 113.5,-36"/>
+<text text-anchor="middle" x="59" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">NSMenu</text>
+</g>
+<!-- NSObject&#45;&gt;NSMenu -->
+<g id="edge1" class="edge">
+<title>NSObject&#45;&gt;NSMenu</title>
+<path fill="none" stroke="black" d="M59,-71.7C59,-63.98 59,-54.71 59,-46.11"/>
+<polygon fill="black" stroke="black" points="62.5,-46.1 59,-36.1 55.5,-46.1 62.5,-46.1"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSMenu.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            Menus provide the user with a list of actions and/or
+            submenus. Submenus themselves are full fledged
+            menus and so a heirarchical structure of appears.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            Every application has one special menu, the so called
+            Application menu. This menu is always visible
+            on the screen when the application is active. This menu
+            normally contains items like, <em>info</em>,
+            <em>services</em>, <em>print</em>, <em>hide</em> and
+            <em>quit</em>.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            After the <em>info</em> item normally some submenus
+            follow containing the application specific actions.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            On GNUstep the content of the menu is stacked vertically
+            as oppossed to the Windows and Mac world, where they are
+            stacked horizontally. Also because the menus are
+            not part of any normal window they can be dragged
+            around opened and closed independend of the
+            application windows.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            This can lead to a few menus being open
+            simultanuously. The collection of open
+            menus is remembered, when the program is started
+            again, all the torn off menus aka detached menus,
+            are displayed at their last known position.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            The menu behaviour is richer than in most other
+            environments and bear some explanation. This
+            explanation is aimed at users of Menus but more
+            so at the developer of custom menus.
+              </p>
+    <p>
+      
+          
+      <dl>
+        <dt>Application menu</dt>
+        <dd>
+          
+              There alwasy at least one menu present and visible
+              while the application is active. This is the
+              application menu. This window can never be
+              closed.
+            
+        </dd>
+        <dt>Attached menu</dt>
+        <dd>
+          
+              Normally when you click in a menu on a submenu
+              item, the submenu is shown directly next to the
+              menu you click in. The submenu is now called an
+              <em>attached</em> menu. It is attached to the menu
+              that was clicked in.
+            
+        </dd>
+        <dt>Detached menu</dt>
+        <dd>
+          
+              A menu is detached when it is not attached to its
+              parent menu. A menu can become detached when the
+              user drags a submenu away from its parents. A
+              detached window contains in its title a close
+              button.
+            
+        </dd>
+        <dt>Transient menu</dt>
+        <dd>
+          
+              A transient menu is a menu that dissappears as soon as
+              the user stops interacting with the menus. Typically
+              a transient menu is created when a right mouse click
+              appears in an application window. The right mouse
+              click will bring up the Application menu at the
+              place the user clicks. While keeping the mouse
+              button down the user can select items by moving
+              around. When releasing the button, all transient
+              menus will be removed from the screen and the
+              action will be executed.
+              
+          <p>
+
+                It is important to note that it is impossible to
+                click in transient menus.
+                        </p>
+          
+            
+        </dd>
+        <dt>Attached transient menu</dt>
+        <dd>
+          
+              This is a menu that is attached and transient at the
+              same time.
+            
+        </dd>
+      </dl>
+      
+          A single NSMenu instance can be displayed zero or one times
+          when the user is not interaction with the menus. When
+          the user is interaction with the menus it can occur that
+          the same NSMenu is displayed in two locations at the same
+          time. This is only possible when one of the displayed
+          instances is a transient menu. <br> To understand
+          how the diffent kind of menus are created lets look at
+          some user actions:
+          
+      <ul>
+        <li>
+          
+              The user clicks on an item which is not a submenu.
+              <br> The item is highlighted until the action
+              corresponding with the item is completed.
+              More precisely, the application highlights the menu
+              item, performs the action, and unhighlights the
+              item.
+            
+        </li>
+        <li>
+          
+              The user clicks on a submenu item which is not
+              highlighted already <br> If the submenu is
+              not a detached menu, the submenu will become an
+              attached menu to the menu that is clicked in.
+              The item that is clicked in will become highlighted
+              and stays highlighted.
+              
+          <p>
+
+                If the submenu is a detached menu, the transient
+                version of the submenu will be shown
+                        </p>
+          
+            
+        </li>
+        <li>
+          
+              The user clicks on a submenu item which is
+              highlighted <br> This means that the
+              submenu is an attached submenu for this menu.
+              After clicking the submenu item will no be no
+              longer highlighted and the submenu will be removed
+              from the screen.
+            
+        </li>
+        <li>
+          
+              The user drags over a menu item <br> The item will
+              be highlighted, if the item is a submenu item, the
+              submenu will be shown as an attached submenu.
+              This can be transient, or non transient.
+            
+        </li>
+      </ul>
+      
+          <br> <strong>Customizing the look of Menus</strong>
+          <br> There are basically three ways of customizing
+          the look of NSMenu
+          
+      <ol>
+        <li>
+          
+              Using custom NSMenuItemCell&apos;s. This you should do
+              when you want to influence the look of the items
+              displayed in the menu.
+            
+        </li>
+        <li>
+          
+              Using custom NSMenuView. This is the class to
+              modify if you want to change the way the menu is
+              layout on the screen. So if you want to stack the
+              menu items horizontally, you should change this
+              class. This should be rarely needed.
+            
+        </li>
+        <li>
+          
+              Reimplement NSMenu. This you should not do.
+              But, if you implement everything yourself you can
+              achieve anything.
+            
+        </li>
+      </ol>
+      
+          <br>
+          <strong>
+            Information for implementing custom NSMenuView
+            class
+          </strong>
+          <br> When implementing a custom NSMenuView class it
+          is important to keep the following information in mind.
+          
+      <ul>
+        <li>
+          
+              The menus (or the menu items) form a tree. Navigating
+              through this tree is done with the methods
+              <a rel="gsdoc" href="#method$NSMenu-supermenu">
+                [NSMenu -supermenu]
+              </a>
+
+              , which returns the parent menu of the receiver, and
+              with
+              <a rel="gsdoc" href="#method$NSMenu-itemAtIndex$">
+                [NSMenu -itemAtIndex:]
+              </a>
+
+              which returns a NSMenuItem on which we can call
+              <a rel="gsdoc" href="NSMenuItem.html#method$(NSMenuItem)-submenu">
+                [&lt;NSMenuItem&gt;-submenu]
+              </a>
+
+              for a child menu.
+            
+        </li>
+        <li>
+          
+              The menus as displayed on the screen do NOT form a
+              tree. This because detached and transient menus
+              lead to duplicate menus on the screen.
+            
+        </li>
+      </ul>
+      
+          The displayed menus on the screen have the following
+          structure:
+          
+      <ol>
+        <li>
+          
+              The ordered graph of displayed menus (note, NOT the
+              set of NSMenus) form a collection of line graphs.
+            
+        </li>
+        <li>
+          
+              The attached menus are precisely the non root
+              vertices in this graph.
+            
+        </li>
+        <li>
+          
+              An attached menu of a transient menu is itself a
+              transient menu.
+            
+        </li>
+        <li>
+          
+              The collection of transient menus form connect
+              subgraph of the menu graph.
+            
+        </li>
+      </ol>
+      
+        
+    </div>
+    <hr class="section-separator">
+    <a href="#_NSMenu_ivars">Instance Variables</a>
+    <br><br>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-_ownedByPopUp">-_ownedByPopUp</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-_owningPopUp">-_owningPopUp</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-_setOwnedByPopUp$">-_setOwnedByPopUp:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-close">-close</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-closeTransient">-closeTransient</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-display">-display</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-displayTransient">-displayTransient</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-isPartlyOffScreen">-isPartlyOffScreen</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-isTransient">-isTransient</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-nestedSetFrameOrigin$">-nestedSetFrameOrigin:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-setMain$">-setMain:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-setTornOff$">-setTornOff:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-shiftOnScreen">-shiftOnScreen</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-window">-window</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu+menuBarVisible">+menuBarVisible</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu+menuZone">+menuZone</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu+popUpContextMenu$withEvent$forView$">+popUpContextMenu:withEvent:forView:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu+popUpContextMenu$withEvent$forView$withFont$">+popUpContextMenu:withEvent:forView:withFont:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu+setMenuBarVisible$">+setMenuBarVisible:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu+setMenuZone$">+setMenuZone:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-addItem$">-addItem:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-addItemWithTitle$action$keyEquivalent$">-addItemWithTitle:action:keyEquivalent:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-attachedMenu">-attachedMenu</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-autoenablesItems">-autoenablesItems</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-contextMenuRepresentation">-contextMenuRepresentation</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-delegate">-delegate</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-helpRequested$">-helpRequested:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-indexOfItem$">-indexOfItem:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-indexOfItemWithRepresentedObject$">-indexOfItemWithRepresentedObject:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-indexOfItemWithSubmenu$">-indexOfItemWithSubmenu:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-indexOfItemWithTag$">-indexOfItemWithTag:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-indexOfItemWithTarget$andAction$">-indexOfItemWithTarget:andAction:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-indexOfItemWithTitle$">-indexOfItemWithTitle:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-initWithTitle$">-initWithTitle:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-insertItem$atIndex$">-insertItem:atIndex:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-insertItemWithTitle$action$keyEquivalent$atIndex$">-insertItemWithTitle:action:keyEquivalent:atIndex:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-isAttached">-isAttached</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-isTornOff">-isTornOff</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-itemArray">-itemArray</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-itemAtIndex$">-itemAtIndex:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-itemChanged$">-itemChanged:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-itemWithTag$">-itemWithTag:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-itemWithTitle$">-itemWithTitle:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-locationForSubmenu$">-locationForSubmenu:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-menuBarHeight">-menuBarHeight</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-menuChangedMessagesEnabled">-menuChangedMessagesEnabled</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-menuRepresentation">-menuRepresentation</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-numberOfItems">-numberOfItems</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-performActionForItemAtIndex$">-performActionForItemAtIndex:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-performKeyEquivalent$">-performKeyEquivalent:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-popUpMenuPositionItem$atLocation$inView$">-popUpMenuPositionItem:atLocation:inView:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-popUpMenuPositioningItem$atLocation$inView$">-popUpMenuPositioningItem:atLocation:inView:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-removeAllItems">-removeAllItems</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-removeItem$">-removeItem:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-removeItemAtIndex$">-removeItemAtIndex:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-setAutoenablesItems$">-setAutoenablesItems:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-setContextMenuRepresentation$">-setContextMenuRepresentation:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-setDelegate$">-setDelegate:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-setMenuChangedMessagesEnabled$">-setMenuChangedMessagesEnabled:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-setMenuRepresentation$">-setMenuRepresentation:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-setSubmenu$forItem$">-setSubmenu:forItem:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-setSupermenu$">-setSupermenu:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-setTearOffMenuRepresentation$">-setTearOffMenuRepresentation:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-setTitle$">-setTitle:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-sizeToFit">-sizeToFit</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-submenuAction$">-submenuAction:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-supermenu">-supermenu</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-tearOffMenuRepresentation">-tearOffMenuRepresentation</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-title">-title</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu-update">-update</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$NSMenu+menuBarVisible">menuBarVisible&nbsp;</a></h3>
+    + (BOOL) <b>menuBarVisible</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu+menuZone">menuZone&nbsp;</a></h3>
+    + (NSZone*) <b>menuZone</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the memory allocation zone used to create
+            instances of this class.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu+popUpContextMenu$withEvent$forView$">popUpContextMenu:&nbsp;withEvent:&nbsp;forView:&nbsp;</a></h3>
+    + (void) <b>popUpContextMenu:</b> (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*)menu<b> withEvent:</b> (<a rel="gsdoc" href="NSEvent.html#class$NSEvent">NSEvent</a>*)event<b> forView:</b> (<a rel="gsdoc" href="NSView.html#class$NSView">NSView</a>*)view;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu+popUpContextMenu$withEvent$forView$withFont$">popUpContextMenu:&nbsp;withEvent:&nbsp;forView:&nbsp;withFont:&nbsp;</a></h3>
+    + (void) <b>popUpContextMenu:</b> (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*)menu<b> withEvent:</b> (<a rel="gsdoc" href="NSEvent.html#class$NSEvent">NSEvent</a>*)event<b> forView:</b> (<a rel="gsdoc" href="NSView.html#class$NSView">NSView</a>*)view<b> withFont:</b> (<a rel="gsdoc" href="NSFont.html#class$NSFont">NSFont</a>*)font;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu+setMenuBarVisible$">setMenuBarVisible:&nbsp;</a></h3>
+    + (void) <b>setMenuBarVisible:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu+setMenuZone$">setMenuZone:&nbsp;</a></h3>
+    + (void) <b>setMenuZone:</b> (NSZone*)zone;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Specifies the memory allocation <var>zone</var>
+            used to create instances of this class.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-addItem$">addItem:&nbsp;</a></h3>
+    - (void) <b>addItem:</b> (id<<a rel="gsdoc" href="NSMenuItem.html#protocol$(NSMenuItem)">NSMenuItem</a>>)newItem;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Add <var>newItem</var> to the menu.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-addItemWithTitle$action$keyEquivalent$">addItemWithTitle:&nbsp;action:&nbsp;keyEquivalent:&nbsp;</a></h3>
+    - (id<<a rel="gsdoc" href="NSMenuItem.html#protocol$(NSMenuItem)">NSMenuItem</a>>) <b>addItemWithTitle:</b> (NSString*)aString<b> action:</b> (SEL)aSelector<b> keyEquivalent:</b> (NSString*)keyEquiv;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Prefered method for inserting a menu item. This
+            method calls
+            [NSMenu-insertItemWithTitle:-action:-keyEquivalent:-atIndex:] 
+      <dl>
+        <dt><var>aString</var></dt>
+        <dd>
+          The title of the specific menu item.
+        </dd>
+        <dt><var>aSelector</var></dt>
+        <dd>
+          The action taken by selecting this menu item, or NULL.
+        </dd>
+        <dt><var>keyEquiv</var></dt>
+        <dd>
+          The shortcut key for this menu item. If none is needed, specify and empty NSString, ie: @&quot;&quot;.
+        </dd>
+      </dl>
+      
+            
+    </p>
+    <p>
+
+              See Also:
+              -insertItemWithTitle:-action:-keyEquivalent:-atIndex
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-attachedMenu">attachedMenu&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*) <b>attachedMenu</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the menu that is attached to this menu.
+            
+    </p>
+    <p>
+
+              If two instances of this menu are visible, return the
+              attached window of the transient version of this
+              menu.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              If no menu is attached return <code>nil</code>.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-autoenablesItems">autoenablesItems&nbsp;</a></h3>
+    - (BOOL) <b>autoenablesItems</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns <code>YES</code> if item does autoenable
+            (default value) and <code>NO</code> otherwise.
+            
+    </p>
+    <p>
+
+              See Also:
+                </p>
+    <p>
+      
+            
+      <ul>
+        <li>
+          
+                <a rel="gsdoc" href="#method$NSMenu-setAutoenablesItems$">
+                  -setAutoenablesItems:
+                </a>
+
+              
+        </li>
+      </ul>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-contextMenuRepresentation">contextMenuRepresentation&nbsp;</a></h3>
+    - (id) <b>contextMenuRepresentation</b>;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X removed at MacOS-X 10.1.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-delegate">delegate&nbsp;</a></h3>
+    - (id) <b>delegate</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-helpRequested$">helpRequested:&nbsp;</a></h3>
+    - (void) <b>helpRequested:</b> (<a rel="gsdoc" href="NSEvent.html#class$NSEvent">NSEvent</a>*)event;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-indexOfItem$">indexOfItem:&nbsp;</a></h3>
+    - (NSInteger) <b>indexOfItem:</b> (id<<a rel="gsdoc" href="NSMenuItem.html#protocol$(NSMenuItem)">NSMenuItem</a>>)anObject;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the index of item <var>anObject</var>.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-indexOfItemWithRepresentedObject$">indexOfItemWithRepresentedObject:&nbsp;</a></h3>
+    - (NSInteger) <b>indexOfItemWithRepresentedObject:</b> (id)anObject;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the index of an item with the represented
+            object <var>anObject</var>.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-indexOfItemWithSubmenu$">indexOfItemWithSubmenu:&nbsp;</a></h3>
+    - (NSInteger) <b>indexOfItemWithSubmenu:</b> (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*)anObject;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the index of an item with the submenu
+            <var>anObject</var>.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-indexOfItemWithTag$">indexOfItemWithTag:&nbsp;</a></h3>
+    - (NSInteger) <b>indexOfItemWithTag:</b> (NSInteger)aTag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the index of an item with the tag
+            <var>aTag</var>.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-indexOfItemWithTarget$andAction$">indexOfItemWithTarget:&nbsp;andAction:&nbsp;</a></h3>
+    - (NSInteger) <b>indexOfItemWithTarget:</b> (id)anObject<b> andAction:</b> (SEL)actionSelector;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the index of an item with the target
+            <var>anObject</var> and the <var>actionSelector</var>
+            .
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-indexOfItemWithTitle$">indexOfItemWithTitle:&nbsp;</a></h3>
+    - (NSInteger) <b>indexOfItemWithTitle:</b> (NSString*)aTitle;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the index of an item with the title
+            <var>aTitle</var>.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-initWithTitle$">initWithTitle:&nbsp;</a></h3>
+    - (id) <b>initWithTitle:</b> (NSString*)aTitle;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+This is a designated initialiser for the class.<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-insertItem$atIndex$">insertItem:&nbsp;atIndex:&nbsp;</a></h3>
+    - (void) <b>insertItem:</b> (id<<a rel="gsdoc" href="NSMenuItem.html#protocol$(NSMenuItem)">NSMenuItem</a>>)newItem<b> atIndex:</b> (NSInteger)index;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Insert <var>newItem</var> at position
+            <var>index</var>.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-insertItemWithTitle$action$keyEquivalent$atIndex$">insertItemWithTitle:&nbsp;action:&nbsp;keyEquivalent:&nbsp;atIndex:&nbsp;</a></h3>
+    - (id<<a rel="gsdoc" href="NSMenuItem.html#protocol$(NSMenuItem)">NSMenuItem</a>>) <b>insertItemWithTitle:</b> (NSString*)aString<b> action:</b> (SEL)aSelector<b> keyEquivalent:</b> (NSString*)charCode<b> atIndex:</b> (NSInteger)index;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Inserts a new menu item at position
+            <var>index</var>.
+            
+    </p>
+    <p>
+
+              See Also:
+                </p>
+    <p>
+      
+            
+      <ul>
+        <li>
+          
+                -addItemWithTitle:-action:-keyEquivalent-atIndex:
+              
+        </li>
+      </ul>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-isAttached">isAttached&nbsp;</a></h3>
+    - (BOOL) <b>isAttached</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns if this menu is attached to its supermenu,
+            return <code>nil</code> if it does not have a parent
+            menu.
+            
+    </p>
+    <p>
+
+              If two instances of this menu are visible, return the
+              outcome of the check for the transient version of
+              the menu.
+                </p>
+    <p>
+      
+            Look for the semantics in the header. Note that this
+            implementation works because there are...
+            cases:
+            
+      <ol>
+        <li>
+          
+                This menu is transient, its supermenu is also
+                transient. In this case we just do the check
+                between the transient windows and everything is
+                fine
+              
+        </li>
+        <li>
+          
+                The menu is transient, its supermenu is not
+                transient. This can go WRONG
+              
+        </li>
+      </ol>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-isTornOff">isTornOff&nbsp;</a></h3>
+    - (BOOL) <b>isTornOff</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            If there are two instances of this menu visible, return
+            <code>NO</code>. Otherwise, return <code>YES</code>
+            if we are a detached menu and visible.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-itemArray">itemArray&nbsp;</a></h3>
+    - (NSArray*) <b>itemArray</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns an array containing all menu items in this
+            menu.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-itemAtIndex$">itemAtIndex:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSMenuItem.html#class$NSMenuItem">NSMenuItem</a>*) <b>itemAtIndex:</b> (NSInteger)index;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns an item located at <var>index</var>.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-itemChanged$">itemChanged:&nbsp;</a></h3>
+    - (void) <b>itemChanged:</b> (id<<a rel="gsdoc" href="NSMenuItem.html#protocol$(NSMenuItem)">NSMenuItem</a>>)anObject;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Informs the menu that the specified item has
+            changed.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-itemWithTag$">itemWithTag:&nbsp;</a></h3>
+    - (id<<a rel="gsdoc" href="NSMenuItem.html#protocol$(NSMenuItem)">NSMenuItem</a>>) <b>itemWithTag:</b> (NSInteger)aTag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Retuns an item referenced by <var>aTag</var>.
+            
+    </p>
+    <p>
+
+              See Also:
+                </p>
+    <p>
+      
+            
+      <ul>
+        <li>
+          
+                <a rel="gsdoc" href="#method$NSMenu-indexOfItemWithTag$">
+                  -indexOfItemWithTag:
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="NSMenuItem.html#method$(NSMenuItem)-tag">
+                  [&lt;NSMenuItem&gt;-tag]
+                </a>
+
+              
+        </li>
+      </ul>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-itemWithTitle$">itemWithTitle:&nbsp;</a></h3>
+    - (id<<a rel="gsdoc" href="NSMenuItem.html#protocol$(NSMenuItem)">NSMenuItem</a>>) <b>itemWithTitle:</b> (NSString*)aString;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns an item with <var>aString</var> as its
+            title.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-locationForSubmenu$">locationForSubmenu:&nbsp;</a></h3>
+    - (NSPoint) <b>locationForSubmenu:</b> (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*)aSubmenu;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the position where submenu will be
+            displayed when it will be displayed as an
+            attached menu of this menu. The result is
+            undefined when <var>aSubmenu</var> is not
+            actually a submenu of this menu.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-menuBarHeight">menuBarHeight&nbsp;</a></h3>
+    - (float) <b>menuBarHeight</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-menuChangedMessagesEnabled">menuChangedMessagesEnabled&nbsp;</a></h3>
+    - (BOOL) <b>menuChangedMessagesEnabled</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-menuRepresentation">menuRepresentation&nbsp;</a></h3>
+    - (id) <b>menuRepresentation</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Return the NSView that is used for drawing the menu.
+            It is the view set with
+            <a rel="gsdoc" href="#method$NSMenu-setMenuRepresentation$">[NSMenu -setMenuRepresentation:]</a>
+ and therefore it should be safe to assume it is an NSView implementing the NSMenuView protocol.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-numberOfItems">numberOfItems&nbsp;</a></h3>
+    - (NSInteger) <b>numberOfItems</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the numbers of items on the menu
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-performActionForItemAtIndex$">performActionForItemAtIndex:&nbsp;</a></h3>
+    - (void) <b>performActionForItemAtIndex:</b> (NSInteger)index;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Simulates a mouse click on item located at
+            <var>index</var>.
+            
+    </p>
+    <p>
+
+              See Also:
+                </p>
+    <p>
+      
+            
+      <ul>
+        <li>
+          
+                <a rel="gsdoc" href="#method$NSMenu-indexOfItem$">
+                  -indexOfItem:
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="#method$NSMenu-indexOfItemWithTitle$">
+                  -indexOfItemWithTitle:
+                </a>
+
+              
+        </li>
+      </ul>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-performKeyEquivalent$">performKeyEquivalent:&nbsp;</a></h3>
+    - (BOOL) <b>performKeyEquivalent:</b> (<a rel="gsdoc" href="NSEvent.html#class$NSEvent">NSEvent</a>*)theEvent;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Looks for a menu item that responds to
+            <var>theEvent</var> on the receiver. If the receiver
+            is a submenu, the method is performed on it.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-popUpMenuPositionItem$atLocation$inView$">popUpMenuPositionItem:&nbsp;atLocation:&nbsp;inView:&nbsp;</a></h3>
+    - (void) <b>popUpMenuPositionItem:</b> (<a rel="gsdoc" href="NSMenuItem.html#class$NSMenuItem">NSMenuItem</a>*)item<b> atLocation:</b> (NSPoint)point<b> inView:</b> (<a rel="gsdoc" href="NSView.html#class$NSView">NSView</a>*)view;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-popUpMenuPositioningItem$atLocation$inView$">popUpMenuPositioningItem:&nbsp;atLocation:&nbsp;inView:&nbsp;</a></h3>
+    - (void) <b>popUpMenuPositioningItem:</b> (<a rel="gsdoc" href="NSMenuItem.html#class$NSMenuItem">NSMenuItem</a>*)item<b> atLocation:</b> (NSPoint)point<b> inView:</b> (<a rel="gsdoc" href="NSView.html#class$NSView">NSView</a>*)view;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-removeAllItems">removeAllItems&nbsp;</a></h3>
+    - (void) <b>removeAllItems</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.6.0</div>
+<br>
+    <div class="desc">
+      
+            Removes all items
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-removeItem$">removeItem:&nbsp;</a></h3>
+    - (void) <b>removeItem:</b> (id<<a rel="gsdoc" href="NSMenuItem.html#protocol$(NSMenuItem)">NSMenuItem</a>>)anItem;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Calls
+            <a rel="gsdoc" href="#method$NSMenu-removeItemAtIndex$">
+              -removeItemAtIndex:
+            </a>
+
+            for <var>anItem</var>.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-removeItemAtIndex$">removeItemAtIndex:&nbsp;</a></h3>
+    - (void) <b>removeItemAtIndex:</b> (NSInteger)index;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Removes item at position <var>index</var>.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-setAutoenablesItems$">setAutoenablesItems:&nbsp;</a></h3>
+    - (void) <b>setAutoenablesItems:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Sets if a menu does autoenable.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-setContextMenuRepresentation$">setContextMenuRepresentation:&nbsp;</a></h3>
+    - (void) <b>setContextMenuRepresentation:</b> (id)representation;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X removed at MacOS-X 10.1.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-setDelegate$">setDelegate:&nbsp;</a></h3>
+    - (void) <b>setDelegate:</b> (id)delegate;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-setMenuChangedMessagesEnabled$">setMenuChangedMessagesEnabled:&nbsp;</a></h3>
+    - (void) <b>setMenuChangedMessagesEnabled:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-setMenuRepresentation$">setMenuRepresentation:&nbsp;</a></h3>
+    - (void) <b>setMenuRepresentation:</b> (id)menuRep;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Set the View that should be used to display the menu.
+            
+    </p>
+    <p>
+
+              The default is NSMenuView, but a user can supply its
+              own NSView object as <strong>long</strong> as it
+                </p>
+    <p>
+      
+            
+      <ul>
+        <li>
+          Inherits from NSView
+        </li>
+        <li>
+          Implements NSMenuView protocol
+        </li>
+      </ul>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-setSubmenu$forItem$">setSubmenu:&nbsp;forItem:&nbsp;</a></h3>
+    - (void) <b>setSubmenu:</b> (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*)aMenu<b> forItem:</b> (id<<a rel="gsdoc" href="NSMenuItem.html#protocol$(NSMenuItem)">NSMenuItem</a>>)anItem;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Set a submenu of a menu.
+            
+      <dl>
+        <dt><var>aMenu</var></dt>
+        <dd>
+          The submenu to be inserted.
+        </dd>
+        <dt><var>anItem</var></dt>
+        <dd>
+          Item to be turned into a submenu.
+        </dd>
+      </dl>
+      
+            
+    </p>
+    <p>
+
+              See Also:
+                </p>
+    <p>
+      
+            
+      <ul>
+        <li>
+          
+                <a rel="gsdoc" href="NSMenuItem.html#method$(NSMenuItem)-setSubmenu$">[&lt;NSMenuItem&gt;-setSubmenu:]</a>
+
+              
+        </li>
+      </ul>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-setSupermenu$">setSupermenu:&nbsp;</a></h3>
+    - (void) <b>setSupermenu:</b> (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*)supermenu;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Set the <var>supermenu</var> of this menu. TODO: add
+            explanation if this will change remove this
+            menu from the old <var>supermenu</var> or if it does
+            not.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-setTearOffMenuRepresentation$">setTearOffMenuRepresentation:&nbsp;</a></h3>
+    - (void) <b>setTearOffMenuRepresentation:</b> (id)representation;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X removed at MacOS-X 10.1.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-setTitle$">setTitle:&nbsp;</a></h3>
+    - (void) <b>setTitle:</b> (NSString*)aTitle;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Change the title of the menu.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-sizeToFit">sizeToFit&nbsp;</a></h3>
+    - (void) <b>sizeToFit</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-submenuAction$">submenuAction:&nbsp;</a></h3>
+    - (void) <b>submenuAction:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-supermenu">supermenu&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*) <b>supermenu</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the supermenu of this menu. Return
+            <code>nil</code> if this is the application menu.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-tearOffMenuRepresentation">tearOffMenuRepresentation&nbsp;</a></h3>
+    - (id) <b>tearOffMenuRepresentation</b>;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X removed at MacOS-X 10.1.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-title">title&nbsp;</a></h3>
+    - (NSString*) <b>title</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the current title.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu-update">update&nbsp;</a></h3>
+    - (void) <b>update</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<a name="_NSMenu_ivars"/>    <br><hr class="section-separator">
+    <h2>Instance Variables for NSMenu Class</h2>
+    <h3><a name="ivariable$NSMenu*_aWindow">_aWindow</a></h3>
+    @protected NSWindow* <b>_aWindow</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenu*_attachedMenu">_attachedMenu</a></h3>
+    @protected NSMenu* <b>_attachedMenu</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenu*_bWindow">_bWindow</a></h3>
+    @protected NSWindow* <b>_bWindow</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenu*_delegate">_delegate</a></h3>
+    @protected id <b>_delegate</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenu*_items">_items</a></h3>
+    @protected NSMutableArray* <b>_items</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenu*_name">_name</a></h3>
+    @protected NSString* <b>_name</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenu*_notifications">_notifications</a></h3>
+    @protected NSMutableArray* <b>_notifications</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenu*_oldAttachedMenu">_oldAttachedMenu</a></h3>
+    @protected NSMenu* <b>_oldAttachedMenu</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenu*_oldHiglightedIndex">_oldHiglightedIndex</a></h3>
+    @protected int <b>_oldHiglightedIndex</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenu*_popUpButtonCell">_popUpButtonCell</a></h3>
+    @protected NSPopUpButtonCell* <b>_popUpButtonCell</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenu*_superMenu">_superMenu</a></h3>
+    @protected NSMenu* <b>_superMenu</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenu*_title">_title</a></h3>
+    @protected NSString* <b>_title</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenu*_view">_view</a></h3>
+    @protected NSView<NSMenuView>* <b>_view</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenu*struct GSMenuFlags">struct GSMenuFlags</a></h3>
+    @protected struct GSMenuFlags <b>struct GSMenuFlags</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <br><hr class="section-separator"><br>
+
+          <h1><a name="002000000000">
+        Software documentation for the NSMenu(GNUstepExtra)
+        category
+      </a></h1>
+    <h2><a rel="gsdoc" href="#class$NSMenu">NSMenu</a>(<a name="category$NSMenu(GNUstepExtra)">GNUstepExtra</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSMenu.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+          This interface exist contains methods that are meant for
+          the NSMenuView. If you write your own implementation of
+          the NSMenuView interface you can use these methods to
+          popup other menus or close them.
+        
+    </div>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-_ownedByPopUp">-_ownedByPopUp</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-_owningPopUp">-_owningPopUp</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-_setOwnedByPopUp$">-_setOwnedByPopUp:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-close">-close</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-closeTransient">-closeTransient</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-display">-display</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-displayTransient">-displayTransient</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-isPartlyOffScreen">-isPartlyOffScreen</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-isTransient">-isTransient</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-nestedSetFrameOrigin$">-nestedSetFrameOrigin:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-setMain$">-setMain:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-setTornOff$">-setTornOff:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-shiftOnScreen">-shiftOnScreen</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSMenu(GNUstepExtra)-window">-window</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$NSMenu(GNUstepExtra)-_ownedByPopUp">_ownedByPopUp&nbsp;</a></h3>
+    - (BOOL) <b>_ownedByPopUp</b>;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu(GNUstepExtra)-_owningPopUp">_owningPopUp&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSPopUpButtonCell.html#class$NSPopUpButtonCell">NSPopUpButtonCell</a>*) <b>_owningPopUp</b>;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu(GNUstepExtra)-_setOwnedByPopUp$">_setOwnedByPopUp:&nbsp;</a></h3>
+    - (void) <b>_setOwnedByPopUp:</b> (<a rel="gsdoc" href="NSPopUpButtonCell.html#class$NSPopUpButtonCell">NSPopUpButtonCell</a>*)popUp;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu(GNUstepExtra)-close">close&nbsp;</a></h3>
+    - (void) <b>close</b>;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            Remove the window from the screen. This method
+            can/should be used by the menurepresentation to
+            remove a submenu from the screen.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu(GNUstepExtra)-closeTransient">closeTransient&nbsp;</a></h3>
+    - (void) <b>closeTransient</b>;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            Remove the transient version of the window from the
+            screen. This method is used by NSMenuView
+            implementations that need to open/close
+            transient menus.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu(GNUstepExtra)-display">display&nbsp;</a></h3>
+    - (void) <b>display</b>;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            Show menu on the screen. This method can/should be
+            used by the menurepresentation to display a submenu on
+            the screen.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu(GNUstepExtra)-displayTransient">displayTransient&nbsp;</a></h3>
+    - (void) <b>displayTransient</b>;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            Display the transient version of the menu.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu(GNUstepExtra)-isPartlyOffScreen">isPartlyOffScreen&nbsp;</a></h3>
+    - (BOOL) <b>isPartlyOffScreen</b>;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu(GNUstepExtra)-isTransient">isTransient&nbsp;</a></h3>
+    - (BOOL) <b>isTransient</b>;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            Returns <code>YES</code> if there is a transient
+            version of this menu displayed on the screen.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu(GNUstepExtra)-nestedSetFrameOrigin$">nestedSetFrameOrigin:&nbsp;</a></h3>
+    - (void) <b>nestedSetFrameOrigin:</b> (NSPoint)aPoint;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            Set the frame origin of the receiver to
+            <var>aPoint</var>. If a submenu of the receiver is
+            attached. The frame origin of the submenu is set
+            appropriately.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu(GNUstepExtra)-setMain$">setMain:&nbsp;</a></h3>
+    - (void) <b>setMain:</b> (BOOL)isMain;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            Flag this menu to be the main menu of the application,
+            when <var>isMain</var> is <code>YES</code>. Flag it as
+            no longer being the main menu when <code>NO</code> is
+            handed in.
+            
+    </p>
+    <p>
+
+              This method also checks the user defaults to
+              determine how the menu is to be displayed (eg
+              vertical or horizontal) and can therefore be
+              used to change window geometry.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu(GNUstepExtra)-setTornOff$">setTornOff:&nbsp;</a></h3>
+    - (void) <b>setTornOff:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            When the <var>flag</var> is <code>YES</code> this
+            method will detach the receiver from its parent and
+            update the menurepresentation so it will display a
+            close button if appropriate.
+            
+    </p>
+    <p>
+
+              If the <var>flag</var> is <code>NO</code> this method
+              will update the menurepresentation so it will be
+              able to remove the close button if needed. Note that
+              it will not reattach to its parent menu.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu(GNUstepExtra)-shiftOnScreen">shiftOnScreen&nbsp;</a></h3>
+    - (void) <b>shiftOnScreen</b>;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenu(GNUstepExtra)-window">window&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSWindow.html#class$NSWindow">NSWindow</a>*) <b>window</b>;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            Returns the window in which this menu is displayed.
+            If there is a transient version it will return the
+            window in which the transient version is displayed.
+            If the Menu is not displayed at all the result is
+            meaningless.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+
+          <h1><a name="003000000000">
+        Software documentation for the
+        NSObject(NSMenuActionResponder)
+        informal protocol
+      </a></h1>
+    <h2>NSObject(<a name="category$NSObject(NSMenuActionResponder)">NSMenuActionResponder</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSMenu.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSObject(NSMenuActionResponder)-validateMenuItem$">-validateMenuItem:</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$NSObject(NSMenuActionResponder)-validateMenuItem$">validateMenuItem:&nbsp;</a></h3>
+    - (BOOL) <b>validateMenuItem:</b> (id<<a rel="gsdoc" href="NSMenuItem.html#protocol$(NSMenuItem)">NSMenuItem</a>>)aMenuItem;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+
+          <h1><a name="004000000000">
+        Software documentation for the
+        NSObject(NSMenuDelegate) informal
+        protocol
+      </a></h1>
+    <h2>NSObject(<a name="category$NSObject(NSMenuDelegate)">NSMenuDelegate</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSMenu.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSObject(NSMenuDelegate)-menu$updateItem$atIndex$shouldCancel$">-menu:updateItem:atIndex:shouldCancel:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSObject(NSMenuDelegate)-menuHasKeyEquivalent$forEvent$target$action$">-menuHasKeyEquivalent:forEvent:target:action:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSObject(NSMenuDelegate)-menuNeedsUpdate$">-menuNeedsUpdate:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$NSObject(NSMenuDelegate)-numberOfItemsInMenu$">-numberOfItemsInMenu:</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$NSObject(NSMenuDelegate)-menu$updateItem$atIndex$shouldCancel$">menu:&nbsp;updateItem:&nbsp;atIndex:&nbsp;shouldCancel:&nbsp;</a></h3>
+    - (BOOL) <b>menu:</b> (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*)menu<b> updateItem:</b> (<a rel="gsdoc" href="NSMenuItem.html#class$NSMenuItem">NSMenuItem</a>*)item<b> atIndex:</b> (NSInteger)index<b> shouldCancel:</b> (BOOL)shouldCancel;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSMenuDelegate)-menuHasKeyEquivalent$forEvent$target$action$">menuHasKeyEquivalent:&nbsp;forEvent:&nbsp;target:&nbsp;action:&nbsp;</a></h3>
+    - (BOOL) <b>menuHasKeyEquivalent:</b> (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*)menu<b> forEvent:</b> (<a rel="gsdoc" href="NSEvent.html#class$NSEvent">NSEvent</a>*)event<b> target:</b> (id*)target<b> action:</b> (SEL*)action;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSMenuDelegate)-menuNeedsUpdate$">menuNeedsUpdate:&nbsp;</a></h3>
+    - (void) <b>menuNeedsUpdate:</b> (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*)menu;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSMenuDelegate)-numberOfItemsInMenu$">numberOfItemsInMenu:&nbsp;</a></h3>
+    - (NSInteger) <b>numberOfItemsInMenu:</b> (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*)menu;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+
+          <h1><a name="005000000000">
+        Software documentation for the NSMenuDelegate protocol
+      </a></h1>
+    <h2><a name="protocol$(NSMenuDelegate)">NSMenuDelegate</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSMenu.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+          The NSMenuDelegate protocol defines optional methods
+          implemented by delegates of NSMenu objects.
+        
+    </div>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuDelegate)-confinementRectForMenu$onScreen$">-confinementRectForMenu:onScreen:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuDelegate)-menu$updateItem$atIndex$shouldCancel$">-menu:updateItem:atIndex:shouldCancel:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuDelegate)-menu$willHighlightItem$">-menu:willHighlightItem:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuDelegate)-menuDidClose$">-menuDidClose:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuDelegate)-menuHasKeyEquivalent$forEvent$target$action$">-menuHasKeyEquivalent:forEvent:target:action:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuDelegate)-menuNeedsUpdate$">-menuNeedsUpdate:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuDelegate)-menuWillOpen$">-menuWillOpen:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuDelegate)-numberOfItemsInMenu$">-numberOfItemsInMenu:</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$(NSMenuDelegate)-confinementRectForMenu$onScreen$">confinementRectForMenu:&nbsp;onScreen:&nbsp;</a></h3>
+    - (NSRect) <b>confinementRectForMenu:</b> (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*)menu<b> onScreen:</b> (<a rel="gsdoc" href="NSScreen.html#class$NSScreen">NSScreen</a>*)screen;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Specify a display location for the <var>menu</var>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$(NSMenuDelegate)-menu$updateItem$atIndex$shouldCancel$">menu:&nbsp;updateItem:&nbsp;atIndex:&nbsp;shouldCancel:&nbsp;</a></h3>
+    - (BOOL) <b>menu:</b> (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*)menu<b> updateItem:</b> (<a rel="gsdoc" href="NSMenuItem.html#class$NSMenuItem">NSMenuItem</a>*)item<b> atIndex:</b> (NSInteger)index<b> shouldCancel:</b> (BOOL)shouldCancel;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Invoked to allow the delegate to update an
+            <var>item</var> before it is displayed.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$(NSMenuDelegate)-menu$willHighlightItem$">menu:&nbsp;willHighlightItem:&nbsp;</a></h3>
+    - (void) <b>menu:</b> (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*)menu<b> willHighlightItem:</b> (<a rel="gsdoc" href="NSMenuItem.html#class$NSMenuItem">NSMenuItem</a>*)item;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Invoked too notify the delegate that the
+            <var>item</var> will be highlighted.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$(NSMenuDelegate)-menuDidClose$">menuDidClose:&nbsp;</a></h3>
+    - (void) <b>menuDidClose:</b> (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*)menu;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Invoked to inform the delegate that the
+            <var>menu</var> did close.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$(NSMenuDelegate)-menuHasKeyEquivalent$forEvent$target$action$">menuHasKeyEquivalent:&nbsp;forEvent:&nbsp;target:&nbsp;action:&nbsp;</a></h3>
+    - (BOOL) <b>menuHasKeyEquivalent:</b> (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*)menu<b> forEvent:</b> (<a rel="gsdoc" href="NSEvent.html#class$NSEvent">NSEvent</a>*)event<b> target:</b> (id*)target<b> action:</b> (SEL*)action;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Allows the delegate to return the <var>target</var>
+            and <var>action</var> for a key-down <var>event</var>.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$(NSMenuDelegate)-menuNeedsUpdate$">menuNeedsUpdate:&nbsp;</a></h3>
+    - (void) <b>menuNeedsUpdate:</b> (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*)menu;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Invoked to indicate that the <var>menu</var> is
+            about to be updated.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$(NSMenuDelegate)-menuWillOpen$">menuWillOpen:&nbsp;</a></h3>
+    - (void) <b>menuWillOpen:</b> (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*)menu;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Invoked on the delegate to allow changes before the
+            <var>menu</var> opens.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$(NSMenuDelegate)-numberOfItemsInMenu$">numberOfItemsInMenu:&nbsp;</a></h3>
+    - (NSInteger) <b>numberOfItemsInMenu:</b> (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*)menu;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Invoked when the <var>menu</var> is about to be
+            displayed.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+
+          <h1><a name="006000000000">
+        Software documentation for the NSMenuValidation
+        protocol
+      </a></h1>
+    <h2><a name="protocol$(NSMenuValidation)">NSMenuValidation</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSMenu.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+          Specifies the protocol to which an object must
+          confirm if it is to be used to validate menu items
+          (in order to implement automatic enabling and disabling
+          of menu items).
+        
+    </div>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuValidation)-validateMenuItem$">-validateMenuItem:</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$(NSMenuValidation)-validateMenuItem$">validateMenuItem:&nbsp;</a></h3>
+    - (BOOL) <b>validateMenuItem:</b> (id<<a rel="gsdoc" href="NSMenuItem.html#protocol$(NSMenuItem)">NSMenuItem</a>>)menuItem;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              The receiver should return <code>YES</code> if the
+              <var>menuItem</var> is valid... and should be
+              enabled in the menu, <code>NO</code> if it is
+              invalid and the user should not be able to select
+              it.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              This method is invoked automatically to determine
+              whether menu items should be enabled or disabled
+              automatically whenever
+              <a rel="gsdoc" href="#method$NSMenu-update">
+                [NSMenu -update]
+              </a>
+
+              is invoked (usually by the applications event loop).
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+
+          <h1><a name="007000000000">
+        Software documentation for the NSMenuView protocol
+      </a></h1>
+    <h2><a name="protocol$(NSMenuView)">NSMenuView</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSMenu.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuView)-detachSubmenu">-detachSubmenu</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuView)-highlightedItemIndex">-highlightedItemIndex</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuView)-imageAndTitleOffset">-imageAndTitleOffset</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuView)-imageAndTitleWidth">-imageAndTitleWidth</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuView)-keyEquivalentOffset">-keyEquivalentOffset</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuView)-keyEquivalentWidth">-keyEquivalentWidth</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuView)-locationForSubmenu$">-locationForSubmenu:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuView)-performActionWithHighlightingForItemAtIndex$">-performActionWithHighlightingForItemAtIndex:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuView)-setHighlightedItemIndex$">-setHighlightedItemIndex:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuView)-setMenu$">-setMenu:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuView)-sizeToFit">-sizeToFit</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuView)-stateImageWidth">-stateImageWidth</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuView)-trackWithEvent$">-trackWithEvent:</a></li>
+        <li><a rel="gsdoc" href="NSMenu.html#method$(NSMenuView)-update">-update</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$(NSMenuView)-detachSubmenu">detachSubmenu&nbsp;</a></h3>
+    - (void) <b>detachSubmenu</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            This should ensure that if there is an attached
+            submenu this submenu will be detached. Detaching
+            means that this particular menu representation should
+            be removed from the screen. It should implement a deep
+            detach, that is, all attached submenus of this menu
+            should also be detached.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$(NSMenuView)-highlightedItemIndex">highlightedItemIndex&nbsp;</a></h3>
+    - (NSInteger) <b>highlightedItemIndex</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the currently highlighted item. Returns -1
+            if no item is highlighted.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$(NSMenuView)-imageAndTitleOffset">imageAndTitleOffset&nbsp;</a></h3>
+    - (float) <b>imageAndTitleOffset</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Method used by NSMenuItemCell to draw itself
+            correctly and nicely lined up with the other menu
+            items
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$(NSMenuView)-imageAndTitleWidth">imageAndTitleWidth&nbsp;</a></h3>
+    - (float) <b>imageAndTitleWidth</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Methos used by NSMenuItemCell to draw itself
+            correctly and nicely lined up with the other menu
+            items.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$(NSMenuView)-keyEquivalentOffset">keyEquivalentOffset&nbsp;</a></h3>
+    - (float) <b>keyEquivalentOffset</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Methos used by NSMenuItemCell to draw itself
+            correctly and nicely lined up with the other menu
+            items.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$(NSMenuView)-keyEquivalentWidth">keyEquivalentWidth&nbsp;</a></h3>
+    - (float) <b>keyEquivalentWidth</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Used by NSItemCell to...
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$(NSMenuView)-locationForSubmenu$">locationForSubmenu:&nbsp;</a></h3>
+    - (NSPoint) <b>locationForSubmenu:</b> (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*)aSubmenu;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Used by the NSMenu to determine where to position a
+            submenu.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$(NSMenuView)-performActionWithHighlightingForItemAtIndex$">performActionWithHighlightingForItemAtIndex:&nbsp;</a></h3>
+    - (void) <b>performActionWithHighlightingForItemAtIndex:</b> (NSInteger)index;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$(NSMenuView)-setHighlightedItemIndex$">setHighlightedItemIndex:&nbsp;</a></h3>
+    - (void) <b>setHighlightedItemIndex:</b> (NSInteger)index;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Set the currently highlighted item. This is used by the
+            NSMenu class to restore the selected item when it is
+            temporary set to another item. This happens when
+            both the regular version and the transient version are
+            on the screen. A value of -1 means that no item will be
+            highlighted.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$(NSMenuView)-setMenu$">setMenu:&nbsp;</a></h3>
+    - (void) <b>setMenu:</b> (<a rel="gsdoc" href="#class$NSMenu">NSMenu</a>*)menu;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Set the <var>menu</var> that this view object will be
+            drawing. This method will NOT retain the
+            <var>menu</var>. In normal usage an instance of
+            NSMenu will use this method to supply the NSMenuView
+            with reference to itself. The NSMenu will retain the
+            NSMenuView.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$(NSMenuView)-sizeToFit">sizeToFit&nbsp;</a></h3>
+    - (void) <b>sizeToFit</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Hm, why is this method needed? Shouldn&apos;t this be done
+            by the update method?
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$(NSMenuView)-stateImageWidth">stateImageWidth&nbsp;</a></h3>
+    - (float) <b>stateImageWidth</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Method used by NSMenuItemCell to draw itself
+            correctly and nicely lined up with the other menu
+            items.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$(NSMenuView)-trackWithEvent$">trackWithEvent:&nbsp;</a></h3>
+    - (BOOL) <b>trackWithEvent:</b> (<a rel="gsdoc" href="NSEvent.html#class$NSEvent">NSEvent</a>*)event;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              This is method is responsible for handling all
+              events while the user is interacting with this
+              menu. It should pass on this call to another
+              menurepresentation when the user moves
+              the mouse cursor over either a submenu or over the
+              supermenu.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The method returns when the interaction from the user
+              with the menu system is over.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The method returns <code>NO</code> when the user
+              releases the mouse button above a submenu item
+              and <code>YES</code> in all other cases.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              This return value can be used to determine if
+              submenus should be removed from the screen or
+              that they are supposed to stay.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The implementation should roughly follow the
+              following logic:
+                </p>
+    <p>
+      
+            <code>
+              {while (have not released mouse button) {if (mouse
+              hovers over submenu, or supermenu) {if
+              ([(menurepresentation under mouse)
+              trackWithEvent: the <var>event</var>]) {
+              [self detachSubmenu]; return <code>YES</code>;}
+              return <code>NO</code>;} //highlight item under
+              mouse if (highlighting submenu item) {[self
+              attachSubmenuAtIndex:..];} else
+              {[self detachSubmenu];} get next <var>event</var>.}
+              execute the menu action if applicable; return
+              <code>YES</code> | <code>NO</code> depending on
+              the situation;}
+            </code>
+            Note that actual implementations tend to be more
+            complicated because because of all kind of
+            useability issues. Useabilities issues to look
+            out for are:
+            
+      <ul>
+        <li>
+          
+                Menus that are only partly on the screen. Those
+                need to be moved while navigation the menu.
+              
+        </li>
+        <li>
+          
+                Submenus that are hard to reach. If the
+                natural route to the content of a submenu
+                travels through other menu items you do not
+                want to remove the submenu immediately.
+              
+        </li>
+        <li>
+          
+                Transient menus require slightly different
+                behaviour from the normal menus. For example,
+                when selecting a action from a transient menu that
+                brings up a modal panel you would expect the
+                transient menu to dissappear. However in the
+                normal menu system you want it to stay, so you
+                still have feedback on which menu action
+                triggered the modal panel.
+              
+        </li>
+      </ul>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$(NSMenuView)-update">update&nbsp;</a></h3>
+    - (void) <b>update</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            This will relayout the NSMenuView. It should be called
+            when the menu changes. Changes include becoming
+            detached, adding or removing submenu items
+            etcetera. However, normally it does not need to
+            be called directly because Because the NSMenuView is
+            supposed to listen to the NSMenu notifications for
+            the item added, removed and change notifications. It
+            should be called explicitly when other changes
+            occur, such as becoming detached or changing the
+            title.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+    <br>
+    <a href="Gui.html">Up</a>
+  </body>
+</html>

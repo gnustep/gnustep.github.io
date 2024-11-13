@@ -1,0 +1,617 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSDocumentController" stylesheeturl="default-styles.css" up="Gui">
+  <head>
+    <title>NSDocumentController</title>
+    <author name="Carl Lindberg">
+      <email address="Carl.Lindberg@hbo.com">
+        Carl.Lindberg@hbo.com
+      </email>
+    </author>
+    <date>Generated at 2024-11-13 12:52:37 -0500</date>
+    <abstract>The document controller class</abstract>
+    <copy>1999 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSDocumentController
+        class
+      </heading>
+      <class name="NSDocumentController" super="NSObject" ovadd="10.0.0">
+        <declared>AppKit/NSDocumentController.h</declared>
+        <conform>NSCoding</conform>
+        <desc>
+          <p>
+            NSDocumentController is a class that
+            controls a set of NSDocuments for an application.
+            As an application delegate, it responds to the typical
+            File Menu commands for opening and creating new
+            documents, and making sure all documents have
+            been saved when an application quits. It also
+            registers itself for the
+            NSWorkspaceWillPowerOffNotification.
+            Note that NSDocumentController isn't truly the
+            application delegate, but it works in a similar
+            way. You can still have your own application delegate
+            - but beware, if it responds to the same methods as
+            NSDocumentController, your delegate
+            methods will get called, not the
+            NSDocumentController's.
+          </p>
+          <p>
+            NSDocumentController also manages
+            document types and the related NSDocument
+            subclasses that handle them. This information
+            comes from the custom info property list
+            ({ApplicationName}Info.plist)
+            loaded when NSDocumentController is initialized. The
+            property list contains an array of dictionarys
+            with the key NSTypes. Each dictionary contains a set
+            of keys:
+          </p>
+          <list>
+            <item>
+              NSDocumentClass - The name of the
+              subclass
+            </item>
+            <item>
+              NSName - Short name of the document type
+            </item>
+            <item>
+              NSHumanReadableName - Longer document
+              type name
+            </item>
+            <item>NSUnixExtensions - Array of strings</item>
+            <item>NSDOSExtensions - Array of strings</item>
+            <item>NSIcon - Icon name for these documents</item>
+            <item>NSRole - Viewer or Editor</item>
+          </list>
+          <p>
+            You can use NSDocumentController to get a list of all
+            open documents, the current document (The one whose
+            window is Key) and other information about these
+            documents. It also remembers the most recently
+            opened documents (through the user default key
+            NSRecentDocuments)..
+          </p>
+          <p>
+            You can subclass NSDocumentController to customize the
+            behavior of certain aspects of the class, but it
+            is very rare that you would need to do this.
+          </p>
+        </desc>
+        <method type="id" factory="yes" ovadd="10.0.0">
+          <sel>sharedDocumentController</sel>
+          <desc>
+            Returns the shared instance of the document
+            controller class. You should always use this
+            method to get the NSDocumentController.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>URLsFromRunningOpenPanel</sel>
+          <desc>
+            Uses
+            <ref type="method" id="-runModalOpenPanel:forTypes:">
+              -runModalOpenPanel:forTypes:
+            </ref>
+            to allow the user to select files to open (after
+            initializing the NSOpenPanel). Returns the
+            list of files as URLs that the user has selected.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>addDocument:</sel>
+          <arg type="NSDocument*">document</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSTimeInterval" ovadd="10.4.0">
+          <sel>autosavingDelay</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.8.0">
+          <sel>beginOpenPanel:</sel>
+          <arg type="NSOpenPanel*">openPanel</arg>
+          <sel>forTypes:</sel>
+          <arg type="NSArray*">inTypes</arg>
+          <sel>completionHandler:</sel>
+          <arg type="GSCompletionBlock3">completionHandler</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.7.0">
+          <sel>beginOpenPanelWithCompletionHandler:</sel>
+          <arg type="GSCompletionBlock2">completionHandler</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="IBAction" ovadd="10.0.0">
+          <sel>clearRecentDocuments:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>closeAllDocuments</sel>
+          <desc>
+            Iterates through all the open documents and asks
+            each one in turn if it can close using
+            <ref type="method" id="-canCloseDocument" class="NSDocument">[NSDocument -canCloseDocument]</ref>. If the document returns <code>YES</code>, then it is closed.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>closeAllDocumentsWithDelegate:</sel>
+          <arg type="id">delegate</arg>
+          <sel>didCloseAllSelector:</sel>
+          <arg type="SEL">didAllCloseSelector</arg>
+          <sel>contextInfo:</sel>
+          <arg type="void*">contextInfo</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>currentDirectory</sel>
+          <desc>
+            Returns the current directory. This method first
+            checks if there is a current document using the
+            <ref type="method" id="-currentDocument">
+              -currentDocument
+            </ref>
+            method. If this returns a document and the document
+            has a filename, this method returns the directory this
+            file is located in. Otherwise it returns the directory
+            of the most recently opened document or the user's home
+            directory if no document has been opened before.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>currentDocument</sel>
+          <desc>
+            Returns the document whose window is the main
+            window
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>defaultType</sel>
+          <desc>
+            Returns the first type found for which the
+            application has an editor role.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>displayNameForType:</sel>
+          <arg type="NSString*">type</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="Class" ovadd="10.0.0">
+          <sel>documentClassForType:</sel>
+          <arg type="NSString*">type</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.4.0">
+          <sel>documentClassNames</sel>
+          <desc>
+            Returns the names of the NSDocument subclasses
+            handling documents in this application. This will
+            be <code>nil</code> or empty if this is not a document
+            based application.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>documentForFileName:</sel>
+          <arg type="NSString*">fileName</arg>
+          <desc>
+            Returns the NSDocument class that controls the
+            document with the name <var>fileName</var>.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.4.0">
+          <sel>documentForURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>documentForWindow:</sel>
+          <arg type="NSWindow*">window</arg>
+          <desc>
+            Returns the NSDocument class that controls
+            <var>window</var>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>documents</sel>
+          <desc>
+            Returns an array of all open documents
+          </desc>
+        </method>
+        <method type="id" ovadd="10.7.0">
+          <sel>duplicateDocumentWithContentsOfURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>copying:</sel>
+          <arg type="BOOL">duplicateByCopying</arg>
+          <sel>displayName:</sel>
+          <arg type="NSString*">displayNameOrNil</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">outError</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>fileExtensionsFromType:</sel>
+          <arg type="NSString*">type</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>fileNamesFromRunningOpenPanel</sel>
+          <desc>
+            Uses
+            <ref type="method" id="-runModalOpenPanel:forTypes:">
+              -runModalOpenPanel:forTypes:
+            </ref>
+            to allow the user to select files to open (after
+            initializing the NSOpenPanel). Returns the
+            list of files that the user has selected.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>hasEditedDocuments</sel>
+          <desc>
+            Returns <code>YES</code> if any documents are
+            "dirty", e.g. changes have been made to the
+            document that have not been saved to the disk
+          </desc>
+        </method>
+        <method type="id" ovadd="10.4.0">
+          <sel>makeDocumentForURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>withContentsOfURL:</sel>
+          <arg type="NSURL*">contents</arg>
+          <sel>ofType:</sel>
+          <arg type="NSString*">type</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">err</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>makeDocumentWithContentsOfFile:</sel>
+          <arg type="NSString*">fileName</arg>
+          <sel>ofType:</sel>
+          <arg type="NSString*">type</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>makeDocumentWithContentsOfURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>ofType:</sel>
+          <arg type="NSString*">type</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.4.0">
+          <sel>makeDocumentWithContentsOfURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>ofType:</sel>
+          <arg type="NSString*">type</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">err</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>makeUntitledDocumentOfType:</sel>
+          <arg type="NSString*">type</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.4.0">
+          <sel>makeUntitledDocumentOfType:</sel>
+          <arg type="NSString*">type</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">err</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="10.4.0">
+          <sel>maximumRecentDocumentCount</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="IBAction" ovadd="10.0.0">
+          <sel>newDocument:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>noteNewRecentDocument:</sel>
+          <arg type="NSDocument*">aDocument</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>noteNewRecentDocumentURL:</sel>
+          <arg type="NSURL*">anURL</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="IBAction" ovadd="10.0.0">
+          <sel>openDocument:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>openDocumentWithContentsOfFile:</sel>
+          <arg type="NSString*">fileName</arg>
+          <sel>display:</sel>
+          <arg type="BOOL">display</arg>
+          <desc>
+            Creates an
+            <ref type="class" id="NSDocument">NSDocument</ref>
+              object from the data at the absolute path given in
+              <var>fileName</var>. Causes the document to be
+              displayed if <var>display</var> is
+              <code>YES</code>.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>openDocumentWithContentsOfURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>display:</sel>
+          <arg type="BOOL">display</arg>
+          <desc>
+            Creates an
+            <ref type="class" id="NSDocument">NSDocument</ref>
+              object from the data at the supplied
+              <var>url</var>. <br /> Causes the document to be
+              displayed if <var>display</var> is
+              <code>YES</code>.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.7.0">
+          <sel>openDocumentWithContentsOfURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>display:</sel>
+          <arg type="BOOL">displayDocument</arg>
+          <sel>completionHandler:</sel>
+          <arg type="GSCompletionBlock1">completionHandler</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.4.0">
+          <sel>openDocumentWithContentsOfURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>display:</sel>
+          <arg type="BOOL">flag</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">err</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.4.0">
+          <sel>openUntitledDocumentAndDisplay:</sel>
+          <arg type="BOOL">flag</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">err</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>openUntitledDocumentOfType:</sel>
+          <arg type="NSString*">type</arg>
+          <sel>display:</sel>
+          <arg type="BOOL">display</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0">
+          <sel>presentError:</sel>
+          <arg type="NSError*">err</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>presentError:</sel>
+          <arg type="NSError*">err</arg>
+          <sel>modalForWindow:</sel>
+          <arg type="NSWindow*">win</arg>
+          <sel>delegate:</sel>
+          <arg type="id">delegate</arg>
+          <sel>didPresentSelector:</sel>
+          <arg type="SEL">sel</arg>
+          <sel>contextInfo:</sel>
+          <arg type="void*">context</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>recentDocumentURLs</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>removeDocument:</sel>
+          <arg type="NSDocument*">document</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.7.0">
+          <sel>reopenDocumentForURL:</sel>
+          <arg type="NSURL*">urlOrNil</arg>
+          <sel>withContentsOfURL:</sel>
+          <arg type="NSURL*">contentsURL</arg>
+          <sel>display:</sel>
+          <arg type="BOOL">displayDocument</arg>
+          <sel>completionHandler:</sel>
+          <arg type="GSCompletionBlock1">completionHandler</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0">
+          <sel>reopenDocumentForURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>withContentsOfURL:</sel>
+          <arg type="NSURL*">contents</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">err</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>reviewUnsavedDocumentsWithAlertTitle:</sel>
+          <arg type="NSString*">title</arg>
+          <sel>cancellable:</sel>
+          <arg type="BOOL">cancellable</arg>
+          <desc>
+            If there are any unsaved documents, this method displays
+            an alert panel asking if the user wants to review the
+            unsaved documents. If the user agrees to review the
+            documents, this method calls
+            <ref type="method" id="-closeAllDocuments">
+              -closeAllDocuments
+            </ref>
+            to close each document (prompting to save a document if
+            it is dirty). If <var>cancellable</var> is
+            <code>YES</code>, then the user is not allowed to
+            cancel this request, otherwise this method will
+            return <code>NO</code> if the user presses the
+            Cancel button. Otherwise returns <code>YES</code>
+            after all documents have been closed (or if there are
+            no unsaved documents.)
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>reviewUnsavedDocumentsWithAlertTitle:</sel>
+          <arg type="NSString*">title</arg>
+          <sel>cancellable:</sel>
+          <arg type="BOOL">cancellable</arg>
+          <sel>delegate:</sel>
+          <arg type="id">delegate</arg>
+          <sel>didReviewAllSelector:</sel>
+          <arg type="SEL">didReviewAllSelector</arg>
+          <sel>contextInfo:</sel>
+          <arg type="void*">contextInfo</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.0.0">
+          <sel>runModalOpenPanel:</sel>
+          <arg type="NSOpenPanel*">openPanel</arg>
+          <sel>forTypes:</sel>
+          <arg type="NSArray*">openableFileExtensions</arg>
+          <desc>
+            Invokes
+            <ref type="method" id="-runModalForTypes:" class="NSOpenPanel">[NSOpenPanel -runModalForTypes:]</ref> with the NSOpenPanel object <var>openPanel</var>, and passes the <var>openableFileExtensions</var> file types
+          </desc>
+        </method>
+        <method type="IBAction" ovadd="10.0.0">
+          <sel>saveAllDocuments:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setAutosavingDelay:</sel>
+          <arg type="NSTimeInterval">autosavingDelay</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setShouldCreateUI:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>shouldCreateUI</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.4.0">
+          <sel>typeForContentsOfURL:</sel>
+          <arg type="NSURL*">url</arg>
+          <sel>error:</sel>
+          <arg type="NSError**">err</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>typeFromFileExtension:</sel>
+          <arg type="NSString*">fileExtension</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>validateMenuItem:</sel>
+          <arg type="NSMenuItem*">anItem</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>validateUserInterfaceItem:</sel>
+          <arg type="id&lt;NSValidatedUserInterfaceItem&gt;">anItem</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSError*" ovadd="10.4.0">
+          <sel>willPresentError:</sel>
+          <arg type="NSError*">err</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

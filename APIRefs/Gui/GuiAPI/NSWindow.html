@@ -1,0 +1,5137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>NSWindow</title>
+<meta http-equiv="Content-Style-Type" content="text/css"/>
+<link rel="stylesheet" type="text/css" href="default-styles.css" media="screen" title="Normal" />
+  </head>
+  <body>
+    <a href="Gui.html">Up</a>
+    <br>
+    <h1><a name="title$NSWindow">NSWindow</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Scott Christley (<a href="mailto:scottc@net-community.com"><code>scottc@net-community.com</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Felipe A. Rodriguez (<a href="mailto:far@ix.netcom.com"><code>far@ix.netcom.com</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Richard Frith-Macdonald (<a href="mailto:richard@brainstorm.co.uk"><code>richard@brainstorm.co.uk</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Date:</b> Generated at 2024-11-13 12:52:37 -0500</p>
+    <blockquote>
+      The window class
+    </blockquote>
+    <p><b>Copyright:</b> (C) 1996-2015 Free Software Foundation, Inc.</p>
+
+        <div>
+      <hr class="section-separator">
+      <h3>Contents -</h3>
+      <ol>
+        <li>
+          <a href="#001000000000">NSWindow</a>
+        </li>
+        <li>
+          <a href="#002000000000">Software documentation for the
+        NSObject(NSWindowDelegate) informal
+        protocol</a>
+        </li>
+        <li>
+          <a href="#003000000000">Software documentation for the
+        NSObject(NSWindowDelegateAdditions)
+        informal protocol</a>
+        </li>
+        <li>
+          <a href="#004000000000">Software documentation for the
+        NSWindow(GNUstepBackend) category</a>
+        </li>
+        <li>
+          <a href="#005000000000">Software documentation for the
+        NSWindow(GNUstepTextView) category</a>
+        </li>
+        <li>
+          <a href="#006000000000">Software documentation for the NSWindow(Toolbar)
+        category</a>
+        </li>
+        <li>
+          <a href="#007000000000">Software documentation for the NSWindowDelegate
+        protocol</a>
+        </li>
+      </ol>
+      <hr class="section-separator">
+    </div>
+
+          <h1><a name="001000000000">NSWindow</a></h1>
+    <p>
+
+        Instances of the NSWindow class handle on-screen
+        windows, their associated NSViews, and events generate
+        by the user. An NSWindow&apos;s size is defined by its frame
+        rectangle, which encompasses its entire structure,
+        and its content rectangle, which includes only the content.
+          </p>
+    <p>
+
+        Every NSWindow has a content view, the NSView which forms
+        the root of the window&apos;s view hierarchy. This view can be
+        set using the <code>setContentView:</code> method, and
+        accessed through the <code>contentView</code> method.
+        <code>setContentView:</code> replaces the default
+        content view created by NSWindow.
+          </p>
+    <p>
+
+        Other views may be added to the window by using the
+        content view&apos;s <code>addSubview:</code> method. These
+        subviews can also have subviews added, forming a tree
+        structure, the view hierarchy. When an NSWindow must
+        display itself, it causes this hierarchy to draw
+        itself. Leaf nodes in the view hierarchy are drawn
+        last, causing them to potentially obscure views further
+        up in the hierarchy.
+          </p>
+    <p>
+
+        A delegate can be specified for an NSWindow, which will
+        receive notifications of events pertaining to the
+        window. The delegate is set using
+        <code>setDelegate:</code>, and can be retrieved using
+        <code>delegate</code>. The delegate can restrain
+        resizing by implementing the
+        <code>windowWillResize: toSize:</code> method, or
+        control the closing of the window by implementing
+        <code>windowShouldClose:</code>.
+          </p>
+    <h2 class="class"><a name="class$NSWindow">NSWindow</a> : <a rel="gsdoc" href="NSResponder.html#class$NSResponder">NSResponder</a></h2>
+<svg width="176pt" height="116pt"
+ viewBox="0.00 0.00 176.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>class_NSWindow</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 172,-112 172,4 -4,4"/>
+<!-- NSResponder -->
+<g id="node1" class="node figure_super">
+<title>NSResponder</title>
+<g id="a_node1"><a xlink:href="NSResponder.html#class$NSResponder" xlink:title="NSResponder">
+<polygon fill="lightgrey" stroke="black" points="168,-108 0,-108 0,-72 168,-72 168,-108"/>
+<text text-anchor="middle" x="84" y="-83.8" font-family="Times,serif" font-size="24.00" fill="blue">NSResponder</text>
+</a>
+</g>
+</g>
+<!-- NSWindow -->
+<g id="node2" class="node figure_class">
+<title>NSWindow</title>
+<polygon fill="lightgrey" stroke="black" points="151.5,-36 16.5,-36 16.5,0 151.5,0 151.5,-36"/>
+<text text-anchor="middle" x="84" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">NSWindow</text>
+</g>
+<!-- NSResponder&#45;&gt;NSWindow -->
+<g id="edge1" class="edge">
+<title>NSResponder&#45;&gt;NSWindow</title>
+<path fill="none" stroke="black" d="M84,-71.7C84,-63.98 84,-54.71 84,-46.11"/>
+<polygon fill="black" stroke="black" points="87.5,-46.1 84,-36.1 80.5,-46.1 87.5,-46.1"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSWindow.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            An NSWindow instance represents a window, panel or menu
+            on the screen. <br> Each window has a style, which
+            determines how the window is decorated: ie
+            whether it has a border, a title bar, a resize bar,
+            minimise and close buttons.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            A window has a <em>frame</em>. This is the frame of the
+            <em>entire</em> window on the screen, including all
+            decorations and borders. The origin of the
+            frame represents its bottom left corner and the frame
+            is expressed in screen coordinates (see
+            <a rel="gsdoc" href="NSScreen.html#class$NSScreen">NSScreen</a>
+
+              ).
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              When a window is created, it has a <em>private</em>
+              <a rel="gsdoc" href="NSView.html#class$NSView">NSView</a>
+
+                instance which fills the entire window frame
+                and whose coordinate system is the same as the base
+                coordinate system of the window (ie zero x
+                and y coordinates are at the bottom left corner of
+                the window, with increasing x and y corresponding
+                to points to the right and above the origin). <br>
+                This view may be used by the library internals
+                (and theme engines) to draw window decorations if
+                the backend library is not handling the window
+                decorations.
+                  </p>
+    <p>
+      
+              
+    </p>
+    <p>
+
+                A window always contains a <em>content view</em>
+                which is the highest level view available for
+                public (application) use. This view fills the
+                area of the window inside any decoration/border.
+                <br> This is the only part of the window that
+                application programmers are allowed to draw
+                in directly.
+                  </p>
+    <p>
+      
+              
+    </p>
+    <p>
+
+                You can convert between view coordinates and window
+                base coordinates using the
+                <a rel="gsdoc" href="NSView.html#method$NSView-convertPoint$fromView$">[NSView -convertPoint:fromView:]</a>
+, <a rel="gsdoc" href="NSView.html#method$NSView-convertPoint$toView$">[NSView -convertPoint:toView:]</a>
+, <a rel="gsdoc" href="NSView.html#method$NSView-convertRect$fromView$">[NSView -convertRect:fromView:]</a>
+, and <a rel="gsdoc" href="NSView.html#method$NSView-convertRect$toView$">[NSView -convertRect:toView:]</a>
+ methods with a <code>nil</code> view argument. <br> You can convert between window and screen coordinates using the <a rel="gsdoc" href="#method$NSWindow-convertBaseToScreen$">-convertBaseToScreen:</a>
+ and <a rel="gsdoc" href="#method$NSWindow-convertScreenToBase$">-convertScreenToBase:</a>
+ methods.
+                  </p>
+    <p>
+      
+        
+    </div>
+    <hr class="section-separator">
+    <a href="#_NSWindow_ivars">Instance Variables</a>
+    <br><br>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow(GNUstepBackend)-_captureMouse$">-_captureMouse:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow(GNUstepBackend)-_initDefaults">-_initDefaults</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow(GNUstepBackend)-_releaseMouse$">-_releaseMouse:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow(GNUstepBackend)-_setVisible$">-_setVisible:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow(GNUstepTextView)-_futureFirstResponder">-_futureFirstResponder</a></li>
+        <li><a rel="gsdoc" href="NSLayoutConstraint.html#method$NSWindow(NSConstraintBasedLayoutCoreMethods)-_bootstrapAutoLayout">-_bootstrapAutoLayout</a></li>
+        <li><a rel="gsdoc" href="NSLayoutConstraint.html#method$NSWindow(NSConstraintBasedLayoutCoreMethods)-layoutIfNeeded">-layoutIfNeeded</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow(Toolbar)-runToolbarCustomizationPalette$">-runToolbarCustomizationPalette:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow(Toolbar)-setToolbar$">-setToolbar:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow(Toolbar)-toggleToolbarShown$">-toggleToolbarShown:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow(Toolbar)-toolbar">-toolbar</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow+contentRectForFrameRect$styleMask$">+contentRectForFrameRect:styleMask:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow+defaultDepthLimit">+defaultDepthLimit</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow+frameRectForContentRect$styleMask$">+frameRectForContentRect:styleMask:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow+menuChanged$">+menuChanged:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow+minFrameWidthWithTitle$styleMask$">+minFrameWidthWithTitle:styleMask:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow+removeFrameUsingName$">+removeFrameUsingName:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow+standardWindowButton$forStyleMask$">+standardWindowButton:forStyleMask:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow+windowNumberAtPoint$belowWindowWithWindowNumber$">+windowNumberAtPoint:belowWindowWithWindowNumber:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow+windowWithContentViewController$">+windowWithContentViewController:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-acceptsMouseMovedEvents">-acceptsMouseMovedEvents</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-addChildWindow$ordered$">-addChildWindow:ordered:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-allowsToolTipsWhenApplicationIsInactive">-allowsToolTipsWhenApplicationIsInactive</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-alphaValue">-alphaValue</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-animationResizeTime$">-animationResizeTime:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-areCursorRectsEnabled">-areCursorRectsEnabled</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-aspectRatio">-aspectRatio</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-autorecalculatesKeyViewLoop">-autorecalculatesKeyViewLoop</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-backgroundColor">-backgroundColor</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-backingScaleFactor">-backingScaleFactor</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-backingType">-backingType</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-becomeKeyWindow">-becomeKeyWindow</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-becomeMainWindow">-becomeMainWindow</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-beginSheet$completionHandler$">-beginSheet:completionHandler:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-cacheImageInRect$">-cacheImageInRect:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-canBecomeKeyWindow">-canBecomeKeyWindow</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-canBecomeMainWindow">-canBecomeMainWindow</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-canHide">-canHide</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-canStoreColor">-canStoreColor</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-cascadeTopLeftFromPoint$">-cascadeTopLeftFromPoint:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-center">-center</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-childWindows">-childWindows</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-close">-close</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-collectionBehavior">-collectionBehavior</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-constrainFrameRect$toScreen$">-constrainFrameRect:toScreen:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-contentAspectRatio">-contentAspectRatio</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-contentMaxSize">-contentMaxSize</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-contentMinSize">-contentMinSize</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-contentRectForFrameRect$">-contentRectForFrameRect:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-contentResizeIncrements">-contentResizeIncrements</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-contentView">-contentView</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-convertBaseToScreen$">-convertBaseToScreen:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-convertRectFromScreen$">-convertRectFromScreen:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-convertRectToScreen$">-convertRectToScreen:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-convertScreenToBase$">-convertScreenToBase:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-counterpart">-counterpart</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-currentEvent">-currentEvent</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-dataWithEPSInsideRect$">-dataWithEPSInsideRect:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-dataWithPDFInsideRect$">-dataWithPDFInsideRect:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-deepestScreen">-deepestScreen</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-defaultButtonCell">-defaultButtonCell</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-delegate">-delegate</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-deminiaturize$">-deminiaturize:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-depthLimit">-depthLimit</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-deviceDescription">-deviceDescription</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-disableCursorRects">-disableCursorRects</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-disableFlushWindow">-disableFlushWindow</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-disableKeyEquivalentForDefaultButtonCell">-disableKeyEquivalentForDefaultButtonCell</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-discardCachedImage">-discardCachedImage</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-discardCursorRects">-discardCursorRects</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-discardEventsMatchingMask$beforeEvent$">-discardEventsMatchingMask:beforeEvent:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-display">-display</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-displayIfNeeded">-displayIfNeeded</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-displaysWhenScreenProfileChanges">-displaysWhenScreenProfileChanges</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-dragImage$at$offset$event$pasteboard$source$slideBack$">-dragImage:at:offset:event:pasteboard:source:slideBack:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-drawers">-drawers</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-enableCursorRects">-enableCursorRects</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-enableFlushWindow">-enableFlushWindow</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-enableKeyEquivalentForDefaultButtonCell">-enableKeyEquivalentForDefaultButtonCell</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-endEditingFor$">-endEditingFor:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-fax$">-fax:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-fieldEditor$forObject$">-fieldEditor:forObject:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-firstResponder">-firstResponder</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-flushWindow">-flushWindow</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-flushWindowIfNeeded">-flushWindowIfNeeded</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-frame">-frame</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-frameAutosaveName">-frameAutosaveName</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-frameRectForContentRect$">-frameRectForContentRect:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-gState">-gState</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-graphicsContext">-graphicsContext</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-hasDynamicDepthLimit">-hasDynamicDepthLimit</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-hasShadow">-hasShadow</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-hidesOnDeactivate">-hidesOnDeactivate</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-ignoresMouseEvents">-ignoresMouseEvents</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-initWithContentRect$styleMask$backing$defer$">-initWithContentRect:styleMask:backing:defer:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-initWithContentRect$styleMask$backing$defer$screen$">-initWithContentRect:styleMask:backing:defer:screen:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-initWithWindowRef$">-initWithWindowRef:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-initialFirstResponder">-initialFirstResponder</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-invalidateCursorRectsForView$">-invalidateCursorRectsForView:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-invalidateShadow">-invalidateShadow</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-isAutodisplay">-isAutodisplay</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-isDocumentEdited">-isDocumentEdited</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-isExcludedFromWindowsMenu">-isExcludedFromWindowsMenu</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-isFlushWindowDisabled">-isFlushWindowDisabled</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-isKeyWindow">-isKeyWindow</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-isMainWindow">-isMainWindow</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-isMiniaturized">-isMiniaturized</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-isMovableByWindowBackground">-isMovableByWindowBackground</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-isOneShot">-isOneShot</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-isOpaque">-isOpaque</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-isReleasedWhenClosed">-isReleasedWhenClosed</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-isVisible">-isVisible</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-isZoomed">-isZoomed</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-keyDown$">-keyDown:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-keyViewSelectionDirection">-keyViewSelectionDirection</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-level">-level</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-makeFirstResponder$">-makeFirstResponder:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-makeKeyAndOrderFront$">-makeKeyAndOrderFront:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-makeKeyWindow">-makeKeyWindow</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-makeMainWindow">-makeMainWindow</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-maxSize">-maxSize</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-minSize">-minSize</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-miniaturize$">-miniaturize:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-miniwindowImage">-miniwindowImage</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-miniwindowTitle">-miniwindowTitle</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-mouseLocationOutsideOfEventStream">-mouseLocationOutsideOfEventStream</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-nextEventMatchingMask$">-nextEventMatchingMask:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-nextEventMatchingMask$untilDate$inMode$dequeue$">-nextEventMatchingMask:untilDate:inMode:dequeue:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-orderBack$">-orderBack:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-orderFront$">-orderFront:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-orderFrontRegardless">-orderFrontRegardless</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-orderOut$">-orderOut:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-orderWindow$relativeTo$">-orderWindow:relativeTo:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-parentWindow">-parentWindow</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-performClose$">-performClose:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-performMiniaturize$">-performMiniaturize:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-performZoom$">-performZoom:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-postEvent$atStart$">-postEvent:atStart:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-preservesContentDuringLiveResize">-preservesContentDuringLiveResize</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-print$">-print:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-recalculateKeyViewLoop">-recalculateKeyViewLoop</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-registerForDraggedTypes$">-registerForDraggedTypes:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-removeChildWindow$">-removeChildWindow:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-representedFilename">-representedFilename</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-resetCursorRects">-resetCursorRects</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-resignKeyWindow">-resignKeyWindow</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-resignMainWindow">-resignMainWindow</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-resizeFlags">-resizeFlags</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-resizeIncrements">-resizeIncrements</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-restoreCachedImage">-restoreCachedImage</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-saveFrameUsingName$">-saveFrameUsingName:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-screen">-screen</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-selectKeyViewFollowingView$">-selectKeyViewFollowingView:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-selectKeyViewPrecedingView$">-selectKeyViewPrecedingView:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-selectNextKeyView$">-selectNextKeyView:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-selectPreviousKeyView$">-selectPreviousKeyView:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-sendEvent$">-sendEvent:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setAcceptsMouseMovedEvents$">-setAcceptsMouseMovedEvents:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setAllowsToolTipsWhenApplicationIsInactive$">-setAllowsToolTipsWhenApplicationIsInactive:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setAlphaValue$">-setAlphaValue:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setAspectRatio$">-setAspectRatio:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setAutodisplay$">-setAutodisplay:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setAutorecalculatesKeyViewLoop$">-setAutorecalculatesKeyViewLoop:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setBackgroundColor$">-setBackgroundColor:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setBackingType$">-setBackingType:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setCanHide$">-setCanHide:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setCollectionBehavior$">-setCollectionBehavior:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setContentAspectRatio$">-setContentAspectRatio:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setContentMaxSize$">-setContentMaxSize:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setContentMinSize$">-setContentMinSize:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setContentResizeIncrements$">-setContentResizeIncrements:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setContentSize$">-setContentSize:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setContentView$">-setContentView:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setDefaultButtonCell$">-setDefaultButtonCell:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setDelegate$">-setDelegate:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setDepthLimit$">-setDepthLimit:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setDisplaysWhenScreenProfileChanges$">-setDisplaysWhenScreenProfileChanges:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setDocumentEdited$">-setDocumentEdited:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setDynamicDepthLimit$">-setDynamicDepthLimit:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setExcludedFromWindowsMenu$">-setExcludedFromWindowsMenu:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setFrame$display$">-setFrame:display:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setFrame$display$animate$">-setFrame:display:animate:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setFrameAutosaveName$">-setFrameAutosaveName:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setFrameFromString$">-setFrameFromString:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setFrameOrigin$">-setFrameOrigin:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setFrameTopLeftPoint$">-setFrameTopLeftPoint:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setFrameUsingName$">-setFrameUsingName:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setFrameUsingName$force$">-setFrameUsingName:force:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setHasShadow$">-setHasShadow:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setHidesOnDeactivate$">-setHidesOnDeactivate:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setIgnoresMouseEvents$">-setIgnoresMouseEvents:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setInitialFirstResponder$">-setInitialFirstResponder:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setIsVisible$">-setIsVisible:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setLevel$">-setLevel:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setMaxSize$">-setMaxSize:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setMinSize$">-setMinSize:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setMiniwindowImage$">-setMiniwindowImage:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setMiniwindowTitle$">-setMiniwindowTitle:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setMovableByWindowBackground$">-setMovableByWindowBackground:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setOneShot$">-setOneShot:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setOpaque$">-setOpaque:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setParentWindow$">-setParentWindow:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setPreservesContentDuringLiveResize$">-setPreservesContentDuringLiveResize:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setReleasedWhenClosed$">-setReleasedWhenClosed:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setRepresentedFilename$">-setRepresentedFilename:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setResizeIncrements$">-setResizeIncrements:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setShowsResizeIndicator$">-setShowsResizeIndicator:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setShowsToolbarButton$">-setShowsToolbarButton:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setTitle$">-setTitle:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setTitleWithRepresentedFilename$">-setTitleWithRepresentedFilename:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setViewsNeedDisplay$">-setViewsNeedDisplay:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-setWindowController$">-setWindowController:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-sheetParent">-sheetParent</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-showsResizeIndicator">-showsResizeIndicator</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-showsToolbarButton">-showsToolbarButton</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-standardWindowButton$">-standardWindowButton:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-stringWithSavedFrame">-stringWithSavedFrame</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-styleMask">-styleMask</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-title">-title</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-tryToPerform$with$">-tryToPerform:with:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-unregisterDraggedTypes">-unregisterDraggedTypes</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-update">-update</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-useOptimizedDrawing$">-useOptimizedDrawing:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-userSpaceScaleFactor">-userSpaceScaleFactor</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-validRequestorForSendType$returnType$">-validRequestorForSendType:returnType:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-viewsNeedDisplay">-viewsNeedDisplay</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-windowController">-windowController</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-windowHandle">-windowHandle</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-windowNumber">-windowNumber</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-windowRef">-windowRef</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-worksWhenModal">-worksWhenModal</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow-zoom$">-zoom:</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$NSWindow+contentRectForFrameRect$styleMask$">contentRectForFrameRect:&nbsp;styleMask:&nbsp;</a></h3>
+    + (NSRect) <b>contentRectForFrameRect:</b> (NSRect)aRect<b> styleMask:</b> (NSUInteger)aStyle;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the rectangle which would be used for the
+            content view of a window whose on-screen size and
+            position is specified by <var>aRect</var> and
+            which is decorated with the border and title etc
+            given by <var>aStyle</var>. <br> Both rectangles
+            are expressed in screen coordinates.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow+defaultDepthLimit">defaultDepthLimit&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="TypesAndConstants.html#type$NSWindowDepth">NSWindowDepth</a>) <b>defaultDepthLimit</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow+frameRectForContentRect$styleMask$">frameRectForContentRect:&nbsp;styleMask:&nbsp;</a></h3>
+    + (NSRect) <b>frameRectForContentRect:</b> (NSRect)aRect<b> styleMask:</b> (NSUInteger)aStyle;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the rectangle which would be used for the
+            on-screen frame of a window if that window had a
+            content view occupying the rectangle
+            <var>aRect</var> and was decorated with the border
+            and title etc given by <var>aStyle</var>. <br> Both
+            rectangles are expressed in screen coordinates.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow+menuChanged$">menuChanged:&nbsp;</a></h3>
+    + (void) <b>menuChanged:</b> (<a rel="gsdoc" href="NSMenu.html#class$NSMenu">NSMenu</a>*)aMenu;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow+minFrameWidthWithTitle$styleMask$">minFrameWidthWithTitle:&nbsp;styleMask:&nbsp;</a></h3>
+    + (CGFloat) <b>minFrameWidthWithTitle:</b> (NSString*)aTitle<b> styleMask:</b> (NSUInteger)aStyle;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the smallest frame width that will fit the
+            given title and style. This is the on-screen width of
+            the window including decorations.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow+removeFrameUsingName$">removeFrameUsingName:&nbsp;</a></h3>
+    + (void) <b>removeFrameUsingName:</b> (NSString*)name;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow+standardWindowButton$forStyleMask$">standardWindowButton:&nbsp;forStyleMask:&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="NSButton.html#class$NSButton">NSButton</a>*) <b>standardWindowButton:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSWindowButton">NSWindowButton</a>)button<b> forStyleMask:</b> (NSUInteger)mask;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow+windowNumberAtPoint$belowWindowWithWindowNumber$">windowNumberAtPoint:&nbsp;belowWindowWithWindowNumber:&nbsp;</a></h3>
+    + (NSInteger) <b>windowNumberAtPoint:</b> (NSPoint)point<b> belowWindowWithWindowNumber:</b> (NSInteger)windowNumber;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow+windowWithContentViewController$">windowWithContentViewController:&nbsp;</a></h3>
+    + (instancetype) <b>windowWithContentViewController:</b> (<a rel="gsdoc" href="NSViewController.html#class$NSViewController">NSViewController</a>*)viewController;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.10.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-acceptsMouseMovedEvents">acceptsMouseMovedEvents&nbsp;</a></h3>
+    - (BOOL) <b>acceptsMouseMovedEvents</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-addChildWindow$ordered$">addChildWindow:&nbsp;ordered:&nbsp;</a></h3>
+    - (void) <b>addChildWindow:</b> (<a rel="gsdoc" href="#class$NSWindow">NSWindow</a>*)child<b> ordered:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSWindowOrderingMode">NSWindowOrderingMode</a>)place;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-allowsToolTipsWhenApplicationIsInactive">allowsToolTipsWhenApplicationIsInactive&nbsp;</a></h3>
+    - (BOOL) <b>allowsToolTipsWhenApplicationIsInactive</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-alphaValue">alphaValue&nbsp;</a></h3>
+    - (CGFloat) <b>alphaValue</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-animationResizeTime$">animationResizeTime:&nbsp;</a></h3>
+    - (NSTimeInterval) <b>animationResizeTime:</b> (NSRect)newFrame;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-areCursorRectsEnabled">areCursorRectsEnabled&nbsp;</a></h3>
+    - (BOOL) <b>areCursorRectsEnabled</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-aspectRatio">aspectRatio&nbsp;</a></h3>
+    - (NSSize) <b>aspectRatio</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-autorecalculatesKeyViewLoop">autorecalculatesKeyViewLoop&nbsp;</a></h3>
+    - (BOOL) <b>autorecalculatesKeyViewLoop</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-backgroundColor">backgroundColor&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSColor.html#class$NSColor">NSColor</a>*) <b>backgroundColor</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-backingScaleFactor">backingScaleFactor&nbsp;</a></h3>
+    - (CGFloat) <b>backingScaleFactor</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.7.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-backingType">backingType&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSBackingStoreType">NSBackingStoreType</a>) <b>backingType</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-becomeKeyWindow">becomeKeyWindow&nbsp;</a></h3>
+    - (void) <b>becomeKeyWindow</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-becomeMainWindow">becomeMainWindow&nbsp;</a></h3>
+    - (void) <b>becomeMainWindow</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-beginSheet$completionHandler$">beginSheet:&nbsp;completionHandler:&nbsp;</a></h3>
+    - (void) <b>beginSheet:</b> (<a rel="gsdoc" href="#class$NSWindow">NSWindow</a>*)sheet<b> completionHandler:</b> (GSNSWindowDidEndSheetCallbackBlock)handler;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.9.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-cacheImageInRect$">cacheImageInRect:&nbsp;</a></h3>
+    - (void) <b>cacheImageInRect:</b> (NSRect)aRect;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-canBecomeKeyWindow">canBecomeKeyWindow&nbsp;</a></h3>
+    - (BOOL) <b>canBecomeKeyWindow</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns <code>YES</code> if the receiver can be
+            made key. If this method returns <code>NO</code>, the
+            window will not be made key. This implementation
+            returns <code>YES</code> if the window is resizable
+            or has a title bar. You can override this method to
+            change it&apos;s behavior
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-canBecomeMainWindow">canBecomeMainWindow&nbsp;</a></h3>
+    - (BOOL) <b>canBecomeMainWindow</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns <code>YES</code> if the receiver can be the
+            main window. If this method returns <code>NO</code>,
+            the window will not become the main window. This
+            implementation returns <code>YES</code> if
+            the window is resizable or has a title bar and is
+            visible and is not an NSPanel. You can override
+            this method to change it&apos;s behavior
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-canHide">canHide&nbsp;</a></h3>
+    - (BOOL) <b>canHide</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-canStoreColor">canStoreColor&nbsp;</a></h3>
+    - (BOOL) <b>canStoreColor</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-cascadeTopLeftFromPoint$">cascadeTopLeftFromPoint:&nbsp;</a></h3>
+    - (NSPoint) <b>cascadeTopLeftFromPoint:</b> (NSPoint)topLeftPoint;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Positions the receiver at <var>topLeftPoint</var>
+            (or if <var>topLeftPoint</var> is NSZeroPoint, leaves
+            the receiver unmoved except for any necessary
+            constraint to fit on screen). <br> Returns the
+            position of the top left corner of the receivers
+            content view (after repositioning), so that another
+            window cascaded at the returned point will not
+            obscure the title bar of the receiver.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-center">center&nbsp;</a></h3>
+    - (void) <b>center</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-childWindows">childWindows&nbsp;</a></h3>
+    - (NSArray*) <b>childWindows</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-close">close&nbsp;</a></h3>
+    - (void) <b>close</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-collectionBehavior">collectionBehavior&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSWindowCollectionBehavior">NSWindowCollectionBehavior</a>) <b>collectionBehavior</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-constrainFrameRect$toScreen$">constrainFrameRect:&nbsp;toScreen:&nbsp;</a></h3>
+    - (NSRect) <b>constrainFrameRect:</b> (NSRect)frameRect<b> toScreen:</b> (<a rel="gsdoc" href="NSScreen.html#class$NSScreen">NSScreen</a>*)screen;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Given a proposed frame rectangle, return a modified
+            version which will fit inside the <var>screen</var>
+            .
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-contentAspectRatio">contentAspectRatio&nbsp;</a></h3>
+    - (NSSize) <b>contentAspectRatio</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-contentMaxSize">contentMaxSize&nbsp;</a></h3>
+    - (NSSize) <b>contentMaxSize</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-contentMinSize">contentMinSize&nbsp;</a></h3>
+    - (NSSize) <b>contentMinSize</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-contentRectForFrameRect$">contentRectForFrameRect:&nbsp;</a></h3>
+    - (NSRect) <b>contentRectForFrameRect:</b> (NSRect)frameRect;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-contentResizeIncrements">contentResizeIncrements&nbsp;</a></h3>
+    - (NSSize) <b>contentResizeIncrements</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-contentView">contentView&nbsp;</a></h3>
+    - (id) <b>contentView</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-convertBaseToScreen$">convertBaseToScreen:&nbsp;</a></h3>
+    - (NSPoint) <b>convertBaseToScreen:</b> (NSPoint)aPoint;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Converts <var>aPoint</var> from the base
+            coordinate system of the receiver to a point in
+            the screen coordinate system. <br> Convert from a
+            point in the base coordinate system for the window to
+            a point in the screen coordinate system.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-convertRectFromScreen$">convertRectFromScreen:&nbsp;</a></h3>
+    - (NSRect) <b>convertRectFromScreen:</b> (NSRect)aRect;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Converts <var>aRect</var> from the coordinate
+            system of the screen to the coordinate system of the
+            window.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-convertRectToScreen$">convertRectToScreen:&nbsp;</a></h3>
+    - (NSRect) <b>convertRectToScreen:</b> (NSRect)aRect;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Converts <var>aRect</var> from the window
+            coordinate system to a rect in the screen
+            coordinate system.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-convertScreenToBase$">convertScreenToBase:&nbsp;</a></h3>
+    - (NSPoint) <b>convertScreenToBase:</b> (NSPoint)aPoint;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Converts <var>aPoint</var> from the screen
+            coordinate system to a point in the base
+            coordinate system of the receiver. <br>
+            Convert from a point in the screen coordinate
+            system to a point in the screen coordinate system of
+            the receiver.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-counterpart">counterpart&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSWindow">NSWindow</a>*) <b>counterpart</b>;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-currentEvent">currentEvent&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSEvent.html#class$NSEvent">NSEvent</a>*) <b>currentEvent</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-dataWithEPSInsideRect$">dataWithEPSInsideRect:&nbsp;</a></h3>
+    - (NSData*) <b>dataWithEPSInsideRect:</b> (NSRect)rect;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-dataWithPDFInsideRect$">dataWithPDFInsideRect:&nbsp;</a></h3>
+    - (NSData*) <b>dataWithPDFInsideRect:</b> (NSRect)aRect;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-deepestScreen">deepestScreen&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSScreen.html#class$NSScreen">NSScreen</a>*) <b>deepestScreen</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the screen the window is on. Unlike
+            (apparently) OpenStep and MacOSX, GNUstep does
+            not support windows being split across multiple screens
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-defaultButtonCell">defaultButtonCell&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSButtonCell.html#class$NSButtonCell">NSButtonCell</a>*) <b>defaultButtonCell</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-delegate">delegate&nbsp;</a></h3>
+    - (id) <b>delegate</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the delegate.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-deminiaturize$">deminiaturize:&nbsp;</a></h3>
+    - (void) <b>deminiaturize:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Causes the window to deminiaturize. Normally you
+            would not call this method directly. A window is
+            automatically deminiaturized by the user via
+            a mouse click event. Does nothing it the window isn&apos;t
+            miniaturized.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-depthLimit">depthLimit&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSWindowDepth">NSWindowDepth</a>) <b>depthLimit</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-deviceDescription">deviceDescription&nbsp;</a></h3>
+    - (NSDictionary*) <b>deviceDescription</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-disableCursorRects">disableCursorRects&nbsp;</a></h3>
+    - (void) <b>disableCursorRects</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-disableFlushWindow">disableFlushWindow&nbsp;</a></h3>
+    - (void) <b>disableFlushWindow</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-disableKeyEquivalentForDefaultButtonCell">disableKeyEquivalentForDefaultButtonCell&nbsp;</a></h3>
+    - (void) <b>disableKeyEquivalentForDefaultButtonCell</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-discardCachedImage">discardCachedImage&nbsp;</a></h3>
+    - (void) <b>discardCachedImage</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-discardCursorRects">discardCursorRects&nbsp;</a></h3>
+    - (void) <b>discardCursorRects</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-discardEventsMatchingMask$beforeEvent$">discardEventsMatchingMask:&nbsp;beforeEvent:&nbsp;</a></h3>
+    - (void) <b>discardEventsMatchingMask:</b> (NSUInteger)mask<b> beforeEvent:</b> (<a rel="gsdoc" href="NSEvent.html#class$NSEvent">NSEvent</a>*)lastEvent;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-display">display&nbsp;</a></h3>
+    - (void) <b>display</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-displayIfNeeded">displayIfNeeded&nbsp;</a></h3>
+    - (void) <b>displayIfNeeded</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-displaysWhenScreenProfileChanges">displaysWhenScreenProfileChanges&nbsp;</a></h3>
+    - (BOOL) <b>displaysWhenScreenProfileChanges</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-dragImage$at$offset$event$pasteboard$source$slideBack$">dragImage:&nbsp;at:&nbsp;offset:&nbsp;event:&nbsp;pasteboard:&nbsp;source:&nbsp;slideBack:&nbsp;</a></h3>
+    - (void) <b>dragImage:</b> (<a rel="gsdoc" href="NSImage.html#class$NSImage">NSImage</a>*)anImage<b> at:</b> (NSPoint)baseLocation<b> offset:</b> (NSSize)initialOffset<b> event:</b> (<a rel="gsdoc" href="NSEvent.html#class$NSEvent">NSEvent</a>*)event<b> pasteboard:</b> (<a rel="gsdoc" href="NSPasteboard.html#class$NSPasteboard">NSPasteboard</a>*)pboard<b> source:</b> (id)sourceObject<b> slideBack:</b> (BOOL)slideFlag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-drawers">drawers&nbsp;</a></h3>
+    - (NSArray*) <b>drawers</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Returns all drawers associated with this window.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-enableCursorRects">enableCursorRects&nbsp;</a></h3>
+    - (void) <b>enableCursorRects</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-enableFlushWindow">enableFlushWindow&nbsp;</a></h3>
+    - (void) <b>enableFlushWindow</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-enableKeyEquivalentForDefaultButtonCell">enableKeyEquivalentForDefaultButtonCell&nbsp;</a></h3>
+    - (void) <b>enableKeyEquivalentForDefaultButtonCell</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-endEditingFor$">endEditingFor:&nbsp;</a></h3>
+    - (void) <b>endEditingFor:</b> (id)anObject;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-fax$">fax:&nbsp;</a></h3>
+    - (void) <b>fax:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Opens the fax panel to allow the user to fax the
+            contents of the window view.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-fieldEditor$forObject$">fieldEditor:&nbsp;forObject:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSText.html#class$NSText">NSText</a>*) <b>fieldEditor:</b> (BOOL)createFlag<b> forObject:</b> (id)anObject;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-firstResponder">firstResponder&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSResponder.html#class$NSResponder">NSResponder</a>*) <b>firstResponder</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the first responder of the window.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-flushWindow">flushWindow&nbsp;</a></h3>
+    - (void) <b>flushWindow</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Flush all drawing in the windows buffer to the screen
+            unless the window is not buffered or flushing is not
+            enabled.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-flushWindowIfNeeded">flushWindowIfNeeded&nbsp;</a></h3>
+    - (void) <b>flushWindowIfNeeded</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-frame">frame&nbsp;</a></h3>
+    - (NSRect) <b>frame</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the frame of the receiver... the
+            rectangular area that the window (including any
+            border, title, and other decorations) occupies on
+            screen.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-frameAutosaveName">frameAutosaveName&nbsp;</a></h3>
+    - (NSString*) <b>frameAutosaveName</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-frameRectForContentRect$">frameRectForContentRect:&nbsp;</a></h3>
+    - (NSRect) <b>frameRectForContentRect:</b> (NSRect)contentRect;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-gState">gState&nbsp;</a></h3>
+    - (NSInteger) <b>gState</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-graphicsContext">graphicsContext&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSGraphicsContext.html#class$NSGraphicsContext">NSGraphicsContext</a>*) <b>graphicsContext</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-hasDynamicDepthLimit">hasDynamicDepthLimit&nbsp;</a></h3>
+    - (BOOL) <b>hasDynamicDepthLimit</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-hasShadow">hasShadow&nbsp;</a></h3>
+    - (BOOL) <b>hasShadow</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-hidesOnDeactivate">hidesOnDeactivate&nbsp;</a></h3>
+    - (BOOL) <b>hidesOnDeactivate</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-ignoresMouseEvents">ignoresMouseEvents&nbsp;</a></h3>
+    - (BOOL) <b>ignoresMouseEvents</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-initWithContentRect$styleMask$backing$defer$">initWithContentRect:&nbsp;styleMask:&nbsp;backing:&nbsp;defer:&nbsp;</a></h3>
+    - (id) <b>initWithContentRect:</b> (NSRect)contentRect<b> styleMask:</b> (NSUInteger)aStyle<b> backing:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSBackingStoreType">NSBackingStoreType</a>)bufferingType<b> defer:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Initializes the receiver with a content rect
+              of <var>contentRect</var>, a style mask of
+              <var>styleMask</var>, and a backing store type of
+              <var>backingType</var>. This is the designated
+              initializer.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The style mask values are
+              <code>NSTitledWindowMask</code>, for a window with
+              a title, <code>NSClosableWindowMask</code>, for a
+              window with a close widget,
+              <code>NSMiniaturizableWindowMask</code>, for a
+              window with a miniaturize widget, and
+              <code>NSResizableWindowMask</code>, for a window
+              with a resizing widget. These mask values can be
+              OR&apos;d in any combination.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Backing store values are
+              <code>NSBackingStoreBuffered</code>,
+              <code>NSBackingStoreRetained</code> and
+              <code>NSBackingStoreNonretained</code>.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-initWithContentRect$styleMask$backing$defer$screen$">initWithContentRect:&nbsp;styleMask:&nbsp;backing:&nbsp;defer:&nbsp;screen:&nbsp;</a></h3>
+    - (id) <b>initWithContentRect:</b> (NSRect)contentRect<b> styleMask:</b> (NSUInteger)aStyle<b> backing:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSBackingStoreType">NSBackingStoreType</a>)bufferingType<b> defer:</b> (BOOL)flag<b> screen:</b> (<a rel="gsdoc" href="NSScreen.html#class$NSScreen">NSScreen</a>*)aScreen;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Creates a new window with the specified
+            characteristics. <br> The
+            <var>contentRect</var> is expressed in screen
+            coordinates (for <var>aScreen</var>) and the
+            window frame is calculated from the content
+            rectangle and the window style mask. <br>
+            
+    </p>
+    <p>
+
+              Initializes the receiver with a content rect
+              of <var>contentRect</var>, a style mask of
+              <var>styleMask</var>, a backing store type of
+              <var>backingType</var> and a boolean
+              <var>flag</var>. <var>flag</var> specifies whether
+              the window should be created now (<code>NO</code>),
+              or when it is displayed (<code>YES</code>).
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The style mask values are
+              <code>NSTitledWindowMask</code>, for a window with
+              a title, <code>NSClosableWindowMask</code>, for a
+              window with a close widget,
+              <code>NSMiniaturizableWindowMask</code>, for a
+              window with a miniaturize widget, and
+              <code>NSResizableWindowMask</code>, for a window
+              with a resizing widget. These mask values can be
+              OR&apos;d in any combination.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Backing store values are
+              <code>NSBackingStoreBuffered</code>,
+              <code>NSBackingStoreRetained</code> and
+              <code>NSBackingStoreNonretained</code>.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-initWithWindowRef$">initWithWindowRef:&nbsp;</a></h3>
+    - (id) <b>initWithWindowRef:</b> (void*)windowRef;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-initialFirstResponder">initialFirstResponder&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSView.html#class$NSView">NSView</a>*) <b>initialFirstResponder</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            returns the initial first responder of the
+            receiver.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-invalidateCursorRectsForView$">invalidateCursorRectsForView:&nbsp;</a></h3>
+    - (void) <b>invalidateCursorRectsForView:</b> (<a rel="gsdoc" href="NSView.html#class$NSView">NSView</a>*)aView;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-invalidateShadow">invalidateShadow&nbsp;</a></h3>
+    - (void) <b>invalidateShadow</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-isAutodisplay">isAutodisplay&nbsp;</a></h3>
+    - (BOOL) <b>isAutodisplay</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-isDocumentEdited">isDocumentEdited&nbsp;</a></h3>
+    - (BOOL) <b>isDocumentEdited</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns <code>YES</code>, if the document has been
+            changed.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-isExcludedFromWindowsMenu">isExcludedFromWindowsMenu&nbsp;</a></h3>
+    - (BOOL) <b>isExcludedFromWindowsMenu</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-isFlushWindowDisabled">isFlushWindowDisabled&nbsp;</a></h3>
+    - (BOOL) <b>isFlushWindowDisabled</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-isKeyWindow">isKeyWindow&nbsp;</a></h3>
+    - (BOOL) <b>isKeyWindow</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-isMainWindow">isMainWindow&nbsp;</a></h3>
+    - (BOOL) <b>isMainWindow</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-isMiniaturized">isMiniaturized&nbsp;</a></h3>
+    - (BOOL) <b>isMiniaturized</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-isMovableByWindowBackground">isMovableByWindowBackground&nbsp;</a></h3>
+    - (BOOL) <b>isMovableByWindowBackground</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-isOneShot">isOneShot&nbsp;</a></h3>
+    - (BOOL) <b>isOneShot</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-isOpaque">isOpaque&nbsp;</a></h3>
+    - (BOOL) <b>isOpaque</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-isReleasedWhenClosed">isReleasedWhenClosed&nbsp;</a></h3>
+    - (BOOL) <b>isReleasedWhenClosed</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns <code>YES</code>, if the window is released
+            when it is closed.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-isVisible">isVisible&nbsp;</a></h3>
+    - (BOOL) <b>isVisible</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-isZoomed">isZoomed&nbsp;</a></h3>
+    - (BOOL) <b>isZoomed</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Returns yes, if the receiver is zoomed.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-keyDown$">keyDown:&nbsp;</a></h3>
+    - (void) <b>keyDown:</b> (<a rel="gsdoc" href="NSEvent.html#class$NSEvent">NSEvent</a>*)theEvent;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Processes <var>theEvent</var> when a key is
+            pressed while within the window.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-keyViewSelectionDirection">keyViewSelectionDirection&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="TypesAndConstants.html#type$NSSelectionDirection">NSSelectionDirection</a>) <b>keyViewSelectionDirection</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Returns the value of _selectionDirection, the
+            direction of the current key view. <br> See
+            Also:
+            
+      <ul>
+        <li>
+          
+                <a rel="gsdoc" href="#method$NSWindow-selectKeyViewFollowingView$">
+                  -selectKeyViewFollowingView:
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="#method$NSWindow-selectKeyViewPrecedingView$">
+                  -selectKeyViewPrecedingView:
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="#method$NSWindow-selectNextKeyView$">
+                  -selectNextKeyView:
+                </a>
+
+              
+        </li>
+        <li>
+          
+                <a rel="gsdoc" href="#method$NSWindow-selectPreviousKeyView$">
+                  -selectPreviousKeyView:
+                </a>
+
+              
+        </li>
+      </ul>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-level">level&nbsp;</a></h3>
+    - (NSInteger) <b>level</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-makeFirstResponder$">makeFirstResponder:&nbsp;</a></h3>
+    - (BOOL) <b>makeFirstResponder:</b> (<a rel="gsdoc" href="NSResponder.html#class$NSResponder">NSResponder</a>*)aResponder;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            This method attempts to make <var>aResponder</var> the
+            first responder. <br> If <var>aResponder</var> is
+            already the first responder, this method has no
+            effect and simply returns <code>YES</code>.
+            Otherwise, the method sends a
+            <a rel="gsdoc" href="NSResponder.html#method$NSResponder-resignFirstResponder">
+              -resignFirstResponder
+            </a>
+
+            message to the current first responder (if there is
+            one) and immediately returns <code>NO</code> if the
+            current first responder refuses to resign. <br>
+            Then the method asks <var>aResponder</var> to become
+            first responder by sending it a
+            <a rel="gsdoc" href="NSResponder.html#method$NSResponder-becomeFirstResponder">
+              -becomeFirstResponder
+            </a>
+
+            message, and if that returns <code>YES</code> then
+            this method immediately returns <code>YES</code>.
+            <br> However, if that returns <code>NO</code>, the
+            receiver is made the first responder by sending it
+            a
+            <a rel="gsdoc" href="NSResponder.html#method$NSResponder-becomeFirstResponder">
+              -becomeFirstResponder
+            </a>
+
+            message, and this method returns <code>NO</code>.
+            <br> If <var>aResponder</var> is neither
+            <code>nil</code> nor an instance of NSResponder (or
+            of a subclass of NSResponder) then behavior is undefined
+            (though the current GNUstep implementation just
+            returns <code>NO</code>). <br> Makes
+            <var>aResponder</var> the first responder within the
+            receiver.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-makeKeyAndOrderFront$">makeKeyAndOrderFront:&nbsp;</a></h3>
+    - (void) <b>makeKeyAndOrderFront:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-makeKeyWindow">makeKeyWindow&nbsp;</a></h3>
+    - (void) <b>makeKeyWindow</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-makeMainWindow">makeMainWindow&nbsp;</a></h3>
+    - (void) <b>makeMainWindow</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-maxSize">maxSize&nbsp;</a></h3>
+    - (NSSize) <b>maxSize</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-minSize">minSize&nbsp;</a></h3>
+    - (NSSize) <b>minSize</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-miniaturize$">miniaturize:&nbsp;</a></h3>
+    - (void) <b>miniaturize:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Causes the window to miniaturize, that is the window
+            is removed from the screen and it&apos;s counterpart
+            (mini)window is displayed. Does nothing if the
+            window can&apos;t be miniaturized (eg. because it&apos;s
+            already miniaturized).
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-miniwindowImage">miniwindowImage&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSImage.html#class$NSImage">NSImage</a>*) <b>miniwindowImage</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-miniwindowTitle">miniwindowTitle&nbsp;</a></h3>
+    - (NSString*) <b>miniwindowTitle</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-mouseLocationOutsideOfEventStream">mouseLocationOutsideOfEventStream&nbsp;</a></h3>
+    - (NSPoint) <b>mouseLocationOutsideOfEventStream</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-nextEventMatchingMask$">nextEventMatchingMask:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSEvent.html#class$NSEvent">NSEvent</a>*) <b>nextEventMatchingMask:</b> (NSUInteger)mask;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-nextEventMatchingMask$untilDate$inMode$dequeue$">nextEventMatchingMask:&nbsp;untilDate:&nbsp;inMode:&nbsp;dequeue:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSEvent.html#class$NSEvent">NSEvent</a>*) <b>nextEventMatchingMask:</b> (NSUInteger)mask<b> untilDate:</b> (NSDate*)expiration<b> inMode:</b> (NSString*)mode<b> dequeue:</b> (BOOL)deqFlag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-orderBack$">orderBack:&nbsp;</a></h3>
+    - (void) <b>orderBack:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Orders the window to the back of its level.
+            Equivalent to
+            <a rel="gsdoc" href="#method$NSWindow-orderWindow$relativeTo$">
+              -orderWindow:relativeTo:
+            </a>
+
+            with arguments NSWindowBelow and 0.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-orderFront$">orderFront:&nbsp;</a></h3>
+    - (void) <b>orderFront:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            If the application is active, orders the window to the
+            front in its level. If the application is not active,
+            the window is ordered in as far forward as possible in
+            its level without being ordered in front of the key or
+            main window of the currently active app. The current
+            key and main window status is not changed. Equivalent
+            to
+            <a rel="gsdoc" href="#method$NSWindow-orderWindow$relativeTo$">
+              -orderWindow:relativeTo:
+            </a>
+
+            with arguments NSWindowAbove and 0.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-orderFrontRegardless">orderFrontRegardless&nbsp;</a></h3>
+    - (void) <b>orderFrontRegardless</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Orders the window to the front in its level (even in
+            front of the key and main windows of the current app)
+            regardless of whether the app is current or not.
+            This method should only be used in rare cases where
+            the app is cooperating with another app that is
+            displaying data for it. The current key and main
+            window status is not changed.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-orderOut$">orderOut:&nbsp;</a></h3>
+    - (void) <b>orderOut:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Orders the window out from the screen. Equivalent to
+            <a rel="gsdoc" href="#method$NSWindow-orderWindow$relativeTo$">
+              -orderWindow:relativeTo:
+            </a>
+
+            with arguments NSWindowOut and 0.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-orderWindow$relativeTo$">orderWindow:&nbsp;relativeTo:&nbsp;</a></h3>
+    - (void) <b>orderWindow:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSWindowOrderingMode">NSWindowOrderingMode</a>)place<b> relativeTo:</b> (NSInteger)otherWin;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              If <var>place</var> is NSWindowOut, removes the window
+              from the screen. If <var>place</var> is
+              NSWindowAbove, places the window directly
+              above <var>otherWin</var>, or directly above all
+              windows in its level if <var>otherWin</var> is 0.
+              If <var>place</var> is NSWindowBelow, places the
+              window directly below <var>otherWin</var>, or
+              directly below all windows in its level if
+              <var>otherWin</var> is 0.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              If <var>otherWin</var> is zero and the key window is
+              at the same window level as the receiver, the receiver
+              cannot be positioned above the key window.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              If <var>place</var> is NSWindowAbove or NSWindowBelow
+              and the application is hidden, the application is
+              unhidden.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-parentWindow">parentWindow&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSWindow">NSWindow</a>*) <b>parentWindow</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-performClose$">performClose:&nbsp;</a></h3>
+    - (void) <b>performClose:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Causes the window to close. Calls the
+            windowShouldClose: method on the
+            delegate to determine if it should close and calls
+            shouldCloseWindowController on
+            the controller for the receiver.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-performMiniaturize$">performMiniaturize:&nbsp;</a></h3>
+    - (void) <b>performMiniaturize:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Miniaturize the receiver... as
+            <strong>long</strong> as its style mask includes
+            NSMiniaturizableWindowMask (and
+            as <strong>long</strong> as the receiver is not an icon
+            or mini window itsself). Calls
+            <a rel="gsdoc" href="#method$NSWindow-miniaturize$">
+              -miniaturize:
+            </a>
+
+            to do this. <br> Beeps if the window can&apos;t be
+            miniaturised. <br> Should ideally provide
+            visual feedback (highlighting the miniaturize button
+            as if it had been clicked) first... but that&apos;s not yet
+            implemented.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-performZoom$">performZoom:&nbsp;</a></h3>
+    - (void) <b>performZoom:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Performs the zoom method on the receiver.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-postEvent$atStart$">postEvent:&nbsp;atStart:&nbsp;</a></h3>
+    - (void) <b>postEvent:</b> (<a rel="gsdoc" href="NSEvent.html#class$NSEvent">NSEvent</a>*)event<b> atStart:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-preservesContentDuringLiveResize">preservesContentDuringLiveResize&nbsp;</a></h3>
+    - (BOOL) <b>preservesContentDuringLiveResize</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-print$">print:&nbsp;</a></h3>
+    - (void) <b>print:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Opens the print panel to allow the user to print the
+            contents of the window view.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-recalculateKeyViewLoop">recalculateKeyViewLoop&nbsp;</a></h3>
+    - (void) <b>recalculateKeyViewLoop</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-registerForDraggedTypes$">registerForDraggedTypes:&nbsp;</a></h3>
+    - (void) <b>registerForDraggedTypes:</b> (NSArray*)newTypes;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-removeChildWindow$">removeChildWindow:&nbsp;</a></h3>
+    - (void) <b>removeChildWindow:</b> (<a rel="gsdoc" href="#class$NSWindow">NSWindow</a>*)child;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-representedFilename">representedFilename&nbsp;</a></h3>
+    - (NSString*) <b>representedFilename</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-resetCursorRects">resetCursorRects&nbsp;</a></h3>
+    - (void) <b>resetCursorRects</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-resignKeyWindow">resignKeyWindow&nbsp;</a></h3>
+    - (void) <b>resignKeyWindow</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-resignMainWindow">resignMainWindow&nbsp;</a></h3>
+    - (void) <b>resignMainWindow</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-resizeFlags">resizeFlags&nbsp;</a></h3>
+    - (NSInteger) <b>resizeFlags</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-resizeIncrements">resizeIncrements&nbsp;</a></h3>
+    - (NSSize) <b>resizeIncrements</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-restoreCachedImage">restoreCachedImage&nbsp;</a></h3>
+    - (void) <b>restoreCachedImage</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-saveFrameUsingName$">saveFrameUsingName:&nbsp;</a></h3>
+    - (void) <b>saveFrameUsingName:</b> (NSString*)name;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-screen">screen&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSScreen.html#class$NSScreen">NSScreen</a>*) <b>screen</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the screen the window is on.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-selectKeyViewFollowingView$">selectKeyViewFollowingView:&nbsp;</a></h3>
+    - (void) <b>selectKeyViewFollowingView:</b> (<a rel="gsdoc" href="NSView.html#class$NSView">NSView</a>*)aView;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            If <var>aView</var> responds to
+            <a rel="gsdoc" href="NSView.html#method$NSView-nextValidKeyView">
+              -nextValidKeyView
+            </a>
+
+            with a new NSView, call
+            <a rel="gsdoc" href="#method$NSWindow-makeFirstResponder$">
+              -makeFirstResponder:
+            </a>
+
+            for the returned view.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-selectKeyViewPrecedingView$">selectKeyViewPrecedingView:&nbsp;</a></h3>
+    - (void) <b>selectKeyViewPrecedingView:</b> (<a rel="gsdoc" href="NSView.html#class$NSView">NSView</a>*)aView;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            If <var>aView</var> responds to
+            <a rel="gsdoc" href="NSView.html#method$NSView-previousValidKeyView">
+              -previousValidKeyView
+            </a>
+
+            with a new NSView, call
+            <a rel="gsdoc" href="#method$NSWindow-makeFirstResponder$">
+              -makeFirstResponder:
+            </a>
+
+            for this view.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-selectNextKeyView$">selectNextKeyView:&nbsp;</a></h3>
+    - (void) <b>selectNextKeyView:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            This method checks if:
+            
+      <ul>
+        <li>
+          
+                _firstResponder answers to
+                <a rel="gsdoc" href="NSView.html#method$NSView-nextValidKeyView">
+                  -nextValidKeyView
+                </a>
+
+              
+        </li>
+        <li>
+          
+                _initialFirstResponder answers
+                to
+                <a rel="gsdoc" href="NSResponder.html#method$NSResponder-acceptsFirstResponder">
+                  -acceptsFirstResponder
+                </a>
+
+              
+        </li>
+        <li>
+          
+                _initialFirstResponder answers
+                to
+                <a rel="gsdoc" href="NSView.html#method$NSView-previousValidKeyView">
+                  -previousValidKeyView
+                </a>
+
+              
+        </li>
+      </ul>
+      
+            If any of these checks return a NSView, call
+            <a rel="gsdoc" href="#method$NSWindow-makeFirstResponder$">
+              -makeFirstResponder:
+            </a>
+
+            on this NSView.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-selectPreviousKeyView$">selectPreviousKeyView:&nbsp;</a></h3>
+    - (void) <b>selectPreviousKeyView:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            This method checks if:
+            
+      <ul>
+        <li>
+          
+                _firstResponder answers to
+                <a rel="gsdoc" href="NSView.html#method$NSView-previousValidKeyView">
+                  -previousValidKeyView
+                </a>
+
+              
+        </li>
+        <li>
+          
+                _initialFirstResponder answers
+                to
+                <a rel="gsdoc" href="NSResponder.html#method$NSResponder-acceptsFirstResponder">
+                  -acceptsFirstResponder
+                </a>
+
+              
+        </li>
+        <li>
+          
+                _initialFirstResponder answers
+                to
+                <a rel="gsdoc" href="NSView.html#method$NSView-previousValidKeyView">
+                  -previousValidKeyView
+                </a>
+
+              
+        </li>
+      </ul>
+      
+            If any of these checks return a NSView, call
+            <a rel="gsdoc" href="#method$NSWindow-makeFirstResponder$">
+              -makeFirstResponder:
+            </a>
+
+            on this NSView.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-sendEvent$">sendEvent:&nbsp;</a></h3>
+    - (void) <b>sendEvent:</b> (<a rel="gsdoc" href="NSEvent.html#class$NSEvent">NSEvent</a>*)theEvent;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Handles mouse and other events sent to the receiver
+            by NSApplication. Do not invoke this method directly.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setAcceptsMouseMovedEvents$">setAcceptsMouseMovedEvents:&nbsp;</a></h3>
+    - (void) <b>setAcceptsMouseMovedEvents:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setAllowsToolTipsWhenApplicationIsInactive$">setAllowsToolTipsWhenApplicationIsInactive:&nbsp;</a></h3>
+    - (void) <b>setAllowsToolTipsWhenApplicationIsInactive:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setAlphaValue$">setAlphaValue:&nbsp;</a></h3>
+    - (void) <b>setAlphaValue:</b> (CGFloat)windowAlpha;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setAspectRatio$">setAspectRatio:&nbsp;</a></h3>
+    - (void) <b>setAspectRatio:</b> (NSSize)ratio;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setAutodisplay$">setAutodisplay:&nbsp;</a></h3>
+    - (void) <b>setAutodisplay:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setAutorecalculatesKeyViewLoop$">setAutorecalculatesKeyViewLoop:&nbsp;</a></h3>
+    - (void) <b>setAutorecalculatesKeyViewLoop:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setBackgroundColor$">setBackgroundColor:&nbsp;</a></h3>
+    - (void) <b>setBackgroundColor:</b> (<a rel="gsdoc" href="NSColor.html#class$NSColor">NSColor</a>*)color;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setBackingType$">setBackingType:&nbsp;</a></h3>
+    - (void) <b>setBackingType:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSBackingStoreType">NSBackingStoreType</a>)type;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setCanHide$">setCanHide:&nbsp;</a></h3>
+    - (void) <b>setCanHide:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setCollectionBehavior$">setCollectionBehavior:&nbsp;</a></h3>
+    - (void) <b>setCollectionBehavior:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSWindowCollectionBehavior">NSWindowCollectionBehavior</a>)props;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setContentAspectRatio$">setContentAspectRatio:&nbsp;</a></h3>
+    - (void) <b>setContentAspectRatio:</b> (NSSize)ratio;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setContentMaxSize$">setContentMaxSize:&nbsp;</a></h3>
+    - (void) <b>setContentMaxSize:</b> (NSSize)size;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setContentMinSize$">setContentMinSize:&nbsp;</a></h3>
+    - (void) <b>setContentMinSize:</b> (NSSize)size;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setContentResizeIncrements$">setContentResizeIncrements:&nbsp;</a></h3>
+    - (void) <b>setContentResizeIncrements:</b> (NSSize)increments;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setContentSize$">setContentSize:&nbsp;</a></h3>
+    - (void) <b>setContentSize:</b> (NSSize)aSize;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Sets the size of the receiver&apos;s content view to
+            <var>aSize</var>, implicitly adjusting the size of
+            the receiver&apos;s frame to match.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setContentView$">setContentView:&nbsp;</a></h3>
+    - (void) <b>setContentView:</b> (<a rel="gsdoc" href="NSView.html#class$NSView">NSView</a>*)aView;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Sets the window&apos;s content view to <var>aView</var>,
+            replacing any previous content view.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setDefaultButtonCell$">setDefaultButtonCell:&nbsp;</a></h3>
+    - (void) <b>setDefaultButtonCell:</b> (<a rel="gsdoc" href="NSButtonCell.html#class$NSButtonCell">NSButtonCell</a>*)aCell;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setDelegate$">setDelegate:&nbsp;</a></h3>
+    - (void) <b>setDelegate:</b> (id)anObject;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Sets the delegate to <var>anObject</var>.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setDepthLimit$">setDepthLimit:&nbsp;</a></h3>
+    - (void) <b>setDepthLimit:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSWindowDepth">NSWindowDepth</a>)limit;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setDisplaysWhenScreenProfileChanges$">setDisplaysWhenScreenProfileChanges:&nbsp;</a></h3>
+    - (void) <b>setDisplaysWhenScreenProfileChanges:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setDocumentEdited$">setDocumentEdited:&nbsp;</a></h3>
+    - (void) <b>setDocumentEdited:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Set document edit status. If <code>YES</code>, then, if
+            the receiver has a close button, the close button will
+            show a broken X. If <code>NO</code>, then, if the
+            reciever has a close button, the close button will
+            show a solid X.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setDynamicDepthLimit$">setDynamicDepthLimit:&nbsp;</a></h3>
+    - (void) <b>setDynamicDepthLimit:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setExcludedFromWindowsMenu$">setExcludedFromWindowsMenu:&nbsp;</a></h3>
+    - (void) <b>setExcludedFromWindowsMenu:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setFrame$display$">setFrame:&nbsp;display:&nbsp;</a></h3>
+    - (void) <b>setFrame:</b> (NSRect)frameRect<b> display:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Sets the frame for the receiver to
+              <var>frameRect</var> and if <var>flag</var> is
+              <code>YES</code> causes the window contents to be
+              refreshed. The value of <var>frameRect</var>
+              is the desired on-screen size and position of the
+              window including all border/decoration.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The size of the frame is constrained to the minimum
+              and maximum sizes set for the receiver (if any).
+              <br> Its position is constrained to be on screen
+              if it is a titled window.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setFrame$display$animate$">setFrame:&nbsp;display:&nbsp;animate:&nbsp;</a></h3>
+    - (void) <b>setFrame:</b> (NSRect)frameRect<b> display:</b> (BOOL)displayFlag<b> animate:</b> (BOOL)animationFlag;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setFrameAutosaveName$">setFrameAutosaveName:&nbsp;</a></h3>
+    - (BOOL) <b>setFrameAutosaveName:</b> (NSString*)name;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setFrameFromString$">setFrameFromString:&nbsp;</a></h3>
+    - (void) <b>setFrameFromString:</b> (NSString*)string;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setFrameOrigin$">setFrameOrigin:&nbsp;</a></h3>
+    - (void) <b>setFrameOrigin:</b> (NSPoint)aPoint;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Sets the origin (bottom left corner) of the receiver&apos;s
+            frame to be the specified point (in screen
+            coordinates).
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setFrameTopLeftPoint$">setFrameTopLeftPoint:&nbsp;</a></h3>
+    - (void) <b>setFrameTopLeftPoint:</b> (NSPoint)aPoint;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Sets the top left corner of the receiver&apos;s frame to be
+            the specified point (in screen coordinates).
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setFrameUsingName$">setFrameUsingName:&nbsp;</a></h3>
+    - (BOOL) <b>setFrameUsingName:</b> (NSString*)name;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setFrameUsingName$force$">setFrameUsingName:&nbsp;force:&nbsp;</a></h3>
+    - (BOOL) <b>setFrameUsingName:</b> (NSString*)name<b> force:</b> (BOOL)force;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setHasShadow$">setHasShadow:&nbsp;</a></h3>
+    - (void) <b>setHasShadow:</b> (BOOL)hasShadow;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setHidesOnDeactivate$">setHidesOnDeactivate:&nbsp;</a></h3>
+    - (void) <b>setHidesOnDeactivate:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setIgnoresMouseEvents$">setIgnoresMouseEvents:&nbsp;</a></h3>
+    - (void) <b>setIgnoresMouseEvents:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setInitialFirstResponder$">setInitialFirstResponder:&nbsp;</a></h3>
+    - (void) <b>setInitialFirstResponder:</b> (<a rel="gsdoc" href="NSView.html#class$NSView">NSView</a>*)aView;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Sets the initial first responder of the receiver.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setIsVisible$">setIsVisible:&nbsp;</a></h3>
+    - (void) <b>setIsVisible:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setLevel$">setLevel:&nbsp;</a></h3>
+    - (void) <b>setLevel:</b> (NSInteger)newLevel;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setMaxSize$">setMaxSize:&nbsp;</a></h3>
+    - (void) <b>setMaxSize:</b> (NSSize)aSize;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setMinSize$">setMinSize:&nbsp;</a></h3>
+    - (void) <b>setMinSize:</b> (NSSize)aSize;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setMiniwindowImage$">setMiniwindowImage:&nbsp;</a></h3>
+    - (void) <b>setMiniwindowImage:</b> (<a rel="gsdoc" href="NSImage.html#class$NSImage">NSImage</a>*)image;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setMiniwindowTitle$">setMiniwindowTitle:&nbsp;</a></h3>
+    - (void) <b>setMiniwindowTitle:</b> (NSString*)title;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setMovableByWindowBackground$">setMovableByWindowBackground:&nbsp;</a></h3>
+    - (void) <b>setMovableByWindowBackground:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setOneShot$">setOneShot:&nbsp;</a></h3>
+    - (void) <b>setOneShot:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setOpaque$">setOpaque:&nbsp;</a></h3>
+    - (void) <b>setOpaque:</b> (BOOL)isOpaque;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setParentWindow$">setParentWindow:&nbsp;</a></h3>
+    - (void) <b>setParentWindow:</b> (<a rel="gsdoc" href="#class$NSWindow">NSWindow</a>*)window;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setPreservesContentDuringLiveResize$">setPreservesContentDuringLiveResize:&nbsp;</a></h3>
+    - (void) <b>setPreservesContentDuringLiveResize:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setReleasedWhenClosed$">setReleasedWhenClosed:&nbsp;</a></h3>
+    - (void) <b>setReleasedWhenClosed:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            If <code>YES</code>, then the window is released when
+            the close method is called.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setRepresentedFilename$">setRepresentedFilename:&nbsp;</a></h3>
+    - (void) <b>setRepresentedFilename:</b> (NSString*)aString;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setResizeIncrements$">setResizeIncrements:&nbsp;</a></h3>
+    - (void) <b>setResizeIncrements:</b> (NSSize)aSize;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setShowsResizeIndicator$">setShowsResizeIndicator:&nbsp;</a></h3>
+    - (void) <b>setShowsResizeIndicator:</b> (BOOL)show;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setShowsToolbarButton$">setShowsToolbarButton:&nbsp;</a></h3>
+    - (void) <b>setShowsToolbarButton:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setTitle$">setTitle:&nbsp;</a></h3>
+    - (void) <b>setTitle:</b> (NSString*)aString;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Sets the window&apos;s title to the string
+            <var>aString</var>.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setTitleWithRepresentedFilename$">setTitleWithRepresentedFilename:&nbsp;</a></h3>
+    - (void) <b>setTitleWithRepresentedFilename:</b> (NSString*)aString;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setViewsNeedDisplay$">setViewsNeedDisplay:&nbsp;</a></h3>
+    - (void) <b>setViewsNeedDisplay:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-setWindowController$">setWindowController:&nbsp;</a></h3>
+    - (void) <b>setWindowController:</b> (<a rel="gsdoc" href="NSWindowController.html#class$NSWindowController">NSWindowController</a>*)windowController;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-sheetParent">sheetParent&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSWindow">NSWindow</a>*) <b>sheetParent</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.9.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-showsResizeIndicator">showsResizeIndicator&nbsp;</a></h3>
+    - (BOOL) <b>showsResizeIndicator</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-showsToolbarButton">showsToolbarButton&nbsp;</a></h3>
+    - (BOOL) <b>showsToolbarButton</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-standardWindowButton$">standardWindowButton:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSButton.html#class$NSButton">NSButton</a>*) <b>standardWindowButton:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSWindowButton">NSWindowButton</a>)button;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-stringWithSavedFrame">stringWithSavedFrame&nbsp;</a></h3>
+    - (NSString*) <b>stringWithSavedFrame</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-styleMask">styleMask&nbsp;</a></h3>
+    - (NSUInteger) <b>styleMask</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-title">title&nbsp;</a></h3>
+    - (NSString*) <b>title</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns an NSString containing the text of the
+            window&apos;s title.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-tryToPerform$with$">tryToPerform:&nbsp;with:&nbsp;</a></h3>
+    - (BOOL) <b>tryToPerform:</b> (SEL)anAction<b> with:</b> (id)anObject;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-unregisterDraggedTypes">unregisterDraggedTypes&nbsp;</a></h3>
+    - (void) <b>unregisterDraggedTypes</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-update">update&nbsp;</a></h3>
+    - (void) <b>update</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-useOptimizedDrawing$">useOptimizedDrawing:&nbsp;</a></h3>
+    - (void) <b>useOptimizedDrawing:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-userSpaceScaleFactor">userSpaceScaleFactor&nbsp;</a></h3>
+    - (CGFloat) <b>userSpaceScaleFactor</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-validRequestorForSendType$returnType$">validRequestorForSendType:&nbsp;returnType:&nbsp;</a></h3>
+    - (id) <b>validRequestorForSendType:</b> (NSString*)sendType<b> returnType:</b> (NSString*)returnType;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-viewsNeedDisplay">viewsNeedDisplay&nbsp;</a></h3>
+    - (BOOL) <b>viewsNeedDisplay</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-windowController">windowController&nbsp;</a></h3>
+    - (id) <b>windowController</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-windowHandle">windowHandle&nbsp;</a></h3>
+    - (void*) <b>windowHandle</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-windowNumber">windowNumber&nbsp;</a></h3>
+    - (NSInteger) <b>windowNumber</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-windowRef">windowRef&nbsp;</a></h3>
+    - (void*) <b>windowRef</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-worksWhenModal">worksWhenModal&nbsp;</a></h3>
+    - (BOOL) <b>worksWhenModal</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow-zoom$">zoom:&nbsp;</a></h3>
+    - (void) <b>zoom:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Zooms the receiver. This method calls the delegate
+            method windowShouldZoom:toFrame: to determine if the
+            window should be allowed to zoom to full screen.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<a name="_NSWindow_ivars"/>    <br><hr class="section-separator">
+    <h2>Instance Variables for NSWindow Class</h2>
+    <h3><a name="ivariable$NSWindow*_alphaValue">_alphaValue</a></h3>
+    @protected CGFloat <b>_alphaValue</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_attachedSheet">_attachedSheet</a></h3>
+    @protected NSWindow* <b>_attachedSheet</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_autosaveName">_autosaveName</a></h3>
+    @protected NSString* <b>_autosaveName</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_backgroundColor">_backgroundColor</a></h3>
+    @protected NSColor* <b>_backgroundColor</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_backingType">_backingType</a></h3>
+    @protected NSBackingStoreType <b>_backingType</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_cachedImage">_cachedImage</a></h3>
+    @protected NSCachedImageRep* <b>_cachedImage</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_cachedImageOrigin">_cachedImageOrigin</a></h3>
+    @protected NSPoint <b>_cachedImageOrigin</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_children">_children</a></h3>
+    @protected NSMutableArray* <b>_children</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_contentView">_contentView</a></h3>
+    @protected id <b>_contentView</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_context">_context</a></h3>
+    @protected NSGraphicsContext* <b>_context</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_counterpart">_counterpart</a></h3>
+    @protected NSInteger <b>_counterpart</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_defaultButtonCell">_defaultButtonCell</a></h3>
+    @protected id <b>_defaultButtonCell</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_delegate">_delegate</a></h3>
+    @protected id <b>_delegate</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_depthLimit">_depthLimit</a></h3>
+    @protected NSWindowDepth <b>_depthLimit</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_disableFlushWindow">_disableFlushWindow</a></h3>
+    @protected unsigned int <b>_disableFlushWindow</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_fieldEditor">_fieldEditor</a></h3>
+    @protected id <b>_fieldEditor</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_firstResponder">_firstResponder</a></h3>
+    @protected id <b>_firstResponder</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_frame">_frame</a></h3>
+    @protected NSRect <b>_frame</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_futureFirstResponder">_futureFirstResponder</a></h3>
+    @protected id <b>_futureFirstResponder</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_gstate">_gstate</a></h3>
+    @protected NSInteger <b>_gstate</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_increments">_increments</a></h3>
+    @protected NSSize <b>_increments</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_initialFirstResponder">_initialFirstResponder</a></h3>
+    @protected NSView* <b>_initialFirstResponder</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_lastDragOperationMask">_lastDragOperationMask</a></h3>
+    @protected NSInteger <b>_lastDragOperationMask</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_lastDragView">_lastDragView</a></h3>
+    @protected id <b>_lastDragView</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_lastLeftMouseDownView">_lastLeftMouseDownView</a></h3>
+    @protected id <b>_lastLeftMouseDownView</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_lastOtherMouseDownView">_lastOtherMouseDownView</a></h3>
+    @protected id <b>_lastOtherMouseDownView</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_lastPoint">_lastPoint</a></h3>
+    @protected NSPoint <b>_lastPoint</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_lastRightMouseDownView">_lastRightMouseDownView</a></h3>
+    @protected id <b>_lastRightMouseDownView</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_layoutEngine">_layoutEngine</a></h3>
+    @protected GSAutoLayoutEngine* <b>_layoutEngine</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_maximumSize">_maximumSize</a></h3>
+    @protected NSSize <b>_maximumSize</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_miniaturizedImage">_miniaturizedImage</a></h3>
+    @protected NSImage* <b>_miniaturizedImage</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_miniaturizedTitle">_miniaturizedTitle</a></h3>
+    @protected NSString* <b>_miniaturizedTitle</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_minimumSize">_minimumSize</a></h3>
+    @protected NSSize <b>_minimumSize</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_parent">_parent</a></h3>
+    @protected NSWindow* <b>_parent</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_rectNeedingFlush">_rectNeedingFlush</a></h3>
+    @protected NSRect <b>_rectNeedingFlush</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_rectsBeingDrawn">_rectsBeingDrawn</a></h3>
+    @protected NSMutableArray* <b>_rectsBeingDrawn</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_representedFilename">_representedFilename</a></h3>
+    @protected NSString* <b>_representedFilename</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_reserved_1">_reserved_1</a></h3>
+    @protected void* <b>_reserved_1</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_screen">_screen</a></h3>
+    @protected NSScreen* <b>_screen</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_styleMask">_styleMask</a></h3>
+    @protected NSUInteger <b>_styleMask</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_toolbar">_toolbar</a></h3>
+    @protected NSToolbar* <b>_toolbar</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_windowController">_windowController</a></h3>
+    @protected NSWindowController* <b>_windowController</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_windowLevel">_windowLevel</a></h3>
+    @protected NSInteger <b>_windowLevel</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_windowNum">_windowNum</a></h3>
+    @protected NSInteger <b>_windowNum</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_windowTitle">_windowTitle</a></h3>
+    @protected NSString* <b>_windowTitle</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*_wv">_wv</a></h3>
+    @protected GSWindowDecorationView* <b>_wv</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWindow*struct GSWindowFlagsType">struct GSWindowFlagsType</a></h3>
+    @protected struct GSWindowFlagsType <b>struct GSWindowFlagsType</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator"/>
+    <br><hr class="section-separator"><br>
+
+          <h1><a name="002000000000">
+        Software documentation for the
+        NSObject(NSWindowDelegate) informal
+        protocol
+      </a></h1>
+    <h2>NSObject(<a name="category$NSObject(NSWindowDelegate)">NSWindowDelegate</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSWindow.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-window$willPositionSheet$usingRect$">-window:willPositionSheet:usingRect:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowDidBecomeKey$">-windowDidBecomeKey:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowDidBecomeMain$">-windowDidBecomeMain:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowDidChangeScreen$">-windowDidChangeScreen:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowDidChangeScreenProfile$">-windowDidChangeScreenProfile:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowDidDeminiaturize$">-windowDidDeminiaturize:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowDidEndSheet$">-windowDidEndSheet:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowDidExpose$">-windowDidExpose:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowDidMiniaturize$">-windowDidMiniaturize:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowDidMove$">-windowDidMove:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowDidResignKey$">-windowDidResignKey:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowDidResignMain$">-windowDidResignMain:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowDidResize$">-windowDidResize:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowDidUpdate$">-windowDidUpdate:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowShouldClose$">-windowShouldClose:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowShouldZoom$toFrame$">-windowShouldZoom:toFrame:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowWillBeginSheet$">-windowWillBeginSheet:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowWillClose$">-windowWillClose:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowWillMiniaturize$">-windowWillMiniaturize:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowWillMove$">-windowWillMove:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowWillResize$toSize$">-windowWillResize:toSize:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowWillReturnFieldEditor$toObject$">-windowWillReturnFieldEditor:toObject:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowWillReturnUndoManager$">-windowWillReturnUndoManager:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegate)-windowWillUseStandardFrame$defaultFrame$">-windowWillUseStandardFrame:defaultFrame:</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-window$willPositionSheet$usingRect$">window:&nbsp;willPositionSheet:&nbsp;usingRect:&nbsp;</a></h3>
+    - (NSRect) <b>window:</b> (<a rel="gsdoc" href="#class$NSWindow">NSWindow</a>*)window<b> willPositionSheet:</b> (<a rel="gsdoc" href="#class$NSWindow">NSWindow</a>*)sheet<b> usingRect:</b> (NSRect)rect;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowDidBecomeKey$">windowDidBecomeKey:&nbsp;</a></h3>
+    - (void) <b>windowDidBecomeKey:</b> (NSNotification*)aNotification;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowDidBecomeMain$">windowDidBecomeMain:&nbsp;</a></h3>
+    - (void) <b>windowDidBecomeMain:</b> (NSNotification*)aNotification;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowDidChangeScreen$">windowDidChangeScreen:&nbsp;</a></h3>
+    - (void) <b>windowDidChangeScreen:</b> (NSNotification*)aNotification;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowDidChangeScreenProfile$">windowDidChangeScreenProfile:&nbsp;</a></h3>
+    - (void) <b>windowDidChangeScreenProfile:</b> (NSNotification*)aNotification;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowDidDeminiaturize$">windowDidDeminiaturize:&nbsp;</a></h3>
+    - (void) <b>windowDidDeminiaturize:</b> (NSNotification*)aNotification;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowDidEndSheet$">windowDidEndSheet:&nbsp;</a></h3>
+    - (void) <b>windowDidEndSheet:</b> (NSNotification*)aNotification;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowDidExpose$">windowDidExpose:&nbsp;</a></h3>
+    - (void) <b>windowDidExpose:</b> (NSNotification*)aNotification;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowDidMiniaturize$">windowDidMiniaturize:&nbsp;</a></h3>
+    - (void) <b>windowDidMiniaturize:</b> (NSNotification*)aNotification;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowDidMove$">windowDidMove:&nbsp;</a></h3>
+    - (void) <b>windowDidMove:</b> (NSNotification*)aNotification;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowDidResignKey$">windowDidResignKey:&nbsp;</a></h3>
+    - (void) <b>windowDidResignKey:</b> (NSNotification*)aNotification;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowDidResignMain$">windowDidResignMain:&nbsp;</a></h3>
+    - (void) <b>windowDidResignMain:</b> (NSNotification*)aNotification;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowDidResize$">windowDidResize:&nbsp;</a></h3>
+    - (void) <b>windowDidResize:</b> (NSNotification*)aNotification;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowDidUpdate$">windowDidUpdate:&nbsp;</a></h3>
+    - (void) <b>windowDidUpdate:</b> (NSNotification*)aNotification;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowShouldClose$">windowShouldClose:&nbsp;</a></h3>
+    - (BOOL) <b>windowShouldClose:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowShouldZoom$toFrame$">windowShouldZoom:&nbsp;toFrame:&nbsp;</a></h3>
+    - (BOOL) <b>windowShouldZoom:</b> (<a rel="gsdoc" href="#class$NSWindow">NSWindow</a>*)sender<b> toFrame:</b> (NSRect)aFrame;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowWillBeginSheet$">windowWillBeginSheet:&nbsp;</a></h3>
+    - (void) <b>windowWillBeginSheet:</b> (NSNotification*)aNotification;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowWillClose$">windowWillClose:&nbsp;</a></h3>
+    - (void) <b>windowWillClose:</b> (NSNotification*)aNotification;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowWillMiniaturize$">windowWillMiniaturize:&nbsp;</a></h3>
+    - (void) <b>windowWillMiniaturize:</b> (NSNotification*)aNotification;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowWillMove$">windowWillMove:&nbsp;</a></h3>
+    - (void) <b>windowWillMove:</b> (NSNotification*)aNotification;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowWillResize$toSize$">windowWillResize:&nbsp;toSize:&nbsp;</a></h3>
+    - (NSSize) <b>windowWillResize:</b> (<a rel="gsdoc" href="#class$NSWindow">NSWindow</a>*)sender<b> toSize:</b> (NSSize)frameSize;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowWillReturnFieldEditor$toObject$">windowWillReturnFieldEditor:&nbsp;toObject:&nbsp;</a></h3>
+    - (id) <b>windowWillReturnFieldEditor:</b> (<a rel="gsdoc" href="#class$NSWindow">NSWindow</a>*)sender<b> toObject:</b> (id)client;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowWillReturnUndoManager$">windowWillReturnUndoManager:&nbsp;</a></h3>
+    - (NSUndoManager*) <b>windowWillReturnUndoManager:</b> (<a rel="gsdoc" href="#class$NSWindow">NSWindow</a>*)sender;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegate)-windowWillUseStandardFrame$defaultFrame$">windowWillUseStandardFrame:&nbsp;defaultFrame:&nbsp;</a></h3>
+    - (NSRect) <b>windowWillUseStandardFrame:</b> (<a rel="gsdoc" href="#class$NSWindow">NSWindow</a>*)sender<b> defaultFrame:</b> (NSRect)aFrame;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+
+          <h1><a name="003000000000">
+        Software documentation for the
+        NSObject(NSWindowDelegateAdditions)
+        informal protocol
+      </a></h1>
+    <h2>NSObject(<a name="category$NSObject(NSWindowDelegateAdditions)">NSWindowDelegateAdditions</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSWindow.h</dd>
+      </dl>
+    </blockquote>
+    <blockquote>
+      <dl>
+        <dt><b>Conforms to:</b></dt>
+        <dd><a rel="gsdoc" href="#protocol$(NSWindowDelegate)">NSWindowDelegate</a></dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSObject(NSWindowDelegateAdditions)-attachedSheet">-attachedSheet</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$NSObject(NSWindowDelegateAdditions)-attachedSheet">attachedSheet&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSWindow">NSWindow</a>*) <b>attachedSheet</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.1.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+
+          <h1><a name="004000000000">
+        Software documentation for the
+        NSWindow(GNUstepBackend) category
+      </a></h1>
+    <h2><a rel="gsdoc" href="#class$NSWindow">NSWindow</a>(<a name="category$NSWindow(GNUstepBackend)">GNUstepBackend</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSWindow.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow(GNUstepBackend)-_captureMouse$">-_captureMouse:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow(GNUstepBackend)-_initDefaults">-_initDefaults</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow(GNUstepBackend)-_releaseMouse$">-_releaseMouse:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow(GNUstepBackend)-_setVisible$">-_setVisible:</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$NSWindow(GNUstepBackend)-_captureMouse$">_captureMouse:&nbsp;</a></h3>
+    - (void) <b>_captureMouse:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow(GNUstepBackend)-_initDefaults">_initDefaults&nbsp;</a></h3>
+    - (void) <b>_initDefaults</b>;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow(GNUstepBackend)-_releaseMouse$">_releaseMouse:&nbsp;</a></h3>
+    - (void) <b>_releaseMouse:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow(GNUstepBackend)-_setVisible$">_setVisible:&nbsp;</a></h3>
+    - (void) <b>_setVisible:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+
+          <h1><a name="005000000000">
+        Software documentation for the
+        NSWindow(GNUstepTextView) category
+      </a></h1>
+    <h2><a rel="gsdoc" href="#class$NSWindow">NSWindow</a>(<a name="category$NSWindow(GNUstepTextView)">GNUstepTextView</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSWindow.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow(GNUstepTextView)-_futureFirstResponder">-_futureFirstResponder</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$NSWindow(GNUstepTextView)-_futureFirstResponder">_futureFirstResponder&nbsp;</a></h3>
+    - (id) <b>_futureFirstResponder</b>;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+
+          <h1><a name="006000000000">
+        Software documentation for the NSWindow(Toolbar)
+        category
+      </a></h1>
+    <h2><a rel="gsdoc" href="#class$NSWindow">NSWindow</a>(<a name="category$NSWindow(Toolbar)">Toolbar</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSWindow.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow(Toolbar)-runToolbarCustomizationPalette$">-runToolbarCustomizationPalette:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow(Toolbar)-setToolbar$">-setToolbar:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow(Toolbar)-toggleToolbarShown$">-toggleToolbarShown:</a></li>
+        <li><a rel="gsdoc" href="NSWindow.html#method$NSWindow(Toolbar)-toolbar">-toolbar</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$NSWindow(Toolbar)-runToolbarCustomizationPalette$">runToolbarCustomizationPalette:&nbsp;</a></h3>
+    - (void) <b>runToolbarCustomizationPalette:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow(Toolbar)-setToolbar$">setToolbar:&nbsp;</a></h3>
+    - (void) <b>setToolbar:</b> (<a rel="gsdoc" href="NSToolbar.html#class$NSToolbar">NSToolbar</a>*)toolbar;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow(Toolbar)-toggleToolbarShown$">toggleToolbarShown:&nbsp;</a></h3>
+    - (void) <b>toggleToolbarShown:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWindow(Toolbar)-toolbar">toolbar&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSToolbar.html#class$NSToolbar">NSToolbar</a>*) <b>toolbar</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+
+          <h1><a name="007000000000">
+        Software documentation for the NSWindowDelegate
+        protocol
+      </a></h1>
+    <h2><a name="protocol$(NSWindowDelegate)">NSWindowDelegate</a></h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSWindow.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <br>
+    <a href="Gui.html">Up</a>
+  </body>
+</html>

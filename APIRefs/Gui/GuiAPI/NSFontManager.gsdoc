@@ -1,0 +1,634 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSFontManager" stylesheeturl="default-styles.css" up="Gui">
+  <head>
+    <title>NSFontManager</title>
+    <author name="Fred Kiefer">
+      <email address="FredKiefer@gmx.de">
+        FredKiefer@gmx.de
+      </email>
+    </author>
+    <date>Generated at 2024-11-13 12:52:37 -0500</date>
+    <abstract>Manages system and user fonts</abstract>
+    <copy>1996 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSFontManager class
+      </heading>
+      <class name="NSFontManager" super="NSObject" ovadd="1.0.0">
+        <declared>AppKit/NSFontManager.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <ivariable type="SEL" name="_action" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableDictionary*" name="_collections" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_delegate" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_fontEnumerator" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMenu*" name="_fontMenu" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_multiple" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSDictionary*" name="_selectedAttributes" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSFont*" name="_selectedFont" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSFontTag" name="_storedTag" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSFontTraitMask" name="_trait" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="void" factory="yes" ovadd="1.0.0">
+          <sel>setFontManagerFactory:</sel>
+          <arg type="Class">aClass</arg>
+          <desc>
+            <p>
+              Sets the class used to create the NSFontManager to
+              <var>aClass</var>. By default it is a NSFontManager
+              class. You can change this behavour by
+              implementing your own class (a subclass of
+              NSFontManager)
+            </p>
+            <p>
+              This class is init into
+              <ref type="method" id="+sharedFontManager">
+                +sharedFontManager
+              </ref>
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="+sharedFontManager">
+                +sharedFontManager
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="1.0.0">
+          <sel>setFontPanelFactory:</sel>
+          <arg type="Class">aClass</arg>
+          <desc>
+            <p>
+              Sets the class used to create a NSFontPanel. If you
+              want to use a custom class it should be NSFontPanel
+              subclass
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-fontPanel:">
+                -fontPanel:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="NSFontManager*" factory="yes" ovadd="1.0.0">
+          <sel>sharedFontManager</sel>
+          <desc>
+            <p>
+              Creates (if needed) and returns the NSFontManager
+              shared instance. This method init the font manager
+              class defined in
+              <ref type="method" id="+setFontManagerFactory:">
+                +setFontManagerFactory:
+              </ref>
+              (it is usally a NSFontManager class)
+            </p>
+          </desc>
+        </method>
+        <method type="SEL" ovadd="1.0.0">
+          <sel>action</sel>
+          <desc>
+            <p>
+              Returns the action sents by the NSFontManager.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-setAction:">
+                -setAction:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.3.0">
+          <sel>addCollection:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>options:</sel>
+          <arg type="int">options</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.3.0">
+          <sel>addFontDescriptors:</sel>
+          <arg type="NSArray*">descriptors</arg>
+          <sel>toCollection:</sel>
+          <arg type="NSString*">collection</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>addFontTrait:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>availableFontFamilies</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.3.0">
+          <sel>availableFontNamesMatchingFontDescriptor:</sel>
+          <arg type="NSFontDescriptor*">descriptor</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>availableFontNamesWithTraits:</sel>
+          <arg type="NSFontTraitMask">fontTraitMask</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>availableFonts</sel>
+          <desc>
+            <p>
+              Returns an array of available fonts.
+            </p>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>availableMembersOfFontFamily:</sel>
+          <arg type="NSString*">family</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.3.0">
+          <sel>collectionNames</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="10.3.0">
+          <sel>convertAttributes:</sel>
+          <arg type="NSDictionary*">attributes</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSFont*" ovadd="1.0.0">
+          <sel>convertFont:</sel>
+          <arg type="NSFont*">fontObject</arg>
+          <desc>
+            <p>
+              Converts the NSFont <var>fontObject</var>
+              according to user changes in the Font panel or
+              the font menu
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-addFontTrait:">
+                -addFontTrait:
+              </ref>
+              <ref type="method" id="-removeFontTrait:">
+                -removeFontTrait:
+              </ref>
+              <ref type="method" id="-modifyFont:">
+                -modifyFont:
+              </ref>
+              <ref type="method" id="-modifyFontViaPanel:">
+                -modifyFontViaPanel:
+              </ref>
+              <ref type="method" id="-convertFont:toHaveTrait:">
+                -convertFont:toHaveTrait:
+              </ref>
+              <ref type="method" id="-convertFont:toNotHaveTrait:">
+                -convertFont:toNotHaveTrait:
+              </ref>
+              <ref type="method" id="-convertFont:toSize:">
+                -convertFont:toSize:
+              </ref>
+              <ref type="method" id="-convertFont:toFamily:">
+                -convertFont:toFamily:
+              </ref>
+              <ref type="method" id="-convertWeight:ofFont:">
+                -convertWeight:ofFont:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="NSFont*" ovadd="1.0.0">
+          <sel>convertFont:</sel>
+          <arg type="NSFont*">fontObject</arg>
+          <sel>toFace:</sel>
+          <arg type="NSString*">typeface</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSFont*" ovadd="1.0.0">
+          <sel>convertFont:</sel>
+          <arg type="NSFont*">fontObject</arg>
+          <sel>toFamily:</sel>
+          <arg type="NSString*">family</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSFont*" ovadd="1.0.0">
+          <sel>convertFont:</sel>
+          <arg type="NSFont*">fontObject</arg>
+          <sel>toHaveTrait:</sel>
+          <arg type="NSFontTraitMask">trait</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSFont*" ovadd="1.0.0">
+          <sel>convertFont:</sel>
+          <arg type="NSFont*">fontObject</arg>
+          <sel>toNotHaveTrait:</sel>
+          <arg type="NSFontTraitMask">trait</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSFont*" ovadd="1.0.0">
+          <sel>convertFont:</sel>
+          <arg type="NSFont*">fontObject</arg>
+          <sel>toSize:</sel>
+          <arg type="float">size</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSFont*" ovadd="1.0.0">
+          <sel>convertWeight:</sel>
+          <arg type="BOOL">upFlag</arg>
+          <sel>ofFont:</sel>
+          <arg type="NSFont*">fontObject</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>delegate</sel>
+          <desc>
+            <p>
+              Returns the NSFontManager's delegate
+            </p>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.3.0">
+          <sel>fontDescriptorsInCollection:</sel>
+          <arg type="NSString*">collection</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSMenu*" ovadd="1.0.0">
+          <sel>fontMenu:</sel>
+          <arg type="BOOL">create</arg>
+          <desc>
+            <p>
+              Returns the font menu, creates it (if needed) if
+              <var>create</var> is <code>YES</code>.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-setFontMenu:">
+                -setFontMenu:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>fontNamed:</sel>
+          <arg type="NSString*">typeface</arg>
+          <sel>hasTraits:</sel>
+          <arg type="NSFontTraitMask">fontTraitMask</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSFontPanel*" ovadd="1.0.0">
+          <sel>fontPanel:</sel>
+          <arg type="BOOL">create</arg>
+          <desc>
+            <p>
+              Returns the NSFontPanel, creates it (if needed)
+              if <var>create</var> is <code>YES</code>.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="+setFontPanelFactory:">
+                +setFontPanelFactory:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="NSFont*" ovadd="1.0.0">
+          <sel>fontWithFamily:</sel>
+          <arg type="NSString*">family</arg>
+          <sel>traits:</sel>
+          <arg type="NSFontTraitMask">traits</arg>
+          <sel>weight:</sel>
+          <arg type="int">weight</arg>
+          <sel>size:</sel>
+          <arg type="float">size</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isEnabled</sel>
+          <desc>
+            <p>
+              Returns whether the NSFontPanel is enabled (if
+              exists)
+            </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isMultiple</sel>
+          <desc>
+            <p>
+              Returns whether the current selection contains
+              multiple fonts
+            </p>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>localizedNameForFamily:</sel>
+          <arg type="NSString*">family</arg>
+          <sel>face:</sel>
+          <arg type="NSString*">face</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>modifyFont:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>modifyFontViaPanel:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>orderFrontFontPanel:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.3.0">
+          <sel>removeCollection:</sel>
+          <arg type="NSString*">collection</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.3.0">
+          <sel>removeFontDescriptor:</sel>
+          <arg type="NSFontDescriptor*">descriptor</arg>
+          <sel>fromCollection:</sel>
+          <arg type="NSString*">collection</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeFontTrait:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSFont*" ovadd="1.0.0">
+          <sel>selectedFont</sel>
+          <desc>
+            <p>
+              Returns the selected font
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-setSelectedFont:isMultiple:">
+                -setSelectedFont:isMultiple:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>sendAction</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setAction:</sel>
+          <arg type="SEL">aSelector</arg>
+          <desc>
+            <p>
+              Sents the action sents by the NSFontManager to
+              <var>aSelector</var>.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-action">
+                -action
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setDelegate:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            <p>
+              Sets the NSFontManager's delegate to
+              <var>anObject</var>
+            </p>
+            FIXME: This is extremely unclear. At the moment, the
+            NSFontManager's delegate is never used.
+            This can't be right.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setEnabled:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <p>
+              Enables/disables the NSFontPanel and the
+              font menu (if they exist)
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-isEnabled">
+                -isEnabled
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setFontMenu:</sel>
+          <arg type="NSMenu*">newMenu</arg>
+          <desc>
+            <p>
+              Sets the font menu to <var>newMenu</var>
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-fontMenu:">
+                -fontMenu:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.3.0">
+          <sel>setSelectedAttributes:</sel>
+          <arg type="NSDictionary*">attributes</arg>
+          <sel>isMultiple:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setSelectedFont:</sel>
+          <arg type="NSFont*">fontObject</arg>
+          <sel>isMultiple:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSFontTraitMask" ovadd="1.0.0">
+          <sel>traitsOfFont:</sel>
+          <arg type="NSFont*">aFont</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="int" ovadd="1.0.0">
+          <sel>weightOfFont:</sel>
+          <arg type="NSFont*">fontObject</arg>
+          <desc>
+            <p>
+              Returns the weight of the NSFont
+              <var>fontObject</var>
+            </p>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSFontManagerDelegate)
+        informal protocol
+      </heading>
+      <category name="NSFontManagerDelegate" class="NSObject" ovadd="1.0.0">
+        <declared>AppKit/NSFontManager.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>fontManager:</sel>
+          <arg type="id">sender</arg>
+          <sel>willIncludeFont:</sel>
+          <arg type="NSString*">fontName</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+  </body>
+</gsdoc>

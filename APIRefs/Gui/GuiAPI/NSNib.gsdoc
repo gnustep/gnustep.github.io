@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSNib" stylesheeturl="default-styles.css" up="Gui">
+  <head>
+    <title>NSNib</title>
+    <author name="Gregory John Casamento">
+      <email address="greg_casamento@yahoo.com">
+        greg_casamento@yahoo.com
+      </email>
+    </author>
+    <date>Generated at 2024-11-13 12:52:37 -0500</date>
+    <abstract>
+      This class serves as a container for a nib file. It's
+      possible to load a nib file from a URL or from a bundle.
+      Using this class the nib file can now be "preloaded" and
+      instantiated multiple times when/if needed. Also,
+      since it's possible to initialize this class using a NSURL
+      it's possible to load nib files from remote locations.
+      <br /> This class uses: NSNibOwner and
+      NSNibTopLevelObjects to allow the caller to
+      specify the owner of the nib during instantiation and
+      receive an array containing the top level objects of the
+      nib file.
+    </abstract>
+    <copy>2004 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSNib class
+      </heading>
+      <class name="NSNib" super="NSObject" ovadd="1.0.0">
+        <declared>AppKit/NSNib.h</declared>
+        <conform>NSCoding</conform>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <ivariable type="NSBundle*" name="_bundle" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_loader" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSData*" name="_nibData" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithContentsOfURL:</sel>
+          <arg type="NSURL*">nibFileURL</arg>
+          <desc>
+            Load the NSNib object from the specified URL. This
+            location can be any type of resource capable of
+            being pointed to by the NSURL object. A file in the
+            local file system or a file on an ftp site.
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="10.8.0">
+          <sel>initWithNibData:</sel>
+          <arg type="NSData*">nibData</arg>
+          <sel>bundle:</sel>
+          <arg type="NSBundle*">bundle</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="instancetype" ovadd="1.0.0">
+          <sel>initWithNibNamed:</sel>
+          <arg type="NSNibName">nibNamed</arg>
+          <sel>bundle:</sel>
+          <arg type="NSBundle*">bundle</arg>
+          <desc>
+            Load the nib indicated by
+            <code><var>nibNamed</var></code>. If the
+            <code><var>bundle</var></code> argument is
+            <code>nil</code>, then the main <var>bundle</var> is
+            used to resolve the path, otherwise the
+            <var>bundle</var> which is supplied will be used.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>instantiateNibWithExternalNameTable:</sel>
+          <arg type="NSDictionary*">externalNameTable</arg>
+          <desc>
+            This method instantiates the nib file. The
+            <var>externalNameTable</var> dictionary accepts the
+            NSNibOwner and NSNibTopLevelObjects entries
+            described earlier. It is recommended, for
+            subclasses whose purpose is to change the
+            behaviour of nib loading, to override this
+            method.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>instantiateNibWithExternalNameTable:</sel>
+          <arg type="NSDictionary*">externalNameTable</arg>
+          <sel>withZone:</sel>
+          <arg type="NSZone*">zone</arg>
+          <desc>
+            This is a GNUstep specific method. This method is used
+            when the caller wants the objects instantiated in the
+            nib to be stored in the given
+            <code><var>zone</var></code>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>instantiateNibWithOwner:</sel>
+          <arg type="id">owner</arg>
+          <sel>topLevelObjects:</sel>
+          <arg type="NSArray**">topLevelObjects</arg>
+          <desc>
+            This method instantiates the nib file. It utilizes the
+            instantiateNibWithExternalNameTable:
+            method to, in a convenient way, allow the user to
+            specify both keys accepted by the nib loading
+            process.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.8.0">
+          <sel>instantiateWithOwner:</sel>
+          <arg type="id">owner</arg>
+          <sel>topLevelObjects:</sel>
+          <arg type="NSArray**">topLevelObjects</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>

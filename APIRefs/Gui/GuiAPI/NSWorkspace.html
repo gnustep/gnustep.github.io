@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>NSWorkspace</title>
+<meta http-equiv="Content-Style-Type" content="text/css"/>
+<link rel="stylesheet" type="text/css" href="default-styles.css" media="screen" title="Normal" />
+  </head>
+  <body>
+    <a href="Gui.html">Up</a>
+    <br>
+    <h1><a name="title$NSWorkspace">NSWorkspace</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Scott Christley (<a href="mailto:scottc@net-community.com"><code>scottc@net-community.com</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Richard Frith-Macdonald (<a href="mailto:richard@brainstorm.co.uk"><code>richard@brainstorm.co.uk</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Fred Kiefer (<a href="mailto:FredKiefer@gmx.de"><code>FredKiefer@gmx.de</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Date:</b> Generated at 2024-11-13 12:52:37 -0500</p>
+    <blockquote>
+      Workspace class
+    </blockquote>
+    <p><b>Copyright:</b> (C) 1996-2016 Free Software Foundation, Inc.</p>
+
+        <div>
+      <hr class="section-separator">
+      <h3>Contents -</h3>
+      <ol>
+        <li>
+          <a href="#001000000000">Software documentation for the NSWorkspace class</a>
+        </li>
+        <li>
+          <a href="#002000000000">Software documentation for the NSWorkspace(GNUstep)
+        category</a>
+        </li>
+      </ol>
+      <hr class="section-separator">
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSWorkspace class
+      </a></h1>
+    <h2 class="class"><a name="class$NSWorkspace">NSWorkspace</a> : NSObject</h2>
+<svg width="178pt" height="116pt"
+ viewBox="0.00 0.00 178.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>class_NSWorkspace</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 174,-112 174,4 -4,4"/>
+<!-- NSObject -->
+<g id="node1" class="node figure_super">
+<title>NSObject</title>
+<polygon fill="lightgrey" stroke="black" points="144,-108 26,-108 26,-72 144,-72 144,-108"/>
+<text text-anchor="middle" x="85" y="-83.8" font-family="Times,serif" font-size="24.00" fill="blue">NSObject</text>
+</g>
+<!-- NSWorkspace -->
+<g id="node2" class="node figure_class">
+<title>NSWorkspace</title>
+<polygon fill="lightgrey" stroke="black" points="170,-36 0,-36 0,0 170,0 170,-36"/>
+<text text-anchor="middle" x="85" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">NSWorkspace</text>
+</g>
+<!-- NSObject&#45;&gt;NSWorkspace -->
+<g id="edge1" class="edge">
+<title>NSObject&#45;&gt;NSWorkspace</title>
+<path fill="none" stroke="black" d="M85,-71.7C85,-63.98 85,-54.71 85,-46.11"/>
+<polygon fill="black" stroke="black" points="88.5,-46.1 85,-36.1 81.5,-46.1 88.5,-46.1"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSWorkspace.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            The NSWorkspace class gathers together a large number
+            of capabilities needed for workspace management.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            The make_services tool examines all applications
+            (anything with a.app,.debug, or.profile suffix)
+            in the system, local, and user Apps directories, and
+            caches information about the services each app
+            provides (extracted from the Info-gnustep.plist
+            file in each application).
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            In addition to the cache of services information, it
+            builds a cache of information about all known
+            applications (including information about file
+            types they handle).
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            NSWorkspace reads the cache and uses it to
+            determine which application to use to open a
+            document and which icon to use to represent that
+            document.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            The NSWorkspace API has been extended to provide
+            methods for finding/setting the preferred
+            icon/application for a particular file
+            type. NSWorkspace will use the &apos;best&apos;
+            icon/application available.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            To determine the executable to launch, if there was an
+            Info-gnustep.plist/Info.plist
+            in the app wrapper and it had an NSExecutable field - it
+            uses that name. Otherwise, it tries to use the name of
+            the app - eg. foo.app/foo <br> The executable is
+            launched by NSTask, which handles the addition of
+            machine/os/library path components as
+            necessary.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            To determine the icon for a file, it uses the value from
+            the cache of icons for the file extension, or use an
+            &apos;unknown&apos; icon.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            To determine the icon for a folder, if the folder has a
+            &apos;.app&apos;, &apos;.debug&apos; or &apos;.profile&apos; extension - the
+            Info-gnustep.plist file is examined for
+            an &apos;NSIcon&apos; value and NSWorkspace tries to use that. If
+            there is no value specified - it tries
+            &apos;foo.app/foo.png&apos; or &apos;foo.app/foo.tiff&apos;
+            or &apos;foo.app/.dir.png&apos; or &apos;foo.app/.dir.tiff&apos;
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            If the folder was not an application wrapper, it just
+            tries the.dir.png and.dir.tiff file.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            If no icon was available, it uses a default folder icon
+            or a special icon for the root directory.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            The information about what file types an app can handle
+            needs to be stored in Info-gnustep.plist in an array
+            keyed on the name <em>NSTypes</em>, within which each
+            value is a dictionary. <br>
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            In the NSTypes fields, NSWorkspace uses NSIcon (the icon
+            to use for the type) NSUnixExtensions (a list of file
+            extensions corresponding to the type) and NSRole
+            (what the app can do with documents of this type
+            <em>Editor</em>, <em>Viewer</em>, or <em>None</em>).
+            In the AppList cache, make_services generates a
+            dictionary, keyed by file extension, whose
+            values are the dictionaries containing the NSTypes
+            dictionaries of each of the apps that handle
+            the extension. The NSWorkspace class makes use of this
+            cache at runtime.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            If the Info-gnustep.plist of an application says that it
+            can open files with a particular extension, then when
+            NSWorkspace is asked to open such a file it
+            will attempt to send an
+            <a rel="gsdoc" href="NSApplication.html#method$NSObject(NSApplicationDelegate)-application$openFile$">
+              -application:openFile:
+            </a>
+
+            message to the application (which must be handled
+            by the applications delegate). If the application is not
+            running, NSWorkspace will instead attempt to
+            launch the application passing the filename to open
+            after a &apos;-GSFilePath&apos; flag in the command line
+            arguments. For a GNUstep application, the
+            application will recognize this and invoke the
+            <a rel="gsdoc" href="NSApplication.html#method$NSObject(NSApplicationDelegate)-application$openFile$">
+              -application:openFile:
+            </a>
+
+            method passing it the file name.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            This command line argument mechanism provides a way
+            for non-gnustep applications to be used to open files
+            simply by provideing a wrapper for them containing
+            the appropriate Info-gnustep.plist. <br> For instance
+            - you could set up xv.app to contain a shellscript &apos;xv&apos;
+            that would start the real xv binary passing it a file
+            to open if the &apos;-GSFilePath&apos; argument was given. The
+            Info-gnustep.plist file could look like
+            this:
+              </p>
+    <p>
+      
+
+<pre>
+ 
+ {
+   NSExecutable = &quot;xv&quot;;
+   NSIcon = &quot;xv.png&quot;;
+   NSTypes = (
+     {
+       NSIcon = &quot;tiff.tiff&quot;;
+       NSUnixExtensions = (tiff, tif);
+     },
+     {
+       NSIcon = &quot;xbm.tiff&quot;;
+       NSUnixExtensions = (xbm);
+     }
+);
+ }
+ </pre>
+      
+        
+    </div>
+    <hr class="section-separator">
+    <a href="#_NSWorkspace_ivars">Instance Variables</a>
+    <br><br>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-appIconForApp$">-appIconForApp:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-bundleForApp$">-bundleForApp:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-getBestAppInRole$forExtension$">-getBestAppInRole:forExtension:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-getBestAppInRole$forScheme$">-getBestAppInRole:forScheme:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-getBestIconForExtension$">-getBestIconForExtension:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-infoForExtension$">-infoForExtension:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-infoForScheme$">-infoForScheme:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-locateApplicationBinary$">-locateApplicationBinary:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-setBestApp$inRole$forExtension$">-setBestApp:inRole:forExtension:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-setBestApp$inRole$forScheme$">-setBestApp:inRole:forScheme:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-setBestIcon$forExtension$">-setBestIcon:forExtension:</a></li>
+        <li><a rel="gsdoc" href="NSRunningApplication.html#method$NSWorkspace(NSWorkspaceRunningApplications)-frontmostApplication">-frontmostApplication</a></li>
+        <li><a rel="gsdoc" href="NSRunningApplication.html#method$NSWorkspace(NSWorkspaceRunningApplications)-runningApplications">-runningApplications</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace+sharedWorkspace">+sharedWorkspace</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-absolutePathForAppBundleWithIdentifier$">-absolutePathForAppBundleWithIdentifier:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-activeApplication">-activeApplication</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-checkForRemovableMedia">-checkForRemovableMedia</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-extendPowerOffBy$">-extendPowerOffBy:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-fileSystemChanged">-fileSystemChanged</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-filenameExtension$isValidForType$">-filenameExtension:isValidForType:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-findApplications">-findApplications</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-fullPathForApplication$">-fullPathForApplication:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-getFileSystemInfoForPath$isRemovable$isWritable$isUnmountable$description$type$">-getFileSystemInfoForPath:isRemovable:isWritable:isUnmountable:description:type:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-getInfoForFile$application$type$">-getInfoForFile:application:type:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-hideOtherApplications">-hideOtherApplications</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-iconForFile$">-iconForFile:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-iconForFileType$">-iconForFileType:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-iconForFiles$">-iconForFiles:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-isFilePackageAtPath$">-isFilePackageAtPath:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-launchAppWithBundleIdentifier$options$additionalEventParamDescriptor$launchIdentifier$">-launchAppWithBundleIdentifier:options:additionalEventParamDescriptor:launchIdentifier:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-launchApplication$">-launchApplication:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-launchApplication$showIcon$autolaunch$">-launchApplication:showIcon:autolaunch:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-launchedApplications">-launchedApplications</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-localizedDescriptionForType$">-localizedDescriptionForType:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-mountNewRemovableMedia">-mountNewRemovableMedia</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-mountedLocalVolumePaths">-mountedLocalVolumePaths</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-mountedRemovableMedia">-mountedRemovableMedia</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-noteFileSystemChanged">-noteFileSystemChanged</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-noteFileSystemChanged$">-noteFileSystemChanged:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-noteUserDefaultsChanged">-noteUserDefaultsChanged</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-notificationCenter">-notificationCenter</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-openFile$">-openFile:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-openFile$fromImage$at$inView$">-openFile:fromImage:at:inView:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-openFile$withApplication$">-openFile:withApplication:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-openFile$withApplication$andDeactivate$">-openFile:withApplication:andDeactivate:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-openTempFile$">-openTempFile:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-openURL$">-openURL:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-openURLs$withAppBundleIdentifier$options$additionalEventParamDescriptor$launchIdentifiers$">-openURLs:withAppBundleIdentifier:options:additionalEventParamDescriptor:launchIdentifiers:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-performFileOperation$source$destination$files$tag$">-performFileOperation:source:destination:files:tag:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-preferredFilenameExtensionForType$">-preferredFilenameExtensionForType:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-selectFile$inFileViewerRootedAtPath$">-selectFile:inFileViewerRootedAtPath:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-setIcon$forFile$options$">-setIcon:forFile:options:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-slideImage$from$to$">-slideImage:from:to:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-type$conformsToType$">-type:conformsToType:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-typeOfFile$error$">-typeOfFile:error:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-unmountAndEjectDeviceAtPath$">-unmountAndEjectDeviceAtPath:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace-userDefaultsChanged">-userDefaultsChanged</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$NSWorkspace+sharedWorkspace">sharedWorkspace&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSWorkspace">NSWorkspace</a>*) <b>sharedWorkspace</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-absolutePathForAppBundleWithIdentifier$">absolutePathForAppBundleWithIdentifier:&nbsp;</a></h3>
+    - (NSString*) <b>absolutePathForAppBundleWithIdentifier:</b> (NSString*)bundleIdentifier;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-activeApplication">activeApplication&nbsp;</a></h3>
+    - (NSDictionary*) <b>activeApplication</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br>
+    <div class="desc">
+      
+            Returns a description of the currently active
+            application, containing the name
+            (NSApplicationName), path
+            (NSApplicationPath) and process
+            identifier (NSApplicationProcessIdentifier).
+            <br> Returns <code>nil</code> if there is no known
+            active application.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-checkForRemovableMedia">checkForRemovableMedia&nbsp;</a></h3>
+    - (void) <b>checkForRemovableMedia</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-extendPowerOffBy$">extendPowerOffBy:&nbsp;</a></h3>
+    - (int) <b>extendPowerOffBy:</b> (int)requested;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-fileSystemChanged">fileSystemChanged&nbsp;</a></h3>
+    - (BOOL) <b>fileSystemChanged</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Tracking Changes to the File System
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-filenameExtension$isValidForType$">filenameExtension:&nbsp;isValidForType:&nbsp;</a></h3>
+    - (BOOL) <b>filenameExtension:</b> (NSString*)filenameExtension<b> isValidForType:</b> (NSString*)typeName;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-findApplications">findApplications&nbsp;</a></h3>
+    - (void) <b>findApplications</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Updates Registered Services, File Types, and other
+            information about any applications installed in
+            the standard locations.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-fullPathForApplication$">fullPathForApplication:&nbsp;</a></h3>
+    - (NSString*) <b>fullPathForApplication:</b> (NSString*)appName;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Given an application name, return the full path for
+            that application. <br> This method looks for the
+            application in standard locations, and if not
+            found there, according to MacOS-X documentation,
+            returns <code>nil</code>. <br> If the supplied
+            application name is an absolute path, returns
+            that path irrespective of whether such an application
+            exists or not. This is <em>not</em> the docmented
+            debavior in the MacOS-X documentation, but is the
+            MacOS-X implemented behavior. <br> If the
+            <var>appName</var> has an extension, it is used,
+            otherwise in GNUstep the standard app, debug, and
+            profile extensions * are tried. <br>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-getFileSystemInfoForPath$isRemovable$isWritable$isUnmountable$description$type$">getFileSystemInfoForPath:&nbsp;isRemovable:&nbsp;isWritable:&nbsp;isUnmountable:&nbsp;description:&nbsp;type:&nbsp;</a></h3>
+    - (BOOL) <b>getFileSystemInfoForPath:</b> (NSString*)fullPath<b> isRemovable:</b> (BOOL*)removableFlag<b> isWritable:</b> (BOOL*)writableFlag<b> isUnmountable:</b> (BOOL*)unmountableFlag<b> description:</b> (NSString**)description<b> type:</b> (NSString**)fileSystemType;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-getInfoForFile$application$type$">getInfoForFile:&nbsp;application:&nbsp;type:&nbsp;</a></h3>
+    - (BOOL) <b>getInfoForFile:</b> (NSString*)fullPath<b> application:</b> (NSString**)appName<b> type:</b> (NSString**)type;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            This method gets information about the file at
+            <var>fullPath</var> and returns <code>YES</code> on
+            success, <code>NO</code> if the named file could
+            not be found. <br> On success, the name of the
+            preferred application for opening the file is
+            returned in *appName, or <code>nil</code> if there
+            is no known application to open it. <br> The returned
+            value in *type describes the file using one of the
+            following constants.
+            
+      <dl>
+        <dt>NSPlainFileType</dt>
+        <dd>
+          
+                A plain file or a directory that some application
+                claims to be able to open like a file.
+              
+        </dd>
+        <dt>NSDirectoryFileType</dt>
+        <dd>
+          An untyped directory
+        </dd>
+        <dt>NSApplicationFileType</dt>
+        <dd>
+          A GNUstep application
+        </dd>
+        <dt>NSFilesystemFileType</dt>
+        <dd>
+          A file system mount point
+        </dd>
+        <dt>NSShellCommandFileType</dt>
+        <dd>
+          Executable shell command
+        </dd>
+      </dl>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-hideOtherApplications">hideOtherApplications&nbsp;</a></h3>
+    - (void) <b>hideOtherApplications</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Instructs all the other running applications to
+            hide themselves. <em>not yet implemented</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-iconForFile$">iconForFile:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSImage.html#class$NSImage">NSImage</a>*) <b>iconForFile:</b> (NSString*)fullPath;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-iconForFileType$">iconForFileType:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSImage.html#class$NSImage">NSImage</a>*) <b>iconForFileType:</b> (NSString*)fileType;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-iconForFiles$">iconForFiles:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSImage.html#class$NSImage">NSImage</a>*) <b>iconForFiles:</b> (NSArray*)pathArray;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-isFilePackageAtPath$">isFilePackageAtPath:&nbsp;</a></h3>
+    - (BOOL) <b>isFilePackageAtPath:</b> (NSString*)fullPath;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-launchAppWithBundleIdentifier$options$additionalEventParamDescriptor$launchIdentifier$">launchAppWithBundleIdentifier:&nbsp;options:&nbsp;additionalEventParamDescriptor:&nbsp;launchIdentifier:&nbsp;</a></h3>
+    - (BOOL) <b>launchAppWithBundleIdentifier:</b> (NSString*)bundleIdentifier<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSWorkspaceLaunchOptions">NSWorkspaceLaunchOptions</a>)options<b> additionalEventParamDescriptor:</b> (NSAppleEventDescriptor*)descriptor<b> launchIdentifier:</b> (NSNumber**)identifier;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-launchApplication$">launchApplication:&nbsp;</a></h3>
+    - (BOOL) <b>launchApplication:</b> (NSString*)appName;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Calls
+            <a rel="gsdoc" href="#method$NSWorkspace-launchApplication$showIcon$autolaunch$">-launchApplication:showIcon:autolaunch:</a>
+ with arguments set to show the icon but not set it up as an autolaunch.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-launchApplication$showIcon$autolaunch$">launchApplication:&nbsp;showIcon:&nbsp;autolaunch:&nbsp;</a></h3>
+    - (BOOL) <b>launchApplication:</b> (NSString*)appName<b> showIcon:</b> (BOOL)showIcon<b> autolaunch:</b> (BOOL)autolaunch;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Launches the specified application (unless it is
+              already running). <br> If the
+              <var>autolaunch</var> flag is yes, sets the
+              <var>autolaunch</var> user default for the newly
+              launched application, so that applications which
+              understand the concept of being autolaunched
+              at system startup time can modify their behavior
+              appropriately.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Sends an
+              NSWorkspaceWillLaunchApplicationNotification
+              before it actually attempts to launch the
+              application (this is not sent if the
+              application is already running).
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              The application sends an
+              NSWorkspaceDidlLaunchApplicationNotification
+              on completion of launching. This is not sent if the
+              application is already running, or if it
+              fails to complete its startup.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Returns <code>NO</code> if the application cannot
+              be launched (eg. it does not exist or the binary is
+              not executable).
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Returns <code>YES</code> if the application was
+              already running or of it was launched (this does
+              not necessarily mean that the application succeeded
+              in starting up fully).
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              Once an application has fully started up, you should
+              be able to connect to it using
+              [NSConnection +rootProxyForConnectionWithRegisteredName:host:]
+ passing the application name (normally the filesystem name excluding path and file extension) and an empty host name. This will let you communicate with the the <a rel="gsdoc" href="NSApplication.html#method$NSApplication-delegate">[NSApplication -delegate]</a>
+ of the launched application, and you can generally use this as a test of whether an application is running correctly.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-launchedApplications">launchedApplications&nbsp;</a></h3>
+    - (NSArray*) <b>launchedApplications</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.2.0</div>
+<br>
+    <div class="desc">
+      
+            Returns an array listing all the applications known
+            to have been launched. Each entry in the array is a
+            dictionary providing the name, path and process
+            identfier of an application.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-localizedDescriptionForType$">localizedDescriptionForType:&nbsp;</a></h3>
+    - (NSString*) <b>localizedDescriptionForType:</b> (NSString*)typeName;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-mountNewRemovableMedia">mountNewRemovableMedia&nbsp;</a></h3>
+    - (NSArray*) <b>mountNewRemovableMedia</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-mountedLocalVolumePaths">mountedLocalVolumePaths&nbsp;</a></h3>
+    - (NSArray*) <b>mountedLocalVolumePaths</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-mountedRemovableMedia">mountedRemovableMedia&nbsp;</a></h3>
+    - (NSArray*) <b>mountedRemovableMedia</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-noteFileSystemChanged">noteFileSystemChanged&nbsp;</a></h3>
+    - (void) <b>noteFileSystemChanged</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-noteFileSystemChanged$">noteFileSystemChanged:&nbsp;</a></h3>
+    - (void) <b>noteFileSystemChanged:</b> (NSString*)path;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-noteUserDefaultsChanged">noteUserDefaultsChanged&nbsp;</a></h3>
+    - (void) <b>noteUserDefaultsChanged</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Simply makes a note that the user defaults database
+            has changed.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-notificationCenter">notificationCenter&nbsp;</a></h3>
+    - (NSNotificationCenter*) <b>notificationCenter</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the workspace notification center
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-openFile$">openFile:&nbsp;</a></h3>
+    - (BOOL) <b>openFile:</b> (NSString*)fullPath;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-openFile$fromImage$at$inView$">openFile:&nbsp;fromImage:&nbsp;at:&nbsp;inView:&nbsp;</a></h3>
+    - (BOOL) <b>openFile:</b> (NSString*)fullPath<b> fromImage:</b> (<a rel="gsdoc" href="NSImage.html#class$NSImage">NSImage</a>*)anImage<b> at:</b> (NSPoint)point<b> inView:</b> (<a rel="gsdoc" href="NSView.html#class$NSView">NSView</a>*)aView;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-openFile$withApplication$">openFile:&nbsp;withApplication:&nbsp;</a></h3>
+    - (BOOL) <b>openFile:</b> (NSString*)fullPath<b> withApplication:</b> (NSString*)appName;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-openFile$withApplication$andDeactivate$">openFile:&nbsp;withApplication:&nbsp;andDeactivate:&nbsp;</a></h3>
+    - (BOOL) <b>openFile:</b> (NSString*)fullPath<b> withApplication:</b> (NSString*)appName<b> andDeactivate:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-openTempFile$">openTempFile:&nbsp;</a></h3>
+    - (BOOL) <b>openTempFile:</b> (NSString*)fullPath;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-openURL$">openURL:&nbsp;</a></h3>
+    - (BOOL) <b>openURL:</b> (NSURL*)url;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-openURLs$withAppBundleIdentifier$options$additionalEventParamDescriptor$launchIdentifiers$">openURLs:&nbsp;withAppBundleIdentifier:&nbsp;options:&nbsp;additionalEventParamDescriptor:&nbsp;launchIdentifiers:&nbsp;</a></h3>
+    - (BOOL) <b>openURLs:</b> (NSArray*)urls<b> withAppBundleIdentifier:</b> (NSString*)bundleIdentifier<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSWorkspaceLaunchOptions">NSWorkspaceLaunchOptions</a>)options<b> additionalEventParamDescriptor:</b> (NSAppleEventDescriptor*)descriptor<b> launchIdentifiers:</b> (NSArray**)identifiers;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-performFileOperation$source$destination$files$tag$">performFileOperation:&nbsp;source:&nbsp;destination:&nbsp;files:&nbsp;tag:&nbsp;</a></h3>
+    - (BOOL) <b>performFileOperation:</b> (NSString*)operation<b> source:</b> (NSString*)source<b> destination:</b> (NSString*)destination<b> files:</b> (NSArray*)files<b> tag:</b> (NSInteger*)tag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-preferredFilenameExtensionForType$">preferredFilenameExtensionForType:&nbsp;</a></h3>
+    - (NSString*) <b>preferredFilenameExtensionForType:</b> (NSString*)typeName;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-selectFile$inFileViewerRootedAtPath$">selectFile:&nbsp;inFileViewerRootedAtPath:&nbsp;</a></h3>
+    - (BOOL) <b>selectFile:</b> (NSString*)fullPath<b> inFileViewerRootedAtPath:</b> (NSString*)rootFullpath;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-setIcon$forFile$options$">setIcon:&nbsp;forFile:&nbsp;options:&nbsp;</a></h3>
+    - (BOOL) <b>setIcon:</b> (<a rel="gsdoc" href="NSImage.html#class$NSImage">NSImage</a>*)image<b> forFile:</b> (NSString*)fullPath<b> options:</b> (<a rel="gsdoc" href="TypesAndConstants.html#type$NSWorkspaceIconCreationOptions">NSWorkspaceIconCreationOptions</a>)options;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-slideImage$from$to$">slideImage:&nbsp;from:&nbsp;to:&nbsp;</a></h3>
+    - (void) <b>slideImage:</b> (<a rel="gsdoc" href="NSImage.html#class$NSImage">NSImage</a>*)image<b> from:</b> (NSPoint)fromPoint<b> to:</b> (NSPoint)toPoint;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Animating an Image- slides it from one point on
+            the screen to another.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-type$conformsToType$">type:&nbsp;conformsToType:&nbsp;</a></h3>
+    - (BOOL) <b>type:</b> (NSString*)firstTypeName<b> conformsToType:</b> (NSString*)secondTypeName;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-typeOfFile$error$">typeOfFile:&nbsp;error:&nbsp;</a></h3>
+    - (NSString*) <b>typeOfFile:</b> (NSString*)absoluteFilePath<b> error:</b> (NSError**)outError;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.5.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-unmountAndEjectDeviceAtPath$">unmountAndEjectDeviceAtPath:&nbsp;</a></h3>
+    - (BOOL) <b>unmountAndEjectDeviceAtPath:</b> (NSString*)path;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace-userDefaultsChanged">userDefaultsChanged&nbsp;</a></h3>
+    - (BOOL) <b>userDefaultsChanged</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns a flag to say if the defaults database has
+            changed since the last time this method was called.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<a name="_NSWorkspace_ivars"/>    <br><hr class="section-separator">
+    <h2>Instance Variables for NSWorkspace Class</h2>
+    <h3><a name="ivariable$NSWorkspace*_fileSystemChanged">_fileSystemChanged</a></h3>
+    @protected BOOL <b>_fileSystemChanged</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWorkspace*_iconMap">_iconMap</a></h3>
+    @protected NSMutableDictionary* <b>_iconMap</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWorkspace*_launched">_launched</a></h3>
+    @protected NSMutableDictionary* <b>_launched</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWorkspace*_userDefaultsChanged">_userDefaultsChanged</a></h3>
+    @protected BOOL <b>_userDefaultsChanged</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSWorkspace*_workspaceCenter">_workspaceCenter</a></h3>
+    @protected NSNotificationCenter* <b>_workspaceCenter</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <br><hr class="section-separator"><br>
+
+          <h1><a name="002000000000">
+        Software documentation for the NSWorkspace(GNUstep)
+        category
+      </a></h1>
+    <h2><a rel="gsdoc" href="#class$NSWorkspace">NSWorkspace</a>(<a name="category$NSWorkspace(GNUstep)">GNUstep</a>)</h2>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSWorkspace.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+          <em>Description forthcoming.</em>
+        
+    </div>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-appIconForApp$">-appIconForApp:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-bundleForApp$">-bundleForApp:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-getBestAppInRole$forExtension$">-getBestAppInRole:forExtension:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-getBestAppInRole$forScheme$">-getBestAppInRole:forScheme:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-getBestIconForExtension$">-getBestIconForExtension:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-infoForExtension$">-infoForExtension:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-infoForScheme$">-infoForScheme:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-locateApplicationBinary$">-locateApplicationBinary:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-setBestApp$inRole$forExtension$">-setBestApp:inRole:forExtension:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-setBestApp$inRole$forScheme$">-setBestApp:inRole:forScheme:</a></li>
+        <li><a rel="gsdoc" href="NSWorkspace.html#method$NSWorkspace(GNUstep)-setBestIcon$forExtension$">-setBestIcon:forExtension:</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$NSWorkspace(GNUstep)-appIconForApp$">appIconForApp:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSImage.html#class$NSImage">NSImage</a>*) <b>appIconForApp:</b> (NSString*)appName;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            Returns the application icon for the given app. Or
+            null if none defined or <var>appName</var> is not a
+            valid application name.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace(GNUstep)-bundleForApp$">bundleForApp:&nbsp;</a></h3>
+    - (NSBundle*) <b>bundleForApp:</b> (NSString*)appName;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            Returns the application bundle for the named
+            application. Accepts either a full path to an
+            app or just the name. The extension (.app,.debug,
+            .profile) is optional, but if provided it will be
+            used. <br> Returns <code>nil</code> if the
+            specified app does not exist as requested.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace(GNUstep)-getBestAppInRole$forExtension$">getBestAppInRole:&nbsp;forExtension:&nbsp;</a></h3>
+    - (NSString*) <b>getBestAppInRole:</b> (NSString*)role<b> forExtension:</b> (NSString*)ext;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            Returns the &apos;best&apos; application to open a file with
+            the specified extension using the given <var>role</var>
+            . If the <var>role</var> is <code>nil</code> then apps
+            which can edit are preferred but viewers are also
+            acceptable. Uses a user preferred app or picks
+            any good match.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace(GNUstep)-getBestAppInRole$forScheme$">getBestAppInRole:&nbsp;forScheme:&nbsp;</a></h3>
+    - (NSString*) <b>getBestAppInRole:</b> (NSString*)role<b> forScheme:</b> (NSString*)scheme;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            Returns the &apos;best&apos; application to open a file with
+            the specified URL <var>scheme</var> using the given
+            <var>role</var>. If the <var>role</var> is
+            <code>nil</code> then apps which can edit are
+            preferred but viewers are also acceptable. Uses a
+            user preferred app or picks any good match.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace(GNUstep)-getBestIconForExtension$">getBestIconForExtension:&nbsp;</a></h3>
+    - (NSString*) <b>getBestIconForExtension:</b> (NSString*)ext;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            Returns the path set for the icon matching the
+            image by
+            <a rel="gsdoc" href="#method$NSWorkspace(GNUstep)-setBestIcon$forExtension$">
+              -setBestIcon:forExtension:
+            </a>
+
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace(GNUstep)-infoForExtension$">infoForExtension:&nbsp;</a></h3>
+    - (NSDictionary*) <b>infoForExtension:</b> (NSString*)ext;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            Gets the applications cache (generated by the
+            make_services tool) and looks up the special
+            entry that contains a dictionary of all file
+            extensions recognised by GNUstep applications.
+            Then finds the dictionary of applications that can
+            handle our file and returns it.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace(GNUstep)-infoForScheme$">infoForScheme:&nbsp;</a></h3>
+    - (NSDictionary*) <b>infoForScheme:</b> (NSString*)scheme;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            Gets the applications cache (generated by the
+            make_services tool) and looks up the special
+            entry that contains a dictionary of all URL schemes
+            recognised by GNUstep applications. Then finds
+            the dictionary of applications that can handle our
+            <var>scheme</var> and returns it.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace(GNUstep)-locateApplicationBinary$">locateApplicationBinary:&nbsp;</a></h3>
+    - (NSString*) <b>locateApplicationBinary:</b> (NSString*)appName;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            Requires the path to an application wrapper as an
+            argument, and returns the full path to the
+            executable.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace(GNUstep)-setBestApp$inRole$forExtension$">setBestApp:&nbsp;inRole:&nbsp;forExtension:&nbsp;</a></h3>
+    - (void) <b>setBestApp:</b> (NSString*)appName<b> inRole:</b> (NSString*)role<b> forExtension:</b> (NSString*)ext;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            Sets up a user preference for which app should be used
+            to open files of the specified extension.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace(GNUstep)-setBestApp$inRole$forScheme$">setBestApp:&nbsp;inRole:&nbsp;forScheme:&nbsp;</a></h3>
+    - (void) <b>setBestApp:</b> (NSString*)appName<b> inRole:</b> (NSString*)role<b> forScheme:</b> (NSString*)scheme;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            Sets up a user preference for which app should be used
+            to open files of the specified URL <var>scheme</var>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSWorkspace(GNUstep)-setBestIcon$forExtension$">setBestIcon:&nbsp;forExtension:&nbsp;</a></h3>
+    - (void) <b>setBestIcon:</b> (NSString*)iconPath<b> forExtension:</b> (NSString*)ext;<br>
+    <div class="availability">
+<b>Availability:</b> Not in OpenStep/MacOS-X</div>
+<br>
+    <div class="desc">
+      
+            Sets up a user preference for which icon should be
+            used to represent the specified file extension.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+    <br>
+    <a href="Gui.html">Up</a>
+  </body>
+</html>

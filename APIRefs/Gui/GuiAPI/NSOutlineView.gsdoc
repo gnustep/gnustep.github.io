@@ -1,0 +1,745 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSOutlineView" stylesheeturl="default-styles.css" up="Gui">
+  <head>
+    <title>NSOutlineView</title>
+    <author name="Gregory John Casamento">
+      <email address="greg_casamento@yahoo.com">
+        greg_casamento@yahoo.com
+      </email>
+    </author>
+    <date>Generated at 2024-11-13 12:52:37 -0500</date>
+    <abstract>
+      This class is a subclass of NSTableView which provides the
+      user with a way to display tree structured data in an
+      outline format. It is particularly useful for show
+      hierarchical data such as a class inheritance tree
+      or any other set of relationships. <br /> NB. While it its
+      illegal to have the same item in the view more than once,
+      it is possible to have multiple equal items since tests for
+      pointer equality are used rather than calls to the
+      <ref type="method" id="-isEqual:">
+        -isEqual:
+      </ref>
+      method.
+    </abstract>
+    <copy>2001 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSOutlineView class
+      </heading>
+      <class name="NSOutlineView" super="NSTableView" ovadd="1.0.0">
+        <declared>AppKit/NSOutlineView.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <ivariable type="BOOL" name="_autoResizesOutlineColumn" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_autosaveExpandedItems" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableArray*" name="_expandedItems" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_indentationMarkerFollowsCell" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="CGFloat" name="_indentationPerLevel" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMapTable*" name="_itemDict" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableArray*" name="_items" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMapTable*" name="_levelOfItems" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSTableColumn*" name="_outlineTableColumn" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>autoResizesOutlineColumn</sel>
+          <desc>
+            Causes the outline column, the column containing the
+            expand/collapse gadget, to resize based on
+            the amount of space needed by widest content.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>autosaveExpandedItems</sel>
+          <desc>
+            Causes the outline column, the column containing the
+            expand/collapse gadget, to resize based on
+            the amount of space needed by widest content.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>collapseItem:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            Collapses the given <var>item</var> only. This is
+            the equivalent of calling
+            <ref type="method" id="-collapseItem:collapseChildren:" class="NSOutlineView">[NSOutlineView -collapseItem:collapseChildren:]</ref> with <code>NO</code>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>collapseItem:</sel>
+          <arg type="id">item</arg>
+          <sel>collapseChildren:</sel>
+          <arg type="BOOL">collapseChildren</arg>
+          <desc>
+            Collapses the specified <var>item</var>. If
+            <var>collapseChildren</var> is set to
+            <code>YES</code>, then all of the expandable
+            children of this <var>item</var> all also
+            collapsed in a recursive fashion (i.e. all
+            children, grandchildren and etc).
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>expandItem:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            Expands the given <var>item</var> only. This is the
+            equivalent of calling
+            <ref type="method" id="-expandItem:expandChildren:" class="NSOutlineView">[NSOutlineView -expandItem:expandChildren:]</ref> with <code>NO</code>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>expandItem:</sel>
+          <arg type="id">item</arg>
+          <sel>expandChildren:</sel>
+          <arg type="BOOL">expandChildren</arg>
+          <desc>
+            Expands the specified <var>item</var>. If
+            <var>expandChildren</var> is set to <code>YES</code>,
+            then all of the expandable children of this
+            <var>item</var> all also expanded in a recursive
+            fashion (i.e. all children, grandchildren and etc).
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="10.5.0">
+          <sel>frameOfOutlineCellAtRow:</sel>
+          <arg type="NSInteger">row</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>indentationMarkerFollowsCell</sel>
+          <desc>
+            Returns whether or not the indentation marker or
+            "knob" is indented along with the content inside the
+            cell.
+          </desc>
+        </method>
+        <method type="CGFloat" ovadd="1.0.0">
+          <sel>indentationPerLevel</sel>
+          <desc>
+            Returns the amount of indentation, in points, for
+            each level of the tree represented by the outline
+            view.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isExpandable:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            Returns <code>YES</code>, if the <var>item</var> is
+            able to be expanded, <code>NO</code> otherwise.
+            Returns <code>NO</code> when the <var>item</var> is
+            <code>nil</code> (as Cocoa does).
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isItemExpanded:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            Returns <code>YES</code> if the <var>item</var> is
+            expanded or open, <code>NO</code> otherwise.
+            Returns <code>YES</code> when the <var>item</var>
+            is <code>nil</code> (as Cocoa does).
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>itemAtRow:</sel>
+          <arg type="NSInteger">row</arg>
+          <desc>
+            Returns the item at a given <var>row</var>. If no
+            item exists for the given <var>row</var>, returns
+            <code>nil</code>.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>levelForItem:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            Returns the level for a given <var>item</var>.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>levelForRow:</sel>
+          <arg type="NSInteger">row</arg>
+          <desc>
+            Returns the level for the given <var>row</var>.
+          </desc>
+        </method>
+        <method type="NSTableColumn*" ovadd="1.0.0">
+          <sel>outlineTableColumn</sel>
+          <desc>
+            Returns the outline table column.
+          </desc>
+        </method>
+        <method type="id" ovadd="10.5.0">
+          <sel>parentForItem:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            Returns the parent of the given <var>item</var> or
+            <code>nil</code> if the <var>item</var> is not
+            found.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>reloadItem:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            Causes an <var>item</var> to be reloaded. This is
+            the equivalent of calling
+            <ref type="method" id="-reloadItem:reloadChildren:" class="NSOutlineView">[NSOutlineView -reloadItem:reloadChildren:]</ref> with reloadChildren set to <code>NO</code>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>reloadItem:</sel>
+          <arg type="id">item</arg>
+          <sel>reloadChildren:</sel>
+          <arg type="BOOL">reloadChildren</arg>
+          <desc>
+            Causes an <var>item</var> and all of it's children
+            to be reloaded if <var>reloadChildren</var> is set to
+            <code>YES</code>, if it's set to <code>NO</code>,
+            then only the <var>item</var> itself is refreshed from
+            the datasource.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>rowForItem:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            Returns the corresponding row in the outline view
+            for the given <var>item</var>. Returns -1 if
+            <var>item</var> is <code>nil</code> or not found.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setAutoresizesOutlineColumn:</sel>
+          <arg type="BOOL">resize</arg>
+          <desc>
+            When set to <code>YES</code> this causes the outline
+            column, the column containing the expand/collapse
+            gadget, to <var>resize</var> based on the amount of
+            space needed by widest content.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setAutosaveExpandedItems:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            When set to <code>YES</code>, the outline view will
+            save the state of all expanded or collapsed items in
+            the view to the users defaults for the application the
+            outline view is running in.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setDropItem:</sel>
+          <arg type="id">item</arg>
+          <sel>dropChildIndex:</sel>
+          <arg type="NSInteger">childIndex</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setIndentationMarkerFollowsCell:</sel>
+          <arg type="BOOL">followsCell</arg>
+          <desc>
+            If set to <code>YES</code>, the indentation marker will
+            follow the content at each level. Otherwise, the
+            indentation marker will remain at the left most
+            position of the view regardless of how many levels
+            in the content is indented.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setIndentationPerLevel:</sel>
+          <arg type="CGFloat">newIndentLevel</arg>
+          <desc>
+            Sets the amount, in points, that each level is to be
+            indented by.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setOutlineTableColumn:</sel>
+          <arg type="NSTableColumn*">outlineTableColumn</arg>
+          <desc>
+            Sets the outline table column in which to place the
+            indentation marker.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>shouldCollapseAutoExpandedItemsForDeposited:</sel>
+          <arg type="BOOL">deposited</arg>
+          <desc>
+            Returns <code>YES</code>, by default. Subclasses
+            should override this method if a different behaviour
+            is required.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSOutlineViewDataSource
+        protocol
+      </heading>
+      <protocol name="NSOutlineViewDataSource" ovadd="1.0.0">
+        <declared>AppKit/NSOutlineView.h</declared>
+        <desc>
+          protocol NSOutlineViewDataSource
+        </desc>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>acceptDrop:</sel>
+          <arg type="id&lt;NSDraggingInfo&gt;">info</arg>
+          <sel>item:</sel>
+          <arg type="id">item</arg>
+          <sel>childIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Called to perform drop operation and returns
+            <code>YES</code> if successful, and <code>NO</code>
+            otherwise.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>child:</sel>
+          <arg type="NSInteger">index</arg>
+          <sel>ofItem:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            Implementation of this method is required.
+            Returns the child at the specified <var>index</var>
+            for the given <var>item</var>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>isItemExpandable:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            This is a required method. Returns whether or not the
+            outline view <var>item</var> specified is
+            expandable or not.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>itemForPersistentObject:</sel>
+          <arg type="id">object</arg>
+          <desc>
+            Returns the item for the given persistent
+            <var>object</var>.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.4.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>namesOfPromisedFilesDroppedAtDestination:</sel>
+          <arg type="NSURL*">dropDestination</arg>
+          <sel>forDraggedItems:</sel>
+          <arg type="NSArray*">items</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>numberOfChildrenOfItem:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>objectValueForTableColumn:</sel>
+          <arg type="NSTableColumn*">tableColumn</arg>
+          <sel>byItem:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            This is a required method. Returns the object
+            corresponding to the <var>item</var>
+            representing it in the outline view.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>persistentObjectForItem:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            Returns the persistent object for the
+            <var>item</var> specified.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>setObjectValue:</sel>
+          <arg type="id">object</arg>
+          <sel>forTableColumn:</sel>
+          <arg type="NSTableColumn*">tableColumn</arg>
+          <sel>byItem:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            Sets the <var>object</var> value of the given
+            <var>item</var> in the given table column to the
+            <var>object</var> provided.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.3.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>sortDescriptorsDidChange:</sel>
+          <arg type="NSArray*">oldSortDescriptors</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDragOperation" ovadd="1.0.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>validateDrop:</sel>
+          <arg type="id&lt;NSDraggingInfo&gt;">info</arg>
+          <sel>proposedItem:</sel>
+          <arg type="id">item</arg>
+          <sel>proposedChildIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Used by the Drag and Drop system. Returns the drag
+            operation which should be used when
+            <ref type="method" id="-outlineView:acceptDrop:item:childIndex:">-outlineView:acceptDrop:item:childIndex:</ref> is called.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>writeItems:</sel>
+          <arg type="NSArray*">items</arg>
+          <sel>toPasteboard:</sel>
+          <arg type="NSPasteboard*">pboard</arg>
+          <desc>
+            Causes the outline view to write the specified
+            <var>items</var> to the pastboard.
+          </desc>
+        </method>
+      </protocol>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSOutlineViewDelegate
+        protocol
+      </heading>
+      <protocol name="NSOutlineViewDelegate" ovadd="1.0.0">
+        <declared>AppKit/NSOutlineView.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="NSCell*" ovadd="10.5.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>dataCellForTableColumn:</sel>
+          <arg type="NSTableColumn*">aTableColumn</arg>
+          <sel>item:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.7.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>didAddRowView:</sel>
+          <arg type="NSTableRowView*">rowView</arg>
+          <sel>forRow:</sel>
+          <arg type="NSInteger">rowIndex</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.3.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>didClickTableColumn:</sel>
+          <arg type="NSTableColumn*">aTableColumn</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.7.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>didRemoveRowView:</sel>
+          <arg type="NSTableRowView*">rowView</arg>
+          <sel>forRow:</sel>
+          <arg type="NSInteger">rowIndex</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSTableRowView*" ovadd="10.7.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>rowViewForItem:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>shouldCollapseItem:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            Returns whether or not the specified
+            <var>item</var> should be allowed to collapse.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>shouldEditTableColumn:</sel>
+          <arg type="NSTableColumn*">tableColumn</arg>
+          <sel>item:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            Returns whether or not the given table column
+            should be allowed to be edited.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>shouldExpandItem:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            Returns whether or not the specified
+            <var>item</var> should be expanded.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>shouldSelectItem:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            Returns <code>YES</code> or <code>NO</code>
+            depending on if the given <var>item</var> is
+            selectable. If <code>YES</code>, the
+            <var>item</var> is selected, otherwise the outline
+            view will reject the selection.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>shouldSelectTableColumn:</sel>
+          <arg type="NSTableColumn*">tableColumn</arg>
+          <desc>
+            Returns <code>YES</code> or <code>NO</code>
+            depending on if the given table column is
+            selectable according to the delegate. If
+            <code>NO</code> is returned the outline view will
+            not allow the selection, if <code>YES</code> it will
+            allow the selection.
+          </desc>
+        </method>
+        <method type="NSView*" ovadd="10.7.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>viewForTableColumn:</sel>
+          <arg type="NSTableColumn*">aTableColumn</arg>
+          <sel>item:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>willDisplayCell:</sel>
+          <arg type="id">cell</arg>
+          <sel>forTableColumn:</sel>
+          <arg type="NSTableColumn*">tableColumn</arg>
+          <sel>item:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            Called when the given <var>cell</var> is about to be
+            displayed. This method is useful for making last
+            second modifications to what will be shown.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>outlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <sel>willDisplayOutlineCell:</sel>
+          <arg type="id">cell</arg>
+          <sel>forTableColumn:</sel>
+          <arg type="NSTableColumn*">tableColumn</arg>
+          <sel>item:</sel>
+          <arg type="id">item</arg>
+          <desc>
+            Called when the given <var>cell</var> in the outline
+            column is about to be displayed. This method is
+            useful for making last second modifications to what
+            will be shown.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>outlineViewColumnDidMove:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Called after the column has moved.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>outlineViewColumnDidResize:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Called after the view column is resized.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>outlineViewItemDidCollapse:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Called after the item has collapsed.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>outlineViewItemDidExpand:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Called after the item has expanded
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>outlineViewItemWillCollapse:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Called before the item has collapsed.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>outlineViewItemWillExpand:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Called before the item is expanded.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>outlineViewSelectionDidChange:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Called when the selection has changed.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>outlineViewSelectionIsChanging:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Called when the selection is about to change.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>selectionShouldChangeInOutlineView:</sel>
+          <arg type="NSOutlineView*">outlineView</arg>
+          <desc>
+            Called before the selection is modified. This method
+            should return <code>YES</code> if the selection is
+            allowed and <code>NO</code>, if not.
+          </desc>
+        </method>
+      </protocol>
+    </chapter>
+  </body>
+</gsdoc>

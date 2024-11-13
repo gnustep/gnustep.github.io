@@ -1,0 +1,650 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSComboBoxCell" stylesheeturl="default-styles.css" up="Gui">
+  <head>
+    <title>NSComboBoxCell</title>
+    <author name="Gerrit van Dyk">
+      <email address="gerritvd@decillion.net">
+        gerritvd@decillion.net
+      </email>
+    </author>
+    <author name="Quentin Mathe">
+      <email address="qmathe@club-internet.fr">
+        qmathe@club-internet.fr
+      </email>
+    </author>
+    <date>Generated at 2024-11-13 12:52:37 -0500</date>
+    <copy>1999 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading><strong>Class</strong> Description</heading>
+      <p>
+        An NSComboBoxCell is what we can call a completion/choices
+        box cell, derived from NSTextFieldCell, it allows you to
+        enter text like in a text field but also to click in the
+        ellipsis button (indicating the fact other user inputs
+        are possible) on the right of it to obtain a list of
+        choices, you can use them as the text field value by
+        selecting a row in this list. You can also obtain
+        direct completion when it is enabled via
+        <code>setCompletes:</code> to get a suggested text field
+        value updated as you type.
+      </p>
+      <p>
+        Like other NSCell classes, NSComboBoxCell has a matching
+        NSControl named NSComboBox which is relying on it to
+        implement the combo box behavior in a standalone
+        control.
+      </p>
+      <class name="NSComboBoxCell" super="NSTextFieldCell" ovadd="1.0.0">
+        <declared>AppKit/NSComboBoxCell.h</declared>
+        <desc>
+          <br />
+          <p>
+            No special instructions to use NSComboBoxCell or text to
+            detail the implementation.
+          </p>
+        </desc>
+        <ivariable type="NSButtonCell*" name="_buttonCell" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_completes" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_dataSource" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_hasVerticalScroller" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSSize" name="_intercellSpacing" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="float" name="_itemHeight" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSRect" name="_lastValidFrame" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableArray*" name="_popUpList" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSRange" name="_prevSelectedRange" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSInteger" name="_selectedItem" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_usesDataSource" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSInteger" name="_visibleItems" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="void" ovadd="1.0.0">
+          <sel>addItemWithObjectValue:</sel>
+          <arg type="id">object</arg>
+          <desc>
+            Adds an item to the combo box cell default items list
+            which is used when <code>usesDataSource</code>
+            returns <code>NO</code>. In the case
+            <code>usesDataSource</code> returns <code>YES</code>
+            , this method logs a warning.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>addItemsWithObjectValues:</sel>
+          <arg type="NSArray*">objects</arg>
+          <desc>
+            Adds several items in an array to the combo box cell
+            default items list which is used when
+            <code>usesDataSource</code> returns <code>NO</code>.
+            In the case <code>usesDataSource</code> returns
+            <code>YES</code>, this method logs a warning.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>completedString:</sel>
+          <arg type="NSString*">substring</arg>
+          <desc>
+            Returns a string by looking in the combo box cell
+            list for an item wich starts with <var>substring</var>
+            , or <code>nil</code> when there is no such string.
+            <var>substring</var> is equal to what the user
+            entered in the text field part. You rarely needs to
+            call this method explicitly in your code. By default,
+            the implementation of this method first checks whether
+            the combo box cell uses a data source and whether the
+            data source responds to
+            <code>comboBox:completedString:</code> or
+            <code>comboBoxCell:completedString:</code>. When it
+            is the case, it uses this method to return
+            <var>str</var>, else this method goes through the
+            combo box cell items one by one and returns the first
+            item found starting with <var>substring</var>. In the
+            case, you want another behavior, you can override
+            this method without need to call the superclass
+            method.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>completes</sel>
+          <desc>
+            Returns <code>YES</code> when the combo box cell
+            automatic completion is active, returns
+            <code>NO</code> otherwise. Take a look at the
+            <code>setCompletes:</code> method documentation to
+            know how the automatic completion works.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>dataSource</sel>
+          <desc>
+            Returns the combo box cell data source object which
+            is reponsible to provide the data to be displayed. To
+            know how to implement a data source object, take a
+            look at the NSComboBoxDataSource informal protocol
+            description. In the case
+            <code>usesDataSource</code> returns <code>NO</code>,
+            this method logs a warning.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>deselectItemAtIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Deselects the combo box cell list row at
+            <var>index</var> in the case this row is selected.
+            Posts an NSComboBoxSelectionDidChangeNotification to
+            the default notification center, when there is a new
+            selection.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>hasVerticalScroller</sel>
+          <desc>
+            Returns <code>YES</code> when the combo box cell
+            displays a vertical scroller for its list, returns
+            <code>NO</code> otherwise. Take note that the
+            scroller will be displayed even when the sum of
+            the items height in the list is inferior to the minimal
+            height of the list displayed area.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>indexOfItemWithObjectValue:</sel>
+          <arg type="id">object</arg>
+          <desc>
+            Returns the lowest index associated with a value in
+            the combo box cell default items list, which is equal
+            to <var>object</var>, and returns NSNotFound when there
+            is no such value. In the case
+            <code>usesDataSource</code> returns <code>YES</code>
+            , this method logs a warning.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>indexOfSelectedItem</sel>
+          <desc>
+            Returns the index of the selected item in the combo
+            box cell list or -1 when there is no selection, the
+            selected item can be related to the data source
+            object in the case <code>usesDataSource</code>
+            returns <code>YES</code> else to the default items
+            list.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>insertItemWithObjectValue:</sel>
+          <arg type="id">object</arg>
+          <sel>atIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Inserts an item in the combo box cell default items
+            list which is used when <code>usesDataSource</code>
+            returns <code>NO</code>. In the case
+            <code>usesDataSource</code> returns <code>YES</code>
+            , this method logs a warning.
+          </desc>
+        </method>
+        <method type="NSSize" ovadd="1.0.0">
+          <sel>intercellSpacing</sel>
+          <desc>
+            Returns the width and the height (as the values of
+            an NSSize variable) between each item of the combo box
+            cell list.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.3.0">
+          <sel>isButtonBordered</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="CGFloat" ovadd="1.0.0">
+          <sel>itemHeight</sel>
+          <desc>
+            Returns the height of the items in the combo box
+            cell list.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>itemObjectValueAtIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Returns the object value at <var>index</var> within
+            combo box cell default items list. When the
+            <var>index</var> is beyond the end of the list, an
+            NSRangeException is raised. In the case
+            <code>usesDataSource</code> returns <code>YES</code>
+            , this method logs a warning.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>noteNumberOfItemsChanged</sel>
+          <desc>
+            Informs the combo box cell that the number of items
+            in its data source has changed, in order to permit to
+            the scrollers in its displayed list being updated
+            without needing the reload of the data. It is
+            recommended to use this method with a data
+            source that continually receives data in the
+            background, to keep the the combo box cell
+            responsive to the user while the data is
+            received. Take a look at the
+            <code>NSComboBoxDataSource</code> informal protocol
+            specification to know more on the messages
+            NSComboBox sends to its data source.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>numberOfItems</sel>
+          <desc>
+            Returns the number of items in the the combo box
+            cell list, the numbers of items can be be related to
+            the data source object in the case
+            <code>usesDataSource</code> returns <code>YES</code>
+            else to the default items list.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>numberOfVisibleItems</sel>
+          <desc>
+            Returns the maximum number of allowed items to be
+            displayed in the combo box cell list.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>objectValueOfSelectedItem</sel>
+          <desc>
+            Returns the object value of the selected item in
+            the combo box cell default items list or
+            <code>nil</code> when there is no selection. In the
+            case <code>usesDataSource</code> returns
+            <code>YES</code>, this method logs a warning.
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>objectValues</sel>
+          <desc>
+            Returns the combo box cell default items list in an
+            array.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>reloadData</sel>
+          <desc>
+            Marks the combo box cell in order to have its items
+            list reloaded in the case it uses a data source, and
+            to have it redisplayed.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeAllItems</sel>
+          <desc>
+            Removes all the items in the combo box cell default
+            items list which is used when
+            <code>usesDataSource</code> returns <code>NO</code>.
+            In the case <code>usesDataSource</code> returns
+            <code>YES</code>, this method logs a warning.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeItemAtIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Removes the item with the specified
+            <var>index</var> in the combo box cell default items
+            list which is used when <code>usesDataSource</code>
+            returns <code>NO</code>. In the case
+            <code>usesDataSource</code> returns <code>YES</code>
+            , this method logs a warning.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeItemWithObjectValue:</sel>
+          <arg type="id">object</arg>
+          <desc>
+            Removes an item in the combo box cell default items
+            list which is used when <code>usesDataSource</code>
+            returns <code>NO</code>. In the case
+            <code>usesDataSource</code> returns <code>YES</code>
+            , this method logs a warning.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>scrollItemAtIndexToTop:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Scrolls the combo box cell list vertically in order
+            to have the item at <var>index</var> in the closest
+            position relative to the top. There is no need to
+            have the list displayed when this method is invoked.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>scrollItemAtIndexToVisible:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Scrolls the combo box cell list vertically in order
+            to have the item at <var>index</var> visible. There is
+            no need to have the list displayed when this method is
+            invoked.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>selectItemAtIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Selects the combo box cell list row at
+            <var>index</var>. Take note no changes occurs in the
+            combo box cell list when this method is called. Posts
+            an NSComboBoxSelectionDidChangeNotification to the
+            default notification center when there is a new
+            selection different from the previous one.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>selectItemWithObjectValue:</sel>
+          <arg type="id">object</arg>
+          <desc>
+            Selects the first item in the default combo box
+            cell list which is equal to <var>object</var>. In the
+            case <code>usesDataSource</code> returns
+            <code>YES</code>, this method logs a warning. Take
+            note that this method doesn't update the text field
+            part value. Posts an NSComboBoxSelectionDidChange
+            notification to the default notification
+            center when the new selection is different than the
+            previous one.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.3.0">
+          <sel>setButtonBordered:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setCompletes:</sel>
+          <arg type="BOOL">completes</arg>
+          <desc>
+            Sets whether the combo box cell automatic completion
+            is active or not. The automatic completion tries to
+            complete what the user types in the text field
+            part, it tries to complete only when the the user
+            adds characters at the end of the string, not when it
+            deletes characters or when the insertion point
+            precedes the end of the string. To do the
+            automatic completion, the
+            <code>completedString:</code> method is called, and
+            when the returned string is longer than the current
+            one in the text field, the completion occurs and the
+            completed part gets selected.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setDataSource:</sel>
+          <arg type="id">aSource</arg>
+          <desc>
+            Sets the combo box cell data source to
+            <var>aSource</var>. Just calling this method doesn't
+            set <code>usesDataSource</code> to return
+            <code>YES</code>, you must call
+            <code>setUsesDataSource:</code> with
+            <code>YES</code> before or a warning will be logged.
+            To know how to implement a data source objects, take a
+            look at the NSComboBoxDataSource informal protocol
+            description. When <var>aSource</var> doesn't
+            respond to the methods
+            <code>numberOfItemsInComboBox:</code>
+            <code>comboBox:objectValueForItemAtIndex:</code>,
+            this method logs a warning.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setHasVerticalScroller:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Sets whether the combo box cell list displays a
+            vertical scroller, by default it is the case. When
+            <var>flag</var> is <code>NO</code> and the combo cell
+            list has more items (either in its default list or
+            from its data source) than the number returned by
+            <code>numberOfVisibleItems</code>, only a subset of
+            them will be displayed. Uses scroll related methods to
+            position this subset in the combo box cell list.
+            Take note that the scroller will be displayed even
+            when the sum of the items height in the list is
+            inferior to the minimal height of the list
+            displayed area.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setIntercellSpacing:</sel>
+          <arg type="NSSize">aSize</arg>
+          <desc>
+            Sets the width and the height between each item of the
+            combo box cell list to the values in <var>aSize</var>
+            .
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setItemHeight:</sel>
+          <arg type="CGFloat">itemHeight</arg>
+          <desc>
+            Sets the height of the items in the combo box cell
+            list to <var>itemHeight</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setNumberOfVisibleItems:</sel>
+          <arg type="NSInteger">visibleItems</arg>
+          <desc>
+            Sets the maximum number of allowed items to be
+            displayed in the combo box cell list.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setUsesDataSource:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Sets according to <var>flag</var> whether the combo
+            box cell uses a data source (which is external) to
+            populate its items list.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>trackMouse:</sel>
+          <arg type="NSEvent*">theEvent</arg>
+          <sel>inRect:</sel>
+          <arg type="NSRect">cellFrame</arg>
+          <sel>ofView:</sel>
+          <arg type="NSView*">controlView</arg>
+          <sel>untilMouseUp:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Overrides NSCell
+            <code>trackMouse:inRect:ofView:untilMouseUp:</code>
+            method to establish a new method behavior. In the
+            case <var>flag</var> is <code>NO</code>, returns
+            <code>NO</code> when the mouse down occurs in the
+            text cell part or when the mouse down occurs in the
+            button cell part followed by a mouse up outside,
+            otherwise returns <code>YES</code> (when both the
+            mouse down and the mouse up occurs in the button cell
+            part). In the case <var>flag</var> is
+            <code>YES</code>, returns <code>NO</code> when the
+            mouse occurs in the text cell part, otherwise returns
+            <code>YES</code> (when the mouse down occurs in the
+            button cell part).
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>usesDataSource</sel>
+          <desc>
+            Returns <code>YES</code> when the combo box cell
+            uses a data source (which is external) to populate its
+            items list, otherwise returns <code>NO</code> in the
+            case it uses its default list.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSComboBoxCellDataSource)
+        informal protocol
+      </heading>
+      <category name="NSComboBoxCellDataSource" class="NSObject" ovadd="1.0.0">
+        <declared>AppKit/NSComboBoxCell.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="NSString*" ovadd="10.0.0">
+          <sel>comboBoxCell:</sel>
+          <arg type="NSComboBoxCell*">aComboBoxCell</arg>
+          <sel>completedString:</sel>
+          <arg type="NSString*">uncompletedString</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="1.0.0">
+          <sel>comboBoxCell:</sel>
+          <arg type="NSComboBoxCell*">aComboBoxCell</arg>
+          <sel>indexOfItemWithStringValue:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>comboBoxCell:</sel>
+          <arg type="NSComboBoxCell*">aComboBoxCell</arg>
+          <sel>objectValueForItemAtIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>numberOfItemsInComboBoxCell:</sel>
+          <arg type="NSComboBoxCell*">comboBoxCell</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSComboBoxCellDataSource protocol
+      </heading>
+      <protocol name="NSComboBoxCellDataSource" ovadd="1.0.0">
+        <declared>AppKit/NSComboBoxCell.h</declared>
+        <conform>NSObject</conform>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+      </protocol>
+    </chapter>
+  </body>
+</gsdoc>

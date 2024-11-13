@@ -1,0 +1,607 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSMenuView" stylesheeturl="default-styles.css" up="Gui">
+  <head>
+    <title>NSMenuView</title>
+    <author name="Fred Kiefer">
+      <email address="FredKiefer@gmx.de">
+        FredKiefer@gmx.de
+      </email>
+    </author>
+    <author name="David Lazaro Saz">
+      <email address="khelekir@encomix.es">
+        khelekir@encomix.es
+      </email>
+    </author>
+    <author name="Michael Hanni">
+      <email address="mhanni@sprintmail.com">
+        mhanni@sprintmail.com
+      </email>
+    </author>
+    <date>Generated at 2024-11-13 12:52:37 -0500</date>
+    <copy>1999 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSMenuView class
+      </heading>
+      <class name="NSMenuView" super="NSView" ovadd="1.0.0">
+        <declared>AppKit/NSMenuView.h</declared>
+        <conform>NSCoding</conform>
+        <conform>NSMenuView</conform>
+        <desc>
+          The NSMenu class uses an object implementing the
+          NSMenuView protocol to do the actual drawing.
+          <br /> <br /> Normally there is no good reason to
+          write your own class implementing this protocol.
+          However if you want to customize your menus you
+          should implement this protocol to ensure that it works
+          nicely together with sub/super menus not using your
+          custom menu representation. <br /> <br />
+          <strong>How menus are drawn</strong> <br /> <br />
+          This class implements several menu look and feels at the
+          same time. The looks and feels implemented are:
+          <list>
+            <item>
+              Ordinary vertically stacked menus with the NeXT
+              submenu positioning behavour.
+            </item>
+            <item>
+              Vertically stacked menus with the WindowMaker
+              submenu placement. This behaviour is selected by
+              choosing the
+              <strong>GSWindowMakerInterfaceStyle</strong>.
+            </item>
+            <item>
+              PopupButtons are actually menus. This class
+              implements also the behaviour for the
+              NSPopButtons. See for the the class
+              NSPopButton.
+            </item>
+          </list>
+        </desc>
+        <ivariable type="NSSize" name="_cellSize" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSFont*" name="_font" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="int" name="_highlightedItemIndex" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_horizontal" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="float" name="_horizontalEdgePad" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="float" name="_imageAndTitleOffset" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="float" name="_imageAndTitleWidth" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableArray*" name="_itemCells" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="float" name="_keyEqOffset" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="float" name="_keyEqWidth" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_needsSizing" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="char" name="_pad1" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="char" name="_pad2" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="float" name="_stateImageOffset" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="float" name="_stateImageWidth" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="float" factory="yes" ovadd="1.0.0">
+          <sel>menuBarHeight</sel>
+          <desc>
+            Returns the height of the menu bar.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>attachSubmenuForItemAtIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Attach submenu if the item at <var>index</var> is a
+            submenu. It will figure out if the new submenu
+            should be transient or not.
+          </desc>
+        </method>
+        <method type="NSMenu*" ovadd="1.0.0">
+          <sel>attachedMenu</sel>
+          <desc>
+            Returns visible attached submenu.
+          </desc>
+        </method>
+        <method type="NSMenuView*" ovadd="1.0.0">
+          <sel>attachedMenuView</sel>
+          <desc>
+            Returns menu view associated with visible attached
+            submenu.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>detachSubmenu</sel>
+          <desc>
+            Detaches currently visible submenu window from
+            main menu.
+          </desc>
+        </method>
+        <method type="NSFont*" ovadd="1.0.0">
+          <sel>font</sel>
+          <desc>
+            Returns the default font used to draw the menu
+            text.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>highlightedItemIndex</sel>
+          <desc>
+            Returns the index of the highlighted item. Returns
+            -1 if there is no highlighted item.
+          </desc>
+        </method>
+        <method type="float" ovadd="1.0.0">
+          <sel>horizontalEdgePadding</sel>
+          <desc>
+            Returns horizontal space used for padding between
+            menu item elements (state image, title image, title,
+            key equivalent, submenu arrow image).
+          </desc>
+        </method>
+        <method type="float" ovadd="1.0.0">
+          <sel>imageAndTitleOffset</sel>
+          <desc>
+            Returns the starting horizontal position for
+            drawing the image and title.
+          </desc>
+        </method>
+        <method type="float" ovadd="1.0.0">
+          <sel>imageAndTitleWidth</sel>
+          <desc>
+            Returns the width of the image and title section.
+            Tis section contains image and text of menu item.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>indexOfItemAtPoint:</sel>
+          <arg type="NSPoint">point</arg>
+          <desc>
+            Returns the index of the item below
+            <var>point</var>. Returns -1 if mouse is not above a
+            menu item.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initAsTearOff</sel>
+          <desc>
+            Creates new instance and sets menu to torn off
+            state with NSMenu's setTornOff:.
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="1.0.0">
+          <sel>innerRect</sel>
+          <desc>
+            Returns bounds rectangle of the menu view. It is
+            smaller by 1 pixel in width than menu window (dark
+            gray border at left).
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isAttached</sel>
+          <desc>
+            Returns <code>YES</code>, if this object is an
+            visivle attached submenu's view. Returns
+            <code>NO</code> otherwise.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isHorizontal</sel>
+          <desc>
+            Returns <code>YES</code> if menu items are
+            displayed horizontally, <code>NO</code> if
+            vertically.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isTornOff</sel>
+          <desc>
+            Returns <code>YES</code>, if this object is
+            associated with torn off menu (menu with a close
+            button on title bar).
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>itemAdded:</sel>
+          <arg type="NSNotification*">notification</arg>
+          <desc>
+            Creates new item cell for the newly created menu
+            item, marks cell and menu view as needing to be
+            resized. This method is invoked when
+            NSMenuDidAddItemNotification
+            received. The <var>notification</var> parameter
+            contains index of changed menu item and can be
+            accessed with NSMenuItemIndex key.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>itemChanged:</sel>
+          <arg type="NSNotification*">notification</arg>
+          <desc>
+            Marks menu item cell associated with the menu item
+            and menu view as needing to be resized. This method is
+            invoked when NSMenuDidChangeItemNotification
+            received. The <var>notification</var> parameter
+            contains index of changed menu item and can be
+            accessed with NSMenuItemIndex key.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>itemRemoved:</sel>
+          <arg type="NSNotification*">notification</arg>
+          <desc>
+            Removes cell associated with removed menu item,
+            removes highlighting if removed menu item was
+            highlighted, marks cell and menu view as
+            needing to be resized. This method is invoked when
+            NSMenuDidRemoveItemNotification
+            received. The <var>notification</var> parameter
+            contains index of changed menu item and can be
+            accessed with NSMenuItemIndex key.
+          </desc>
+        </method>
+        <method type="float" ovadd="1.0.0">
+          <sel>keyEquivalentOffset</sel>
+          <desc>
+            Returns the starting position for drawing the key
+            equivalent. Key equivalent can be submenu arrow
+            if menu item has submenu.
+          </desc>
+        </method>
+        <method type="float" ovadd="1.0.0">
+          <sel>keyEquivalentWidth</sel>
+          <desc>
+            Returns the width of key equivalent text. Key
+            equivalent can be submenu arrow if menu item has
+            submenu
+          </desc>
+        </method>
+        <method type="NSPoint" ovadd="1.0.0">
+          <sel>locationForSubmenu:</sel>
+          <arg type="NSMenu*">aSubmenu</arg>
+          <desc>
+            Returns the correct frame origin for
+            <var>aSubmenu</var> based on the location of the
+            receiver. This location may depend on the current
+            NSInterfaceStyle.
+          </desc>
+        </method>
+        <method type="NSMenu*" ovadd="1.0.0">
+          <sel>menu</sel>
+          <desc>
+            Returns the NSMenu associated with this menu view.
+          </desc>
+        </method>
+        <method type="NSMenuItemCell*" ovadd="1.0.0">
+          <sel>menuItemCellForItemAtIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Returns cell associated with item at
+            <var>index</var>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>needsSizing</sel>
+          <desc>
+            Return <code>YES</code> if menu view contents
+            changed and needs to be resized.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>performActionWithHighlightingForItemAtIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="1.0.0">
+          <sel>rectOfItemAtIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Returns frame rectangle of menu item cell. It is
+            smaller by 1 pixel in width than menu window (dark
+            gray border).
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setFont:</sel>
+          <arg type="NSFont*">font</arg>
+          <desc>
+            Sets the default <var>font</var> to use when drawing
+            the menu text.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setHighlightedItemIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Highlights item with at <var>index</var>. If
+            <var>index</var> is -1 all highlighing is removed.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setHorizontal:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Sets menu orientation. If <code>YES</code> menu items
+            are displayed from left to right, if <code>NO</code>
+            from top to bottom (vertically). By default, menu
+            items are displayed vertically.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setHorizontalEdgePadding:</sel>
+          <arg type="float">pad</arg>
+          <desc>
+            Sets amount of pixels added between menu item elements
+            to <var>pad</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setMenu:</sel>
+          <arg type="NSMenu*">menu</arg>
+          <desc>
+            Sets the <var>menu</var> to be displayed in to
+            <var>menu</var>. Also this method adds this
+            <var>menu</var> view to the menu's list of observers,
+            mark view to force recalculation of layout with
+            setNeedsSizing:YES, and updates itself
+            with update method.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setMenuItemCell:</sel>
+          <arg type="NSMenuItemCell*">cell</arg>
+          <sel>forItemAtIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Replaces item <var>cell</var> at <var>index</var>
+            with <var>cell</var>. Highlighting of item is
+            preserved.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setNeedsDisplayForItemAtIndex:</sel>
+          <arg type="NSInteger">index</arg>
+          <desc>
+            Calls setNeedsDisplayInRect: for rectangle occupied
+            by item at <var>index</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setNeedsSizing:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Sets the <var>flag</var> whether layout needs to be
+            resized. Set it to <code>YES</code> if menu
+            contents changed and layout needs to be
+            recalculated. This method is used internally.
+            Yout should not invoke it directly from applications.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setWindowFrameForAttachingToRect:</sel>
+          <arg type="NSRect">screenRect</arg>
+          <sel>onScreen:</sel>
+          <arg type="NSScreen*">screen</arg>
+          <sel>preferredEdge:</sel>
+          <arg type="NSRectEdge">edge</arg>
+          <sel>popUpSelectedItem:</sel>
+          <arg type="NSInteger">selectedItemIndex</arg>
+          <desc>
+            Resize menu view frame to be appropriate in size to
+            attach to <var>screenRect</var> at preferredEdge.
+            For popup's menu, if <var>selectedItemIndex</var> is
+            other than -1, position view so selected item covers
+            the NSPopUpButton. <br />
+            <strong>
+              NOTE: preffered <var>edge</var> positioning doesn't
+              implemented yet!
+            </strong>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>sizeToFit</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="float" ovadd="1.0.0">
+          <sel>stateImageOffset</sel>
+          <desc>
+            Returns the starting horizontal position for
+            drawing the state image.
+          </desc>
+        </method>
+        <method type="float" ovadd="1.0.0">
+          <sel>stateImageWidth</sel>
+          <desc>
+            Returns the width of the state image.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>trackWithEvent:</sel>
+          <arg type="NSEvent*">event</arg>
+          <desc>
+            This method is responsible for tracking the mouse
+            while this menu is on the screen and the user is busy
+            navigating the menu or one of it submenus.
+            Responsible does not mean that this method does
+            it all. For submenus for example it will call,
+            indirectly, itself for submenu under
+            consideration. It will return
+            <code>YES</code> if user released mouse, not above a
+            submenu item. <code>NO</code> in all other
+            circumstances. Implementation detail:
+            <list>
+              <item>
+                It use periodic events to update the highlight state
+                and attach / detach submenus.
+              </item>
+              <item>
+                The flag justAttachedNewSubmenu is set to
+                <code>YES</code> when a new submenu is attached.
+                The effect is that the highlighting / attaching /
+                detaching is supressed for this menu. This is
+                done so the user is given a change to move the
+                mouse pointer into the newly attached submenu.
+                Otherwise it would immediately be removed as
+                the mouse pointer move over another item. The logic
+                for resetting the flag is rather adhoc.
+              </item>
+              <item>
+                the flag subMenusNeedRemoving means that we will
+                remove all the submenus after we are done. This
+                flag is used to clean up the submenus when the
+                user has opened a submenu by clicking and wants to
+                close it again by clicking on the hihglighted
+                item.
+              </item>
+              <item>
+                When the user released the mouse this method will
+                cleanup all the transient menus. Not only its
+                own, but also its attached menu and all its
+                transient super menus.
+              </item>
+              <item>
+                The clean up is done BEFORE the action is executed.
+                This is needed otherwise `hiding' the application
+                leaves a dangling menu. If this is not
+                acceptable, there should be another
+                mechanism of handling the hiding. BTW besides
+                the `hiding' the application, model panels are also
+                a problem when the menu is not cleared before
+                executing the action.
+              </item>
+            </list>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>update</sel>
+          <desc>
+            Adds title view for application menu and submenus,
+            removes title view if menu is owned by
+            NSPopUpButton, adds close button to title
+            view for torn off menus and removes it for other type
+            of menu.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+  </body>
+</gsdoc>
