@@ -1,0 +1,2098 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSApplication" stylesheeturl="default-styles.css" up="Gui">
+  <head>
+    <title>NSApplication</title>
+    <author name="Scott Christley">
+      <email address="scottc@net-community.com">
+        scottc@net-community.com
+      </email>
+    </author>
+    <author name="Felipe A. Rodriguez">
+      <email address="far@ix.netcom.com">
+        far@ix.netcom.com
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <date>Generated at 2024-11-13 12:52:37 -0500</date>
+    <abstract>The one and only application class.</abstract>
+    <copy>1996-2105 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>
+        Software documentation for the NSApplication class
+      </heading>
+      <class name="NSApplication" super="NSResponder" ovadd="1.0.0">
+        <declared>AppKit/NSApplication.h</declared>
+        <conform>NSCoding</conform>
+        <conform>NSUserInterfaceValidations</conform>
+        <desc>
+          <p>
+            Every graphical GNUstep application has exactly one
+            instance of <code>NSApplication</code> (or a
+            subclass) instantiated. Usually this is created
+            through the
+            <ref type="method" id="+sharedApplication">
+              +sharedApplication
+            </ref>
+            method. Once created, this instance is always
+            accessible through the global variable '
+            <code>NSApp</code> '.
+          </p>
+          <p>
+            The NSApplication instance manages the main run loop,
+            dispatches events, and manages resources. It
+            sets up the connection to the window server and
+            provides special methods for putting up "modal"
+            (always on top) windows.
+          </p>
+          <p>
+            Typically,
+            <ref type="method" id="-run">
+              -run
+            </ref>
+            is called by an application's <code>main</code> method
+            after the NSApplication instance is created, which
+            never returns. However, applications needing to
+            integrate other event loops may strategically
+            call the <ref type="method" id="-stop:">-stop:</ref>
+            method, followed by
+            <ref type="method" id="-run">
+              -run
+            </ref>
+            later on.
+          </p>
+          <p>
+            To avoid most common needs for subclassing,
+            NSApplication allows you to specify a
+            <em>delegate</em> that is messaged in particular
+            situations. See
+            <ref type="method" id="-delegate">
+              -delegate
+            </ref>
+            ,
+            <ref type="method" id="-setDelegate:">
+              -setDelegate:
+            </ref>
+            , and
+            <ref type="protocol" id="(NSApplicationDelegate)">&lt;NSApplicationDelegate&gt;</ref>.</p>
+            <p>
+              <strong>Subclassing</strong> should be a last
+              resort, and delegate methods should be used in
+              most cases. However, subclassing is most frequently
+              done to implement custom event loop management by
+              overriding
+              <ref type="method" id="-run">
+                -run
+              </ref>
+              when the method described above is not sufficient,
+              or to intercept events by overriding
+              <ref type="method" id="-sendEvent:">
+                -sendEvent:
+              </ref>
+              .
+            </p>
+        </desc>
+        <ivariable type="NSImage*" name="_app_icon" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSWindow*" name="_app_icon_window" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_app_is_active" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_app_is_hidden" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_app_is_launched" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_app_is_running" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSAppearance*" name="_appearance" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSEvent*" name="_current_event" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSGraphicsContext*" name="_default_context" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_delegate" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSDockTile*" name="_dock_tile" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableArray*" name="_hidden" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSWindow*" name="_hidden_key" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSWindow*" name="_hidden_main" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableArray*" name="_inactive" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="GSInfoPanel*" name="_infoPanel" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSWindow*" name="_key_window" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_listener" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMenu*" name="_main_menu" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSWindow*" name="_main_window" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSApplicationPresentationOptions" name="_presentationOptions" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_runLoopPool" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSModalSession" name="_session" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_unhide_on_activation" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMenu*" name="_windows_menu" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="BOOL" name="_windows_need_update" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <method type="void" factory="yes" ovadd="10.0.0">
+          <sel>detachDrawingThread:</sel>
+          <arg type="SEL">selector</arg>
+          <sel>toTarget:</sel>
+          <arg type="id">target</arg>
+          <sel>withObject:</sel>
+          <arg type="id">argument</arg>
+          <desc>
+            Calls
+            <ref type="method" id="+detachNewThreadSelector:toTarget:withObject:" class="NSThread">[NSThread +detachNewThreadSelector:toTarget:withObject:]</ref> with the invocation wrapped by an autorelease pool.
+          </desc>
+        </method>
+        <method type="NSApplication*" factory="yes" ovadd="1.0.0">
+          <sel>sharedApplication</sel>
+          <desc>
+            <p>
+              Return the shared application instance, creating
+              one (of the receiver class) if needed. There is (and
+              must always be) only a single shared application
+              instance for each application. After the shared
+              application instance has been created, you
+              can access it directly via the global variable
+              <code>NSApp</code> (but not before!). When the
+              shared application instance is created, it is also
+              automatically initialized (that is, its
+              <code>init</code> method is called), which
+              connects to the window server and prepares the
+              gui library for actual operation. For this reason,
+              you must always call
+              <code>[NSApplication sharedApplication]</code>
+              before using any functionality of the gui library
+              - so, normally, this should be one of the first
+              commands in your program (if you use
+              <code>
+                <ref type="function" id="NSApplicationMain">
+                  NSApplicationMain()
+                </ref>
+              </code>
+              , this is automatically done).
+            </p>
+            <p>
+              The shared application instance is normally an
+              instance of NSApplication; but you can subclass
+              NSApplication, and have an instance of
+              your own subclass be created and used as the shared
+              application instance. If you want to get this
+              result, you need to make sure the first time you
+              call
+              <ref type="method" id="+sharedApplication">
+                +sharedApplication
+              </ref>
+              is on your custom NSApplication subclass (rather than
+              on NSApplication). Putting
+              <code>
+                [MyApplicationClass
+                sharedApplication]
+              </code>
+              ; as the first command in your program is the
+              recommended way. :-) If you use
+              <code>
+                <ref type="function" id="NSApplicationMain">
+                  NSApplicationMain()
+                </ref>
+              </code>
+              , it automatically creates the appropriate instance
+              (which you can control by editing the info
+              dictionary of the application).
+            </p>
+            <p>
+              It is not safe to call this method from multiple
+              threads - it would be useless anyway since the
+              whole library is not thread safe: there must always
+              be at most one thread using the gui library at a time.
+              (If you absolutely need to have multiple threads in
+              your application, make sure only one of them uses
+              the gui [the 'drawing' thread], and the other ones do
+              not).
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>abortModal</sel>
+          <desc>
+            Halts a currently running modal event loop started by
+            <ref type="method" id="-runModalForWindow:">
+              -runModalForWindow:
+            </ref>
+            or
+            <ref type="method" id="-runModalSession:">
+              -runModalSession:
+            </ref>
+            . If you wish to halt the session in response to user
+            interaction with the modal window, use
+            <ref type="method" id="-stopModalWithCode:">
+              -stopModalWithCode:
+            </ref>
+            or <ref type="method" id="-stopModal">-stopModal</ref>
+            instead; only use this to halt the loop from
+            elsewhere, such as another thread.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>activateIgnoringOtherApps:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Activate app unconditionally if <var>flag</var> is
+            <code>YES</code>, otherwise only if no other app is
+            active. (
+            <em>
+              <strong>Note:</strong> this is currently not
+              implemented under GNUstep. The app is always
+              activated unconditionally.
+            </em>
+            ) Usually it is not necessary to manually call this
+            method, except in some circumstances of
+            interapplication communication.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>addWindowsItem:</sel>
+          <arg type="NSWindow*">aWindow</arg>
+          <sel>title:</sel>
+          <arg type="NSString*">aString</arg>
+          <sel>filename:</sel>
+          <arg type="BOOL">isFilename</arg>
+          <desc>
+            Adds an item to the app's Windows menu. This is
+            usually done automatically so you don't need to
+            call this method.
+          </desc>
+        </method>
+        <method type="NSImage*" ovadd="1.0.0">
+          <sel>applicationIconImage</sel>
+          <desc>
+            <p>
+              Returns the current icon be used for the
+              application.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-setApplicationIconImage:">
+                -setApplicationIconImage:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>arrangeInFront:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Arranges all non-miniaturized app's windows in
+            front by successively calling
+            <ref type="method" id="-orderFront:" class="NSWindow">
+              [NSWindow -orderFront:]
+            </ref>
+            on each window in the app's Windows menu.
+          </desc>
+        </method>
+        <method type="NSModalSession" ovadd="1.0.0">
+          <sel>beginModalSessionForWindow:</sel>
+          <arg type="NSWindow*">theWindow</arg>
+          <desc>
+            Set up modal session for <var>theWindow</var>, and, if
+            it is not visible already, puts it up on screen,
+            centering it if it is an NSPanel. It is then
+            ordered front and made key or main window.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>beginSheet:</sel>
+          <arg type="NSWindow*">sheet</arg>
+          <sel>modalForWindow:</sel>
+          <arg type="NSWindow*">docWindow</arg>
+          <sel>modalDelegate:</sel>
+          <arg type="id">modalDelegate</arg>
+          <sel>didEndSelector:</sel>
+          <arg type="SEL">didEndSelector</arg>
+          <sel>contextInfo:</sel>
+          <arg type="void*">contextInfo</arg>
+          <desc>
+            Put up a modal <var>sheet</var> sliding down from top
+            of <var>docWindow</var>. If <var>modalDelegate</var> is
+            non-nil and responds to <var>didEndSelector</var>
+            (this is optional), it is invoked after the session
+            ends. The selector should take three arguments:
+            NSWindow *, <strong>int</strong>,
+            <strong>void</strong> *. It is passed the
+            <var>sheet</var> window, the return code, and the
+            <var>contextInfo</var> passed in here.
+            <em>
+              Under GNUstep, the <var>sheet</var> aspect is not
+              implemented (just centers window on the
+              screen), but <var>modalDelegate</var>
+              <var>didEndSelector</var> is called if both
+              non-nil.
+            </em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>cancelUserAttentionRequest:</sel>
+          <arg type="NSInteger">request</arg>
+          <desc>
+            Cancels a <var>request</var> previously made
+            through calling
+            <ref type="method" id="-requestUserAttention:">
+              -requestUserAttention:
+            </ref>
+            . Note that <var>request</var> is cancelled automatically
+            if user activates the app.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>changeWindowsItem:</sel>
+          <arg type="NSWindow*">aWindow</arg>
+          <sel>title:</sel>
+          <arg type="NSString*">aString</arg>
+          <sel>filename:</sel>
+          <arg type="BOOL">isFilename</arg>
+          <desc>
+            Changes the Window menu item associated with
+            <var>aWindow</var> to <var>aString</var>. If no
+            associated window item exists, one is created.
+            If <var>isFilename</var> is <code>YES</code>, then
+            <var>aString</var> is assumed to be a filename
+            representation the way
+            <ref type="method" id="-setTitleWithRepresentedFilename:" class="NSWindow">[NSWindow -setTitleWithRepresentedFilename:]</ref> would format it, otherwise the string is displayed literally in the menu item.
+          </desc>
+        </method>
+        <method type="NSGraphicsContext*" ovadd="1.0.0">
+          <sel>context</sel>
+          <desc>
+            Returns the default drawing context for the app.
+          </desc>
+        </method>
+        <method type="NSEvent*" ovadd="1.0.0">
+          <sel>currentEvent</sel>
+          <desc>
+            Returns the most recent event
+            <ref type="method" id="-run">
+              -run
+            </ref>
+            pulled off the event queue.
+          </desc>
+        </method>
+        <method type="NSApplicationPresentationOptions" ovadd="10.6.0">
+          <sel>currentPresentationOptions</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>deactivate</sel>
+          <desc>
+            Forcefully deactivate the app, without
+            activating another. It is rarely necessary to
+            use this method.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>delegate</sel>
+          <desc>
+            Returns the application's delegate, as set by the
+            <ref type="method" id="-setDelegate:">
+              -setDelegate:
+            </ref>
+            method. <br />
+            <p>
+              The application delegate will automatically be sent
+              various notifications (as <strong>long</strong>
+              as it implements the appropriate methods) when
+              application events occur. The method to
+              handle each of these notifications has name
+              mirroring the notification name, so for
+              instance an
+              <em>NSApplicationDidBecomeActiveNotification</em> is
+              handled by an
+              <code>applicationDidBecomeActive:</code> method.
+            </p>
+            <list>
+              <item>
+                NSApplicationDidBecomeActiveNotification
+              </item>
+              <item>
+                NSApplicationDidFinishLaunchingNotification
+              </item>
+              <item>NSApplicationDidHideNotification</item>
+              <item>
+                NSApplicationDidResignActiveNotification
+              </item>
+              <item>NSApplicationDidUnhideNotification</item>
+              <item>NSApplicationDidUpdateNotification</item>
+              <item>
+                NSApplicationWillBecomeActiveNotification
+              </item>
+              <item>
+                NSApplicationWillFinishLaunchingNotification
+              </item>
+              <item>NSApplicationWillHideNotification</item>
+              <item>
+                NSApplicationWillResignActiveNotification
+              </item>
+              <item>
+                NSApplicationWillTerminateNotification
+              </item>
+              <item>NSApplicationWillUnhideNotification</item>
+              <item>NSApplicationWillUpdateNotification</item>
+            </list>
+            <p>
+              The delegate is also sent various messages to ask for
+              authorisation to perform actions, or to ask
+              it to perform actions (again, as <strong>long</strong>
+              as it implements the appropriate methods).
+            </p>
+            <list>
+              <item>
+                application:shouldTerminateAfterLastWindowClosed:
+              </item>
+              <item>application:shouldOpenUntitledFile:</item>
+              <item>application:openFile:</item>
+              <item>application:openFiles:</item>
+              <item>application:openFileWithoutUI:</item>
+              <item>application:openTempFile:</item>
+              <item>application:openUntitledFile:</item>
+              <item>application:shouldOpenUntitledFile:</item>
+              <item>application:printFile:</item>
+              <item>application:shouldTerminate:</item>
+              <item>
+                application:shouldTerminateAfterLastWindowClosed:
+              </item>
+            </list>
+            <p>
+              The delegate is also called upon to respond to any
+              actions which are not handled by a window, a
+              window delgate, or by the application object
+              itself. This is controlled by the
+              <ref type="method" id="-targetForAction:">
+                -targetForAction:
+              </ref>
+              method.
+            </p>
+            <p>
+              Finally, the application delegate is responsible
+              for handling messages sent to the application from
+              remote processes (see the section documenting
+              distributed objects for
+              <ref type="class" id="NSPasteboard">NSPasteboard</ref>
+                ).
+              </p>
+              <p>
+                See
+                <ref type="method" id="-setDelegate:">
+                  -setDelegate:
+                </ref>
+                and
+                <ref type="protocol" id="(NSApplicationDelegate)">&lt;NSApplicationDelegate&gt;</ref>for more information.</p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>discardEventsMatchingMask:</sel>
+          <arg type="NSUInteger">mask</arg>
+          <sel>beforeEvent:</sel>
+          <arg type="NSEvent*">lastEvent</arg>
+          <desc>
+            Drop events matching <var>mask</var> from the queue,
+            before but not including <var>lastEvent</var>. The
+            <var>mask</var> is a bitwise AND of event
+            <var>mask</var> constants. See (EventType). Use
+            <code>NSAnyEventMask</code> to discard everything up
+            to <var>lastEvent</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>endModalSession:</sel>
+          <arg type="NSModalSession">theSession</arg>
+          <desc>
+            Clean up after a modal session has been run. Called
+            with <var>theSession</var> returned from a previous
+            call to beginModalSessionForWindow:.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>endSheet:</sel>
+          <arg type="NSWindow*">sheet</arg>
+          <desc>
+            Analogous to
+            <ref type="method" id="-stopModal">
+              -stopModal
+            </ref>
+            for sheets.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>endSheet:</sel>
+          <arg type="NSWindow*">sheet</arg>
+          <sel>returnCode:</sel>
+          <arg type="NSInteger">returnCode</arg>
+          <desc>
+            Analogous to
+            <ref type="method" id="-stopModalWithCode:">
+              -stopModalWithCode:
+            </ref>
+            for sheets.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>finishLaunching</sel>
+          <desc>
+            <p>
+              Activates the application, sets the application
+              icon, loads the main Nib file if
+              <code>NSMainNibFile</code> is set in the
+              application property list, posts an
+              <code>
+                NSApplicationWillFinishLaunchingNotification
+              </code>
+              , and takes care of a few other startup tasks. If you
+              override this method, be sure to call
+              <em>super</em>.
+            </p>
+            <p>
+              The <ref type="method" id="-run">-run</ref> method
+              calls this the first time it is called, before
+              starting the event loop for the first time.
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>hide:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            <p>
+              Request this application to "hide" (unmap all
+              windows from the screen except the icon window).
+              Posts
+              <code>NSApplicationWillHideNotification</code> and
+              <code>NSApplicationDidHideNotification</code>. On
+              OS X this activates the next app that is running,
+              however on GNUstep this is up to the window
+              manager.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-unhide:">
+                -unhide:
+              </ref>
+              <ref type="method" id="-isHidden">
+                -isHidden
+              </ref>
+            </p>
+            Ask the window manager to hide all the application
+            windows for us. Return whether they have been
+            hidden.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>hideOtherApplications:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Cause all other apps to hide themselves.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isActive</sel>
+          <desc>
+            Returns whether this app is the currently active
+            GNUstep application. Note that on a GNUstep system,
+            unlike OS X, it is possible for <code>NO</code>
+            GNUstep app to be active.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isHidden</sel>
+          <desc>
+            <p>
+              Returns whether app is currently in hidden state.
+            </p>
+            <p>
+              See Also: <ref type="method" id="-hide:">-hide:</ref>
+              <ref type="method" id="-unhide:">
+                -unhide:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isRunning</sel>
+          <desc>
+            Returns whether the event loop managed by
+            <ref type="method" id="-run">
+              -run
+            </ref>
+            is currently active.
+          </desc>
+        </method>
+        <method type="NSWindow*" ovadd="1.0.0">
+          <sel>keyWindow</sel>
+          <desc>
+            Returns current key window. If this app is active,
+            one window should be key. If this app is not active,
+            <code>nil</code> should be returned. The key window
+            is the one that will receive keyboard input.
+          </desc>
+        </method>
+        <method type="NSMenu*" ovadd="1.0.0">
+          <sel>mainMenu</sel>
+          <desc>
+            Returns the main menu of the receiver.
+          </desc>
+        </method>
+        <method type="NSWindow*" ovadd="1.0.0">
+          <sel>mainWindow</sel>
+          <desc>
+            Returns current main window of this application.
+            There need not necessarily be a main window, even if
+            app is active, and this should return <code>nil</code>
+            if the app is inactive.
+          </desc>
+        </method>
+        <method type="NSWindow*" ovadd="1.0.0">
+          <sel>makeWindowsPerform:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>inOrder:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Sends <var>aSelector</var> to each window, either in
+            the app's internal window list (<var>flag</var> =
+            <code>NO</code>) or their stacking order from front
+            to back on the screen (<var>flag</var> =
+            <code>YES</code>,
+            <em>currently not implemented under GNUstep</em>).
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>miniaturizeAll:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Iconify all windows in the app.
+          </desc>
+        </method>
+        <method type="NSWindow*" ovadd="1.0.0">
+          <sel>modalWindow</sel>
+          <desc>
+            <p>
+              Returns the window that is part of the current
+              modal session, if any.
+            </p>
+            <p>
+              See
+              <ref type="method" id="-runModalForWindow:">
+                -runModalForWindow:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="NSEvent*" ovadd="1.0.0">
+          <sel>nextEventMatchingMask:</sel>
+          <arg type="NSUInteger">mask</arg>
+          <sel>untilDate:</sel>
+          <arg type="NSDate*">expiration</arg>
+          <sel>inMode:</sel>
+          <arg type="NSString*">mode</arg>
+          <sel>dequeue:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Return the next event matching <var>mask</var> from
+            the queue, dequeuing if <var>flag</var> is
+            <code>YES</code>. Intervening events are NOT
+            dequeued. If no matching event is on the queue,
+            will wait for one until <var>expiration</var>,
+            returning <code>nil</code> if none found. See
+            (EventType) for the list of masks.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>orderFrontStandardAboutPanel:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Calls
+            <ref type="method" id="-orderFrontStandardAboutPanelWithOptions:">-orderFrontStandardAboutPanelWithOptions:</ref> with <code>nil</code> passed as the options dictionary.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>orderFrontStandardAboutPanelWithOptions:</sel>
+          <arg type="NSDictionary*">dictionary</arg>
+          <desc>
+            OS X compatibility: Calls
+            <ref type="method" id="-orderFrontStandardInfoPanelWithOptions:">-orderFrontStandardInfoPanelWithOptions:</ref>.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>orderFrontStandardInfoPanel:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Calls
+            <ref type="method" id="-orderFrontStandardInfoPanelWithOptions:">-orderFrontStandardInfoPanelWithOptions:</ref> with <code>nil</code> passed as the options dictionary.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>orderFrontStandardInfoPanelWithOptions:</sel>
+          <arg type="NSDictionary*">dictionary</arg>
+          <desc>
+            <p>
+              Orders front the standard info panel for the
+              application, taking the needed information
+              from the <code><var>dictionary</var></code>
+              argument. There is a single standard info panel
+              per application; it is created the first time that
+              this method is invoked, and then reused in all
+              subsequent calls. The application standard
+              info panel is immutable and can not be changed after
+              creation. Useful keys for the
+              <code><var>dictionary</var></code> are:
+            </p>
+            <deflist>
+              <term>ApplicationName</term>
+              <desc>
+                A string with the name of the application (eg,
+                <var>"Gorm"</var>). If not available, the
+                <file>Info-gnustep.plist</file> file is searched
+                for the value of <var>ApplicationName</var>
+                followed by
+                <var>NSHumanReadableShortName</var>. If this also
+                fails, the string returned by
+                <ref type="method" id="-processName" class="NSProcessInfo">[NSProcessInfo -processName]</ref> is used.
+              </desc>
+              <term>ApplicationDescription</term>
+              <desc>
+                A string with a very <strong>short</strong>
+                description of the application (eg,
+                <var>
+                  "GNUstep Graphics Objects Relationship
+                  Modeller"
+                </var>
+                ). If not available, <file>Info-gnustep.plist</file>
+                is searched for that key; if this fails, no
+                application description is shown.
+              </desc>
+              <term>ApplicationIcon</term>
+              <desc>
+                An image to be shown near the title. If not
+                available, <file>Info-gnustep.plist</file>
+                is searched for <var>ApplicationIcon</var>; if this
+                fails, NSApp's
+                <ref type="method" id="-applicationIconImage">
+                  -applicationIconImage
+                </ref>
+                method is used instead.
+              </desc>
+              <term>ApplicationRelease</term>
+              <desc>
+                A string with the name of the application, release
+                included (eg, <var>"Gorm 0.1"</var>). If not
+                available, the value for
+                <var>ApplicationVersion</var> is used instead. If
+                this fails, <file>Info-gnustep.plist</file> is
+                searched for <var>ApplicationRelease</var> or
+                <var>NSAppVersion</var>, otherwise,
+                <var>"Unknown"</var> is used.
+              </desc>
+              <term>FullVersionID</term>
+              <desc>
+                A string with the full version of the application
+                (eg, <var>"0.1.2b"</var> or
+                <var>"snap011100"</var>). If not available,
+                <var>Version</var> is used instead. If this
+                fails, <file>Info-gnustep.plist</file> is looked
+                for <var>NSBuildVersion</var>. If all fails, no
+                full version is shown.
+              </desc>
+              <term>Authors</term>
+              <desc>
+                An array of strings, each one with the name of an
+                author (eg,
+                <var>
+                  [NSArray arrayWithObject: "Nicola Pero
+                  &lt;n.pero\@mi.flashnet.it&gt;"]
+                </var>
+                ). If not found, <file>Info-gnustep.plist</file> is
+                searched for <var>Authors</var>, if this
+                fails, <var>"Unknown"</var> is displayed.
+              </desc>
+              <term>URL</term>
+              <desc>
+                [This field is still under work, so it might be
+                changed] A string with an URL (eg,
+                <var>"See http://www.gnustep.org"</var>).
+              </desc>
+              <term>Copyright</term>
+              <desc>
+                A string with copyright owners (eg,
+                <var>
+                  "Copyright (C) 2000 The Free Software
+                  Foundation, Inc."
+                </var>
+                ). Support for multiple line strings is planned but
+                not yet available. If not found,
+                <file>Info-gnustep.plist</file> is searched for
+                <var>Copyright</var> and then (failing this) for
+                <var>NSHumanReadableCopyright</var>. If all
+                fails,
+                <var>"Copyright Information Not Available"</var>
+                is used.
+              </desc>
+              <term>CopyrightDescription</term>
+              <desc>
+                A string describing the kind of copyright (eg,
+                <var>
+                  "Released under the GNU General Public
+                  License 2.0"
+                </var>
+                ). If not available, <file>Info-gnustep.plist</file>
+                is searched for <var>CopyrightDescription</var>. If
+                this fails, no copyright description is shown.
+              </desc>
+            </deflist>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>orderedDocuments</sel>
+          <desc>
+            OS X scripting method to return document objects being
+            handled by application.
+            <em>Not implemented yet under GNUstep.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>orderedWindows</sel>
+          <desc>
+            OS X scripting method to return windows in front-to-back
+            on-screen order for scriptable windows.
+            <em>
+              The GNUstep implementation returns all the windows
+              excluding NSPanels. some backends may return an
+              array in an unspecified order.
+            </em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>postEvent:</sel>
+          <arg type="NSEvent*">event</arg>
+          <sel>atStart:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Add an <var>event</var> to be processed by the app,
+            either at end or at beginning (next up) if
+            <var>flag</var> is <code>YES</code>. This provides a
+            way to provide synthetic input to an application, or,
+            for whatever reason, to allow a real <var>event</var>
+            to be re-dispatched.
+          </desc>
+        </method>
+        <method type="NSApplicationPresentationOptions" ovadd="10.6.0">
+          <sel>presentationOptions</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>preventWindowOrdering</sel>
+          <desc>
+            Prevent window reordering in response to most
+            recent mouse down (useful to prevent
+            raise-on-mouse-click).
+            <em>Not implemented under GNUstep.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>registerServicesMenuSendTypes:</sel>
+          <arg type="NSArray*">sendTypes</arg>
+          <sel>returnTypes:</sel>
+          <arg type="NSArray*">returnTypes</arg>
+          <desc>
+            Registers the types this application can send and
+            receive over Services. <var>sendTypes</var>
+            represents the pasteboard types this app can
+            receive in Service invocation. This is used to set
+            up the services menu of this app -- an item is added for
+            each registered service that can accept one of
+            <var>sendTypes</var> or return one of
+            <var>returnTypes</var>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>removeWindowsItem:</sel>
+          <arg type="NSWindow*">aWindow</arg>
+          <desc>
+            Removes an item from the app's Windows menu. This
+            is usually done automatically so you don't need to call
+            this method.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>replyToApplicationShouldTerminate:</sel>
+          <arg type="BOOL">shouldTerminate</arg>
+          <desc>
+            Terminates the app if <var>shouldTerminate</var>
+            is <code>YES</code>, otherwise does nothing. This should
+            be called by user code if a delegate has returned
+            <code>NSTerminateLater</code> to an
+            <ref type="method" id="-applicationShouldTerminate:">
+              -applicationShouldTerminate:
+            </ref>
+            message.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.3.0">
+          <sel>replyToOpenOrPrint:</sel>
+          <arg type="NSApplicationDelegateReply">reply</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>reportException:</sel>
+          <arg type="NSException*">anException</arg>
+          <desc>
+            NSLogs an exception without raising it.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.0.0">
+          <sel>requestUserAttention:</sel>
+          <arg type="NSRequestUserAttentionType">requestType</arg>
+          <desc>
+            Method that on OS X makes the icon jump in the doc.
+            Mercifully, this is unimplemented under
+            GNUstep. If it <em>were</em> implemented,
+            <var>requestType</var> could be either
+            <code>NSCriticalRequest</code> (bounce endlessly) or
+            <code>NSInformationalRequest</code> (bounce for one
+            second).
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>run</sel>
+          <desc>
+            <p>
+              This method first calls
+              <ref type="method" id="-finishLaunching">
+                -finishLaunching
+              </ref>
+              (if this is the first time -run) has been called,
+              then starts the main event loop of the application
+              which continues until
+              <ref type="method" id="-terminate:">
+                -terminate:
+              </ref>
+              or <ref type="method" id="-stop:">-stop:</ref> is
+              called.
+            </p>
+            <p>
+              At each iteration, at most one event is dispatched,
+              the main and services menus are sent
+              <ref type="method" id="-update" class="NSMenu">
+                [NSMenu -update]
+              </ref>
+              messages, and
+              <ref type="method" id="-updateWindows">
+                -updateWindows
+              </ref>
+              is possibly called if this has been flagged as
+              necessary.
+            </p>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>runModalForWindow:</sel>
+          <arg type="NSWindow*">theWindow</arg>
+          <desc>
+            Starts modal event loop for given window, after
+            calling
+            <ref type="method" id="-beginModalSessionForWindow:">
+              -beginModalSessionForWindow:
+            </ref>
+            . Loop is broken only by
+            <ref type="method" id="-stopModal">
+              -stopModal
+            </ref>
+            ,
+            <ref type="method" id="-stopModalWithCode:">
+              -stopModalWithCode:
+            </ref>
+            , or
+            <ref type="method" id="-abortModal">
+              -abortModal
+            </ref>
+            , at which time
+            <ref type="method" id="-endModalSession:">
+              -endModalSession:
+            </ref>
+            is called automatically.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="10.0.0">
+          <sel>runModalForWindow:</sel>
+          <arg type="NSWindow*">theWindow</arg>
+          <sel>relativeToWindow:</sel>
+          <arg type="NSWindow*">docWindow</arg>
+          <desc>
+            Put up a modal window centered relative to
+            <var>docWindow</var>. On OS X this is deprecated in
+            favor of
+            <ref type="method" id="-beginSheet:modalForWindow:modalDelegate:didEndSelector:contextInfo:">-beginSheet:modalForWindow:modalDelegate:didEndSelector:contextInfo:</ref>.
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>runModalSession:</sel>
+          <arg type="NSModalSession">theSession</arg>
+          <desc>
+            <p>
+              Processes any events for a modal session
+              described by the <var>theSession</var>
+              variable. When finished, it returns the state
+              of the session (i.e. whether it is still running or
+              has been stopped, etc)
+            </p>
+            <p>
+              If there are no pending events for the session, this
+              method returns immediately.
+            </p>
+            <p>
+              Although Apple's docs state that, before
+              processing the events, it makes the session
+              window key and orders the window front, this
+              method does not attempt to do this, because: 1) we
+              don't want to interfere with use of other apps
+              during modal session for this app; 2) occasionally
+              other windows are active and should be usable
+              during modal sessions (e.g., a popup dialog from a
+              modal window); 3) most of the time
+              <ref type="method" id="-beginModalSessionForWindow:">
+                -beginModalSessionForWindow:
+              </ref>
+              will have been called in advance. If the latter is
+              not the case, you may need to order the window front
+              yourself in advance.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-runModalForWindow:">
+                -runModalForWindow:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>sendAction:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>to:</sel>
+          <arg type="id">aTarget</arg>
+          <sel>from:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Sends the <var>aSelector</var> message to the
+            receiver returned by the
+            <ref type="method" id="-targetForAction:to:from:">
+              -targetForAction:to:from:
+            </ref>
+            method (to which the <var>aTarget</var> and
+            <var>sender</var> arguments are passed). <br /> The
+            method in the receiver must expect a single argument
+            ... the <var>sender</var>. <br /> Any value returned by
+            the method in the receiver is ignored. <br /> This
+            method returns <code>YES</code> on success,
+            <code>NO</code> on failure (when no receiver can be
+            found for <var>aSelector</var>).
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>sendEvent:</sel>
+          <arg type="NSEvent*">theEvent</arg>
+          <desc>
+            Called by <ref type="method" id="-run">-run</ref> to
+            dispatch events that are received according to
+            AppKit's forwarding conventions. You rarely need
+            to invoke this directly. If you want to synthesize an
+            event for processing, call
+            <ref type="method" id="-postEvent:atStart:">
+              -postEvent:atStart:
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="NSMenu*" ovadd="1.0.0">
+          <sel>servicesMenu</sel>
+          <desc>
+            <p>
+              Returns the services menu of the receiver.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-setServicesMenu:">
+                -setServicesMenu:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>servicesProvider</sel>
+          <desc>
+            <p>
+              Returns the services provided previously
+              registered using the
+              <ref type="method" id="-setServicesProvider:">
+                -setServicesProvider:
+              </ref>
+              method.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-setServicesProvider:">
+                -setServicesProvider:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setAppleMenu:</sel>
+          <arg type="NSMenu*">aMenu</arg>
+          <desc>
+            Here for compatibility with OS X, but currently a
+            no-op.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setApplicationIconImage:</sel>
+          <arg type="NSImage*">anImage</arg>
+          <desc>
+            <p>
+              Sets the application's icon. Any windows that use
+              the old application icon image as their mini window
+              image will be updated to use the new image.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-applicationIconImage">
+                -applicationIconImage
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setDelegate:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Sets the delegate of the application to
+            <var>anObject</var>. <br />
+            <p>
+              <em>Beware</em>, this does not retain
+              <var>anObject</var>, so you must be sure that, in
+              the event of <var>anObject</var> being deallocated,
+              you stop it being the application delagate by calling
+              this method again with another object (or
+              <code>nil</code>) as the argument.
+            </p>
+            <p>
+              See <ref type="method" id="-delegate">-delegate</ref>
+              and
+              <ref type="protocol" id="(NSApplicationDelegate)">&lt;NSApplicationDelegate&gt;</ref>for more information.</p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setMainMenu:</sel>
+          <arg type="NSMenu*">aMenu</arg>
+          <desc>
+            Sets the main menu of the receiver. This is sent
+            update messages by the main event loop.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.6.0">
+          <sel>setPresentationOptions:</sel>
+          <arg type="NSApplicationPresentationOptions">options</arg>
+          <desc>
+            Currently unimplemented and unused in GNUstep, it
+            could be extended to handle special GNUstep needs too
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setServicesMenu:</sel>
+          <arg type="NSMenu*">aMenu</arg>
+          <desc>
+            <p>
+              ets the services menu for the receiver. This should
+              be called, otherwise warnings will be generated by the
+              main event loop, which is in charge of updating all
+              menus, including the Services menu.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-servicesMenu">
+                -servicesMenu
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setServicesProvider:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Sets the object which provides services to other
+            applications. <br /> Passing a
+            <code>nil</code> value for <var>anObject</var> will
+            result in the provision of services to other
+            applications by this application being
+            disabled. <br /> See
+            <ref type="class" id="NSPasteboard">NSPasteboard</ref>
+              for information about providing services.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setWindowsMenu:</sel>
+          <arg type="NSMenu*">aMenu</arg>
+          <desc>
+            Sets the windows menu of the receiver. The windows
+            menu keeps track of all windows open in the
+            application.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setWindowsNeedUpdate:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Set whether the main run loop will request all visible
+            windows update themselves after the current or next
+            event is processed. (Update occurs after event
+            dispatch in the loop.) This is needed when in
+            NSEventTrackingRunLoopMode.
+            When the application is using NSDefaultRunLoopMode or
+            NSModalPanelRunLoopMode windows are
+            updated after each loop iteration irrespective of
+            this setting.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>stop:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Stops the main run loop, as well as a modal session
+            if it is running.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>stopModal</sel>
+          <desc>
+            <p>
+              Stops a running modal session causing
+              <ref type="method" id="-runModalForWindow:">
+                -runModalForWindow:
+              </ref>
+              or
+              <ref type="method" id="-runModalSession:">
+                -runModalSession:
+              </ref>
+              to return <code>NSRunStoppedResponse</code>. Use this
+              or
+              <ref type="method" id="-stopModalWithCode:">
+                -stopModalWithCode:
+              </ref>
+              to end a modal session in response to user input.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-stopModalWithCode:">
+                -stopModalWithCode:
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>stopModalWithCode:</sel>
+          <arg type="NSInteger">returnCode</arg>
+          <desc>
+            Stops a running modal session causing
+            <ref type="method" id="-runModalForWindow:">
+              -runModalForWindow:
+            </ref>
+            or
+            <ref type="method" id="-runModalSession:">
+              -runModalSession:
+            </ref>
+            to return the specified integer code. Use this or
+            <ref type="method" id="-stopModal">
+              -stopModal
+            </ref>
+            to end a modal session in response to user input.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>targetForAction:</sel>
+          <arg type="SEL">aSelector</arg>
+          <desc>
+            <p>
+              Returns the target object that will respond to
+              <var>aSelector</var>, if any. The method first
+              checks if any of the key window's first
+              responders, the key window or its delegate
+              responds. Next it checks the main window in the
+              same way. Finally it checks the receiver
+              (NSApplication) and its delegate.
+            </p>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>targetForAction:</sel>
+          <arg type="SEL">theAction</arg>
+          <sel>to:</sel>
+          <arg type="id">theTarget</arg>
+          <sel>from:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            If <var>theTarget</var> responds to <var>theAction</var>
+            it is returned, otherwise the application searches for
+            an object which will handle <var>theAction</var> and
+            returns the first object found. <br /> Returns
+            <code>nil</code> on failure.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>terminate:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Requests the application terminates the
+            application. First an
+            <ref type="method" id="-applicationShouldTerminate:">
+              -applicationShouldTerminate:
+            </ref>
+            message is sent to the delegate, and only if it
+            returns <code>NSTerminateNow</code> will
+            termination be carried out. <br /> The old
+            version of
+            <ref type="method" id="-applicationShouldTerminate:">
+              -applicationShouldTerminate:
+            </ref>
+            returned a BOOL, and this should still work as
+            <code>YES</code> is equivalent to
+            <code>NSTerminateNow</code> and <code>NO</code> is
+            equivalent to <code>NSTerminateCancel</code>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>tryToPerform:</sel>
+          <arg type="SEL">aSelector</arg>
+          <sel>with:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Attempts to perform <var>aSelector</var> using
+            <ref type="method" id="-tryToPerform:with:" class="NSResponder">[NSResponder -tryToPerform:with:]</ref> and if that is not possible, attempts to get the application delegate to perform the <var>aSelector</var>. <br /> Returns <code>YES</code> if an object was found to perform <var>aSelector</var>, <code>NO</code> otherwise.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>unhide:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            <p>
+              Unhides and activates this application.
+            </p>
+            <p>
+              See Also:
+              <ref type="method" id="-unhideWithoutActivation">
+                -unhideWithoutActivation
+              </ref>
+              <ref type="method" id="-hide:">
+                -hide:
+              </ref>
+              <ref type="method" id="-isHidden">
+                -isHidden
+              </ref>
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>unhideAllApplications:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Cause all apps including this one to unhide
+            themselves.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>unhideWithoutActivation</sel>
+          <desc>
+            Unhides this app (displays its windows) but does
+            not activate it.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>updateWindows</sel>
+          <desc>
+            Sends each of the app's visible windows an
+            <ref type="method" id="-update" class="NSWindow">
+              [NSWindow -update]
+            </ref>
+            message. This method is called automatically for
+            every iteration of the run loop in
+            NSDefaultRunLoopMode or
+            NSModalPanelRunLoopMode, but is
+            only called during NSEventTrackingRunLoopMode if
+            <ref type="method" id="-setWindowsNeedUpdate:">
+              -setWindowsNeedUpdate:
+            </ref>
+            is set to <code>YES</code>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>updateWindowsItem:</sel>
+          <arg type="NSWindow*">aWindow</arg>
+          <desc>
+            Update Windows menu item for <var>aWindow</var>, to
+            reflect its edited status. This is usually done
+            automatically so you don't need to call this.
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>validRequestorForSendType:</sel>
+          <arg type="NSString*">sendType</arg>
+          <sel>returnType:</sel>
+          <arg type="NSString*">returnType</arg>
+          <desc>
+            Return an object capable of sending and receiving
+            the specified <var>sendType</var> and
+            <var>returnType</var> in a services interaction.
+            NSApp is generally the last responder to get this
+            request, and the implementation passes it on to
+            the delegate if it handles it and is not itself an
+            <ref type="class" id="NSResponder">NSResponder</ref>
+              , or returns <code>nil</code> otherwise.
+          </desc>
+        </method>
+        <method type="NSWindow*" ovadd="1.0.0">
+          <sel>windowWithWindowNumber:</sel>
+          <arg type="NSInteger">windowNum</arg>
+          <desc>
+            Returns window for <var>windowNum</var>. Note the
+            window number can be obtained for a window from
+            <ref type="method" id="-windowNumber" class="NSWindow">
+              [NSWindow -windowNumber]
+            </ref>
+            .
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="1.0.0">
+          <sel>windows</sel>
+          <desc>
+            Returns array of app's visible and invisible
+            windows.
+          </desc>
+        </method>
+        <method type="NSMenu*" ovadd="1.0.0">
+          <sel>windowsMenu</sel>
+          <desc>
+            Returns current Windows menu for the application
+            (whose window contents are managed automatically by
+            this class and NSWindow).
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSApplication(CharacterPanel)
+        category
+      </heading>
+      <category name="CharacterPanel" class="NSApplication" ovadd="10.3.0">
+        <declared>AppKit/NSApplication.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="void" ovadd="10.3.0">
+          <sel>orderFrontCharacterPalette:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSApplication(GSGUIInternal)
+        category
+      </heading>
+      <category name="GSGUIInternal" class="NSApplication" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>AppKit/NSApplication.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>_windowWillDealloc:</sel>
+          <arg type="NSWindow*">window</arg>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSApplicationDelegate)
+        informal protocol
+      </heading>
+      <category name="NSApplicationDelegate" class="NSObject" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>AppKit/NSApplication.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>application:</sel>
+          <arg type="NSApplication*">sender</arg>
+          <sel>delegateHandlesKey:</sel>
+          <arg type="NSString*">key</arg>
+          <desc>
+            Method called by scripting framework on OS X.
+            <em>Not implemented (sent) yet on GNUstep.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>application:</sel>
+          <arg type="NSApplication*">app</arg>
+          <sel>openFile:</sel>
+          <arg type="NSString*">filename</arg>
+          <desc>
+            Sender requests application to open
+            <var>filename</var>. <code>YES</code> should be
+            returned on success, <code>NO</code> on failure.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>application:</sel>
+          <arg type="NSApplication*">app</arg>
+          <sel>openFileWithoutUI:</sel>
+          <arg type="NSString*">filename</arg>
+          <desc>
+            Sender <var>app</var> (not necessarily this
+            application) requests application to open file
+            without bringing up its normal UI, for programmatic
+            manipulation. <code>YES</code> should be
+            returned on success, <code>NO</code> on failure.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.3.0">
+          <sel>application:</sel>
+          <arg type="NSApplication*">app</arg>
+          <sel>openFiles:</sel>
+          <arg type="NSArray*">filenames</arg>
+          <desc>
+            Sender requests application to open
+            <var>filenames</var>.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>application:</sel>
+          <arg type="NSApplication*">app</arg>
+          <sel>openTempFile:</sel>
+          <arg type="NSString*">filename</arg>
+          <desc>
+            Sender requests application to open a temporary
+            file. Responsibility for eventual deletion lies with
+            this application. <code>YES</code> should be returned
+            on success, <code>NO</code> on failure.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>application:</sel>
+          <arg type="NSApplication*">theApplication</arg>
+          <sel>printFile:</sel>
+          <arg type="NSString*">filename</arg>
+          <desc>
+            Sender requests application to print
+            <var>filename</var>. This should generally be done
+            without presenting a GUI to the user, unless
+            default options are likely to be changed.
+            <code>YES</code> should be returned on success,
+            <code>NO</code> on failure.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.3.0">
+          <sel>application:</sel>
+          <arg type="NSApplication*">app</arg>
+          <sel>printFiles:</sel>
+          <arg type="NSArray*">filenames</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSApplicationPrintReply" ovadd="10.4.0">
+          <sel>application:</sel>
+          <arg type="NSApplication*">app</arg>
+          <sel>printFiles:</sel>
+          <arg type="NSArray*">files</arg>
+          <sel>withSettings:</sel>
+          <arg type="NSDictionary*">settings</arg>
+          <sel>showPrintPanels:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSError*" ovadd="10.4.0">
+          <sel>application:</sel>
+          <arg type="NSApplication*">app</arg>
+          <sel>willPresentError:</sel>
+          <arg type="NSError*">error</arg>
+          <desc>
+            Ask delegate for an <var>error</var> replacement.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>applicationDidBecomeActive:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Invoked on notification that application has become
+            active.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>applicationDidChangeScreenParameters:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Called on OS X when the resolution or other
+            characteristics of the display have changed
+            (through control panel operation, connecting a new
+            monitor, etc.).
+            <em>Not implemented/sent yet under GNUstep.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>applicationDidFinishLaunching:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Invoked on notification that application has
+            finished launching
+            ([NSApplication-finishLaunching]
+            has completed, but no event dispatching has begun.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>applicationDidHide:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Invoked on notification that application has just
+            been hidden.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>applicationDidResignActive:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Invoked on notification that application has just
+            been deactivated.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>applicationDidUnhide:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Invoked on notification that application has just
+            been unhidden.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>applicationDidUpdate:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Invoked on notification that application has
+            updated its windows.
+          </desc>
+        </method>
+        <method type="NSMenu*" ovadd="10.1.0">
+          <sel>applicationDockMenu:</sel>
+          <arg type="NSApplication*">sender</arg>
+          <desc>
+            Method used on OS X to allow an application to
+            override the standard menu obtained by
+            right-clicking on the application's dock
+            icon.
+            <em>
+              Called when the application uses Macintosh or
+              Windows95 style menus.
+            </em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>applicationOpenUntitledFile:</sel>
+          <arg type="NSApplication*">app</arg>
+          <desc>
+            Sender requests application to open a fresh
+            document. <code>YES</code> should be returned on
+            success, <code>NO</code> on failure.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>applicationShouldHandleReopen:</sel>
+          <arg type="NSApplication*">theApplication</arg>
+          <sel>hasVisibleWindows:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Method used on OS X to allow delegate to handle
+            event when user clicks on dock icon of an
+            already-open app. If <code>YES</code> is
+            returned, a default implementation executes (for
+            example, to create a new untitled document); if
+            <code>NO</code> is returned nothing is done (and you
+            can handle it here in this method).
+            <em>Not sent yet under GNUstep.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>applicationShouldOpenUntitledFile:</sel>
+          <arg type="NSApplication*">sender</arg>
+          <desc>
+            Sender will request application to open a fresh
+            document, unless <code>NO</code> is returned
+            here.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>applicationShouldTerminate:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Sent from within the
+            <ref type="method" id="-terminate:" class="NSApplication">
+              [NSApplication -terminate:]
+            </ref>
+            . If <code>NO</code> is returned termination will not
+            proceed.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>applicationShouldTerminateAfterLastWindowClosed:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Invoked when the last window is closed in an
+            application. If <code>YES</code> is returned,
+            <ref type="method" id="-applicationShouldTerminate:">
+              -applicationShouldTerminate:
+            </ref>
+            is invoked.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>applicationWillBecomeActive:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Invoked on notification that application will
+            become active.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>applicationWillFinishLaunching:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Invoked on notification that application will
+            become active.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>applicationWillHide:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Invoked on notification that application will be
+            hidden.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>applicationWillResignActive:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Invoked on notification just before application
+            resigns active status.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>applicationWillTerminate:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Invoked on notification just before application
+            terminates. (There is no opportunity to avert
+            it now.)
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>applicationWillUnhide:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Invoked on notification that application will be
+            unhidden.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>applicationWillUpdate:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            Invoked on notification that application will now
+            update its windows. (See
+            <ref type="method" id="-updateWindows" class="NSApplication">[NSApplication -updateWindows]</ref>.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSServicesRequests)
+        informal protocol
+      </heading>
+      <category name="NSServicesRequests" class="NSObject" ovadd="1.0.0">
+        <declared>AppKit/NSApplication.h</declared>
+        <desc>
+          Informal protocol declaring methods for sending to
+          and receiving from remote services providers.
+        </desc>
+        <method type="NSWindow*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>iconWindow</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>readSelectionFromPasteboard:</sel>
+          <arg type="NSPasteboard*">pboard</arg>
+          <desc>
+            Request to transfer data from given pasteboard to
+            selection (called when a called remote service
+            has provided data to this pasteboard).
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>writeSelectionToPasteboard:</sel>
+          <arg type="NSPasteboard*">pboard</arg>
+          <sel>types:</sel>
+          <arg type="NSArray*">types</arg>
+          <desc>
+            Request to write selection data to given pasteboard
+            (called when a called remote service is to be
+            invoked).
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSApplicationDelegate
+        protocol
+      </heading>
+      <protocol name="NSApplicationDelegate" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>AppKit/NSApplication.h</declared>
+        <conform>NSObject</conform>
+        <desc>
+          This is now a formal optional protocol. Your delegate
+          does not need to implement the full formal protocol.
+          Your delegate should just implement the methods it needs
+          to, which will allow <code>NSApp</code> to use default
+          implementations in other cases.
+        </desc>
+      </protocol>
+    </chapter>
+  </body>
+</gsdoc>

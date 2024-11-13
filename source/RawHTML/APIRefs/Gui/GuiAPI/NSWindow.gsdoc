@@ -1,0 +1,2717 @@
+<?xml version="1.0"?>
+<!DOCTYPE gsdoc PUBLIC "-//GNUstep//DTD gsdoc 1.0.4//EN" "http://www.gnustep.org/gsdoc-1_0_4.dtd">
+<gsdoc base="NSWindow" stylesheeturl="default-styles.css" up="Gui">
+  <head>
+    <title>NSWindow</title>
+    <author name="Scott Christley">
+      <email address="scottc@net-community.com">
+        scottc@net-community.com
+      </email>
+    </author>
+    <author name="Felipe A. Rodriguez">
+      <email address="far@ix.netcom.com">
+        far@ix.netcom.com
+      </email>
+    </author>
+    <author name="Richard Frith-Macdonald">
+      <email address="richard@brainstorm.co.uk">
+        richard@brainstorm.co.uk
+      </email>
+    </author>
+    <date>Generated at 2024-11-13 12:52:37 -0500</date>
+    <abstract>The window class</abstract>
+    <copy>1996-2015 Free Software Foundation, Inc.</copy>
+  </head>
+  <body>
+    <front><contents /></front>
+    <chapter>
+      <heading>NSWindow</heading>
+      <p>
+        Instances of the NSWindow class handle on-screen
+        windows, their associated NSViews, and events generate
+        by the user. An NSWindow's size is defined by its frame
+        rectangle, which encompasses its entire structure,
+        and its content rectangle, which includes only the content.
+      </p>
+      <p>
+        Every NSWindow has a content view, the NSView which forms
+        the root of the window's view hierarchy. This view can be
+        set using the <code>setContentView:</code> method, and
+        accessed through the <code>contentView</code> method.
+        <code>setContentView:</code> replaces the default
+        content view created by NSWindow.
+      </p>
+      <p>
+        Other views may be added to the window by using the
+        content view's <code>addSubview:</code> method. These
+        subviews can also have subviews added, forming a tree
+        structure, the view hierarchy. When an NSWindow must
+        display itself, it causes this hierarchy to draw
+        itself. Leaf nodes in the view hierarchy are drawn
+        last, causing them to potentially obscure views further
+        up in the hierarchy.
+      </p>
+      <p>
+        A delegate can be specified for an NSWindow, which will
+        receive notifications of events pertaining to the
+        window. The delegate is set using
+        <code>setDelegate:</code>, and can be retrieved using
+        <code>delegate</code>. The delegate can restrain
+        resizing by implementing the
+        <code>windowWillResize: toSize:</code> method, or
+        control the closing of the window by implementing
+        <code>windowShouldClose:</code>.
+      </p>
+      <class name="NSWindow" super="NSResponder" ovadd="1.0.0">
+        <declared>AppKit/NSWindow.h</declared>
+        <conform>NSCoding</conform>
+        <desc>
+          <p>
+            An NSWindow instance represents a window, panel or menu
+            on the screen. <br /> Each window has a style, which
+            determines how the window is decorated: ie
+            whether it has a border, a title bar, a resize bar,
+            minimise and close buttons.
+          </p>
+          <p>
+            A window has a <em>frame</em>. This is the frame of the
+            <em>entire</em> window on the screen, including all
+            decorations and borders. The origin of the
+            frame represents its bottom left corner and the frame
+            is expressed in screen coordinates (see
+            <ref type="class" id="NSScreen">NSScreen</ref>
+              ).
+            </p>
+            <p>
+              When a window is created, it has a <em>private</em>
+              <ref type="class" id="NSView">NSView</ref>
+                instance which fills the entire window frame
+                and whose coordinate system is the same as the base
+                coordinate system of the window (ie zero x
+                and y coordinates are at the bottom left corner of
+                the window, with increasing x and y corresponding
+                to points to the right and above the origin). <br />
+                This view may be used by the library internals
+                (and theme engines) to draw window decorations if
+                the backend library is not handling the window
+                decorations.
+              </p>
+              <p>
+                A window always contains a <em>content view</em>
+                which is the highest level view available for
+                public (application) use. This view fills the
+                area of the window inside any decoration/border.
+                <br /> This is the only part of the window that
+                application programmers are allowed to draw
+                in directly.
+              </p>
+              <p>
+                You can convert between view coordinates and window
+                base coordinates using the
+                <ref type="method" id="-convertPoint:fromView:" class="NSView">[NSView -convertPoint:fromView:]</ref>, <ref type="method" id="-convertPoint:toView:" class="NSView">[NSView -convertPoint:toView:]</ref>, <ref type="method" id="-convertRect:fromView:" class="NSView">[NSView -convertRect:fromView:]</ref>, and <ref type="method" id="-convertRect:toView:" class="NSView">[NSView -convertRect:toView:]</ref> methods with a <code>nil</code> view argument. <br /> You can convert between window and screen coordinates using the <ref type="method" id="-convertBaseToScreen:">-convertBaseToScreen:</ref> and <ref type="method" id="-convertScreenToBase:">-convertScreenToBase:</ref> methods.
+              </p>
+        </desc>
+        <ivariable type="CGFloat" name="_alphaValue" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSWindow*" name="_attachedSheet" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="_autosaveName" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSColor*" name="_backgroundColor" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSBackingStoreType" name="_backingType" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSCachedImageRep*" name="_cachedImage" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSPoint" name="_cachedImageOrigin" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableArray*" name="_children" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_contentView" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSGraphicsContext*" name="_context" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSInteger" name="_counterpart" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_defaultButtonCell" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_delegate" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSWindowDepth" name="_depthLimit" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="unsigned int" name="_disableFlushWindow" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_fieldEditor" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_firstResponder" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSRect" name="_frame" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_futureFirstResponder" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSInteger" name="_gstate" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSSize" name="_increments" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSView*" name="_initialFirstResponder" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSInteger" name="_lastDragOperationMask" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_lastDragView" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_lastLeftMouseDownView" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_lastOtherMouseDownView" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSPoint" name="_lastPoint" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="id" name="_lastRightMouseDownView" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="GSAutoLayoutEngine*" name="_layoutEngine" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSSize" name="_maximumSize" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSImage*" name="_miniaturizedImage" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="_miniaturizedTitle" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSSize" name="_minimumSize" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSWindow*" name="_parent" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSRect" name="_rectNeedingFlush" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSMutableArray*" name="_rectsBeingDrawn" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="_representedFilename" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="void*" name="_reserved_1" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSScreen*" name="_screen" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSUInteger" name="_styleMask" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSToolbar*" name="_toolbar" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSWindowController*" name="_windowController" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSInteger" name="_windowLevel" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSInteger" name="_windowNum" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="NSString*" name="_windowTitle" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="GSWindowDecorationView*" name="_wv" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          </desc>
+        </ivariable>
+        <ivariable type="struct GSWindowFlagsType" name="struct GSWindowFlagsType" validity="protected" ovadd="1.0.0">
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </ivariable>
+        <method type="NSRect" factory="yes" ovadd="1.0.0">
+          <sel>contentRectForFrameRect:</sel>
+          <arg type="NSRect">aRect</arg>
+          <sel>styleMask:</sel>
+          <arg type="NSUInteger">aStyle</arg>
+          <desc>
+            Returns the rectangle which would be used for the
+            content view of a window whose on-screen size and
+            position is specified by <var>aRect</var> and
+            which is decorated with the border and title etc
+            given by <var>aStyle</var>. <br /> Both rectangles
+            are expressed in screen coordinates.
+          </desc>
+        </method>
+        <method type="NSWindowDepth" factory="yes" ovadd="1.0.0">
+          <sel>defaultDepthLimit</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRect" factory="yes" ovadd="1.0.0">
+          <sel>frameRectForContentRect:</sel>
+          <arg type="NSRect">aRect</arg>
+          <sel>styleMask:</sel>
+          <arg type="NSUInteger">aStyle</arg>
+          <desc>
+            Returns the rectangle which would be used for the
+            on-screen frame of a window if that window had a
+            content view occupying the rectangle
+            <var>aRect</var> and was decorated with the border
+            and title etc given by <var>aStyle</var>. <br /> Both
+            rectangles are expressed in screen coordinates.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="10.0.0">
+          <sel>menuChanged:</sel>
+          <arg type="NSMenu*">aMenu</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="CGFloat" factory="yes" ovadd="1.0.0">
+          <sel>minFrameWidthWithTitle:</sel>
+          <arg type="NSString*">aTitle</arg>
+          <sel>styleMask:</sel>
+          <arg type="NSUInteger">aStyle</arg>
+          <desc>
+            Returns the smallest frame width that will fit the
+            given title and style. This is the on-screen width of
+            the window including decorations.
+          </desc>
+        </method>
+        <method type="void" factory="yes" ovadd="1.0.0">
+          <sel>removeFrameUsingName:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSButton*" factory="yes" ovadd="10.2.0">
+          <sel>standardWindowButton:</sel>
+          <arg type="NSWindowButton">button</arg>
+          <sel>forStyleMask:</sel>
+          <arg type="NSUInteger">mask</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" factory="yes" ovadd="10.5.0">
+          <sel>windowNumberAtPoint:</sel>
+          <arg type="NSPoint">point</arg>
+          <sel>belowWindowWithWindowNumber:</sel>
+          <arg type="NSInteger">windowNumber</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="instancetype" factory="yes" ovadd="10.10.0">
+          <sel>windowWithContentViewController:</sel>
+          <arg type="NSViewController*">viewController</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>acceptsMouseMovedEvents</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0">
+          <sel>addChildWindow:</sel>
+          <arg type="NSWindow*">child</arg>
+          <sel>ordered:</sel>
+          <arg type="NSWindowOrderingMode">place</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.3.0">
+          <sel>allowsToolTipsWhenApplicationIsInactive</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="CGFloat" ovadd="10.0.0">
+          <sel>alphaValue</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSTimeInterval" ovadd="10.0.0">
+          <sel>animationResizeTime:</sel>
+          <arg type="NSRect">newFrame</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>areCursorRectsEnabled</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSSize" ovadd="10.0.0">
+          <sel>aspectRatio</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0">
+          <sel>autorecalculatesKeyViewLoop</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSColor*" ovadd="1.0.0">
+          <sel>backgroundColor</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="CGFloat" ovadd="10.7.0">
+          <sel>backingScaleFactor</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSBackingStoreType" ovadd="1.0.0">
+          <sel>backingType</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>becomeKeyWindow</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>becomeMainWindow</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.9.0">
+          <sel>beginSheet:</sel>
+          <arg type="NSWindow*">sheet</arg>
+          <sel>completionHandler:</sel>
+          <arg type="GSNSWindowDidEndSheetCallbackBlock">handler</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>cacheImageInRect:</sel>
+          <arg type="NSRect">aRect</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>canBecomeKeyWindow</sel>
+          <desc>
+            Returns <code>YES</code> if the receiver can be
+            made key. If this method returns <code>NO</code>, the
+            window will not be made key. This implementation
+            returns <code>YES</code> if the window is resizable
+            or has a title bar. You can override this method to
+            change it's behavior
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>canBecomeMainWindow</sel>
+          <desc>
+            Returns <code>YES</code> if the receiver can be the
+            main window. If this method returns <code>NO</code>,
+            the window will not become the main window. This
+            implementation returns <code>YES</code> if
+            the window is resizable or has a title bar and is
+            visible and is not an NSPanel. You can override
+            this method to change it's behavior
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>canHide</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>canStoreColor</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSPoint" ovadd="1.0.0">
+          <sel>cascadeTopLeftFromPoint:</sel>
+          <arg type="NSPoint">topLeftPoint</arg>
+          <desc>
+            Positions the receiver at <var>topLeftPoint</var>
+            (or if <var>topLeftPoint</var> is NSZeroPoint, leaves
+            the receiver unmoved except for any necessary
+            constraint to fit on screen). <br /> Returns the
+            position of the top left corner of the receivers
+            content view (after repositioning), so that another
+            window cascaded at the returned point will not
+            obscure the title bar of the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>center</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.2.0">
+          <sel>childWindows</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>close</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSWindowCollectionBehavior" ovadd="10.5.0">
+          <sel>collectionBehavior</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="1.0.0">
+          <sel>constrainFrameRect:</sel>
+          <arg type="NSRect">frameRect</arg>
+          <sel>toScreen:</sel>
+          <arg type="NSScreen*">screen</arg>
+          <desc>
+            Given a proposed frame rectangle, return a modified
+            version which will fit inside the <var>screen</var>
+            .
+          </desc>
+        </method>
+        <method type="NSSize" ovadd="10.3.0">
+          <sel>contentAspectRatio</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSSize" ovadd="10.3.0">
+          <sel>contentMaxSize</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSSize" ovadd="10.3.0">
+          <sel>contentMinSize</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="10.3.0">
+          <sel>contentRectForFrameRect:</sel>
+          <arg type="NSRect">frameRect</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSSize" ovadd="10.3.0">
+          <sel>contentResizeIncrements</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>contentView</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSPoint" ovadd="1.0.0">
+          <sel>convertBaseToScreen:</sel>
+          <arg type="NSPoint">aPoint</arg>
+          <desc>
+            Converts <var>aPoint</var> from the base
+            coordinate system of the receiver to a point in
+            the screen coordinate system. <br /> Convert from a
+            point in the base coordinate system for the window to
+            a point in the screen coordinate system.
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="1.0.0">
+          <sel>convertRectFromScreen:</sel>
+          <arg type="NSRect">aRect</arg>
+          <desc>
+            Converts <var>aRect</var> from the coordinate
+            system of the screen to the coordinate system of the
+            window.
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="1.0.0">
+          <sel>convertRectToScreen:</sel>
+          <arg type="NSRect">aRect</arg>
+          <desc>
+            Converts <var>aRect</var> from the window
+            coordinate system to a rect in the screen
+            coordinate system.
+          </desc>
+        </method>
+        <method type="NSPoint" ovadd="1.0.0">
+          <sel>convertScreenToBase:</sel>
+          <arg type="NSPoint">aPoint</arg>
+          <desc>
+            Converts <var>aPoint</var> from the screen
+            coordinate system to a point in the base
+            coordinate system of the receiver. <br />
+            Convert from a point in the screen coordinate
+            system to a point in the screen coordinate system of
+            the receiver.
+          </desc>
+        </method>
+        <method type="NSWindow*" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>counterpart</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSEvent*" ovadd="1.0.0">
+          <sel>currentEvent</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="1.0.0">
+          <sel>dataWithEPSInsideRect:</sel>
+          <arg type="NSRect">rect</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSData*" ovadd="10.0.0">
+          <sel>dataWithPDFInsideRect:</sel>
+          <arg type="NSRect">aRect</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSScreen*" ovadd="1.0.0">
+          <sel>deepestScreen</sel>
+          <desc>
+            Returns the screen the window is on. Unlike
+            (apparently) OpenStep and MacOSX, GNUstep does
+            not support windows being split across multiple screens
+          </desc>
+        </method>
+        <method type="NSButtonCell*" ovadd="10.0.0">
+          <sel>defaultButtonCell</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>delegate</sel>
+          <desc>
+            Returns the delegate.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>deminiaturize:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Causes the window to deminiaturize. Normally you
+            would not call this method directly. A window is
+            automatically deminiaturized by the user via
+            a mouse click event. Does nothing it the window isn't
+            miniaturized.
+          </desc>
+        </method>
+        <method type="NSWindowDepth" ovadd="1.0.0">
+          <sel>depthLimit</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSDictionary*" ovadd="1.0.0">
+          <sel>deviceDescription</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>disableCursorRects</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>disableFlushWindow</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>disableKeyEquivalentForDefaultButtonCell</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>discardCachedImage</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>discardCursorRects</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>discardEventsMatchingMask:</sel>
+          <arg type="NSUInteger">mask</arg>
+          <sel>beforeEvent:</sel>
+          <arg type="NSEvent*">lastEvent</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>display</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>displayIfNeeded</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0">
+          <sel>displaysWhenScreenProfileChanges</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>dragImage:</sel>
+          <arg type="NSImage*">anImage</arg>
+          <sel>at:</sel>
+          <arg type="NSPoint">baseLocation</arg>
+          <sel>offset:</sel>
+          <arg type="NSSize">initialOffset</arg>
+          <sel>event:</sel>
+          <arg type="NSEvent*">event</arg>
+          <sel>pasteboard:</sel>
+          <arg type="NSPasteboard*">pboard</arg>
+          <sel>source:</sel>
+          <arg type="id">sourceObject</arg>
+          <sel>slideBack:</sel>
+          <arg type="BOOL">slideFlag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSArray*" ovadd="10.0.0">
+          <sel>drawers</sel>
+          <desc>
+            Returns all drawers associated with this window.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>enableCursorRects</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>enableFlushWindow</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>enableKeyEquivalentForDefaultButtonCell</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>endEditingFor:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>fax:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Opens the fax panel to allow the user to fax the
+            contents of the window view.
+          </desc>
+        </method>
+        <method type="NSText*" ovadd="1.0.0">
+          <sel>fieldEditor:</sel>
+          <arg type="BOOL">createFlag</arg>
+          <sel>forObject:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSResponder*" ovadd="1.0.0">
+          <sel>firstResponder</sel>
+          <desc>
+            Returns the first responder of the window.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>flushWindow</sel>
+          <desc>
+            Flush all drawing in the windows buffer to the screen
+            unless the window is not buffered or flushing is not
+            enabled.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>flushWindowIfNeeded</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="1.0.0">
+          <sel>frame</sel>
+          <desc>
+            Returns the frame of the receiver... the
+            rectangular area that the window (including any
+            border, title, and other decorations) occupies on
+            screen.
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>frameAutosaveName</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="10.3.0">
+          <sel>frameRectForContentRect:</sel>
+          <arg type="NSRect">contentRect</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>gState</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSGraphicsContext*" ovadd="10.4.0">
+          <sel>graphicsContext</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>hasDynamicDepthLimit</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>hasShadow</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>hidesOnDeactivate</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.2.0">
+          <sel>ignoresMouseEvents</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithContentRect:</sel>
+          <arg type="NSRect">contentRect</arg>
+          <sel>styleMask:</sel>
+          <arg type="NSUInteger">aStyle</arg>
+          <sel>backing:</sel>
+          <arg type="NSBackingStoreType">bufferingType</arg>
+          <sel>defer:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <p>
+              Initializes the receiver with a content rect
+              of <var>contentRect</var>, a style mask of
+              <var>styleMask</var>, and a backing store type of
+              <var>backingType</var>. This is the designated
+              initializer.
+            </p>
+            <p>
+              The style mask values are
+              <code>NSTitledWindowMask</code>, for a window with
+              a title, <code>NSClosableWindowMask</code>, for a
+              window with a close widget,
+              <code>NSMiniaturizableWindowMask</code>, for a
+              window with a miniaturize widget, and
+              <code>NSResizableWindowMask</code>, for a window
+              with a resizing widget. These mask values can be
+              OR'd in any combination.
+            </p>
+            <p>
+              Backing store values are
+              <code>NSBackingStoreBuffered</code>,
+              <code>NSBackingStoreRetained</code> and
+              <code>NSBackingStoreNonretained</code>.
+            </p>
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>initWithContentRect:</sel>
+          <arg type="NSRect">contentRect</arg>
+          <sel>styleMask:</sel>
+          <arg type="NSUInteger">aStyle</arg>
+          <sel>backing:</sel>
+          <arg type="NSBackingStoreType">bufferingType</arg>
+          <sel>defer:</sel>
+          <arg type="BOOL">flag</arg>
+          <sel>screen:</sel>
+          <arg type="NSScreen*">aScreen</arg>
+          <desc>
+            Creates a new window with the specified
+            characteristics. <br /> The
+            <var>contentRect</var> is expressed in screen
+            coordinates (for <var>aScreen</var>) and the
+            window frame is calculated from the content
+            rectangle and the window style mask. <br />
+            <p>
+              Initializes the receiver with a content rect
+              of <var>contentRect</var>, a style mask of
+              <var>styleMask</var>, a backing store type of
+              <var>backingType</var> and a boolean
+              <var>flag</var>. <var>flag</var> specifies whether
+              the window should be created now (<code>NO</code>),
+              or when it is displayed (<code>YES</code>).
+            </p>
+            <p>
+              The style mask values are
+              <code>NSTitledWindowMask</code>, for a window with
+              a title, <code>NSClosableWindowMask</code>, for a
+              window with a close widget,
+              <code>NSMiniaturizableWindowMask</code>, for a
+              window with a miniaturize widget, and
+              <code>NSResizableWindowMask</code>, for a window
+              with a resizing widget. These mask values can be
+              OR'd in any combination.
+            </p>
+            <p>
+              Backing store values are
+              <code>NSBackingStoreBuffered</code>,
+              <code>NSBackingStoreRetained</code> and
+              <code>NSBackingStoreNonretained</code>.
+            </p>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>initWithWindowRef:</sel>
+          <arg type="void*">windowRef</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSView*" ovadd="10.0.0">
+          <sel>initialFirstResponder</sel>
+          <desc>
+            returns the initial first responder of the
+            receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>invalidateCursorRectsForView:</sel>
+          <arg type="NSView*">aView</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0">
+          <sel>invalidateShadow</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isAutodisplay</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isDocumentEdited</sel>
+          <desc>
+            Returns <code>YES</code>, if the document has been
+            changed.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isExcludedFromWindowsMenu</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isFlushWindowDisabled</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isKeyWindow</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isMainWindow</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isMiniaturized</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.2.0">
+          <sel>isMovableByWindowBackground</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isOneShot</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>isOpaque</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isReleasedWhenClosed</sel>
+          <desc>
+            Returns <code>YES</code>, if the window is released
+            when it is closed.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>isVisible</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>isZoomed</sel>
+          <desc>
+            Returns yes, if the receiver is zoomed.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>keyDown:</sel>
+          <arg type="NSEvent*">theEvent</arg>
+          <desc>
+            Processes <var>theEvent</var> when a key is
+            pressed while within the window.
+          </desc>
+        </method>
+        <method type="NSSelectionDirection" ovadd="10.0.0">
+          <sel>keyViewSelectionDirection</sel>
+          <desc>
+            Returns the value of _selectionDirection, the
+            direction of the current key view. <br /> See
+            Also:
+            <list>
+              <item>
+                <ref type="method" id="-selectKeyViewFollowingView:">
+                  -selectKeyViewFollowingView:
+                </ref>
+              </item>
+              <item>
+                <ref type="method" id="-selectKeyViewPrecedingView:">
+                  -selectKeyViewPrecedingView:
+                </ref>
+              </item>
+              <item>
+                <ref type="method" id="-selectNextKeyView:">
+                  -selectNextKeyView:
+                </ref>
+              </item>
+              <item>
+                <ref type="method" id="-selectPreviousKeyView:">
+                  -selectPreviousKeyView:
+                </ref>
+              </item>
+            </list>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>level</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>makeFirstResponder:</sel>
+          <arg type="NSResponder*">aResponder</arg>
+          <desc>
+            This method attempts to make <var>aResponder</var> the
+            first responder. <br /> If <var>aResponder</var> is
+            already the first responder, this method has no
+            effect and simply returns <code>YES</code>.
+            Otherwise, the method sends a
+            <ref type="method" id="-resignFirstResponder">
+              -resignFirstResponder
+            </ref>
+            message to the current first responder (if there is
+            one) and immediately returns <code>NO</code> if the
+            current first responder refuses to resign. <br />
+            Then the method asks <var>aResponder</var> to become
+            first responder by sending it a
+            <ref type="method" id="-becomeFirstResponder">
+              -becomeFirstResponder
+            </ref>
+            message, and if that returns <code>YES</code> then
+            this method immediately returns <code>YES</code>.
+            <br /> However, if that returns <code>NO</code>, the
+            receiver is made the first responder by sending it
+            a
+            <ref type="method" id="-becomeFirstResponder">
+              -becomeFirstResponder
+            </ref>
+            message, and this method returns <code>NO</code>.
+            <br /> If <var>aResponder</var> is neither
+            <code>nil</code> nor an instance of NSResponder (or
+            of a subclass of NSResponder) then behavior is undefined
+            (though the current GNUstep implementation just
+            returns <code>NO</code>). <br /> Makes
+            <var>aResponder</var> the first responder within the
+            receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>makeKeyAndOrderFront:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>makeKeyWindow</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>makeMainWindow</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSSize" ovadd="1.0.0">
+          <sel>maxSize</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSSize" ovadd="1.0.0">
+          <sel>minSize</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>miniaturize:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Causes the window to miniaturize, that is the window
+            is removed from the screen and it's counterpart
+            (mini)window is displayed. Does nothing if the
+            window can't be miniaturized (eg. because it's
+            already miniaturized).
+          </desc>
+        </method>
+        <method type="NSImage*" ovadd="1.0.0">
+          <sel>miniwindowImage</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>miniwindowTitle</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSPoint" ovadd="1.0.0">
+          <sel>mouseLocationOutsideOfEventStream</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSEvent*" ovadd="1.0.0">
+          <sel>nextEventMatchingMask:</sel>
+          <arg type="NSUInteger">mask</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSEvent*" ovadd="1.0.0">
+          <sel>nextEventMatchingMask:</sel>
+          <arg type="NSUInteger">mask</arg>
+          <sel>untilDate:</sel>
+          <arg type="NSDate*">expiration</arg>
+          <sel>inMode:</sel>
+          <arg type="NSString*">mode</arg>
+          <sel>dequeue:</sel>
+          <arg type="BOOL">deqFlag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>orderBack:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Orders the window to the back of its level.
+            Equivalent to
+            <ref type="method" id="-orderWindow:relativeTo:">
+              -orderWindow:relativeTo:
+            </ref>
+            with arguments NSWindowBelow and 0.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>orderFront:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            If the application is active, orders the window to the
+            front in its level. If the application is not active,
+            the window is ordered in as far forward as possible in
+            its level without being ordered in front of the key or
+            main window of the currently active app. The current
+            key and main window status is not changed. Equivalent
+            to
+            <ref type="method" id="-orderWindow:relativeTo:">
+              -orderWindow:relativeTo:
+            </ref>
+            with arguments NSWindowAbove and 0.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>orderFrontRegardless</sel>
+          <desc>
+            Orders the window to the front in its level (even in
+            front of the key and main windows of the current app)
+            regardless of whether the app is current or not.
+            This method should only be used in rare cases where
+            the app is cooperating with another app that is
+            displaying data for it. The current key and main
+            window status is not changed.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>orderOut:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Orders the window out from the screen. Equivalent to
+            <ref type="method" id="-orderWindow:relativeTo:">
+              -orderWindow:relativeTo:
+            </ref>
+            with arguments NSWindowOut and 0.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>orderWindow:</sel>
+          <arg type="NSWindowOrderingMode">place</arg>
+          <sel>relativeTo:</sel>
+          <arg type="NSInteger">otherWin</arg>
+          <desc>
+            <p>
+              If <var>place</var> is NSWindowOut, removes the window
+              from the screen. If <var>place</var> is
+              NSWindowAbove, places the window directly
+              above <var>otherWin</var>, or directly above all
+              windows in its level if <var>otherWin</var> is 0.
+              If <var>place</var> is NSWindowBelow, places the
+              window directly below <var>otherWin</var>, or
+              directly below all windows in its level if
+              <var>otherWin</var> is 0.
+            </p>
+            <p>
+              If <var>otherWin</var> is zero and the key window is
+              at the same window level as the receiver, the receiver
+              cannot be positioned above the key window.
+            </p>
+            <p>
+              If <var>place</var> is NSWindowAbove or NSWindowBelow
+              and the application is hidden, the application is
+              unhidden.
+            </p>
+          </desc>
+        </method>
+        <method type="NSWindow*" ovadd="10.2.0">
+          <sel>parentWindow</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>performClose:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Causes the window to close. Calls the
+            windowShouldClose: method on the
+            delegate to determine if it should close and calls
+            shouldCloseWindowController on
+            the controller for the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>performMiniaturize:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Miniaturize the receiver... as
+            <strong>long</strong> as its style mask includes
+            NSMiniaturizableWindowMask (and
+            as <strong>long</strong> as the receiver is not an icon
+            or mini window itsself). Calls
+            <ref type="method" id="-miniaturize:">
+              -miniaturize:
+            </ref>
+            to do this. <br /> Beeps if the window can't be
+            miniaturised. <br /> Should ideally provide
+            visual feedback (highlighting the miniaturize button
+            as if it had been clicked) first... but that's not yet
+            implemented.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>performZoom:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Performs the zoom method on the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>postEvent:</sel>
+          <arg type="NSEvent*">event</arg>
+          <sel>atStart:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0">
+          <sel>preservesContentDuringLiveResize</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>print:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Opens the print panel to allow the user to print the
+            contents of the window view.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>recalculateKeyViewLoop</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>registerForDraggedTypes:</sel>
+          <arg type="NSArray*">newTypes</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0">
+          <sel>removeChildWindow:</sel>
+          <arg type="NSWindow*">child</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>representedFilename</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>resetCursorRects</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>resignKeyWindow</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>resignMainWindow</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>resizeFlags</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSSize" ovadd="10.0.0">
+          <sel>resizeIncrements</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>restoreCachedImage</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>saveFrameUsingName:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSScreen*" ovadd="1.0.0">
+          <sel>screen</sel>
+          <desc>
+            Returns the screen the window is on.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>selectKeyViewFollowingView:</sel>
+          <arg type="NSView*">aView</arg>
+          <desc>
+            If <var>aView</var> responds to
+            <ref type="method" id="-nextValidKeyView">
+              -nextValidKeyView
+            </ref>
+            with a new NSView, call
+            <ref type="method" id="-makeFirstResponder:">
+              -makeFirstResponder:
+            </ref>
+            for the returned view.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>selectKeyViewPrecedingView:</sel>
+          <arg type="NSView*">aView</arg>
+          <desc>
+            If <var>aView</var> responds to
+            <ref type="method" id="-previousValidKeyView">
+              -previousValidKeyView
+            </ref>
+            with a new NSView, call
+            <ref type="method" id="-makeFirstResponder:">
+              -makeFirstResponder:
+            </ref>
+            for this view.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>selectNextKeyView:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            This method checks if:
+            <list>
+              <item>
+                _firstResponder answers to
+                <ref type="method" id="-nextValidKeyView">
+                  -nextValidKeyView
+                </ref>
+              </item>
+              <item>
+                _initialFirstResponder answers
+                to
+                <ref type="method" id="-acceptsFirstResponder">
+                  -acceptsFirstResponder
+                </ref>
+              </item>
+              <item>
+                _initialFirstResponder answers
+                to
+                <ref type="method" id="-previousValidKeyView">
+                  -previousValidKeyView
+                </ref>
+              </item>
+            </list>
+            If any of these checks return a NSView, call
+            <ref type="method" id="-makeFirstResponder:">
+              -makeFirstResponder:
+            </ref>
+            on this NSView.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>selectPreviousKeyView:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            This method checks if:
+            <list>
+              <item>
+                _firstResponder answers to
+                <ref type="method" id="-previousValidKeyView">
+                  -previousValidKeyView
+                </ref>
+              </item>
+              <item>
+                _initialFirstResponder answers
+                to
+                <ref type="method" id="-acceptsFirstResponder">
+                  -acceptsFirstResponder
+                </ref>
+              </item>
+              <item>
+                _initialFirstResponder answers
+                to
+                <ref type="method" id="-previousValidKeyView">
+                  -previousValidKeyView
+                </ref>
+              </item>
+            </list>
+            If any of these checks return a NSView, call
+            <ref type="method" id="-makeFirstResponder:">
+              -makeFirstResponder:
+            </ref>
+            on this NSView.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>sendEvent:</sel>
+          <arg type="NSEvent*">theEvent</arg>
+          <desc>
+            Handles mouse and other events sent to the receiver
+            by NSApplication. Do not invoke this method directly.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setAcceptsMouseMovedEvents:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.3.0">
+          <sel>setAllowsToolTipsWhenApplicationIsInactive:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setAlphaValue:</sel>
+          <arg type="CGFloat">windowAlpha</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setAspectRatio:</sel>
+          <arg type="NSSize">ratio</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setAutodisplay:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setAutorecalculatesKeyViewLoop:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setBackgroundColor:</sel>
+          <arg type="NSColor*">color</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setBackingType:</sel>
+          <arg type="NSBackingStoreType">type</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setCanHide:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.5.0">
+          <sel>setCollectionBehavior:</sel>
+          <arg type="NSWindowCollectionBehavior">props</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.3.0">
+          <sel>setContentAspectRatio:</sel>
+          <arg type="NSSize">ratio</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.3.0">
+          <sel>setContentMaxSize:</sel>
+          <arg type="NSSize">size</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.3.0">
+          <sel>setContentMinSize:</sel>
+          <arg type="NSSize">size</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.3.0">
+          <sel>setContentResizeIncrements:</sel>
+          <arg type="NSSize">increments</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setContentSize:</sel>
+          <arg type="NSSize">aSize</arg>
+          <desc>
+            Sets the size of the receiver's content view to
+            <var>aSize</var>, implicitly adjusting the size of
+            the receiver's frame to match.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setContentView:</sel>
+          <arg type="NSView*">aView</arg>
+          <desc>
+            Sets the window's content view to <var>aView</var>,
+            replacing any previous content view.
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setDefaultButtonCell:</sel>
+          <arg type="NSButtonCell*">aCell</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setDelegate:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            Sets the delegate to <var>anObject</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setDepthLimit:</sel>
+          <arg type="NSWindowDepth">limit</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setDisplaysWhenScreenProfileChanges:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setDocumentEdited:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            Set document edit status. If <code>YES</code>, then, if
+            the receiver has a close button, the close button will
+            show a broken X. If <code>NO</code>, then, if the
+            reciever has a close button, the close button will
+            show a solid X.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setDynamicDepthLimit:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setExcludedFromWindowsMenu:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setFrame:</sel>
+          <arg type="NSRect">frameRect</arg>
+          <sel>display:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <p>
+              Sets the frame for the receiver to
+              <var>frameRect</var> and if <var>flag</var> is
+              <code>YES</code> causes the window contents to be
+              refreshed. The value of <var>frameRect</var>
+              is the desired on-screen size and position of the
+              window including all border/decoration.
+            </p>
+            <p>
+              The size of the frame is constrained to the minimum
+              and maximum sizes set for the receiver (if any).
+              <br /> Its position is constrained to be on screen
+              if it is a titled window.
+            </p>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setFrame:</sel>
+          <arg type="NSRect">frameRect</arg>
+          <sel>display:</sel>
+          <arg type="BOOL">displayFlag</arg>
+          <sel>animate:</sel>
+          <arg type="BOOL">animationFlag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>setFrameAutosaveName:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setFrameFromString:</sel>
+          <arg type="NSString*">string</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setFrameOrigin:</sel>
+          <arg type="NSPoint">aPoint</arg>
+          <desc>
+            Sets the origin (bottom left corner) of the receiver's
+            frame to be the specified point (in screen
+            coordinates).
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setFrameTopLeftPoint:</sel>
+          <arg type="NSPoint">aPoint</arg>
+          <desc>
+            Sets the top left corner of the receiver's frame to be
+            the specified point (in screen coordinates).
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>setFrameUsingName:</sel>
+          <arg type="NSString*">name</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>setFrameUsingName:</sel>
+          <arg type="NSString*">name</arg>
+          <sel>force:</sel>
+          <arg type="BOOL">force</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setHasShadow:</sel>
+          <arg type="BOOL">hasShadow</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setHidesOnDeactivate:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0">
+          <sel>setIgnoresMouseEvents:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setInitialFirstResponder:</sel>
+          <arg type="NSView*">aView</arg>
+          <desc>
+            Sets the initial first responder of the receiver.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setIsVisible:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setLevel:</sel>
+          <arg type="NSInteger">newLevel</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setMaxSize:</sel>
+          <arg type="NSSize">aSize</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setMinSize:</sel>
+          <arg type="NSSize">aSize</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setMiniwindowImage:</sel>
+          <arg type="NSImage*">image</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setMiniwindowTitle:</sel>
+          <arg type="NSString*">title</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0">
+          <sel>setMovableByWindowBackground:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setOneShot:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setOpaque:</sel>
+          <arg type="BOOL">isOpaque</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.2.0">
+          <sel>setParentWindow:</sel>
+          <arg type="NSWindow*">window</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setPreservesContentDuringLiveResize:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setReleasedWhenClosed:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            If <code>YES</code>, then the window is released when
+            the close method is called.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setRepresentedFilename:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setResizeIncrements:</sel>
+          <arg type="NSSize">aSize</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>setShowsResizeIndicator:</sel>
+          <arg type="BOOL">show</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>setShowsToolbarButton:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setTitle:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            Sets the window's title to the string
+            <var>aString</var>.
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setTitleWithRepresentedFilename:</sel>
+          <arg type="NSString*">aString</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setViewsNeedDisplay:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setWindowController:</sel>
+          <arg type="NSWindowController*">windowController</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSWindow*" ovadd="10.9.0">
+          <sel>sheetParent</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>showsResizeIndicator</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.4.0">
+          <sel>showsToolbarButton</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSButton*" ovadd="10.2.0">
+          <sel>standardWindowButton:</sel>
+          <arg type="NSWindowButton">button</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>stringWithSavedFrame</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSUInteger" ovadd="1.0.0">
+          <sel>styleMask</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSString*" ovadd="1.0.0">
+          <sel>title</sel>
+          <desc>
+            Returns an NSString containing the text of the
+            window's title.
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>tryToPerform:</sel>
+          <arg type="SEL">anAction</arg>
+          <sel>with:</sel>
+          <arg type="id">anObject</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>unregisterDraggedTypes</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>update</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>useOptimizedDrawing:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="CGFloat" ovadd="10.4.0">
+          <sel>userSpaceScaleFactor</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>validRequestorForSendType:</sel>
+          <arg type="NSString*">sendType</arg>
+          <sel>returnType:</sel>
+          <arg type="NSString*">returnType</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>viewsNeedDisplay</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="1.0.0">
+          <sel>windowController</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void*" ovadd="10.0.0">
+          <sel>windowHandle</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSInteger" ovadd="1.0.0">
+          <sel>windowNumber</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void*" ovadd="10.0.0">
+          <sel>windowRef</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="1.0.0">
+          <sel>worksWhenModal</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>zoom:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            Zooms the receiver. This method calls the delegate
+            method windowShouldZoom:toFrame: to determine if the
+            window should be allowed to zoom to full screen.
+          </desc>
+        </method>
+      </class>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSWindowDelegate) informal
+        protocol
+      </heading>
+      <category name="NSWindowDelegate" class="NSObject" ovadd="10.0.0">
+        <declared>AppKit/NSWindow.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="NSRect" ovadd="10.3.0">
+          <sel>window:</sel>
+          <arg type="NSWindow*">window</arg>
+          <sel>willPositionSheet:</sel>
+          <arg type="NSWindow*">sheet</arg>
+          <sel>usingRect:</sel>
+          <arg type="NSRect">rect</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>windowDidBecomeKey:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>windowDidBecomeMain:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>windowDidChangeScreen:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.4.0">
+          <sel>windowDidChangeScreenProfile:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>windowDidDeminiaturize:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>windowDidEndSheet:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>windowDidExpose:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>windowDidMiniaturize:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>windowDidMove:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>windowDidResignKey:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>windowDidResignMain:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>windowDidResize:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>windowDidUpdate:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>windowShouldClose:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="BOOL" ovadd="10.0.0">
+          <sel>windowShouldZoom:</sel>
+          <arg type="NSWindow*">sender</arg>
+          <sel>toFrame:</sel>
+          <arg type="NSRect">aFrame</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>windowWillBeginSheet:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>windowWillClose:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>windowWillMiniaturize:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="10.0.0">
+          <sel>windowWillMove:</sel>
+          <arg type="NSNotification*">aNotification</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSSize" ovadd="10.0.0">
+          <sel>windowWillResize:</sel>
+          <arg type="NSWindow*">sender</arg>
+          <sel>toSize:</sel>
+          <arg type="NSSize">frameSize</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="id" ovadd="10.0.0">
+          <sel>windowWillReturnFieldEditor:</sel>
+          <arg type="NSWindow*">sender</arg>
+          <sel>toObject:</sel>
+          <arg type="id">client</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSUndoManager*" ovadd="10.0.0">
+          <sel>windowWillReturnUndoManager:</sel>
+          <arg type="NSWindow*">sender</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSRect" ovadd="10.0.0">
+          <sel>windowWillUseStandardFrame:</sel>
+          <arg type="NSWindow*">sender</arg>
+          <sel>defaultFrame:</sel>
+          <arg type="NSRect">aFrame</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSObject(NSWindowDelegateAdditions)
+        informal protocol
+      </heading>
+      <category name="NSWindowDelegateAdditions" class="NSObject" ovadd="1.0.0">
+        <declared>AppKit/NSWindow.h</declared>
+        <conform>NSWindowDelegate</conform>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="NSWindow*" ovadd="10.1.0">
+          <sel>attachedSheet</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSWindow(GNUstepBackend) category
+      </heading>
+      <category name="GNUstepBackend" class="NSWindow" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>AppKit/NSWindow.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>_captureMouse:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>_initDefaults</sel>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>_releaseMouse:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          </desc>
+        </method>
+        <method type="void" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>_setVisible:</sel>
+          <arg type="BOOL">flag</arg>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the
+        NSWindow(GNUstepTextView) category
+      </heading>
+      <category name="GNUstepTextView" class="NSWindow" ovadd="0.0.0" ovrem="0.0.0">
+        <declared>AppKit/NSWindow.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="id" ovadd="0.0.0" ovrem="0.0.0">
+          <sel>_futureFirstResponder</sel>
+          <desc>
+            <em>Warning</em> the underscore at the start of the
+            name of this method indicates that it is private, for
+            internal use only, and you should not use the
+            method in your code.
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSWindow(Toolbar)
+        category
+      </heading>
+      <category name="Toolbar" class="NSWindow" ovadd="1.0.0">
+        <declared>AppKit/NSWindow.h</declared>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+        <method type="void" ovadd="1.0.0">
+          <sel>runToolbarCustomizationPalette:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>setToolbar:</sel>
+          <arg type="NSToolbar*">toolbar</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="void" ovadd="1.0.0">
+          <sel>toggleToolbarShown:</sel>
+          <arg type="id">sender</arg>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+        <method type="NSToolbar*" ovadd="1.0.0">
+          <sel>toolbar</sel>
+          <desc>
+            <em>Description forthcoming.</em>
+          </desc>
+        </method>
+      </category>
+    </chapter>
+    <chapter>
+      <heading>
+        Software documentation for the NSWindowDelegate
+        protocol
+      </heading>
+      <protocol name="NSWindowDelegate" ovadd="10.0.0">
+        <declared>AppKit/NSWindow.h</declared>
+        <conform>NSObject</conform>
+        <desc>
+          <em>Description forthcoming.</em>
+        </desc>
+      </protocol>
+    </chapter>
+  </body>
+</gsdoc>

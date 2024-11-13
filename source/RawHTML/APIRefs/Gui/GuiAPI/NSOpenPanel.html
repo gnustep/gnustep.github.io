@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>NSOpenPanel</title>
+<meta http-equiv="Content-Style-Type" content="text/css"/>
+<link rel="stylesheet" type="text/css" href="default-styles.css" media="screen" title="Normal" />
+  </head>
+  <body>
+    <a href="Gui.html">Up</a>
+    <br>
+    <h1><a name="title$NSOpenPanel">NSOpenPanel</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Scott Christley (<a href="mailto:scottc@net-community.com"><code>scottc@net-community.com</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Daniel Boehringer (<a href="mailto:boehring@biomed.ruhr-uni-bochum.de"><code>boehring@biomed.ruhr-uni-bochum.de</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Nicola Pero (<a href="mailto:n.pero@mi.flashnet.it"><code>n.pero@mi.flashnet.it</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Mirko Viviani (<a href="mailto:mirko.viviani@rccr.cremona.it"><code>mirko.viviani@rccr.cremona.it</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Date:</b> Generated at 2024-11-13 12:52:37 -0500</p>
+    <blockquote>
+      Standard panel for opening files
+    </blockquote>
+    <p><b>Copyright:</b> (C) 
+      1996, 1998, 1999, 2000 Free Software Foundation, Inc.
+    </p>
+
+        <div>
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSOpenPanel class
+      </a></h1>
+    <h2 class="class"><a name="class$NSOpenPanel">NSOpenPanel</a> : <a rel="gsdoc" href="NSSavePanel.html#class$NSSavePanel">NSSavePanel</a></h2>
+<svg width="177pt" height="116pt"
+ viewBox="0.00 0.00 177.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>class_NSOpenPanel</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 173,-112 173,4 -4,4"/>
+<!-- NSSavePanel -->
+<g id="node1" class="node figure_super">
+<title>NSSavePanel</title>
+<g id="a_node1"><a xlink:href="NSSavePanel.html#class$NSSavePanel" xlink:title="NSSavePanel">
+<polygon fill="lightgrey" stroke="black" points="166,-108 3,-108 3,-72 166,-72 166,-108"/>
+<text text-anchor="middle" x="84.5" y="-83.8" font-family="Times,serif" font-size="24.00" fill="blue">NSSavePanel</text>
+</a>
+</g>
+</g>
+<!-- NSOpenPanel -->
+<g id="node2" class="node figure_class">
+<title>NSOpenPanel</title>
+<polygon fill="lightgrey" stroke="black" points="169,-36 0,-36 0,0 169,0 169,-36"/>
+<text text-anchor="middle" x="84.5" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">NSOpenPanel</text>
+</g>
+<!-- NSSavePanel&#45;&gt;NSOpenPanel -->
+<g id="edge1" class="edge">
+<title>NSSavePanel&#45;&gt;NSOpenPanel</title>
+<path fill="none" stroke="black" d="M84.5,-71.7C84.5,-63.98 84.5,-54.71 84.5,-46.11"/>
+<polygon fill="black" stroke="black" points="88,-46.1 84.5,-36.1 81,-46.1 88,-46.1"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSOpenPanel.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            Implements a panel that allows the user to
+            select a file or files. NSOpenPanel is based on the
+            NSSavePanel implementation and shares a lot of
+            similarities with it.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            There is only one open panel per application and this
+            panel is obtained by calling the
+            <a rel="gsdoc" href="#method$NSOpenPanel+openPanel">
+              +openPanel
+            </a>
+
+            class method. From here, you should set the
+            characteristics of the file selection
+            mechanism using the
+            <a rel="gsdoc" href="#method$NSOpenPanel-setCanChooseFiles$">
+              -setCanChooseFiles:
+            </a>
+
+            ,
+            <a rel="gsdoc" href="#method$NSOpenPanel-setCanChooseDirectories$">
+              -setCanChooseDirectories:
+            </a>
+
+            and
+            <a rel="gsdoc" href="#method$NSOpenPanel-setAllowsMultipleSelection$">
+              -setAllowsMultipleSelection:
+            </a>
+
+            methods. The default is <code>YES</code> except
+            for allowing multiple selection. When ready to show the
+            panel, use the
+            <a rel="gsdoc" href="#method$NSOpenPanel-runModalForTypes$">
+              -runModalForTypes:
+            </a>
+
+            , or a similar method to show the panel in a modal
+            session. Other methods allow you to set the
+            initial directory and initially selected file. The
+            method will return one of NSOKButton or
+            NSCancelButton depending on which button the
+            user pressed.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            Use the
+            <a rel="gsdoc" href="NSSavePanel.html#method$NSSavePanel-filename">
+              [NSSavePanel -filename]
+            </a>
+
+            or <a rel="gsdoc" href="#method$NSOpenPanel-filenames">-filenames</a>
+
+            method to retrieve the name of the file the user
+            selected.
+              </p>
+    <p>
+      
+        
+    </div>
+    <hr class="section-separator">
+    <a href="#_NSOpenPanel_ivars">Instance Variables</a>
+    <br><br>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSOpenPanel.html#method$NSOpenPanel+openPanel">+openPanel</a></li>
+        <li><a rel="gsdoc" href="NSOpenPanel.html#method$NSOpenPanel-URLs">-URLs</a></li>
+        <li><a rel="gsdoc" href="NSOpenPanel.html#method$NSOpenPanel-allowsMultipleSelection">-allowsMultipleSelection</a></li>
+        <li><a rel="gsdoc" href="NSOpenPanel.html#method$NSOpenPanel-beginForDirectory$file$types$modelessDelegate$didEndSelector$contextInfo$">-beginForDirectory:file:types:modelessDelegate:didEndSelector:contextInfo:</a></li>
+        <li><a rel="gsdoc" href="NSOpenPanel.html#method$NSOpenPanel-beginSheetForDirectory$file$types$modalForWindow$modalDelegate$didEndSelector$contextInfo$">-beginSheetForDirectory:file:types:modalForWindow:modalDelegate:didEndSelector:contextInfo:</a></li>
+        <li><a rel="gsdoc" href="NSOpenPanel.html#method$NSOpenPanel-canChooseDirectories">-canChooseDirectories</a></li>
+        <li><a rel="gsdoc" href="NSOpenPanel.html#method$NSOpenPanel-canChooseFiles">-canChooseFiles</a></li>
+        <li><a rel="gsdoc" href="NSOpenPanel.html#method$NSOpenPanel-filenames">-filenames</a></li>
+        <li><a rel="gsdoc" href="NSOpenPanel.html#method$NSOpenPanel-resolvesAliases">-resolvesAliases</a></li>
+        <li><a rel="gsdoc" href="NSOpenPanel.html#method$NSOpenPanel-runModalForDirectory$file$types$">-runModalForDirectory:file:types:</a></li>
+        <li><a rel="gsdoc" href="NSOpenPanel.html#method$NSOpenPanel-runModalForDirectory$file$types$relativeToWindow$">-runModalForDirectory:file:types:relativeToWindow:</a></li>
+        <li><a rel="gsdoc" href="NSOpenPanel.html#method$NSOpenPanel-runModalForTypes$">-runModalForTypes:</a></li>
+        <li><a rel="gsdoc" href="NSOpenPanel.html#method$NSOpenPanel-setAllowsMultipleSelection$">-setAllowsMultipleSelection:</a></li>
+        <li><a rel="gsdoc" href="NSOpenPanel.html#method$NSOpenPanel-setCanChooseDirectories$">-setCanChooseDirectories:</a></li>
+        <li><a rel="gsdoc" href="NSOpenPanel.html#method$NSOpenPanel-setCanChooseFiles$">-setCanChooseFiles:</a></li>
+        <li><a rel="gsdoc" href="NSOpenPanel.html#method$NSOpenPanel-setResolvesAliases$">-setResolvesAliases:</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$NSOpenPanel+openPanel">openPanel&nbsp;</a></h3>
+    + (<a rel="gsdoc" href="#class$NSOpenPanel">NSOpenPanel</a>*) <b>openPanel</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Creates (if needed) and returns the shared
+              NSOpenPanel instance.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSOpenPanel-URLs">URLs&nbsp;</a></h3>
+    - (NSArray*) <b>URLs</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Returns an array of the selected files as URLs
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSOpenPanel-allowsMultipleSelection">allowsMultipleSelection&nbsp;</a></h3>
+    - (BOOL) <b>allowsMultipleSelection</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Returns <code>YES</code> if the user is allowed
+              to select multiple files. The default behavior is not
+              to allow mutiple selections.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              See Also:
+              <a rel="gsdoc" href="#method$NSOpenPanel-setAllowsMultipleSelection$">
+                -setAllowsMultipleSelection:
+              </a>
+
+              <a rel="gsdoc" href="NSBrowser.html#method$NSBrowser-allowsMultipleSelection">[NSBrowser -allowsMultipleSelection]</a>
+
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSOpenPanel-beginForDirectory$file$types$modelessDelegate$didEndSelector$contextInfo$">beginForDirectory:&nbsp;file:&nbsp;types:&nbsp;modelessDelegate:&nbsp;didEndSelector:&nbsp;contextInfo:&nbsp;</a></h3>
+    - (void) <b>beginForDirectory:</b> (NSString*)absoluteDirectoryPath<b> file:</b> (NSString*)filename<b> types:</b> (NSArray*)fileTypes<b> modelessDelegate:</b> (id)modelessDelegate<b> didEndSelector:</b> (SEL)didEndSelector<b> contextInfo:</b> (void*)contextInfo;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.3.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSOpenPanel-beginSheetForDirectory$file$types$modalForWindow$modalDelegate$didEndSelector$contextInfo$">beginSheetForDirectory:&nbsp;file:&nbsp;types:&nbsp;modalForWindow:&nbsp;modalDelegate:&nbsp;didEndSelector:&nbsp;contextInfo:&nbsp;</a></h3>
+    - (void) <b>beginSheetForDirectory:</b> (NSString*)path<b> file:</b> (NSString*)name<b> types:</b> (NSArray*)fileTypes<b> modalForWindow:</b> (<a rel="gsdoc" href="NSWindow.html#class$NSWindow">NSWindow</a>*)docWindow<b> modalDelegate:</b> (id)delegate<b> didEndSelector:</b> (SEL)didEndSelector<b> contextInfo:</b> (void*)contextInfo;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSOpenPanel-canChooseDirectories">canChooseDirectories&nbsp;</a></h3>
+    - (BOOL) <b>canChooseDirectories</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Returns <code>YES</code> if the user is allowed
+              to choose directories The default behavior is to allow
+              choosing directories.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              See Also:
+              <a rel="gsdoc" href="#method$NSOpenPanel-setCanChooseDirectories$">
+                -setCanChooseDirectories:
+              </a>
+
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSOpenPanel-canChooseFiles">canChooseFiles&nbsp;</a></h3>
+    - (BOOL) <b>canChooseFiles</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Returns <code>YES</code> if the user is allowed
+              to choose files. The default behavior it to allow
+              choosing files.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              See Also:
+              <a rel="gsdoc" href="#method$NSOpenPanel-setCanChooseFiles$">
+                -setCanChooseFiles:
+              </a>
+
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSOpenPanel-filenames">filenames&nbsp;</a></h3>
+    - (NSArray*) <b>filenames</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Returns an array containing the absolute paths
+              (as NSString objects) of the selected files and
+              directories. If multiple selections aren&apos;t
+              allowed, the array contains a single name.
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSOpenPanel-resolvesAliases">resolvesAliases&nbsp;</a></h3>
+    - (BOOL) <b>resolvesAliases</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.1.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSOpenPanel-runModalForDirectory$file$types$">runModalForDirectory:&nbsp;file:&nbsp;types:&nbsp;</a></h3>
+    - (NSInteger) <b>runModalForDirectory:</b> (NSString*)path<b> file:</b> (NSString*)name<b> types:</b> (NSArray*)fileTypes;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Displays the open panel in a modal session, with
+              the directory <var>path</var> shown and file
+              <var>name</var> (if any) selected. Files are
+              filtered for the specified types. If the
+              directory is <code>nil</code>, then the
+              directory shown in the open panel is the last
+              directory selected.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              See Also:
+              <a rel="gsdoc" href="#method$NSOpenPanel-runModalForTypes$">
+                -runModalForTypes:
+              </a>
+
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSOpenPanel-runModalForDirectory$file$types$relativeToWindow$">runModalForDirectory:&nbsp;file:&nbsp;types:&nbsp;relativeToWindow:&nbsp;</a></h3>
+    - (NSInteger) <b>runModalForDirectory:</b> (NSString*)path<b> file:</b> (NSString*)name<b> types:</b> (NSArray*)fileTypes<b> relativeToWindow:</b> (<a rel="gsdoc" href="NSWindow.html#class$NSWindow">NSWindow</a>*)window;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSOpenPanel-runModalForTypes$">runModalForTypes:&nbsp;</a></h3>
+    - (NSInteger) <b>runModalForTypes:</b> (NSArray*)fileTypes;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Displays the open panel in a modal session,
+              showing the current directory (or last selected),
+              and filtering for files that have the specified
+              types.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              See Also:
+              <a rel="gsdoc" href="#method$NSOpenPanel-runModalForDirectory$file$types$">-runModalForDirectory:file:types:</a>
+
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSOpenPanel-setAllowsMultipleSelection$">setAllowsMultipleSelection:&nbsp;</a></h3>
+    - (void) <b>setAllowsMultipleSelection:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Allows the user to select multiple files if
+              <var>flag</var> is <code>YES</code>. The default
+              behavior is not to allow multiple selections
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              See Also:
+              <a rel="gsdoc" href="#method$NSOpenPanel-allowsMultipleSelection">
+                -allowsMultipleSelection
+              </a>
+
+              <a rel="gsdoc" href="NSBrowser.html#method$NSBrowser-setAllowsMultipleSelection$">[NSBrowser -setAllowsMultipleSelection:]</a>
+
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSOpenPanel-setCanChooseDirectories$">setCanChooseDirectories:&nbsp;</a></h3>
+    - (void) <b>setCanChooseDirectories:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Allows the user to choose directories if
+              <var>flag</var> is <code>YES</code>. The default
+              behavior is to allow choosing directories.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              See Also:
+              <a rel="gsdoc" href="#method$NSOpenPanel-canChooseDirectories">
+                -canChooseDirectories
+              </a>
+
+              <a rel="gsdoc" href="NSBrowser.html#method$NSBrowser-setAllowsBranchSelection$">[NSBrowser -setAllowsBranchSelection:]</a>
+
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSOpenPanel-setCanChooseFiles$">setCanChooseFiles:&nbsp;</a></h3>
+    - (void) <b>setCanChooseFiles:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            
+    </p>
+    <p>
+
+              Allows the user to choose files if <var>flag</var>
+              is <code>YES</code>.The default behavior it to allow
+              choosing files.
+                </p>
+    <p>
+      
+            
+    </p>
+    <p>
+
+              See Also:
+              <a rel="gsdoc" href="#method$NSOpenPanel-canChooseFiles">
+                -canChooseFiles
+              </a>
+
+                </p>
+    <p>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSOpenPanel-setResolvesAliases$">setResolvesAliases:&nbsp;</a></h3>
+    - (void) <b>setResolvesAliases:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.1.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<a name="_NSOpenPanel_ivars"/>    <br><hr class="section-separator">
+    <h2>Instance Variables for NSOpenPanel Class</h2>
+    <h3><a name="ivariable$NSOpenPanel*_canChooseDirectories">_canChooseDirectories</a></h3>
+    @protected BOOL <b>_canChooseDirectories</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSOpenPanel*_canChooseFiles">_canChooseFiles</a></h3>
+    @protected BOOL <b>_canChooseFiles</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <br><hr class="section-separator"><br>
+    <br>
+    <a href="Gui.html">Up</a>
+  </body>
+</html>

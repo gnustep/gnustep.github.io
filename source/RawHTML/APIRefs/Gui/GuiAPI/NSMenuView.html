@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>NSMenuView</title>
+<meta http-equiv="Content-Style-Type" content="text/css"/>
+<link rel="stylesheet" type="text/css" href="default-styles.css" media="screen" title="Normal" />
+  </head>
+  <body>
+    <a href="Gui.html">Up</a>
+    <br>
+    <h1><a name="title$NSMenuView">NSMenuView</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Fred Kiefer (<a href="mailto:FredKiefer@gmx.de"><code>FredKiefer@gmx.de</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>David Lazaro Saz (<a href="mailto:khelekir@encomix.es"><code>khelekir@encomix.es</code></a>)</dt>
+      <dd>
+      </dd>
+      <dt>Michael Hanni (<a href="mailto:mhanni@sprintmail.com"><code>mhanni@sprintmail.com</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Date:</b> Generated at 2024-11-13 12:52:37 -0500</p>
+    <p><b>Copyright:</b> (C) 1999 Free Software Foundation, Inc.</p>
+
+        <div>
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSMenuView class
+      </a></h1>
+    <h2 class="class"><a name="class$NSMenuView">NSMenuView</a> : <a rel="gsdoc" href="NSView.html#class$NSView">NSView</a></h2>
+<svg width="398pt" height="122pt"
+ viewBox="0.00 0.00 397.67 122.46" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 118.46)">
+<title>class_NSMenuView</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-118.46 393.67,-118.46 393.67,4 -4,4"/>
+<!-- NSView -->
+<g id="node1" class="node figure_super">
+<title>NSView</title>
+<g id="a_node1"><a xlink:href="NSView.html#class$NSView" xlink:title="NSView">
+<polygon fill="lightgrey" stroke="black" points="97,-111.23 0,-111.23 0,-75.23 97,-75.23 97,-111.23"/>
+<text text-anchor="middle" x="48.5" y="-87.03" font-family="Times,serif" font-size="24.00" fill="blue">NSView</text>
+</a>
+</g>
+</g>
+<!-- NSMenuView -->
+<g id="node2" class="node figure_class">
+<title>NSMenuView</title>
+<polygon fill="lightgrey" stroke="black" points="234.5,-36 66.5,-36 66.5,0 234.5,0 234.5,-36"/>
+<text text-anchor="middle" x="150.5" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">NSMenuView</text>
+</g>
+<!-- NSView&#45;&gt;NSMenuView -->
+<g id="edge1" class="edge">
+<title>NSView&#45;&gt;NSMenuView</title>
+<path fill="none" stroke="black" d="M72.41,-75.06C86.1,-65.24 103.45,-52.78 118.31,-42.11"/>
+<polygon fill="black" stroke="black" points="120.65,-44.74 126.74,-36.06 116.57,-39.05 120.65,-44.74"/>
+</g>
+<!-- p_NSMenuView -->
+<g id="node3" class="node figure_protocol">
+<title>p_NSMenuView</title>
+<g id="a_node3"><a xlink:href="NSMenu.html#protocol$(NSMenuView)" xlink:title="NSMenuView">
+<polygon fill="lightgrey" stroke="black" points="389.84,-93.23 321.17,-114.69 183.83,-114.69 115.16,-93.23 183.83,-71.77 321.17,-71.77 389.84,-93.23"/>
+<text text-anchor="middle" x="252.5" y="-87.03" font-family="Times,serif" font-size="24.00" fill="blue">NSMenuView</text>
+</a>
+</g>
+</g>
+<!-- p_NSMenuView&#45;&gt;NSMenuView -->
+<g id="edge2" class="edge">
+<title>p_NSMenuView&#45;&gt;NSMenuView</title>
+<path fill="none" stroke="black" d="M224.09,-71.83C211.22,-62.6 195.96,-51.64 182.68,-42.1"/>
+<polygon fill="black" stroke="black" points="184.44,-39.06 174.28,-36.07 180.36,-44.75 184.44,-39.06"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSMenuView.h</dd>
+      </dl>
+    </blockquote>
+    <blockquote>
+      <dl>
+        <dt><b>Conforms to:</b></dt>
+        <dd><a rel="gsdoc" href="NSMenu.html#protocol$(NSMenuView)">NSMenuView</a></dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+          The NSMenu class uses an object implementing the
+          NSMenuView protocol to do the actual drawing.
+          <br> <br> Normally there is no good reason to
+          write your own class implementing this protocol.
+          However if you want to customize your menus you
+          should implement this protocol to ensure that it works
+          nicely together with sub/super menus not using your
+          custom menu representation. <br> <br>
+          <strong>How menus are drawn</strong> <br> <br>
+          This class implements several menu look and feels at the
+          same time. The looks and feels implemented are:
+          
+      <ul>
+        <li>
+          
+              Ordinary vertically stacked menus with the NeXT
+              submenu positioning behavour.
+            
+        </li>
+        <li>
+          
+              Vertically stacked menus with the WindowMaker
+              submenu placement. This behaviour is selected by
+              choosing the
+              <strong>GSWindowMakerInterfaceStyle</strong>.
+            
+        </li>
+        <li>
+          
+              PopupButtons are actually menus. This class
+              implements also the behaviour for the
+              NSPopButtons. See for the the class
+              NSPopButton.
+            
+        </li>
+      </ul>
+      
+        
+    </div>
+    <hr class="section-separator">
+    <a href="#_NSMenuView_ivars">Instance Variables</a>
+    <br><br>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView+menuBarHeight">+menuBarHeight</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-attachSubmenuForItemAtIndex$">-attachSubmenuForItemAtIndex:</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-attachedMenu">-attachedMenu</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-attachedMenuView">-attachedMenuView</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-detachSubmenu">-detachSubmenu</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-font">-font</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-highlightedItemIndex">-highlightedItemIndex</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-horizontalEdgePadding">-horizontalEdgePadding</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-imageAndTitleOffset">-imageAndTitleOffset</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-imageAndTitleWidth">-imageAndTitleWidth</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-indexOfItemAtPoint$">-indexOfItemAtPoint:</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-initAsTearOff">-initAsTearOff</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-innerRect">-innerRect</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-isAttached">-isAttached</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-isHorizontal">-isHorizontal</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-isTornOff">-isTornOff</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-itemAdded$">-itemAdded:</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-itemChanged$">-itemChanged:</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-itemRemoved$">-itemRemoved:</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-keyEquivalentOffset">-keyEquivalentOffset</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-keyEquivalentWidth">-keyEquivalentWidth</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-locationForSubmenu$">-locationForSubmenu:</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-menu">-menu</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-menuItemCellForItemAtIndex$">-menuItemCellForItemAtIndex:</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-needsSizing">-needsSizing</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-performActionWithHighlightingForItemAtIndex$">-performActionWithHighlightingForItemAtIndex:</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-rectOfItemAtIndex$">-rectOfItemAtIndex:</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-setFont$">-setFont:</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-setHighlightedItemIndex$">-setHighlightedItemIndex:</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-setHorizontal$">-setHorizontal:</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-setHorizontalEdgePadding$">-setHorizontalEdgePadding:</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-setMenu$">-setMenu:</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-setMenuItemCell$forItemAtIndex$">-setMenuItemCell:forItemAtIndex:</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-setNeedsDisplayForItemAtIndex$">-setNeedsDisplayForItemAtIndex:</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-setNeedsSizing$">-setNeedsSizing:</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-setWindowFrameForAttachingToRect$onScreen$preferredEdge$popUpSelectedItem$">-setWindowFrameForAttachingToRect:onScreen:preferredEdge:popUpSelectedItem:</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-sizeToFit">-sizeToFit</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-stateImageOffset">-stateImageOffset</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-stateImageWidth">-stateImageWidth</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-trackWithEvent$">-trackWithEvent:</a></li>
+        <li><a rel="gsdoc" href="NSMenuView.html#method$NSMenuView-update">-update</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$NSMenuView+menuBarHeight">menuBarHeight&nbsp;</a></h3>
+    + (float) <b>menuBarHeight</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the height of the menu bar.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-attachSubmenuForItemAtIndex$">attachSubmenuForItemAtIndex:&nbsp;</a></h3>
+    - (void) <b>attachSubmenuForItemAtIndex:</b> (NSInteger)index;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Attach submenu if the item at <var>index</var> is a
+            submenu. It will figure out if the new submenu
+            should be transient or not.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-attachedMenu">attachedMenu&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSMenu.html#class$NSMenu">NSMenu</a>*) <b>attachedMenu</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns visible attached submenu.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-attachedMenuView">attachedMenuView&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="#class$NSMenuView">NSMenuView</a>*) <b>attachedMenuView</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns menu view associated with visible attached
+            submenu.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-detachSubmenu">detachSubmenu&nbsp;</a></h3>
+    - (void) <b>detachSubmenu</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Detaches currently visible submenu window from
+            main menu.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-font">font&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSFont.html#class$NSFont">NSFont</a>*) <b>font</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the default font used to draw the menu
+            text.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-highlightedItemIndex">highlightedItemIndex&nbsp;</a></h3>
+    - (NSInteger) <b>highlightedItemIndex</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the index of the highlighted item. Returns
+            -1 if there is no highlighted item.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-horizontalEdgePadding">horizontalEdgePadding&nbsp;</a></h3>
+    - (float) <b>horizontalEdgePadding</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns horizontal space used for padding between
+            menu item elements (state image, title image, title,
+            key equivalent, submenu arrow image).
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-imageAndTitleOffset">imageAndTitleOffset&nbsp;</a></h3>
+    - (float) <b>imageAndTitleOffset</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the starting horizontal position for
+            drawing the image and title.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-imageAndTitleWidth">imageAndTitleWidth&nbsp;</a></h3>
+    - (float) <b>imageAndTitleWidth</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the width of the image and title section.
+            Tis section contains image and text of menu item.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-indexOfItemAtPoint$">indexOfItemAtPoint:&nbsp;</a></h3>
+    - (NSInteger) <b>indexOfItemAtPoint:</b> (NSPoint)point;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the index of the item below
+            <var>point</var>. Returns -1 if mouse is not above a
+            menu item.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-initAsTearOff">initAsTearOff&nbsp;</a></h3>
+    - (id) <b>initAsTearOff</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Creates new instance and sets menu to torn off
+            state with NSMenu&apos;s setTornOff:.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-innerRect">innerRect&nbsp;</a></h3>
+    - (NSRect) <b>innerRect</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns bounds rectangle of the menu view. It is
+            smaller by 1 pixel in width than menu window (dark
+            gray border at left).
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-isAttached">isAttached&nbsp;</a></h3>
+    - (BOOL) <b>isAttached</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns <code>YES</code>, if this object is an
+            visivle attached submenu&apos;s view. Returns
+            <code>NO</code> otherwise.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-isHorizontal">isHorizontal&nbsp;</a></h3>
+    - (BOOL) <b>isHorizontal</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns <code>YES</code> if menu items are
+            displayed horizontally, <code>NO</code> if
+            vertically.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-isTornOff">isTornOff&nbsp;</a></h3>
+    - (BOOL) <b>isTornOff</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns <code>YES</code>, if this object is
+            associated with torn off menu (menu with a close
+            button on title bar).
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-itemAdded$">itemAdded:&nbsp;</a></h3>
+    - (void) <b>itemAdded:</b> (NSNotification*)notification;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Creates new item cell for the newly created menu
+            item, marks cell and menu view as needing to be
+            resized. This method is invoked when
+            NSMenuDidAddItemNotification
+            received. The <var>notification</var> parameter
+            contains index of changed menu item and can be
+            accessed with NSMenuItemIndex key.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-itemChanged$">itemChanged:&nbsp;</a></h3>
+    - (void) <b>itemChanged:</b> (NSNotification*)notification;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Marks menu item cell associated with the menu item
+            and menu view as needing to be resized. This method is
+            invoked when NSMenuDidChangeItemNotification
+            received. The <var>notification</var> parameter
+            contains index of changed menu item and can be
+            accessed with NSMenuItemIndex key.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-itemRemoved$">itemRemoved:&nbsp;</a></h3>
+    - (void) <b>itemRemoved:</b> (NSNotification*)notification;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Removes cell associated with removed menu item,
+            removes highlighting if removed menu item was
+            highlighted, marks cell and menu view as
+            needing to be resized. This method is invoked when
+            NSMenuDidRemoveItemNotification
+            received. The <var>notification</var> parameter
+            contains index of changed menu item and can be
+            accessed with NSMenuItemIndex key.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-keyEquivalentOffset">keyEquivalentOffset&nbsp;</a></h3>
+    - (float) <b>keyEquivalentOffset</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the starting position for drawing the key
+            equivalent. Key equivalent can be submenu arrow
+            if menu item has submenu.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-keyEquivalentWidth">keyEquivalentWidth&nbsp;</a></h3>
+    - (float) <b>keyEquivalentWidth</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the width of key equivalent text. Key
+            equivalent can be submenu arrow if menu item has
+            submenu
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-locationForSubmenu$">locationForSubmenu:&nbsp;</a></h3>
+    - (NSPoint) <b>locationForSubmenu:</b> (<a rel="gsdoc" href="NSMenu.html#class$NSMenu">NSMenu</a>*)aSubmenu;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the correct frame origin for
+            <var>aSubmenu</var> based on the location of the
+            receiver. This location may depend on the current
+            NSInterfaceStyle.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-menu">menu&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSMenu.html#class$NSMenu">NSMenu</a>*) <b>menu</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the NSMenu associated with this menu view.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-menuItemCellForItemAtIndex$">menuItemCellForItemAtIndex:&nbsp;</a></h3>
+    - (<a rel="gsdoc" href="NSMenuItemCell.html#class$NSMenuItemCell">NSMenuItemCell</a>*) <b>menuItemCellForItemAtIndex:</b> (NSInteger)index;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns cell associated with item at
+            <var>index</var>.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-needsSizing">needsSizing&nbsp;</a></h3>
+    - (BOOL) <b>needsSizing</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Return <code>YES</code> if menu view contents
+            changed and needs to be resized.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-performActionWithHighlightingForItemAtIndex$">performActionWithHighlightingForItemAtIndex:&nbsp;</a></h3>
+    - (void) <b>performActionWithHighlightingForItemAtIndex:</b> (NSInteger)index;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-rectOfItemAtIndex$">rectOfItemAtIndex:&nbsp;</a></h3>
+    - (NSRect) <b>rectOfItemAtIndex:</b> (NSInteger)index;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns frame rectangle of menu item cell. It is
+            smaller by 1 pixel in width than menu window (dark
+            gray border).
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-setFont$">setFont:&nbsp;</a></h3>
+    - (void) <b>setFont:</b> (<a rel="gsdoc" href="NSFont.html#class$NSFont">NSFont</a>*)font;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Sets the default <var>font</var> to use when drawing
+            the menu text.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-setHighlightedItemIndex$">setHighlightedItemIndex:&nbsp;</a></h3>
+    - (void) <b>setHighlightedItemIndex:</b> (NSInteger)index;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Highlights item with at <var>index</var>. If
+            <var>index</var> is -1 all highlighing is removed.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-setHorizontal$">setHorizontal:&nbsp;</a></h3>
+    - (void) <b>setHorizontal:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Sets menu orientation. If <code>YES</code> menu items
+            are displayed from left to right, if <code>NO</code>
+            from top to bottom (vertically). By default, menu
+            items are displayed vertically.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-setHorizontalEdgePadding$">setHorizontalEdgePadding:&nbsp;</a></h3>
+    - (void) <b>setHorizontalEdgePadding:</b> (float)pad;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Sets amount of pixels added between menu item elements
+            to <var>pad</var>.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-setMenu$">setMenu:&nbsp;</a></h3>
+    - (void) <b>setMenu:</b> (<a rel="gsdoc" href="NSMenu.html#class$NSMenu">NSMenu</a>*)menu;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Sets the <var>menu</var> to be displayed in to
+            <var>menu</var>. Also this method adds this
+            <var>menu</var> view to the menu&apos;s list of observers,
+            mark view to force recalculation of layout with
+            setNeedsSizing:YES, and updates itself
+            with update method.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-setMenuItemCell$forItemAtIndex$">setMenuItemCell:&nbsp;forItemAtIndex:&nbsp;</a></h3>
+    - (void) <b>setMenuItemCell:</b> (<a rel="gsdoc" href="NSMenuItemCell.html#class$NSMenuItemCell">NSMenuItemCell</a>*)cell<b> forItemAtIndex:</b> (NSInteger)index;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Replaces item <var>cell</var> at <var>index</var>
+            with <var>cell</var>. Highlighting of item is
+            preserved.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-setNeedsDisplayForItemAtIndex$">setNeedsDisplayForItemAtIndex:&nbsp;</a></h3>
+    - (void) <b>setNeedsDisplayForItemAtIndex:</b> (NSInteger)index;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Calls setNeedsDisplayInRect: for rectangle occupied
+            by item at <var>index</var>.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-setNeedsSizing$">setNeedsSizing:&nbsp;</a></h3>
+    - (void) <b>setNeedsSizing:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Sets the <var>flag</var> whether layout needs to be
+            resized. Set it to <code>YES</code> if menu
+            contents changed and layout needs to be
+            recalculated. This method is used internally.
+            Yout should not invoke it directly from applications.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-setWindowFrameForAttachingToRect$onScreen$preferredEdge$popUpSelectedItem$">setWindowFrameForAttachingToRect:&nbsp;onScreen:&nbsp;preferredEdge:&nbsp;popUpSelectedItem:&nbsp;</a></h3>
+    - (void) <b>setWindowFrameForAttachingToRect:</b> (NSRect)screenRect<b> onScreen:</b> (<a rel="gsdoc" href="NSScreen.html#class$NSScreen">NSScreen</a>*)screen<b> preferredEdge:</b> (NSRectEdge)edge<b> popUpSelectedItem:</b> (NSInteger)selectedItemIndex;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Resize menu view frame to be appropriate in size to
+            attach to <var>screenRect</var> at preferredEdge.
+            For popup&apos;s menu, if <var>selectedItemIndex</var> is
+            other than -1, position view so selected item covers
+            the NSPopUpButton. <br>
+            <strong>
+              NOTE: preffered <var>edge</var> positioning doesn&apos;t
+              implemented yet!
+            </strong>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-sizeToFit">sizeToFit&nbsp;</a></h3>
+    - (void) <b>sizeToFit</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-stateImageOffset">stateImageOffset&nbsp;</a></h3>
+    - (float) <b>stateImageOffset</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the starting horizontal position for
+            drawing the state image.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-stateImageWidth">stateImageWidth&nbsp;</a></h3>
+    - (float) <b>stateImageWidth</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Returns the width of the state image.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-trackWithEvent$">trackWithEvent:&nbsp;</a></h3>
+    - (BOOL) <b>trackWithEvent:</b> (<a rel="gsdoc" href="NSEvent.html#class$NSEvent">NSEvent</a>*)event;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            This method is responsible for tracking the mouse
+            while this menu is on the screen and the user is busy
+            navigating the menu or one of it submenus.
+            Responsible does not mean that this method does
+            it all. For submenus for example it will call,
+            indirectly, itself for submenu under
+            consideration. It will return
+            <code>YES</code> if user released mouse, not above a
+            submenu item. <code>NO</code> in all other
+            circumstances. Implementation detail:
+            
+      <ul>
+        <li>
+          
+                It use periodic events to update the highlight state
+                and attach / detach submenus.
+              
+        </li>
+        <li>
+          
+                The flag justAttachedNewSubmenu is set to
+                <code>YES</code> when a new submenu is attached.
+                The effect is that the highlighting / attaching /
+                detaching is supressed for this menu. This is
+                done so the user is given a change to move the
+                mouse pointer into the newly attached submenu.
+                Otherwise it would immediately be removed as
+                the mouse pointer move over another item. The logic
+                for resetting the flag is rather adhoc.
+              
+        </li>
+        <li>
+          
+                the flag subMenusNeedRemoving means that we will
+                remove all the submenus after we are done. This
+                flag is used to clean up the submenus when the
+                user has opened a submenu by clicking and wants to
+                close it again by clicking on the hihglighted
+                item.
+              
+        </li>
+        <li>
+          
+                When the user released the mouse this method will
+                cleanup all the transient menus. Not only its
+                own, but also its attached menu and all its
+                transient super menus.
+              
+        </li>
+        <li>
+          
+                The clean up is done BEFORE the action is executed.
+                This is needed otherwise `hiding&apos; the application
+                leaves a dangling menu. If this is not
+                acceptable, there should be another
+                mechanism of handling the hiding. BTW besides
+                the `hiding&apos; the application, model panels are also
+                a problem when the menu is not cleared before
+                executing the action.
+              
+        </li>
+      </ul>
+      
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSMenuView-update">update&nbsp;</a></h3>
+    - (void) <b>update</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            Adds title view for application menu and submenus,
+            removes title view if menu is owned by
+            NSPopUpButton, adds close button to title
+            view for torn off menus and removes it for other type
+            of menu.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<a name="_NSMenuView_ivars"/>    <br><hr class="section-separator">
+    <h2>Instance Variables for NSMenuView Class</h2>
+    <h3><a name="ivariable$NSMenuView*_cellSize">_cellSize</a></h3>
+    @protected NSSize <b>_cellSize</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenuView*_font">_font</a></h3>
+    @protected NSFont* <b>_font</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenuView*_highlightedItemIndex">_highlightedItemIndex</a></h3>
+    @protected int <b>_highlightedItemIndex</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenuView*_horizontal">_horizontal</a></h3>
+    @protected BOOL <b>_horizontal</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenuView*_horizontalEdgePad">_horizontalEdgePad</a></h3>
+    @protected float <b>_horizontalEdgePad</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenuView*_imageAndTitleOffset">_imageAndTitleOffset</a></h3>
+    @protected float <b>_imageAndTitleOffset</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenuView*_imageAndTitleWidth">_imageAndTitleWidth</a></h3>
+    @protected float <b>_imageAndTitleWidth</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenuView*_itemCells">_itemCells</a></h3>
+    @protected NSMutableArray* <b>_itemCells</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenuView*_keyEqOffset">_keyEqOffset</a></h3>
+    @protected float <b>_keyEqOffset</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenuView*_keyEqWidth">_keyEqWidth</a></h3>
+    @protected float <b>_keyEqWidth</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenuView*_needsSizing">_needsSizing</a></h3>
+    @protected BOOL <b>_needsSizing</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenuView*_pad1">_pad1</a></h3>
+    @protected char <b>_pad1</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenuView*_pad2">_pad2</a></h3>
+    @protected char <b>_pad2</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenuView*_stateImageOffset">_stateImageOffset</a></h3>
+    @protected float <b>_stateImageOffset</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <h3><a name="ivariable$NSMenuView*_stateImageWidth">_stateImageWidth</a></h3>
+    @protected float <b>_stateImageWidth</b>;<br>
+    <div class="availability">
+<b>Availability:</b> OpenStep</div>
+<br>
+    <div class="desc">
+      
+            <em>Warning</em> the underscore at the start of the
+            name of this instance variable indicates that, even
+            though it is not technically <em>private</em>, it is
+            intended for internal use within the package, and
+            you should not use the variable in other code.
+          
+    </div>
+    <hr class="method-separator"/>
+    <br><hr class="section-separator"><br>
+    <br>
+    <a href="Gui.html">Up</a>
+  </body>
+</html>

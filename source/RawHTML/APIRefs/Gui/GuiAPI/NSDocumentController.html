@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>NSDocumentController</title>
+<meta http-equiv="Content-Style-Type" content="text/css"/>
+<link rel="stylesheet" type="text/css" href="default-styles.css" media="screen" title="Normal" />
+  </head>
+  <body>
+    <a href="Gui.html">Up</a>
+    <br>
+    <h1><a name="title$NSDocumentController">NSDocumentController</a></h1>
+    <h3>Authors</h3>
+    <dl>
+      <dt>Carl Lindberg (<a href="mailto:Carl.Lindberg@hbo.com"><code>Carl.Lindberg@hbo.com</code></a>)</dt>
+      <dd>
+      </dd>
+    </dl>
+    <p><b>Date:</b> Generated at 2024-11-13 12:52:37 -0500</p>
+    <blockquote>
+      The document controller class
+    </blockquote>
+    <p><b>Copyright:</b> (C) 1999 Free Software Foundation, Inc.</p>
+
+        <div>
+    </div>
+
+          <h1><a name="001000000000">
+        Software documentation for the NSDocumentController
+        class
+      </a></h1>
+    <h2 class="class"><a name="class$NSDocumentController">NSDocumentController</a> : NSObject</h2>
+<svg width="295pt" height="116pt"
+ viewBox="0.00 0.00 295.00 116.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 112)">
+<title>class_NSDocumentController</title>
+<polygon fill="white" stroke="transparent" points="-4,4 -4,-112 291,-112 291,4 -4,4"/>
+<!-- NSObject -->
+<g id="node1" class="node figure_super">
+<title>NSObject</title>
+<polygon fill="lightgrey" stroke="black" points="202.5,-108 84.5,-108 84.5,-72 202.5,-72 202.5,-108"/>
+<text text-anchor="middle" x="143.5" y="-83.8" font-family="Times,serif" font-size="24.00" fill="blue">NSObject</text>
+</g>
+<!-- NSDocumentController -->
+<g id="node2" class="node figure_class">
+<title>NSDocumentController</title>
+<polygon fill="lightgrey" stroke="black" points="287,-36 0,-36 0,0 287,0 287,-36"/>
+<text text-anchor="middle" x="143.5" y="-11.8" font-family="Times,serif" font-size="24.00" fill="green">NSDocumentController</text>
+</g>
+<!-- NSObject&#45;&gt;NSDocumentController -->
+<g id="edge1" class="edge">
+<title>NSObject&#45;&gt;NSDocumentController</title>
+<path fill="none" stroke="black" d="M143.5,-71.7C143.5,-63.98 143.5,-54.71 143.5,-46.11"/>
+<polygon fill="black" stroke="black" points="147,-46.1 143.5,-36.1 140,-46.1 147,-46.1"/>
+</g>
+</g>
+</svg>
+    <blockquote class="declared">
+      <dl>
+        <dt><b>Declared in:</b></dt>
+        <dd>AppKit/NSDocumentController.h</dd>
+      </dl>
+    </blockquote>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+          
+    </p>
+    <p>
+
+            NSDocumentController is a class that
+            controls a set of NSDocuments for an application.
+            As an application delegate, it responds to the typical
+            File Menu commands for opening and creating new
+            documents, and making sure all documents have
+            been saved when an application quits. It also
+            registers itself for the
+            NSWorkspaceWillPowerOffNotification.
+            Note that NSDocumentController isn&apos;t truly the
+            application delegate, but it works in a similar
+            way. You can still have your own application delegate
+            - but beware, if it responds to the same methods as
+            NSDocumentController, your delegate
+            methods will get called, not the
+            NSDocumentController&apos;s.
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            NSDocumentController also manages
+            document types and the related NSDocument
+            subclasses that handle them. This information
+            comes from the custom info property list
+            ({ApplicationName}Info.plist)
+            loaded when NSDocumentController is initialized. The
+            property list contains an array of dictionarys
+            with the key NSTypes. Each dictionary contains a set
+            of keys:
+              </p>
+    <p>
+      
+          
+      <ul>
+        <li>
+          
+              NSDocumentClass - The name of the
+              subclass
+            
+        </li>
+        <li>
+          
+              NSName - Short name of the document type
+            
+        </li>
+        <li>
+          
+              NSHumanReadableName - Longer document
+              type name
+            
+        </li>
+        <li>
+          NSUnixExtensions - Array of strings
+        </li>
+        <li>
+          NSDOSExtensions - Array of strings
+        </li>
+        <li>
+          NSIcon - Icon name for these documents
+        </li>
+        <li>
+          NSRole - Viewer or Editor
+        </li>
+      </ul>
+      
+          
+    </p>
+    <p>
+
+            You can use NSDocumentController to get a list of all
+            open documents, the current document (The one whose
+            window is Key) and other information about these
+            documents. It also remembers the most recently
+            opened documents (through the user default key
+            NSRecentDocuments)..
+              </p>
+    <p>
+      
+          
+    </p>
+    <p>
+
+            You can subclass NSDocumentController to customize the
+            behavior of certain aspects of the class, but it
+            is very rare that you would need to do this.
+              </p>
+    <p>
+      
+        
+    </div>
+    <p class="global_method_index">
+      <h3 class="index-section-header">Method summary</h3>
+      <ul>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController+sharedDocumentController">+sharedDocumentController</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-URLsFromRunningOpenPanel">-URLsFromRunningOpenPanel</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-addDocument$">-addDocument:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-autosavingDelay">-autosavingDelay</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-beginOpenPanel$forTypes$completionHandler$">-beginOpenPanel:forTypes:completionHandler:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-beginOpenPanelWithCompletionHandler$">-beginOpenPanelWithCompletionHandler:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-clearRecentDocuments$">-clearRecentDocuments:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-closeAllDocuments">-closeAllDocuments</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-closeAllDocumentsWithDelegate$didCloseAllSelector$contextInfo$">-closeAllDocumentsWithDelegate:didCloseAllSelector:contextInfo:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-currentDirectory">-currentDirectory</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-currentDocument">-currentDocument</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-defaultType">-defaultType</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-displayNameForType$">-displayNameForType:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-documentClassForType$">-documentClassForType:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-documentClassNames">-documentClassNames</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-documentForFileName$">-documentForFileName:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-documentForURL$">-documentForURL:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-documentForWindow$">-documentForWindow:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-documents">-documents</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-duplicateDocumentWithContentsOfURL$copying$displayName$error$">-duplicateDocumentWithContentsOfURL:copying:displayName:error:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-fileExtensionsFromType$">-fileExtensionsFromType:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-fileNamesFromRunningOpenPanel">-fileNamesFromRunningOpenPanel</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-hasEditedDocuments">-hasEditedDocuments</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-makeDocumentForURL$withContentsOfURL$ofType$error$">-makeDocumentForURL:withContentsOfURL:ofType:error:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-makeDocumentWithContentsOfFile$ofType$">-makeDocumentWithContentsOfFile:ofType:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-makeDocumentWithContentsOfURL$ofType$">-makeDocumentWithContentsOfURL:ofType:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-makeDocumentWithContentsOfURL$ofType$error$">-makeDocumentWithContentsOfURL:ofType:error:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-makeUntitledDocumentOfType$">-makeUntitledDocumentOfType:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-makeUntitledDocumentOfType$error$">-makeUntitledDocumentOfType:error:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-maximumRecentDocumentCount">-maximumRecentDocumentCount</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-newDocument$">-newDocument:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-noteNewRecentDocument$">-noteNewRecentDocument:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-noteNewRecentDocumentURL$">-noteNewRecentDocumentURL:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-openDocument$">-openDocument:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-openDocumentWithContentsOfFile$display$">-openDocumentWithContentsOfFile:display:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-openDocumentWithContentsOfURL$display$">-openDocumentWithContentsOfURL:display:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-openDocumentWithContentsOfURL$display$completionHandler$">-openDocumentWithContentsOfURL:display:completionHandler:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-openDocumentWithContentsOfURL$display$error$">-openDocumentWithContentsOfURL:display:error:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-openUntitledDocumentAndDisplay$error$">-openUntitledDocumentAndDisplay:error:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-openUntitledDocumentOfType$display$">-openUntitledDocumentOfType:display:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-presentError$">-presentError:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-presentError$modalForWindow$delegate$didPresentSelector$contextInfo$">-presentError:modalForWindow:delegate:didPresentSelector:contextInfo:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-recentDocumentURLs">-recentDocumentURLs</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-removeDocument$">-removeDocument:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-reopenDocumentForURL$withContentsOfURL$display$completionHandler$">-reopenDocumentForURL:withContentsOfURL:display:completionHandler:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-reopenDocumentForURL$withContentsOfURL$error$">-reopenDocumentForURL:withContentsOfURL:error:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-reviewUnsavedDocumentsWithAlertTitle$cancellable$">-reviewUnsavedDocumentsWithAlertTitle:cancellable:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-reviewUnsavedDocumentsWithAlertTitle$cancellable$delegate$didReviewAllSelector$contextInfo$">-reviewUnsavedDocumentsWithAlertTitle:cancellable:delegate:didReviewAllSelector:contextInfo:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-runModalOpenPanel$forTypes$">-runModalOpenPanel:forTypes:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-saveAllDocuments$">-saveAllDocuments:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-setAutosavingDelay$">-setAutosavingDelay:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-setShouldCreateUI$">-setShouldCreateUI:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-shouldCreateUI">-shouldCreateUI</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-typeForContentsOfURL$error$">-typeForContentsOfURL:error:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-typeFromFileExtension$">-typeFromFileExtension:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-validateMenuItem$">-validateMenuItem:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-validateUserInterfaceItem$">-validateUserInterfaceItem:</a></li>
+        <li><a rel="gsdoc" href="NSDocumentController.html#method$NSDocumentController-willPresentError$">-willPresentError:</a></li>
+      </ul>
+    </p>
+    <hr class="section-separator">
+<div class="method">
+    <h3><a name="method$NSDocumentController+sharedDocumentController">sharedDocumentController&nbsp;</a></h3>
+    + (id) <b>sharedDocumentController</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Returns the shared instance of the document
+            controller class. You should always use this
+            method to get the NSDocumentController.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-URLsFromRunningOpenPanel">URLsFromRunningOpenPanel&nbsp;</a></h3>
+    - (NSArray*) <b>URLsFromRunningOpenPanel</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Uses
+            <a rel="gsdoc" href="#method$NSDocumentController-runModalOpenPanel$forTypes$">
+              -runModalOpenPanel:forTypes:
+            </a>
+
+            to allow the user to select files to open (after
+            initializing the NSOpenPanel). Returns the
+            list of files as URLs that the user has selected.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-addDocument$">addDocument:&nbsp;</a></h3>
+    - (void) <b>addDocument:</b> (<a rel="gsdoc" href="NSDocument.html#class$NSDocument">NSDocument</a>*)document;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-autosavingDelay">autosavingDelay&nbsp;</a></h3>
+    - (NSTimeInterval) <b>autosavingDelay</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-beginOpenPanel$forTypes$completionHandler$">beginOpenPanel:&nbsp;forTypes:&nbsp;completionHandler:&nbsp;</a></h3>
+    - (void) <b>beginOpenPanel:</b> (<a rel="gsdoc" href="NSOpenPanel.html#class$NSOpenPanel">NSOpenPanel</a>*)openPanel<b> forTypes:</b> (NSArray*)inTypes<b> completionHandler:</b> (GSCompletionBlock3)completionHandler;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.8.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-beginOpenPanelWithCompletionHandler$">beginOpenPanelWithCompletionHandler:&nbsp;</a></h3>
+    - (void) <b>beginOpenPanelWithCompletionHandler:</b> (GSCompletionBlock2)completionHandler;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.7.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-clearRecentDocuments$">clearRecentDocuments:&nbsp;</a></h3>
+    - (IBAction) <b>clearRecentDocuments:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-closeAllDocuments">closeAllDocuments&nbsp;</a></h3>
+    - (BOOL) <b>closeAllDocuments</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Iterates through all the open documents and asks
+            each one in turn if it can close using
+            <a rel="gsdoc" href="NSDocument.html#method$NSDocument-canCloseDocument">[NSDocument -canCloseDocument]</a>
+. If the document returns <code>YES</code>, then it is closed.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-closeAllDocumentsWithDelegate$didCloseAllSelector$contextInfo$">closeAllDocumentsWithDelegate:&nbsp;didCloseAllSelector:&nbsp;contextInfo:&nbsp;</a></h3>
+    - (void) <b>closeAllDocumentsWithDelegate:</b> (id)delegate<b> didCloseAllSelector:</b> (SEL)didAllCloseSelector<b> contextInfo:</b> (void*)contextInfo;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-currentDirectory">currentDirectory&nbsp;</a></h3>
+    - (NSString*) <b>currentDirectory</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Returns the current directory. This method first
+            checks if there is a current document using the
+            <a rel="gsdoc" href="#method$NSDocumentController-currentDocument">
+              -currentDocument
+            </a>
+
+            method. If this returns a document and the document
+            has a filename, this method returns the directory this
+            file is located in. Otherwise it returns the directory
+            of the most recently opened document or the user&apos;s home
+            directory if no document has been opened before.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-currentDocument">currentDocument&nbsp;</a></h3>
+    - (id) <b>currentDocument</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Returns the document whose window is the main
+            window
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-defaultType">defaultType&nbsp;</a></h3>
+    - (NSString*) <b>defaultType</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            Returns the first type found for which the
+            application has an editor role.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-displayNameForType$">displayNameForType:&nbsp;</a></h3>
+    - (NSString*) <b>displayNameForType:</b> (NSString*)type;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-documentClassForType$">documentClassForType:&nbsp;</a></h3>
+    - (Class) <b>documentClassForType:</b> (NSString*)type;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-documentClassNames">documentClassNames&nbsp;</a></h3>
+    - (NSArray*) <b>documentClassNames</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            Returns the names of the NSDocument subclasses
+            handling documents in this application. This will
+            be <code>nil</code> or empty if this is not a document
+            based application.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-documentForFileName$">documentForFileName:&nbsp;</a></h3>
+    - (id) <b>documentForFileName:</b> (NSString*)fileName;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Returns the NSDocument class that controls the
+            document with the name <var>fileName</var>.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-documentForURL$">documentForURL:&nbsp;</a></h3>
+    - (id) <b>documentForURL:</b> (NSURL*)url;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-documentForWindow$">documentForWindow:&nbsp;</a></h3>
+    - (id) <b>documentForWindow:</b> (<a rel="gsdoc" href="NSWindow.html#class$NSWindow">NSWindow</a>*)window;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Returns the NSDocument class that controls
+            <var>window</var>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-documents">documents&nbsp;</a></h3>
+    - (NSArray*) <b>documents</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Returns an array of all open documents
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-duplicateDocumentWithContentsOfURL$copying$displayName$error$">duplicateDocumentWithContentsOfURL:&nbsp;copying:&nbsp;displayName:&nbsp;error:&nbsp;</a></h3>
+    - (id) <b>duplicateDocumentWithContentsOfURL:</b> (NSURL*)url<b> copying:</b> (BOOL)duplicateByCopying<b> displayName:</b> (NSString*)displayNameOrNil<b> error:</b> (NSError**)outError;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.7.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-fileExtensionsFromType$">fileExtensionsFromType:&nbsp;</a></h3>
+    - (NSArray*) <b>fileExtensionsFromType:</b> (NSString*)type;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-fileNamesFromRunningOpenPanel">fileNamesFromRunningOpenPanel&nbsp;</a></h3>
+    - (NSArray*) <b>fileNamesFromRunningOpenPanel</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Uses
+            <a rel="gsdoc" href="#method$NSDocumentController-runModalOpenPanel$forTypes$">
+              -runModalOpenPanel:forTypes:
+            </a>
+
+            to allow the user to select files to open (after
+            initializing the NSOpenPanel). Returns the
+            list of files that the user has selected.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-hasEditedDocuments">hasEditedDocuments&nbsp;</a></h3>
+    - (BOOL) <b>hasEditedDocuments</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Returns <code>YES</code> if any documents are
+            &quot;dirty&quot;, e.g. changes have been made to the
+            document that have not been saved to the disk
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-makeDocumentForURL$withContentsOfURL$ofType$error$">makeDocumentForURL:&nbsp;withContentsOfURL:&nbsp;ofType:&nbsp;error:&nbsp;</a></h3>
+    - (id) <b>makeDocumentForURL:</b> (NSURL*)url<b> withContentsOfURL:</b> (NSURL*)contents<b> ofType:</b> (NSString*)type<b> error:</b> (NSError**)err;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-makeDocumentWithContentsOfFile$ofType$">makeDocumentWithContentsOfFile:&nbsp;ofType:&nbsp;</a></h3>
+    - (id) <b>makeDocumentWithContentsOfFile:</b> (NSString*)fileName<b> ofType:</b> (NSString*)type;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-makeDocumentWithContentsOfURL$ofType$">makeDocumentWithContentsOfURL:&nbsp;ofType:&nbsp;</a></h3>
+    - (id) <b>makeDocumentWithContentsOfURL:</b> (NSURL*)url<b> ofType:</b> (NSString*)type;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-makeDocumentWithContentsOfURL$ofType$error$">makeDocumentWithContentsOfURL:&nbsp;ofType:&nbsp;error:&nbsp;</a></h3>
+    - (id) <b>makeDocumentWithContentsOfURL:</b> (NSURL*)url<b> ofType:</b> (NSString*)type<b> error:</b> (NSError**)err;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-makeUntitledDocumentOfType$">makeUntitledDocumentOfType:&nbsp;</a></h3>
+    - (id) <b>makeUntitledDocumentOfType:</b> (NSString*)type;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-makeUntitledDocumentOfType$error$">makeUntitledDocumentOfType:&nbsp;error:&nbsp;</a></h3>
+    - (id) <b>makeUntitledDocumentOfType:</b> (NSString*)type<b> error:</b> (NSError**)err;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-maximumRecentDocumentCount">maximumRecentDocumentCount&nbsp;</a></h3>
+    - (NSUInteger) <b>maximumRecentDocumentCount</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-newDocument$">newDocument:&nbsp;</a></h3>
+    - (IBAction) <b>newDocument:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-noteNewRecentDocument$">noteNewRecentDocument:&nbsp;</a></h3>
+    - (void) <b>noteNewRecentDocument:</b> (<a rel="gsdoc" href="NSDocument.html#class$NSDocument">NSDocument</a>*)aDocument;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-noteNewRecentDocumentURL$">noteNewRecentDocumentURL:&nbsp;</a></h3>
+    - (void) <b>noteNewRecentDocumentURL:</b> (NSURL*)anURL;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-openDocument$">openDocument:&nbsp;</a></h3>
+    - (IBAction) <b>openDocument:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-openDocumentWithContentsOfFile$display$">openDocumentWithContentsOfFile:&nbsp;display:&nbsp;</a></h3>
+    - (id) <b>openDocumentWithContentsOfFile:</b> (NSString*)fileName<b> display:</b> (BOOL)display;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Creates an
+            <a rel="gsdoc" href="NSDocument.html#class$NSDocument">NSDocument</a>
+
+              object from the data at the absolute path given in
+              <var>fileName</var>. Causes the document to be
+              displayed if <var>display</var> is
+              <code>YES</code>.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-openDocumentWithContentsOfURL$display$">openDocumentWithContentsOfURL:&nbsp;display:&nbsp;</a></h3>
+    - (id) <b>openDocumentWithContentsOfURL:</b> (NSURL*)url<b> display:</b> (BOOL)display;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Creates an
+            <a rel="gsdoc" href="NSDocument.html#class$NSDocument">NSDocument</a>
+
+              object from the data at the supplied
+              <var>url</var>. <br> Causes the document to be
+              displayed if <var>display</var> is
+              <code>YES</code>.
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-openDocumentWithContentsOfURL$display$completionHandler$">openDocumentWithContentsOfURL:&nbsp;display:&nbsp;completionHandler:&nbsp;</a></h3>
+    - (void) <b>openDocumentWithContentsOfURL:</b> (NSURL*)url<b> display:</b> (BOOL)displayDocument<b> completionHandler:</b> (GSCompletionBlock1)completionHandler;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.7.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-openDocumentWithContentsOfURL$display$error$">openDocumentWithContentsOfURL:&nbsp;display:&nbsp;error:&nbsp;</a></h3>
+    - (id) <b>openDocumentWithContentsOfURL:</b> (NSURL*)url<b> display:</b> (BOOL)flag<b> error:</b> (NSError**)err;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-openUntitledDocumentAndDisplay$error$">openUntitledDocumentAndDisplay:&nbsp;error:&nbsp;</a></h3>
+    - (id) <b>openUntitledDocumentAndDisplay:</b> (BOOL)flag<b> error:</b> (NSError**)err;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-openUntitledDocumentOfType$display$">openUntitledDocumentOfType:&nbsp;display:&nbsp;</a></h3>
+    - (id) <b>openUntitledDocumentOfType:</b> (NSString*)type<b> display:</b> (BOOL)display;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-presentError$">presentError:&nbsp;</a></h3>
+    - (BOOL) <b>presentError:</b> (NSError*)err;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-presentError$modalForWindow$delegate$didPresentSelector$contextInfo$">presentError:&nbsp;modalForWindow:&nbsp;delegate:&nbsp;didPresentSelector:&nbsp;contextInfo:&nbsp;</a></h3>
+    - (void) <b>presentError:</b> (NSError*)err<b> modalForWindow:</b> (<a rel="gsdoc" href="NSWindow.html#class$NSWindow">NSWindow</a>*)win<b> delegate:</b> (id)delegate<b> didPresentSelector:</b> (SEL)sel<b> contextInfo:</b> (void*)context;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-recentDocumentURLs">recentDocumentURLs&nbsp;</a></h3>
+    - (NSArray*) <b>recentDocumentURLs</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-removeDocument$">removeDocument:&nbsp;</a></h3>
+    - (void) <b>removeDocument:</b> (<a rel="gsdoc" href="NSDocument.html#class$NSDocument">NSDocument</a>*)document;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-reopenDocumentForURL$withContentsOfURL$display$completionHandler$">reopenDocumentForURL:&nbsp;withContentsOfURL:&nbsp;display:&nbsp;completionHandler:&nbsp;</a></h3>
+    - (void) <b>reopenDocumentForURL:</b> (NSURL*)urlOrNil<b> withContentsOfURL:</b> (NSURL*)contentsURL<b> display:</b> (BOOL)displayDocument<b> completionHandler:</b> (GSCompletionBlock1)completionHandler;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.7.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-reopenDocumentForURL$withContentsOfURL$error$">reopenDocumentForURL:&nbsp;withContentsOfURL:&nbsp;error:&nbsp;</a></h3>
+    - (BOOL) <b>reopenDocumentForURL:</b> (NSURL*)url<b> withContentsOfURL:</b> (NSURL*)contents<b> error:</b> (NSError**)err;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-reviewUnsavedDocumentsWithAlertTitle$cancellable$">reviewUnsavedDocumentsWithAlertTitle:&nbsp;cancellable:&nbsp;</a></h3>
+    - (BOOL) <b>reviewUnsavedDocumentsWithAlertTitle:</b> (NSString*)title<b> cancellable:</b> (BOOL)cancellable;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            If there are any unsaved documents, this method displays
+            an alert panel asking if the user wants to review the
+            unsaved documents. If the user agrees to review the
+            documents, this method calls
+            <a rel="gsdoc" href="#method$NSDocumentController-closeAllDocuments">
+              -closeAllDocuments
+            </a>
+
+            to close each document (prompting to save a document if
+            it is dirty). If <var>cancellable</var> is
+            <code>YES</code>, then the user is not allowed to
+            cancel this request, otherwise this method will
+            return <code>NO</code> if the user presses the
+            Cancel button. Otherwise returns <code>YES</code>
+            after all documents have been closed (or if there are
+            no unsaved documents.)
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-reviewUnsavedDocumentsWithAlertTitle$cancellable$delegate$didReviewAllSelector$contextInfo$">reviewUnsavedDocumentsWithAlertTitle:&nbsp;cancellable:&nbsp;delegate:&nbsp;didReviewAllSelector:&nbsp;contextInfo:&nbsp;</a></h3>
+    - (void) <b>reviewUnsavedDocumentsWithAlertTitle:</b> (NSString*)title<b> cancellable:</b> (BOOL)cancellable<b> delegate:</b> (id)delegate<b> didReviewAllSelector:</b> (SEL)didReviewAllSelector<b> contextInfo:</b> (void*)contextInfo;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-runModalOpenPanel$forTypes$">runModalOpenPanel:&nbsp;forTypes:&nbsp;</a></h3>
+    - (NSInteger) <b>runModalOpenPanel:</b> (<a rel="gsdoc" href="NSOpenPanel.html#class$NSOpenPanel">NSOpenPanel</a>*)openPanel<b> forTypes:</b> (NSArray*)openableFileExtensions;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            Invokes
+            <a rel="gsdoc" href="NSOpenPanel.html#method$NSOpenPanel-runModalForTypes$">[NSOpenPanel -runModalForTypes:]</a>
+ with the NSOpenPanel object <var>openPanel</var>, and passes the <var>openableFileExtensions</var> file types
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-saveAllDocuments$">saveAllDocuments:&nbsp;</a></h3>
+    - (IBAction) <b>saveAllDocuments:</b> (id)sender;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-setAutosavingDelay$">setAutosavingDelay:&nbsp;</a></h3>
+    - (void) <b>setAutosavingDelay:</b> (NSTimeInterval)autosavingDelay;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-setShouldCreateUI$">setShouldCreateUI:&nbsp;</a></h3>
+    - (void) <b>setShouldCreateUI:</b> (BOOL)flag;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-shouldCreateUI">shouldCreateUI&nbsp;</a></h3>
+    - (BOOL) <b>shouldCreateUI</b>;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-typeForContentsOfURL$error$">typeForContentsOfURL:&nbsp;error:&nbsp;</a></h3>
+    - (NSString*) <b>typeForContentsOfURL:</b> (NSURL*)url<b> error:</b> (NSError**)err;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-typeFromFileExtension$">typeFromFileExtension:&nbsp;</a></h3>
+    - (NSString*) <b>typeFromFileExtension:</b> (NSString*)fileExtension;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-validateMenuItem$">validateMenuItem:&nbsp;</a></h3>
+    - (BOOL) <b>validateMenuItem:</b> (<a rel="gsdoc" href="NSMenuItem.html#class$NSMenuItem">NSMenuItem</a>*)anItem;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-validateUserInterfaceItem$">validateUserInterfaceItem:&nbsp;</a></h3>
+    - (BOOL) <b>validateUserInterfaceItem:</b> (id<<a rel="gsdoc" href="NSUserInterfaceValidation.html#protocol$(NSValidatedUserInterfaceItem)">NSValidatedUserInterfaceItem</a>>)anItem;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.0.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+<div class="method">
+    <h3><a name="method$NSDocumentController-willPresentError$">willPresentError:&nbsp;</a></h3>
+    - (NSError*) <b>willPresentError:</b> (NSError*)err;<br>
+    <div class="availability">
+<b>Availability:</b> MacOS-X 10.4.0</div>
+<br>
+    <div class="desc">
+      
+            <em>Description forthcoming.</em>
+          
+    </div>
+    <hr class="method-separator">
+</div>
+    <br>
+    <a href="Gui.html">Up</a>
+  </body>
+</html>
