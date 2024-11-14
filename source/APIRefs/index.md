@@ -7,6 +7,7 @@ hidden: true
 
 Make/index
 Base/index
+GUI/index
 ```
 
 ## Core GNUstep frameworks
