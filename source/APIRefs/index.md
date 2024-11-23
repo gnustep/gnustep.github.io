@@ -7,7 +7,7 @@ hidden: true
 
 Make/index
 Base/index
-GUI/index
+Gui/index
 ```
 
 ## Core GNUstep frameworks
@@ -29,7 +29,7 @@ The Objective-C standard library.
 :::
 
 :::{grid-item-card} {octicon}`project` GUI
-:link: GUI/index
+:link: Gui/index
 :link-type: doc
 
 A powerful, flexible, cross-platform desktop GUI toolkit.
