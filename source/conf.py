@@ -65,3 +65,7 @@ html_static_path = ['_static']
 html_extra_path = ['RawHTML']
 
 myst_footnote_transition = False
+
+html_css_files = [
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css"
+]
