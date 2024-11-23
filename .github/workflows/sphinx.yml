@@ -9,11 +9,15 @@ jobs:
       contents: write
     steps:
     - uses: actions/checkout@v4
-    - name: Build HTML
-      uses: ammaraskar/sphinx-action@master
+    - name: Install Miniforge with dependencies
+      uses: conda-incubator/setup-miniconda@v3
       with:
-        pre-build-command: "pip3 install --user --force-reinstall sphinxcontrib-domaintools myst-parser furo pydata-sphinx-theme>=0.16.0 Sphinx>=8.0 sphinx_design sphinx-copybutton"
-        docs-folder: .
+        environment-file: environment.yml
+        miniforge-version: latest
+        use-mamba: true
+        auto-activate-base: false
+    - name: Build HTML
+      run: make html
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
