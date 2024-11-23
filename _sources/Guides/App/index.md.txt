@@ -27,6 +27,8 @@ HelpfulWebsites.md
 
 ## 1 - Objective-C Intro
 
+[Read it here](1_Intro/index.md)
+
 ## 2 - Convertor - a basic app
 
 [Read it here](2_Convertor/2.1.md)

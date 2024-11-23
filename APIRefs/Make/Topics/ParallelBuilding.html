@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 
 
-<html lang="en" data-content_root="" >
+<html lang="en" data-content_root="../../../" >
 
   <head>
     <meta charset="utf-8" />
@@ -14,36 +14,39 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
-
-  
-  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
-  <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=359c27e9"></script>
-    <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../../_static/design-tabs.js?v=36754332"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'APIRefs/Make/Topics/ParallelBuilding';</script>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
@@ -51,6 +54,7 @@
     <link rel="prev" title="Aggregate projects" href="Aggregate.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -58,32 +62,16 @@
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -91,7 +79,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -99,20 +86,27 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
   
   <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
 
+  
+    
   
 
 <a class="navbar-brand logo" href="../../../index.html">
@@ -133,49 +127,43 @@
     <div class="me-auto navbar-header-items__center">
       
         <div class="navbar-item">
-<nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../Guides/index.html">
-                        Guides
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../Guides/index.html">
+    Guides
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../Manuals/index.html">
-                        Manuals
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="../../index.html">
-                        API references
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../Manuals/index.html">
+    Manuals
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../About/index.html">
-                        About
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../Showcase/index.html">
-                        Showcase
-                      </a>
-                    </li>
-                
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    API references
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../About/index.html">
+    About
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../Showcase/index.html">
+    Showcase
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -187,29 +175,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
     </div>
     
@@ -218,31 +198,31 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
-    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
       <span class="fa-solid fa-outdent"></span>
-    </label>
+    </button>
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -251,52 +231,49 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item">
-<nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../Guides/index.html">
-                        Guides
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../Guides/index.html">
+    Guides
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../Manuals/index.html">
-                        Manuals
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="../../index.html">
-                        API references
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../Manuals/index.html">
+    Manuals
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../About/index.html">
-                        About
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../Showcase/index.html">
-                        Showcase
-                      </a>
-                    </li>
-                
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    API references
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../About/index.html">
+    About
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../Showcase/index.html">
+    Showcase
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -306,15 +283,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
       </div>
     
@@ -326,31 +299,31 @@ document.write(`
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Make</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Make</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../Introduction.html">Introduction</a></li>
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">Topics</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">Topics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3"><a class="reference internal" href="Subproject.html">Subprojects</a></li>
 <li class="toctree-l3"><a class="reference internal" href="MultipleTypes.html">Building more than one thing in the same GNUmakefile</a></li>
 <li class="toctree-l3"><a class="reference internal" href="Aggregate.html">Aggregate projects</a></li>
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">Parallel Building</a></li>
 <li class="toctree-l3"><a class="reference internal" href="LibraryIntroduction.html">Introduction to Libraries</a></li>
 </ul>
-</li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../ProjectTypes/index.html">Project Types</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../ProjectTypes/index.html">Project Types</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../ProjectTypes/Project.html">Project reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../ProjectTypes/ResourceSet.html">Resource Set reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../ProjectTypes/Tool.html">Tool reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../ProjectTypes/Application.html">Application reference</a></li>
 <li class="toctree-l3"><a class="reference internal" href="../ProjectTypes/Library.html">Library reference</a></li>
 </ul>
-</li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="../OtherVariables/index.html">Other Variables</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../OtherVariables/index.html">Other Variables</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../OtherVariables/Flags.html">Overridable Flags</a></li>
 </ul>
-</li>
+</details></li>
 <li class="toctree-l2"><a class="reference internal" href="../ReleaseNotes.html">Release Notes</a></li>
 </ul>
-</li>
+</details></li>
 <li class="toctree-l1"><a class="reference internal" href="../../Base/index.html">GNUstep Base</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../Gui/index.html">GNUstep Gui</a></li>
 </ul>
@@ -367,24 +340,20 @@ document.write(`
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-
-
-<nav aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
@@ -396,12 +365,12 @@ document.write(`
     <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">API references</a></li>
     
     
-    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Make</a></li>
     
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">Topics</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Parallel Building</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Parallel Building</span></li>
   </ul>
 </nav>
 </div>
@@ -416,20 +385,20 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section id="parallel-building">
-<h1>Parallel Building<a class="headerlink" href="#parallel-building" title="Permalink to this heading">#</a></h1>
+<h1>Parallel Building<a class="headerlink" href="#parallel-building" title="Link to this heading">#</a></h1>
 <p>In this tutorial we will learn how GNUstep make parallelizes building your project. You will learn how to organize your GNUmakefiles to maximize and control the parallelization of your build. This is an advanced topic; please refer to “Writing GNUstep Makefiles” and “More on GNUstep Makefiles” for an introduction to GNUstep make.</p>
 <p>This tutorial only applies to gnustep-make 2.4.0 or later; parallel building was only partially supported before 2.4.0.</p>
 <section id="what-is-parallel-building">
-<h2>What is parallel building<a class="headerlink" href="#what-is-parallel-building" title="Permalink to this heading">#</a></h2>
+<h2>What is parallel building<a class="headerlink" href="#what-is-parallel-building" title="Link to this heading">#</a></h2>
 <p>By default, gnustep-make builds software in “serial” mode. Each step of the building process is executed in a well-defined order. A step won’t start until the previous step has completed.</p>
 <p>If you have more than one CPU, or if you have a modern multi-core CPU, you can speed up your build significantly by telling gnustep-make to build software in “parallel” mode. In this case, whenever possible gnustep-make will run a number of tasks in parallel.</p>
 <p>There are a number of simple rules that gnustep-make follows to decide when tasks can be run in parallel, or when there is a sequential order to be respected. They are the main topic of this tutorial.</p>
 </section>
 <section id="doing-a-parallel-build">
-<h2>Doing a parallel build<a class="headerlink" href="#doing-a-parallel-build" title="Permalink to this heading">#</a></h2>
+<h2>Doing a parallel build<a class="headerlink" href="#doing-a-parallel-build" title="Link to this heading">#</a></h2>
 <p>To do a parallel build, you just need to pass the <code class="docutils literal notranslate"><span class="pre">-j</span></code> option to make. For example,</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make<span class="w"> </span>-j
 </pre></div>
@@ -439,10 +408,10 @@ document.write(`
 <p>In the rest of the tutorial we’ll learn how gnustep-make decides which steps are done in parallel and which steps are done in serial order.</p>
 </section>
 <section id="single-instance">
-<h2>Single instance<a class="headerlink" href="#single-instance" title="Permalink to this heading">#</a></h2>
+<h2>Single instance<a class="headerlink" href="#single-instance" title="Link to this heading">#</a></h2>
 <p>In this section we look at building a “single instance”, that is, a single thing. For example, a single tool. We’ll cover building more than one thing (for example, two tools, or a library and a tool) in the following sections.</p>
 <section id="compiling-multiple-files">
-<h3>Compiling multiple files<a class="headerlink" href="#compiling-multiple-files" title="Permalink to this heading">#</a></h3>
+<h3>Compiling multiple files<a class="headerlink" href="#compiling-multiple-files" title="Link to this heading">#</a></h3>
 <p>GNUstep make automatically compiles multiple files for the same instance in parallel.</p>
 <p>Let’s look at a very simple example: an Objective-C tool composed of two source files –</p>
 <div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="cp">include $(GNUSTEP_MAKEFILES)/common.make</span>
@@ -458,7 +427,7 @@ document.write(`
 Step 2. Linking them together</p>
 </section>
 <section id="adding-before-xxx-all-and-after-xxx-all-steps">
-<h3>Adding <code class="docutils literal notranslate"><span class="pre">before-xxx-all</span></code> and <code class="docutils literal notranslate"><span class="pre">after-xxx-all</span></code> steps<a class="headerlink" href="#adding-before-xxx-all-and-after-xxx-all-steps" title="Permalink to this heading">#</a></h3>
+<h3>Adding <code class="docutils literal notranslate"><span class="pre">before-xxx-all</span></code> and <code class="docutils literal notranslate"><span class="pre">after-xxx-all</span></code> steps<a class="headerlink" href="#adding-before-xxx-all-and-after-xxx-all-steps" title="Link to this heading">#</a></h3>
 <p>If you need to add some custom steps before or after your instance is built, you can use <code class="docutils literal notranslate"><span class="pre">before-xxx-all</span></code> and <code class="docutils literal notranslate"><span class="pre">after-xxx-all</span></code> rules. These steps will always be executed exactly before and after the compilation of your instance. In other words, the building process for the HelloWorld tool is really composed of the following steps:</p>
 <p>Step 0. Execute <code class="docutils literal notranslate"><span class="pre">before-HelloWorld-all::</span></code> if it exists<br />
 Step 1. Compiling <code class="docutils literal notranslate"><span class="pre">HelloWorld.m</span></code> and <code class="docutils literal notranslate"><span class="pre">main.m</span></code> (in parallel)<br />
@@ -477,9 +446,9 @@ Step 3. Execute <code class="docutils literal notranslate"><span class="pre">aft
 </section>
 </section>
 <section id="multiple-instances">
-<h2>Multiple instances<a class="headerlink" href="#multiple-instances" title="Permalink to this heading">#</a></h2>
+<h2>Multiple instances<a class="headerlink" href="#multiple-instances" title="Link to this heading">#</a></h2>
 <section id="multiple-instances-of-the-same-type">
-<h3>Multiple instances of the same type<a class="headerlink" href="#multiple-instances-of-the-same-type" title="Permalink to this heading">#</a></h3>
+<h3>Multiple instances of the same type<a class="headerlink" href="#multiple-instances-of-the-same-type" title="Link to this heading">#</a></h3>
 <p>Multiple instances of the same type are built in parallel.</p>
 <p>Let’s say that you are building two tools instead of one. Your GNUmakefile might look like the following one:</p>
 <div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="cp">include $(GNUSTEP_MAKEFILES)/common.make</span>
@@ -499,7 +468,7 @@ Step 2. Execute <code class="docutils literal notranslate"><span class="pre">aft
 <p>Building each of the HelloWorld and HelloMoon tools would follow the flow described in the previous section, meaning that the compilation of the files for each of them will be parallelized too! If you build with <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">-j</span></code> (and your CPU can make 4 concurrent flows of execution), for example, it is likely that all the 4 files will be compiled in parallel. The two tools are built in parallel, and then each of them fires the compilation of their 2 files in parallel. As a result, all of the 4 files are actually built in parallel. All the other stages of building the tools are also done in parallel; for example, the tools are linked independently, in parallel.</p>
 </section>
 <section id="instances-of-different-types">
-<h3>Instances of different types<a class="headerlink" href="#instances-of-different-types" title="Permalink to this heading">#</a></h3>
+<h3>Instances of different types<a class="headerlink" href="#instances-of-different-types" title="Link to this heading">#</a></h3>
 <p>Instances of different types are not built in parallel; they are built in the order in which the gnustep-make make fragments (tool.make, library.make, etc) are included.</p>
 <p>This behaviour is backwards-compatible with previous releases of gnustep-make and it’s important to know about it (later on we’ll explain how you do a parallel build in this case by moving the instances into different subdirectories and using the new <code class="docutils literal notranslate"><span class="pre">parallel-subdirectories.make</span></code> makefile).</p>
 <p>For example, if your GNUmakefile builds a library and a tool, they will be always be built separately and in serial order. If you include tool.make before library.make, the tool will be built first; if you include library.make first, the library will be built first.</p>
@@ -525,11 +494,11 @@ Step 3. Execute after-all:: if it exists</p>
 </section>
 </section>
 <section id="subdirectories">
-<h2>Subdirectories<a class="headerlink" href="#subdirectories" title="Permalink to this heading">#</a></h2>
+<h2>Subdirectories<a class="headerlink" href="#subdirectories" title="Link to this heading">#</a></h2>
 <p>You may have felt that the rules presented in the previous section were rather arbitrary. Instances of the same type are built in parallel, while instances of different types are not. What if you need something different ?</p>
 <p>gnustep-make 2.4.0 introduces two new makefile fragments (<code class="docutils literal notranslate"><span class="pre">serial-subdirectories.make</span></code> and <code class="docutils literal notranslate"><span class="pre">parallel-subdirectories.make</span></code>) that allows you to have total control on the order and the parallelization in which instances are built. We will refer to them as the “subdirectories” makefiles. They are meant to replace the traditional aggregate.make in the long-term.</p>
 <section id="examples">
-<h3>Examples<a class="headerlink" href="#examples" title="Permalink to this heading">#</a></h3>
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h3>
 <p>Let’s say that you want to build a tool and a library. To use the new subdirectories makefiles, first of all you need to put the tool and the library into two separate subdirectories. For example, you could put the tool into a subdirectory called <code class="docutils literal notranslate"><span class="pre">Tools</span></code>, and the library into a subdirectory called <code class="docutils literal notranslate"><span class="pre">Source</span></code> (they could be called anything you want). Each of them will have its own standalone GNUmakefile.</p>
 <p>At the top-level, you create a GNUmakefile that will drive the building of the subdirectories. Here is an example:</p>
 <div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="cp">include $(GNUSTEP_MAKEFILES)/common.make</span>
@@ -551,7 +520,7 @@ Step 3. Execute after-all:: if it exists</p>
 <p>This will tell gnustep-make that it should fork off two subprocesses, and build the Source and Tools subdirectories in parallel.</p>
 </section>
 <section id="advanced-usage-of-subdirectories">
-<h3>Advanced usage of subdirectories<a class="headerlink" href="#advanced-usage-of-subdirectories" title="Permalink to this heading">#</a></h3>
+<h3>Advanced usage of subdirectories<a class="headerlink" href="#advanced-usage-of-subdirectories" title="Link to this heading">#</a></h3>
 <p>If you now nest subdirectories at different levels, you can control exactly what you want to be built in parallel and what you want to be built in serial order.</p>
 <p>For example, you may have a few frameworks that can be built in parallel, followed by a few tools that can be built in parallel, but the frameworks always need to be built before the tools.</p>
 <p>In this case, you could have a <code class="docutils literal notranslate"><span class="pre">Frameworks/</span></code> and <code class="docutils literal notranslate"><span class="pre">Tools/</span></code> subdirectories, built using <code class="docutils literal notranslate"><span class="pre">serial-subdirectories.make</span></code> so that they are built in that order. Inside <code class="docutils literal notranslate"><span class="pre">Frameworks/</span></code> you then have a GNUmakefile that uses <code class="docutils literal notranslate"><span class="pre">parallel-subdirectories.make</span></code> to build a number of frameworks in parallel (each of them in its own subdirectory), and similarly in <code class="docutils literal notranslate"><span class="pre">Tools/</span></code> to build the tools in parallel.</p>
@@ -560,7 +529,7 @@ Step 3. Execute after-all:: if it exists</p>
 <p>For example, if you have in one directory a <code class="docutils literal notranslate"><span class="pre">before-all::</span></code> rule which takes 10 seconds to run, since it is executed serially it may prevent anything else from running for these 10 seconds. For 10 seconds all your other CPUs or cores might be sitting idle. But if you parallelize the build of that directory with the build of another directory, even during these 10 seconds, the other CPUs or cores might still be busy building things in the other directory.</p>
 </section>
 <section id="backwards-compatibility-between-subdirectories-and-aggregate-make">
-<h3>Backwards compatibility between subdirectories and <code class="docutils literal notranslate"><span class="pre">aggregate.make</span></code><a class="headerlink" href="#backwards-compatibility-between-subdirectories-and-aggregate-make" title="Permalink to this heading">#</a></h3>
+<h3>Backwards compatibility between subdirectories and <code class="docutils literal notranslate"><span class="pre">aggregate.make</span></code><a class="headerlink" href="#backwards-compatibility-between-subdirectories-and-aggregate-make" title="Link to this heading">#</a></h3>
 <p>If you need your software to build with gnustep-make &lt; 2.4.0, then you can’t really use parallel-subdirectories.make or serial-subdirectories.make because they weren’t available in older versions of gnustep-make. You need to use <code class="docutils literal notranslate"><span class="pre">aggregate.make</span></code>.</p>
 <p><code class="docutils literal notranslate"><span class="pre">aggregate.make</span></code> will always do a serial build in older versions of gnustep-make. In newer versions, it will do a serial build by default, but will do a parallel build if you set</p>
 <div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="nv">GNUSTEP_USE_PARALLEL_AGGREGATE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>yes
@@ -588,7 +557,7 @@ Step 3. Execute after-all:: if it exists</p>
 </section>
 </section>
 <section id="subprojects-and-paralel-building">
-<h2>Subprojects and paralel building<a class="headerlink" href="#subprojects-and-paralel-building" title="Permalink to this heading">#</a></h2>
+<h2>Subprojects and paralel building<a class="headerlink" href="#subprojects-and-paralel-building" title="Link to this heading">#</a></h2>
 <p>If you ever need to use subprojects in a parallel build, you need to know that, for backwards-compatibility, subprojects are built in the order they are specified, and are built before the rest of the source files are compiled.</p>
 <p>So, in the example above of a tool <code class="docutils literal notranslate"><span class="pre">HelloWorld</span></code> with a <code class="docutils literal notranslate"><span class="pre">Subdirectory</span></code> subproject, the build flow to build the tool is as follows:</p>
 <p>Step 0. Execute <code class="docutils literal notranslate"><span class="pre">before-HelloWorld-all::</span></code> if it exists<br />
@@ -598,7 +567,7 @@ Step 3. Execute <code class="docutils literal notranslate"><span class="pre">aft
 <p>if you had more than one subproject, they would be built in the specified order. Most likely, they are independent though, and should be built in parallel. You can very simply obtain that result by getting rid of subprojects altogether and listing all files in the tool’s GNUmakefile. This will also get rid of the intermediate linking steps for subprojects, speeding up your build even more.</p>
 </section>
 <section id="disabling-parallel-building">
-<h2>Disabling parallel building<a class="headerlink" href="#disabling-parallel-building" title="Permalink to this heading">#</a></h2>
+<h2>Disabling parallel building<a class="headerlink" href="#disabling-parallel-building" title="Link to this heading">#</a></h2>
 <p>If parallel building is causing problems, you can always turn it off. There are three ways of turning it off:</p>
 <ol class="arabic">
 <li><p>globally, by configuring GNUstep Make (before installing it) with <code class="docutils literal notranslate"><span class="pre">./configure</span> <span class="pre">–disable-parallel-building</span></code>. This sounds a bit extreme, but it’s an option if you want everything to be always built serially.</p></li>
@@ -620,7 +589,7 @@ Step 3. Execute <code class="docutils literal notranslate"><span class="pre">aft
               
               
               
-                <footer class="prev-next-footer">
+                <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
     <a class="left-prev"
@@ -648,14 +617,17 @@ Step 3. Execute <code class="docutils literal notranslate"><span class="pre">aft
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
-
-  <div class="page-toc tocsection onthispage">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> On this page
   </div>
-  <nav class="bd-toc-nav page-toc">
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-parallel-building">What is parallel building</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#doing-a-parallel-build">Doing a parallel build</a></li>
@@ -702,8 +674,8 @@ Step 3. Execute <code class="docutils literal notranslate"><span class="pre">aft
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -723,7 +695,7 @@ Step 3. Execute <code class="docutils literal notranslate"><span class="pre">aft
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     <br/>
   </p>
 </div>
@@ -736,7 +708,7 @@ Step 3. Execute <code class="docutils literal notranslate"><span class="pre">aft
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
 </p></div>
       
     </div>
