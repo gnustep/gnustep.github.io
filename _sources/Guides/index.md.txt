@@ -7,5 +7,6 @@
 
 App/index
 AppsWithCodeOnly/index
+Install/index
 ```
 

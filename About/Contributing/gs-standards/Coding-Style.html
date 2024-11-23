@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- Created by GNU Texinfo 6.8, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Coding Style (Coding Standards for GNUstep Libraries)</title>
+
+<meta name="description" content="Coding Style (Coding Standards for GNUstep Libraries)">
+<meta name="keywords" content="Coding Style (Coding Standards for GNUstep Libraries)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="index.html" rel="up" title="Top">
+<link href="ObjectiveC.html" rel="next" title="ObjectiveC">
+<link href="ChangeLog-Entries.html" rel="prev" title="ChangeLog Entries">
+<style type="text/css">
+<!--
+a.copiable-anchor {visibility: hidden; text-decoration: none; line-height: 0em}
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+span:hover a.copiable-anchor {visibility: visible}
+ul.no-bullet {list-style: none}
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<div class="section" id="Coding-Style">
+<div class="header">
+<p>
+Next: <a href="ObjectiveC.html" accesskey="n" rel="next">ObjectiveC</a>, Previous: <a href="ChangeLog-Entries.html" accesskey="p" rel="prev">ChangeLog Entries</a>, Up: <a href="index.html" accesskey="u" rel="up">Coding Standards</a> &nbsp; </p>
+</div>
+<hr>
+<span id="Coding-Style-1"></span><h3 class="section">1.2 Coding Style</h3>
+
+<p>The point is not what style is &rsquo;better&rsquo; in the abstract &ndash; it&rsquo;s what
+style is standard and readily usable by all the people wanting to
+use/work on GNUstep.  A reasonably good consistent style is better for
+collaborative work than a collection of styles irrespective of their
+individual merits.  If you commit changes that don&rsquo;t conform to the
+project standards, that just means that someone else will have a tedious
+time making the necessary corrections (or removing your changes).
+</p>
+<p>The GNUstep coding standards are essentially the same as the GNU coding 
+standards (<a href="http://www.gnu.org/prep/standards_toc.html">http://www.gnu.org/prep/standards_toc.html</a>), but here
+is a summary of the essentials.
+</p>
+<p>White space should be used for clarity throughout.  In particular,
+variable declarations should be separated from code by a blank line and
+function/method implementations should be separated by a blank line.
+</p>
+<p>Tabs should not be used (use spaces instead). If you do use them
+(please don&rsquo;t) they really, really, must be for tab-stops at the
+standard intervals of 8 spaces.
+</p>
+<p>All binary operators should be surrounded by white space with the
+exception of the comma (only a trailing white space), and the
+<code>.</code> and <code>-&gt;</code> structure member references (no space).
+</p><div class="example">
+<pre class="example">x = y + z;
+x += 2;
+x = ptr-&gt;field;
+x = record.member;
+x++, y++;
+</pre></div>
+
+<p>Brackets should have space only before the leading bracket and after
+the trailing bracket (as in this example), though there are odd occasions
+where those spaces might be omitted ((eg. when brackets are doubled)).
+This applies to square brackets too.
+</p>
+<p>Where round brackets are used to enclose function or macro paramters, there
+is no space between the function romacro name and the opening bracket, and
+where round brackets are used for type-casts or at the end of a statement,
+there is normally no space between the closing bracket and the following
+expression or semicolon-
+</p><div class="example">
+<pre class="example">a = (int)b;
+- (void) methodWithArg1: (int)arg1 andArg2: (float)arg2;
+a = foo(ax, y, z);
+</pre></div>
+
+<p>The placement of curly brackets is part of the indentation rules. the
+correct GNU style is to indent by two spaces
+</p><div class="example">
+<pre class="example">  if (...)
+    {
+      ...
+    }
+</pre></div>
+
+<p>For function implementations, the function names must begin on column zero
+(types on the preceding line).  For function predeclaration, the types and
+the name should appear on the same line if possible.
+</p><div class="example">
+<pre class="example">static int myFunction(int a, int b);
+
+static int
+myFunction(int a, int b)
+{
+  return a + b;
+}
+</pre></div>
+
+<p>The curly brackets enclosing function and method implementations should be
+based in column 0.  Indentation is in steps of two spaces.
+</p><div class="example">
+<pre class="example">int
+myMax(int a, int b)
+{
+  if (a &lt; b)
+    {
+      return b;
+    }
+  return a;
+}
+</pre></div>
+
+<p>Lines longer than 80 columns must be split up, if possible with the
+line wrap occurring immediately before an operator.  The wrapped lines
+are indented by two spaces form the original.
+</p><div class="example">
+<pre class="example">  if ((conditionalTestVariable1 &gt; conditionaltestVariable2)
+    &amp;&amp; (conditionalTestvariable3 &gt; conditionalTestvariable4))
+    {
+      // Do something here.
+    }
+</pre></div>
+
+<p>Some things the standards seem to think are &rsquo;should&rsquo; rather than &rsquo;must&rsquo;:
+</p>
+<p>Multiline comments should use <code>/* ... */</code> while single line
+comments may use <code>//</code>.
+</p>
+<p>In a C/ObjC variable declaration, the &lsquo;<samp>*</samp>&rsquo; refers to the variable,
+not to the type, so you write
+</p><div class="example">
+<pre class="example">  char	*foo;
+</pre></div>
+<p>not
+</p><div class="example">
+<pre class="example">  char*	foo;
+</pre></div>
+
+<p>Using the latter approach encourages newbie programmers to thing they can
+declare two pointer variables by writing
+</p><div class="example">
+<pre class="example">  char*	foo,bar;
+</pre></div>
+<p>when of course they need
+</p><div class="example">
+<pre class="example">  char	*foo, *bar;
+</pre></div>
+<p>or (in my opinion better)
+</p><div class="example">
+<pre class="example">  char	*foo;
+  char	*bar;
+</pre></div>
+
+
+<p>An exception to the indentation rules for Objective-C: We normally don&rsquo;t
+break long methods by indenting subsequent lines by two spaces, but make the
+parts of the method line up instead.
+The way to do this is indent so the colons line up.
+</p><div class="example">
+<pre class="example">  [receiver doSomethingWith: firstArg
+                        and: secondArg
+                       also: thirdArg];
+</pre></div>
+<p>That&rsquo;s the style used mostly in the GNUstep code - and therefore the one I
+try to keep to, however, the standard two space indentation is also acceptable
+(and sometimes necessary to prevent the text exceeding the 80 character line
+length limit).
+</p><div class="example">
+<pre class="example">  [receiver doSomethingWith: firstArg
+    and: secondArg
+    also: thirdArg];
+</pre></div>
+
+<p>My own preference (not part of the standard in any way) is to
+generally use curly brackets for control constructs, even where only one line
+of code is involved
+</p><div class="example">
+<pre class="example">  if (a)
+    {
+      x = y;
+    }
+</pre></div>
+
+<p>Where using conditional compilation you should comment the #else and #endif
+with the condition expression used in the #if line, to make it easy to find
+the matching lines.
+</p><div class="example">
+<pre class="example">#if condition
+// some code here
+#else /* not condition */
+#endif /* condition */
+
+</pre></div>
+
+</div>
+<hr>
+<div class="header">
+<p>
+Next: <a href="ObjectiveC.html">ObjectiveC</a>, Previous: <a href="ChangeLog-Entries.html">ChangeLog Entries</a>, Up: <a href="index.html">Coding Standards</a> &nbsp; </p>
+</div>
+
+
+
+</body>
+</html>
