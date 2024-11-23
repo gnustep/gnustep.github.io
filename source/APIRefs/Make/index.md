@@ -1,6 +1,6 @@
-# Make
+# GNUstep Make
 
-The GNUstep Make New Documentation project is a project to create better documentation for GNUstep Make based on Nicola Pero's tutorials and the GNUstep Make Manual.
+An easy-to-use build system based on GNU Make.
 
 ```{toctree}
 ---
