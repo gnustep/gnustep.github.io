@@ -1,0 +1,791 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3.1 - A Basic Clock &#8212; GNUstep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=359c27e9"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Guides/App/3_TimeMachine/3.1';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="3.2 - Analog Clock" href="3.2.html" />
+    <link rel="prev" title="3 - TimeMachine" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">GNUstep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../../index.html">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../Manuals/index.html">
+                        Manuals
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../APIRefs/index.html">
+                        API references
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../About/index.html">
+                        About
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../Showcase/index.html">
+                        Showcase
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../../index.html">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../Manuals/index.html">
+                        Manuals
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../APIRefs/index.html">
+                        API references
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../About/index.html">
+                        About
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../Showcase/index.html">
+                        Showcase
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Building Apps with GORM</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../1_Intro/index.html">1 - Introduction to GNUstep Programming</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../2_Convertor/index.html">2 - Convertor</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../2_Convertor/2.1.html">2.1 - Designing the UI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../2_Convertor/2.2.html">2.2 - Outlets and Actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../2_Convertor/2.3.html">2.3 - Adding the Code</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">3 - TimeMachine</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">3.1 - A Basic Clock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="3.2.html">3.2 - Analog Clock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="3.3.html">3.3 - New Time Zone Dialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="3.4.html">3.4 - Multiple Clocks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../4_Money/index.html">4 - Money</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../4_Money/4.1.html">4.1 - The Basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Money/4.2.html">4.2 - Document Editor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Money/4.3.html">4.3 - Load and Save</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Money/4.4.html">4.4 - Drag and Drop</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Overview/index.html">5 - Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../6_LunarCalendar/index.html">6 - LunarCalendar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../7_NSLookupService/index.html">7 - NSLookupService</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../HelpfulWebsites.html">Helpful Websites</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../AppsWithCodeOnly/index.html">Building Apps from Code Only</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/index.html">First Steps in GNUstep GUI Programming</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/1_SharedApplication.html">1 - The shared application object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/2_AppIcon.html">2 - Setting your application’s icon</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/3_Menus.html">3 - Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/4_PointsSizesRectangles.html">4 - Points, Sizes and Rectangles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/5_Windows.html">5 - Adding a Window to your Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/6_Buttons.html">6 - Adding a Button in the Window</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Guides</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">3 - TimeMachine</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">3.1 - A Basic Clock</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="a-basic-clock">
+<h1>3.1 - A Basic Clock<a class="headerlink" href="#a-basic-clock" title="Permalink to this heading">#</a></h1>
+<p>In this section, you’ll create an application that shows the time and a button to update it.</p>
+<p><img alt="Our app" src="../../../_images/3.1_nfig1.png" /></p>
+<p>This teaches you to make an interface, use outlets and actions, and use the View-Controller paradigm (this app is simple enough that it doesn’t need a Model). Most of this you should have already learned in Tutorial #2 (Currency Convertor), but this will be a refresher and a base for you to get started on the next section.</p>
+<p>This tutorial does not use ProjectCenter, so please create a folder to work in before starting. I would recommend:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>~/Projects/GNUstep/GSTutorial/3.1_TimeMachine
+<span class="nb">cd</span><span class="w"> </span>~/Projects/GNUstep/GSTutorial/3.1_TimeMachine
+</pre></div>
+</div>
+<p>but of course, you can put your folder wherever you like.</p>
+<p>Before you begin, please also choose which text editor you would like to use. If you can’t decide, you can try VSCodium, which was used to create this documentation website.</p>
+<section id="making-the-interface">
+<h2>Making the interface<a class="headerlink" href="#making-the-interface" title="Permalink to this heading">#</a></h2>
+<p>Open Gorm, choose “Document→New Application”, and build a window
+with a title and a button.</p>
+<figure class="align-default" id="id1">
+<img alt="../../../_images/3.1_nfig2.png" src="../../../_images/3.1_nfig2.png" />
+<figcaption>
+<p><span class="caption-text">The interface</span><a class="headerlink" href="#id1" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>You can set the title of the button and the window in the inspector.</p>
+<figure class="align-default" id="id2">
+<img alt="../../../_images/3.1_nfig3.png" src="../../../_images/3.1_nfig3.png" />
+<figcaption>
+<p><span class="caption-text">Renaming the window</span><a class="headerlink" href="#id2" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>That’s all you need to do on the interface.</p>
+</section>
+<section id="a-class">
+<h2>A class<a class="headerlink" href="#a-class" title="Permalink to this heading">#</a></h2>
+<p>Now, I need an “controller” to receive the action from the “view”, and
+display the time on the “view”. I need to create a object for this
+“controller”.</p>
+<p>First, I need to design the class of this “controller”. Click the
+<u>Classes</u> tab in the main window of Gorm. If it doesn’t show like below, click the <img alt="Tree view icon" src="../../../_images/3.1_icon_treeview.png" /> button to change it to below.</p>
+<figure class="align-default" id="id3">
+<img alt="../../../_images/3.1_nfig4.png" src="../../../_images/3.1_nfig4.png" />
+<figcaption>
+<p><span class="caption-text"><u>Classes</u> tab in Gorm</span><a class="headerlink" href="#id3" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>It will show all the classes you can use. I want the class of this
+“controller” to inherit from <code class="docutils literal notranslate"><span class="pre">NSObject</span></code>. Therefore, choose <code class="docutils literal notranslate"><span class="pre">NSObject</span></code>,
+then select the menu “Classes→Create Subclass…”, or select the “Create Subclass…” option in the “Operations” dropdown to the right. It will create a
+new subclass of <code class="docutils literal notranslate"><span class="pre">NSObject</span></code> called <code class="docutils literal notranslate"><span class="pre">NewClass</span></code>.</p>
+<p><span id="AEN539"></span></p>
+<figure class="align-default" id="id4">
+<img alt="../../../_images/3.1_nfig5.png" src="../../../_images/3.1_nfig5.png" />
+<figcaption>
+<p><span class="caption-text">After creating a new class</span><a class="headerlink" href="#id4" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Double-click on it to change the name to <code class="docutils literal notranslate"><span class="pre">Controller</span></code>.</p>
+<p><span id="AEN545"></span></p>
+<figure class="align-default" id="id5">
+<img alt="../../../_images/3.1_nfig6.png" src="../../../_images/3.1_nfig6.png" />
+<figcaption>
+<p><span class="caption-text">Renaming the class to <code class="docutils literal notranslate"><span class="pre">Controller</span></code></span><a class="headerlink" href="#id5" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="making-outlets-and-actions">
+<h2>Making Outlets and Actions<a class="headerlink" href="#making-outlets-and-actions" title="Permalink to this heading">#</a></h2>
+<p>Then I need a “outlet” in this class to connect to the label in the
+window, and an “action” which is triggered when the button is press.</p>
+<p>Choose the <code class="docutils literal notranslate"><span class="pre">Controller</span></code> class and click <u>Outlets</u> tab in the inspector.
+Press  the <button>Add</button> button, and change the name to <code class="docutils literal notranslate"><span class="pre">label</span></code> by double-clicking
+the <code class="docutils literal notranslate"><span class="pre">newOutlet</span></code>. You will notice that the <code class="docutils literal notranslate"><span class="pre">Controller</span></code> class now has one
+outlet. Click on the small round button will list the outlets it has.</p>
+<p><span id="AEN552"></span></p>
+<figure class="align-default" id="id6">
+<img alt="../../../_images/3.1_nfig7.png" src="../../../_images/3.1_nfig7.png" />
+<figcaption>
+<p><span class="caption-text">Adding an outlet named <code class="docutils literal notranslate"><span class="pre">label</span></code></span><a class="headerlink" href="#id6" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Now, click the <u>Actions</u> tab and add a new action called <code class="docutils literal notranslate"><span class="pre">showCurrentTime:</span></code>.
+You should notice that the action name ends with a colon (<code class="docutils literal notranslate"><span class="pre">:</span></code>),
+which will be explained later.</p>
+<p><span id="AEN561"></span></p>
+<figure class="align-default" id="id7">
+<img alt="../../../_images/3.1_nfig8.png" src="../../../_images/3.1_nfig8.png" />
+<figcaption>
+<p><span class="caption-text">Adding an action named <code class="docutils literal notranslate"><span class="pre">showCurrentTime:</span></code></span><a class="headerlink" href="#id7" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="connecting-outlets-and-actions">
+<h2>Connecting Outlets and Actions<a class="headerlink" href="#connecting-outlets-and-actions" title="Permalink to this heading">#</a></h2>
+<p>Once you finish designing this class, you can create an instance from it.</p>
+<p>Choose the class <code class="docutils literal notranslate"><span class="pre">Controller</span></code>, then select the menu item “Classes→Instantiate”, or select the “Instantiate” option in the “Operations” dropdown to the right. Look at the objects of Gorm main window. You
+should find a new instance, called <code class="docutils literal notranslate"><span class="pre">Controller</span></code>. That’s the instance I
+want to connect to the interface.</p>
+<p>Now, let’s connect the “controller” to the “view” for the outlet. Hold
+on <kbd>Control</kbd>, select the <code class="docutils literal notranslate"><span class="pre">Controller</span></code> instance, drag to the label in the
+window. Look at the inspector, which will show all the outlet the
+<code class="docutils literal notranslate"><span class="pre">Controller</span></code> instance has. Select the only one – <code class="docutils literal notranslate"><span class="pre">label</span></code>, and click the
+<button>Connect</button> button. That’s it.</p>
+<p><span id="AEN577"></span></p>
+<p><img alt="" src="../../../_images/3.1_nfig10a.png" /> <img alt="" src="../../../_images/3.1_nfig10b.png" /></p>
+<p>Again, let’s connect the “view” to the “controller” for the action.
+Hold on <kbd>Control</kbd>, select the button in the window,
+and drag to the <code class="docutils literal notranslate"><span class="pre">Controller</span></code> instance. Look at the inspector,
+which will show all the outlets the button has.
+Select <code class="docutils literal notranslate"><span class="pre">target</span></code> in the <u>Outlets</u> column, then select the
+only action the target has, <code class="docutils literal notranslate"><span class="pre">showCurrentTime</span></code>. Click the “<button>Connect</button>
+button. That’s it.</p>
+<p><span id="AEN589"></span></p>
+<p><strong>Figure 4-11. Connect action</strong></p>
+<p><img alt="" src="../../../_images/3.1_nfig11a.png" /> <img alt="" src="../../../_images/3.1_nfig11b.png" /></p>
+</section>
+<section id="writing-the-code">
+<h2>Writing the Code<a class="headerlink" href="#writing-the-code" title="Permalink to this heading">#</a></h2>
+<p>Finally, you need to create the files for this <code class="docutils literal notranslate"><span class="pre">Controller</span></code> class in order
+to add the the source code. Otherwise, this class does not function at
+all. Select the class <code class="docutils literal notranslate"><span class="pre">Controller</span></code> (not the instance!) in the Gorm
+main window. Choose the menu item “Classes→Create Class Files”, or select the “Create Class Files” option in the “Operations” dropdown to the right. A <strong>Save</strong>
+panel will show up and ask the for the filename.
+The default is <code class="docutils literal notranslate"><span class="pre">Controller.m</span></code>, which is good enough. Click <button>OK</button>.
+Save this Gorm file as <code class="docutils literal notranslate"><span class="pre">TimeMachine.gorm</span></code>, then leave Gorm.</p>
+<p>Now, I have a directory, <code class="docutils literal notranslate"><span class="pre">TimeMachine.gorm</span></code>, and two files,
+<code class="docutils literal notranslate"><span class="pre">Controller.h</span></code> and <code class="docutils literal notranslate"><span class="pre">Controller.m</span></code>. <code class="docutils literal notranslate"><span class="pre">TimeMachine.gorm</span></code> is a bundle, which means that some file managers treat it like a file.</p>
+<p>Open your favorite code editor, and you should be able to see the files below.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Controller.h:</span></code></p>
+<div class="highlight-objc notranslate"><div class="highlight"><pre><span></span><span class="cm">/* All rights reserved */</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;AppKit/AppKit.h&gt;</span>
+
+<span class="k">@interface</span> <span class="nc">Controller</span> : <span class="bp">NSObject</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="kt">id</span><span class="w"> </span><span class="n">label</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">showCurrentTime:</span><span class="w"> </span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span><span class="p">;</span>
+<span class="k">@end</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Controller.m:</span></code></p>
+<div class="highlight-objc notranslate"><div class="highlight"><pre><span></span><span class="cm">/* All rights reserved */</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;AppKit/AppKit.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;Controller.h&quot;</span>
+
+<span class="k">@implementation</span> <span class="nc">Controller</span>
+
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">showCurrentTime:</span><span class="w"> </span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="cm">/* insert your code here */</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</pre></div>
+</div>
+<p>That’s the source code of the class <code class="docutils literal notranslate"><span class="pre">Controller</span></code> you just created in Gorm.
+The method <code class="docutils literal notranslate"><span class="pre">-showCurrentTime:</span></code> has the argument <code class="docutils literal notranslate"><span class="pre">sender</span></code>. That’s the reason
+the action name in Gorm must have the colon (<code class="docutils literal notranslate"><span class="pre">:</span></code>) in the end. In
+<code class="docutils literal notranslate"><span class="pre">Controller.h</span></code>, you can find the outlet <code class="docutils literal notranslate"><span class="pre">label</span></code> (as an instance variable) and the action
+<code class="docutils literal notranslate"><span class="pre">showCurrentTime:</span></code>. Therefore, whatever you do on the outlet <code class="docutils literal notranslate"><span class="pre">label</span></code>
+will reflect to the <code class="docutils literal notranslate"><span class="pre">label</span></code> variable, and when the button
+<button>Get Current Time</button> is pressed, the action <code class="docutils literal notranslate"><span class="pre">-showCurrentTime:</span></code> will be called.
+That’s how outlets and actions work.</p>
+<p>Now, you can put some source code in this class.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Controller.m:</span></code></p>
+<div class="highlight-objc notranslate"><div class="highlight"><pre><span></span><span class="cp">#import &lt;AppKit/AppKit.h&gt;</span>
+<span class="cp">#import &quot;Controller.h&quot;</span>
+
+<span class="k">@implementation</span> <span class="nc">Controller</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">showCurrentTime:</span><span class="w"> </span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">NSCalendarDate</span><span class="o">*</span><span class="w"> </span><span class="n">date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">NSCalendarDate</span><span class="w"> </span><span class="n">date</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">date</span><span class="w"> </span><span class="n">setCalendarFormat</span><span class="o">:</span><span class="w"> </span><span class="s">@&quot;%H:%M:%S&quot;</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">label</span><span class="w"> </span><span class="n">setStringValue</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">date</span><span class="w"> </span><span class="n">description</span><span class="p">]];</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</pre></div>
+</div>
+<p>First, <code class="docutils literal notranslate"><span class="pre">[NSCalendarDate</span> <span class="pre">date]</span></code> will create an instance with the current
+date and time. After setting the format, we put the description of current
+time into the outlet <code class="docutils literal notranslate"><span class="pre">label</span></code>. When users click the <button>Get Current Time</button>
+button, it will show the current time.</p>
+<p>Technically, <code class="docutils literal notranslate"><span class="pre">self-&gt;label</span></code> is not good style, but it’s way easier to understand that way, rather than just doing <code class="docutils literal notranslate"><span class="pre">label</span></code>. And if you created the method implementation yourself, as a function, you <em>have</em> to write <code class="docutils literal notranslate"><span class="pre">self-&gt;label</span></code>.</p>
+<p>That’s it. Add the <code class="docutils literal notranslate"><span class="pre">main.m</span></code> and <code class="docutils literal notranslate"><span class="pre">GNUmakefile</span></code>, then it is ready to go.</p>
+<p><code class="docutils literal notranslate"><span class="pre">main.m:</span></code></p>
+<div class="highlight-objc notranslate"><div class="highlight"><pre><span></span><span class="cp">#import &lt;AppKit/AppKit.h&gt;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">NSApplicationMain</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="n">argv</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>This is just the <code class="docutils literal notranslate"><span class="pre">main</span></code> function for any AppKit application.</p>
+<p>In this example, the owner of the interface is <code class="docutils literal notranslate"><span class="pre">NSApp</span></code>, which is the
+<code class="docutils literal notranslate"><span class="pre">NSOwner</span></code> in Gorm, but the controller is the <code class="docutils literal notranslate"><span class="pre">Controller</span></code> instance.
+Sometimes, the owner and the controller could be the same. In simple
+applications, the owner/controller of the window can also be the delegate
+of <code class="docutils literal notranslate"><span class="pre">NSApp.</span></code> That’s all depending on the design of your application.</p>
+</section>
+<section id="building-our-app">
+<h2>Building our app<a class="headerlink" href="#building-our-app" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">GNUmakefile:</span></code></p>
+<div class="highlight-makefile notranslate"><div class="highlight"><pre><span></span><span class="cp">include $(GNUSTEP_MAKEFILES)/common.make</span>
+
+<span class="nv">APP_NAME</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>TimeMachine
+<span class="nv">TimeMachine_HEADERS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>Controller.h
+<span class="nv">TimeMachine_OBJC_FILES</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>main.m<span class="w"> </span>Controller.m
+<span class="nv">TimeMachine_RESOURCE_FILES</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>TimeMachineInfo.plist<span class="w"> </span>TimeMachine.gorm
+<span class="nv">TimeMachine_MAIN_MODEL_FILE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>TimeMachine.gorm
+
+<span class="cp">include $(GNUSTEP_MAKEFILES)/application.make</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">GNUmakefile</span></code> tells the build system, <a class="reference internal" href="#/Reference/Tools/Make/index.md"><span class="xref myst">GNUstep Make</span></a>, how to build the app. ProjectCenter makes one for you, but it’s pretty easy to make one yourself (It’s not easy to make an Xcode project without Xcode!).</p>
+<p>To build the app, you can type in the terminal:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gmake
+</pre></div>
+</div>
+<p>depending on your operating system. You <strong>must use GNU make</strong>, not BSD make, POSIX make, or another make system.</p>
+<p>In VSCodium, to open the terminal, use “Terminal→New Terminal”.</p>
+<p>To run the app, just type in the terminal:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>openapp<span class="w"> </span>./TimeMachine.app
+</pre></div>
+</div>
+<figure class="align-default" id="id8">
+<img alt="../../../_images/3.1_nfig1.png" src="../../../_images/3.1_nfig1.png" />
+<figcaption>
+<p><span class="caption-text">Our finished app</span><a class="headerlink" href="#id8" title="Permalink to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">3 - TimeMachine</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="3.2.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">3.2 - Analog Clock</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#making-the-interface">Making the interface</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-class">A class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#making-outlets-and-actions">Making Outlets and Actions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#connecting-outlets-and-actions">Connecting Outlets and Actions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#writing-the-code">Writing the Code</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#building-our-app">Building our app</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../../_sources/Guides/App/3_TimeMachine/3.1.md.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, GNUstep contributors.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

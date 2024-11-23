@@ -1,0 +1,862 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4.2 - Document Editor &#8212; GNUstep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=359c27e9"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Guides/App/4_Money/4.2';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="4.3 - Load and Save" href="4.3.html" />
+    <link rel="prev" title="4.1 - The Basics" href="4.1.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">GNUstep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../../index.html">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../Manuals/index.html">
+                        Manuals
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../APIRefs/index.html">
+                        API references
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../About/index.html">
+                        About
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../Showcase/index.html">
+                        Showcase
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../../index.html">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../Manuals/index.html">
+                        Manuals
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../APIRefs/index.html">
+                        API references
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../About/index.html">
+                        About
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../Showcase/index.html">
+                        Showcase
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Building Apps with GORM</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../1_Intro/index.html">1 - Introduction to GNUstep Programming</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../2_Convertor/index.html">2 - Convertor</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../2_Convertor/2.1.html">2.1 - Designing the UI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../2_Convertor/2.2.html">2.2 - Outlets and Actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../2_Convertor/2.3.html">2.3 - Adding the Code</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../3_TimeMachine/index.html">3 - TimeMachine</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../3_TimeMachine/3.1.html">3.1 - A Basic Clock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_TimeMachine/3.2.html">3.2 - Analog Clock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_TimeMachine/3.3.html">3.3 - New Time Zone Dialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../3_TimeMachine/3.4.html">3.4 - Multiple Clocks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">4 - Money</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="4.1.html">4.1 - The Basics</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">4.2 - Document Editor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="4.3.html">4.3 - Load and Save</a></li>
+<li class="toctree-l3"><a class="reference internal" href="4.4.html">4.4 - Drag and Drop</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Overview/index.html">5 - Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../6_LunarCalendar/index.html">6 - LunarCalendar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../7_NSLookupService/index.html">7 - NSLookupService</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../HelpfulWebsites.html">Helpful Websites</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../AppsWithCodeOnly/index.html">Building Apps from Code Only</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/index.html">First Steps in GNUstep GUI Programming</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/1_SharedApplication.html">1 - The shared application object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/2_AppIcon.html">2 - Setting your application’s icon</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/3_Menus.html">3 - Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/4_PointsSizesRectangles.html">4 - Points, Sizes and Rectangles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/5_Windows.html">5 - Adding a Window to your Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/6_Buttons.html">6 - Adding a Button in the Window</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Guides</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">4 - Money</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">4.2 -...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="document-editor">
+<h1>4.2 - Document Editor<a class="headerlink" href="#document-editor" title="Permalink to this heading">#</a></h1>
+<p>We now have the skeleton of <em>Money.app</em>. I want it be a
+spreadsheet-like application to track the expense.
+Spreadsheet-like applications need a table. <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code> is a good start.
+<code class="docutils literal notranslate"><span class="pre">NSTableView</span></code> is a more complicated user interface than NSButton,
+NSTextField, etc. So do NSBrowser, NSOutlineView, NSMatrix, etc. GNUstep
+does a great job to make it very easy to use. I’ll try to explain it
+step by step.</p>
+<blockquote>
+<div><p>Here is a related article: <a class="reference external" href="http://cocoadevcentral.com/articles/000063.php"><em>Getting Started With
+<code class="docutils literal notranslate"><span class="pre">NSTableView</span></code></em></a></p>
+</div></blockquote>
+<blockquote>
+<div><p>If you are interested
+in text editors, <a class="reference external" href="https://github.com/gnustep/tests-examples/tree/master/gui/Ink">Ink.app</a> is a good example.</p>
+</div></blockquote>
+<section id="creating-the-table-view">
+<h2>Creating the table view<a class="headerlink" href="#creating-the-table-view" title="Permalink to this heading">#</a></h2>
+<p>Use Gorm to open Document.gorm. Add a table view into the window. Try to
+resize it until it fit the whole window.</p>
+<p><span id="AEN996"></span></p>
+<p><strong>Figure 4-38. Add table into window</strong></p>
+<p><img alt="" src="../../../_images/Table-02.jpg" /></p>
+<p><img alt="" src="../../../_images/Table-01.jpg" /></p>
+<p>Check the “Horizontal” scroller.</p>
+<p><span id="AEN1005"></span></p>
+<p><strong>Figure 4-39. Attributes of <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code></strong></p>
+<p><img alt="" src="../../../_images/Table-03.jpg" /></p>
+<p>Look at the <u>Size</u> panel in the inspector of <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code>. Click the line in
+the <u>Autosizing</u> box to make them springs.</p>
+<p><span id="AEN1011"></span></p>
+<p><strong>Figure 4-40. Set resize attribute of table view</strong></p>
+<p><img alt="" src="../../../_images/Table-04.jpg" /></p>
+<p>The box represent the <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code>. The straight line or spring represent
+the distance relationship. Line outside the box is the distance between
+<code class="docutils literal notranslate"><span class="pre">NSTableView</span></code> and its superview. It is the window in this case. The line
+inside the box is the size of the <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code>. Straight line means the
+distance is fixed, the spring means it is resizable. In this case, when
+window is resized, since the distance between <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code> and window is
+fixed, <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code> will be resized according to the window. That’s the
+behavior I want.</p>
+<p>You can change the title of the column by double-click on it. But it is
+not necessary for now. You will find that it is still hard to control
+the interface of <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code> from Gorm. I’ll do that programmingly.
+Therefore, I need a outlet connected to this <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code> from NSOwner.</p>
+<p>Add an outlet, <code class="docutils literal notranslate"><span class="pre">tableView</span></code>, in the class <code class="docutils literal notranslate"><span class="pre">Document</span></code>.</p>
+<p><span id="AEN1019"></span></p>
+<p><strong>Figure 4-41. Add outlet for table view</strong></p>
+<p><img alt="" src="../../../_images/Table-05.jpg" /></p>
+<p>Set NSOwner as the data source and delegate of the <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code>. I’ll
+explain the data source later.</p>
+<p><span id="AEN1025"></span></p>
+<p><strong>Figure 4-42. Connect data source and delegate of table view</strong></p>
+<p><img alt="" src="../../../_images/Table-06.jpg" /></p>
+<p><img alt="" src="../../../_images/Table-07.jpg" /></p>
+<p><img alt="" src="../../../_images/Table-08.jpg" /></p>
+<p>Connect the outlet <code class="docutils literal notranslate"><span class="pre">tableView</span></code> to <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code>.</p>
+<p><span id="AEN1037"></span></p>
+<p><strong>Figure 4-43. Connect outlet to table view</strong></p>
+<p><img alt="" src="../../../_images/Table-09.jpg" /></p>
+<p><img alt="" src="../../../_images/Table-10.jpg" /></p>
+<p><img alt="" src="../../../_images/Table-11.jpg" /></p>
+<p>Save the Gorm file and quit Gorm.</p>
+</section>
+<section id="basic-data-source">
+<h2>Basic data source<a class="headerlink" href="#basic-data-source" title="Permalink to this heading">#</a></h2>
+<p>Add the new outlet in Document.h.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Document.h:</span></code></p>
+<div class="highlight-objc notranslate"><div class="highlight"><pre><span></span><span class="cp">#import &lt;AppKit/AppKit.h&gt;</span>
+<span class="cp">#import &lt;AppKit/NSDocument.h&gt;</span>
+
+<span class="k">@interface</span> <span class="nc">Document</span> : <span class="nc">NSDocument</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">id</span><span class="w"> </span><span class="n">tableView</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</pre></div>
+</div>
+<p>The way <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code> works is that when it needs to display, it will ask
+its data source to provide the data it needs. So we need to implement
+two methods to provide <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code> the data it need:</p>
+<p><code class="docutils literal notranslate"><span class="pre">Document.m:</span></code></p>
+<div class="highlight-objc notranslate"><div class="highlight"><pre><span></span><span class="p">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="nf">numberOfRowsInTableView:</span><span class="w"> </span><span class="p">(</span><span class="n">NSTableView</span><span class="o">*</span><span class="p">)</span> <span class="nv">view</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">5</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span>              <span class="nf">tableView:</span><span class="w"> </span><span class="p">(</span><span class="n">NSTableView</span><span class="o">*</span><span class="p">)</span> <span class="nv">view</span>
+<span class="w">    </span><span class="nl">objectValueForTableColumn</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">NSTableColumn</span><span class="o">*</span><span class="p">)</span> <span class="nv">column</span>
+<span class="w">                          </span><span class="nl">row</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="nv">row</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">[</span><span class="bp">NSString</span><span class="w"> </span><span class="n">stringWithFormat</span><span class="o">:</span><span class="w"> </span><span class="s">@&quot;column %@ row %d&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">        </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">identifier</span><span class="p">],</span><span class="w"> </span><span class="n">row</span><span class="p">];</span><span class="w"> </span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The method <code class="docutils literal notranslate"><span class="pre">-numberOfRowsInTableView:</span></code> returns how many rows <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code>
+should display – in this case, we’ll display 5 rows. The method
+<code class="docutils literal notranslate"><span class="pre">-tableView:objectValueForTableColumn:row:</span></code> returns the value shown in a certain cell in the table.</p>
+<p>Now, this application is ready to run, even though it does nothing but
+display 5 rows of “column 0 row 0”. This is merely a demonstration of how <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code>
+works. I provide the number of rows, and the object in a given column
+and row. As long as these two kinds of data are provided, the
+<code class="docutils literal notranslate"><span class="pre">NSTableView</span></code> can display anything, even a image in the cell. I’ll talk
+about more details about data sources later on.</p>
+<blockquote>
+<div><p>Here is the source code:
+<a class="reference external" href="http://gnustep.made-it.com/GSPT/Table/Table-1-src.tar.gz">Table-1-src.tar.gz</a></p>
+</div></blockquote>
+</section>
+<section id="configuring-the-table-view">
+<h2>Configuring the table view<a class="headerlink" href="#configuring-the-table-view" title="Permalink to this heading">#</a></h2>
+<p>Let’s work on the interface first. <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code> is a collection of
+<code class="docutils literal notranslate"><span class="pre">NSTableColumn</span></code>s. I want three columns for the date, item and amount. By default, there are two columns. Therefore, I need to add a
+<code class="docutils literal notranslate"><span class="pre">NSTableColumn</span></code> into our <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Document.m:</span></code></p>
+<div class="highlight-objc notranslate"><div class="highlight"><pre><span></span><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">windowControllerDidLoadNib:</span><span class="w"> </span><span class="p">(</span><span class="n">NSWindowController</span><span class="o">*</span><span class="p">)</span> <span class="nv">controller</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">NSTableColumn</span><span class="w"> </span><span class="o">*</span><span class="n">column</span><span class="p">;</span>
+<span class="w">    </span><span class="bp">NSArray</span><span class="w"> </span><span class="o">*</span><span class="n">columns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">tableView</span><span class="w"> </span><span class="n">tableColumns</span><span class="p">];</span>
+
+<span class="w">    </span><span class="n">column</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">columns</span><span class="w"> </span><span class="n">objectAtIndex</span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setWidth</span><span class="o">:</span><span class="w"> </span><span class="mi">100</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setEditable</span><span class="o">:</span><span class="w"> </span><span class="nb">NO</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setResizable</span><span class="o">:</span><span class="w"> </span><span class="nb">YES</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setIdentifier</span><span class="o">:</span><span class="w"> </span><span class="s">@&quot;date&quot;</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[[</span><span class="n">column</span><span class="w"> </span><span class="n">headerCell</span><span class="p">]</span><span class="w"> </span><span class="n">setStringValue</span><span class="o">:</span><span class="w"> </span><span class="s">@&quot;Date&quot;</span><span class="p">];</span>
+
+<span class="w">    </span><span class="n">column</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">columns</span><span class="w"> </span><span class="n">objectAtIndex</span><span class="o">:</span><span class="w"> </span><span class="mi">1</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setWidth</span><span class="o">:</span><span class="w"> </span><span class="mi">100</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setEditable</span><span class="o">:</span><span class="w"> </span><span class="nb">NO</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setResizable</span><span class="o">:</span><span class="w"> </span><span class="nb">YES</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setIdentifier</span><span class="o">:</span><span class="w"> </span><span class="s">@&quot;item&quot;</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[[</span><span class="n">column</span><span class="w"> </span><span class="n">headerCell</span><span class="p">]</span><span class="w"> </span><span class="n">setStringValue</span><span class="o">:</span><span class="w"> </span><span class="s">@&quot;Item&quot;</span><span class="p">];</span>
+
+<span class="w">    </span><span class="n">column</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="n">NSTableColumn</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span><span class="w"> </span><span class="n">initWithIdentifier</span><span class="o">:</span><span class="w"> </span><span class="s">@&quot;amount&quot;</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setWidth</span><span class="o">:</span><span class="w"> </span><span class="mi">100</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setEditable</span><span class="o">:</span><span class="w"> </span><span class="nb">NO</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setResizable</span><span class="o">:</span><span class="w"> </span><span class="nb">YES</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[[</span><span class="n">column</span><span class="w"> </span><span class="n">headerCell</span><span class="p">]</span><span class="w"> </span><span class="n">setStringValue</span><span class="o">:</span><span class="w"> </span><span class="s">@&quot;Amount&quot;</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">tableView</span><span class="w"> </span><span class="n">addTableColumn</span><span class="o">:</span><span class="w"> </span><span class="n">column</span><span class="p">];</span>
+<span class="w">    </span><span class="n">RELEASE</span><span class="p">(</span><span class="n">column</span><span class="p">);</span>
+
+<span class="w">    </span><span class="p">[</span><span class="n">tableView</span><span class="w"> </span><span class="n">sizeLastColumnToFit</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">tableView</span><span class="w"> </span><span class="n">setAutoresizesAllColumnsToFit</span><span class="o">:</span><span class="w"> </span><span class="nb">YES</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>We adjust the interface of our <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code> in the method
+<code class="docutils literal notranslate"><span class="pre">-windowControllerDidLoadNib</span></code>:, which guarantees that the Gorm file is
+loaded. This is similar to <code class="docutils literal notranslate"><span class="pre">-awakeFromNib</span></code>. First, we get the existing
+columns and change their properties. Second, we create a new <code class="docutils literal notranslate"><span class="pre">NSTableColumn</span></code>
+and add it into our <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code>. Finally, we adjust the layout of our
+<code class="docutils literal notranslate"><span class="pre">NSTableView</span></code>. This way, we can programatically adjust our <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code> without using Gorm to adjust it. Run this application
+again, and you will see the new column.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>At the time this tutorial was originnally written, Gorm did not allow you to configure <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code>.</p>
+</div>
+<p>An important property of <code class="docutils literal notranslate"><span class="pre">NSTableColumn</span></code> is its identifier. Each
+<code class="docutils literal notranslate"><span class="pre">NSTableColumn</span></code> has an unique identifier to distinguish them.
+The identifier can be any object, but it’s usually an <code class="docutils literal notranslate"><span class="pre">NSString</span></code>. The
+identifier does not have to be the same as the header of the column, but
+should being the same for easier management. So we access the
+<code class="docutils literal notranslate"><span class="pre">NSTableColumn</span></code> via its identifier. Many GNUstep objects have identifiers.</p>
+</section>
+<section id="functional-data-source">
+<h2>Functional data source<a class="headerlink" href="#functional-data-source" title="Permalink to this heading">#</a></h2>
+<p>Now that we’ve finished the interface, we can set up a data source. The data source is an
+object which provides the data for <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code>. Therefore, the data source is
+the model in the <a class="reference external" href="http://cocoadevcentral.com/articles/000003.php">MVC (Model-View-Controller)
+paradigm</a>. Depending on
+the behavior of <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code>, we need to implement the proper methods in
+the data source of <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code>. We already implemented those methods, but they give the useless “column 0 row 0” messages, instead of useful data from our “Money Document”.</p>
+<p>The data for <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code> can be considered as an <code class="docutils literal notranslate"><span class="pre">NSArray</span></code> of
+<code class="docutils literal notranslate"><span class="pre">NSDictionary</span></code>s. The object in each index of <code class="docutils literal notranslate"><span class="pre">NSArray</span></code> corresponds to each
+row of <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code>. And the object of each <code class="docutils literal notranslate"><span class="pre">NSDictionary</span></code> with a given key
+corresponds to each <code class="docutils literal notranslate"><span class="pre">NSTableColumn</span></code> with a given identifier. That’s the
+simplest way to build the model for <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code>. Therefore, I add an
+<code class="docutils literal notranslate"><span class="pre">NSMutableArray</span></code> in Document class.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Document.h:</span></code></p>
+<div class="highlight-objc notranslate"><div class="highlight"><pre><span></span><span class="cp">#import &lt;AppKit/AppKit.h&gt;</span>
+<span class="cp">#import &lt;AppKit/NSDocument.h&gt;</span>
+
+<span class="k">@interface</span> <span class="nc">Document</span> : <span class="nc">NSDocument</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">id</span><span class="w"> </span><span class="n">tableView</span><span class="p">;</span>
+<span class="w">    </span><span class="bp">NSMutableArray</span><span class="o">*</span><span class="w"> </span><span class="n">records</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">@end</span>
+</pre></div>
+</div>
+<p>The “records” will store the data of <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code>. For more information about the usage of
+<code class="docutils literal notranslate"><span class="pre">NSMutableArray</span></code>, read <a class="reference external" href="http://www.gnustep.it/nicola/Tutorials/BasicClasses/"><em>Basic GNUstep Base Library
+Classes</em></a>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Document.m:</span></code></p>
+<div class="highlight-objc notranslate"><div class="highlight"><pre><span></span><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nf">init</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nb">self</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nb">super</span><span class="w"> </span><span class="n">init</span><span class="p">];</span>
+<span class="w">    </span><span class="n">records</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="bp">NSMutableArray</span><span class="w"> </span><span class="n">new</span><span class="p">];</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">self</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">dealloc</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">RELEASE</span><span class="p">(</span><span class="n">records</span><span class="p">);</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">super</span><span class="w"> </span><span class="n">dealloc</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="nf">numberOfRowsInTableView:</span><span class="w"> </span><span class="p">(</span><span class="n">NSTableView</span><span class="o">*</span><span class="p">)</span> <span class="nv">view</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">[</span><span class="n">records</span><span class="w"> </span><span class="n">count</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span>              <span class="nf">tableView:</span><span class="w"> </span><span class="p">(</span><span class="n">NSTableView</span><span class="o">*</span><span class="p">)</span> <span class="nv">view</span>
+<span class="w">    </span><span class="nl">objectValueForTableColumn</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">NSTableColumn</span><span class="o">*</span><span class="p">)</span> <span class="nv">column</span>
+<span class="w">                          </span><span class="nl">row</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="nv">row</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">row</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="p">[</span><span class="n">records</span><span class="w"> </span><span class="n">count</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">@&quot;&quot;</span><span class="p">;</span><span class="w"> </span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">[[</span><span class="n">records</span><span class="w"> </span><span class="n">objectAtIndex</span><span class="o">:</span><span class="w"> </span><span class="n">row</span><span class="p">]</span><span class="w"> </span>
+<span class="w">                          </span><span class="nl">objectForKey</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">identifier</span><span class="p">]];</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>We create the instance of <code class="docutils literal notranslate"><span class="pre">NSMutableArray</span></code> in the method <code class="docutils literal notranslate"><span class="pre">-init</span></code>, and release it
+in <code class="docutils literal notranslate"><span class="pre">-dealloc</span></code>, which will destroy it if no other object needs it. In the method <code class="docutils literal notranslate"><span class="pre">-numberOfRowsInTableView:</span></code>, we return one plus the amount of records because we want it to display an extra empty row for the user to add new records. Hence, in the
+method <code class="docutils literal notranslate"><span class="pre">-tableView:objectValueForTableColumn:row:</span></code>, I have to check
+whether the row the <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code> requests is larger than the number of actual records. If so, it is a request for data to show in the empty row. Therefore, we just return an empty string (<code class="docutils literal notranslate"><span class="pre">&#64;&quot;&quot;</span></code>). We are using an array of dictionaries to make the key
+of the dictionary the same as the identifier of the <code class="docutils literal notranslate"><span class="pre">NSTableColumn</span></code>. So I can
+get the object directly by knowing the identifier of <code class="docutils literal notranslate"><span class="pre">NSTableColumn</span></code>. If
+you are not using an <code class="docutils literal notranslate"><span class="pre">NSDictionary</span></code> for each row, you can consider
+<a class="reference external" href="http://developer.apple.com/techpubs/macosx/Cocoa/TasksAndConcepts/ProgrammingTopics/KeyValueCoding/index.html"><em>Key Value Coding
+(KVC)</em></a>,
+which offers a similar way to get the right object. Otherwise, you have to
+use <code class="docutils literal notranslate"><span class="pre">if</span></code>-<code class="docutils literal notranslate"><span class="pre">else</span></code> to get the right object. The advantage of NSDictionary (or
+KVC) will be more clear for data input.</p>
+</section>
+<section id="data-input">
+<h2>Data input<a class="headerlink" href="#data-input" title="Permalink to this heading">#</a></h2>
+<p>Now, we’ll add the functionary of data input. First, we have to set the
+<code class="docutils literal notranslate"><span class="pre">NSTableColumn</span></code> to editable.</p>
+<div class="highlight-objc notranslate"><div class="highlight"><pre><span></span><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">windowControllerDidLoadNib:</span><span class="w"> </span><span class="p">(</span><span class="n">NSWindowController</span><span class="o">*</span><span class="p">)</span> <span class="nv">controller</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">NSTableColumn</span><span class="w"> </span><span class="o">*</span><span class="n">column</span><span class="p">;</span>
+<span class="w">    </span><span class="bp">NSArray</span><span class="w"> </span><span class="o">*</span><span class="n">columns</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">tableView</span><span class="w"> </span><span class="n">tableColumns</span><span class="p">];</span>
+
+<span class="w">    </span><span class="n">column</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">columns</span><span class="w"> </span><span class="n">objectAtIndex</span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setWidth</span><span class="o">:</span><span class="w"> </span><span class="mi">100</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setEditable</span><span class="o">:</span><span class="w"> </span><span class="nb">YES</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setResizable</span><span class="o">:</span><span class="w"> </span><span class="nb">YES</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setIdentifier</span><span class="o">:</span><span class="w"> </span><span class="s">@&quot;date&quot;</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[[</span><span class="n">column</span><span class="w"> </span><span class="n">headerCell</span><span class="p">]</span><span class="w"> </span><span class="n">setStringValue</span><span class="o">:</span><span class="w"> </span><span class="s">@&quot;Date&quot;</span><span class="p">];</span>
+
+<span class="w">    </span><span class="n">column</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">columns</span><span class="w"> </span><span class="n">objectAtIndex</span><span class="o">:</span><span class="w"> </span><span class="mi">1</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setWidth</span><span class="o">:</span><span class="w"> </span><span class="mi">100</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setEditable</span><span class="o">:</span><span class="w"> </span><span class="nb">YES</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setResizable</span><span class="o">:</span><span class="w"> </span><span class="nb">YES</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setIdentifier</span><span class="o">:</span><span class="w"> </span><span class="s">@&quot;item&quot;</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[[</span><span class="n">column</span><span class="w"> </span><span class="n">headerCell</span><span class="p">]</span><span class="w"> </span><span class="n">setStringValue</span><span class="o">:</span><span class="w"> </span><span class="s">@&quot;Item&quot;</span><span class="p">];</span>
+
+<span class="w">    </span><span class="n">column</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="n">NSTableColumn</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span><span class="w"> </span><span class="n">initWithIdentifier</span><span class="o">:</span><span class="w"> </span><span class="s">@&quot;amount&quot;</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setWidth</span><span class="o">:</span><span class="w"> </span><span class="mi">100</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setEditable</span><span class="o">:</span><span class="w"> </span><span class="nb">YES</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">setResizable</span><span class="o">:</span><span class="w"> </span><span class="nb">YES</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[[</span><span class="n">column</span><span class="w"> </span><span class="n">headerCell</span><span class="p">]</span><span class="w"> </span><span class="n">setStringValue</span><span class="o">:</span><span class="w"> </span><span class="s">@&quot;Amount&quot;</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">tableView</span><span class="w"> </span><span class="n">addTableColumn</span><span class="o">:</span><span class="w"> </span><span class="n">column</span><span class="p">];</span>
+<span class="w">    </span><span class="n">RELEASE</span><span class="p">(</span><span class="n">column</span><span class="p">);</span>
+
+<span class="w">    </span><span class="p">[</span><span class="n">tableView</span><span class="w"> </span><span class="n">sizeLastColumnToFit</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">tableView</span><span class="w"> </span><span class="n">setAutoresizesAllColumnsToFit</span><span class="o">:</span><span class="w"> </span><span class="nb">YES</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>When the user double-clicks a cell, the user can edit the contents of the cell. When the user finishes, the table view will send <code class="docutils literal notranslate"><span class="pre">-tableView:setObjectValue:forTableColumn:row:</span></code> to the data source.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Document.m:</span></code></p>
+<div class="highlight-objc notranslate"><div class="highlight"><pre><span></span><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>      <span class="nf">tableView:</span><span class="w"> </span><span class="p">(</span><span class="n">NSTableView</span><span class="o">*</span><span class="p">)</span> <span class="nv">view</span>
+<span class="w">         </span><span class="nl">setObjectValue</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nv">object</span>
+<span class="w">         </span><span class="nl">forTableColumn</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">NSTableColumn</span><span class="o">*</span><span class="p">)</span> <span class="nv">column</span>
+<span class="w">                    </span><span class="nl">row</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="nv">row</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">row</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="p">[</span><span class="n">records</span><span class="w"> </span><span class="n">count</span><span class="p">])</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="p">[</span><span class="n">records</span><span class="w"> </span><span class="n">addObject</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="bp">NSMutableDictionary</span><span class="w"> </span><span class="n">new</span><span class="p">]];</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="p">[[</span><span class="n">records</span><span class="w"> </span><span class="n">objectAtIndex</span><span class="o">:</span><span class="w"> </span><span class="n">row</span><span class="p">]</span><span class="w"> </span><span class="n">setObject</span><span class="o">:</span><span class="w"> </span><span class="n">object</span>
+<span class="w">                                     </span><span class="nl">forKey</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">column</span><span class="w"> </span><span class="n">identifier</span><span class="p">]];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">tableView</span><span class="w"> </span><span class="n">reloadData</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Again, we need to take care of the special situation where user input in the last
+empty row. Since it is not in the records, I need to add a new
+dictionary item to the records, to represent a new row. Whenever the user inputs the data, it will be
+store into records according its row and the identifier of the column. And
+the key in the dictionary is the same as the identifier of the <code class="docutils literal notranslate"><span class="pre">NSTableColumn</span></code>.
+Hence I can retrieve the data according to the identifier of the column.
+Finally I ask the <code class="docutils literal notranslate"><span class="pre">NSTableView</span></code> to reload the data in order to reflect the
+change of data source.</p>
+<p>Now you can play around this application and input the data.</p>
+<blockquote>
+<div><p>Here is the
+source code:
+<a class="reference external" href="http://gnustep.made-it.com/GSPT/Table/Table-2-src.tar.gz">Table-2-src.tar.gz</a>.</p>
+</div></blockquote>
+<p>This example shows how easy it is to make a real document-based application
+without worrying about the management of multiple documents and windows.</p>
+<hr class="docutils" />
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="4.1.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">4.1 - The Basics</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="4.3.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">4.3 - Load and Save</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-table-view">Creating the table view</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-data-source">Basic data source</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuring-the-table-view">Configuring the table view</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#functional-data-source">Functional data source</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-input">Data input</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../../_sources/Guides/App/4_Money/4.2.md.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, GNUstep contributors.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

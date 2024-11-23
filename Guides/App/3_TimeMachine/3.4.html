@@ -1,0 +1,882 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3.4 - Multiple Clocks &#8212; GNUstep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=359c27e9"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Guides/App/3_TimeMachine/3.4';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="4 - Money" href="../4_Money/index.html" />
+    <link rel="prev" title="3.3 - New Time Zone Dialog" href="3.3.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">GNUstep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../../index.html">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../Manuals/index.html">
+                        Manuals
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../APIRefs/index.html">
+                        API references
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../About/index.html">
+                        About
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../Showcase/index.html">
+                        Showcase
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../../index.html">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../Manuals/index.html">
+                        Manuals
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../APIRefs/index.html">
+                        API references
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../About/index.html">
+                        About
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../Showcase/index.html">
+                        Showcase
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Building Apps with GORM</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../1_Intro/index.html">1 - Introduction to GNUstep Programming</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../2_Convertor/index.html">2 - Convertor</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../2_Convertor/2.1.html">2.1 - Designing the UI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../2_Convertor/2.2.html">2.2 - Outlets and Actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../2_Convertor/2.3.html">2.3 - Adding the Code</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">3 - TimeMachine</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="3.1.html">3.1 - A Basic Clock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="3.2.html">3.2 - Analog Clock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="3.3.html">3.3 - New Time Zone Dialog</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">3.4 - Multiple Clocks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../4_Money/index.html">4 - Money</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../4_Money/4.1.html">4.1 - The Basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Money/4.2.html">4.2 - Document Editor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Money/4.3.html">4.3 - Load and Save</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../4_Money/4.4.html">4.4 - Drag and Drop</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../5_Overview/index.html">5 - Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../6_LunarCalendar/index.html">6 - LunarCalendar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../7_NSLookupService/index.html">7 - NSLookupService</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../HelpfulWebsites.html">Helpful Websites</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../AppsWithCodeOnly/index.html">Building Apps from Code Only</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/index.html">First Steps in GNUstep GUI Programming</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/1_SharedApplication.html">1 - The shared application object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/2_AppIcon.html">2 - Setting your application’s icon</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/3_Menus.html">3 - Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/4_PointsSizesRectangles.html">4 - Points, Sizes and Rectangles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/5_Windows.html">5 - Adding a Window to your Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/6_Buttons.html">6 - Adding a Button in the Window</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Guides</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">3 - TimeMachine</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">3.4 -...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="multiple-clocks">
+<h1>3.4 - Multiple Clocks<a class="headerlink" href="#multiple-clocks" title="Permalink to this heading">#</a></h1>
+<p>In this section, you will add multiple clocks to your clock application, and allow the amount of clocks to be adjusted dynamically, similar to the “World Clocks” feature of the iOS Clocks application.</p>
+<div class="admonition-editor-s-note admonition">
+<p class="admonition-title">Editor’s note</p>
+<p>It’s unclear what the original author meant by “trace”.</p>
+</div>
+<section id="adding-menu-items">
+<h2>Adding menu items<a class="headerlink" href="#adding-menu-items" title="Permalink to this heading">#</a></h2>
+<p>Since I can change the time zone, I would like to display several clock
+at the same window, and adjust the number of clocks dynamically. First,
+I need to add new submenu: “Edit”, and two menu item in it: “Add Clock”
+and “Delete Clock”. Then add two action in the class “Controller”:
+“addClock:” and “deleteClock”. Connect the menu item to the action in
+the instance of class “Controller” in the gorm file. Then I have done
+the part of interface. When user select the menu item “Add Clock”, the
+method “addClock:” will be called, so does the menu item “Delete Clock”.</p>
+</section>
+<section id="notifications-prelude">
+<h2>Notifications - prelude<a class="headerlink" href="#notifications-prelude" title="Permalink to this heading">#</a></h2>
+<p>Now, how do you manage these clocks dynamically? You could keep track of each of them manually, but it will be complicated. You could also not keep track of any of them, but then you can’t control them. Instead, you can use the notifications, which is a pretty handy way to communicate between objects.</p>
+<p>Here is a related article:
+<a class="reference external" href="https://web.archive.org/web/20030424000148if_/http://cocoadevcentral.com/articles/000029.php"><em>NSNotificationCenter</em></a></p>
+</section>
+<section id="updating-the-interface">
+<h2>Updating the interface<a class="headerlink" href="#updating-the-interface" title="Permalink to this heading">#</a></h2>
+<p>First, you need to adjust the interface according to the amount of clocks. You need to count how many clocks exist so that the user doesn’t accidentally delete the last clock.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Controller.h:</span></code></p>
+<div class="highlight-objc notranslate"><div class="highlight"><pre><span></span><span class="cp">#import &lt;AppKit/AppKit.h&gt;</span>
+<span class="cp">#import &quot;TimeView.h&quot;</span>
+
+<span class="k">@interface</span> <span class="nc">Controller</span> : <span class="bp">NSObject</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">id</span><span class="w"> </span><span class="n">timeView</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">totalNumber</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">showCurrentTime:</span><span class="w"> </span><span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nv">sender</span><span class="p">;</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">addClock:</span><span class="w"> </span><span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nv">sender</span><span class="p">;</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">deleteClock:</span><span class="w"> </span><span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nv">sender</span><span class="p">;</span>
+<span class="k">@end</span>
+</pre></div>
+</div>
+<p>We add an ivar (instance variable), <code class="docutils literal notranslate"><span class="pre">totalNumber</span></code>, to trace the number of clocks, and add two actions manually since we didn’t generate the class files from Gorm.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Controller.m:</span></code></p>
+<div class="highlight-objc notranslate"><div class="highlight"><pre><span></span><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nf">init</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nb">self</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nb">super</span><span class="w"> </span><span class="n">init</span><span class="p">];</span>
+<span class="w">    </span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">totalNumber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">self</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">addClock:</span><span class="w"> </span><span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nv">sender</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">TimeView</span><span class="o">*</span><span class="w"> </span><span class="n">aView</span><span class="p">;</span>
+<span class="w">    </span><span class="n">NSWindow</span><span class="o">*</span><span class="w"> </span><span class="n">mainWindow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">NSApp</span><span class="w"> </span><span class="n">mainWindow</span><span class="p">];</span>
+<span class="w">    </span><span class="n">NSRect</span><span class="w"> </span><span class="n">windowFrame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">mainWindow</span><span class="w"> </span><span class="n">frame</span><span class="p">];</span>
+<span class="w">    </span><span class="n">NSRect</span><span class="w"> </span><span class="n">timeViewFrame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">timeView</span><span class="w"> </span><span class="n">frame</span><span class="p">];</span>
+
+<span class="w">    </span><span class="p">[</span><span class="n">mainWindow</span><span class="w"> </span><span class="n">setFrame</span><span class="o">:</span><span class="w"> </span><span class="n">NSMakeRect</span><span class="p">(</span>
+<span class="w">                    </span><span class="n">windowFrame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span><span class="p">,</span><span class="w">    </span>
+<span class="w">                    </span><span class="n">windowFrame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">windowFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span>
+<span class="w">                     </span><span class="o">+</span><span class="w"> </span><span class="n">timeViewFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                    </span><span class="n">windowFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span>
+<span class="w">                  </span><span class="p">)</span>
+<span class="w">                 </span><span class="nl">display</span><span class="p">:</span><span class="w"> </span><span class="nb">YES</span><span class="p">];</span>
+<span class="w">    </span><span class="n">aView</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">timeView</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span><span class="w"> </span>
+<span class="w">              </span><span class="nl">initWithFrame</span><span class="p">:</span><span class="w"> </span><span class="n">NSMakeRect</span><span class="p">(</span>
+<span class="w">                  </span><span class="n">timeViewFrame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span>
+<span class="w">                   </span><span class="o">+</span><span class="w"> </span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">totalNumber</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">timeViewFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span>
+<span class="w">                  </span><span class="n">timeViewFrame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span><span class="p">,</span>
+<span class="w">                  </span><span class="n">timeViewFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span>
+<span class="w">                  </span><span class="n">timeViewFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span>
+<span class="w">              </span><span class="p">)</span>
+<span class="w">            </span><span class="p">];</span>
+<span class="w">    </span>
+<span class="w">    </span><span class="p">[[</span><span class="n">mainWindow</span><span class="w"> </span><span class="n">contentView</span><span class="p">]</span><span class="w"> </span><span class="n">addSubview</span><span class="o">:</span><span class="w"> </span><span class="n">aView</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="n">aView</span><span class="w"> </span><span class="k">release</span><span class="p">];</span>
+<span class="w">    </span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">totalNumber</span><span class="w"> </span><span class="o">++</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">deleteClock:</span><span class="w"> </span><span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nv">sender</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="bp">NSArray</span><span class="o">*</span><span class="w"> </span><span class="n">subviews</span><span class="p">;</span>
+<span class="w">    </span><span class="n">NSWindow</span><span class="o">*</span><span class="w"> </span><span class="n">mainWindow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">NSApp</span><span class="w"> </span><span class="n">mainWindow</span><span class="p">];</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">;</span>
+<span class="w">    </span><span class="n">NSRect</span><span class="w"> </span><span class="n">windowFrame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">mainWindow</span><span class="w"> </span><span class="n">frame</span><span class="p">];</span>
+<span class="w">    </span><span class="n">NSRect</span><span class="w"> </span><span class="n">timeViewFrame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">timeView</span><span class="w"> </span><span class="n">frame</span><span class="p">];</span>
+
+<span class="w">    </span><span class="n">subviews</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="n">mainWindow</span><span class="w"> </span><span class="n">contentView</span><span class="p">]</span><span class="w"> </span><span class="n">subviews</span><span class="p">];</span>
+
+<span class="w">    </span><span class="c1">// This part was originally formatted unreadably, so it&#39;s possible that the boundaries of the `if` statement are incorrect.</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">subviews</span><span class="w"> </span><span class="n">count</span><span class="p">]</span><span class="mi">-1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">--</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span>
+<span class="w">            </span><span class="p">[[</span><span class="n">subviews</span><span class="w"> </span><span class="n">objectAtIndex</span><span class="o">:</span><span class="w"> </span><span class="n">i</span><span class="p">]</span><span class="w"> </span>
+<span class="w">              </span><span class="nl">isMemberOfClass</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">timeView</span><span class="w"> </span><span class="k">class</span><span class="p">]]</span>
+<span class="w">        </span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="p">[[</span><span class="n">subviews</span><span class="w"> </span><span class="n">objectAtIndex</span><span class="o">:</span><span class="w"> </span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="n">removeFromSuperview</span><span class="p">];</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">totalNumber</span><span class="w"> </span><span class="o">--</span><span class="p">;</span>
+<span class="w">        </span><span class="p">[</span><span class="n">mainWindow</span><span class="w"> </span><span class="n">setFrame</span><span class="o">:</span><span class="w"> </span><span class="n">NSMakeRect</span><span class="p">(</span>
+<span class="w">                                  </span><span class="n">windowFrame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">x</span><span class="p">,</span>
+<span class="w">                                  </span><span class="n">windowFrame</span><span class="p">.</span><span class="n">origin</span><span class="p">.</span><span class="n">y</span><span class="p">,</span>
+<span class="w">                                  </span><span class="n">windowFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span>
+<span class="w">                                   </span><span class="o">-</span><span class="w"> </span><span class="n">timeViewFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span>
+<span class="w">                                  </span><span class="n">windowFrame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span><span class="p">)</span>
+<span class="w">                     </span><span class="nl">display</span><span class="p">:</span><span class="w"> </span><span class="nb">YES</span><span class="p">];</span>
+<span class="w">        </span><span class="k">break</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>In the method <code class="docutils literal notranslate"><span class="pre">-init</span></code>, we initialize <code class="docutils literal notranslate"><span class="pre">totalNumber</span></code> to 1 since
+there is already one clock in the Gorm file. In the method <code class="docutils literal notranslate"><span class="pre">-addClock:</span></code>, we
+calculate the necessary change in the window size and where to put the new clock. They
+are done by very simple calculation. Once we add the new clock into the
+window, the window will <code class="docutils literal notranslate"><span class="pre">retain</span></code> this clock. Therefore, we can <code class="docutils literal notranslate"><span class="pre">release</span></code> it
+and no longer trace it. In the method <code class="docutils literal notranslate"><span class="pre">-deleteClock:</span></code>, we also need to
+change the size of window by simple calculation. The only problem is
+that since we don’t trace the clocks, how do we delete them? We can get
+all the subviews from the window, and delete the last <code class="docutils literal notranslate"><span class="pre">TimeView</span></code>
+object. This way is very easy to maintain.</p>
+</section>
+<section id="notifications">
+<h2>Notifications<a class="headerlink" href="#notifications" title="Permalink to this heading">#</a></h2>
+<p>Now, if you hit the button <button>Get Current Time</button>, you will notice that only
+the original clock is updated. That’s because it is the only one which is
+connected to the outlet. We could get all the subviews from the window, and
+call their method one by one. That would work, but it’s not elegant.
+I can use the “Notification” and “Notification Center” to archive this
+goal. Read the <a class="reference external" href="https://web.archive.org/web/20010321022850if_/https://developer.apple.com/techpubs/macosx/Cocoa/TasksAndConcepts/ProgrammingTopics/Notifications/index.html"><em>Cocoa
+document</em></a>
+for more details.</p>
+<p>The idea is that an object can be a speaker, and many objects can be the
+audience. Each member of the audience is called an “observer”.</p>
+<p>So when the user press the button <button>Get Current Time</button>, the “Controller” must speak to all the clocks. Below is how it speaks:</p>
+<p><code class="docutils literal notranslate"><span class="pre">Controller.h:</span></code></p>
+<div class="highlight-objc notranslate"><div class="highlight"><pre><span></span><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">showCurrentTime:</span><span class="w"> </span><span class="p">(</span><span class="kt">id</span><span class="p">)</span><span class="nv">sender</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="p">[[</span><span class="bp">NSNotificationCenter</span><span class="w"> </span><span class="n">defaultCenter</span><span class="p">]</span>
+<span class="w">      </span><span class="nl">postNotificationName</span><span class="p">:</span><span class="w"> </span><span class="s">@&quot;TimeViewShouldUpdateCurrentTime&quot;</span>
+<span class="w">                    </span><span class="nl">object</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">NSCalendarDate</span><span class="w"> </span><span class="n">date</span><span class="p">]];</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Actually, it talks to the “Notification Center”, and the notification
+center will broadcast what it says. I need to specify the name of the
+notification because there are so many notifications passing through the center. The
+name of the notification distinguishes the notification. And a notification
+can contain an object within it, which stores the information that the speaker is sending to the audience. It can be <code class="docutils literal notranslate"><span class="pre">nil</span></code>. Here, I use <code class="docutils literal notranslate"><span class="pre">+[NSCalendarDate</span> <span class="pre">date]</span></code>.</p>
+<p>Now, the speaker speaks. How does the audience listen? In this example,
+all the instances of <code class="docutils literal notranslate"><span class="pre">TimeView</span></code> should listen in order to themselves with the current time. For an object to listen, they need to register as an “observer” with the Notification Center.</p>
+<p><code class="docutils literal notranslate"><span class="pre">TimeView.m:</span></code></p>
+<div class="highlight-objc notranslate"><div class="highlight"><pre><span></span><span class="p">-</span> <span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nf">initWithFrame:</span><span class="w"> </span><span class="p">(</span><span class="n">NSRect</span><span class="p">)</span> <span class="nv">frame</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nb">self</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="nb">super</span><span class="w"> </span><span class="n">initWithFrame</span><span class="o">:</span><span class="w"> </span><span class="n">frame</span><span class="p">];</span>
+
+<span class="w">    </span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">box</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="n">NSBox</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span>
+<span class="w">                  </span><span class="nl">initWithFrame</span><span class="p">:</span><span class="w"> </span><span class="n">NSMakeRect</span><span class="p">(</span>
+<span class="w">                    </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="c1">// x=0, y=0</span>
+<span class="w">                    </span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span>
+<span class="w">                  </span><span class="p">)</span>
+<span class="w">                </span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">box</span><span class="w"> </span><span class="n">setBorderType</span><span class="o">:</span><span class="w"> </span><span class="n">NSGrooveBorder</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">box</span><span class="w"> </span><span class="n">setTitlePosition</span><span class="o">:</span><span class="w"> </span><span class="n">NSAtTop</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">box</span><span class="w"> </span><span class="n">setTitle</span><span class="o">:</span><span class="w"> </span><span class="s">@&quot;Local Time&quot;</span><span class="p">];</span>
+
+<span class="w">    </span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">clockView</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="n">ClockView</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span>
+<span class="w">                  </span><span class="nl">initWithFrame</span><span class="p">:</span><span class="w"> </span><span class="n">NSMakeRect</span><span class="p">(</span>
+<span class="w">                    </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">70</span><span class="p">,</span><span class="w"> </span><span class="c1">// x=0, y=70 </span>
+<span class="w">                    </span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">width</span><span class="p">,</span>
+<span class="w">                    </span><span class="n">frame</span><span class="p">.</span><span class="n">size</span><span class="p">.</span><span class="n">height</span>
+<span class="w">                  </span><span class="p">)</span>
+<span class="w">                </span><span class="p">];</span>
+<span class="w">    </span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">labelDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="n">NSTextField</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span>
+<span class="w">                  </span><span class="nl">initWithFrame</span><span class="p">:</span><span class="w"> </span><span class="n">NSMakeRect</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span><span class="w"> </span><span class="mi">35</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)];</span>
+<span class="w">                                 </span><span class="c1">// x=10, y=45, width=35, height=20</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">labelDate</span><span class="w"> </span><span class="n">setStringValue</span><span class="o">:</span><span class="w"> </span><span class="s">@&quot;Date: &quot;</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">labelDate</span><span class="w"> </span><span class="n">setBezeled</span><span class="o">:</span><span class="w"> </span><span class="nb">NO</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">labelDate</span><span class="w"> </span><span class="n">setBackgroundColor</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">NSColor</span><span class="w"> </span><span class="n">windowBackgroundColor</span><span class="p">]];</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">labelDate</span><span class="w"> </span><span class="n">setEditable</span><span class="o">:</span><span class="w"> </span><span class="nb">NO</span><span class="p">];</span>
+
+<span class="w">    </span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">labelTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="n">NSTextField</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span><span class="w"> </span>
+<span class="w">                  </span><span class="nl">initWithFrame</span><span class="p">:</span><span class="w"> </span><span class="n">NSMakeRect</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="mi">35</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)];</span>
+<span class="w">                                 </span><span class="c1">// x=10, y=15, width=35, height=20</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">labelTime</span><span class="w"> </span><span class="n">setStringValue</span><span class="o">:</span><span class="w"> </span><span class="s">@&quot;Time: &quot;</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">labelTime</span><span class="w"> </span><span class="n">setBezeled</span><span class="o">:</span><span class="w"> </span><span class="nb">NO</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">labelTime</span><span class="w"> </span><span class="n">setBackgroundColor</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">NSColor</span><span class="w"> </span><span class="n">windowBackgroundColor</span><span class="p">]];</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">labelTime</span><span class="w"> </span><span class="n">setEditable</span><span class="o">:</span><span class="w"> </span><span class="nb">NO</span><span class="p">];</span>
+
+<span class="w">    </span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">localDate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="n">NSTextField</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span>
+<span class="w">                  </span><span class="nl">initWithFrame</span><span class="p">:</span><span class="w"> </span><span class="n">NSMakeRect</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span><span class="w"> </span><span class="mi">45</span><span class="p">,</span><span class="w"> </span><span class="mi">130</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)];</span>
+<span class="w">    </span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">localTime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="n">NSTextField</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span>
+<span class="w">                  </span><span class="nl">initWithFrame</span><span class="p">:</span><span class="w"> </span><span class="n">NSMakeRect</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="mi">130</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)];</span>
+
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">box</span><span class="w"> </span><span class="n">addSubview</span><span class="o">:</span><span class="w"> </span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">clockView</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">box</span><span class="w"> </span><span class="n">addSubview</span><span class="o">:</span><span class="w"> </span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">labelDate</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">box</span><span class="w"> </span><span class="n">addSubview</span><span class="o">:</span><span class="w"> </span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">labelTime</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">box</span><span class="w"> </span><span class="n">addSubview</span><span class="o">:</span><span class="w"> </span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">localDate</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">box</span><span class="w"> </span><span class="n">addSubview</span><span class="o">:</span><span class="w"> </span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">localTime</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">clockView</span><span class="w"> </span><span class="k">release</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">labelDate</span><span class="w"> </span><span class="k">release</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">labelTime</span><span class="w"> </span><span class="k">release</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">localDate</span><span class="w"> </span><span class="k">release</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">localTime</span><span class="w"> </span><span class="k">release</span><span class="p">];</span>
+
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="w"> </span><span class="n">addSubview</span><span class="o">:</span><span class="w"> </span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">box</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">box</span><span class="w"> </span><span class="k">release</span><span class="p">];</span>
+
+<span class="w">    </span><span class="p">[[</span><span class="bp">NSNotificationCenter</span><span class="w"> </span><span class="n">defaultCenter</span><span class="p">]</span><span class="w"> </span>
+<span class="w">      </span><span class="nl">addObserver</span><span class="p">:</span><span class="w"> </span><span class="nb">self</span>
+<span class="w">         </span><span class="nl">selector</span><span class="p">:</span><span class="w"> </span><span class="k">@selector</span><span class="p">(</span><span class="n">setDate</span><span class="o">:</span><span class="p">)</span>
+<span class="w">             </span><span class="nl">name</span><span class="p">:</span><span class="w"> </span><span class="s">@&quot;TimeViewShouldUpdateCurrentTime&quot;</span>
+<span class="w">           </span><span class="nl">object</span><span class="p">:</span><span class="w"> </span><span class="nb">nil</span><span class="p">];</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="w"> </span><span class="n">showCurrentTime</span><span class="o">:</span><span class="w"> </span><span class="nb">self</span><span class="p">];</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">self</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Only one line is needed to register an observer. It specify what object to receive
+the notification (<code class="docutils literal notranslate"><span class="pre">addObserver:</span></code>), which method to handle the notification
+(<code class="docutils literal notranslate"><span class="pre">selector:</span></code>), the name of the notification being observed (<code class="docutils literal notranslate"><span class="pre">name:</span></code>), and the
+object of the notification (<code class="docutils literal notranslate"><span class="pre">object:</span></code>). It is important that the name of
+notification should be the same as what the speaker uses. So once the
+speaker sends <code class="docutils literal notranslate"><span class="pre">TimeViewShouldUpdateCurrentTime</span></code>, the observers of <code class="docutils literal notranslate"><span class="pre">TimeViewShouldUpdateCurrentTime</span></code> will receive the
+notification, and the <code class="docutils literal notranslate"><span class="pre">setDate:</span></code> message will be sent to the observer. The <code class="docutils literal notranslate"><span class="pre">object:</span> <span class="pre">nil</span></code> means
+that this object accept all notifications with the name
+<code class="docutils literal notranslate"><span class="pre">TimeViewShouldUpdateCurrentTime</span></code> no matter what kind of object it
+carries.</p>
+<p>Now, we register the TimeView for the notification
+<code class="docutils literal notranslate"><span class="pre">TimeViewShouldUpdateCurrentTime</span></code>. Once the speaker speaks, the method
+<code class="docutils literal notranslate"><span class="pre">-setDate:</span></code> will be called. So we need to implement this method.</p>
+<p><code class="docutils literal notranslate"><span class="pre">TimeView.m:</span></code></p>
+<div class="highlight-objc notranslate"><div class="highlight"><pre><span></span><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">setDate:</span><span class="w"> </span><span class="p">(</span><span class="bp">NSNotification</span><span class="w"> </span><span class="o">*</span><span class="p">)</span> <span class="nv">notification</span>
+<span class="p">{</span>
+<span class="w">   </span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">date</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">notification</span><span class="w"> </span><span class="n">object</span><span class="p">];</span>
+<span class="w">   </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">date</span><span class="w"> </span><span class="n">setTimeZone</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="bp">NSTimeZone</span><span class="w"> </span><span class="n">timeZoneWithName</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="n">box</span><span class="w"> </span><span class="n">title</span><span class="p">]]];</span>
+<span class="w">   </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">date</span><span class="w"> </span><span class="n">setCalendarFormat</span><span class="o">:</span><span class="w"> </span><span class="s">@&quot;%a, %b %e, %Y&quot;</span><span class="p">];</span>
+<span class="w">   </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">localDate</span><span class="w"> </span><span class="n">setStringValue</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">date</span><span class="w"> </span><span class="n">description</span><span class="p">]];</span>
+<span class="w">   </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">date</span><span class="w"> </span><span class="n">setCalendarFormat</span><span class="o">:</span><span class="w"> </span><span class="s">@&quot;%H : %M : %S&quot;</span><span class="p">];</span>
+<span class="w">   </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">localTime</span><span class="w"> </span><span class="n">setStringValue</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">date</span><span class="w"> </span><span class="n">description</span><span class="p">]];</span>
+<span class="w">   </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">clockView</span><span class="w"> </span><span class="n">setDate</span><span class="o">:</span><span class="w"> </span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">date</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>We reuse the <code class="docutils literal notranslate"><span class="pre">-setDate:</span></code> from Section 3.2, but change the interface
+because right now, it is called by the Notification Center. And I can get
+the object the notification carries by using <code class="docutils literal notranslate"><span class="pre">[NSNotification</span> <span class="pre">object]</span></code> method.</p>
+<p>Finally, I need to remove the observer from the Notification Center when it
+is destroyed. Otherwise, it causes problems. So here is the <code class="docutils literal notranslate"><span class="pre">-dealloc</span></code> method.</p>
+<p><code class="docutils literal notranslate"><span class="pre">TimeView.m:</span></code></p>
+<div class="highlight-objc notranslate"><div class="highlight"><pre><span></span><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">dealloc</span>
+<span class="p">{</span>
+<span class="w">   </span><span class="p">[[</span><span class="bp">NSNotificationCenter</span><span class="w"> </span><span class="n">defaultCenter</span><span class="p">]</span><span class="w"> </span><span class="n">removeObserver</span><span class="o">:</span><span class="w"> </span><span class="nb">self</span><span class="p">];</span>
+<span class="w">   </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">date</span><span class="w"> </span><span class="k">release</span><span class="p">];</span>
+<span class="w">   </span><span class="p">[</span><span class="nb">super</span><span class="w"> </span><span class="n">dealloc</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>To sum up, the speaker speaks to the Notification Center with a specific notification name, and may or may not put an object on the
+notification. The audience register themselves to the Notification Center
+with what kinds of notification they want to receive by the name of
+notification. When the Notification Center recieves the notification, it will call the registered method on each of the observers.</p>
+<p>There are some source code needed to be modified due to the change in the
+<code class="docutils literal notranslate"><span class="pre">setDate:</span></code> method. They are not shown here, and it’s not hard to figure
+them out.</p>
+</section>
+<section id="timers">
+<h2>Timers<a class="headerlink" href="#timers" title="Permalink to this heading">#</a></h2>
+<p>Since I can update all the clocks manually, I can do it automatically.
+<code class="docutils literal notranslate"><span class="pre">NSTimer</span></code> is a timer which can trigger an action after a given time
+repeatly or not. Here, I’ll use a <code class="docutils literal notranslate"><span class="pre">NSTimer</span></code> to make the clock “run”.</p>
+<p>I need to add a new submenu “Timer”, and two menu items: “Start” and
+“Stop”. Add two action in class <code class="docutils literal notranslate"><span class="pre">Controller</span></code>: “startTimer:” and
+“stopTimer:”. Then connect the menu item to the action. This should be
+very easy by now.</p>
+<p><span id="AEN884"></span></p>
+<p><strong>Figure 4-31. Connect menu action</strong></p>
+<p><img alt="" src="../../../_images/Notification-01.jpg" /></p>
+<p><img alt="" src="../../../_images/Notification-02.jpg" /></p>
+<p><img alt="" src="../../../_images/Notification-03.jpg" /></p>
+<p>Add these two actions and a <code class="docutils literal notranslate"><span class="pre">NSTimer</span></code> in <code class="docutils literal notranslate"><span class="pre">Controller</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Controller.h:</span></code></p>
+<div class="highlight-objc notranslate"><div class="highlight"><pre><span></span><span class="cp">#import &lt;AppKit/AppKit.h&gt;</span>
+<span class="cp">#import &quot;TimeView.h&quot;</span>
+
+<span class="k">@interface</span> <span class="nc">Controller</span> : <span class="bp">NSObject</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">id</span><span class="w"> </span><span class="n">timeView</span><span class="p">;</span>
+<span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">totalNumber</span><span class="p">;</span>
+<span class="w">    </span><span class="bp">NSTimer</span><span class="w"> </span><span class="o">*</span><span class="n">timer</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">showCurrentTime:</span><span class="w"> </span><span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nv">sender</span><span class="p">;</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">addClock:</span><span class="w"> </span><span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nv">sender</span><span class="p">;</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">deleteClock:</span><span class="w"> </span><span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nv">sender</span><span class="p">;</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">startTimer:</span><span class="w"> </span><span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nv">sender</span><span class="p">;</span>
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">stopTimer:</span><span class="w"> </span><span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nv">sender</span><span class="p">;</span>
+<span class="k">@end</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Controller.m:</span></code></p>
+<div class="highlight-objc notranslate"><div class="highlight"><pre><span></span><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">startTimer:</span><span class="w"> </span><span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nv">sender</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">timer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="bp">NSTimer</span><span class="w"> </span><span class="n">scheduledTimerWithTimeInterval</span><span class="o">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">                                        </span><span class="nl">target</span><span class="p">:</span><span class="w"> </span><span class="nb">self</span>
+<span class="w">                                      </span><span class="nl">selector</span><span class="p">:</span><span class="w"> </span><span class="k">@selector</span><span class="p">(</span><span class="n">showCurrentTime</span><span class="o">:</span><span class="p">)</span>
+<span class="w">                                      </span><span class="nl">userInfo</span><span class="p">:</span><span class="w"> </span><span class="nb">nil</span>
+<span class="w">                                       </span><span class="nl">repeats</span><span class="p">:</span><span class="w"> </span><span class="nb">YES</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span> <span class="nf">stopTimer:</span><span class="w"> </span><span class="p">(</span><span class="kt">id</span><span class="p">)</span> <span class="nv">sender</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="p">[</span><span class="nb">self</span><span class="o">-&gt;</span><span class="n">timer</span><span class="w"> </span><span class="n">invalidate</span><span class="p">];</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>That’s all. In <code class="docutils literal notranslate"><span class="pre">NSTimer</span></code>, we set the interval, target, selector (method to call), and whether it repeats. Then it will trigger the action <code class="docutils literal notranslate"><span class="pre">-showCurrentTime:</span></code> every second.
+Use <code class="docutils literal notranslate"><span class="pre">-invalidate</span></code> to stop the timer. Generally, you need to write a thread
+in order not to block the user interface. But with the help of <code class="docutils literal notranslate"><span class="pre">NSTimer</span></code>,
+you can totally avoid this problem. Finger (in gnustep/usr-apps/ (might be a broken link)) is
+another good example how to avoid thread using non-blocking I/O.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Since <code class="docutils literal notranslate"><span class="pre">self-&gt;timer</span></code> is autoreleased, it might disappear anytime in this example, which causes a serious memory problem, and usually makes the application unstable. It would be better to retain the timer in <code class="docutils literal notranslate"><span class="pre">-startTimer:</span></code> and release it in <code class="docutils literal notranslate"><span class="pre">-stopTimer:</span></code>, and to ensure that only one timer exists when the user click the “start” menu more than once.</p>
+</div>
+<p><strong>Congratulations! You have learned many new things over the course of this tutorial.</strong></p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="3.3.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">3.3 - New Time Zone Dialog</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../4_Money/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">4 - Money</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#adding-menu-items">Adding menu items</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notifications-prelude">Notifications - prelude</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-the-interface">Updating the interface</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notifications">Notifications</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#timers">Timers</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../../_sources/Guides/App/3_TimeMachine/3.4.md.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, GNUstep contributors.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

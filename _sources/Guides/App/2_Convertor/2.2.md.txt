@@ -1,0 +1,58 @@
+# 2.2 - Outlets and Actions
+
+## Creating a subclass
+
+Now select the <u>Classes</u> part of the main window. Select the `NSObject` class and press <kbd>Classes</kbd>&rarr;<kbd>Create Subclass...</kbd>, in order to create a subclass of `NSObject`. It will be called `NewClass`.
+
+![The class browser](2.2_nfig1.png)
+![Creating a subclass](2.2_ofig2.png)
+
+You should then see the following inspector window. If not, select the new class (which should still be called `NewClass`) in the class browser of the main window, and press <kbd>Classes</kbd>&rarr;<kbd>Edit Class...</kbd>
+
+Rename the class from `NewClass` to `ConvertorManager` (don't forget to press <kbd>Enter</kbd>, or your change will not affect anything).
+
+![The class inspector](2.2_nfig3.png)
+
+## Adding outlets & actions
+
+Now let's add some **outlets**. Outlets are basically instance variables of the class that you will connect to interface's components at design time. Outlets represent the components you want to work with and of which you need to work in the code. Connecting them means interfacing the code with the gorm interface. 
+
+To edit outlets you need  select `ConvertorManager` and get back into the <u>Classes</u> view, the <u>Inspector</u> will change accordingly.
+
+So add three outlets: `amount`, `rate`, and `result`. Adding an outlet creates a new outlet called newOutlet: rename it by double-clicking and in-line editing.
+
+![Adding outlets](2.2_nfig4.png)
+
+You will now create an **action**. An action is an object method which can be linked to interface's component at design time, so that a specific action on the component will get this method to be called. Actions specify interaction from the interface to the code, they are methods to which the interface will send messages. Actions carry as a parameter a sender which is the control generating the call.
+
+Add one action named `convert:`, please notice the `:` at the end.
+
+![Adding actions](2.2_ofig5.png)
+
+## Instantiating the class
+
+Now that we have defined the class's outlets and actions, we need to instantiate it. Press <kbd>Classes</kbd>&rarr;<kbd>Instantiate</kbd>. Doing this tells GNUstep to create an instance of this class when the application is launched (to be more precise, when the nib/gorm file is loaded.) You should now see a new object (`ConvertorManager`) in the <u>Objects</u> pane of Gorm's main panel.
+
+## Connecting outlets and actions
+
+We now need to connect the outlets of the instance of ConvertorManager we have created to their corresponding components. As you may have guessed, the `amount` outlet is to be connected to the first text field, `rate` to the second and `result` to the third.
+
+Done that, the `ConvertorManager` instance will be able to access those fields by using its instance variables. You will not have to write any code to have those connections up and working.
+
+To connect the amount outlet to the first text field, you have to drag-and-drop while pressing the <kbd>Control</kbd> key from the `ConvertorManager` instance (the instance is in the <u>Classes</u> pane of Gorm's main panel) to the first text field. Little **S** and **T** icons will appear showing who is the *Source* and who is the *Target* (those icons always appear in the bottom-left corner of the component. If they are not, then you are probably not selecting the component you want to select).
+
+![Connectiong `ConvertorManager` with the TextField](2.2_nfig6.png)
+
+After dragging-and-dropping, you have to select which outlet of the Source you want to connect to the target, do this by clicking the correct outlet in the <u>Outlets</u> column of the <u>Inspector</u> and by pressing the <button>Connect</button> button. Do this for all three outlets -- `amount`, `rate`, and `result`.
+
+![Selecting the target of the connection](2.2_nfig7.png)
+![Target selected](2.2_nfig8.png)
+![All targets selected](2.2_nfig9.png)
+
+Connecting an action is a similar operation. Do a drag-and-drop with the control key pressed, from the <button>Convert</button> button to the instance of ConvertorManager. Note that **this is in the opposite direction**.
+
+![Connectiong `ConvertorManager` with the Convert button](2.2_nfig10.png)
+
+Then click **target** in the **Outlets** part of the inspector. All available actions of the target (here the `ConvertorManager` instance which has only one action) will appear in the **Actions** column. Click on the `convert:` action, and press the connect button. Now, every time the <button>Convert</button> button is pressed it send a `convert:` message to the instance of `ConvertorManager`. The sender will be the Button.
+
+![Selecting the target of the connection](2.2_nfig11.png)

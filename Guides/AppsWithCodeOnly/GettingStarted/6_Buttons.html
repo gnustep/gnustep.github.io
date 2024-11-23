@@ -1,0 +1,697 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>6 - Adding a Button in the Window &#8212; GNUstep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=359c27e9"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Guides/AppsWithCodeOnly/GettingStarted/6_Buttons';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Manuals" href="../../../Manuals/index.html" />
+    <link rel="prev" title="5 - Adding a Window to your Application" href="5_Windows.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">GNUstep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../../index.html">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../Manuals/index.html">
+                        Manuals
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../APIRefs/index.html">
+                        API references
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../About/index.html">
+                        About
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../Showcase/index.html">
+                        Showcase
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../../index.html">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../Manuals/index.html">
+                        Manuals
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../APIRefs/index.html">
+                        API references
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../About/index.html">
+                        About
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../Showcase/index.html">
+                        Showcase
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../App/index.html">Building Apps with GORM</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../App/1_Intro/index.html">1 - Introduction to GNUstep Programming</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../App/2_Convertor/index.html">2 - Convertor</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../App/2_Convertor/2.1.html">2.1 - Designing the UI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../App/2_Convertor/2.2.html">2.2 - Outlets and Actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../App/2_Convertor/2.3.html">2.3 - Adding the Code</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../App/3_TimeMachine/index.html">3 - TimeMachine</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../App/3_TimeMachine/3.1.html">3.1 - A Basic Clock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../App/3_TimeMachine/3.2.html">3.2 - Analog Clock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../App/3_TimeMachine/3.3.html">3.3 - New Time Zone Dialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../App/3_TimeMachine/3.4.html">3.4 - Multiple Clocks</a></li>
+</ul>
+</li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../App/4_Money/index.html">4 - Money</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../App/4_Money/4.1.html">4.1 - The Basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../App/4_Money/4.2.html">4.2 - Document Editor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../App/4_Money/4.3.html">4.3 - Load and Save</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../App/4_Money/4.4.html">4.4 - Drag and Drop</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../App/5_Overview/index.html">5 - Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../App/6_LunarCalendar/index.html">6 - LunarCalendar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../App/7_NSLookupService/index.html">7 - NSLookupService</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../App/HelpfulWebsites.html">Helpful Websites</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Building Apps from Code Only</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-5"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">First Steps in GNUstep GUI Programming</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-6"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="1_SharedApplication.html">1 - The shared application object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="2_AppIcon.html">2 - Setting your application’s icon</a></li>
+<li class="toctree-l3"><a class="reference internal" href="3_Menus.html">3 - Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="4_PointsSizesRectangles.html">4 - Points, Sizes and Rectangles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="5_Windows.html">5 - Adding a Window to your Application</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">6 - Adding a Button in the Window</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Guides</a></li>
+    
+    
+    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">First Steps in GNUstep GUI Programming</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">6 - Adding...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="adding-a-button-in-the-window">
+<h1>6 - Adding a Button in the Window<a class="headerlink" href="#adding-a-button-in-the-window" title="Permalink to this heading">#</a></h1>
+<p>We are now going to add a button inside our window. But first, we need to prepare the ground with a very short introduction to the wonderful <code class="docutils literal notranslate"><span class="pre">NSView</span></code> class.</p>
+<section id="a-quick-introduction-to-views">
+<h2>6.1 A Quick Introduction to Views<a class="headerlink" href="#a-quick-introduction-to-views" title="Permalink to this heading">#</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">NSView</span></code> is a class whose objects represent a rectangular area in a window. Each <code class="docutils literal notranslate"><span class="pre">NSView</span></code> has its own internal coordinate system; <code class="docutils literal notranslate"><span class="pre">NSView</span></code> provides a complete framework for managing the rectangle represented by the view, its coordinate system, and for drawing and getting user events inside the view’s rectangle.</p>
+<p>Any object which can be displayed (and/or can accept user events) inside a window (such as a button, a text field, a scroll view, a slider, etc) is actually an instance of a subclass of <code class="docutils literal notranslate"><span class="pre">NSView</span></code>. The specific subclass (for example, <code class="docutils literal notranslate"><span class="pre">NSButton</span></code>) implements a specific way of drawing and managing user events inside the view’s rectangle. An unsubclassed <code class="docutils literal notranslate"><span class="pre">NSView</span></code> by default draws nothing and reacts to no user events, even if it contains all the machinery (ready for subclasses to use) to do both.</p>
+<p>When you create a window, the library automatically creates an <code class="docutils literal notranslate"><span class="pre">NSView</span></code> covering the whole content area of the window. This view is called the window’s <em>content view</em>. You can replace the default content view (which is transparent and reacts to no user events) with an <code class="docutils literal notranslate"><span class="pre">NSView</span></code> of your choice (which can be an instance of a subclass of <code class="docutils literal notranslate"><span class="pre">NSView</span></code>, such as a <code class="docutils literal notranslate"><span class="pre">NSButton</span></code> or a <code class="docutils literal notranslate"><span class="pre">NSScrollView</span></code>), but you should not change the rectangle it represents, which must always cover the whole window.</p>
+<p>If you want to have a view which covers only a part of a window, you need to add it as a <em>subview</em> of the content view. We will explore subviews in a forth-coming tutorial; in our first example, we will go for the simplest possible solution avoiding use of subviews: we will create a single <code class="docutils literal notranslate"><span class="pre">NSButton</span></code>, make a window to fit exactly our button, and then replace the default window’s content view with our button. In this way we’ll get a window containing exactly our button. In the next tutorial, we’ll learn how to enclose views one over the other in a subview tree, so that we can put more things in a single window.</p>
+</section>
+<hr class="docutils" />
+<section id="creating-a-button">
+<h2>6.2 Creating a Button<a class="headerlink" href="#creating-a-button" title="Permalink to this heading">#</a></h2>
+<p>Creating a button is quite easy:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>NSButton *myButton;
+
+myButton = AUTORELEASE ([NSButton new]);
+[myButton setTitle: @&quot;Print Hello!&quot;];
+[myButton sizeToFit];
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">setTitle:</span></code> sets the title (string) to be displayed on the button; <code class="docutils literal notranslate"><span class="pre">sizeToFit</span></code> resizes the button so that it fits the title it is displaying.</p>
+<p>Next, we need to set target and action of the button:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[myButton setTarget: self];
+[myButton setAction: @selector (printHello:)];
+</pre></div>
+</div>
+<p>(<code class="docutils literal notranslate"><span class="pre">self</span></code> will refer to our custom object)</p>
+</section>
+<hr class="docutils" />
+<section id="putting-the-button-in-the-window">
+<h2>6.3 Putting the button in the window<a class="headerlink" href="#putting-the-button-in-the-window" title="Permalink to this heading">#</a></h2>
+<p>We now need to modify our code to create the window so that it creates a window exactly of the right size to contain our button. First, we need to get the size of the button:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>NSSize buttonSize;
+
+buttonSize = [myButton frame].size;
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">frame</span></code> is a method inherited by <code class="docutils literal notranslate"><span class="pre">NSView</span></code> which returns the rectangle enclosing the button (or, more generally, the rectangle enclosing/represented by an <code class="docutils literal notranslate"><span class="pre">NSView</span></code>). The <code class="docutils literal notranslate"><span class="pre">origin</span></code> of this rectangle is meaningless at this point; it is the <code class="docutils literal notranslate"><span class="pre">size</span></code> (which was set by <code class="docutils literal notranslate"><span class="pre">sizeToFit</span></code>) what we want.</p>
+<p>Then, we choose for the window a content rect with the <code class="docutils literal notranslate"><span class="pre">size</span></code> of the button, and with an <code class="docutils literal notranslate"><span class="pre">origin</span></code> of our choice; (100, 100) in this example:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>NSRect rect;
+
+rect = NSMakeRect (100, 100, 
+                   buttonSize.width, 
+                   buttonSize.height);
+</pre></div>
+</div>
+<p>At this point, we just create the window as before, but using this rectangle (full code below). The last thing to do is then replacing the default window content view with our button:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[myWindow setContentView: myButton];
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="source-code">
+<h2>6.4 Source Code<a class="headerlink" href="#source-code" title="Permalink to this heading">#</a></h2>
+<p>We are ready to show the whole source code (the <code class="docutils literal notranslate"><span class="pre">GNUmakefile</span></code> is the usual one):</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#include &lt;Foundation/Foundation.h&gt;
+#include &lt;AppKit/AppKit.h&gt;
+
+@interface MyDelegate : NSObject
+{
+  NSWindow *myWindow;
+}
+- (void) printHello: (id)sender;
+- (void) createMenu;
+- (void) createWindow;
+- (void) applicationWillFinishLaunching: (NSNotification *)not;
+- (void) applicationDidFinishLaunching: (NSNotification *)not;
+@end
+
+@implementation MyDelegate : NSObject 
+- (void) dealloc
+{
+  RELEASE (myWindow);
+}
+
+- (void) printHello: (id)sender
+{
+  printf (&quot;Hello!\n&quot;);
+}
+
+- (void) createMenu
+{
+  NSMenu *menu;
+
+  menu = AUTORELEASE ([NSMenu new]);
+
+  [menu addItemWithTitle: @&quot;Quit&quot;  
+        action: @selector (terminate:)  
+        keyEquivalent: @&quot;q&quot;];
+
+  [NSApp setMainMenu: menu];
+}
+
+- (void) createWindow
+{
+  NSRect rect;
+  unsigned int styleMask = NSTitledWindowMask 
+                           | NSMiniaturizableWindowMask;
+  NSButton *myButton;
+  NSSize buttonSize;
+
+  myButton = AUTORELEASE ([NSButton new]);
+  [myButton setTitle: @&quot;Print Hello!&quot;];
+  [myButton sizeToFit];
+  [myButton setTarget: self];
+  [myButton setAction: @selector (printHello:)];
+
+  buttonSize = [myButton frame].size;
+  rect = NSMakeRect (100, 100, 
+                     buttonSize.width, 
+                     buttonSize.height);
+
+  myWindow = [NSWindow alloc];
+  myWindow = [myWindow initWithContentRect: rect
+                       styleMask: styleMask
+                       backing: NSBackingStoreBuffered
+                       defer: NO];
+  [myWindow setTitle: @&quot;This is a test window&quot;];
+  [myWindow setContentView: myButton];
+}
+
+- (void) applicationWillFinishLaunching: (NSNotification *)not
+{
+  [self createMenu];
+  [self createWindow];
+}
+
+- (void) applicationDidFinishLaunching: (NSNotification *)not;
+{
+  [myWindow makeKeyAndOrderFront: nil];
+}
+@end
+
+int main (int argc, const char **argv)
+{ 
+  [NSApplication sharedApplication];
+  [NSApp setDelegate: [MyDelegate new]];
+
+  return NSApplicationMain (argc, argv);
+}
+</pre></div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="5_Windows.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">5 - Adding a Window to your Application</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../../Manuals/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Manuals</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-quick-introduction-to-views">6.1 A Quick Introduction to Views</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-button">6.2 Creating a Button</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#putting-the-button-in-the-window">6.3 Putting the button in the window</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#source-code">6.4 Source Code</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../../_sources/Guides/AppsWithCodeOnly/GettingStarted/6_Buttons.md.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, GNUstep contributors.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
