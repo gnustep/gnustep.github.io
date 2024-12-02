@@ -1,15 +1,15 @@
-# Installation
+# Installation and Setup
 
 ```{toctree}
 :maxdepth: 2
 :caption: Contents
 :titlesonly: true
 
-Linux
-Windows
+Linux/index
+Windows/index
 ```
 
-If you are on a Unix-like system other than GNU/Linux, use the [Linux instructions](Linux.md).
+If you are on a Unix-like system other than GNU/Linux, use the [Linux instructions](Linux/index.md).
 
 % Shows 1 column for width < 576px
 % Shows 2 columns for width >576px, <1200px
@@ -19,13 +19,13 @@ If you are on a Unix-like system other than GNU/Linux, use the [Linux instructio
 :gutter: 1
 
 :::{grid-item-card} {fab}`linux` Linux
-:link: Linux
+:link: Linux/index
 :link-type: doc
 
 :::
 
 :::{grid-item-card} {fab}`windows` Windows
-:link: Windows
+:link: Windows/index
 :link-type: doc
 
 :::

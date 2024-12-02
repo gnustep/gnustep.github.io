@@ -1,0 +1,680 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Building on Linux &#8212; GNUstep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Guides/Setup/Linux/building-linux';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Windows" href="../Windows/index.html" />
+    <link rel="prev" title="Linux" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">GNUstep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../Manuals/index.html">
+    Manuals
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../APIRefs/index.html">
+    API references
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../About/index.html">
+    About
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../Showcase/index.html">
+    Showcase
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    Guides
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../Manuals/index.html">
+    Manuals
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../APIRefs/index.html">
+    API references
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../About/index.html">
+    About
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../Showcase/index.html">
+    Showcase
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Installation and Setup</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">Linux</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Building on Linux</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../Windows/index.html">Windows</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../Windows/sdk-setup.html">SDK/Environment setup</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Windows/installing-windows-msvc.html">Installing the GNUstep MSVC toolchain on Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Windows/using-windows-msvc-msys2.html">Using the GNUstep MSVC toolchain from MSYS2</a></li>
+
+<li class="toctree-l3"><a class="reference internal" href="../Windows/building-windows-msvc.html">Building on Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../Windows/ide-setup.html">IDE setup</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../App/index.html">Building Apps with GORM</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../App/1_Intro/index.html">1 - Introduction to GNUstep Programming</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../App/2_Convertor/index.html">2 - Convertor</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../App/2_Convertor/2.1.html">2.1 - Designing the UI</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../App/2_Convertor/2.2.html">2.2 - Outlets and Actions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../App/2_Convertor/2.3.html">2.3 - Adding the Code</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../App/3_TimeMachine/index.html">3 - TimeMachine</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../App/3_TimeMachine/3.1.html">3.1 - A Basic Clock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../App/3_TimeMachine/3.2.html">3.2 - Analog Clock</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../App/3_TimeMachine/3.3.html">3.3 - New Time Zone Dialog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../App/3_TimeMachine/3.4.html">3.4 - Multiple Clocks</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../App/4_Money/index.html">4 - Money</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../App/4_Money/4.1.html">4.1 - The Basics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../App/4_Money/4.2.html">4.2 - Document Editor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../App/4_Money/4.3.html">4.3 - Load and Save</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../App/4_Money/4.4.html">4.4 - Drag and Drop</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../App/5_Overview/index.html">5 - Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../App/6_LunarCalendar/index.html">6 - LunarCalendar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../App/7_NSLookupService/index.html">7 - NSLookupService</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../App/HelpfulWebsites.html">Helpful Websites</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../AppsWithCodeOnly/index.html">Building Apps from Code Only</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/index.html">First Steps in GNUstep GUI Programming</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/1_SharedApplication.html">1 - The shared application object</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/2_AppIcon.html">2 - Setting your application’s icon</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/3_Menus.html">3 - Menus</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/4_PointsSizesRectangles.html">4 - Points, Sizes and Rectangles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/5_Windows.html">5 - Adding a Window to your Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../AppsWithCodeOnly/GettingStarted/6_Buttons.html">6 - Adding a Button in the Window</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Guides</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Installation and Setup</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Linux</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Building on Linux</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="building-on-linux">
+<h1>Building on Linux<a class="headerlink" href="#building-on-linux" title="Link to this heading">#</a></h1>
+<p>We first need to install some prequisits including
+clang for Objective-C 2.0 support, and set some
+enviroment variables.</p>
+<p>Debian-based:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>clang<span class="w"> </span>lld<span class="w"> </span>git<span class="w"> </span>cmake<span class="w"> </span>make<span class="w"> </span>pkg-config
+</pre></div>
+</div>
+<p>Environment:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">CC</span><span class="o">=</span>/usr/bin/clang
+<span class="nb">export</span><span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>/usr/bin/clang++
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/usr/local/bin:<span class="nv">$PATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span>/usr/local/lib:<span class="nv">$LD_LIBRARY_PATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">LD</span><span class="o">=</span>/usr/bin/ld.lld
+<span class="nb">export</span><span class="w"> </span><span class="nv">LDFLAGS</span><span class="o">=</span>-fuse-ld<span class="o">=</span>/usr/bin/ld.lld
+</pre></div>
+</div>
+<section id="libobjc2">
+<h2>1.1 libobjc2<a class="headerlink" href="#libobjc2" title="Link to this heading">#</a></h2>
+<p>We can now build and install the Objective-C runtime libobjc2.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--recurse-submodules<span class="w"> </span>--branch<span class="w"> </span>&lt;REPLACE_WITH_LATEST_TAG&gt;<span class="w"> </span><span class="s2">&quot;https://github.com/gnustep/libobjc2&quot;</span>
+<span class="nb">cd</span><span class="w"> </span>libobjc2
+mkdir<span class="w"> </span>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
+cmake<span class="w"> </span>..<span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>RelWithDebInfo
+sudo<span class="w"> </span>make<span class="w"> </span>install
+</pre></div>
+</div>
+</section>
+<section id="libdispatch">
+<h2>1.2 libdispatch<a class="headerlink" href="#libdispatch" title="Link to this heading">#</a></h2>
+<p>Grand Central Dispatch (GCD) is a library that provides a
+low-level and efficient API for managing work across threads.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--branch<span class="w"> </span>&lt;REPLACE_WITH_LATEST_TAG&gt;<span class="w"> </span>https://github.com/apple/swift-corelibs-libdispatch
+<span class="nb">cd</span><span class="w"> </span>swift-corelibs-libdispatch/
+mkdir<span class="w"> </span>build<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>build
+cmake<span class="w"> </span>..<span class="w"> </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>RelWithDebInfo<span class="w"> </span>-DINSTALL_PRIVATE_HEADERS<span class="o">=</span>YES
+sudo<span class="w"> </span>make<span class="w"> </span>install
+</pre></div>
+</div>
+</section>
+<section id="gnustep-make">
+<h2>1.3 GNUstep Make<a class="headerlink" href="#gnustep-make" title="Link to this heading">#</a></h2>
+<p>GNUstep make is a collection of makefiles and scripts to
+build GNUstep frameworks, libraries and applications.</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>--branch<span class="w"> </span>&lt;REPLACE_WITH_LATEST_TAG&gt;<span class="w"> </span>https://github.com/gnustep/tools-make
+<span class="nb">cd</span><span class="w"> </span>tools-make
+./configure<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>--with-layout<span class="o">=</span>fhs<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>--enable-native-objc-exceptions<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>--enable-objc-arc<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>--enable-install-ld-so-conf<span class="w"> </span><span class="se">\</span>
+<span class="w">           </span>--enable-debug-by-default
+sudo<span class="w"> </span>make<span class="w"> </span>install
+</pre></div>
+</div>
+</section>
+<section id="gnustep-base">
+<h2>1.4 GNUstep Base<a class="headerlink" href="#gnustep-base" title="Link to this heading">#</a></h2>
+<p>GNUstep Base features the Foundation framework, a collection of non-graphical Objective-C objects.
+Different from the Foundation framework on macOS, GNUstep Base is not based on CoreFoundation.
+You can still use CoreFoundation (a.k.a CoreBase) on GNUstep, but it is not required.</p>
+<section id="dependencies">
+<h3>1.4.1 Dependencies<a class="headerlink" href="#dependencies" title="Link to this heading">#</a></h3>
+<p>You will need to install the following dependencies before building GNUstep Base:</p>
+<ul class="simple">
+<li><p>GNUstep Make (see above)</p></li>
+<li><p>gnutls or openssl</p></li>
+<li><p>libffi</p></li>
+<li><p>libxml2</p></li>
+<li><p>libxslt</p></li>
+<li><p>zlib</p></li>
+<li><p>libavahi</p></li>
+<li><p>libicu</p></li>
+<li><p>tzdata</p></li>
+<li><p>libcurl</p></li>
+</ul>
+<p>Debian-based:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>gnutls-bin,<span class="w"> </span>libffi-dev,<span class="w"> </span>libxml2-dev,<span class="w"> </span>libxslt1-dev,<span class="w"> </span>libgnutls28-dev,<span class="w"> </span>zlib1g-dev,<span class="w"> </span>libavahi-client-dev,<span class="w"> </span>libicu-dev,<span class="w"> </span>tzdata,<span class="w"> </span>libcurl4-openssl-dev
+</pre></div>
+</div>
+</section>
+<section id="building">
+<h3>1.4.2 Building<a class="headerlink" href="#building" title="Link to this heading">#</a></h3>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Source the GNUstep environment</span>
+<span class="nb">source</span><span class="w"> </span>/usr/local/share/GNUstep/Makefiles/GNUstep.sh
+
+<span class="c1"># Clone the repository</span>
+git<span class="w"> </span>clone<span class="w"> </span>--branch<span class="w"> </span>&lt;REPLACE_WITH_LATEST_TAG&gt;<span class="w"> </span>https://github.com/gnustep/libs-base
+
+<span class="nb">cd</span><span class="w"> </span>libs-base
+./configure
+</pre></div>
+</div>
+</section>
+</section>
+<section id="gnustep-corebase">
+<h2>1.5 GNUstep CoreBase<a class="headerlink" href="#gnustep-corebase" title="Link to this heading">#</a></h2>
+<p>If you are interested in using the C-based CoreFoundation
+API you can build and install GNUstep CoreBase.</p>
+<p>Please note that CoreBase is not that mature yet and you can run into
+issues when using it. For more information about the current state
+of CoreBase please see <a class="reference internal" href="#"><span class="xref myst">TODO</span></a>.</p>
+<section id="id1">
+<h3>1.5.1 Dependencies<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>GNUstep Make (see above)</p></li>
+<li><p>GNUstep Base (see above)</p></li>
+<li><p>libicu</p></li>
+</ul>
+<p>Debian-based:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt<span class="w"> </span>install<span class="w"> </span>libicu-dev
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3>1.5.2 Building<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Source the GNUstep environment</span>
+<span class="nb">source</span><span class="w"> </span>/usr/local/share/GNUstep/Makefiles/GNUstep.sh
+
+<span class="c1"># Clone the repository</span>
+git<span class="w"> </span>clone<span class="w"> </span>--branch<span class="w"> </span>&lt;REPLACE_WITH_LATEST_TAG&gt;<span class="w"> </span>https://github.com/gnustep/libs-corebase
+
+<span class="nb">cd</span><span class="w"> </span>libs-corebase
+./configure
+</pre></div>
+</div>
+<p>If you are only interested in using non-graphical frameworks you can stop here.</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Linux</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../Windows/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Windows</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#libobjc2">1.1 libobjc2</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#libdispatch">1.2 libdispatch</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gnustep-make">1.3 GNUstep Make</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gnustep-base">1.4 GNUstep Base</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#dependencies">1.4.1 Dependencies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#building">1.4.2 Building</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gnustep-corebase">1.5 GNUstep CoreBase</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">1.5.1 Dependencies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">1.5.2 Building</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../../../_sources/Guides/Setup/Linux/building-linux.md.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, GNUstep contributors.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

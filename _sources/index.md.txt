@@ -54,10 +54,10 @@ Showcase/index
 :gutter: 1
 
 :::{grid-item-card} {octicon}`download` Install GNUstep
-:link: Guides/Install/index
+:link: Guides/Setup/index
 :link-type: doc
 
-Install GNUstep on your system to get started.
+Install GNUstep on your system, and get started in your IDE.
 :::
 
 :::{grid-item-card} {octicon}`paintbrush` Customize
