@@ -5,8 +5,8 @@
 :caption: Contents
 :titlesonly: true
 
+Setup/index
 App/index
 AppsWithCodeOnly/index
-Install/index
 ```
 
