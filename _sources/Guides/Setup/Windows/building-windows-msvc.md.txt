@@ -8,7 +8,7 @@ The toolchain is used commercially as well, and can be used to integrate Objecti
 
 Before we can start building, we need to install some dependencies. We will be using [Chocolatey](https://chocolatey.org/) to install them.
 
-Follow the guide on installing Visual Studio, and the Windows SDK from the [Windows Development Workflow](./windows-dev-workflow.md) guide.
+Follow the guide on installing Visual Studio and the Windows SDK from the [SDK setup](sdk-setup) guide.
 
 ### 1.1 Installing other dependencies
 
@@ -59,4 +59,4 @@ build.bat --type Release --no-gui
 ```
 
 If no error occured during the build, you can now find the toolchain in `C:\GNUstep\x64\{Debug, Release}`.
-To learn more about the toolchain directory structure and how to use it, see [Using the MSVC toolchain](./using-windows-msvc.md).
+To learn more about the toolchain directory structure and how to use it, see [Using the MSVC toolchain](using-windows-msvc-msys2).

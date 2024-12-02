@@ -40,7 +40,9 @@ following optional packages:
 Keep in mind that you need to select different build tools depending on your target
 architecture.
 
-Here is a screenshot of the installer: ![[Workload Selection Screen]](../assets/visualstudio2022-installer.png)
+Here is a screenshot of the installer:
+
+![[Workload Selection Screen]](visualstudio2022-installer.png)
 
 ### 1.2 Installing LLVM
 
