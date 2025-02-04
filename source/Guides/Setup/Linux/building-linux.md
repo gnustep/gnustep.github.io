@@ -81,7 +81,7 @@ You will need to install the following dependencies before building GNUstep Base
 
 Debian-based:
 ```sh
-sudo apt install gnutls-bin, libffi-dev, libxml2-dev, libxslt1-dev, libgnutls28-dev, zlib1g-dev, libavahi-client-dev, libicu-dev, tzdata, libcurl4-openssl-dev
+sudo apt install gnutls-bin libffi-dev libxml2-dev libxslt1-dev libgnutls28-dev zlib1g-dev libavahi-client-dev libicu-dev tzdata libcurl4-openssl-dev
 ```
 
 ### 1.4.2 Building
