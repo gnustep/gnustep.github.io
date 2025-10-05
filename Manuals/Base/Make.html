@@ -1,0 +1,676 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Appendix F Using the GNUstep Make Package &#8212; GNUstep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Manuals/Base/Make';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Concept Index" href="Concept-Index.html" />
+    <link rel="prev" title="Appendix E GNUstep Compliance to Standards" href="Compliance-to-Standards.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">GNUstep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../Guides/index.html">
+    Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Manuals
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../APIRefs/index.html">
+    API references
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../About/index.html">
+    About
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../Showcase/index.html">
+    Showcase
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../Guides/index.html">
+    Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Manuals
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../APIRefs/index.html">
+    API references
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../About/index.html">
+    About
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../Showcase/index.html">
+    Showcase
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Base Manual</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Introduction.html">1 Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Objective_002dC.html">2 The Objective-C Language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Objects.html">3 Working with Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Classes.html">4 Writing New Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Advanced-Messaging.html">5 Advanced Messaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Exception-Handling.html">6 Exception Handling, Assertions, Logging, and Sanitization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Distributed-Objects.html">7 Distributed Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Base-Library.html">8 Base Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GSDoc.html">Appendix A The GNUstep Documentation System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Bundles-and-Frameworks.html">Appendix B Application Resources: Bundles and Frameworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Java-and-Guile.html">Appendix D Programming GNUstep in Java and Guile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Compliance-to-Standards.html">Appendix E GNUstep Compliance to Standards</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Appendix F Using the GNUstep Make Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Concept-Index.html">Concept Index</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../gs-standards/index.html">GNUstep Coding Standards</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Introduction.html">1 Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/ChangeLog-Entries.html">2 ChangeLog Entries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Coding-Style.html">3 Coding Style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/ObjectiveC.html">4 ObjectiveC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Memory-Management.html">4.1 Memory Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Error-Handling.html">4.2 Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Variable-Declaration.html">4.3 Variable Declaration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Naming-Conventions.html">4.4 Naming Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Object-Persistence.html">4.5 Object Persistence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Documentation.html">5 Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Before-You-Commit.html">6 Before You Commit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Contributing.html">7 Contributing</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Manuals</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Base Manual</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Appendix F Using the GNUstep Make Package</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="appendix-f-using-the-gnustep-make-package">
+<h1>Appendix F Using the GNUstep Make Package<a class="headerlink" href="#appendix-f-using-the-gnustep-make-package" title="Link to this heading">#</a></h1>
+<p><span id="index-Make-package_002c-GNUstep" class="index-entry-id"></span></p>
+<p>Reference/doc on the GNUstep make package; mainly examples of various types of projects.</p>
+<section id="f-1-makefile-contents">
+<h2>F.1 Makefile Contents<a class="headerlink" href="#f-1-makefile-contents" title="Link to this heading">#</a></h2>
+<p><strong>Note. Type <code class="docutils literal notranslate"><span class="pre">man</span> <span class="pre">make</span></code> for assistance.</strong></p>
+<p>Make files comprise four key content types:</p>
+<ul>
+<li><p><strong>Comments</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">#</span></code> prefixes comments.</p>
+</li>
+<li><p><strong>Macros</strong></p>
+<p><code class="docutils literal notranslate"><span class="pre">SRC=main.m</span></code> assigns a macro that is implemented as:<code class="docutils literal notranslate"><span class="pre">gcc</span> <span class="pre">$(SRC)</span></code> and is interpreted as: <code class="docutils literal notranslate"><span class="pre">gcc</span> <span class="pre">main.m</span></code></p>
+</li>
+<li><p><strong>Explicit rules</strong> Explicit rules are used to indicate which files depend upon supporting files and the commands required for their compilation:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>targetfile : sourcefiles
+    commands           
+</pre></div>
+</div>
+<p>A Tab precedes each command that must be implemented on the source files in order to create the target file:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>main: main.m List.h
+    gcc -o main main.m List.h
+</pre></div>
+</div>
+</li>
+<li><p><strong>Implicit rules</strong> Implicit rules broadly echo explicit variants but do not specify commands, rather the extensions indicate which commands are performed:</p>
+<p><code class="docutils literal notranslate"><span class="pre">servertest.o:</span> <span class="pre">servertest.c</span> <span class="pre">io.h</span></code><br />
+is interpreted as:<br />
+<code class="docutils literal notranslate"><span class="pre">$(CC)</span> <span class="pre">$(CFLAGS)</span> <span class="pre">-c</span> <span class="pre">servertest.c</span> <span class="pre">io.h</span></code></p>
+</li>
+</ul>
+<!-- -->
+<section id="f-1-1-makefile-example">
+<h3>F.1.1 Makefile Example<a class="headerlink" href="#f-1-1-makefile-example" title="Link to this heading">#</a></h3>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># The following two lines force the standard make to recognize the 
+# Objective-C .m suffix.
+
+.SUFFIXES: .o .m
+.m.o:
+$(CC) -c $(CFLAGS) $&lt; 
+
+
+# Macro declarations
+
+CC = gcc
+CFLAGS = -g
+LIBS = -lobjc
+SRC=main.m Truck.m Station.m Vehicle.m
+OBJ=main.o Truck.o Station.o Vehicle.o
+
+
+# Explicit rules
+
+hist: $(OBJ)
+    $(CC) $(CFLAGS) -o main $(OBJ) $(LIBS)
+
+
+# Implicit rules
+
+Truck.o: Truck.h Truck.m
+Station.o: Truck.h Station.h Station.m
+Vehicle.o: Truck.h Vehicle.h Vehicle.m
+main.o: Station.h Vehicle.h
+</pre></div>
+</div>
+</section>
+<section id="f-1-2-makefile-structure">
+<h3>F.1.2 Makefile Structure<a class="headerlink" href="#f-1-2-makefile-structure" title="Link to this heading">#</a></h3>
+<p>The following Makefile defines a project:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#
+# A GNUmakefile
+#
+
+# Check that the GNUSTEP_MAKEFILES environment variable is set
+ifeq ($(GNUSTEP_MAKEFILES),)
+GNUSTEP_MAKEFILES := $(shell gnustep-config --variable=GNUSTEP_MAKEFILES 2&gt;/dev/null)
+ ifeq ($(GNUSTEP_MAKEFILES),)
+   $(error You need to set GNUSTEP_MAKEFILES before compiling!)
+ endif
+endif
+
+# Include the common variables
+include $(GNUSTEP_MAKEFILES)/common.make
+
+# Build an Objective-C program
+OBJC_PROGRAM_NAME = simple
+
+# Objective-C files requiring compilation
+simple_OBJC_FILES = source.m
+
+-include GNUmakefile.preamble
+
+# Include in the rules for making Objective-C programs
+include $(GNUSTEP_MAKEFILES)/objc.make
+
+-include GNUmakefile.postamble
+</pre></div>
+</div>
+<p>To compile a package that uses the Makefile Package, type <code class="docutils literal notranslate"><span class="pre">make</span></code> in the top-level directory of the package. A non-GNUstep Objective-C file may be compiled by adding <code class="docutils literal notranslate"><span class="pre">-lobjc</span> <span class="pre">on</span></code> at the command line.</p>
+</section>
+<section id="f-1-3-debug-profile-and-sanitization">
+<h3>F.1.3 Debug, Profile and Sanitization<a class="headerlink" href="#f-1-3-debug-profile-and-sanitization" title="Link to this heading">#</a></h3>
+<p>By default the Makefile Package does not flag the compiler to generate debugging information that is generated by typing:</p>
+<p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">debug=yes</span></code></p>
+<p>This command also causes the Makefile Package to turn off optimization. It is therefore necessary to override the optimization flag when running Make if both debugging information and optimization is required. Use the variable OPTFLAG to override the optimization flag.</p>
+<p>By default the Makefile Package does not instruct the compiler to create profiling information that is generated by typing:</p>
+<p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">profile=yes</span></code></p>
+<p>By default the Makefile Package does not instruct the compiler to create address and leak sanitization information. This is turned on by typing:</p>
+<p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">asan=yes</span></code></p>
+</section>
+<section id="f-1-4-static-shared-and-dlls">
+<h3>F.1.4 Static, Shared and DLLs<a class="headerlink" href="#f-1-4-static-shared-and-dlls" title="Link to this heading">#</a></h3>
+<p>By default the Makefile Package generates a shared library if it is building a library project type, and it will link with shared libraries if it is building an application or command-line tool project type. To tell the Makefile Package not to build using shared libraries but using static libraries instead, type:</p>
+<p><code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">shared=no</span></code></p>
+<p>This default is only applicable on systems that support shared libraries; systems that do not support shared libraries will always build using static libraries. Some systems support DLLs that are a form of shared libraries; on these systems DLLs are built by default unless the Makefile Package is told to build using static libraries instead.</p>
+</section>
+</section>
+<section id="f-2-project-types">
+<h2>F.2 Project Types<a class="headerlink" href="#f-2-project-types" title="Link to this heading">#</a></h2>
+<p>Projects are divided into different types. To create a project of a specific type, a make file is specified:</p>
+<p><code class="docutils literal notranslate"><span class="pre">include</span> <span class="pre">$(GNUSTEP_MAKEFILES)/application.make</span></code></p>
+<p>Each project type is independent, and if you want to create two project types in the same directory (e.g. a tool and a Java program), include both the desired make files in your main Make file.</p>
+<ul>
+<li><p>Aggregate - aggregate.make</p>
+<p>An Aggregate project holds several sub-projects that are of any valid project type (including the Aggregate type). The only project variable is the SUBPROJECTS variable:</p>
+<p><code class="docutils literal notranslate"><span class="pre">Aggregate</span> <span class="pre">project:</span> <span class="pre">SUBPROJECTS</span></code></p>
+<p>SUBPROJECTS defines the directory names that hold the sub-projects that the Aggregate project should build.</p>
+</li>
+<li><p>Graphical Applications - application.make</p>
+<p>An application is an Objective-C program that includes a GUI component, and by default links in all the GNUstep libraries required for GUI development, such as the Base and GUI libraries.</p>
+</li>
+<li><p>Bundles - bundle.make</p>
+<p>A bundle is a collection of resources and code that can be used to enhance an existing application or tool dynamically using the NSBundle class from the GNUstep base library.</p>
+</li>
+<li><p>Command Line C Tools - ctool.make</p>
+<p>A ctool is a project that uses only C language files. Otherwise it is similar to the ObjC project type.</p>
+</li>
+<li><p>Documentation - documentation.make</p>
+<p>The Documentation project provides rules to use various types of documentation such as texi and LaTeX documentation, and convert them into finished documentation like info, PostScript, HTML, etc.</p>
+</li>
+<li><p>Frameworks - framework.make</p>
+<p>A Framework is a collection of resources and a library that provides common code that can be linked into a Tool or Application. In many respects it is similar to a Bundle.</p>
+</li>
+<li><p>Java - java.make</p>
+<p>This project provides rules for building java programs. It also makes it easy to make java projects that interact with the GNUstep libraries.</p>
+</li>
+<li><p>Libraries - library.make</p>
+<p>The Makefile Package provides a project type for building libraries that may be static, shared, or dynamic link libraries (DLLs). The latter two variants are supported only on some platforms.</p>
+</li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Compliance-to-Standards.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Appendix E GNUstep Compliance to Standards</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Concept-Index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Concept Index</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#f-1-makefile-contents">F.1 Makefile Contents</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#f-1-1-makefile-example">F.1.1 Makefile Example</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#f-1-2-makefile-structure">F.1.2 Makefile Structure</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#f-1-3-debug-profile-and-sanitization">F.1.3 Debug, Profile and Sanitization</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#f-1-4-static-shared-and-dlls">F.1.4 Static, Shared and DLLs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#f-2-project-types">F.2 Project Types</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/Manuals/Base/Make.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, GNUstep contributors.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

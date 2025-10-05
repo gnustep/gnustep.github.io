@@ -1,0 +1,689 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>5 Advanced Messaging &#8212; GNUstep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Manuals/Base/Advanced-Messaging';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="6 Exception Handling, Assertions, Logging, and Sanitization" href="Exception-Handling.html" />
+    <link rel="prev" title="4 Writing New Classes" href="Classes.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">GNUstep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../Guides/index.html">
+    Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Manuals
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../APIRefs/index.html">
+    API references
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../About/index.html">
+    About
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../Showcase/index.html">
+    Showcase
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../Guides/index.html">
+    Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Manuals
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../APIRefs/index.html">
+    API references
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../About/index.html">
+    About
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../Showcase/index.html">
+    Showcase
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Base Manual</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Introduction.html">1 Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Objective_002dC.html">2 The Objective-C Language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Objects.html">3 Working with Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Classes.html">4 Writing New Classes</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">5 Advanced Messaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Exception-Handling.html">6 Exception Handling, Assertions, Logging, and Sanitization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Distributed-Objects.html">7 Distributed Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Base-Library.html">8 Base Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GSDoc.html">Appendix A The GNUstep Documentation System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Bundles-and-Frameworks.html">Appendix B Application Resources: Bundles and Frameworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Java-and-Guile.html">Appendix D Programming GNUstep in Java and Guile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Compliance-to-Standards.html">Appendix E GNUstep Compliance to Standards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Make.html">Appendix F Using the GNUstep Make Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Concept-Index.html">Concept Index</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../gs-standards/index.html">GNUstep Coding Standards</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Introduction.html">1 Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/ChangeLog-Entries.html">2 ChangeLog Entries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Coding-Style.html">3 Coding Style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/ObjectiveC.html">4 ObjectiveC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Memory-Management.html">4.1 Memory Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Error-Handling.html">4.2 Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Variable-Declaration.html">4.3 Variable Declaration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Naming-Conventions.html">4.4 Naming Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Object-Persistence.html">4.5 Object Persistence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Documentation.html">5 Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Before-You-Commit.html">6 Before You Commit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Contributing.html">7 Contributing</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Manuals</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Base Manual</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">5 Advanced Messaging</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="advanced-messaging">
+<h1>5 Advanced Messaging<a class="headerlink" href="#advanced-messaging" title="Link to this heading">#</a></h1>
+<p><span id="index-messaging_002c-advanced-techniques" class="index-entry-id"></span></p>
+<p>Objective-C provides some additional possibilities for message routing besides the capabilities described so far (inheritance and categories). One of the most important is that it is possible for an object, upon receiving a message it has not been set up to respond to, to <em>forward</em> that message to another object. A second important capability, which forwarding relies on, is the ability to represent method implementations directly in code. This supports various reflective operations as well as optimization where messages are sent many times.</p>
+<section id="how-messaging-works">
+<h2>5.1 How Messaging Works<a class="headerlink" href="#how-messaging-works" title="Link to this heading">#</a></h2>
+<p>Sending an Objective-C message requires three types of information:</p>
+<ul class="simple">
+<li><p>The message <strong>receiver</strong> - the object which is to perform the request.</p></li>
+<li><p>The message <strong>selector</strong> - this identifies the message, and is used to locate the excecutable code of the corresponding <strong>method</strong> by searching the structure of the class, and if necessary its superclasses, for an implementation.</p></li>
+<li><p>The message <strong>arguments</strong> - once the implementation has been found, these are simply passed to the method on the stack as in an ordinary function call.</p></li>
+</ul>
+<p>In the message ‘<code class="docutils literal notranslate"><span class="pre">[taskArray</span> <span class="pre">insertObject:</span> <span class="pre">anObj</span> <span class="pre">atIndex:</span> <span class="pre">i]</span></code>’, the receiver is “<code class="docutils literal notranslate"><span class="pre">taskArray</span></code>”, the selector is “<code class="docutils literal notranslate"><span class="pre">insertObject:atIndex:</span></code>”, and the arguments are “<code class="docutils literal notranslate"><span class="pre">anObj</span></code>” and “<code class="docutils literal notranslate"><span class="pre">i</span></code>”. Notice that the selector includes the argument titles and both colons, but not the argument names. In other words, this method might have been declared as ’<code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">(void)</span> <span class="pre">insertObject:</span> <span class="pre">(id)anObject</span> <span class="pre">atIndex:</span> <span class="pre">(unsigned)index;</span></code>’, but the “<code class="docutils literal notranslate"><span class="pre">anObject</span></code>” and “<code class="docutils literal notranslate"><span class="pre">index</span></code>” are just used for tracking the arguments within the method implementation code and not for looking up the method itself.</p>
+<p>The following sequence of events would occur on sending this message at runtime:</p>
+<ol class="arabic simple">
+<li><p>The internal <code class="docutils literal notranslate"><span class="pre">isa</span></code> pointer of the <strong>receiver</strong> (<code class="docutils literal notranslate"><span class="pre">taskArray</span></code>) is used to look up its class.</p></li>
+<li><p>The class representation is searched for a method implementation matching the <strong>selector</strong> (<code class="docutils literal notranslate"><span class="pre">insertObject:atIndex:</span></code>). If it is not found, the class’s superclass is searched, and recursively its superclass, until an implementation is found.</p></li>
+<li><p>The implementation is called, as if it were a C function, using the <strong>arguments</strong> given (<code class="docutils literal notranslate"><span class="pre">anObj</span></code> and <code class="docutils literal notranslate"><span class="pre">i</span></code>), and the result is returned to the code sending the message.</p></li>
+</ol>
+<p>In fact, when the method implementation is actually called, it additionally receives two <em>implicit</em> arguments: the <strong>receiver</strong> and the <strong>selector</strong>. These additional hidden arguments may be referred to in the source code by the names <code class="docutils literal notranslate"><span class="pre">self</span></code> and <code class="docutils literal notranslate"><span class="pre">_cmd</span></code>.</p>
+<p>The process of looking up the method implementation in the receiver at runtime is known as dynamic binding. This is part of what makes the language powerful and flexible, but it is inevitably (despite clever caching strategies used in the runtime library) a little slower than a simple function call in C. There are, however, ways of short-circuiting the process in cases where performance is at a premium. Before discussing this, we must first cover the concepts of selectors and implementations in greater detail.</p>
+</section>
+<section id="selectors">
+<h2>5.2 Selectors<a class="headerlink" href="#selectors" title="Link to this heading">#</a></h2>
+<p>So far we have been using the following syntax to send messages to objects:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[myArray removeObjectIdenticalTo: anObject];
+</pre></div>
+</div>
+<p>The example sends the message named <code class="docutils literal notranslate"><span class="pre">removeObjectIdenticalTo:</span></code> to <code class="docutils literal notranslate"><span class="pre">myArray</span></code> with the argument <code class="docutils literal notranslate"><span class="pre">anObject</span></code>.</p>
+<p>An alternative method of writing this is the following:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SEL removalSelector = @selector(removeObjectIdenticalTo:);
+[myArray performSelector: removalSelector withObject: anObject];
+</pre></div>
+</div>
+<p>Here, the first line obtains the desired method selector in the form of a compiled representation (not the full ASCII name), and the second line sends the message as before, but now in an explicit form. Since the message that is sent is now effectively a variable set at runtime, this makes it possible to support more flexible runtime functioning.</p>
+<section id="the-target-action-paradigm">
+<h3>5.2.1 The Target-Action Paradigm<a class="headerlink" href="#the-target-action-paradigm" title="Link to this heading">#</a></h3>
+<p>One conventional way of using selectors is called the <em>target-action</em> paradigm, and provides a means for, among other things, binding elements of a graphical user interface together at runtime.</p>
+<p>The idea is that a given object may serve as a flexible signal sender if it is given a receiver (the <em>target</em>) and a selector (the <em>action</em>) at runtime. When the object is told to send the signal, it sends the selector to the receiver. In some variations, the object passes itself as an argument.</p>
+<p>The code to implement this paradigm is simple -</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- (id) performAction
+{
+  if (target == nil || action == 0)
+    {
+      return nil;   // Target or action not set ... do nothing
+    }
+  if ([target respondsToSelector: action] == NO)
+    {
+      return nil;   // Target cannot deal with action ... do nothing
+    }
+  return [target performSelector: action withObject: self];
+}
+</pre></div>
+</div>
+<p>As an example, consider a graphical button widget that you wish to execute some method in your application when pressed.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  [button setTarget: bigMachine]
+  [button setAction: @selector(startUp:)];
+</pre></div>
+</div>
+<p>Here, <code class="docutils literal notranslate"><span class="pre">button</span></code> stores the given target and action in instance variables, then when it is pressed, it internally calls a method like <code class="docutils literal notranslate"><span class="pre">performAction</span></code> shown above, and sends the message “<code class="docutils literal notranslate"><span class="pre">[bigMachine</span> <span class="pre">startUp:</span> <span class="pre">button]</span></code>”.</p>
+<p>If you are used to programming with events and listeners in Java, the target-action paradigm provides a lighter-weight alternative for the most common case where only one object needs to be informed when an event occurs. Rather than writing or extending a special-purpose adaptor class, you just register the method you want called directly with the actuating element. If you need to send the event to multiple objects, however, you would need to write a special method to multiplex the event out. This would be approximately comparable effort to what is always required in Java, and is only needed in the minority of cases.</p>
+</section>
+<section id="obtaining-selectors">
+<h3>5.2.2 Obtaining Selectors<a class="headerlink" href="#obtaining-selectors" title="Link to this heading">#</a></h3>
+<p>In addition to using the compile-time <code class="docutils literal notranslate"><span class="pre">&#64;selector</span></code> operator, there are a couple of other ways of obtaining selectors.</p>
+<ul>
+<li><p>In a method implementation, you can always obtain the current selector from the variable <code class="docutils literal notranslate"><span class="pre">_cmd</span></code>:
+- (void) removeObjectIdenticalTo: (id)anObject
+{
+SEL  mySelector = _cmd;
+// …
+}</p></li>
+<li><p>At any point, you can use the <code class="docutils literal notranslate"><span class="pre">NSSelectorFromString()</span></code> function -</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  SEL  mySelector = NSSelectorFromString(@&quot;removeObjectIdenticalTo:&quot;);
+</pre></div>
+</div>
+<p>In reality, you would never use <code class="docutils literal notranslate"><span class="pre">NSSelectorFromString</span></code> for a constant string as shown; <code class="docutils literal notranslate"><span class="pre">&#64;selector</span></code> would do and is more efficient, since is a compile-time operator. Its chief utility lies in the case where the selector name is in a variable value (for whatever reason).</p>
+</li>
+</ul>
+<p>If you ever need to test the contents of a <code class="docutils literal notranslate"><span class="pre">SEL</span></code> variable for equality with another, you should use the function <code class="docutils literal notranslate"><span class="pre">sel_eq()</span></code> provided as part of the GNU Objective-C runtime library. This is necessary because, while the compiler tries to ensure that compile-time generated references to selectors for a particular message point to the same structure, selectors produced at runtime, or in different compilation units, will be different and a simple pointer equality test will not do.</p>
+</section>
+<section id="avoiding-messaging-errors-when-an-implementation-is-not-found">
+<h3>5.2.3 Avoiding Messaging Errors when an Implementation is Not Found<a class="headerlink" href="#avoiding-messaging-errors-when-an-implementation-is-not-found" title="Link to this heading">#</a></h3>
+<p>Using <strong>typed</strong> objects as shown below, the compiler would forewarn you if the <code class="docutils literal notranslate"><span class="pre">anObject</span></code> was unable to respond to the <code class="docutils literal notranslate"><span class="pre">alert:</span></code> message, as it knows what type of object <code class="docutils literal notranslate"><span class="pre">anObject</span></code> is:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SomeClass *anObject;      // an instance of the &#39;SomeClass&#39; class
+
+anObject = [[SomeClass alloc] init];    // build and initialize the object
+[anObject alert: additionalObject]; // compiler warns if &#39;alert:&#39; not
+                                        // defined in SomeClass or a superclass
+</pre></div>
+</div>
+<p>However at times the compiler will not forewarn you that a message will attempt to invoke a method that is not in the <strong>receiver’s</strong> repertoire. For instance, consider the code below where <code class="docutils literal notranslate"><span class="pre">anObject</span></code> is not known to implement the <code class="docutils literal notranslate"><span class="pre">alert:</span></code> message:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  id      anObject;       // arbitrary object;
+
+  anObject = [[SomeClass alloc] init];  // build and initialize object
+  [anObject alert: additionalObject];   // compiler cannot check whether
+                                        // &#39;alert&#39; is defined
+</pre></div>
+</div>
+<p>In this case, the compiler will not issue a warning, because it only knows that <code class="docutils literal notranslate"><span class="pre">anObject</span></code> is of type <code class="docutils literal notranslate"><span class="pre">id</span></code> … so it doesn’t know what methods the object implements.</p>
+<p>At runtime, if the Objective-C runtime library fails to find a <strong>method implementation</strong> for the <code class="docutils literal notranslate"><span class="pre">alert:</span></code> message in the <code class="docutils literal notranslate"><span class="pre">SomeClass</span></code> class or one of its superclasses, an exception is generated. This can be avoided in one of two ways.</p>
+<p>The first way is to check in advance whether the method is implemented:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>if ([anObject respondsToSelector: @selector(alert:)] == YES)
+  {
+    [anObject alert: additionalObject]; // send it a message.
+  }
+else
+  {
+    // Do something else if the object can&#39;t be alerted
+  }
+</pre></div>
+</div>
+<p>The second way is for the object the message was sent to to <em>forward</em> it somewhere else.</p>
+</section>
+</section>
+<section id="forwarding">
+<h2>5.3 Forwarding<a class="headerlink" href="#forwarding" title="Link to this heading">#</a></h2>
+<p>What actually happens when the GNU Objective-C runtime is unable to find a method implementation associated with an object for a given selector is that the runtime instead sends a special <code class="docutils literal notranslate"><span class="pre">forwardInvocation:</span></code> message to the object. (Other Objective-C runtimes do the same, but with a slightly different message name and structure.) The object is then able to use the information provided to handle the message in some way, a common mechanism being to forward the message to another object known as a <strong>delegate</strong>, so that the other object can deal with it.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- (void) forwardInvocation: (NSInvocation*)invocation
+{
+  if ([forwardee respondsToSelector: [invocation selector]])
+    return [invocation invokeWithTarget: forwardee];
+  else
+    return [self doesNotRecognizeSelector: [invocation selector]];
+}
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">invocation</span></code></strong> is an instance of the special <code class="docutils literal notranslate"><span class="pre">NSInvocation</span></code> class containing all the information about the original message sent, including its <strong>selector</strong> and its arguments.</p></li>
+<li><p><strong><code class="docutils literal notranslate"><span class="pre">forwardee</span></code></strong> is an instance variable containing the <code class="docutils literal notranslate"><span class="pre">id</span></code> of an object which has been determined to be likely to implement methods that this object does not.</p></li>
+<li><p>The <strong><code class="docutils literal notranslate"><span class="pre">NSInvocation</span></code></strong> class has a convenience method that will pass the message on to a target object given as argument.</p></li>
+<li><p>The <strong><code class="docutils literal notranslate"><span class="pre">doesNotRecognizeSelector</span></code></strong> method is a fallback which is implemented in <code class="docutils literal notranslate"><span class="pre">NSObject</span></code>. Unless it has been overidden, its behavior is to raise a runtime exception (a <code class="docutils literal notranslate"><span class="pre">NSInvalidArgumentException</span></code> to be exact), which generates an error message and aborts.</p></li>
+</ul>
+<p>Forwarding is a powerful method for creating software patterns. One of these is that forwarding can be used to in effect provide a form of multiple inheritance. Note, however that, unlike inheritance, a forwarded method will not show up in tests like <code class="docutils literal notranslate"><span class="pre">respondsToSelector</span></code> and <code class="docutils literal notranslate"><span class="pre">isKindOfClass:</span></code>. This is because these methods search the inheritance path, but ignore the forwarding path. (It is possible to override them though.)</p>
+<p>Another pattern you may come across is <em>surrogate object</em>: surrogates forward messages to other objects that can be assumed to be more complex. The <code class="docutils literal notranslate"><span class="pre">forwardInvocation:</span></code> method of the surrogate object receives a message that is to be forwarded; it determines whether or not the receiver exists, and if it does not, then it will attempt to create it. A <strong>proxy</strong> object is a common example of a surrogate object. A proxy object is useful in a remote invocation context, as well as certain scenarios where you want one object to fulfill functions of another.</p>
+</section>
+<section id="implementations">
+<h2>5.4 Implementations<a class="headerlink" href="#implementations" title="Link to this heading">#</a></h2>
+<p>Recall that when a message is sent, the runtime system searches for a method implementation associated with the recipient object for the specified selector. (Behind the scenes this is carried out by a function “<code class="docutils literal notranslate"><span class="pre">objc_msgSend()</span></code>”.) This may necessitate searches across multiple superclass objects traversing upwards in the inheritance hierarchy, and takes time. Once the runtime finds an implementation for a class, it will cache the information, saving time on future calls. However, even just checking and accessing the cache has a cost associated with it. In performance-critical situations, you can avoid this by holding on to an implementation yourself. In essence, implementations are function pointers, and the compiler provides a datatype for storing them when found at runtime:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SEL  getObjSelector = @selector(getObjectAtIndex:);
+  // get the &#39;getObjectAtIndex&#39; implementation for NSArray &#39;taskArray&#39;
+IMP  getObjImp = [taskArray methodForSelector: getObjSelector];
+  // call the implementation as a function
+id obj = (getObjImp)( taskArray, getObjSelector, i );
+</pre></div>
+</div>
+<p>Here, we ask the runtime system to find the ‘<code class="docutils literal notranslate"><span class="pre">taskArray</span></code>’ object’s implementation of ’<code class="docutils literal notranslate"><span class="pre">getObjectAtIndex</span></code>’. The runtime system will use the same algorithm as if you were performing a method call to look up this code, and then returns a function pointer to it. In the next line, this pointer is used to call the function in the usual C fashion. Notice that the signature includes both the object and the selector – recall that these are the two implicit arguments, <code class="docutils literal notranslate"><span class="pre">self</span></code> and <code class="docutils literal notranslate"><span class="pre">_cmd</span></code>, that every method implementation receives. The actual type definition for <code class="docutils literal notranslate"><span class="pre">IMP</span></code> allows for a variable number of additional arguments, which are the explicit arguments to the method call:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>typedef id (*IMP)(id, SEL, ...);
+</pre></div>
+</div>
+<p>The return type of <code class="docutils literal notranslate"><span class="pre">IMP</span></code> is <code class="docutils literal notranslate"><span class="pre">id</span></code>. However, not all methods return <code class="docutils literal notranslate"><span class="pre">id</span></code>; for these others you can still get the implementation, but you cannot use an <code class="docutils literal notranslate"><span class="pre">IMP</span></code> variable and instead must cast it yourself. For example, here is such a cast for a method taking a double and returning ‘<code class="docutils literal notranslate"><span class="pre">double</span></code>’:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>double (*squareFunc)( id, SEL, double );
+double result;
+
+squareFunc = (double (*)( id, SEL, double ))
+     [mathObj methodForSelector: @selector(squareOf:)];
+
+result = squareFunc(mathObj, @selector(squareOf:), 4);
+</pre></div>
+</div>
+<p>You need to declare such a function pointer type for any method that returns something besides <code class="docutils literal notranslate"><span class="pre">id</span></code> or <code class="docutils literal notranslate"><span class="pre">int</span></code>. It is not necessary to declare the argument list (<code class="docutils literal notranslate"><span class="pre">double</span></code>) as we did above; the first line could have been “<code class="docutils literal notranslate"><span class="pre">double</span> <span class="pre">(*squareFunc)(</span> <span class="pre">id,</span> <span class="pre">SEL,</span> </code><strong><code class="docutils literal notranslate"><span class="pre">...</span></code></strong><code class="docutils literal notranslate"> <span class="pre">)</span></code>” instead.</p>
+<p>An excellent exposition of the amount of time saved in using <code class="docutils literal notranslate"><span class="pre">methodForSelector</span></code> and other details of the innards of Objective-C and the Foundation may be found here: <a class="reference external" href="http://www.mulle-kybernetik.com/artikel/Optimization/opti-3.html">http://www.mulle-kybernetik.com/artikel/Optimization/opti-3.html</a>.</p>
+<p>You should realize that it is only worth it to acquire the <code class="docutils literal notranslate"><span class="pre">IMP</span></code> if you are going to call it a large number of times, and if the code in the method implementation itself is not large compared with the message send overhead. In addition, you need to be careful not to call it when it might be the wrong function. Even when you are sure of the class of the object you are calling it on, Objective-C is sufficiently dynamic that the correct function could change as a program runs. For example, a new category for a class could be loaded, so that the implementation of a method changes. Similarly, a class could be loaded that poses as another, or one that was posing stops doing so. In general, <code class="docutils literal notranslate"><span class="pre">IMPs</span></code> should be acquired just before they are to be used, then dropped afterwards.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Classes.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">4 Writing New Classes</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Exception-Handling.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">6 Exception Handling, Assertions, Logging, and Sanitization</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-messaging-works">5.1 How Messaging Works</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#selectors">5.2 Selectors</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-target-action-paradigm">5.2.1 The Target-Action Paradigm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#obtaining-selectors">5.2.2 Obtaining Selectors</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#avoiding-messaging-errors-when-an-implementation-is-not-found">5.2.3 Avoiding Messaging Errors when an Implementation is Not Found</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forwarding">5.3 Forwarding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementations">5.4 Implementations</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/Manuals/Base/Advanced-Messaging.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, GNUstep contributors.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

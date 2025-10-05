@@ -1,0 +1,1329 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>7 Distributed Objects &#8212; GNUstep</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Manuals/Base/Distributed-Objects';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="8 Base Library" href="Base-Library.html" />
+    <link rel="prev" title="6 Exception Handling, Assertions, Logging, and Sanitization" href="Exception-Handling.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">GNUstep</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../Guides/index.html">
+    Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Manuals
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../APIRefs/index.html">
+    API references
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../About/index.html">
+    About
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../Showcase/index.html">
+    Showcase
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../Guides/index.html">
+    Guides
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Manuals
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../APIRefs/index.html">
+    API references
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../About/index.html">
+    About
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../Showcase/index.html">
+    Showcase
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Base Manual</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="Introduction.html">1 Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Objective_002dC.html">2 The Objective-C Language</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Objects.html">3 Working with Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Classes.html">4 Writing New Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Advanced-Messaging.html">5 Advanced Messaging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Exception-Handling.html">6 Exception Handling, Assertions, Logging, and Sanitization</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">7 Distributed Objects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Base-Library.html">8 Base Library</a></li>
+<li class="toctree-l2"><a class="reference internal" href="GSDoc.html">Appendix A The GNUstep Documentation System</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Bundles-and-Frameworks.html">Appendix B Application Resources: Bundles and Frameworks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Java-and-Guile.html">Appendix D Programming GNUstep in Java and Guile</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Compliance-to-Standards.html">Appendix E GNUstep Compliance to Standards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Make.html">Appendix F Using the GNUstep Make Package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="Concept-Index.html">Concept Index</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../gs-standards/index.html">GNUstep Coding Standards</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Introduction.html">1 Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/ChangeLog-Entries.html">2 ChangeLog Entries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Coding-Style.html">3 Coding Style</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/ObjectiveC.html">4 ObjectiveC</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Memory-Management.html">4.1 Memory Management</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Error-Handling.html">4.2 Error Handling</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Variable-Declaration.html">4.3 Variable Declaration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Naming-Conventions.html">4.4 Naming Conventions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Object-Persistence.html">4.5 Object Persistence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Documentation.html">5 Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Before-You-Commit.html">6 Before You Commit</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gs-standards/Contributing.html">7 Contributing</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Manuals</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Base Manual</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">7 Distributed Objects</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="distributed-objects">
+<h1>7 Distributed Objects<a class="headerlink" href="#distributed-objects" title="Link to this heading">#</a></h1>
+<p>Until now we have been concentrating on using the Objective-C language to create programs that execute in a single process. But what if you want your program to interact with objects in other processes, perhaps running on different machines?</p>
+<p>As a simple example, we may have a client process that needs to access a telephone directory stored on a remote server. The client process could send a message to the server that contained a person’s name, and the server could respond by returning that person’s number.</p>
+<p>The GNUstep base library provides a powerful set of classes that make this type of remote messaging not only possible, but easy to program. So what do these classes do and how can we use them? To answer that we must first look at the way code interacts with objects in a single process, and then look at how we can achieve the same interaction with objects that exist in different processes.</p>
+<section id="object-interaction">
+<h2>7.1 Object Interaction<a class="headerlink" href="#object-interaction" title="Link to this heading">#</a></h2>
+<p>To continue with the example above, if the telephone directory existed in the same process as the code that was accessing it, then a simple message would return the wanted telephone number.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  NSString *wantedNumber = [telephoneDirectory teleNumber: personName];
+</pre></div>
+</div>
+<p>Now object and method names just hold pointers to memory addresses. The code executed at run time in response to the <code class="docutils literal notranslate"><span class="pre">teleNumber</span></code> message is located at an address held by the name of the responding method (a variable), while data in the telephone directory is located at an address held by the <code class="docutils literal notranslate"><span class="pre">telephoneDirectory</span></code> variable.</p>
+<p>In a single process these addresses can be accessed by the client code at run time, but if the telephone directory is located on a remote server, then the address of the remote object is not known in the client process (the <code class="docutils literal notranslate"><span class="pre">telephoneDirectory</span></code> object and its responding method are said to exist in a separate ‘address space’).</p>
+<p>The Objective-C run-time library was not designed for this inter-process communication or ‘remote messaging’.</p>
+</section>
+<section id="the-gnustep-solution">
+<h2>7.2 The GNUstep Solution<a class="headerlink" href="#the-gnustep-solution" title="Link to this heading">#</a></h2>
+<p><span id="index-remote-objects" class="index-entry-id"></span> <span id="index-client_002fserver-processes" class="index-entry-id"></span> <span id="index-NSConnection-class" class="index-entry-id"></span> <span id="index-NSProxy-class" class="index-entry-id"></span> <span id="index-NSRunLoop-class" class="index-entry-id"></span></p>
+<p>GNUstep overcomes these limitations by providing you with classes that form what is known as a ‘distributed objects’ architecture that extends the capabilities of the run-time system.</p>
+<p>With the addition of a few lines of code in the client and server programs, these extensions allow you to send a message to a remote process by constructing a simple Objective-C statement. In the telephone directory example, the statement to retrieve the telephone number would now look something like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  NSString *wantedNumber = [proxyForDirectory teleNumber: personName];
+</pre></div>
+</div>
+<p>Compare this to the original statement:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  NSString *wantedNumber = [telephoneDirectory teleNumber: personName];
+</pre></div>
+</div>
+<p>Notice that the only difference between the two statements is the name of the object receiving the message, i.e. <code class="docutils literal notranslate"><span class="pre">proxyForDirectory</span></code> rather than <code class="docutils literal notranslate"><span class="pre">telephoneDirectory</span></code>. GNUstep makes it as simple as this to communicate with an object in another process.</p>
+<p>The variable <code class="docutils literal notranslate"><span class="pre">proxyForDirectory</span></code> is known as a ‘proxy’ for the remote <code class="docutils literal notranslate"><span class="pre">telephoneDirectory</span></code> object. A proxy is simply a substitute for the remote object, with an address in the ’address space’ of the local client process, that receives messages and forwards them on to the remote server process in a suitably coded form.</p>
+<p>Let us now take a look at the additional lines of code required to make this ‘remote messaging’ possible.</p>
+<section id="code-at-the-server">
+<h3>7.2.1 Code at the Server<a class="headerlink" href="#code-at-the-server" title="Link to this heading">#</a></h3>
+<p>In order to respond to client messages, the responding server object must be set as the ‘root object’ of an instance of the <code class="docutils literal notranslate"><span class="pre">NSConnection</span></code> class, and this <code class="docutils literal notranslate"><span class="pre">NSConnection</span></code> must be registered with the network by name. Making an object available to client processes in this way is known as ’vending’ the object. The registered name for the <code class="docutils literal notranslate"><span class="pre">NSConnection</span></code> is used by the client when obtaining a proxy for the responding server object over the network.</p>
+<p>The only other code you need to consider is the code that listens for incoming messages. This ‘runloop’, as it is known, is started by sending a <code class="docutils literal notranslate"><span class="pre">run</span></code> message to an instance of the <code class="docutils literal notranslate"><span class="pre">NSRunLoop</span></code> class. Since an <code class="docutils literal notranslate"><span class="pre">NSRunLoop</span></code> object is created automatically for each process, there is no need to create one yourself. Simply get the default runloop, which is returned by the <code class="docutils literal notranslate"><span class="pre">+currentRunLoop</span></code> class method.</p>
+<p>When the runloop detects an incoming message, the message is passed to the root object of the <code class="docutils literal notranslate"><span class="pre">NSConnection</span></code>, which performs a method in response to the message and returns a variable of the appropriate type. The <code class="docutils literal notranslate"><span class="pre">NSConnection</span></code> manages all inter-process communication, decoding incoming messages and encoding any returned values.</p>
+<p>The code to vend the <code class="docutils literal notranslate"><span class="pre">telephoneDirectory</span></code> object and start the runloop would look something like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/*
+ * The main() function: Set up the program
+ * as a &#39;Distributed Objects Server&#39;.
+ */
+int main(void)
+{
+  /*
+   * Remember, create an instance of the
+   * NSAutoreleasePool class.
+   */
+  CREATE_AUTORELEASE_POOL(pool);
+
+  /*
+   * Get the default NSConnection object
+   * (a new one is automatically created if none exists).
+   */
+  NSConnection *connXion = [NSConnection defaultConnection];
+
+  /*
+   * Set the responding server object as
+   * the root object for this connection.
+   */
+  [connXion setRootObject: telephoneDirectory];
+
+  /*
+   * Try to register a name for the NSConnection,
+   * and report an error if this is not possible.
+   */
+  if ([connXion registerName: @&quot;DirectoryServer&quot;] == NO)
+  {
+    NSLog(@&quot;Unable to register as &#39;DirectoryServer&#39;&quot;);
+    NSLog(@&quot;Perhaps another copy of this program is running?&quot;);
+    exit(1);
+  }
+
+  /* Start the current runloop. */
+  [[NSRunLoop currentRunLoop] run];
+
+  /* Release the pool */
+  RELEASE(pool);
+  return 0;
+}
+</pre></div>
+</div>
+<p>These additional lines of code turn a program into a distributed objects server, ready to respond to incoming client messages.</p>
+</section>
+<section id="code-at-the-client">
+<h3>7.2.2 Code at the Client<a class="headerlink" href="#code-at-the-client" title="Link to this heading">#</a></h3>
+<p>At the client, all you need do is obtain a proxy for the responding server object, using the name that was registered for the <code class="docutils literal notranslate"><span class="pre">NSConnection</span></code> at the server.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  /* Create an instance of the NSAutoreleasePool class */
+  CREATE_AUTORELEASE_POOL(pool);
+
+  /* Get the proxy */
+  id proxy = [NSConnection
+    rootProxyForConnectionWithRegisteredName: registeredServerName];
+    
+  /* The rest of your program code goes here */
+
+  /* Release the pool */
+  RELEASE(pool);
+</pre></div>
+</div>
+<p>The code that obtains the proxy automatically creates an NSConnection object for managing the inter-process communication, so there is no need to create one yourself.</p>
+<p>The above example serves to establish a secure connection between processes which are run by the same person and are both on the same host.</p>
+<p>If you want your connections to work between different host or between programs being run by different people, you do this slightly differently, telling the system that you want to use ‘socket’ ports, which make TCP/IP connections over the network.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>int main(void)
+{
+  CREATE_AUTORELEASE_POOL(pool);
+
+  /*
+   * Create a new socket port for your connection.
+   */
+  NSSocketPort *port = [NSSocketPort port];
+
+  /*
+   * Create a connection using the socket port.
+   */
+  NSConnection *connXion = [NSConnection connectionWithReceivePort: port
+                              sendPort: port];
+
+  /*
+   * Set the responding server object as
+   * the root object for this connection.
+   */
+  [connXion setRootObject: telephoneDirectory];
+
+  /*
+   * Try to register a name for the NSConnection,
+   * and report an error if this is not possible.
+   */
+  if ([connXion registerName: @&quot;DirectoryServer&quot;
+    withNameServer: [NSSocketPortNameServer sharedInstance]] == NO)
+  {
+    NSLog(@&quot;Unable to register as &#39;DirectoryServer&#39;&quot;);
+    NSLog(@&quot;Perhaps another copy of this program is running?&quot;);
+    exit(1);
+  }
+
+  [[NSRunLoop currentRunLoop] run];
+
+  RELEASE(pool);
+  return 0;
+}
+</pre></div>
+</div>
+<p>In the above example, we specify that the socket port name server is used to register the name for the connection … this makes the connection name visible to processes running on other machines.</p>
+<p>The client side code is as follows</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  /* Create an instance of the NSAutoreleasePool class */
+  CREATE_AUTORELEASE_POOL(pool);
+
+  /* Get the proxy */
+  id proxy = [NSConnection
+    rootProxyForConnectionWithRegisteredName: registeredServerName
+    host: hostName
+    usingNameServer: [NSSocketPortNameServer sharedInstance]];
+    
+  /* The rest of your program code goes here */
+
+  /* Release the pool */
+  RELEASE(pool);
+</pre></div>
+</div>
+<p>If the <em>hostName</em> in this statement is ‘nil’ or an empty string, then only the local host will be searched to find the <em>registeredServerName</em>. If <em>hostName</em> is “*”, then all hosts on the local network will be searched.</p>
+<p>In the telephone directory example, the code to obtain the proxy from any host on the network would be:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  id proxyForDirectory = [NSConnection
+    rootProxyForConnectionWithRegisteredName: @&quot;DirectoryServer&quot;
+    host: @&quot;*&quot;
+    usingNameServer: [NSSocketPortNameServer sharedInstance]];
+</pre></div>
+</div>
+<p>With this additional line of code in the client program, you can now construct a simple Objective-C statement to communicate with the remote object.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  NSString *wantedNumber = [proxyForDirectory teleNumber: personName];
+</pre></div>
+</div>
+</section>
+<section id="using-a-protocol">
+<h3>7.2.3 Using a Protocol<a class="headerlink" href="#using-a-protocol" title="Link to this heading">#</a></h3>
+<p><span id="index-distributed-objects_002c-using-a-protocol" class="index-entry-id"></span></p>
+<p>A client process does not need to know the class of a remote server object to avoid run-time errors, it only needs to know the messages to which the remote object responds. This can be determined by the client at run-time, by asking the server if it responds to a particular message before the message is sent.</p>
+<p>If the methods implemented at the server are stated in a formal protocol, then the client can ask the server if it conforms to the protocol, reducing the network traffic required for the individual message/response requests.</p>
+<p>A further advantage is gained at compile time, when the compiler will issue a warning if the server fails to implement any method declared in the protocol, or if the client contains any message to which the server cannot respond.</p>
+<p>The protocol is saved to a header file and then included in both client and server programs with the usual compiler <code class="docutils literal notranslate"><span class="pre">#include</span></code> directive. Only the server program needs to implement the methods declared in the protocol. To enable compiler checking in the client program, extend the type declaration for the proxy to this protocol, and cast the returned proxy object to the same extended type.</p>
+<p>In the telephone directory example, if the declared protocol was <code class="docutils literal notranslate"><span class="pre">TelephoneDirectory</span></code>, declared in header file <code class="docutils literal notranslate"><span class="pre">protocolHeader.h</span></code>, then the client code would now look like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>  #include &quot;protocolHeader.h&quot;;
+
+  /* Extend the type declaration */
+  id&lt;TelephoneDirectory&gt; proxyForDirectory;
+
+  /* Cast the returned proxy object to the extended type */
+  proxyForDirectory = (id&lt;TelephoneDirectory&gt;) [NSConnection
+    rootProxyForConnectionWithRegisteredName: @&quot;DirectoryServer&quot;
+    usingNameServer: [NSSocketPortNameServer sharedInstance]];
+</pre></div>
+</div>
+<p>Since class names and protocol names do not share the same ‘address space’ in a process, the declared protocol and the class of the responding server object can share the same name, making code easier to understand.</p>
+<p>For example, <code class="docutils literal notranslate"><span class="pre">proxyForDirectory</span></code> at the client could be a proxy for an instance of the <code class="docutils literal notranslate"><span class="pre">TelephoneDirectory</span></code> class at the server, and this class could implement the <code class="docutils literal notranslate"><span class="pre">TelephoneDirectory</span></code> protocol.</p>
+</section>
+<section id="complete-code-for-telephone-directory-application">
+<h3>7.2.4 Complete Code for Telephone Directory Application<a class="headerlink" href="#complete-code-for-telephone-directory-application" title="Link to this heading">#</a></h3>
+<p>Here we provide the rest of the code needed for client and server to actually run the above example.</p>
+<p><strong>Code At Server</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#include &lt;Foundation/Foundation.h&gt;
+
+/* Include the TelephoneDirectory protocol header file */
+#include &quot;TelephoneDirectory.h&quot;
+
+/*
+ * Declare the TelephoneDirectory class that
+ * implements the &#39;teleNumber&#39; instance method.
+ */
+@interface TelephoneDirectory : NSObject &lt;TelephoneDirectory&gt;
+@end
+
+/*
+ * Define the TelephoneDirectory class
+ * and the instance method (teleNumber).
+ */
+@implementation TelephoneDirectory : NSObject
+- (char *) teleNumber: (char *) personName
+{
+  if (strcmp(personName, &quot;Jack&quot;) == 0) return &quot; 0123 456&quot;;
+  else if (strcmp(personName, &quot;Jill&quot;) == 0) return &quot; 0456 789&quot;;
+  else return &quot; Number not found&quot;;
+}
+@end
+
+ /* main() function: Set up the program  as a &#39;Distibuted Objects Server&#39;. */
+ /*   [use code from server example above ...] */
+</pre></div>
+</div>
+<p><strong>Code at Client</strong></p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#include &lt;Foundation/Foundation.h&gt;
+
+/* Include the TelephoneDirectory protocol header file */
+#include &quot;TelephoneDirectory.h&quot;
+
+/*
+ * The main() function: Get the telephone number for
+ * &#39;personName&#39; from the server registered as &#39;DirectoryServer&#39;.
+ */
+int main(int argc, char *argv[])
+{
+  char *personName = argv[1];
+  char *returnedNumber;
+  id&lt;TelephoneDirectory&gt; proxyForDirectory;
+  CREATE_AUTORELEASE_POOL(pool);
+
+  /* Acquire the remote reference. */
+  proxyForDirectory = (id&lt;TelephoneDirectory&gt;) [NSConnection
+    rootProxyForConnectionWithRegisteredName: @&quot;DirectoryServer&quot;
+    host: @&quot;*&quot;
+    usingNameServer: [NSSocketPortNameServer sharedInstance]];
+
+  if (proxyForDirectory == nil)
+    printf(&quot;\n** WARNING: NO CONNECTION TO SERVER **\n&quot;);
+  else printf(&quot;\n** Connected to server **\n&quot;);
+
+  if (argc == 2) // Command line name entered
+  {
+    returnedNumber = (char *)[proxyForDirectory teleNumber: personName];
+    printf(&quot;\n%s%s%s%s%s\n&quot;, &quot;** (In client) The telephone number for &quot;,
+           personName, &quot; is:&quot;,
+           returnedNumber, &quot;  **&quot;);
+  }
+  else printf(&quot;\n** No name entered **\n&quot;);
+  printf(&quot;\n%s\n\n&quot;, &quot;** End of client program **&quot;);
+  RELEASE(pool);
+  return 0;
+}
+</pre></div>
+</div>
+<p>To get this running, all you need do is create two directories, one for the client and one for the server. Each directory will hold a makefile, the client or server source code, and a copy of the protocol header file. When the files compile, first run the server and then the client. You can try this on the same machine, or on two different machines (with GNUstep installed) on the same LAN. What happens when you run the client without the server? How would you display a “No Server Connection” warning at the client?</p>
+</section>
+<section id="gnustep-distributed-objects-name-server">
+<h3>7.2.5 GNUstep Distributed Objects Name Server<a class="headerlink" href="#gnustep-distributed-objects-name-server" title="Link to this heading">#</a></h3>
+<p><span id="index-Distributed-Objects-Name-Server_002c-GNUstep" class="index-entry-id"></span></p>
+<p>You might wonder how the client finds the server, or, rather, how it finds the directory the server lists itself in.</p>
+<p>For the default connection type (a connection only usable on the local host between processes run by the same person), a private file (or the registry on ms-windows) is used to hold the name registration information.</p>
+<p>For connections using socket ports to communicate between hosts, an auxiliary process will automatically be started on each machine, if it isn’t running already, that handles this, allowing the server to register and the client to send a query behind the scenes. This <em>GNUstep Distributed Objects Name Server</em> runs as ’<code class="docutils literal notranslate"><span class="pre">gdomap</span></code>’ and binds to port 538. See the manual page or the HTML “GNUstep Base Tools” <a href="../../Tools/Reference/index.html" class="uref">documentation</a> for further information.</p>
+</section>
+<section id="look-ma-no-stubs">
+<h3>7.2.6 Look Ma, No Stubs!<a class="headerlink" href="#look-ma-no-stubs" title="Link to this heading">#</a></h3>
+<p>One difference you may have noticed in the example we just looked at from other remote method invocation interfaces such as CORBA and Java RMI was that there are <em>no stub classes</em>. The source of this great boon is described at the end of this chapter: <a class="reference internal" href="#"><span class="doc std std-doc">Language Support for Distributed Objects</span></a>.</p>
+</section>
+</section>
+<section id="a-more-involved-example">
+<h2>7.3 A More Involved Example<a class="headerlink" href="#a-more-involved-example" title="Link to this heading">#</a></h2>
+<p><span id="index-game-server-example" class="index-entry-id"></span></p>
+<p>Now we will look at an example called GameServer that uses distributed objects in a client/server game.</p>
+<p>Actually the game itself is not implemented, just its distributed support structure, and while the code to vend an object and connect to a remote process is similar to that already shown, the code does show a number of additional techniques that can be used in other client/server programs. Here are the requirements we will implement:</p>
+<ul>
+<li><p>When the client attempts to join the game, the server checks that the client is entitled to join, based on the last time the client played. The rule is: if the client lost the last game, then they cannot re-play for the next 2 hours; but if the client won the last game, then they can re-play the game at any time (a reward for winning).</p></li>
+<li><p>The server also makes sure the client is not already connected and playing the game (i.e. they cannot play two games at the same time - that would be cheating).</p></li>
+<li><p>In addition to a proxy for the server being obtained at the client, a proxy for the client is received at the server. This allows two-way messaging, where the client can send messages to the server and the server can send messages to the client (e.g. the state of play may be affected by the actions of other players, or by other events at the server).</p>
+<p>Two protocols will therefore be required, one for the methods implemented at the server and one for those implemented at the client.</p>
+</li>
+</ul>
+<p>Have a look at the program code in the following sections and added comments. Can you work out what is happening at the server and client? If you have any difficulties then refer to the relevant sections in this manual, or to class documentation <a href="../Reference/index.html" class="uref">here</a> or at the Apple web site.</p>
+<section id="protocol-adopted-at-client">
+<h3>7.3.1 Protocol Adopted at Client<a class="headerlink" href="#protocol-adopted-at-client" title="Link to this heading">#</a></h3>
+<p>We have chosen <code class="docutils literal notranslate"><span class="pre">GameClient</span></code> as the name of both the protocol adopted at the client and the class of the responding client object. The header file declaring this protocol will simply declare the methods that the class must implement.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>@protocol GameClient
+- (void) clientMessage: (bycopy NSString *)theMessage;
+- (int) clientReply;
+
+// Other methods would be added that
+// reflect the nature of the game.
+
+@end
+</pre></div>
+</div>
+<p>The protocol will be saved as <code class="docutils literal notranslate"><span class="pre">GameClient.h</span></code>.</p>
+</section>
+<section id="protocol-adopted-at-server">
+<h3>7.3.2 Protocol Adopted at Server<a class="headerlink" href="#protocol-adopted-at-server" title="Link to this heading">#</a></h3>
+<p>We have chosen <code class="docutils literal notranslate"><span class="pre">GameServer</span></code> as the name of both the protocol adopted at the server and the class of the responding server object. The header file declaring this protocol will simply declare the methods that the class must implement.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>@protocol GameServer
+- (BOOL) mayJoin: (id)client asPlayer: (bycopy NSString*)name;
+- (int) startGame: (bycopy NSString*)name;
+- (BOOL) endGame: (bycopy NSString*)name;
+
+// Other methods would be added that
+// reflect the nature of the game.
+
+@end
+</pre></div>
+</div>
+<p>The protocol will be saved as <code class="docutils literal notranslate"><span class="pre">GameServer.h</span></code>.</p>
+</section>
+<section id="id1">
+<h3>7.3.3 Code at the Client<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>The client code contains the <code class="docutils literal notranslate"><span class="pre">main</span></code> function and the <code class="docutils literal notranslate"><span class="pre">GameClient</span></code> class declaration and implementation.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">main()</span></code> function attempts to connect to the server, while the <code class="docutils literal notranslate"><span class="pre">GameClient</span></code> class adopts the <code class="docutils literal notranslate"><span class="pre">GameClient</span></code> protocol.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#include &lt;Foundation/Foundation.h&gt;
+#include &quot;GameServer.h&quot;
+#include &quot;GameClient.h&quot;
+
+/*
+ * GameClient class declaration:
+ * Adopt the GameClient protocol.
+ */
+@interface GameClient : NSObject &lt;GameClient&gt;
+@end
+
+/*
+ * GameClient class implementation.
+ */
+@implementation GameClient
+
+/*
+ * Implement clientMessage: as declared in the protocol.
+ * The method simply prints a message at the client.
+ */
+- (void) clientMessage: (NSString*)theMessage
+{
+  printf([theMessage cString]);
+}
+
+/*
+ * Implement clientReply: as declared in the protocol.
+ * The method simply returns the character entered
+ * at the client keyboard.
+ */
+- (int) clientReply
+{
+  return getchar();
+}
+@end  // End of GameClient class implementation.
+
+/*
+ * The main function of the client program.
+ */
+int main(int argc, char **argv)
+{
+  CREATE_AUTORELEASE_POOL(pool);
+  id&lt;GameServer&gt; server;
+  int result;
+  NSString *name;
+  id client;
+
+  /*
+   * The NSUserName() function returns the name of the
+   * current user, which is sent to the server when we
+   * try to join the game.
+   */
+  name = NSUserName();
+
+  /*
+   * Create a GameClient object that is sent to
+   * the server when we try to join the game.
+   */
+  client = AUTORELEASE([GameClient new]);
+
+  /*
+   * Try to get a proxy for the root object of a server
+   * registered under the name &#39;JoinGame&#39;. Since the host
+   * is &#39;*&#39;, we can connect to any server on the local network.
+   */
+  server = (id&lt;GameServer&gt;)[NSConnection
+    rootProxyForConnectionWithRegisteredName: @&quot;JoinGame&quot;
+    host: @&quot;*&quot;
+    usingNameServer: [NSSocketPortNameServer sharedInstance]];
+  if (server == nil)
+    {
+      printf(&quot;\n** No Connection to GameServer **\n&quot;);
+      result = 1;
+    }
+
+  /*
+   * Try to join the game, passing a GameClient object as
+   * the client, and our user-name as name. The &#39;client&#39;
+   * argument will be received as a proxy at the server.
+   */
+  else if ([server mayJoin: client asPlayer: name] == NO)
+    {
+      result = 1; // We cannot join the game.
+    }
+  else
+    {
+      /*
+       * At this point, we would actually start to play the game.
+       */
+      [server startGame: name]; // Start playing game.
+      [server endGame: name]; // Finally end the game.
+      result = 0;
+    }
+  RELEASE(pool);
+  return result;
+}
+</pre></div>
+</div>
+<p>To summarise the code at the client:</p>
+<ul class="simple">
+<li><p>We obtained a proxy for the server and can now communicate with the server using the methods declared in the <code class="docutils literal notranslate"><span class="pre">GameServer</span></code> protocol.</p></li>
+<li><p>We passed a <code class="docutils literal notranslate"><span class="pre">GameClient</span></code> object and our user-name to the server (the <code class="docutils literal notranslate"><span class="pre">GameClient</span></code> object is received as a proxy at the server). The server can now communicate with the client using the methods declared in the <code class="docutils literal notranslate"><span class="pre">GameClient</span></code> protocol.</p></li>
+<li><p>When the game is in progress, the server can alter the state of the client object to reflect the success of the player.</p></li>
+</ul>
+</section>
+<section id="id2">
+<h3>7.3.4 Code at the Server<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<p>The server code contains the <code class="docutils literal notranslate"><span class="pre">main</span></code> function and the <code class="docutils literal notranslate"><span class="pre">GameServer</span></code> class declaration and implementation.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">main()</span></code> function vends the server’s root object and starts the runloop, while the <code class="docutils literal notranslate"><span class="pre">GameServer</span></code> class adopts the <code class="docutils literal notranslate"><span class="pre">GameServer</span></code> protocol. The class also implements methods that initialise and deallocate the root object’s instance variables (dictionaries that hold player information).</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#include &lt;Foundation/Foundation.h&gt;
+#include &quot;GameServer.h&quot;
+#include &quot;GameClient.h&quot;
+
+/*
+ * GameServer class declaration:
+ * Adopt the GameServer protocol and declare
+ * GameServer instance variables.
+ */
+@interface GameServer : NSObject &lt;GameServer&gt;
+{
+  NSMutableDictionary *delayUntil; // Delays to re-joining GameServer.
+  NSMutableDictionary *currentPlayers; // Proxies to each client.
+  NSMutableDictionary *hasWon; // Success in game for each player.
+}
+@end
+
+/*
+ * GameServer class implementation.
+ */
+@implementation GameServer
+
+/* Initialise GameServer&#39;s instance variables. */
+- (id) init
+{
+  self = [super init];
+  if (self != nil)
+    {
+      /*
+       * Create a dictionary for a maximum of
+       * 10 named players that will hold a
+       * re-joining time delay.
+       */
+      delayUntil = [[NSMutableDictionary alloc]
+                     initWithCapacity: 10];
+      /*
+       * Create a dictionary that will hold the
+       * names of these players and a proxy for
+       * the received client objects.
+       */
+      currentPlayers = [[NSMutableDictionary alloc]
+                       initWithCapacity: 10];
+
+      /*
+       * Create a dictionary that will record
+       * a win for any of these named players.
+       */
+      hasWon = [[NSMutableDictionary alloc]
+                 initWithCapacity: 10];
+    }
+  return self;
+}
+
+/* Release GameServer&#39;s instance variables. */
+- (void) dealloc
+{
+  RELEASE(delayUntil);
+  RELEASE(currentPlayers);
+  RELEASE(hasWon);
+  [super dealloc];
+}
+
+/*
+ * Implement mayJoin:: as declared in the protocol.
+ * Adds the client to the list of current players.
+ * Each player is represented at the server by both
+ * name and by proxy to the received client object.
+ * A player cannot join the game if they are already playing,
+ * or if joining has been delayed until a later date.
+ */
+- (BOOL) mayJoin: (id)client asPlayer: (NSString*)name
+{
+  NSDate  *delay; // The time a player can re-join the game.
+  NSString *aMessage;
+
+  if (name == nil)
+    {
+      NSLog(@&quot;Attempt to join nil user&quot;);
+      return NO;
+    }
+
+  /* Has the player already joined the game? */
+  if ([currentPlayers objectForKey: name] != nil)
+    {
+      /* Inform the client that they cannot join. */
+      aMessage = @&quot;\nSorry, but you are already playing GameServer!\n&quot;;
+      [client clientMessage: aMessage];
+      return NO;
+    }
+
+  /* Get the player&#39;s time delay for re-joining. */
+  delay = [delayUntil objectForKey: name];
+
+  /*
+   * Can the player join the game? Yes if there is
+   * no restriction or if the time delay has passed;
+   * otherwise no, they cannot join.
+   */
+  if (delay == nil || [delay timeIntervalSinceNow] &lt;= 0.0)
+    {
+      /* Remove the old restriction on re-joining the game. */
+      [delayUntil removeObjectForKey: name];
+
+      /* Add the player to the list of current players. */
+      [currentPlayers setObject: client forKey: name];
+      [hasWon setObject: @&quot;NO&quot; forKey: name]; // They&#39;ve not won yet.
+
+      /* Inform the client that they have joined the game. */
+      aMessage = @&quot;\nWelcome to GameServer\n&quot;;
+      [client clientMessage: aMessage];
+      return YES;
+    }
+  else
+    {
+      /* Inform the client that they cannot re-join. */
+      aMessage = @&quot;\nSorry, you cannot re-join GameServer yet.\n&quot;;
+      [client clientMessage: aMessage];
+      return NO;
+    }
+}
+
+/*
+ * Implement startGame: as declared in the protocol.
+ * Simply ask the player if they want to win, and get
+ * there reply.
+ */
+- (int) startGame: (NSString *)name
+{
+  NSString *aMessage;
+  id client;
+  int reply;
+
+  client = [currentPlayers objectForKey: name];
+
+  aMessage = @&quot;\nDo you want to win this game? (Y/N &lt;RET&gt;) ... &quot;;
+  [client clientMessage: aMessage];
+
+  reply = [client clientReply];
+  if (reply == &#39;y&#39; || reply == &#39;Y&#39;)
+    [hasWon setObject: @&quot;YES&quot; forKey: name]; // They win.
+  else [hasWon setObject: @&quot;NO&quot; forKey: name]; // They loose.
+  return 0;
+}
+
+/*
+ * Implement endGame: as declared in the protocol.
+ * Removes a player from the game, and either sets
+ * a restriction on the player re-joining or removes
+ * the current restriction.
+ */
+- (BOOL) endGame: (NSString*)name
+{
+  id client;
+  NSString *aMessage, *yesOrNo;
+  NSDate *now, *delay;
+  NSTimeInterval twoHours = 2 * 60 * 60; // Seconds in 2 hours.
+
+  if (name == nil)
+    {
+      NSLog(@&quot;Attempt to end nil user&quot;);
+      return NO;
+    }
+
+  now = [NSDate date];
+  delay = [now addTimeInterval: twoHours];
+  client = [currentPlayers objectForKey: name];
+  yesOrNo = [hasWon objectForKey: name];
+
+  if ([yesOrNo isEqualToString: @&quot;YES&quot;]) // Has player won?
+    {
+      /*
+       * Player wins, no time delay to re-joining the game.
+       * Remove any re-joining restriction and send
+       * a message to the client.
+       */
+      [delayUntil removeObjectForKey: name];
+      aMessage = @&quot;\nWell played: you can re-join GameServer at any time.\n&quot;;
+      [client clientMessage: aMessage];
+
+    }
+  else // Player lost
+    {
+      /*
+       * Set a time delay for re-joining the game,
+       * and send a message to the client.
+       */
+      [delayUntil setObject: delay forKey: name];
+      aMessage = @&quot;\nYou lost, but you can re-join GameServer in 2 hours.\n&quot;;
+      [client clientMessage: aMessage];
+    }
+
+  /* Remove the player from the current game. */
+  [currentPlayers removeObjectForKey: name];
+  [hasWon removeObjectForKey: name];
+  return YES;
+}
+
+@end  // End of GameServer class implementation
+
+/*
+ * The main function of the server program simply
+ * vends the root object and starts the runloop.
+ */
+int main(int argc, char** argv)
+{
+  CREATE_AUTORELEASE_POOL(pool);
+  GameServer    *server;
+  NSSocketPort  *port;
+  NSConnection  *connXion;
+
+  server = AUTORELEASE([GameServer new]);
+  port = [NSSocketPort port];
+  connXion = [NSConnection connectionWithReceivePort: port sendPort: port];
+  [connXion setRootObject: server];
+  [connXion registerName: @&quot;JoinGame&quot;
+    withNameServer: [NSSocketPortNameServer sharedInstance]];
+  [[NSRunLoop currentRunLoop] run];
+  RELEASE(pool);
+  return 0;
+}
+</pre></div>
+</div>
+<p>To summarise the code at the server:</p>
+<ul class="simple">
+<li><p>We vend the server’s root object and start a runloop, allowing clients to connect with the server.</p></li>
+<li><p>When we receive a proxy for a client object, we communicate with that client using methods declared in the <code class="docutils literal notranslate"><span class="pre">ClientServer</span></code> protocol.</p></li>
+<li><p>We create three dictionary objects, each referenced by player name. <code class="docutils literal notranslate"><span class="pre">currentUsers</span></code> holds proxies for each of the current players; <code class="docutils literal notranslate"><span class="pre">delayUntil</span></code> holds times when each player can re-join the game; and <code class="docutils literal notranslate"><span class="pre">hasWon</span></code> holds a string for each player, which is set to “YES” if the player wins.</p></li>
+<li><p>When the game is in progress, the server can alter the state of each client object to reflect the success of each player.</p></li>
+</ul>
+<p>I hope you managed to understand most of the code in this example. If you are reading the on-screen version, then you can copy and paste the code to suitably named files, create makefiles, and then make and run each program. What message is displayed if you immediately try to re-join a game after losing? And after winning?</p>
+<p><em>Exercise: Modify the server code so that the server records the number of wins for each player, and displays this information at both the start and end of each game.</em></p>
+</section>
+</section>
+<section id="language-support-for-distributed-objects">
+<h2>7.4 Language Support for Distributed Objects<a class="headerlink" href="#language-support-for-distributed-objects" title="Link to this heading">#</a></h2>
+<p>Objective-C provides special ‘type’ qualifiers that can be used in a protocol to control the way that message arguments are passed between remote processes, while at run time, the run-time system transparently uses what is known as ’forward invocation’ to forward messages to a remote process. (See <a class="reference internal" href="Advanced-Messaging.html"><span class="doc std std-doc">Forwarding</span></a>.)</p>
+<section id="protocol-type-qualifiers">
+<h3>7.4.1 Protocol Type Qualifiers<a class="headerlink" href="#protocol-type-qualifiers" title="Link to this heading">#</a></h3>
+<p><span id="index-in_002c-out_002c-and-inout-type-qualifiers" class="index-entry-id"></span> <span id="index-out_002c-type-qualifier" class="index-entry-id"></span> <span id="index-oneway_002c-type-qualifier" class="index-entry-id"></span> <span id="index-bycopy-and-byref-type-qualifiers" class="index-entry-id"></span></p>
+<p>When message arguments are passed by value then the receiving method can only alter the copy it receives, and not the value of the original variable. When an argument is passed by reference (as a pointer), the receiving method has access to the original variable and can alter that variable’s data. In this case the argument is effectively passed ’in’ to the method, and then passed ’out’ of the method (on method return).</p>
+<p>When an argument is passed by reference to a remote object, the network must handle this two-way traffic, whether or not the remote object modifies the received argument.</p>
+<p>Type qualifiers can be used in a protocol to control the way these messages are handled, and to indicate whether or not the sending process will wait for the remote process to return.</p>
+<ul>
+<li><p>The <strong>oneway</strong> qualifier is used in conjunction with a <code class="docutils literal notranslate"><span class="pre">void</span></code> return type to inform the run-time system that the sending process does not need to wait for the receiving method to return (known as ‘asynchronous’ messaging). The protocol declaration for the receiving method would look something like this:</p>
+<p><code class="docutils literal notranslate"><span class="pre">-</span> <span class="pre">(</span></code><strong><code class="docutils literal notranslate"><span class="pre">oneway</span></code></strong><code class="docutils literal notranslate"> <span class="pre">void)noWaitForReply;</span></code></p>
+</li>
+<li><p>The <strong>in, out</strong> and <strong>inout</strong> qualifiers can be used with pointer arguments to control the direction in which an argument is passed. The protocol declaration for the receiving methods would look something like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/*
+ * The value that &#39;number&#39; points to will be passed in to the remote process.
+ * (No need to return the argument&#39;s value from the remote process.)
+ */
+- setValue: (in int *)number;
+
+/*
+ * The value that &#39;number&#39; points to will be passed out of the remote process.
+ * (No need to send the argument&#39;s value to the remote process.)
+ */
+- getValue: (out int *)number;
+
+/*
+ * The value that &#39;number&#39; points to is first passed in to the remote
+ * process, but will eventually be the value that is passed out of the
+ * remote process. (Send and return the argument&#39;s value.)
+ */
+- changeValue: (inout int *)number;
+</pre></div>
+</div>
+<p>Passing of arguments by reference is very restricted in Objective-C. it applies only to pointers to C data types, not to objects, and except for the special case of a pointer to a nul terminated C string (<strong>char*</strong>) the pointer is assumed to refer to a single data item of the specified type.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/*
+ * A method passing an unsigned short integer by reference.
+ */
+- updateCounter: (inout unsigned shortn *)value;
+
+/*
+ * A method passing a structure by reference.
+ */
+- updateState: (inout struct stateInfo *)value;
+
+/*
+ * As a special case, a char (or equivalent typedef) passed by reference
+ * is assumed to be a nul terminated string ... there is no way to pass
+ * a single character by reference:
+ */
+- updateBuffer: (inout char *)str;
+</pre></div>
+</div>
+</li>
+<li><p>The <strong>bycopy</strong> and <strong>byref</strong> qualifiers can be used in a protocol when the argument or return type is an object.</p>
+<p>An object is normally passed by reference and received in the remote process as a proxy. When an object is passed by copy, then a copy of the object will be received in the remote process, allowing the remote process to directly interact with the copy. Protocol declarations would look something like this:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/*
+ * Copy of object will be received in the remote process.
+ */
+- sortNames: (bycopy id)listOfNames;
+
+/*
+ * Copy of object will be returned by the remote process.
+ */
+- (bycopy id)returnNames;
+</pre></div>
+</div>
+<p>By default, large objects are normally sent <strong>byref</strong>, while small objects like <code class="docutils literal notranslate"><span class="pre">NSStrings</span></code> are normally sent <strong>bycopy</strong>, but you cannot rely on these defaults being adopted and should explicitly state the qualifier in the protocol.</p>
+<p>The <strong>bycopy</strong> qualifier can also be used in conjunction with the <strong>out</strong> qualifier, to indicate that an object will be passed <strong>out</strong> of the remote process by copy rather than by proxy (no need to send the object).</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>/*
+ * The object will not be received in the remote process, but the object
+ * will be returned bycopy.
+ */
+- sortAndReturn: (bycopy out id *)listOfNames;
+</pre></div>
+</div>
+<p>You should be aware that some classes ignore the <strong>bycopy</strong> qualifier and the object will be sent by reference. The <strong>bycopy</strong> qualifier will also be ignored if the remote process does not have the class of the object in its address space, since an object’s instance variables are accessed through the object’s methods.</p>
+<p>When a copy of an object is sent to a remote process, only the object’s instance variables are sent and received (an object’s methods exist in the address space of the object’s class, not in the address space of the individual object).</p>
+</li>
+</ul>
+</section>
+<section id="message-forwarding">
+<h3>7.4.2 Message Forwarding<a class="headerlink" href="#message-forwarding" title="Link to this heading">#</a></h3>
+<p><span id="index-forward-invocation_002c-distributed-objects" class="index-entry-id"></span></p>
+<p>If you have used other remote invocation mechanisms such as CORBA or Java RMI, you may have noticed a big difference from these in the GNUstep Distributed Object paradigm – there are no “stub” classes, either on the client or the server. This tremendously simplifies the use of remote invocation and is possible due to the Objective-C message-forwarding facility (<a class="reference internal" href="Advanced-Messaging.html"><span class="doc std std-doc">Forwarding</span></a>).</p>
+<p>In GNUstep, there are proxies on the client and server side that handle network communications and serialization/deserialization of arguments and return values just as in CORBA and RMI, but when it comes to responding to the client and server protocol method calls themselves, they are intercepted through the use of the <code class="docutils literal notranslate"><span class="pre">forwardInvocation:</span></code> method, where they can be passed on to the registered client and server objects through the ordinary Objective-C message sending mechanism.</p>
+</section>
+</section>
+<section id="error-checking">
+<h2>7.5 Error Checking<a class="headerlink" href="#error-checking" title="Link to this heading">#</a></h2>
+<p><span id="index-distributed-objects_002c-error-checking" class="index-entry-id"></span></p>
+<p>When dealing with distributed objects your code must be able to handle the following situations: failure to vend the server object, exceptions raised at run-time, and failure of the network connection.</p>
+<section id="vending-the-server-object">
+<h3>7.5.1 Vending the Server Object<a class="headerlink" href="#vending-the-server-object" title="Link to this heading">#</a></h3>
+<p>When vending the server object, your code must be able to handle the situation in which the network does not accept the proposed registered name for the server.</p>
+</section>
+<section id="catching-exceptions">
+<h3>7.5.2 Catching Exceptions<a class="headerlink" href="#catching-exceptions" title="Link to this heading">#</a></h3>
+<p>There are two situations to consider.</p>
+<ul>
+<li><p>An <code class="docutils literal notranslate"><span class="pre">NSPortTimeoutException</span></code> is raised.</p>
+<p>This exception is raised if a message takes too long to arrive at the remote process, or if a reply takes too long to return. This will happen if the remote process is busy, has hung, or if there is a problem with the network. The best way to handle the exception is to close the connection to the remote process.</p>
+</li>
+<li><p>An exception is raised in the remote process while the remote process is executing a method.</p>
+<p>In most cases you can deal directly with these exceptions in the process in which they were raised; i.e. without having to consider the network connection itself.</p>
+</li>
+</ul>
+</section>
+<section id="the-connection-fails">
+<h3>7.5.3 The Connection Fails<a class="headerlink" href="#the-connection-fails" title="Link to this heading">#</a></h3>
+<p>You can register an observer object to receive a notification, in the form of a <code class="docutils literal notranslate"><span class="pre">connectionDidDie:</span></code> message, when a registered connection fails. The argument to this message will be an <code class="docutils literal notranslate"><span class="pre">NSNotification</span></code> object that returns the failed connection when it receives an <code class="docutils literal notranslate"><span class="pre">object</span></code> message. See <a class="reference internal" href="Base-Library.html"><span class="doc std std-doc">Event-Based Communications</span></a> for more information on notifications.</p>
+<p>To receive this ‘notification’ the observer must implement the <code class="docutils literal notranslate"><span class="pre">connectionDidDie:</span></code> method, but can be an instance of any class. The observer can then handle the failure gracefully, by releasing any references to the failed connection and releasing proxies that used the connection. Registering an object to receive this notification is described in more detail in the <code class="docutils literal notranslate"><span class="pre">NSConnection</span></code> class documentation.</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Exception-Handling.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">6 Exception Handling, Assertions, Logging, and Sanitization</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Base-Library.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">8 Base Library</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#object-interaction">7.1 Object Interaction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gnustep-solution">7.2 The GNUstep Solution</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code-at-the-server">7.2.1 Code at the Server</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#code-at-the-client">7.2.2 Code at the Client</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-protocol">7.2.3 Using a Protocol</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-code-for-telephone-directory-application">7.2.4 Complete Code for Telephone Directory Application</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gnustep-distributed-objects-name-server">7.2.5 GNUstep Distributed Objects Name Server</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#look-ma-no-stubs">7.2.6 Look Ma, No Stubs!</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-more-involved-example">7.3 A More Involved Example</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#protocol-adopted-at-client">7.3.1 Protocol Adopted at Client</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#protocol-adopted-at-server">7.3.2 Protocol Adopted at Server</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">7.3.3 Code at the Client</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">7.3.4 Code at the Server</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#language-support-for-distributed-objects">7.4 Language Support for Distributed Objects</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#protocol-type-qualifiers">7.4.1 Protocol Type Qualifiers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#message-forwarding">7.4.2 Message Forwarding</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#error-checking">7.5 Error Checking</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#vending-the-server-object">7.5.1 Vending the Server Object</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#catching-exceptions">7.5.2 Catching Exceptions</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-connection-fails">7.5.3 The Connection Fails</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/Manuals/Base/Distributed-Objects.md.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, GNUstep contributors.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
