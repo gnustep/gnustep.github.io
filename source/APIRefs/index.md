@@ -46,6 +46,43 @@ An easy-to-use build system based on GNU Make.
 
 ::::
 
+## Low-level frameworks
+
+% Shows 1 column for width < 576px
+% Shows 2 columns for width >576px, <1200px
+% Shows 3 columns for width >1200px
+::::{grid} 1 2 2 3
+:margin: 4 4 0 0
+:gutter: 1
+
+:::{grid-item-card} {octicon}`switch` Grand Central Dispatch
+:link: Dispatch/index
+:link-type: doc
+
+Comprehensive support for concurrent code execution on multicore hardware.
+
+<small>`<dispatch/dispatch.h>`</small>
+:::
+
+<!-- :::{grid-item-card} {octicon}`package` libobjc2
+:link: libobjc2/index
+:link-type: doc
+
+The Objective-C runtime.
+
+<small>`<objc/objc.h>`</small>
+::: -->
+
+<!-- :::{grid-item-card} {octicon}`package` CoreBase
+:link: CoreBase/index
+:link-type: doc
+
+Foundation-like features for C.
+
+<small>`<CoreFoundation/CoreFoundation.h>`</small>
+::: -->
+::::
+
 ## Other GNUstep and GAP frameworks
 
 ## Third-party frameworks
