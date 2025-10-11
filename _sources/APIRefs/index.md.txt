@@ -8,6 +8,7 @@ hidden: true
 Base/index
 Gui/index
 Make/index
+Dispatch/index
 ```
 
 ## Core GNUstep frameworks
@@ -55,7 +56,7 @@ An easy-to-use build system based on GNU Make.
 :margin: 4 4 0 0
 :gutter: 1
 
-:::{grid-item-card} {octicon}`switch` Grand Central Dispatch
+:::{grid-item-card} {octicon}`arrow-switch` Grand Central Dispatch
 :link: Dispatch/index
 :link-type: doc
 
