@@ -732,24 +732,24 @@ Basic Classes
 Documents about the base/foundation classes of GNUstep and Cocoa:
 
 1.  [*Basic GNUstep Base Library
-    Classes*](http://www.gnustep.it/nicola/Tutorials/BasicClasses/)
+    Classes*](https://web.archive.org/web/20200220071538/http://www.gnustep.it/nicola/Tutorials/BasicClasses/)
 
 2.  [*The Storage Series, Part
-    One*](http://cocoadevcentral.com/articles/000005.php)
+    One*](https://web.archive.org/web/20200220090914/http://cocoadevcentral.com/articles/000005.php)
 
 3.  [*The Storage Series, Part
-    Two*](http://cocoadevcentral.com/articles/000006.php)
+    Two*](https://web.archive.org/web/20200220090919/http://cocoadevcentral.com/articles/000006.php)
 
 4.  [*The Storage Series, Part
-    Three*](http://cocoadevcentral.com/articles/000010.php)
+    Three*](https://web.archive.org/web/20191222012959/http://cocoadevcentral.com/articles/000010.php)
 
 5.  [*Understanding the design behind Cocoa's Foundation
-    classes*](http://cocoadevcentral.com/articles/000065.php)
+    classes*](https://web.archive.org/web/20190324155808/http://cocoadevcentral.com/articles/000065.php)
 
 6.  [*Strings in Cocoa: Part
-    I*](http://www.macdevcenter.com/pub/a/mac/2001/06/29/cocoa.html)
+    I*](https://web.archive.org/web/20110506033711/http://macdevcenter.com/pub/a/mac/2001/06/29/cocoa.html)
 
 7.  [*Strings in Cocoa: Part
-    II*](http://www.macdevcenter.com/pub/a/mac/2001/07/13/cocoa.html)
+    II*](https://web.archive.org/web/20110903062444/http://macdevcenter.com/pub/a/mac/2001/07/13/cocoa.html)
 
 ------------------------------------------------------------------------
